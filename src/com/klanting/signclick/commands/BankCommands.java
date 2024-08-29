@@ -55,7 +55,7 @@ public class BankCommands implements CommandExecutor, TabCompleter {
                 }
 
 
-            }else if (type.equals("create") || type.equals("ccww")){
+            }else if (type.equals("create")){
                 if (player.hasPermission("signclick.staff")){
                     String name = args[1];
                     if (!Banking.GetBanks().contains(name)){
