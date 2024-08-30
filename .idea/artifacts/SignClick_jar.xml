@@ -4,7 +4,6 @@
     <root id="archive" name="SignClick.jar">
       <element id="module-output" name="SignClick" />
       <element id="extracted-dir" path="$PROJECT_DIR$/../Dependencies/build/Spigot/Spigot-API/target/spigot-api-1.18.2-R0.1-SNAPSHOT.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/../Server/plugins/SpigotTester.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

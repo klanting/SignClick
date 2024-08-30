@@ -9,17 +9,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b3aa4a96-499c-4e97-84b9-6312c5389c7a" name="Changes" comment="Initial Github Commit">
-      <change afterPath="$PROJECT_DIR$/src/com/klanting/signclick/Tests/CountryTests.java" afterDir="false" />
+    <list default="true" id="b3aa4a96-499c-4e97-84b9-6312c5389c7a" name="Changes" comment="A Failed Attempt in test framework integration">
       <change beforePath="$PROJECT_DIR$/.idea/artifacts/SignClick_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/SignClick_jar.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SignClick.iml" beforeDir="false" afterPath="$PROJECT_DIR$/SignClick.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/SignClick/com/klanting/signclick/SignClick.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SignClick/com/klanting/signclick/SignClick.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SignClick/com/klanting/signclick/commands/BankCommands.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SignClick/com/klanting/signclick/commands/BankCommands.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SignClick/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SignClick/plugin.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/klanting/signclick/SignClick.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/klanting/signclick/SignClick.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/klanting/signclick/commands/BankCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/klanting/signclick/commands/BankCommands.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/plugin.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/klanting/signclick/Tests/CountryTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/klanting/signclick/Tests/CountryTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,6 +31,7 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="HARD" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 8
@@ -46,23 +43,69 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Downloaded.Files.Path.Enabled": "true",
+    "JUnit.CountryTests.CountryCreate.executor": "Run",
+    "JUnit.CountryTests.executor": "Run",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
+    "jdk.selected.JAVA_MODULE": "18",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "F:/Projects/Programming/PluginDev/Server/plugins",
+    "last_opened_file_path": "F:/Projects/Programming/PluginDev/Dependencies/build/paper-1.21.1-52.jar",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Artifacts",
+    "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "preferences.lookFeel",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RunManager" selected="JUnit.CountryTests.CountryCreate">
+    <configuration name="CountryTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="SignClick" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.klanting.signclick.Tests.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.klanting.signclick.Tests" />
+      <option name="MAIN_CLASS_NAME" value="com.klanting.signclick.Tests.CountryTests" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CountryTests.CountryCreate" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="SignClick" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.klanting.signclick.Tests.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.klanting.signclick.Tests" />
+      <option name="MAIN_CLASS_NAME" value="com.klanting.signclick.Tests.CountryTests" />
+      <option name="METHOD_NAME" value="CountryCreate" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.CountryTests.CountryCreate" />
+        <item itemvalue="JUnit.CountryTests" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -82,7 +125,11 @@
       <workItem from="1724941685681" duration="565000" />
       <workItem from="1724942270944" duration="3134000" />
       <workItem from="1724945451136" duration="221000" />
-      <workItem from="1724967482782" duration="2951000" />
+      <workItem from="1724967482782" duration="3338000" />
+      <workItem from="1725008612137" duration="500000" />
+      <workItem from="1725009122280" duration="121000" />
+      <workItem from="1725009290039" duration="709000" />
+      <workItem from="1725022383718" duration="3330000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Github Commit">
       <option name="closed" value="true" />
@@ -100,14 +147,44 @@
       <option name="project" value="LOCAL" />
       <updated>1724945613692</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="A Failed Attempt in test framework integration">
+      <option name="closed" value="true" />
+      <created>1724970607628</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1724970607628</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Initial Github Commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="Initial Github Commit" />
+    <MESSAGE value="A Failed Attempt in test framework integration" />
+    <option name="LAST_COMMIT_MESSAGE" value="A Failed Attempt in test framework integration" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.ClassNotFoundException" package="java.lang" />
+          <option name="timeStamp" value="2" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

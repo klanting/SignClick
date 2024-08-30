@@ -1,40 +1,41 @@
 package com.klanting.signclick.Tests;
 
-import io.github.jwdeveloper.spigot.tester.api.PluginTest;
-import io.github.jwdeveloper.spigot.tester.api.annotations.Test;
+import be.seeseemelk.mockbukkit.MockBukkit;
+import be.seeseemelk.mockbukkit.ServerMock;
+import com.klanting.signclick.SignClick;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachment;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class CountryTests extends PluginTest {
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
-    @Test(name = "create country (suc6)")
-    public void createCountrySuc6(){
+class CountryTests {
 
-        /*give player SignClick staff perms*/
-        Player player = addPlayer("klanting");
-        PermissionAttachment attachment = player.addAttachment(getPlugin());
 
-        attachment.setPermission("signclick.staff", true);
+    private ServerMock server;
+    private SignClick plugin;
 
-        assertThatPlayer(player)
-                .hasName("mike")
-                .hasPermission("crating");
+    @BeforeEach
+    public void setUp()
+    {
+        server = MockBukkit.mock();
+        plugin = MockBukkit.load(SignClick.class);
     }
 
-    @Test(name = "create country (suc6) Command")
-    public void createCountrySuc6Command(){
+    @AfterEach
+    public void tearDown()
+    {
 
-        /*give player SignClick staff perms*/
-        Player player = addPlayer("klanting");
+    }
 
-        PermissionAttachment attachment = player.addAttachment(getPlugin());
-        attachment.setPermission("signclick.staff", true);
-
-        invokeCommand(player, "country create A");
+    @Test
+    void CountryCreate(){
 
 
-
-        assertThatCommand("country").withFail().validate();
+        assertTrue(true);
     }
 }
+

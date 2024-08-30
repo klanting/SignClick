@@ -6,8 +6,6 @@ import com.klanting.signclick.Economy.CompanyPatent.Auction;
 import com.klanting.signclick.Economy.Market;
 import com.klanting.signclick.commands.*;
 import com.klanting.signclick.events.*;
-import io.github.jwdeveloper.spigot.tester.api.PluginTestsSetup;
-import io.github.jwdeveloper.spigot.tester.api.builder.TestsBuilder;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -19,15 +17,9 @@ import org.dynmap.DynmapAPI;
 import java.util.Map;
 import java.util.UUID;
 
-import com.klanting.signclick.Tests.CountryTests;
-
-public class SignClick extends JavaPlugin implements PluginTestsSetup {
+public class SignClick extends JavaPlugin{
 
     private static SignClick plugin;
-
-    @Override
-    public void onTestsSetup(TestsBuilder builder) {
-    }
 
     @Override
     public void onEnable() {
