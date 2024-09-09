@@ -9,12 +9,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b3aa4a96-499c-4e97-84b9-6312c5389c7a" name="Changes" comment="temp commit">
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/SignClick_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/SignClick_jar.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="b3aa4a96-499c-4e97-84b9-6312c5389c7a" name="Changes" comment="Finally Got the Gradle &amp; Testing Working">
+      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/plugin.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/plugin.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/SignClick.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/SignClick.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/country/CountryTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/country/CountryTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,6 +58,9 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RESET_MODE" value="HARD" />
   </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 8
 }</component>
@@ -85,13 +89,13 @@
     "git-widget-placeholder": "main",
     "jdk.selected.JAVA_MODULE": "18",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "F:/Projects/Programming/PluginDev/Server/plugins",
+    "last_opened_file_path": "F:/Projects/Programming/PluginDev/SignClick/src/main/resources",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Project",
+    "project.structure.last.edited": "Artifacts",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "preferences.pluginManager",
@@ -99,6 +103,9 @@
   }
 }]]></component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="F:\Projects\Programming\PluginDev\SignClick\src\main\resources" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="F:\Projects\Programming\PluginDev\SignClick\src\main" />
       <recent name="F:\Projects\Programming\PluginDev\SignClick\src\main\resources" />
@@ -106,7 +113,7 @@
       <recent name="F:\Projects\Programming\PluginDev\SignClick" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.CountryTests.CountryCreate">
+  <component name="RunManager" selected="Gradle.CountryTests (1)">
     <configuration name="gradlew" type="BatchConfigurationType" factoryName="Batch" temporary="true">
       <module name="SignClick" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -221,8 +228,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.CountryTests.CountryCreate" />
         <item itemvalue="Gradle.CountryTests (1)" />
+        <item itemvalue="Gradle.CountryTests.CountryCreate" />
         <item itemvalue="Gradle.CountryTests.CountryCreate (1)" />
         <item itemvalue="Batch.gradlew" />
         <item itemvalue="Gradle.CountryTests" />
@@ -261,7 +268,7 @@
       <workItem from="1725909223253" duration="669000" />
       <workItem from="1725909902640" duration="1886000" />
       <workItem from="1725912722493" duration="1867000" />
-      <workItem from="1725914606222" duration="927000" />
+      <workItem from="1725914606222" duration="2198000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Github Commit">
       <option name="closed" value="true" />
@@ -303,7 +310,15 @@
       <option name="project" value="LOCAL" />
       <updated>1725914574079</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Finally Got the Gradle &amp; Testing Working">
+      <option name="closed" value="true" />
+      <created>1725915714069</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1725915714069</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -329,7 +344,8 @@
     <MESSAGE value="A Failed Attempt in test framework integration" />
     <MESSAGE value="pre maven" />
     <MESSAGE value="temp commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="temp commit" />
+    <MESSAGE value="Finally Got the Gradle &amp; Testing Working" />
+    <option name="LAST_COMMIT_MESSAGE" value="Finally Got the Gradle &amp; Testing Working" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

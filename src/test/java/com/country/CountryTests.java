@@ -2,6 +2,9 @@ package com.country;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
+import com.klanting.signclick.Economy.Banking;
+import com.klanting.signclick.SignClick;
+import org.bukkit.entity.Player;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,14 +16,15 @@ class CountryTests {
 
 
     private ServerMock server;
-    //private SignClick plugin;
+    private SignClick plugin;
 
     @BeforeEach
     public void setUp()
     {
 
         server = MockBukkit.mock();
-        //plugin = MockBukkit.load(SignClick.class);
+
+        plugin = MockBukkit.load(SignClick.class);
     }
 
     @AfterEach
@@ -31,9 +35,10 @@ class CountryTests {
 
     @Test
     void CountryCreate(){
+        Player testPlayer = server.addPlayer();
 
-
-        assertTrue(true);
+        /*Create a country*/
+        Banking.create("empire1", testPlayer);
     }
 }
 
