@@ -20,12 +20,13 @@ dependencies {
     compileOnly("us.dynmap:dynmap-api:3.1-beta-2");
 
     implementation("org.junit.jupiter:junit-jupiter:5.11.0");
-    implementation("com.github.seeseemelk:MockBukkit-v1.21:3.107.0");
+    implementation("com.github.seeseemelk:MockBukkit-v1.18:2.85.2");
 }
 
 java {
-    toolchain.languageVersion.set(JavaLanguageVersion.of(21))
+    toolchain.languageVersion.set(JavaLanguageVersion.of(18))
 }
+
 
 tasks.test {
     useJUnitPlatform()
