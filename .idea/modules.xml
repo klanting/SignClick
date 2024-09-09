@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/SignClick.iml" filepath="$PROJECT_DIR$/SignClick.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/SignClick.main.iml" filepath="$PROJECT_DIR$/.idea/modules/SignClick.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/SignClick.test.iml" filepath="$PROJECT_DIR$/.idea/modules/SignClick.test.iml" />
     </modules>
   </component>
 </project>
