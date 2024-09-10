@@ -105,7 +105,7 @@ public class SignTP {
             String cords = String.valueOf(x)+" "+String.valueOf(y)+" "+String.valueOf(z);
             String bus = sign.getLine(1);
             if (bus == null){
-                player.sendMessage("§bplease enter com.company name on 2nd line");
+                player.sendMessage("§bplease enter company name on 2nd line");
                 return;
             }
 

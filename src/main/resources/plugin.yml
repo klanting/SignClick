@@ -23,7 +23,7 @@ commands:
     description: set a payment towards a person that pays every week.
     usage: /<command>
   company:
-    description: use the com.company commands.
+    description: use the company commands.
     usage: /<command>
   party:
     description: use the party commands.

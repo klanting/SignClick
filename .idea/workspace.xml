@@ -9,22 +9,31 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b3aa4a96-499c-4e97-84b9-6312c5389c7a" name="Changes" comment="Got Current coverage to 7%-23% (depending on definition)">
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/country/PolicyTests.java" afterDir="false" />
+    <list default="true" id="b3aa4a96-499c-4e97-84b9-6312c5389c7a" name="Changes" comment="added some extra tests">
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/commands/CountryCTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/tools/MockDynmap.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Calculate/WeeklyPay.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Calculate/WeeklyPay.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Calculate/SignStock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Calculate/SignStock.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Calculate/SignTP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Calculate/SignTP.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Account.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Account.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Banking.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Banking.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Company.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Company.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Decisions/DecisionBanParty.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Decisions/DecisionBanParty.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/CompanyPatent/Patent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/CompanyPatent/Patent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/CompanyPatent/PatentUpgrade.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/CompanyPatent/PatentUpgrade.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/CompanyPatent/PatentUpgradeCustom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/CompanyPatent/PatentUpgradeCustom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/CompanyUpgrades/Upgrade.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/CompanyUpgrades/Upgrade.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Market.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Market.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Parties/Party.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Parties/Party.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CountryMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CountryMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Policies/PolicyMarket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Policies/PolicyMarket.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/SignClick.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/SignClick.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/BankCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/BankCommands.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/BusCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/BusCommands.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/PartyCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/PartyCommands.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/events/MenuEvents.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/events/MenuEvents.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/events/SignEvents.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/events/SignEvents.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/plugin.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/plugin.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/com/country/CountryTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/country/CountryTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/country/PartyTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/country/PartyTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -88,6 +97,8 @@
     "Gradle.Build SignClick.executor": "Run",
     "Gradle.CompanyTests.companyCreate (1).executor": "Run",
     "Gradle.CompanyTests.companyCreate.executor": "Run",
+    "Gradle.CountryCTests.createCountry.executor": "Run",
+    "Gradle.CountryCTests.executor": "Run",
     "Gradle.CountryTests (1).executor": "Run",
     "Gradle.CountryTests.CountryCreate (1).executor": "Run",
     "Gradle.CountryTests.CountryCreate.executor": "Coverage",
@@ -106,7 +117,7 @@
     "Gradle.PartyTests.getRulingParty.executor": "Run",
     "Gradle.PartyTests.partyMembership.executor": "Run",
     "Gradle.PartyTests.removeParty.executor": "Run",
-    "Gradle.PolicyTests.setPolicy.executor": "Run",
+    "Gradle.PolicyTests.setPolicy.executor": "Coverage",
     "Gradle.TestAll.executor": "Coverage",
     "JUnit.CountryTests (1).executor": "Run",
     "JUnit.CountryTests.CountryCreate.executor": "Run",
@@ -144,6 +155,54 @@
     </key>
   </component>
   <component name="RunManager" selected="Gradle.TestAll">
+    <configuration name="CountryCTests" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;com.commands.CountryCTests&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="CountryCTests.createCountry" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;com.commands.CountryCTests.createCountry&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
     <configuration name="CountryTests.capitalChangeStability" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -158,54 +217,6 @@
             <option value=":test" />
             <option value="--tests" />
             <option value="&quot;com.country.CountryTests.capitalChangeStability&quot;" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>true</RunAsTest>
-      <method v="2" />
-    </configuration>
-    <configuration name="CountryTests.countryAddRemoveOwner" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value=":test" />
-            <option value="--tests" />
-            <option value="&quot;com.country.CountryTests.countryAddRemoveOwner&quot;" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>true</RunAsTest>
-      <method v="2" />
-    </configuration>
-    <configuration name="CountryTests.countrySetOwner" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value=":test" />
-            <option value="--tests" />
-            <option value="&quot;com.country.CountryTests.countrySetOwner&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -289,19 +300,19 @@
     </configuration>
     <list>
       <item itemvalue="Gradle.TestAll" />
+      <item itemvalue="Gradle.CountryCTests" />
+      <item itemvalue="Gradle.CountryCTests.createCountry" />
       <item itemvalue="Gradle.CountryTests.capitalChangeStability" />
-      <item itemvalue="Gradle.CountryTests.countryAddRemoveOwner" />
-      <item itemvalue="Gradle.CountryTests.countrySetOwner" />
       <item itemvalue="Gradle.PartyTests.removeParty" />
       <item itemvalue="Gradle.PolicyTests.setPolicy" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.CountryCTests.createCountry" />
+        <item itemvalue="Gradle.CountryCTests" />
         <item itemvalue="Gradle.PolicyTests.setPolicy" />
         <item itemvalue="Gradle.CountryTests.capitalChangeStability" />
         <item itemvalue="Gradle.PartyTests.removeParty" />
-        <item itemvalue="Gradle.CountryTests.countryAddRemoveOwner" />
-        <item itemvalue="Gradle.CountryTests.countrySetOwner" />
       </list>
     </recent_temporary>
   </component>
@@ -338,7 +349,7 @@
       <workItem from="1725909902640" duration="1886000" />
       <workItem from="1725912722493" duration="1867000" />
       <workItem from="1725914606222" duration="2711000" />
-      <workItem from="1725951540677" duration="13017000" />
+      <workItem from="1725951540677" duration="20939000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Github Commit">
       <option name="closed" value="true" />
@@ -412,7 +423,15 @@
       <option name="project" value="LOCAL" />
       <updated>1725961922302</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="added some extra tests">
+      <option name="closed" value="true" />
+      <created>1725971766247</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1725971766247</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -442,7 +461,8 @@
     <MESSAGE value="progress in getting the plugin inside the tests" />
     <MESSAGE value="added first set of test suits" />
     <MESSAGE value="Got Current coverage to 7%-23% (depending on definition)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Got Current coverage to 7%-23% (depending on definition)" />
+    <MESSAGE value="added some extra tests" />
+    <option name="LAST_COMMIT_MESSAGE" value="added some extra tests" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -451,6 +471,12 @@
           <properties class="java.lang.ClassNotFoundException" package="java.lang" />
           <option name="timeStamp" value="2" />
         </breakpoint>
+        <line-breakpoint enabled="true" type="java-field">
+          <url>file://$PROJECT_DIR$/src/test/java/com/commands/CountryCTests.java</url>
+          <line>26</line>
+          <properties field="plugin" class="com.commands.CountryCTests" />
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
@@ -459,7 +485,8 @@
     <select />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/SignClick$PolicyTests_setPolicy.ic" NAME="PolicyTests.setPolicy Coverage Results" MODIFIED="1725971658505" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/SignClick$CountryTests_CountryCreate.ic" NAME="CountryTests.CountryCreate Coverage Results" MODIFIED="1725952175146" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/SignClick$TestAll.ic" NAME="TestAll Coverage Results" MODIFIED="1725971393066" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/SignClick$TestAll.ic" NAME="TestAll Coverage Results" MODIFIED="1725979305740" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>

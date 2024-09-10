@@ -121,7 +121,7 @@ public class Patent {
     }
 
     public void save(Company comp){
-        String path = "com.company."+comp.Sname+".patent."+comp.patent.indexOf(this)+".";
+        String path = "company."+comp.Sname+".patent."+comp.patent.indexOf(this)+".";
         SignClick.getPlugin().getConfig().set(path+"name", name);
         SignClick.getPlugin().getConfig().set(path+"item", item.toString());
 

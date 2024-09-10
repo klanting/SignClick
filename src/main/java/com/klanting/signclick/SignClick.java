@@ -17,6 +17,7 @@ import org.bukkit.plugin.java.JavaPluginLoader;
 import org.bukkit.plugin.java.PluginClassLoader;
 import org.dynmap.DynmapAPI;
 import org.jetbrains.annotations.NotNull;
+import org.yaml.snakeyaml.error.Mark;
 
 import java.io.File;
 import java.util.Map;
@@ -24,10 +25,10 @@ import java.util.UUID;
 
 public class SignClick extends JavaPlugin{
 
+
     public SignClick(@NotNull JavaPluginLoader loader, @NotNull PluginDescriptionFile description, @NotNull File dataFolder, @NotNull File file) {
         super(loader, description, dataFolder, file);
     }
-
 
     private static SignClick plugin;
 
@@ -75,8 +76,8 @@ public class SignClick extends JavaPlugin{
         getCommand("weeklypay").setExecutor(new BasicCommands());
         getCommand("discord").setExecutor(new BasicCommands());
         getCommand("dynmap").setExecutor(new BasicCommands());
-        getCommand("com.country").setExecutor(new BankCommands());
-        getCommand("com.company").setExecutor(new BusCommands());
+        getCommand("country").setExecutor(new BankCommands());
+        getCommand("company").setExecutor(new BusCommands());
         getCommand("party").setExecutor(new PartyCommands());
         getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "SignClick is enabled!");
 
@@ -140,7 +141,14 @@ public class SignClick extends JavaPlugin{
             return false;
         }
         RegisteredServiceProvider<DynmapAPI> rsp = getServer().getServicesManager().getRegistration(DynmapAPI.class);
-        dynmap = (DynmapAPI) Bukkit.getServer().getPluginManager().getPlugin("dynmap");
+        //dynmap = (DynmapAPI) Bukkit.getServer().getPluginManager().getPlugin("dynmap");
+
+        if (rsp != null){
+            dynmap = rsp.getProvider();
+        }else{
+            dynmap = (DynmapAPI) Bukkit.getServer().getPluginManager().getPlugin("dynmap");
+        }
+
         return true;
 
 

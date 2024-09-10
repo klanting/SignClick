@@ -306,7 +306,7 @@ public class Market {
             comp.upgrades = upgrades;
         }
 
-        String path = "com.company."+Sname+".patent_up";
+        String path = "company."+Sname+".patent_up";
         if (SignClick.getPlugin().getConfig().contains(path)){
             Integer counter = 0;
             while(SignClick.getPlugin().getConfig().contains(path+"."+counter)){
@@ -341,7 +341,7 @@ public class Market {
             }
         }
 
-        path = "com.company."+Sname+".patent";
+        path = "company."+Sname+".patent";
         if (SignClick.getPlugin().getConfig().contains(path)){
             Integer counter = 0;
             while(SignClick.getPlugin().getConfig().contains(path+"."+counter)){
@@ -518,8 +518,8 @@ public class Market {
             });
         }
 
-        if (SignClick.getPlugin().getConfig().contains("com.company")){
-            for (String key : SignClick.getPlugin().getConfig().getConfigurationSection("com.company").getKeys(true)) {
+        if (SignClick.getPlugin().getConfig().contains("company")){
+            for (String key : SignClick.getPlugin().getConfig().getConfigurationSection("company").getKeys(true)) {
                 String Sname = key;
                 if (Sname.contains(".")) {
                     continue;
@@ -527,19 +527,19 @@ public class Market {
                 getServer().getConsoleSender().sendMessage(ChatColor.BLUE + "Sname found " + Sname);
 
                 ArrayList<UUID> owners = new ArrayList<>();
-                for (String s : (List<String>) SignClick.getPlugin().getConfig().get("com.company." + Sname + "." + "owners")) {
+                for (String s : (List<String>) SignClick.getPlugin().getConfig().get("company." + Sname + "." + "owners")) {
                     owners.add(UUID.fromString(s));
                 }
 
-                String name = SignClick.getPlugin().getConfig().get("com.company." + Sname + "." + "name").toString();
-                double bal = (double) SignClick.getPlugin().getConfig().get("com.company." + Sname + "." + "bal");
-                double books = (double) SignClick.getPlugin().getConfig().get("com.company." + Sname + "." + "books");
-                double spendable = (double) SignClick.getPlugin().getConfig().get("com.company." + Sname + "." + "spendable");
-                double last_value = (double) SignClick.getPlugin().getConfig().get("com.company." + Sname + "." + "last_value");
-                double security_funds = (double) SignClick.getPlugin().getConfig().get("com.company."+Sname+"." + "security_funds");
+                String name = SignClick.getPlugin().getConfig().get("company." + Sname + "." + "name").toString();
+                double bal = (double) SignClick.getPlugin().getConfig().get("company." + Sname + "." + "bal");
+                double books = (double) SignClick.getPlugin().getConfig().get("company." + Sname + "." + "books");
+                double spendable = (double) SignClick.getPlugin().getConfig().get("company." + Sname + "." + "spendable");
+                double last_value = (double) SignClick.getPlugin().getConfig().get("company." + Sname + "." + "last_value");
+                double security_funds = (double) SignClick.getPlugin().getConfig().get("company."+Sname+"." + "security_funds");
 
                 Map<UUID, UUID> su = new HashMap<>();
-                String support_string = (String) SignClick.getPlugin().getConfig().get("com.company." + Sname + "." + "support");
+                String support_string = (String) SignClick.getPlugin().getConfig().get("company." + Sname + "." + "support");
                 support_string = support_string.substring(1, support_string.length() - 1);
                 if (support_string.contains(",") | support_string.contains("=")) {
                     String[] pairs = support_string.split(", ");
@@ -557,7 +557,7 @@ public class Market {
                 }
 
                 Map<UUID, Integer> sh = new HashMap<>();
-                String share_holder_string = (String) SignClick.getPlugin().getConfig().get("com.company." + Sname + "." + "share_holders");
+                String share_holder_string = (String) SignClick.getPlugin().getConfig().get("company." + Sname + "." + "share_holders");
                 share_holder_string = share_holder_string.substring(1, share_holder_string.length() - 1);
                 if (share_holder_string.contains(",") | share_holder_string.contains("=")) {
                     String[] pairs = share_holder_string.split(", ");
@@ -569,16 +569,16 @@ public class Market {
 
                 }
 
-                double sv = (double) SignClick.getPlugin().getConfig().get("com.company." + Sname + "." + "share_value");
-                double sb = (double) SignClick.getPlugin().getConfig().get("com.company." + Sname + "." + "share_base");
-                int ma = (int) SignClick.getPlugin().getConfig().get("com.company." + Sname + "." + "market_amount");
-                int to = (int) SignClick.getPlugin().getConfig().get("com.company." + Sname + "." + "total");
+                double sv = (double) SignClick.getPlugin().getConfig().get("company." + Sname + "." + "share_value");
+                double sb = (double) SignClick.getPlugin().getConfig().get("company." + Sname + "." + "share_base");
+                int ma = (int) SignClick.getPlugin().getConfig().get("company." + Sname + "." + "market_amount");
+                int to = (int) SignClick.getPlugin().getConfig().get("company." + Sname + "." + "total");
 
 
                 ArrayList<Upgrade> upgrades = new ArrayList<>();
                 for (int i=0; i<5; i++){
-                    if (SignClick.getPlugin().getConfig().contains("com.company."+Sname+".upgrade."+i)){
-                        int level = (int) SignClick.getPlugin().getConfig().get("com.company."+Sname+".upgrade."+i);
+                    if (SignClick.getPlugin().getConfig().contains("company."+Sname+".upgrade."+i)){
+                        int level = (int) SignClick.getPlugin().getConfig().get("company."+Sname+".upgrade."+i);
                         if (i == 0){
                             upgrades.add(new UpgradeExtraPoints(level));
                         }else if (i == 1){
@@ -595,13 +595,13 @@ public class Market {
                 }
 
                 boolean open_trade = false;
-                if (SignClick.getPlugin().getConfig().contains("com.company." + Sname + "." + "open_trade")){
-                    open_trade = (Boolean) SignClick.getPlugin().getConfig().get("com.company." + Sname + "." + "open_trade");
+                if (SignClick.getPlugin().getConfig().contains("company." + Sname + "." + "open_trade")){
+                    open_trade = (Boolean) SignClick.getPlugin().getConfig().get("company." + Sname + "." + "open_trade");
                 }
 
                 String type = "other";
-                if (SignClick.getPlugin().getConfig().contains("com.company." + Sname + "." + "type")){
-                    type = (String) SignClick.getPlugin().getConfig().get("com.company." + Sname + "." + "type");
+                if (SignClick.getPlugin().getConfig().contains("company." + Sname + "." + "type")){
+                    type = (String) SignClick.getPlugin().getConfig().get("company." + Sname + "." + "type");
                 }
 
                 Market.add_company(name, Sname, owners, bal, books, spendable, su, sh, sv, sb, ma, to, last_value, security_funds, upgrades, open_trade, type);

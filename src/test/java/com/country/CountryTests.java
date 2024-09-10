@@ -46,13 +46,13 @@ class CountryTests {
         /*Verify that no countries exist*/
         assertEquals(0, Banking.countryCount());
 
-        /*Create a com.country*/
+        /*Create a country*/
         Banking.create("empire1", testPlayer);
 
-        /*Verify that 1 com.country exist*/
+        /*Verify that 1 country exist*/
         assertEquals(1, Banking.countryCount());
 
-        /*Check that the player is part of the com.country*/
+        /*Check that the player is part of the country*/
         String country = Banking.Element(testPlayer);
         assertEquals("empire1", country);
 
@@ -62,23 +62,23 @@ class CountryTests {
     void countryDelete(){
         Player testPlayer = server.addPlayer();
 
-        /*Create a com.country*/
+        /*Create a country*/
         Banking.create("empire1", testPlayer);
 
-        /*Verify that 1 com.country exist*/
+        /*Verify that 1 country exist*/
         assertEquals(1, Banking.countryCount());
 
-        /*Check that the player is part of the com.country*/
+        /*Check that the player is part of the country*/
         String country = Banking.Element(testPlayer);
         assertEquals("empire1", country);
 
-        /*Remove the com.country*/
+        /*Remove the country*/
         Banking.delete("empire1", testPlayer);
 
         /*Verify that no countries exist*/
         assertEquals(0, Banking.countryCount());
 
-        /*Check that the player is not part of a com.country anymore*/
+        /*Check that the player is not part of a country anymore*/
         country = Banking.Element(testPlayer);
         assertEquals("none", country);
 
@@ -92,26 +92,26 @@ class CountryTests {
         /*Verify that no countries exist*/
         assertEquals(0, Banking.countryCount());
 
-        /*Create a com.country*/
+        /*Create a country*/
         Banking.create("empire1", testPlayer);
 
-        /*Verify that 1 com.country exist*/
+        /*Verify that 1 country exist*/
         assertEquals(1, Banking.countryCount());
 
         Banking.create("empire1", testPlayer2);
 
-        /*Verify that 1 com.country exist*/
+        /*Verify that 1 country exist*/
         assertEquals(1, Banking.countryCount());
 
         String country = Banking.Element(testPlayer2);
 
-        /*Check that the player is part of a com.country*/
+        /*Check that the player is part of a country*/
         country = Banking.Element(testPlayer);
         assertEquals("empire1", country);
 
         String country2 = Banking.Element(testPlayer2);
 
-        /*Check that the player is not part of a com.country*/
+        /*Check that the player is not part of a country*/
         country2 = Banking.Element(testPlayer2);
         assertEquals("none", country2);
     }
@@ -140,10 +140,10 @@ class CountryTests {
         Player testPlayer = server.addPlayer();
         Banking.create("empire1", testPlayer);
 
-        /*Check that a com.country has at least 0 dollars*/
+        /*Check that a country has at least 0 dollars*/
         assertTrue(Banking.has("empire1", 0));
 
-        /*Check that a com.country has at most 0 dollars*/
+        /*Check that a country has at most 0 dollars*/
         assertFalse(Banking.has("empire1", 1));
 
         /*
@@ -152,7 +152,7 @@ class CountryTests {
         assertEquals(0, Banking.bal("empire1"));
 
         /*
-        * add money to the com.country
+        * add money to the country
         * */
         Banking.deposit("empire1", 100);
 
@@ -173,7 +173,7 @@ class CountryTests {
         assertEquals(0, Banking.bal("empire1"));
 
         /*
-         * add money to the com.country
+         * add money to the country
          * */
         Banking.deposit("empire1", 100);
 
@@ -183,7 +183,7 @@ class CountryTests {
         assertEquals(100, Banking.bal("empire1"));
 
         /*
-         * remove money from the com.country
+         * remove money from the country
          * */
         assertTrue(Banking.withdraw("empire1", 60));
 
@@ -217,7 +217,7 @@ class CountryTests {
         List<String> countries = Banking.getTop();
 
         /*
-        * check that com.country top is correctly ranked
+        * check that country top is correctly ranked
         * */
         assertEquals(2, countries.size());
         assertEquals("empire1", countries.get(0));
@@ -274,7 +274,7 @@ class CountryTests {
         Banking.removeOwner("empire1", testPlayer);
 
         /*
-        * Check that the player does not have an association with the com.country anymore
+        * Check that the player does not have an association with the country anymore
         * */
         assertFalse(Banking.isOwner("empire1", testPlayer));
         assertEquals("none", Banking.Element(testPlayer));
@@ -291,7 +291,7 @@ class CountryTests {
         Banking.addMember("empire1", testPlayer2);
 
         /*
-        * Check player is correctly added to com.country
+        * Check player is correctly added to country
         * */
         assertEquals(1, Banking.GetOwners("empire1").size());
         assertEquals(1, Banking.getMembers("empire1").size());
@@ -310,7 +310,7 @@ class CountryTests {
         Banking.addMember("empire1", testPlayer2);
 
         /*
-         * Check player is correctly added to com.country
+         * Check player is correctly added to country
          * */
         assertEquals(1, Banking.GetOwners("empire1").size());
         assertEquals(1, Banking.getMembers("empire1").size());
@@ -325,7 +325,7 @@ class CountryTests {
         Banking.removeMember("empire1", testPlayer2);
 
         /*
-         * Check player is correctly removed from com.country
+         * Check player is correctly removed from country
          * */
         assertEquals(1, Banking.GetOwners("empire1").size());
         assertEquals(0, Banking.getMembers("empire1").size());
@@ -337,7 +337,7 @@ class CountryTests {
     @Test
     void countrySaveLoad(){
         /*
-        * Check that the com.country saves and loads correctly
+        * Check that the country saves and loads correctly
         * */
 
         /*

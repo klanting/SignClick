@@ -457,7 +457,7 @@ public class Banking {
         }
 
         for (Map.Entry<UUID, String> entry : Country.entrySet()){
-            SignClick.getPlugin().getConfig().set("com.country." + entry.getKey().toString(), entry.getValue());
+            SignClick.getPlugin().getConfig().set("country." + entry.getKey().toString(), entry.getValue());
         }
 
         for (Map.Entry<String, Integer> entry : PCT.entrySet()){
@@ -564,9 +564,9 @@ public class Banking {
             });
         }
 
-        if (SignClick.getPlugin().getConfig().contains("com.country")){
-            SignClick.getPlugin().getConfig().getConfigurationSection("com.country").getKeys(true).forEach(key ->{
-                Country.put(UUID.fromString(key), String.valueOf(SignClick.getPlugin().getPlugin().getConfig().get("com.country." + key)));
+        if (SignClick.getPlugin().getConfig().contains("country")){
+            SignClick.getPlugin().getConfig().getConfigurationSection("country").getKeys(true).forEach(key ->{
+                Country.put(UUID.fromString(key), String.valueOf(SignClick.getPlugin().getPlugin().getConfig().get("country." + key)));
             });
         }
 

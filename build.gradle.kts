@@ -12,6 +12,11 @@ jacoco {
 
 
 
+tasks.withType<JavaCompile> {
+    options.encoding = "UTF-8"
+}
+
+
 repositories {
     mavenCentral()
     maven("https://repo.papermc.io/repository/maven-public/");
@@ -32,6 +37,7 @@ dependencies {
     implementation("org.junit.jupiter:junit-jupiter:5.11.0");
     implementation("com.github.seeseemelk:MockBukkit-v1.18:2.85.2");
     implementation("com.github.MilkBowl:VaultAPI:1.7");
+    implementation("us.dynmap:dynmap-api:3.1-beta-2");
 }
 
 java {
