@@ -4,8 +4,6 @@ import com.klanting.signclick.Economy.Banking;
 import com.klanting.signclick.Economy.Parties.Party;
 import com.klanting.signclick.SignClick;
 
-import static com.klanting.signclick.Economy.Banking.setPoliciesReal;
-
 public class DecisionBanParty extends Decision{
     public Party p;
     public DecisionBanParty(String name, double needed, String s, Party p){
@@ -14,7 +12,7 @@ public class DecisionBanParty extends Decision{
     }
 
     public void DoEffect(){
-        Banking.RemoveParty(p);
+        Banking.removeParty(p);
     }
 
     public void Save(Integer index){

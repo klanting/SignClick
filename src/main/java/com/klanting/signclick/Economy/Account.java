@@ -67,7 +67,7 @@ public class Account {
         String country = Market.get_business(Sname).GetCountry();
 
         double sub_fee = Market.get_fee();
-        if (Banking.get_stability(country) < 50){
+        if (Banking.getStability(country) < 50){
             sub_fee += 0.01;
         }
         double to_gov = v/(1.0-(sub_fee-Banking.getPolicyBonus(country, 0, 0))*(Market.get_fee()-Banking.getPolicyBonus(country, 0, 0)- Banking.getPolicyBonus(country, 1, 1)));

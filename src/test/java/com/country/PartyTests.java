@@ -5,14 +5,10 @@ import be.seeseemelk.mockbukkit.ServerMock;
 import com.klanting.signclick.Economy.Banking;
 import com.klanting.signclick.Economy.Parties.Party;
 import com.klanting.signclick.SignClick;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -93,6 +89,74 @@ class PartyTests {
         p = Banking.getRuling("empire1");
         assertNotNull(p);
         assertEquals("TestParty", p.name);
+    }
 
+    @Test
+    void partyMembership(){
+        Player testPlayer2 = server.addPlayer();
+        Banking.addMember("empire1", testPlayer2);
+
+        Banking.createParty("empire1", "TestParty", testPlayer.getUniqueId());
+
+        /*
+        * Pre party join
+        * */
+        assertTrue(Banking.inParty("empire1", testPlayer.getUniqueId()));
+        assertFalse(Banking.inParty("empire1", testPlayer2.getUniqueId()));
+
+        /*
+        * let testPlayer2, join the party
+        * */
+        Party p = Banking.getParty("empire1", "TestParty");
+        assertNotNull(p);
+
+        /*Add member to party*/
+        p.addMember(testPlayer2.getUniqueId());
+
+        /*
+         * Post party join
+         * */
+        assertTrue(Banking.inParty("empire1", testPlayer.getUniqueId()));
+        assertTrue(Banking.inParty("empire1", testPlayer2.getUniqueId()));
+        assertFalse(p.isOwner(testPlayer2.getUniqueId()));
+
+        /*
+        * Promote the added party member
+        * */
+        p.promote(testPlayer2.getUniqueId());
+        assertTrue(p.isOwner(testPlayer2.getUniqueId()));
+
+        /*
+         * Demote the added party member
+         * */
+        p.demote(testPlayer2.getUniqueId());
+        assertFalse(p.isOwner(testPlayer2.getUniqueId()));
+
+        /*
+         * Remove member
+         * */
+        p.removeMember(testPlayer2.getUniqueId());
+
+        /*
+        * check not in party anymore
+        * */
+        assertFalse(Banking.inParty("empire1", testPlayer2.getUniqueId()));
+        assertFalse(p.inParty(testPlayer2.getUniqueId()));
+
+    }
+
+    @Test
+    void removeParty(){
+        Banking.createParty("empire1", "TestParty", testPlayer.getUniqueId());
+
+        assertEquals(70, Banking.getStability("empire1"));
+
+
+        Party p = Banking.getParty("empire1", "TestParty");
+        assertNotNull(p);
+
+        Banking.removeParty(p);
+
+        assertEquals(60, Banking.getStability("empire1"));
     }
 }

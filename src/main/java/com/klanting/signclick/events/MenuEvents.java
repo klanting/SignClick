@@ -12,28 +12,18 @@ import com.klanting.signclick.Economy.Decisions.DecisionForbidParty;
 import com.klanting.signclick.Economy.Market;
 import com.klanting.signclick.Economy.Parties.Party;
 import com.klanting.signclick.Menus.*;
-import com.klanting.signclick.SignClick;
 import com.klanting.signclick.commands.BankCommands;
 import org.bukkit.ChatColor;
-import org.bukkit.Color;
 import org.bukkit.Material;
-import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryDragEvent;
-import org.bukkit.event.inventory.InventoryInteractEvent;
-import org.bukkit.event.inventory.InventoryMoveItemEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.bukkit.Bukkit.*;
 
 public class MenuEvents implements Listener {
     @EventHandler
@@ -59,7 +49,7 @@ public class MenuEvents implements Listener {
                 CompanyUpgradeMenu new_screen = new CompanyUpgradeMenu(player.getUniqueId(), old_screen.comp);
                 player.openInventory(new_screen.getInventory());
             }else if(option.equalsIgnoreCase("§6Patent")){
-                if (Banking.get_stability(old_screen.comp.GetCountry()) < 30){
+                if (Banking.getStability(old_screen.comp.GetCountry()) < 30){
                     player.sendMessage("§bcan`t acces patent auction with com.country stability under 30");
                     return;
                 }
@@ -297,7 +287,7 @@ public class MenuEvents implements Listener {
                 String country = Banking.Element(player);
                 boolean go_to = !Banking.forbid_party.getOrDefault(country, false);
 
-                if (Banking.get_stability(country) < 30.0){
+                if (Banking.getStability(country) < 30.0){
                     player.sendMessage("§brequired stability is 30");
                     return;
                 }
@@ -338,7 +328,7 @@ public class MenuEvents implements Listener {
                 return;
             }
 
-            if (Banking.get_stability(country) < 40.0){
+            if (Banking.getStability(country) < 40.0){
                 player.sendMessage("§brequired stability is 40");
                 return;
             }

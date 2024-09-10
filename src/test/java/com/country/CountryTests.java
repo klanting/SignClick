@@ -125,14 +125,14 @@ class CountryTests {
         /*
         * testPlayer is owner, verify this
         * */
-        assertTrue(Banking.IsOwner("empire1", testPlayer));
+        assertTrue(Banking.isOwner("empire1", testPlayer));
         assertEquals(1, Banking.GetOwners("empire1").size());
         assertEquals(testPlayer.getUniqueId(), Banking.GetOwners("empire1").get(0));
 
         /*
          * testPlayer2 is not owner, verify this
          * */
-        assertFalse(Banking.IsOwner("empire1", testPlayer2));
+        assertFalse(Banking.isOwner("empire1", testPlayer2));
     }
 
     @Test
@@ -214,7 +214,7 @@ class CountryTests {
 
         Banking.deposit("empire1", 100);
 
-        List<String> countries = Banking.GetTop();
+        List<String> countries = Banking.getTop();
 
         /*
         * check that com.country top is correctly ranked
@@ -271,12 +271,12 @@ class CountryTests {
         Player testPlayer = server.addPlayer();
         Banking.create("empire1", testPlayer);
 
-        Banking.RemoveOwner("empire1", testPlayer);
+        Banking.removeOwner("empire1", testPlayer);
 
         /*
         * Check that the player does not have an association with the com.country anymore
         * */
-        assertFalse(Banking.IsOwner("empire1", testPlayer));
+        assertFalse(Banking.isOwner("empire1", testPlayer));
         assertEquals("none", Banking.Element(testPlayer));
         assertEquals(0, Banking.GetOwners("empire1").size());
 
@@ -288,7 +288,7 @@ class CountryTests {
         Player testPlayer2 = server.addPlayer();
         Banking.create("empire1", testPlayer);
 
-        Banking.AddMember("empire1", testPlayer2);
+        Banking.addMember("empire1", testPlayer2);
 
         /*
         * Check player is correctly added to com.country
@@ -297,7 +297,7 @@ class CountryTests {
         assertEquals(1, Banking.getMembers("empire1").size());
         assertEquals(testPlayer2.getUniqueId(), Banking.getMembers("empire1").get(0));
 
-        assertFalse(Banking.IsOwner("empire1", testPlayer2));
+        assertFalse(Banking.isOwner("empire1", testPlayer2));
         assertEquals("empire1", Banking.Element(testPlayer2));
     }
 
@@ -307,7 +307,7 @@ class CountryTests {
         Player testPlayer2 = server.addPlayer();
         Banking.create("empire1", testPlayer);
 
-        Banking.AddMember("empire1", testPlayer2);
+        Banking.addMember("empire1", testPlayer2);
 
         /*
          * Check player is correctly added to com.country
@@ -316,13 +316,13 @@ class CountryTests {
         assertEquals(1, Banking.getMembers("empire1").size());
         assertEquals(testPlayer2.getUniqueId(), Banking.getMembers("empire1").get(0));
 
-        assertFalse(Banking.IsOwner("empire1", testPlayer2));
+        assertFalse(Banking.isOwner("empire1", testPlayer2));
         assertEquals("empire1", Banking.Element(testPlayer2));
 
         /*
         * Remove Player
         * */
-        Banking.RemoveMember("empire1", testPlayer2);
+        Banking.removeMember("empire1", testPlayer2);
 
         /*
          * Check player is correctly removed from com.country
@@ -330,7 +330,7 @@ class CountryTests {
         assertEquals(1, Banking.GetOwners("empire1").size());
         assertEquals(0, Banking.getMembers("empire1").size());
 
-        assertFalse(Banking.IsOwner("empire1", testPlayer2));
+        assertFalse(Banking.isOwner("empire1", testPlayer2));
         assertEquals("none", Banking.Element(testPlayer2));
     }
 
@@ -368,10 +368,79 @@ class CountryTests {
         Player testPlayer = server.addPlayer();
         Banking.create("empire1", testPlayer);
 
-        assertEquals(0, Banking.GetPCT("empire1"));
+        assertEquals(0, Banking.getPCT("empire1"));
 
-        Banking.SetPCT("empire1", 20);
-        assertEquals(20, Banking.GetPCT("empire1"));
+        Banking.setPCT("empire1", 20);
+        assertEquals(20, Banking.getPCT("empire1"));
+    }
+
+    @Test
+    void countryAddRemoveOwner(){
+        Player testPlayer = server.addPlayer();
+        Player testPlayer2 = server.addPlayer();
+        Banking.create("empire1", testPlayer);
+
+        /*
+        * Add owner
+        * */
+        Banking.addOwner("empire1", testPlayer2);
+
+        /*
+        * Check that both are owners
+        * */
+        assertTrue(Banking.isOwner("empire1", testPlayer));
+        assertTrue(Banking.isOwner("empire1", testPlayer2));
+        assertEquals(2, Banking.GetOwners("empire1").size());
+
+        /*
+         * Remove owner
+         * */
+        Banking.removeOwner("empire1", testPlayer2);
+
+        assertTrue(Banking.isOwner("empire1", testPlayer));
+        assertFalse(Banking.isOwner("empire1", testPlayer2));
+        assertEquals("none", Banking.Element(testPlayer2));
+        assertEquals(1, Banking.GetOwners("empire1").size());
+    }
+
+    @Test
+    void countryStability(){
+        Player testPlayer = server.addPlayer();
+        Banking.create("empire1", testPlayer);
+
+        double stability = Banking.getStability("empire1");
+
+        /*
+        * assert base stability
+        * */
+        assertEquals(70.0, stability);
+    }
+
+    @Test
+    void capitalChangeStability(){
+        Player testPlayer = server.addPlayer();
+        Banking.create("empire1", testPlayer);
+
+        assertEquals(70.0, Banking.getStability("empire1"));
+
+        /*
+        * Over 40 mil -> +5 stability
+        * */
+        Banking.deposit("empire1", 40000001);
+
+        assertEquals(75.0, Banking.getStability("empire1"));
+
+        /*
+        * Over 60 mil -> +7 stability
+        * */
+        Banking.deposit("empire1", 20000000);
+        assertEquals(77.0, Banking.getStability("empire1"));
+
+        /*
+         * Over 40 mil -> +5 stability (reduction)
+         * */
+        Banking.withdraw("empire1", 20000000);
+        assertEquals(75.0, Banking.getStability("empire1"));
     }
 
 }

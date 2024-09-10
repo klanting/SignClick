@@ -4,20 +4,15 @@ import com.klanting.signclick.Economy.CompanyPatent.Patent;
 import com.klanting.signclick.Economy.CompanyPatent.PatentUpgrade;
 import com.klanting.signclick.Economy.CompanyPatent.PatentUpgradeCustom;
 import com.klanting.signclick.Economy.CompanyUpgrades.*;
-import com.klanting.signclick.Economy.Policies.Policy;
 import com.klanting.signclick.SignClick;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.NamespacedKey;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
-import java.security.KeyPair;
 import java.text.DecimalFormat;
 import java.util.*;
 import java.util.Map.Entry;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.stream.IntStream;
 
 import static org.bukkit.Bukkit.getServer;
 
@@ -108,13 +103,13 @@ public class Company {
         }
 
         double sub_pct = 1.0;
-        if (Banking.get_stability(GetCountry()) < 30){
+        if (Banking.getStability(GetCountry()) < 30){
             sub_pct -= 0.20;
         }
-        if (Banking.get_stability(GetCountry()) < 50){
+        if (Banking.getStability(GetCountry()) < 50){
             sub_pct -= 0.10;
         }
-        if (Banking.get_stability(GetCountry()) > 80){
+        if (Banking.getStability(GetCountry()) > 80){
             sub_pct += 0.10;
         }
 
@@ -423,7 +418,7 @@ public class Company {
 
     public void reset_spendable(){
         double base = 0.2;
-        if (Banking.get_stability(GetCountry()) < 50){
+        if (Banking.getStability(GetCountry()) < 50){
             base -= 0.03;
         }
         double pct = (base+Banking.getPolicyBonus(country_name, 0, 3));
@@ -505,10 +500,10 @@ public class Company {
         Upgrade u = upgrades.get(id);
         if (u.canUpgrade((int) (bal+books), (int) security_funds)){
             double base = 1.0;
-            if (Banking.get_stability(GetCountry()) < 30){
+            if (Banking.getStability(GetCountry()) < 30){
                 base += 0.05;
             }
-            if (Banking.get_stability(GetCountry()) < 50){
+            if (Banking.getStability(GetCountry()) < 50){
                 base += 0.15;
             }
             security_funds -= u.getUpgradeCostPoints()*(base-Banking.getPolicyBonus(GetCountry(), 1, 3));

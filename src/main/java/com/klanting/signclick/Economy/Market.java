@@ -5,10 +5,8 @@ import com.klanting.signclick.Economy.CompanyPatent.*;
 import com.klanting.signclick.Economy.CompanyUpgrades.*;
 import com.klanting.signclick.SignClick;
 import org.bukkit.*;
-import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
-import org.bukkit.event.block.SignChangeEvent;
 
 import java.text.DecimalFormat;
 import java.util.*;
@@ -85,7 +83,7 @@ public class Market {
 
         String country = Market.get_business(Sname).GetCountry();
         double sub_fee = fee;
-        if (Banking.get_stability(country) < 50){
+        if (Banking.getStability(country) < 50){
             sub_fee += 0.01;
         }
         return (get_buy_price(Sname, -amount)*-1)*(1.0 - (sub_fee - Banking.getPolicyBonus(country, 0, 0)- Banking.getPolicyBonus(country, 1, 1)));

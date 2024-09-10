@@ -29,7 +29,7 @@ public class Banking {
 
     private static Map<String, List<UUID>> law_enforcement = new HashMap<String, List<UUID>>();
 
-    private static Map<String, Double> stability_map = new HashMap<String, Double>();
+    private static Map<String, Double> stabilityMap = new HashMap<String, Double>();
 
     private static Map<String, List<Policy>> policies = new HashMap<String, List<Policy>>();
 
@@ -41,15 +41,11 @@ public class Banking {
 
     public static Map<String, Boolean> aboard_military = new HashMap<String, Boolean>();
 
-    public static void set_stability(String s, Double stability){
-        stability_map.put(s, stability);
-    }
-
-    public static Double get_stability(String s){
-        if (!stability_map.containsKey(s)){
-            stability_map.put(s, 70.0);
+    public static Double getStability(String s){
+        if (!stabilityMap.containsKey(s)){
+            stabilityMap.put(s, 70.0);
         }
-        return stability_map.getOrDefault(s, 70.0);
+        return stabilityMap.getOrDefault(s, 70.0);
     }
 
     public static void clear(){
@@ -61,7 +57,7 @@ public class Banking {
         color_map.clear();
         spawn_loc.clear();
         law_enforcement.clear();
-        stability_map.clear();
+        stabilityMap.clear();
         policies.clear();
         parties.clear();
         decisions.clear();
@@ -74,7 +70,7 @@ public class Banking {
     }
 
     public static Double add_stability(String s, Double change){
-        return stability_map.put(s, stability_map.get(s)+change);
+        return stabilityMap.put(s, stabilityMap.get(s)+change);
     }
 
     public static void create(String s, Player player){
@@ -88,7 +84,7 @@ public class Banking {
             Country.put(player.getUniqueId(), s);
             PCT.put(s, 0);
             policies.put(s, Arrays.asList(new PolicyEconomics(2), new PolicyMarket(2), new PolicyMilitary(2), new PolicyTourist(2), new PolicyTaxation(2)));
-            stability_map.put(s, 70.0);
+            stabilityMap.put(s, 70.0);
 
             player.sendMessage("bank created");
         }else{
@@ -153,7 +149,7 @@ public class Banking {
             return false;
         }
     }
-    public static void SetOwner(String s, Player player){
+    public static void addOwner(String s, Player player){
         List<UUID> owner_list = owners.get(s);
         if (!owner_list.contains(player.getUniqueId())){
             owner_list.add(player.getUniqueId());
@@ -176,7 +172,7 @@ public class Banking {
 
     }
 
-    public static void RemoveOwner(String s, Player player){
+    public static void removeOwner(String s, Player player){
         List<UUID> owner_list = owners.get(s);
         if (owner_list.contains(player.getUniqueId())){
             owner_list.remove(player.getUniqueId());
@@ -194,7 +190,7 @@ public class Banking {
         }
     }
 
-    public static boolean IsOwner(String s,Player player){
+    public static boolean isOwner(String s, Player player){
         List<UUID> owner_list = owners.get(s);
         return owner_list.contains(player.getUniqueId());
     }
@@ -209,7 +205,7 @@ public class Banking {
 
     }
 
-    public static String OfllineElement(OfflinePlayer player){
+    public static String offlineElement(OfflinePlayer player){
         for (UUID p : Country.keySet()){
             if (p.equals(player.getUniqueId())) {
                 return Country.getOrDefault(p, "none");
@@ -223,7 +219,7 @@ public class Banking {
 
     }
 
-    public static void AddMember(String s, Player player){
+    public static void addMember(String s, Player player){
         List<UUID> member_list;
         if (members.get(s) != null){
             member_list = members.get(s);
@@ -247,7 +243,7 @@ public class Banking {
         }
     }
 
-    public static void AddLawEnforcement(String s, Player player){
+    public static void addLawEnforcement(String s, Player player){
         List<UUID> law_list;
         if (law_enforcement.get(s) != null){
             law_list = law_enforcement.get(s);
@@ -267,7 +263,7 @@ public class Banking {
         }
     }
 
-    public static void RemoveLawEnforcement(String s, Player player){
+    public static void removeLawEnforcement(String s, Player player){
         List<UUID> law_list = law_enforcement.get(s);
         if (law_list.contains(player.getUniqueId())) {
             law_list.remove(player.getUniqueId());
@@ -275,7 +271,7 @@ public class Banking {
         }
     }
 
-    public static void OfflineRemoveLawEnforcement(String s, UUID uuid){
+    public static void offlineRemoveLawEnforcement(String s, UUID uuid){
         List<UUID> member_list = law_enforcement.get(s);
         if (member_list.contains(uuid)) {
             member_list.remove(uuid);
@@ -283,7 +279,7 @@ public class Banking {
         }
     }
 
-    public static void OfflineAddMember(String s, UUID uuid){
+    public static void offlineAddMember(String s, UUID uuid){
         List<UUID> member_list;
         if (members.get(s) != null){
             member_list = members.get(s);
@@ -304,7 +300,7 @@ public class Banking {
         }
     }
 
-    public static void RemoveMember(String s, Player player){
+    public static void removeMember(String s, Player player){
         List<UUID> member_list = members.get(s);
         if (member_list.contains(player.getUniqueId())) {
             member_list.remove(player.getUniqueId());
@@ -314,7 +310,7 @@ public class Banking {
         }
     }
 
-    public static void OfflineRemoveMember(String s, UUID uuid){
+    public static void offlineRemoveMember(String s, UUID uuid){
         List<UUID> member_list = members.get(s);
         if (member_list.contains(uuid)) {
             member_list.remove(uuid);
@@ -330,12 +326,12 @@ public class Banking {
 
     }
 
-    public static int GetPCT(String name){
+    public static int getPCT(String name){
         return PCT.getOrDefault(name, 0);
 
     }
 
-    public static void SetPCT(String name, int amount){
+    public static void setPCT(String name, int amount){
         PCT.put(name, amount);
 
     }
@@ -374,12 +370,12 @@ public class Banking {
                              "§bmembers: §7"+m_list+"\n" +
                              "§blaw enforcement: §7"+l_list+"\n" +
                              "§btaxrate: §7"+ pct+"\n" +
-                             "§bstability: §7"+ df.format(get_stability(name))+"\n" +
+                             "§bstability: §7"+ df.format(getStability(name))+"\n" +
                              "§bspawn: §7"+ "\nX: "+spawn.getX()+ "\nY: "+spawn.getY()+ "\nZ: "+spawn.getZ());
 
     }
 
-    public static List<String> GetTop(){
+    public static List<String> getTop(){
         List<String> start = new ArrayList<String>(Banking.GetBanks());
         List<String> end = new ArrayList<String>();
         for (String s: start){
@@ -488,7 +484,7 @@ public class Banking {
             SignClick.getPlugin().getConfig().set("law_enforcement." + entry.getKey(), f_list);
         }
 
-        for (Map.Entry<String, Double> entry : stability_map.entrySet()){
+        for (Map.Entry<String, Double> entry : stabilityMap.entrySet()){
             SignClick.getPlugin().getConfig().set("stability_map." + entry.getKey(), entry.getValue());
         }
 
@@ -588,7 +584,7 @@ public class Banking {
 
         if (SignClick.getPlugin().getConfig().contains("stability_map")){
             SignClick.getPlugin().getConfig().getConfigurationSection("stability_map").getKeys(false).forEach(key ->{
-                stability_map.put(key, (double) SignClick.getPlugin().getConfig().get("stability_map." + key));
+                stabilityMap.put(key, (double) SignClick.getPlugin().getConfig().get("stability_map." + key));
             });
         }
 
@@ -844,11 +840,11 @@ public class Banking {
         for (Map.Entry<String , List<UUID>> entry : law_enforcement.entrySet()){
             for (UUID uuid : entry.getValue()){
                 double base = 0;
-                if (Banking.get_stability(entry.getKey()) < 50){
+                if (Banking.getStability(entry.getKey()) < 50){
                     base += 2000.0;
                 }
 
-                if (Banking.get_stability(entry.getKey()) < 30){
+                if (Banking.getStability(entry.getKey()) < 30){
                     base += 3000.0;
                 }
 
@@ -920,19 +916,19 @@ public class Banking {
 
 
         if (id == 0){
-            Double country_stability = stability_map.getOrDefault(s, 70.0);
+            Double country_stability = stabilityMap.getOrDefault(s, 70.0);
             Double old_stab = policies.get(s).get(id).getBonusLevel(5, old_level);
             Double new_stab = policies.get(s).get(id).getBonusLevel(5, level);
             double change = new_stab-old_stab;
-            stability_map.put(s, country_stability+change);
+            stabilityMap.put(s, country_stability+change);
         }
 
         if (id == 2){
-            Double country_stability = stability_map.getOrDefault(s, 70.0);
+            Double country_stability = stabilityMap.getOrDefault(s, 70.0);
             Double old_stab = policies.get(s).get(id).getBonusLevel(1, old_level);
             Double new_stab = policies.get(s).get(id).getBonusLevel(1, level);
             double change = new_stab-old_stab;
-            stability_map.put(s, country_stability+change);
+            stabilityMap.put(s, country_stability+change);
 
             if (old_level == 4){
                 forbid_party.put(s, false);
@@ -941,11 +937,11 @@ public class Banking {
         }
 
         if (id == 4){
-            Double country_stability = stability_map.getOrDefault(s, 70.0);
+            Double country_stability = stabilityMap.getOrDefault(s, 70.0);
             Double old_stab = policies.get(s).get(id).getBonusLevel(7, old_level);
             Double new_stab = policies.get(s).get(id).getBonusLevel(7, level);
             double change = new_stab-old_stab;
-            stability_map.put(s, country_stability+change);
+            stabilityMap.put(s, country_stability+change);
 
         }
 
@@ -1050,7 +1046,7 @@ public class Banking {
         }
     }
 
-    public static void changeCapital(String s, int old_cap, int new_cap){
+    private static void changeCapital(String s, int old_cap, int new_cap){
         Map<Integer, Double> d = new HashMap<>();
 
         d.put(5000000, 2.0);
@@ -1075,7 +1071,7 @@ public class Banking {
         }
     }
 
-    public static void RemoveParty(Party p){
+    public static void removeParty(Party p){
         String country = p.country;
         Party ph = Banking.getRuling(country);
 

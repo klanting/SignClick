@@ -8,7 +8,6 @@ import org.bukkit.entity.Player;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 public class Party {
@@ -51,12 +50,12 @@ public class Party {
         return members.contains(uuid) || owners.contains(uuid);
     }
 
-    public boolean inOwner(UUID uuid){
+    public boolean isOwner(UUID uuid){
         return owners.contains(uuid);
     }
 
     public void addMember(UUID uuid){
-        if (members.contains(uuid)){
+        if (!members.contains(uuid)){
             members.add(uuid);
         }
     }

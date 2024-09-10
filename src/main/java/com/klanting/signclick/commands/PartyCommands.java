@@ -4,7 +4,6 @@ import com.klanting.signclick.Economy.Banking;
 import com.klanting.signclick.Economy.Decisions.Decision;
 import com.klanting.signclick.Economy.Decisions.DecisionCoup;
 import com.klanting.signclick.Economy.Parties.Party;
-import com.klanting.signclick.Menus.CountryElectionMenu;
 import com.klanting.signclick.Menus.PartyDecisionVote;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -87,7 +86,7 @@ public class PartyCommands implements CommandExecutor, TabCompleter {
                 return true;
             }
 
-            if (!p.inOwner(player.getUniqueId())){
+            if (!p.isOwner(player.getUniqueId())){
                 player.sendMessage("§byou must be party owner");
                 return true;
             }
@@ -118,7 +117,7 @@ public class PartyCommands implements CommandExecutor, TabCompleter {
                 player.sendMessage("§byou must be in a party");
                 return true;
             }
-            if (!p.inOwner(player.getUniqueId())){
+            if (!p.isOwner(player.getUniqueId())){
                 player.sendMessage("§byou must be party owner");
                 return true;
             }
@@ -138,7 +137,7 @@ public class PartyCommands implements CommandExecutor, TabCompleter {
                 player.sendMessage("§byou must be in a party");
                 return true;
             }
-            if (!p.inOwner(player.getUniqueId())){
+            if (!p.isOwner(player.getUniqueId())){
                 player.sendMessage("§byou must be party owner");
                 return true;
             }
@@ -157,7 +156,7 @@ public class PartyCommands implements CommandExecutor, TabCompleter {
                 player.sendMessage("§byou must be in a party");
                 return true;
             }
-            if (!p.inOwner(player.getUniqueId())){
+            if (!p.isOwner(player.getUniqueId())){
                 player.sendMessage("§byou must be party owner");
                 return true;
             }
@@ -202,7 +201,7 @@ public class PartyCommands implements CommandExecutor, TabCompleter {
                 player.sendMessage("§byou must be in a party");
                 return true;
             }
-            if (!p.inOwner(player.getUniqueId())){
+            if (!p.isOwner(player.getUniqueId())){
                 player.sendMessage("§byou must be party owner");
                 return true;
             }
@@ -217,7 +216,7 @@ public class PartyCommands implements CommandExecutor, TabCompleter {
                 player.sendMessage("§byou must be in a party");
                 return true;
             }
-            if (!p.inOwner(player.getUniqueId())){
+            if (!p.isOwner(player.getUniqueId())){
                 player.sendMessage("§byou must be party owner");
                 return true;
             }

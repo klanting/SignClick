@@ -35,7 +35,7 @@ public class CountryMenu implements InventoryHolder {
         m.setDisplayName("§6"+country);
         ArrayList<String> l = new ArrayList<>();
         l.add("§6balance: §9"+ df.format(Banking.bal(country)));
-        l.add("§6Stability: §9"+ df.format(Banking.get_stability(country)));
+        l.add("§6Stability: §9"+ df.format(Banking.getStability(country)));
         m.setLore(l);
         value.setItemMeta(m);
         menu.setItem(13, value);

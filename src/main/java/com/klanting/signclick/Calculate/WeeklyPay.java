@@ -46,7 +46,7 @@ public class WeeklyPay {
 
                 String bank = Banking.Element(target);
                 if (bank != "none"){
-                    PCT_amount = (int) (amount * ((double) Banking.GetPCT(bank))/100.0);
+                    PCT_amount = (int) (amount * ((double) Banking.getPCT(bank))/100.0);
                     Banking.deposit(bank,PCT_amount);
                 }else{
                     PCT_amount = 0;
@@ -55,9 +55,9 @@ public class WeeklyPay {
             } catch (Exception e) {
                 for (OfflinePlayer target : Bukkit.getOfflinePlayers()) {
                     if (target.getName().equals(receiver)) {
-                        String bank = Banking.OfllineElement(target);
+                        String bank = Banking.offlineElement(target);
                         if (bank != "none"){
-                            PCT_amount = (int) (amount * ((double) Banking.GetPCT(bank))/100.0);
+                            PCT_amount = (int) (amount * ((double) Banking.getPCT(bank))/100.0);
                             Banking.deposit(bank,PCT_amount);
                         }else{
                             PCT_amount = 0;
