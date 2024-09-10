@@ -225,7 +225,7 @@ public class Account {
         Player p = Bukkit.getPlayer(uuid);
         if (p != null){
             p.sendMessage("§b you §7"+p.getName()+"§b got a contract request from §7" + stock_name
-                    + "§b they will ask you §7"+amount+"§b for §7"+weeks+"§b weeks, do §c/company sign_contract_ptc ");
+                    + "§b they will ask you §7"+amount+"§b for §7"+weeks+"§b weeks, do §c/com.company sign_contract_ptc ");
         }
     }
 

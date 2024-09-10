@@ -60,7 +60,7 @@ public class MenuEvents implements Listener {
                 player.openInventory(new_screen.getInventory());
             }else if(option.equalsIgnoreCase("§6Patent")){
                 if (Banking.get_stability(old_screen.comp.GetCountry()) < 30){
-                    player.sendMessage("§bcan`t acces patent auction with country stability under 30");
+                    player.sendMessage("§bcan`t acces patent auction with com.country stability under 30");
                     return;
                 }
                 CompanyPatentIDMenu new_screen = new CompanyPatentIDMenu(old_screen.comp, true);

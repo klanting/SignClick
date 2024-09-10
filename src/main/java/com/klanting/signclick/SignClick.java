@@ -48,7 +48,8 @@ public class SignClick extends JavaPlugin{
             this.RestoreDoors();
         }
 
-            Banking.RestoreData();
+        Banking.RestoreData();
+
         if (this.getConfig().contains("weekly")){
             WeeklyPay.restore();
         }
@@ -74,8 +75,8 @@ public class SignClick extends JavaPlugin{
         getCommand("weeklypay").setExecutor(new BasicCommands());
         getCommand("discord").setExecutor(new BasicCommands());
         getCommand("dynmap").setExecutor(new BasicCommands());
-        getCommand("country").setExecutor(new BankCommands());
-        getCommand("company").setExecutor(new BusCommands());
+        getCommand("com.country").setExecutor(new BankCommands());
+        getCommand("com.company").setExecutor(new BusCommands());
         getCommand("party").setExecutor(new PartyCommands());
         getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "SignClick is enabled!");
 

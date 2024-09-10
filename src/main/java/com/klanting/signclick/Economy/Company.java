@@ -372,8 +372,8 @@ public class Company {
             }
         }, 20*120L);
 
-        send_owner("§b your company §7"+Sname+"§b got a contract from §7" + stock_name
-                + "§b they will ask you §7"+amount+"§b for §7"+weeks+"§b weeks, do §c/company sign_contract_ctc "+Sname);
+        send_owner("§b your com.company §7"+Sname+"§b got a contract from §7" + stock_name
+                + "§b they will ask you §7"+amount+"§b for §7"+weeks+"§b weeks, do §c/com.company sign_contract_ctc "+Sname);
     }
 
 
@@ -411,8 +411,8 @@ public class Company {
             }
         }, 20*120L);
 
-        send_owner("§b your company §7"+Sname+"§b got a contract from §7" + Bukkit.getOfflinePlayer(UUID.fromString(playerUUID)).getName()
-                + "§b he/she will ask you §7"+amount+"§b for §7"+weeks+"§b weeks, do §c/company sign_contract_ctp "+ Sname);
+        send_owner("§b your com.company §7"+Sname+"§b got a contract from §7" + Bukkit.getOfflinePlayer(UUID.fromString(playerUUID)).getName()
+                + "§b he/she will ask you §7"+amount+"§b for §7"+weeks+"§b weeks, do §c/com.company sign_contract_ctp "+ Sname);
     }
 
 
@@ -448,23 +448,23 @@ public class Company {
         }
         f_list.clear();
 
-        SignClick.getPlugin().getConfig().set("company."+Sname+"." + "owners", f_list);
-        SignClick.getPlugin().getConfig().set("company."+Sname+"." + "name", name);
-        SignClick.getPlugin().getConfig().set("company."+Sname+"." + "bal", bal);
-        SignClick.getPlugin().getConfig().set("company."+Sname+"." + "books", books);
-        SignClick.getPlugin().getConfig().set("company."+Sname+"." + "spendable", spendable);
-        SignClick.getPlugin().getConfig().set("company."+Sname+"." + "support", support.toString());
-        SignClick.getPlugin().getConfig().set("company."+Sname+"." + "share_holders", share_holders.toString());
-        SignClick.getPlugin().getConfig().set("company."+Sname+"." + "open_trade", open_trade);
-        SignClick.getPlugin().getConfig().set("company."+Sname+"." + "share_value", Market.get_value(Sname));
-        SignClick.getPlugin().getConfig().set("company."+Sname+"." + "share_base", Market.get_base(Sname));
-        SignClick.getPlugin().getConfig().set("company."+Sname+"." + "market_amount", Market.get_market_amount(Sname));
-        SignClick.getPlugin().getConfig().set("company."+Sname+"." + "total", Market.get_total(Sname));
-        SignClick.getPlugin().getConfig().set("company."+Sname+"." + "last_value", last_value);
-        SignClick.getPlugin().getConfig().set("company."+Sname+"." + "security_funds", security_funds);
-        SignClick.getPlugin().getConfig().set("company."+Sname+"." + "type", type);
+        SignClick.getPlugin().getConfig().set("com.company."+Sname+"." + "owners", f_list);
+        SignClick.getPlugin().getConfig().set("com.company."+Sname+"." + "name", name);
+        SignClick.getPlugin().getConfig().set("com.company."+Sname+"." + "bal", bal);
+        SignClick.getPlugin().getConfig().set("com.company."+Sname+"." + "books", books);
+        SignClick.getPlugin().getConfig().set("com.company."+Sname+"." + "spendable", spendable);
+        SignClick.getPlugin().getConfig().set("com.company."+Sname+"." + "support", support.toString());
+        SignClick.getPlugin().getConfig().set("com.company."+Sname+"." + "share_holders", share_holders.toString());
+        SignClick.getPlugin().getConfig().set("com.company."+Sname+"." + "open_trade", open_trade);
+        SignClick.getPlugin().getConfig().set("com.company."+Sname+"." + "share_value", Market.get_value(Sname));
+        SignClick.getPlugin().getConfig().set("com.company."+Sname+"." + "share_base", Market.get_base(Sname));
+        SignClick.getPlugin().getConfig().set("com.company."+Sname+"." + "market_amount", Market.get_market_amount(Sname));
+        SignClick.getPlugin().getConfig().set("com.company."+Sname+"." + "total", Market.get_total(Sname));
+        SignClick.getPlugin().getConfig().set("com.company."+Sname+"." + "last_value", last_value);
+        SignClick.getPlugin().getConfig().set("com.company."+Sname+"." + "security_funds", security_funds);
+        SignClick.getPlugin().getConfig().set("com.company."+Sname+"." + "type", type);
 
-        getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "SignClick save company "+Sname+" completed!");
+        getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "SignClick save com.company "+Sname+" completed!");
 
         SignClick.getPlugin().getConfig().options().copyDefaults(true);
         SignClick.getPlugin().saveConfig();
@@ -473,12 +473,12 @@ public class Company {
             u.save(this);
         }
 
-        SignClick.getPlugin().getConfig().set("company."+Sname+".patent", null);
+        SignClick.getPlugin().getConfig().set("com.company."+Sname+".patent", null);
         for (Patent p: patent){
             p.save(this);
         }
 
-        SignClick.getPlugin().getConfig().set("company."+Sname+".patent_up", null);
+        SignClick.getPlugin().getConfig().set("com.company."+Sname+".patent_up", null);
         Integer counter = 0;
         for (PatentUpgrade up: patent_upgrades){
             if (up instanceof PatentUpgradeCustom){

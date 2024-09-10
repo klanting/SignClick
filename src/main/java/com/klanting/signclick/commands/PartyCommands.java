@@ -72,7 +72,7 @@ public class PartyCommands implements CommandExecutor, TabCompleter {
             Player target_player = Bukkit.getPlayer(player_name);
 
             if (country != Banking.Element(target_player)){
-                player.sendMessage("§bplayer is in a different country");
+                player.sendMessage("§bplayer is in a different com.country");
                 return true;
             }
             Party p = Banking.getParty(country, player.getUniqueId());
@@ -109,7 +109,7 @@ public class PartyCommands implements CommandExecutor, TabCompleter {
             }
 
             if (country != Banking.ElementUUID(uuid)){
-                player.sendMessage("§bplayer is in a different country");
+                player.sendMessage("§bplayer is in a different com.country");
                 return true;
             }
 

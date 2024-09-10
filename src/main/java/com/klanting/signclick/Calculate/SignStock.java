@@ -33,7 +33,7 @@ public class SignStock {
             Market.get_business(Sname).add_bal(100000.0);
             SignClick.getEconomy().withdrawPlayer(player, 100000);
         }else{
-            player.sendMessage("§b not a valid company");
+            player.sendMessage("§b not a valid com.company");
         }
 
 

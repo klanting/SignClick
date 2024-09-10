@@ -23,8 +23,8 @@ public class PolicyMarket extends Policy{
         description.add(Arrays.asList("§74k/week income (closed market)", "§72k/week income (closed market)", "", "§75k/week tax (closed market)", "§710k/week tax (closed market)"));
         description.add(Arrays.asList("§7+2% sell tax", "§7+1% sell tax", "", "§7-1% sell tax", "§7-2% sell tax"));
         description.add(Arrays.asList("§7-0.1% dividends", "", "", "", ""));
-        description.add(Arrays.asList("§7+10% company upgrade cost", "§7+5% company upgrade cost", "", "§7-5% company upgrade cost", "§7-10% company upgrade cost"));
-        description.add(Arrays.asList("", "", "", "§7-5% company create cost", "§7-10% company create cost"));
+        description.add(Arrays.asList("§7+10% com.company upgrade cost", "§7+5% com.company upgrade cost", "", "§7-5% com.company upgrade cost", "§7-10% com.company upgrade cost"));
+        description.add(Arrays.asList("", "", "", "§7-5% com.company create cost", "§7-10% com.company create cost"));
         description.add(Arrays.asList("§7+2% spendable (bank)", "", "", "", ""));
 
     }

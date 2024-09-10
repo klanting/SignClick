@@ -76,7 +76,7 @@ public class SignEvents implements Listener {
                         SignStock.set(sign, player);
 
                     }else{
-                        player.sendMessage("§b no company given");
+                        player.sendMessage("§b no com.company given");
                     }
 
                 }
