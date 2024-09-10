@@ -65,14 +65,14 @@ public class Auction {
 
     public static void Save(){
 
-        for (int i=0; i<5; i++){
+        for (int i=0; i<to_buy.size(); i++){
             PatentUpgrade up = to_buy.get(i);
             up.saveAuction(i);
         }
 
         String path = "Auction.bit.";
         String path2 = "Auction.bit_owner.";
-        for (int i=0; i<5; i++){
+        for (int i=0; i<to_buy.size(); i++){
             PatentUpgrade up = to_buy.get(i);
             up.saveAuction(i);
             SignClick.getPlugin().getConfig().set(path+i, bits.get(i));

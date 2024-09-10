@@ -25,6 +25,7 @@ dependencies {
 
     implementation("org.junit.jupiter:junit-jupiter:5.11.0");
     implementation("com.github.seeseemelk:MockBukkit-v1.18:2.85.2");
+    implementation("com.github.MilkBowl:VaultAPI:1.7");
 }
 
 java {

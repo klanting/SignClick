@@ -52,6 +52,27 @@ public class Banking {
         return stability_map.getOrDefault(s, 70.0);
     }
 
+    public static void clear(){
+        banks.clear();
+        owners.clear();
+        members.clear();
+        Country.clear();
+        PCT.clear();
+        color_map.clear();
+        spawn_loc.clear();
+        law_enforcement.clear();
+        stability_map.clear();
+        policies.clear();
+        parties.clear();
+        decisions.clear();
+        forbid_party.clear();
+        aboard_military.clear();
+    }
+
+    public static int countryCount(){
+        return banks.size();
+    }
+
     public static Double add_stability(String s, Double change){
         return stability_map.put(s, stability_map.get(s)+change);
     }
@@ -66,6 +87,9 @@ public class Banking {
             owners.put(s, owner_list);
             Country.put(player.getUniqueId(), s);
             PCT.put(s, 0);
+            policies.put(s, Arrays.asList(new PolicyEconomics(2), new PolicyMarket(2), new PolicyMilitary(2), new PolicyTourist(2), new PolicyTaxation(2)));
+            stability_map.put(s, 70.0);
+
             player.sendMessage("bank created");
         }else{
             player.sendMessage("this bank already exists");
@@ -91,13 +115,22 @@ public class Banking {
             player.sendMessage("this bank does not exists");
         }
     }
-    public static void withdraw(String s,int amount){
-        if (banks.containsKey(s)){
-            int balance = banks.get(s);
-            int bal = balance - amount;
-            banks.put(s, bal);
-            changeCapital(s, balance, bal);
+    public static boolean withdraw(String s, int amount){
+
+        if (!banks.containsKey(s)){
+            return false;
         }
+
+        int balance = banks.get(s);
+        int bal = balance - amount;
+
+        if (bal < 0){
+            return false;
+        }
+
+        banks.put(s, bal);
+        changeCapital(s, balance, bal);
+        return true;
     }
     public static void deposit(String s, int amount){
         if (banks.containsKey(s)){
@@ -380,6 +413,11 @@ public class Banking {
     public static List<UUID> GetOwners(String name){
         return owners.get(name);
     }
+
+    public static List<UUID> getMembers(String name){
+        return members.get(name);
+    }
+
     public static void SetColor(String name, String color){
         color_map.put(name, color);
 
