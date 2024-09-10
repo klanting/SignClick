@@ -14,10 +14,8 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.java.JavaPluginLoader;
-import org.bukkit.plugin.java.PluginClassLoader;
 import org.dynmap.DynmapAPI;
 import org.jetbrains.annotations.NotNull;
-import org.yaml.snakeyaml.error.Mark;
 
 import java.io.File;
 import java.util.Map;
@@ -77,7 +75,7 @@ public class SignClick extends JavaPlugin{
         getCommand("discord").setExecutor(new BasicCommands());
         getCommand("dynmap").setExecutor(new BasicCommands());
         getCommand("country").setExecutor(new BankCommands());
-        getCommand("company").setExecutor(new BusCommands());
+        getCommand("company").setExecutor(new CompanyCommands());
         getCommand("party").setExecutor(new PartyCommands());
         getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "SignClick is enabled!");
 

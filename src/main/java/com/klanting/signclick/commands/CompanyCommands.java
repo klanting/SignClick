@@ -8,29 +8,20 @@ import com.klanting.signclick.Economy.Market;
 import com.klanting.signclick.Menus.CompanySelector;
 import com.klanting.signclick.SignClick;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.EquipmentSlot;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.w3c.dom.Attr;
 
 import java.text.DecimalFormat;
 import java.util.*;
 
-import static org.bukkit.Bukkit.getServer;
-
-public class BusCommands implements CommandExecutor, TabCompleter {
+public class CompanyCommands implements CommandExecutor, TabCompleter {
     private static Map<Player, String> confirm = new HashMap<Player, String>();
 
     @Override
@@ -895,12 +886,6 @@ public class BusCommands implements CommandExecutor, TabCompleter {
             if (commando.equals("menu")){
                 CompanySelector screen = new CompanySelector(player.getUniqueId());
                 player.openInventory(screen.getInventory());
-
-                /*
-                ItemStack a = new ItemStack(Material.DIAMOND_BOOTS, 1);
-                ItemMeta m = a.getItemMeta();
-                AttributeModifier modifier = new AttributeModifier(UUID.randomUUID(), "generic.Armor", 1, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.FEET);
-                */
 
             }
 

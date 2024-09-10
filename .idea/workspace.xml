@@ -10,15 +10,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b3aa4a96-499c-4e97-84b9-6312c5389c7a" name="Changes" comment="Finally got command test working">
-      <change afterPath="$PROJECT_DIR$/src/test/java/tools/TestTools.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/commands/CompanyCTests.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Banking.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Banking.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/BankCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/BankCommands.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/SignClick.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/SignClick.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/BusCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/CompanyCommands.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/com/commands/CountryCTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/commands/CountryCTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/company/CompanyTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/company/CompanyTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/country/CountryTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/country/CountryTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/country/PartyTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/country/PartyTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/country/PolicyTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/country/PolicyTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,6 +76,7 @@
     "Batch.gradlew.executor": "Run",
     "Downloaded.Files.Path.Enabled": "true",
     "Gradle.Build SignClick.executor": "Run",
+    "Gradle.CompanyCTests.companyMenu.executor": "Run",
     "Gradle.CompanyTests.companyCreate (1).executor": "Run",
     "Gradle.CompanyTests.companyCreate.executor": "Run",
     "Gradle.CountryCTests.countryDonate.executor": "Run",
@@ -87,6 +84,7 @@
     "Gradle.CountryCTests.countryDonateNotEnoughMoney.executor": "Run",
     "Gradle.CountryCTests.countryDonateSuc6.executor": "Run",
     "Gradle.CountryCTests.countryInvite.executor": "Run",
+    "Gradle.CountryCTests.countryKick.executor": "Run",
     "Gradle.CountryCTests.createCountry.executor": "Run",
     "Gradle.CountryCTests.createCountryFailedDuplicatedName.executor": "Run",
     "Gradle.CountryCTests.createCountryFailedPerms.executor": "Run",
@@ -148,7 +146,7 @@
     </key>
   </component>
   <component name="RunManager" selected="Gradle.TestAll">
-    <configuration name="CompanyTests.companyCreate" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="CompanyCTests.companyMenu" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -161,7 +159,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;com.company.CompanyTests.companyCreate&quot;" />
+            <option value="&quot;com.commands.CompanyCTests.companyMenu&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -220,30 +218,6 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="CountryCTests.countryDonateSuc6" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value=":test" />
-            <option value="--tests" />
-            <option value="&quot;com.commands.CountryCTests.countryDonateSuc6&quot;" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>true</RunAsTest>
-      <method v="2" />
-    </configuration>
     <configuration name="CountryCTests.countryInvite" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -258,6 +232,30 @@
             <option value=":test" />
             <option value="--tests" />
             <option value="&quot;com.commands.CountryCTests.countryInvite&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="CountryCTests.countryKick" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;com.commands.CountryCTests.countryKick&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -293,19 +291,19 @@
     </configuration>
     <list>
       <item itemvalue="Gradle.TestAll" />
-      <item itemvalue="Gradle.CompanyTests.companyCreate" />
+      <item itemvalue="Gradle.CompanyCTests.companyMenu" />
+      <item itemvalue="Gradle.CountryCTests.countryKick" />
       <item itemvalue="Gradle.CountryCTests.countryDonateNegative" />
       <item itemvalue="Gradle.CountryCTests.countryDonateNotEnoughMoney" />
-      <item itemvalue="Gradle.CountryCTests.countryDonateSuc6" />
       <item itemvalue="Gradle.CountryCTests.countryInvite" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.CompanyCTests.companyMenu" />
+        <item itemvalue="Gradle.CountryCTests.countryKick" />
         <item itemvalue="Gradle.CountryCTests.countryInvite" />
         <item itemvalue="Gradle.CountryCTests.countryDonateNotEnoughMoney" />
         <item itemvalue="Gradle.CountryCTests.countryDonateNegative" />
-        <item itemvalue="Gradle.CountryCTests.countryDonateSuc6" />
-        <item itemvalue="Gradle.CompanyTests.companyCreate" />
       </list>
     </recent_temporary>
   </component>
@@ -344,6 +342,7 @@
       <workItem from="1725914606222" duration="2711000" />
       <workItem from="1725951540677" duration="21486000" />
       <workItem from="1725984138414" duration="2855000" />
+      <workItem from="1725995984830" duration="1755000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Github Commit">
       <option name="closed" value="true" />

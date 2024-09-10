@@ -203,6 +203,31 @@ class CountryCTests {
 
         assertEquals("empire1", Banking.Element(testPlayer2));
 
+    }
 
+    @Test
+    void countryKick() {
+        PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
+        PlayerMock testPlayer2 = TestTools.addPermsPlayer(server, plugin);
+
+        /*
+         * Join message
+         * */
+        testPlayer.nextMessage();
+
+        Banking.create("empire1", testPlayer);
+        Banking.addMember("empire1", testPlayer2);
+        testPlayer.nextMessage();
+
+        boolean result = server.execute("country", testPlayer, "kick", testPlayer2.getName()).hasSucceeded();
+        assertTrue(result);
+
+        testPlayer.assertSaid("§btarget has been kicked from your country");
+        testPlayer.assertNoMoreSaid();
+
+        /*
+        * Check player2 not in country anymore
+        * */
+        assertEquals("none", Banking.Element(testPlayer2));
     }
 }
