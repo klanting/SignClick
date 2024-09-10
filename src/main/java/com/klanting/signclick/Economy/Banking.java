@@ -74,6 +74,12 @@ public class Banking {
     }
 
     public static void create(String s, Player player){
+
+        if (!player.hasPermission("signclick.staff")){
+            player.sendMessage("§bplayer does not have permission to create a country");
+            return;
+        }
+
         if (!banks.containsKey(s)){
             banks.put(s, 0);
 
@@ -86,9 +92,9 @@ public class Banking {
             policies.put(s, Arrays.asList(new PolicyEconomics(2), new PolicyMarket(2), new PolicyMilitary(2), new PolicyTourist(2), new PolicyTaxation(2)));
             stabilityMap.put(s, 70.0);
 
-            player.sendMessage("bank created");
+            player.sendMessage("§bcountry has been succesfully created");
         }else{
-            player.sendMessage("this bank already exists");
+            player.sendMessage("§bthis country already exists");
         }
     }
     public static void delete(String s,Player player){

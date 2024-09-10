@@ -2,6 +2,7 @@ package com.company;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
+import be.seeseemelk.mockbukkit.entity.PlayerMock;
 import be.seeseemelk.mockbukkit.plugin.PluginManagerMock;
 import com.klanting.signclick.Economy.Banking;
 import com.klanting.signclick.Economy.Company;
@@ -15,6 +16,7 @@ import org.junit.jupiter.api.Test;
 
 import net.milkbowl.vault.economy.Economy;
 import tools.MockEconomy;
+import tools.TestTools;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,28 +27,13 @@ class CompanyTests {
 
     private ServerMock server;
     private SignClick plugin;
-    private MockEconomy mockEconomy;
 
     @BeforeEach
     public void setUp() {
 
         server = MockBukkit.mock();
 
-        plugin = MockBukkit.load(SignClick.class);
-
-        PluginManagerMock pluginManager = server.getPluginManager();
-
-        // Mock the Vault plugin
-        Plugin vault = MockBukkit.createMockPlugin("Vault");
-        pluginManager.enablePlugin(vault);
-        mockEconomy = new MockEconomy();
-
-        // add Mock Vault to server
-        server.getServicesManager().register(Economy.class, mockEconomy, vault, org.bukkit.plugin.ServicePriority.Highest);
-
-        plugin.onEnable();
-        assertNotNull(SignClick.getEconomy());
-        assertNotNull(plugin.getServer().getPluginManager().getPlugin("Vault"));
+        plugin = TestTools.setupPlugin(server);
     }
 
     @AfterEach
@@ -58,17 +45,18 @@ class CompanyTests {
 
     @Test
     void companyCreate(){
-        Player testPlayer = server.addPlayer();
+        PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
 
         /*
         * Give player 40 million
         * */
-        mockEconomy.depositPlayer(testPlayer, 40000000);
-        assertTrue(mockEconomy.has(testPlayer, 40000000));
+
+        SignClick.getEconomy().depositPlayer(testPlayer, 40000000);
+        assertTrue(SignClick.getEconomy().has(testPlayer, 40000000));
 
         Boolean succes = Market.add_business("TestCaseInc", "TCI", Market.get_account(testPlayer));
         assertTrue(succes);
-        mockEconomy.withdrawPlayer(testPlayer, 40000000);
+        SignClick.getEconomy().withdrawPlayer(testPlayer, 40000000);
 
         Company comp = Market.get_business("TCI");
         assertEquals(0, comp.get_value());

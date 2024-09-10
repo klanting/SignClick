@@ -50,15 +50,10 @@ public class BankCommands implements CommandExecutor, TabCompleter {
 
 
             }else if (type.equals("create")){
-                if (player.hasPermission("signclick.staff")){
-                    String name = args[1];
-                    if (!Banking.GetBanks().contains(name)){
-                        Player user = Bukkit.getServer().getPlayer(args[2]);
-                        Banking.create(name, user);
-                        player.sendMessage("§bbank has been succesfully created");
-                    }
-                    
-                }
+
+                String name = args[1];
+                Player user = Bukkit.getServer().getPlayer(args[2]);
+                Banking.create(name, user);
 
             }else if (type.equals("pay")){
                 int amount;
@@ -115,18 +110,17 @@ public class BankCommands implements CommandExecutor, TabCompleter {
                     try{
                         amount = Integer.parseInt(args[args.length-1]);
 
-                        for (Player pl : Bukkit.getServer().getOnlinePlayers()){
-                            if (Banking.GetOwners(name).contains(pl.getUniqueId())){
-                                pl.sendMessage("§b"+player.getName()+" donated "+amount);
-                            }
-                        }
+
                         
                     }catch (Exception e){
                         player.sendMessage("§bplease enter /country donate [country] <amount>");
                         return true;
                     }
 
-
+                    if (amount < 0){
+                        player.sendMessage("§bYou cannot donate negative amounts");
+                        return true;
+                    }
 
                     if (SignClick.getEconomy().has(player, amount)){
                         Banking.deposit(name, amount);
@@ -134,7 +128,16 @@ public class BankCommands implements CommandExecutor, TabCompleter {
                         player.sendMessage("§bYou paid " + amount + " to " + name);
                     }else{
                         player.sendMessage("§bYou have not enough money");
+                        return true;
                     }
+
+                    for (Player pl : Bukkit.getServer().getOnlinePlayers()){
+                        if (Banking.GetOwners(name).contains(pl.getUniqueId())){
+                            pl.sendMessage("§b"+player.getName()+" donated "+amount + " to your country");
+                        }
+                    }
+
+
 
                 }else{
                     player.sendMessage("§bYou are not in a country or your designated country does not exist");
@@ -186,9 +189,11 @@ public class BankCommands implements CommandExecutor, TabCompleter {
                     }
 
                     CountryInvites.put(username, name);
+                    boolean inviteSend = false;
                     for (Player p: Bukkit.getOnlinePlayers()){
                         if (p.getName().equals(username)){
-                            p.sendMessage("§byou have  an invite for §8"+name+ " §byou have 120s for accepting by \n" +
+                            inviteSend = true;
+                            p.sendMessage("§byou have an invite for §8"+name+ " §byou have 120s for accepting by \n" +
                                     "§c/country accept");
 
 
@@ -201,6 +206,12 @@ public class BankCommands implements CommandExecutor, TabCompleter {
                             }, 20*120L);
                         }
                     }
+                    if (inviteSend){
+                        player.sendMessage("§bthe invite to join the country has been send to "+username);
+                    }else{
+                        player.sendMessage("§bthe invite was unable to arrive at the player");
+                    }
+
                 }else{
                     player.sendMessage("§byou are not allowed to do this");
                 }

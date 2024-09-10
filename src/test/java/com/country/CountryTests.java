@@ -2,14 +2,22 @@ package com.country;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
+import be.seeseemelk.mockbukkit.entity.PlayerMock;
+import be.seeseemelk.mockbukkit.plugin.PluginManagerMock;
 import com.klanting.signclick.Economy.Banking;
 import com.klanting.signclick.SignClick;
+import net.milkbowl.vault.economy.Economy;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
+import org.dynmap.DynmapAPI;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import tools.MockDynmap;
+import tools.MockEconomy;
+import tools.TestTools;
 
 import java.util.List;
 
@@ -28,7 +36,7 @@ class CountryTests {
 
         server = MockBukkit.mock();
 
-        plugin = MockBukkit.load(SignClick.class);
+        plugin = TestTools.setupPlugin(server);
     }
 
     @AfterEach
@@ -41,7 +49,7 @@ class CountryTests {
 
     @Test
     void countryCreate(){
-        Player testPlayer = server.addPlayer();
+        PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
 
         /*Verify that no countries exist*/
         assertEquals(0, Banking.countryCount());
@@ -60,7 +68,7 @@ class CountryTests {
 
     @Test
     void countryDelete(){
-        Player testPlayer = server.addPlayer();
+        PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
 
         /*Create a country*/
         Banking.create("empire1", testPlayer);
@@ -86,8 +94,8 @@ class CountryTests {
 
     @Test
     void countryFailedCreate(){
-        Player testPlayer = server.addPlayer();
-        Player testPlayer2 = server.addPlayer();
+        PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
+        PlayerMock testPlayer2 = TestTools.addPermsPlayer(server, plugin);
 
         /*Verify that no countries exist*/
         assertEquals(0, Banking.countryCount());
@@ -118,8 +126,8 @@ class CountryTests {
 
     @Test
     void countryOwner(){
-        Player testPlayer = server.addPlayer();
-        Player testPlayer2 = server.addPlayer();
+        PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
+        PlayerMock testPlayer2 = TestTools.addPermsPlayer(server, plugin);
         Banking.create("empire1", testPlayer);
 
         /*
@@ -137,7 +145,7 @@ class CountryTests {
 
     @Test
     void CountryGetBalance(){
-        Player testPlayer = server.addPlayer();
+        PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
         Banking.create("empire1", testPlayer);
 
         /*Check that a country has at least 0 dollars*/
@@ -164,7 +172,7 @@ class CountryTests {
 
     @Test
     void CountryDepositWithdraw(){
-        Player testPlayer = server.addPlayer();
+        PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
         Banking.create("empire1", testPlayer);
 
         /*
@@ -207,8 +215,8 @@ class CountryTests {
         * Get the richest countries
         * */
 
-        Player testPlayer = server.addPlayer();
-        Player testPlayer2 = server.addPlayer();
+        PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
+        PlayerMock testPlayer2 = TestTools.addPermsPlayer(server, plugin);
         Banking.create("empire1", testPlayer);
         Banking.create("empire2", testPlayer2);
 
@@ -226,7 +234,7 @@ class CountryTests {
 
     @Test
     void countryColors(){
-        Player testPlayer = server.addPlayer();
+        PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
         Banking.create("empire1", testPlayer);
 
         /*Check that TAB color is white*/
@@ -243,7 +251,7 @@ class CountryTests {
 
     @Test
     void countrySpawn(){
-        Player testPlayer = server.addPlayer();
+        PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
         Banking.create("empire1", testPlayer);
         Location spawn = Banking.GetSpawn("empire1");
 
@@ -268,7 +276,8 @@ class CountryTests {
 
     @Test
     void countryLeaveOwner(){
-        Player testPlayer = server.addPlayer();
+        PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
+
         Banking.create("empire1", testPlayer);
 
         Banking.removeOwner("empire1", testPlayer);
@@ -284,8 +293,8 @@ class CountryTests {
 
     @Test
     void countryAddMember(){
-        Player testPlayer = server.addPlayer();
-        Player testPlayer2 = server.addPlayer();
+        PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
+        PlayerMock testPlayer2 = TestTools.addPermsPlayer(server, plugin);
         Banking.create("empire1", testPlayer);
 
         Banking.addMember("empire1", testPlayer2);
@@ -303,8 +312,8 @@ class CountryTests {
 
     @Test
     void countryRemoveMember(){
-        Player testPlayer = server.addPlayer();
-        Player testPlayer2 = server.addPlayer();
+        PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
+        PlayerMock testPlayer2 = TestTools.addPermsPlayer(server, plugin);
         Banking.create("empire1", testPlayer);
 
         Banking.addMember("empire1", testPlayer2);
@@ -343,7 +352,7 @@ class CountryTests {
         /*
         * Create Country
         * */
-        Player testPlayer = server.addPlayer();
+        PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
         Banking.create("empire1", testPlayer);
 
         /*
@@ -365,7 +374,7 @@ class CountryTests {
         /*
         * Check the country tax data
         * */
-        Player testPlayer = server.addPlayer();
+        PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
         Banking.create("empire1", testPlayer);
 
         assertEquals(0, Banking.getPCT("empire1"));
@@ -376,8 +385,8 @@ class CountryTests {
 
     @Test
     void countryAddRemoveOwner(){
-        Player testPlayer = server.addPlayer();
-        Player testPlayer2 = server.addPlayer();
+        PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
+        PlayerMock testPlayer2 = TestTools.addPermsPlayer(server, plugin);
         Banking.create("empire1", testPlayer);
 
         /*
@@ -405,7 +414,7 @@ class CountryTests {
 
     @Test
     void countryStability(){
-        Player testPlayer = server.addPlayer();
+        PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
         Banking.create("empire1", testPlayer);
 
         double stability = Banking.getStability("empire1");
@@ -418,7 +427,7 @@ class CountryTests {
 
     @Test
     void capitalChangeStability(){
-        Player testPlayer = server.addPlayer();
+        PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
         Banking.create("empire1", testPlayer);
 
         assertEquals(70.0, Banking.getStability("empire1"));

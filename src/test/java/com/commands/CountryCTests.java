@@ -18,6 +18,7 @@ import tools.MockEconomy;
 
 import static org.junit.jupiter.api.Assertions.*;
 import org.dynmap.DynmapAPI;
+import tools.TestTools;
 
 
 class CountryCTests {
@@ -31,26 +32,8 @@ class CountryCTests {
 
         server = MockBukkit.mock();
 
-        PluginManagerMock pluginManager = server.getPluginManager();
+        plugin = TestTools.setupPlugin(server);
 
-        //dynmap mock
-        Plugin dynmap = MockBukkit.createMockPlugin("dynmap");
-        pluginManager.enablePlugin(dynmap);
-
-        // Mock the Vault plugin
-        Plugin vault = MockBukkit.createMockPlugin("Vault");
-        pluginManager.enablePlugin(vault);
-        MockEconomy mockEconomy = new MockEconomy();
-        MockDynmap mockDynmap = new MockDynmap();
-
-        // add Mock Vault to server
-        server.getServicesManager().register(Economy.class, mockEconomy, vault, org.bukkit.plugin.ServicePriority.Highest);
-        server.getServicesManager().register(DynmapAPI.class, mockDynmap, vault, org.bukkit.plugin.ServicePriority.Highest);
-
-        plugin = MockBukkit.load(SignClick.class);
-
-        assertNotNull(SignClick.getEconomy());
-        assertNotNull(plugin.getServer().getPluginManager().getPlugin("Vault"));
     }
 
     @AfterEach
@@ -63,13 +46,162 @@ class CountryCTests {
     @Test
     void createCountry(){
 
-        PlayerMock testPlayer = server.addPlayer();
-        testPlayer.addAttachment(plugin, "signclick.staff", true);
+        PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
+
+        /*
+        * Join message
+        * */
+        testPlayer.nextMessage();
 
         boolean result = server.execute("country", testPlayer, "create", "empire1", testPlayer.getName()).hasSucceeded();
         assertTrue(result);
 
         assertEquals("empire1", Banking.Element(testPlayer));
+
+        testPlayer.assertSaid("§bcountry has been succesfully created");
+        testPlayer.assertNoMoreSaid();
+
+
+    }
+
+    @Test
+    void createCountryFailedPerms() {
+        PlayerMock testPlayer = server.addPlayer();
+
+        /*
+         * Join message
+         * */
+        testPlayer.nextMessage();
+
+        boolean result = server.execute("country", testPlayer, "create", "empire1", testPlayer.getName()).hasSucceeded();
+        assertTrue(result);
+
+        assertFalse(Banking.GetBanks().contains("empire1"));
+
+        testPlayer.assertSaid("§bplayer does not have permission to create a country");
+        testPlayer.assertNoMoreSaid();
+    }
+
+    @Test
+    void createCountryFailedDuplicatedName() {
+        PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
+
+        /*
+         * Join message
+         * */
+        testPlayer.nextMessage();
+
+        /*
+        * First creation
+        * */
+        boolean result = server.execute("country", testPlayer, "create", "empire1", testPlayer.getName()).hasSucceeded();
+        assertTrue(result);
+        testPlayer.nextMessage();
+
+        result = server.execute("country", testPlayer, "create", "empire1", testPlayer.getName()).hasSucceeded();
+        assertTrue(result);
+
+        testPlayer.assertSaid("§bthis country already exists");
+        testPlayer.assertNoMoreSaid();
+    }
+
+    @Test
+    void countryDonateSuc6() {
+        PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
+        SignClick.getEconomy().depositPlayer(testPlayer, 1000);
+        /*
+         * Join message
+         * */
+        testPlayer.nextMessage();
+
+        boolean result = server.execute("country", testPlayer, "create", "empire1", testPlayer.getName()).hasSucceeded();
+        assertTrue(result);
+        testPlayer.nextMessage();
+
+        result = server.execute("country", testPlayer, "donate", "1000").hasSucceeded();
+        assertTrue(result);
+        testPlayer.assertSaid("§bYou paid 1000 to empire1");
+        testPlayer.assertSaid("§bPlayer0 donated 1000 to your country");
+        testPlayer.assertNoMoreSaid();
+    }
+
+    @Test
+    void countryDonateNegative() {
+        PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
+        SignClick.getEconomy().depositPlayer(testPlayer, 1000);
+        /*
+         * Join message
+         * */
+        testPlayer.nextMessage();
+
+        boolean result = server.execute("country", testPlayer, "create", "empire1", testPlayer.getName()).hasSucceeded();
+        assertTrue(result);
+        testPlayer.nextMessage();
+        testPlayer.assertNoMoreSaid();
+        result = server.execute("country", testPlayer, "donate", "-1000").hasSucceeded();
+        assertTrue(result);
+        testPlayer.assertSaid("§bYou cannot donate negative amounts");
+
+        testPlayer.assertNoMoreSaid();
+    }
+
+    @Test
+    void countryDonateNotEnoughMoney() {
+        PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
+        /*
+         * Join message
+         * */
+        testPlayer.nextMessage();
+
+        boolean result = server.execute("country", testPlayer, "create", "empire1", testPlayer.getName()).hasSucceeded();
+        assertTrue(result);
+        testPlayer.nextMessage();
+        testPlayer.assertNoMoreSaid();
+        result = server.execute("country", testPlayer, "donate", "1000").hasSucceeded();
+        assertTrue(result);
+        testPlayer.assertSaid("§bYou have not enough money");
+
+        testPlayer.assertNoMoreSaid();
+    }
+
+    @Test
+    void countryInvite() {
+        PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
+        PlayerMock testPlayer2 = TestTools.addPermsPlayer(server, plugin);
+        /*
+         * Join message
+         * */
+        testPlayer.nextMessage();
+        testPlayer2.nextMessage();
+
+        /*
+        * create country
+        * */
+        boolean result = server.execute("country", testPlayer, "create", "empire1", testPlayer.getName()).hasSucceeded();
+        assertTrue(result);
+        testPlayer.nextMessage();
+        testPlayer.assertNoMoreSaid();
+
+        result = server.execute("country", testPlayer, "invite", testPlayer2.getName()).hasSucceeded();
+        assertTrue(result);
+
+        testPlayer.assertSaid("§bthe invite to join the country has been send to Player1");
+        testPlayer.assertNoMoreSaid();
+
+        testPlayer2.assertSaid("§byou have an invite for §8empire1 §byou have 120s for accepting by \n" +
+                "§c/country accept");
+        testPlayer2.assertNoMoreSaid();
+
+        /*
+        * Accept invite
+        * */
+
+        result = server.execute("country", testPlayer2, "accept").hasSucceeded();
+        assertTrue(result);
+        testPlayer2.assertSaid("§byou succesfully joint this country");
+        testPlayer2.assertNoMoreSaid();
+
+        assertEquals("empire1", Banking.Element(testPlayer2));
 
 
     }
