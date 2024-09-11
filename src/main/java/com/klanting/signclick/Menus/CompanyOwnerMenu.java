@@ -2,6 +2,7 @@ package com.klanting.signclick.Menus;
 
 import com.klanting.signclick.Economy.Company;
 import com.klanting.signclick.Economy.Market;
+import com.klanting.signclick.SignClick;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
@@ -13,6 +14,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Level;
 
 public class CompanyOwnerMenu implements InventoryHolder {
     private Inventory menu;
@@ -24,7 +26,6 @@ public class CompanyOwnerMenu implements InventoryHolder {
         if (!comp.is_owner(uuid)){
             return;
         }
-
         init();
     }
 
@@ -66,7 +67,6 @@ public class CompanyOwnerMenu implements InventoryHolder {
         m.setDisplayName("§6Recipes");
         value.setItemMeta(m);
         menu.setItem(30, value);
-
 
         if (comp.type.equals("other")){
             value = new ItemStack(Material.SUNFLOWER, 1);

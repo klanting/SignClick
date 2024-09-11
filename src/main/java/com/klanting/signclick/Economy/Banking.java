@@ -954,6 +954,10 @@ public class Banking {
     }
 
     public static double getPolicyBonus(String s, int id, int index){
+        if (s.equals("none")){
+            return 0;
+        }
+
         return policies.get(s).get(id).getBonus(index);
     }
 

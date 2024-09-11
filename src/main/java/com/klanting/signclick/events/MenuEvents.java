@@ -12,6 +12,7 @@ import com.klanting.signclick.Economy.Decisions.DecisionForbidParty;
 import com.klanting.signclick.Economy.Market;
 import com.klanting.signclick.Economy.Parties.Party;
 import com.klanting.signclick.Menus.*;
+import com.klanting.signclick.SignClick;
 import com.klanting.signclick.commands.BankCommands;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -24,20 +25,26 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 public class MenuEvents implements Listener {
     @EventHandler
     public static void OnClick(InventoryClickEvent event){
+
         if (event.getClickedInventory() == null || event.getCurrentItem() == null){
             return;
         }
 
         if (event.getClickedInventory().getHolder() instanceof CompanySelector){
+
             Player player = (Player) event.getWhoClicked();
             event.setCancelled(true);
+
             Company company = Market.get_business(event.getCurrentItem().getItemMeta().getDisplayName());
             CompanyOwnerMenu screen = new CompanyOwnerMenu(player.getUniqueId(), company);
+
             player.openInventory(screen.getInventory());
+            return;
         }
 
         if (event.getClickedInventory().getHolder() instanceof CompanyOwnerMenu){
@@ -357,11 +364,4 @@ public class MenuEvents implements Listener {
 
     }
 
-    /*
-    @EventHandler
-    public static void OnMove(PlayerMoveEvent e){
-        Player p = e.getPlayer();
-        Particle.DustOptions dot = new Particle.DustOptions(Color.RED, 1.0F);
-        p.spawnParticle(Particle.REDSTONE, p.getLocation(), 10, dot);
-    }*/
 }

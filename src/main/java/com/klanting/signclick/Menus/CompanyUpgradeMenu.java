@@ -3,6 +3,7 @@ package com.klanting.signclick.Menus;
 import com.klanting.signclick.Economy.Banking;
 import com.klanting.signclick.Economy.Company;
 import com.klanting.signclick.Economy.CompanyUpgrades.Upgrade;
+import com.klanting.signclick.SignClick;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -14,6 +15,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.UUID;
+import java.util.logging.Level;
 
 import static org.bukkit.Bukkit.getServer;
 

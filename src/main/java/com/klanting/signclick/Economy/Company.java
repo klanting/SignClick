@@ -72,6 +72,7 @@ public class Company {
         upgrades.add(new UpgradePatentUpgradeSlot(0));
         upgrades.add(new UpgradeCraftLimit(0));
         upgrades.add(new UpgradeInvestReturnTime(0));
+        type = "other";
     }
 
     Company(String n, String StockName){
@@ -84,6 +85,7 @@ public class Company {
         upgrades.add(new UpgradePatentUpgradeSlot(0));
         upgrades.add(new UpgradeCraftLimit(0));
         upgrades.add(new UpgradeInvestReturnTime(0));
+
     }
 
     Double get_bal(){
