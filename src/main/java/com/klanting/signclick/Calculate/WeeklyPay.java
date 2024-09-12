@@ -64,7 +64,7 @@ public class WeeklyPay {
             } catch (Exception e) {
                 for (OfflinePlayer target : Bukkit.getOfflinePlayers()) {
                     if (target.getName().equals(receiver)) {
-                        String bank = Banking.offlineElement(target);
+                        String bank = Banking.Element(target);
                         if (bank != "none"){
                             PCT_amount = (int) (amount * ((double) Banking.getPCT(bank))/100.0);
                             Banking.deposit(bank,PCT_amount);
@@ -205,10 +205,7 @@ public class WeeklyPay {
 
     public static void save(){
         for(UUID uuid : payments.keySet()) {
-            for (String s: payments.get(uuid).keySet()){
-
-                SignClick.getPlugin().getConfig().set("weekly."+uuid, payments.get(uuid));
-            }
+            SignClick.getPlugin().getConfig().set("weekly."+uuid, payments.get(uuid));
         }
         SignClick.getPlugin().getConfig().options().copyDefaults(true);
         SignClick.getPlugin().saveConfig();
@@ -219,6 +216,7 @@ public class WeeklyPay {
             SignClick.getPlugin().getConfig().get("weekly");
                 SignClick.getPlugin().getConfig().getConfigurationSection("weekly").getKeys(false).forEach(key -> {
                     Map<String, Integer> map = new HashMap<>();
+
                     SignClick.getPlugin().getConfig().getConfigurationSection("weekly."+key).getKeys(false).forEach(key2 -> {
                     map.put(key2, (Integer) SignClick.getPlugin().getConfig().get("weekly."+key+"."+key2));
                     });

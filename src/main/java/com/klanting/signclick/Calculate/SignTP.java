@@ -11,6 +11,8 @@ import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
+import java.util.logging.Level;
+
 public class SignTP {
     public static void tp(Sign sign, Player player){
         String[] cords = sign.getLine(1).split(" ");
@@ -71,14 +73,33 @@ public class SignTP {
 
             String cords = String.valueOf(x)+" "+String.valueOf(y)+" "+String.valueOf(z);
 
+            Sign s = (Sign) sign.getBlock().getState();
+
             sign.setLine(0, "§b[sign_tp]");
             sign.setLine(1, cords);
             sign.setLine(2,player.getName());
             sign.setLine(3,amount_string);
+
+            /*
+            * For testing and wide support
+            * */
+            s.setLine(0, "§b[sign_tp]");
+            s.setLine(1, cords);
+            s.setLine(2,player.getName());
+            s.setLine(3,amount_string);
+            s.update();
         }else{
+
+            Sign s = (Sign) sign.getBlock().getState();
+
             sign.setLine(1, "please connect");
             sign.setLine(2,"cords by");
             sign.setLine(3,"/signclickpos");
+
+            s.setLine(1, "please connect");
+            s.setLine(2,"cords by");
+            s.setLine(3,"/signclickpos");
+            s.update();
 
         }
     }

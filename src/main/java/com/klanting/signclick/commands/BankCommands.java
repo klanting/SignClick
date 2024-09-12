@@ -328,7 +328,7 @@ public class BankCommands implements CommandExecutor, TabCompleter {
                 }else{
                     for (OfflinePlayer op: Bukkit.getOfflinePlayers()){
                         if (op.getName().equals(player_name)){
-                            Banking.offlineRemoveLawEnforcement(country, op.getUniqueId());
+                            Banking.removeLawEnforcement(country, op);
                             break;
                         }
                     }
@@ -447,7 +447,14 @@ public class BankCommands implements CommandExecutor, TabCompleter {
                 if (type.equals("setowner")){
                     Player p = Bukkit.getPlayer(args[2]);
                     assert p != null;
-                    Banking.addOwner(args[1], p);
+                    boolean suc6 = Banking.addOwner(args[1], p);
+
+                    if (suc6){
+                        p.sendMessage("you are added as owner");
+                    }else{
+                        p.sendMessage("you are already an owner");
+                    }
+
                     player.sendMessage("§bowner has been set");
                 }else if (type.equals("removeowner")){
                     Player p = Bukkit.getPlayer(args[2]);
@@ -462,14 +469,19 @@ public class BankCommands implements CommandExecutor, TabCompleter {
                         Player p = Bukkit.getPlayer(args[1]);
                         String name = Banking.Element(p);
                         Banking.removeMember(name, p);
-                        Banking.addOwner(name, p);
+                        boolean suc6 = Banking.addOwner(name, p);
+                        if (suc6){
+                            p.sendMessage("you are promoted to owner");
+                        }else{
+                            p.sendMessage("you are already owner, and so cannot be promoted");
+                        }
 
                     }catch (Exception e){
                         for (OfflinePlayer target : Bukkit.getOfflinePlayers()) {
                             if (target.getName().equalsIgnoreCase(args[1])) {
-                                String name = Banking.offlineElement(target);
-                                Banking.offlineRemoveMember(name, target.getUniqueId());
-                                Banking.OfflineSetOwner(name, target.getUniqueId());
+                                String name = Banking.Element(target);
+                                Banking.removeMember(name, target);
+                                Banking.addOwner(name, target);
                             }
 
                         }
@@ -485,9 +497,9 @@ public class BankCommands implements CommandExecutor, TabCompleter {
                     }catch (Exception e){
                         for (OfflinePlayer target : Bukkit.getOfflinePlayers()) {
                             if (target.getName().equalsIgnoreCase(args[1])) {
-                                String name = Banking.offlineElement(target);
-                                Banking.OfflineRemoveOwner(name, target.getUniqueId());
-                                Banking.offlineAddMember(name, target.getUniqueId());
+                                String name = Banking.Element(target);
+                                Banking.removeOwner(name, target);
+                                Banking.addMember(name, target);
                             }
 
                         }

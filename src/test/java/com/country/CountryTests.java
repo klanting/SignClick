@@ -93,6 +93,21 @@ class CountryTests {
     }
 
     @Test
+    void countryDeleteFailed(){
+        PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
+
+        /*Verify that no country exists*/
+        assertEquals(0, Banking.countryCount());
+
+        /*Remove the country*/
+        Banking.delete("empire1", testPlayer);
+
+        testPlayer.assertSaid("this bank does not exists");
+        testPlayer.assertNoMoreSaid();
+
+    }
+
+    @Test
     void countryFailedCreate(){
         PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
         PlayerMock testPlayer2 = TestTools.addPermsPlayer(server, plugin);
@@ -150,6 +165,11 @@ class CountryTests {
 
         /*Check that a country has at least 0 dollars*/
         assertTrue(Banking.has("empire1", 0));
+
+        /*
+        * invalid country does not have enough
+        * */
+        assertFalse(Banking.has("empire2", 1));
 
         /*Check that a country has at most 0 dollars*/
         assertFalse(Banking.has("empire1", 1));
@@ -295,19 +315,40 @@ class CountryTests {
     void countryAddMember(){
         PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
         PlayerMock testPlayer2 = TestTools.addPermsPlayer(server, plugin);
+        PlayerMock testPlayer3 = TestTools.addPermsPlayer(server, plugin);
         Banking.create("empire1", testPlayer);
 
         Banking.addMember("empire1", testPlayer2);
+        Banking.addMember("empire1", testPlayer3);
 
         /*
         * Check player is correctly added to country
         * */
         assertEquals(1, Banking.GetOwners("empire1").size());
-        assertEquals(1, Banking.getMembers("empire1").size());
+        assertEquals(2, Banking.getMembers("empire1").size());
         assertEquals(testPlayer2.getUniqueId(), Banking.getMembers("empire1").get(0));
 
         assertFalse(Banking.isOwner("empire1", testPlayer2));
         assertEquals("empire1", Banking.Element(testPlayer2));
+        assertEquals("empire1", Banking.Element(testPlayer3));
+    }
+
+    @Test
+    void countryElementByUUID(){
+        PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
+        Banking.create("empire1", testPlayer);
+
+        String countryString = Banking.ElementUUID(testPlayer.getUniqueId());
+        assertEquals("empire1", countryString);
+    }
+
+    @Test
+    void countryElementOffline(){
+        PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
+        Banking.create("empire1", testPlayer);
+
+        String countryString = Banking.Element(testPlayer);
+        assertEquals("empire1", countryString);
     }
 
     @Test
@@ -393,6 +434,7 @@ class CountryTests {
         * Add owner
         * */
         Banking.addOwner("empire1", testPlayer2);
+
 
         /*
         * Check that both are owners

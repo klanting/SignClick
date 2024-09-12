@@ -17,6 +17,8 @@ import tools.MockDynmap;
 import tools.MockEconomy;
 import tools.TestTools;
 
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -47,7 +49,7 @@ class PolicyTests {
     }
 
     @Test
-    void setPolicy(){
+    void setPolicyEconomics(){
         /*
         * Test policy changes
         * */
@@ -60,5 +62,19 @@ class PolicyTests {
         Banking.setPoliciesReal("empire1", 0, 3, 1);
         assertEquals(71.0, Banking.getStability("empire1"));
 
+    }
+
+    @Test
+    void policyMakeDecision(){
+        /*
+        * Check that a decision is created to decide weather or not to follow a certain policy
+        * */
+
+        assertEquals(0, Banking.decisions.getOrDefault("empire1", new ArrayList<>()).size());
+        Banking.setPolicies("empire1", 0, 3);
+        assertEquals(1, Banking.decisions.getOrDefault("empire1", new ArrayList<>()).size());
+
+        Banking.setPolicies("empire1", 1, 3);
+        assertEquals(2, Banking.decisions.getOrDefault("empire1", new ArrayList<>()).size());
     }
 }

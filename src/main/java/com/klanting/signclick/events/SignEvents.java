@@ -3,6 +3,7 @@ package com.klanting.signclick.events;
 import com.klanting.signclick.Calculate.SignIncome;
 import com.klanting.signclick.Calculate.SignStock;
 import com.klanting.signclick.Calculate.SignTP;
+import com.klanting.signclick.SignClick;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -10,6 +11,8 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.*;
 import org.bukkit.event.player.PlayerInteractEvent;
+
+import java.util.logging.Level;
 
 public class SignEvents implements Listener {
 
@@ -19,13 +22,13 @@ public class SignEvents implements Listener {
 
         if(event.getClickedBlock() != null){
             if(event.getClickedBlock().getState() instanceof org.bukkit.block.Sign){
+
                 if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
                     Sign sign = (Sign) event.getClickedBlock().getState();
                     Player player = event.getPlayer();
 
                     String define = sign.getLine(0);
                     //start options
-
                     if (define.equalsIgnoreCase("§b[signclick_tp]")||define.equalsIgnoreCase("§b[sign_tp]")){
                         SignTP.tp(sign, player);
                     }else if(define.equalsIgnoreCase("§b[sign_in]")){

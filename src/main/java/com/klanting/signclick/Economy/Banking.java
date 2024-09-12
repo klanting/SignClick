@@ -27,6 +27,10 @@ public class Banking {
     private static Map<String, String> color_map = new HashMap<String, String>();
     private static Map<String, Location> spawn_loc = new HashMap<String, Location>();
 
+    public static List<UUID> getLawEnforcement(String s) {
+        return law_enforcement.getOrDefault(s, new ArrayList<UUID>());
+    }
+
     private static Map<String, List<UUID>> law_enforcement = new HashMap<String, List<UUID>>();
 
     private static Map<String, Double> stabilityMap = new HashMap<String, Double>();
@@ -155,45 +159,30 @@ public class Banking {
             return false;
         }
     }
-    public static void addOwner(String s, Player player){
+
+    public static boolean addOwner(String s, OfflinePlayer offlinePlayer){
         List<UUID> owner_list = owners.get(s);
-        if (!owner_list.contains(player.getUniqueId())){
-            owner_list.add(player.getUniqueId());
-            owners.put(s, owner_list);
-            Country.put(player.getUniqueId(), s);
-            player.sendMessage("you added as owner");
-
-        }else{
-            player.sendMessage("you are already an owner");
-        }
-    }
-
-    public static void OfflineSetOwner(String s, UUID uuid){
-        List<UUID> owner_list = owners.get(s);
-        if (!owner_list.contains(uuid)){
-            owner_list.add(uuid);
-            owners.put(s, owner_list);
-            Country.put(uuid, s);
-        }
-
-    }
-
-    public static void removeOwner(String s, Player player){
-        List<UUID> owner_list = owners.get(s);
-        if (owner_list.contains(player.getUniqueId())){
-            owner_list.remove(player.getUniqueId());
-            owners.put(s, owner_list);
-            Country.remove(player.getUniqueId());
-        }
-    }
-
-    public static void OfflineRemoveOwner(String s, UUID uuid){
-        List<UUID> owner_list = owners.get(s);
+        UUID uuid = offlinePlayer.getUniqueId();
         if (owner_list.contains(uuid)){
-            owner_list.remove(uuid);
-            owners.put(s, owner_list);
-            Country.remove(uuid);
+            return false;
         }
+        owner_list.add(uuid);
+        owners.put(s, owner_list);
+        Country.put(uuid, s);
+        return true;
+
+    }
+
+    public static void removeOwner(String s, OfflinePlayer offlinePlayer){
+        List<UUID> owner_list = owners.get(s);
+        UUID uuid = offlinePlayer.getUniqueId();
+        if (!owner_list.contains(uuid)){
+            return;
+        }
+
+        owner_list.remove(uuid);
+        owners.put(s, owner_list);
+        Country.remove(uuid);
     }
 
     public static boolean isOwner(String s, Player player){
@@ -201,7 +190,7 @@ public class Banking {
         return owner_list.contains(player.getUniqueId());
     }
 
-    public static String Element(Player player){
+    public static String Element(OfflinePlayer player){
         return Country.getOrDefault(player.getUniqueId(), "none");
 
     }
@@ -211,42 +200,9 @@ public class Banking {
 
     }
 
-    public static String offlineElement(OfflinePlayer player){
-        for (UUID p : Country.keySet()){
-            if (p.equals(player.getUniqueId())) {
-                return Country.getOrDefault(p, "none");
-            }
-        }
-        return "none";
-    }
-
     public static int bal (String s){
         return banks.get(s);
 
-    }
-
-    public static void addMember(String s, Player player){
-        List<UUID> member_list;
-        if (members.get(s) != null){
-            member_list = members.get(s);
-        }else{
-            member_list = new ArrayList<>();
-        }
-
-        List<UUID> owner_list;
-        if (owners.get(s) != null){
-            owner_list = owners.get(s);
-        }else{
-            owner_list = new ArrayList<>();
-        }
-        if (!member_list.contains(player.getUniqueId()) || !owner_list.contains(player.getUniqueId())) {
-            member_list.add(player.getUniqueId());
-            members.put(s, member_list);
-            Country.put(player.getUniqueId(), s);
-
-
-            Banking.add_stability(s, 3.0*(1.0+Banking.getPolicyBonus(s, 2, 9)));
-        }
     }
 
     public static void addLawEnforcement(String s, Player player){
@@ -269,23 +225,19 @@ public class Banking {
         }
     }
 
-    public static void removeLawEnforcement(String s, Player player){
+    public static void removeLawEnforcement(String s, OfflinePlayer offlinePlayer){
         List<UUID> law_list = law_enforcement.get(s);
-        if (law_list.contains(player.getUniqueId())) {
-            law_list.remove(player.getUniqueId());
+        UUID uuid = offlinePlayer.getUniqueId();
+        if (law_list.contains(uuid)) {
+            law_list.remove(uuid);
             law_enforcement.put(s, law_list);
         }
     }
 
-    public static void offlineRemoveLawEnforcement(String s, UUID uuid){
-        List<UUID> member_list = law_enforcement.get(s);
-        if (member_list.contains(uuid)) {
-            member_list.remove(uuid);
-            law_enforcement.put(s, member_list);
-        }
-    }
+    public static void addMember(String s, OfflinePlayer offlinePlayer){
 
-    public static void offlineAddMember(String s, UUID uuid){
+        UUID uuid = offlinePlayer.getUniqueId();
+
         List<UUID> member_list;
         if (members.get(s) != null){
             member_list = members.get(s);
@@ -303,26 +255,19 @@ public class Banking {
             member_list.add(uuid);
             members.put(s, member_list);
             Country.put(uuid, s);
+
+            Banking.add_stability(s, 3.0*(1.0+Banking.getPolicyBonus(s, 2, 9)));
         }
     }
 
-    public static void removeMember(String s, Player player){
+    public static void removeMember(String s, OfflinePlayer offlinePlayer){
         List<UUID> member_list = members.get(s);
-        if (member_list.contains(player.getUniqueId())) {
-            member_list.remove(player.getUniqueId());
-            members.put(s, member_list);
-            Country.remove(player.getUniqueId());
-            Banking.add_stability(s, -3.0*(1.0-Banking.getPolicyBonus(s, 2, 10)));
-        }
-    }
-
-    public static void offlineRemoveMember(String s, UUID uuid){
-        List<UUID> member_list = members.get(s);
+        UUID uuid = offlinePlayer.getUniqueId();
         if (member_list.contains(uuid)) {
             member_list.remove(uuid);
             members.put(s, member_list);
             Country.remove(uuid);
-            Banking.add_stability(s, -3.0);
+            Banking.add_stability(s, -3.0*(1.0-Banking.getPolicyBonus(s, 2, 10)));
         }
     }
 

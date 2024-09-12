@@ -193,4 +193,29 @@ class CountryCTests {
         * */
         assertEquals("none", Banking.Element(testPlayer2));
     }
+
+    @Test
+    void countryAddLawEnforcement() {
+        PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
+        PlayerMock testPlayer2 = TestTools.addPermsPlayer(server, plugin);
+        Banking.create("empire1", testPlayer);
+        Banking.addMember("empire1", testPlayer2);
+
+        /*
+        * Add player as law enforcement
+        * */
+        assertEquals(0, Banking.getLawEnforcement("empire1").size());
+        Banking.addLawEnforcement("empire1", testPlayer2);
+        assertEquals(1, Banking.getLawEnforcement("empire1").size());
+        assertEquals(testPlayer2.getUniqueId(), Banking.getLawEnforcement("empire1").get(0));
+
+        /*
+        * Remove Law Enforcement
+        * */
+        Banking.removeLawEnforcement("empire1", testPlayer2);
+        assertEquals(0, Banking.getLawEnforcement("empire1").size());
+
+
+
+    }
 }

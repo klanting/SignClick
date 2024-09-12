@@ -9,23 +9,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b3aa4a96-499c-4e97-84b9-6312c5389c7a" name="Changes" comment="made some company menu tests">
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/commands/WeeklyPayCTests.java" afterDir="false" />
+    <list default="true" id="b3aa4a96-499c-4e97-84b9-6312c5389c7a" name="Changes" comment="testcases weekly pay">
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/sign/SignTpTests.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Calculate/DynmapCheck.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Calculate/DynmapCheck.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Calculate/SignCasino.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Calculate/WeeklyAuction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Calculate/WeeklyAuction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Calculate/SignTP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Calculate/SignTP.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Calculate/WeeklyPay.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Calculate/WeeklyPay.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Account.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Account.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/SignClick.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/SignClick.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Banking.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Banking.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/BankCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/BankCommands.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/events/SignEvents.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/events/SignEvents.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/commands/CompanyCTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/commands/CompanyCTests.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/com/commands/CountryCTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/commands/CountryCTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/company/CompanyMenuTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/company/CompanyMenuTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/tools/MockDynmap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/tools/MockDynmap.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/tools/MockEconomy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/tools/MockEconomy.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/tools/TestTools.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/tools/TestTools.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/commands/WeeklyPayCTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/commands/WeeklyPayCTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/country/CountryTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/country/CountryTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/country/PolicyTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/country/PolicyTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -103,6 +98,7 @@
     "Gradle.CompanyMenuTests.companyUpgrade.executor": "Run",
     "Gradle.CompanyTests.companyCreate (1).executor": "Run",
     "Gradle.CompanyTests.companyCreate.executor": "Run",
+    "Gradle.CountryCTests.countryAddLawEnforcement.executor": "Run",
     "Gradle.CountryCTests.countryDonate.executor": "Run",
     "Gradle.CountryCTests.countryDonateNegative.executor": "Run",
     "Gradle.CountryCTests.countryDonateNotEnoughMoney.executor": "Run",
@@ -121,6 +117,9 @@
     "Gradle.CountryTests.countryAddMember.executor": "Run",
     "Gradle.CountryTests.countryAddRemoveOwner.executor": "Run",
     "Gradle.CountryTests.countryCreate.executor": "Run",
+    "Gradle.CountryTests.countryDeleteFailed.executor": "Run",
+    "Gradle.CountryTests.countryElementByUUID.executor": "Run",
+    "Gradle.CountryTests.countryElementOffline.executor": "Run",
     "Gradle.CountryTests.countryOwner.executor": "Run",
     "Gradle.CountryTests.countrySaveLoad.executor": "Run",
     "Gradle.CountryTests.countrySetOwner.executor": "Run",
@@ -133,10 +132,13 @@
     "Gradle.PartyTests.getRulingParty.executor": "Run",
     "Gradle.PartyTests.partyMembership.executor": "Run",
     "Gradle.PartyTests.removeParty.executor": "Run",
+    "Gradle.PolicyTests.policyMakeDecision.executor": "Run",
     "Gradle.PolicyTests.setPolicy.executor": "Coverage",
+    "Gradle.SignTpTests.doSignTp.executor": "Run",
     "Gradle.TestAll.executor": "Coverage",
     "Gradle.WeeklyPayCTests.makeWeeklyPay.executor": "Run",
     "Gradle.WeeklyPayCTests.makeWeeklyPayNotEnoughMoney.executor": "Run",
+    "Gradle.WeeklyPayCTests.weeklyPaySaveRestore.executor": "Run",
     "JUnit.CountryTests (1).executor": "Run",
     "JUnit.CountryTests.CountryCreate.executor": "Run",
     "JUnit.CountryTests.executor": "Run",
@@ -173,7 +175,7 @@
     </key>
   </component>
   <component name="RunManager" selected="Gradle.TestAll">
-    <configuration name="CompanyCTests" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="CountryCTests.countryAddLawEnforcement" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -186,7 +188,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;com.commands.CompanyCTests&quot;" />
+            <option value="&quot;com.commands.CountryCTests.countryAddLawEnforcement&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -197,7 +199,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="CompanyMenuTests.companyAuction" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="CountryTests.countryAddMember" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -210,7 +212,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;com.company.CompanyMenuTests.companyAuction&quot;" />
+            <option value="&quot;com.country.CountryTests.countryAddMember&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -221,7 +223,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="CountryCTests" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="CountryTests.countryElementByUUID" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -234,7 +236,55 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;com.commands.CountryCTests&quot;" />
+            <option value="&quot;com.country.CountryTests.countryElementByUUID&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="CountryTests.countryElementOffline" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;com.country.CountryTests.countryElementOffline&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="PolicyTests.policyMakeDecision" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;com.country.PolicyTests.policyMakeDecision&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -268,69 +318,21 @@
       <RunAsTest>false</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="WeeklyPayCTests.makeWeeklyPay" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value=":test" />
-            <option value="--tests" />
-            <option value="&quot;com.commands.WeeklyPayCTests.makeWeeklyPay&quot;" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>true</RunAsTest>
-      <method v="2" />
-    </configuration>
-    <configuration name="WeeklyPayCTests.makeWeeklyPayNotEnoughMoney" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value=":test" />
-            <option value="--tests" />
-            <option value="&quot;com.commands.WeeklyPayCTests.makeWeeklyPayNotEnoughMoney&quot;" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>true</RunAsTest>
-      <method v="2" />
-    </configuration>
     <list>
       <item itemvalue="Gradle.TestAll" />
-      <item itemvalue="Gradle.CompanyCTests" />
-      <item itemvalue="Gradle.CountryCTests" />
-      <item itemvalue="Gradle.WeeklyPayCTests.makeWeeklyPay" />
-      <item itemvalue="Gradle.WeeklyPayCTests.makeWeeklyPayNotEnoughMoney" />
-      <item itemvalue="Gradle.CompanyMenuTests.companyAuction" />
+      <item itemvalue="Gradle.CountryCTests.countryAddLawEnforcement" />
+      <item itemvalue="Gradle.CountryTests.countryAddMember" />
+      <item itemvalue="Gradle.CountryTests.countryElementByUUID" />
+      <item itemvalue="Gradle.CountryTests.countryElementOffline" />
+      <item itemvalue="Gradle.PolicyTests.policyMakeDecision" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.WeeklyPayCTests.makeWeeklyPayNotEnoughMoney" />
-        <item itemvalue="Gradle.CompanyMenuTests.companyAuction" />
-        <item itemvalue="Gradle.CountryCTests" />
-        <item itemvalue="Gradle.CompanyCTests" />
-        <item itemvalue="Gradle.WeeklyPayCTests.makeWeeklyPay" />
+        <item itemvalue="Gradle.PolicyTests.policyMakeDecision" />
+        <item itemvalue="Gradle.CountryCTests.countryAddLawEnforcement" />
+        <item itemvalue="Gradle.CountryTests.countryElementOffline" />
+        <item itemvalue="Gradle.CountryTests.countryElementByUUID" />
+        <item itemvalue="Gradle.CountryTests.countryAddMember" />
       </list>
     </recent_temporary>
   </component>
@@ -372,7 +374,8 @@
       <workItem from="1725995984830" duration="1755000" />
       <workItem from="1726037172503" duration="11704000" />
       <workItem from="1726054950195" duration="2111000" />
-      <workItem from="1726126866788" duration="10204000" />
+      <workItem from="1726126866788" duration="14666000" />
+      <workItem from="1726151689451" duration="4268000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Github Commit">
       <option name="closed" value="true" />
@@ -470,7 +473,15 @@
       <option name="project" value="LOCAL" />
       <updated>1726041873509</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="testcases weekly pay">
+      <option name="closed" value="true" />
+      <created>1726137151555</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1726137151555</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -503,7 +514,8 @@
     <MESSAGE value="added some extra tests" />
     <MESSAGE value="Finally got command test working" />
     <MESSAGE value="made some company menu tests" />
-    <option name="LAST_COMMIT_MESSAGE" value="made some company menu tests" />
+    <MESSAGE value="testcases weekly pay" />
+    <option name="LAST_COMMIT_MESSAGE" value="testcases weekly pay" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -521,11 +533,13 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/SignClick$CompanyMenuTests_changeCompanyType.ic" NAME="CompanyMenuTests.changeCompanyType Coverage Results" MODIFIED="1726038454531" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/SignClick$SignTpTests_doSignTp.ic" NAME="SignTpTests.doSignTp Coverage Results" MODIFIED="1726139305725" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/SignClick$CompanyMenuTests_companyAuction.ic" NAME="CompanyMenuTests.companyAuction Coverage Results" MODIFIED="1726045491373" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/SignClick$PolicyTests_setPolicy.ic" NAME="PolicyTests.setPolicy Coverage Results" MODIFIED="1725971658505" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/SignClick$CompanyMenuTests_companyUpgrade.ic" NAME="CompanyMenuTests.companyUpgrade Coverage Results" MODIFIED="1726041324122" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/SignClick$CountryTests_countryAddRemoveOwner.ic" NAME="CountryTests.countryAddRemoveOwner Coverage Results" MODIFIED="1726152178872" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/SignClick$CountryTests_CountryCreate.ic" NAME="CountryTests.CountryCreate Coverage Results" MODIFIED="1725952175146" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/SignClick$CompanyCTests_companyGive.ic" NAME="CompanyCTests.companyGive Coverage Results" MODIFIED="1726042791871" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/SignClick$TestAll.ic" NAME="TestAll Coverage Results" MODIFIED="1726136714030" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/SignClick$TestAll.ic" NAME="TestAll Coverage Results" MODIFIED="1726155351569" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>

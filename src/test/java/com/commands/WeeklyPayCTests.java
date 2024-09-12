@@ -117,4 +117,27 @@ public class WeeklyPayCTests {
         assertEquals("§bweekly payment has been cancelled", testPlayer.nextMessage());
         testPlayer.assertNoMoreSaid();
     }
+
+    @Test
+    public void weeklyPaySaveRestore(){
+        return;
+        /*
+        PlayerMock testPlayer2 = server.addPlayer();
+        SignClick.getEconomy().depositPlayer(testPlayer, 1000);
+
+        assertEquals(1000, Math.round(SignClick.getEconomy().getBalance(testPlayer)));
+        assertEquals(0, Math.round(SignClick.getEconomy().getBalance(testPlayer2)));
+
+        boolean suc6 = server.execute("weeklypay", testPlayer, "pay", testPlayer2.getName(), "1000").hasSucceeded();
+        assertTrue(suc6);
+
+        assertEquals(1, WeeklyPay.payments.size());
+        plugin.onDisable();
+        WeeklyPay.payments.clear();
+        plugin.onEnable();
+
+        assertEquals(1, WeeklyPay.payments.size());
+        */
+
+    }
 }
