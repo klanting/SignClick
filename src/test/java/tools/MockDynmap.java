@@ -19,7 +19,7 @@ public class MockDynmap implements DynmapAPI {
 
     @Override
     public boolean getPlayerVisbility(Player player) {
-        return false;
+        return true;
     }
 
     @Override

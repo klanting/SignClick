@@ -1,5 +1,6 @@
 package tools;
 
+import com.klanting.signclick.SignClick;
 import net.milkbowl.vault.economy.AbstractEconomy;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
@@ -7,6 +8,7 @@ import org.bukkit.OfflinePlayer;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
 
 public class MockEconomy implements Economy {
     /*
@@ -77,7 +79,7 @@ public class MockEconomy implements Economy {
 
     @Override
     public double getBalance(OfflinePlayer offlinePlayer) {
-        return 0;
+        return balance.getOrDefault(offlinePlayer, 0.0);
     }
 
     @Override

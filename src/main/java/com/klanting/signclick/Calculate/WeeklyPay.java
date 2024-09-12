@@ -4,30 +4,38 @@ import com.klanting.signclick.Economy.Banking;
 import com.klanting.signclick.SignClick;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.Server;
 import org.bukkit.entity.Player;
 
 import java.util.*;
+import java.util.logging.Level;
 
 public class WeeklyPay {
-    private static Map<UUID, Map<String, Integer>> payments = new HashMap<UUID, Map<String, Integer>>();
+    public static Map<UUID, Map<String, Integer>> payments = new HashMap<UUID, Map<String, Integer>>();
     public static Map<UUID, List<String>> offcheck = new HashMap<UUID, List<String>>();
 
 
     public static void check(){
         Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(SignClick.getPlugin(), new Runnable() {
             public void run() {
-                System.out.println("money_drained");
                 payments.keySet().forEach(n ->{
-                   Map<String, Integer> map = payments.get(n);
-                    map.keySet().forEach(r ->{
-                        pay(n, r, map.get(r));
 
-                        for (OfflinePlayer oplayer : Bukkit.getOfflinePlayers()){
-                            if (n.equals(oplayer.getUniqueId())){
-                                send(r, "§a[weeklypay] you weekly received "+map.get(r)+" from "+oplayer.getName());
-                                send(oplayer.getName(), "§c[weeklypay] you weekly paid "+map.get(r)+" to"+ r);
+                   Map<String, Integer> map = payments.get(n);
+
+                    HashMap<String, Integer> mapCopy = new HashMap<>(map);
+
+                    mapCopy.keySet().forEach(r ->{
+                        boolean suc6 = pay(n, r, mapCopy.get(r));
+
+                        if (suc6){
+                            for (OfflinePlayer oplayer : Bukkit.getOfflinePlayers()){
+                                if (n.equals(oplayer.getUniqueId())){
+                                    send(r, "§a[weeklypay] you weekly received "+mapCopy.get(r)+" from "+oplayer.getName());
+                                    send(oplayer.getName(), "§c[weeklypay] you weekly paid "+mapCopy.get(r)+" to"+ r);
+                                }
                             }
                         }
+
 
                     });
                 });
@@ -35,11 +43,12 @@ public class WeeklyPay {
             }},60*60*24*7*20,60*60*24*7*20);
     }
 
-    public static void pay(UUID uuid, String receiver, int amount){
+    public static boolean pay(UUID uuid, String receiver, int amount){
 
         OfflinePlayer player = Bukkit.getOfflinePlayer(uuid);
 
         if (SignClick.getEconomy().getBalance(player) >= amount) {
+
             int PCT_amount;
             try {
                 Player target = Bukkit.getServer().getPlayer(receiver);
@@ -66,11 +75,13 @@ public class WeeklyPay {
                     }
                 }
             }
-
+            SignClick.getEconomy().withdrawPlayer(player, amount);
+            return true;
         }else{
             stop(Objects.requireNonNull(Bukkit.getPlayer(uuid)),receiver);
+            return false;
         }
-        SignClick.getEconomy().withdrawPlayer(player, amount);
+
 
     }
 
@@ -111,7 +122,7 @@ public class WeeklyPay {
     }
 
     public static void list(Player player){
-        StringBuilder income = new StringBuilder("§bincome: ");
+        StringBuilder income = new StringBuilder("§bincoming: ");
         payments.keySet().forEach(key->{
             Map<String, Integer> map = payments.get(key);
             if (map.containsKey(player.getName())){
@@ -130,16 +141,16 @@ public class WeeklyPay {
 
             }
         });
-        player.sendMessage(String.valueOf(income));
+        income.append("\n");
 
-        StringBuilder outcome = new StringBuilder("\n§boutgoing: ");
+        income.append("§boutgoing: ");
         if (payments.containsKey(player.getUniqueId())){
             Map<String, Integer> outgoing = payments.get(player.getUniqueId());
             outgoing.keySet().forEach(key ->{
-                outcome.append("\n§c").append(key).append(": §7").append(outgoing.get(key));
+                income.append("\n§c").append(key).append(": §7").append(outgoing.get(key));
             });
         }
-        player.sendMessage(String.valueOf(outcome));
+        player.sendMessage(String.valueOf(income));
     }
 
     public static void offlinelist(Player p, OfflinePlayer player){

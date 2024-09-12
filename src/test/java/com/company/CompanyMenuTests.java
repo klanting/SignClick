@@ -2,21 +2,21 @@ package com.company;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
+import be.seeseemelk.mockbukkit.inventory.ChestInventoryMock;
 import com.klanting.signclick.Economy.Banking;
 import com.klanting.signclick.Economy.Company;
+import com.klanting.signclick.Economy.CompanyPatent.PatentUpgrade;
+import com.klanting.signclick.Economy.CompanyPatent.PatentUpgradeJumper;
 import com.klanting.signclick.Economy.Market;
+import com.klanting.signclick.Menus.CompanyAuctionMenu;
 import com.klanting.signclick.Menus.CompanySelector;
 import com.klanting.signclick.SignClick;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.entity.Item;
-import org.bukkit.event.inventory.ClickType;
-import org.bukkit.event.inventory.InventoryAction;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryType;
-import org.bukkit.inventory.InventoryView;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.event.inventory.*;
+import org.bukkit.inventory.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import tools.TestTools;
@@ -118,6 +118,15 @@ public class CompanyMenuTests {
         return companyMenu;
     }
 
+    private InventoryView openMenu(InventoryView inv, int slot){
+        ItemStack option = inv.getItem(slot);
+        assertNotNull(option);
+
+        testPlayer.simulateInventoryClick(inv, slot);
+
+        return testPlayer.getOpenInventory();
+    }
+
     void printInventory(InventoryView inv){
         for (int i=0; i<inv.countSlots(); i++){
             if (inv.getItem(i) == null){
@@ -205,6 +214,140 @@ public class CompanyMenuTests {
         assertEquals(1, comp.upgrades.get(0).level);
 
         printInventory(upgradeMenu);
+    }
+
+    @Test
+    void companyAuction(){
+        Company comp = getCompany(0);
+        comp.add_bal(10000000.0);
+
+        /*
+        * Tick needed to get auction values
+        * */
+        server.getScheduler().performTicks(1);
+
+        InventoryView companyMenu = openMenu(0);
+
+        /*
+         * Click Auction menu button
+         * */
+        testPlayer.simulateInventoryClick(companyMenu, 23);
+
+        InventoryView auctionMenu = testPlayer.getOpenInventory();
+        assertNotNull(auctionMenu);
+
+        ItemStack betItem = auctionMenu.getItem(0);
+        assertEquals("§7Bet by: None", betItem.getItemMeta().getLore().get(1));
+        /*
+        * bet on first
+        * */
+        testPlayer.simulateInventoryClick(auctionMenu, 0);
+        betItem = auctionMenu.getItem(0);
+        assertEquals("§7Bet by: TCI", betItem.getItemMeta().getLore().get(1));
+
+        assertEquals(0, comp.patent_upgrades.size());
+        testPlayer.closeInventory();
+
+        /*
+        * Check that after some time, stock delay has changed
+        * */
+        int i = 60*60*24*7*20+5;
+        server.getScheduler().performTicks(i);
+
+        CompanyAuctionMenu new_screen = new CompanyAuctionMenu(comp);
+        testPlayer.openInventory(new_screen.getInventory());
+
+        auctionMenu = testPlayer.getOpenInventory();
+        betItem = auctionMenu.getItem(0);
+
+        assertEquals("§7Bet by: None", betItem.getItemMeta().getLore().get(1));
+        assertEquals(1, comp.patent_upgrades.size());
+    }
+
+    @Test
+    void companyPatentDesign(){
+        Company comp = getCompany(0);
+
+        /*
+        * Add patent upgrade
+        * */
+        PatentUpgrade up = new PatentUpgradeJumper();
+        up.level = 1;
+        comp.patent_upgrades.add(up);
+
+        /*
+        * open company menu
+        * */
+        InventoryView companyMenu = openMenu(0);
+
+        InventoryView patentSelector = openMenu(companyMenu, 21);
+
+        InventoryView patentTypeSelector = openMenu(patentSelector, 0);
+
+        InventoryView patentDesigner = openMenu(patentTypeSelector, 10);
+
+        /*
+        * Add patent upgrade
+        * */
+        InventoryView patentDesignerAddUpgrade = openMenu(patentDesigner, 18);
+
+        patentDesigner = openMenu(patentDesignerAddUpgrade, 0);
+
+        /*
+        * Click apply button
+        * */
+        patentSelector = openMenu(patentDesigner, 8);
+
+        assertEquals(Material.NETHERITE_HELMET, patentSelector.getItem(0).getType());
+
+    }
+
+    @Test
+    void companyCreatePatentItem(){
+        companyPatentDesign();
+        testPlayer.closeInventory();
+
+        /*
+        * open inventory menu
+        * */
+        boolean suc6 = server.execute("company", testPlayer, "menu").hasSucceeded();
+        assertTrue(suc6);
+
+        inventoryMenu = testPlayer.getOpenInventory();
+        assertNotNull(inventoryMenu);
+
+        /*
+        * Select menu
+        * */
+
+
+        InventoryView companyMenu = openMenu(0);
+
+        InventoryView patentCraftingSelector = openMenu(companyMenu, 30);
+
+        assertEquals(Material.NETHERITE_HELMET, patentCraftingSelector.getItem(0).getType());
+
+        InventoryView craftingTutorialMenu = openMenu(patentCraftingSelector, 0);
+
+        testPlayer.simulateInventoryClick(craftingTutorialMenu, 8);
+
+        ItemStack patentSheet = testPlayer.getInventory().getItem(0);
+        assertNotNull(patentSheet);
+
+        /*Craft item*/
+        ItemStack patentHelmetItem = TestTools.craftItemShapeless(server, new ItemStack[]{new ItemStack(Material.NETHERITE_HELMET), patentSheet});
+
+        assertEquals("§6TCI:Nameless:0", patentHelmetItem.getItemMeta().getDisplayName());
+
+        /*
+        * Get created Item
+        * */
+        ItemStack patentItem = TestTools.craftItemShapeless(server, new ItemStack[]{patentHelmetItem, new ItemStack(Material.FEATHER)});
+        assertEquals("§6Nameless", patentItem.getItemMeta().getDisplayName());
+
+        assertEquals("§7Jumper 1", patentItem.getItemMeta().getLore().get(0));
+        assertEquals("§9JumpBonus: 0.5", patentItem.getItemMeta().getLore().get(1));
+
     }
 
 

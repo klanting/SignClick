@@ -48,11 +48,6 @@ class CountryCTests {
 
         PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
 
-        /*
-        * Join message
-        * */
-        testPlayer.nextMessage();
-
         boolean result = server.execute("country", testPlayer, "create", "empire1", testPlayer.getName()).hasSucceeded();
         assertTrue(result);
 
@@ -68,11 +63,6 @@ class CountryCTests {
     void createCountryFailedPerms() {
         PlayerMock testPlayer = server.addPlayer();
 
-        /*
-         * Join message
-         * */
-        testPlayer.nextMessage();
-
         boolean result = server.execute("country", testPlayer, "create", "empire1", testPlayer.getName()).hasSucceeded();
         assertTrue(result);
 
@@ -85,11 +75,6 @@ class CountryCTests {
     @Test
     void createCountryFailedDuplicatedName() {
         PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
-
-        /*
-         * Join message
-         * */
-        testPlayer.nextMessage();
 
         /*
         * First creation
@@ -109,10 +94,6 @@ class CountryCTests {
     void countryDonateSuc6() {
         PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
         SignClick.getEconomy().depositPlayer(testPlayer, 1000);
-        /*
-         * Join message
-         * */
-        testPlayer.nextMessage();
 
         boolean result = server.execute("country", testPlayer, "create", "empire1", testPlayer.getName()).hasSucceeded();
         assertTrue(result);
@@ -129,10 +110,6 @@ class CountryCTests {
     void countryDonateNegative() {
         PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
         SignClick.getEconomy().depositPlayer(testPlayer, 1000);
-        /*
-         * Join message
-         * */
-        testPlayer.nextMessage();
 
         boolean result = server.execute("country", testPlayer, "create", "empire1", testPlayer.getName()).hasSucceeded();
         assertTrue(result);
@@ -148,10 +125,6 @@ class CountryCTests {
     @Test
     void countryDonateNotEnoughMoney() {
         PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
-        /*
-         * Join message
-         * */
-        testPlayer.nextMessage();
 
         boolean result = server.execute("country", testPlayer, "create", "empire1", testPlayer.getName()).hasSucceeded();
         assertTrue(result);
@@ -168,11 +141,6 @@ class CountryCTests {
     void countryInvite() {
         PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
         PlayerMock testPlayer2 = TestTools.addPermsPlayer(server, plugin);
-        /*
-         * Join message
-         * */
-        testPlayer.nextMessage();
-        testPlayer2.nextMessage();
 
         /*
         * create country
@@ -209,11 +177,6 @@ class CountryCTests {
     void countryKick() {
         PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
         PlayerMock testPlayer2 = TestTools.addPermsPlayer(server, plugin);
-
-        /*
-         * Join message
-         * */
-        testPlayer.nextMessage();
 
         Banking.create("empire1", testPlayer);
         Banking.addMember("empire1", testPlayer2);

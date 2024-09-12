@@ -174,7 +174,7 @@ public class Account {
 
         }
 
-        player.sendMessage("§bportfolio: \n");
+        player.sendMessage("§bportfolio:\n");
         double total = 0;
         for (int i=0; i<values.size(); i++){
             String b = order.get(i);

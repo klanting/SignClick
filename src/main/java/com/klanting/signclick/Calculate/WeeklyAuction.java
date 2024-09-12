@@ -25,10 +25,10 @@ public class WeeklyAuction {
                 }
 
                 Auction.init();
-                time_end = System.currentTimeMillis()/1000+60*60*24*7;
+                time_end = System.currentTimeMillis()/(60*60*24*7*20);
 
             }
-        },start_time,1000+60*60*24*7);
+        },start_time,60*60*24*7*20);
 
     }
 }

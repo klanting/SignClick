@@ -22,6 +22,9 @@ public class DynmapCheck {
                                 Banking.deposit(Banking.Element(player), amount);
                             }else{
                                 List<String> list = Banking.GetBanks();
+                                if (list.size() == 0){
+                                    continue;
+                                }
                                 Random rand = new Random();
                                 Banking.deposit(list.get(rand.nextInt(list.size())), amount);
                             }

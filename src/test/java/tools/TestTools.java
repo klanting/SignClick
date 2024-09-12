@@ -6,8 +6,16 @@ import be.seeseemelk.mockbukkit.entity.PlayerMock;
 import be.seeseemelk.mockbukkit.plugin.PluginManagerMock;
 import com.klanting.signclick.SignClick;
 import net.milkbowl.vault.economy.Economy;
+import org.bukkit.Material;
+import org.bukkit.inventory.*;
 import org.bukkit.plugin.Plugin;
 import org.dynmap.DynmapAPI;
+import org.gradle.internal.impldep.org.testng.ITest;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -41,5 +49,30 @@ public class TestTools {
         PlayerMock testPlayer = server.addPlayer();
         testPlayer.addAttachment(plugin, "signclick.staff", true);
         return testPlayer;
+    }
+
+    public static ItemStack craftItemShapeless(ServerMock server, ItemStack[] items){
+
+        List<ItemStack> itemChoices = new ArrayList<>();
+        for (ItemStack item: items){
+            itemChoices.add(item);
+        }
+
+        Iterator<Recipe> recipeIterator = server.recipeIterator();
+
+        while (recipeIterator.hasNext()){
+            Recipe r = recipeIterator.next();
+            if (r instanceof ShapelessRecipe){
+                ShapelessRecipe sr = (ShapelessRecipe) r;
+                List<ItemStack> requirements = sr.getIngredientList();
+
+                if (requirements.equals(itemChoices)){
+                    return sr.getResult();
+                }
+
+            }
+        }
+
+        return null;
     }
 }
