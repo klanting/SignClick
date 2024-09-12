@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import tools.TestTools;
 
 import static org.gradle.internal.impldep.org.junit.Assert.assertEquals;
+import static org.gradle.internal.impldep.org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class WeeklyPayCTests {
@@ -65,6 +66,27 @@ public class WeeklyPayCTests {
                 "§cPlayer1: §71000", testPlayer.nextMessage());
 
         testPlayer.assertNoMoreSaid();
+
+        testPlayer2.nextMessage();
+
+        /*
+        check testPlayer2 is a receiver of money
+        * */
+        assertNotNull(WeeklyPay.receivers(testPlayer));
+        assertEquals(1, WeeklyPay.receivers(testPlayer).size());
+        assertEquals(testPlayer2.getName(), WeeklyPay.receivers(testPlayer).get(0));
+
+        /*
+        * look at weekly list of other user
+        * */
+        suc6 = server.execute("weeklypay", testPlayer2, "list", testPlayer.getName()).hasSucceeded();
+        assertTrue(suc6);
+
+        assertEquals("§bincoming: \n" +
+                "outgoing: \n" +
+                "§cPlayer1: §71000", testPlayer2.nextMessage());
+
+        testPlayer2.assertNoMoreSaid();
 
         assertEquals(1000, Math.round(SignClick.getEconomy().getBalance(testPlayer)));
 
@@ -120,8 +142,7 @@ public class WeeklyPayCTests {
 
     @Test
     public void weeklyPaySaveRestore(){
-        return;
-        /*
+
         PlayerMock testPlayer2 = server.addPlayer();
         SignClick.getEconomy().depositPlayer(testPlayer, 1000);
 
@@ -134,10 +155,10 @@ public class WeeklyPayCTests {
         assertEquals(1, WeeklyPay.payments.size());
         plugin.onDisable();
         WeeklyPay.payments.clear();
-        plugin.onEnable();
+        plugin = TestTools.setupPlugin(server);
 
         assertEquals(1, WeeklyPay.payments.size());
-        */
+
 
     }
 }

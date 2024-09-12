@@ -49,32 +49,28 @@ public class WeeklyPay {
 
         if (SignClick.getEconomy().getBalance(player) >= amount) {
 
-            int PCT_amount;
-            try {
-                Player target = Bukkit.getServer().getPlayer(receiver);
-
-                String bank = Banking.Element(target);
-                if (bank != "none"){
-                    PCT_amount = (int) (amount * ((double) Banking.getPCT(bank))/100.0);
-                    Banking.deposit(bank,PCT_amount);
-                }else{
-                    PCT_amount = 0;
-                }
-                SignClick.getEconomy().depositPlayer(target, (amount-PCT_amount));
-            } catch (Exception e) {
-                for (OfflinePlayer target : Bukkit.getOfflinePlayers()) {
-                    if (target.getName().equals(receiver)) {
-                        String bank = Banking.Element(target);
-                        if (bank != "none"){
-                            PCT_amount = (int) (amount * ((double) Banking.getPCT(bank))/100.0);
-                            Banking.deposit(bank,PCT_amount);
-                        }else{
-                            PCT_amount = 0;
-                        }
-                        SignClick.getEconomy().depositPlayer(target, (amount-PCT_amount));
-                    }
+            OfflinePlayer finalTarget = null;
+            for (OfflinePlayer target : Bukkit.getOfflinePlayers()) {
+                if (target.getName().equals(receiver)) {
+                    finalTarget = target;
                 }
             }
+
+            if (finalTarget == null){
+                SignClick.getPlugin().getLogger().log(Level.SEVERE, "player corresponding to name "+receiver+" could not be found");
+                return false;
+            }
+
+            int PCT_amount;
+            String bank = Banking.Element(finalTarget);
+            if (bank.equals("none")){
+                PCT_amount = (int) (amount * ((double) Banking.getPCT(bank))/100.0);
+                Banking.deposit(bank, PCT_amount);
+            }else{
+                PCT_amount = 0;
+            }
+
+            SignClick.getEconomy().depositPlayer(finalTarget, (amount-PCT_amount));
             SignClick.getEconomy().withdrawPlayer(player, amount);
             return true;
         }else{
@@ -122,55 +118,30 @@ public class WeeklyPay {
     }
 
     public static void list(Player player){
+        list(player, player);
+    }
+
+    public static void list(Player player, OfflinePlayer informationTarget){
         StringBuilder income = new StringBuilder("§bincoming: ");
         payments.keySet().forEach(key->{
+
             Map<String, Integer> map = payments.get(key);
-            if (map.containsKey(player.getName())){
-                try{
-                    income.append("\n§a").append(Bukkit.getServer().getPlayer(key).getName()).append(": §7").append(map.get(player.getName()));
-
-                }catch (Exception e){
-                    for (OfflinePlayer oplayer : Bukkit.getOfflinePlayers()){
-                        if (key.equals(oplayer.getUniqueId())){
-                            income.append("§a").append(oplayer.getName()).append(": §7").append(map.get(player.getName()));
-                        }
-                    }
-
-
-                }
+            if (map.containsKey(informationTarget.getName())){
+                OfflinePlayer otherPlayer = Bukkit.getOfflinePlayer(key);
+                income.append("\n§a").append(otherPlayer.getName()).append(": §7").append(map.get(informationTarget.getName()));
 
             }
         });
         income.append("\n");
 
         income.append("§boutgoing: ");
-        if (payments.containsKey(player.getUniqueId())){
-            Map<String, Integer> outgoing = payments.get(player.getUniqueId());
+        if (payments.containsKey(informationTarget.getUniqueId())){
+            Map<String, Integer> outgoing = payments.get(informationTarget.getUniqueId());
             outgoing.keySet().forEach(key ->{
                 income.append("\n§c").append(key).append(": §7").append(outgoing.get(key));
             });
         }
         player.sendMessage(String.valueOf(income));
-    }
-
-    public static void offlinelist(Player p, OfflinePlayer player){
-        StringBuilder income = new StringBuilder("§bincome: ");
-        payments.keySet().forEach(key->{
-            Map<String, Integer> map = payments.get(key);
-            if (map.containsKey(player.getName())){
-                income.append("\n§a").append(Bukkit.getServer().getPlayer(key).getName()).append(": §7").append(map.get(player.getName()));
-            }
-        });
-        p.sendMessage(String.valueOf(income));
-
-        StringBuilder outcome = new StringBuilder("\n§boutgoing: ");
-        if (payments.containsKey(player.getUniqueId())){
-            Map<String, Integer> outgoing = payments.get(player.getUniqueId());
-            outgoing.keySet().forEach(key ->{
-                outcome.append("\n§c").append(key).append(": §7").append(outgoing.get(key));
-            });
-        }
-        p.sendMessage(String.valueOf(outcome));
     }
 
     public static List<String> receivers(Player player){
@@ -183,24 +154,21 @@ public class WeeklyPay {
 
     public static void send(String pl, String message){
 
-        for (OfflinePlayer player : Bukkit.getOfflinePlayers()) {
-            if (player.getName().equals(pl)) {
-                if (player.isOnline()){
-                    Player p = Bukkit.getPlayerExact(pl);
-                    p.sendMessage(message);
-                }else{
-                    List<String> lst;
-                    if (offcheck.containsKey(player.getUniqueId())){
-                        lst = offcheck.get(player.getUniqueId());
-                    }else{
-                        lst = new ArrayList<>();
-                    }
-                    lst.add(message);
-                    offcheck.put(player.getUniqueId(), lst);
-                }
-            }
-        }
+        OfflinePlayer player = Bukkit.getOfflinePlayer(pl);
 
+        if (player.isOnline()){
+            Player p = Bukkit.getPlayerExact(pl);
+            p.sendMessage(message);
+        }else{
+            List<String> lst;
+            if (offcheck.containsKey(player.getUniqueId())){
+                lst = offcheck.get(player.getUniqueId());
+            }else{
+                lst = new ArrayList<>();
+            }
+            lst.add(message);
+            offcheck.put(player.getUniqueId(), lst);
+        }
     }
 
     public static void save(){

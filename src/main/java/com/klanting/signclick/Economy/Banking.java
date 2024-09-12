@@ -809,39 +809,39 @@ public class Banking {
         return policies.get(s);
     }
 
-    public static void setPolicies(String s, int id, int level){
+    public static boolean setPolicies(String s, int id, int level){
         int old_level = policies.get(s).get(id).level;
         if (old_level == level){
-            return;
+            return false;
         }
 
         if (id == 0 || id == 3){
             int gov_cap = Banking.getPolicyRequire(s, id, 0, level);
             if (gov_cap > Banking.bal(s)){
-                return;
+                return false;
             }
         }
 
         if (id == 2 || id == 4){
             int gov_cap = Banking.getPolicyRequire(s, id, 1, level);
             if (gov_cap > Banking.bal(s)){
-                return;
+                return false;
             }
 
             int law_enfo = Banking.getPolicyRequire(s, id, 0, level);
-            if (law_enfo > law_enforcement.get(s).size()){
-                return;
+            if (law_enfo > law_enforcement.getOrDefault(s, new ArrayList<>(0)).size()){
+                return false;
             }
         }
 
         if (id == 4){
             int tax_rate = Banking.getPolicyRequire(s, id, 2, level);
             if (level < 2 && tax_rate > PCT.get(s)){
-                return;
+                return false;
             }
 
             if (level > 2 && tax_rate < PCT.get(s)){
-                return;
+                return false;
             }
         }
 
@@ -854,12 +854,13 @@ public class Banking {
                 "§6 to §9"+policies.get(s).get(id).titles.get(level), change, s, id, old_level, level);
 
         if (Banking.hasDecisionName(s, d.name)){
-            return;
+            return false;
         }
 
         List<Decision> d_list = decisions.getOrDefault(s, new ArrayList<>());
         d_list.add(d);
         decisions.put(s, d_list);
+        return true;
     }
 
     public static void setPoliciesReal(String s, int id, int old_level, int level){

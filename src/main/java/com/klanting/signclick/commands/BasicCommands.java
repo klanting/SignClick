@@ -45,17 +45,8 @@ public class BasicCommands implements CommandExecutor , TabCompleter {
                     }
                 }else if(args[0].equalsIgnoreCase("list")){
                     if (args.length >= 2){
-                        Player p = Bukkit.getPlayerExact(args[1]);
-                        if (p == null){
-                            for (OfflinePlayer ps : Bukkit.getServer().getOfflinePlayers()){
-                                if (ps.getName().equalsIgnoreCase(args[1])){
-                                    WeeklyPay.offlinelist(player, ps);
-                                }
-                            }
-
-                        }else{
-                            WeeklyPay.list(p);
-                        }
+                        OfflinePlayer informationTarget = Bukkit.getOfflinePlayer(args[1]);
+                        WeeklyPay.list(player, informationTarget);
                     }else{
                         WeeklyPay.list(player);
                     }

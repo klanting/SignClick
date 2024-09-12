@@ -71,10 +71,28 @@ class PolicyTests {
         * */
 
         assertEquals(0, Banking.decisions.getOrDefault("empire1", new ArrayList<>()).size());
-        Banking.setPolicies("empire1", 0, 3);
+        assertTrue(Banking.setPolicies("empire1", 0, 3));
         assertEquals(1, Banking.decisions.getOrDefault("empire1", new ArrayList<>()).size());
 
-        Banking.setPolicies("empire1", 1, 3);
+        assertTrue(Banking.setPolicies("empire1", 1, 3));
         assertEquals(2, Banking.decisions.getOrDefault("empire1", new ArrayList<>()).size());
+
+        assertFalse(Banking.setPolicies("empire1", 4, 3));
+        assertEquals(2, Banking.decisions.getOrDefault("empire1", new ArrayList<>()).size());
+
+        Banking.deposit("empire1", 5000000);
+        assertTrue(Banking.setPolicies("empire1", 4, 3));
+        assertEquals(3, Banking.decisions.getOrDefault("empire1", new ArrayList<>()).size());
+    }
+
+    @Test
+    void policySaveAndRestore(){
+        policyMakeDecision();
+
+        plugin.onDisable();
+        Banking.clear();
+        plugin = TestTools.setupPlugin(server);
+
+        assertEquals(3, Banking.decisions.getOrDefault("empire1", new ArrayList<>()).size());
     }
 }
