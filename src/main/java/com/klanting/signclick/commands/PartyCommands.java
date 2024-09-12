@@ -1,6 +1,6 @@
 package com.klanting.signclick.commands;
 
-import com.klanting.signclick.Economy.Banking;
+import com.klanting.signclick.Economy.Country;
 import com.klanting.signclick.Economy.Decisions.Decision;
 import com.klanting.signclick.Economy.Decisions.DecisionCoup;
 import com.klanting.signclick.Economy.Parties.Party;
@@ -42,40 +42,40 @@ public class PartyCommands implements CommandExecutor, TabCompleter {
                 return true;
             }
 
-            String country = Banking.Element(player);
+            String country = Country.Element(player);
 
-            if (Banking.forbid_party.getOrDefault(country, false)){
+            if (Country.forbid_party.getOrDefault(country, false)){
                 player.sendMessage("§bcountry forbids create party");
                 return true;
             }
 
-            if (Banking.inParty(country, player.getUniqueId())){
+            if (Country.inParty(country, player.getUniqueId())){
                 player.sendMessage("§byou are already in a party");
                 return true;
             }
 
-            if (Banking.hasPartyName(country, args[1])){
+            if (Country.hasPartyName(country, args[1])){
                 player.sendMessage("§bparty name already exists");
                 return true;
             }
 
-            Banking.createParty(country, args[1], player.getUniqueId());
-            Banking.add_stability(country, 3.0);
+            Country.createParty(country, args[1], player.getUniqueId());
+            Country.add_stability(country, 3.0);
             player.sendMessage("§bparty created");
         }
 
         if (commando.equals("add")){
-            String country = Banking.Element(player);
+            String country = Country.Element(player);
             String player_name = args[1];
 
             Player target_player = Bukkit.getPlayer(player_name);
 
-            if (country != Banking.Element(target_player)){
+            if (country != Country.Element(target_player)){
                 player.sendMessage("§bplayer is in a different country");
                 return true;
             }
-            Party p = Banking.getParty(country, player.getUniqueId());
-            Party p2 = Banking.getParty(country, target_player.getUniqueId());
+            Party p = Country.getParty(country, player.getUniqueId());
+            Party p2 = Country.getParty(country, target_player.getUniqueId());
             if (p == null){
                 player.sendMessage("§byou must be in a party");
                 return true;
@@ -96,7 +96,7 @@ public class PartyCommands implements CommandExecutor, TabCompleter {
         }
 
         if (commando.equals("kick")){
-            String country = Banking.Element(player);
+            String country = Country.Element(player);
             String player_name = args[1];
 
             UUID uuid = null;
@@ -107,12 +107,12 @@ public class PartyCommands implements CommandExecutor, TabCompleter {
                 }
             }
 
-            if (country != Banking.ElementUUID(uuid)){
+            if (country != Country.ElementUUID(uuid)){
                 player.sendMessage("§bplayer is in a different country");
                 return true;
             }
 
-            Party p = Banking.getParty(country, player.getUniqueId());
+            Party p = Country.getParty(country, player.getUniqueId());
             if (p == null){
                 player.sendMessage("§byou must be in a party");
                 return true;
@@ -128,11 +128,11 @@ public class PartyCommands implements CommandExecutor, TabCompleter {
         }
 
         if (commando.equals("promote")){
-            String country = Banking.Element(player);
+            String country = Country.Element(player);
             String player_name = args[1];
             Player target_player = Bukkit.getPlayer(player_name);
 
-            Party p = Banking.getParty(country, player.getUniqueId());
+            Party p = Country.getParty(country, player.getUniqueId());
             if (p == null){
                 player.sendMessage("§byou must be in a party");
                 return true;
@@ -147,11 +147,11 @@ public class PartyCommands implements CommandExecutor, TabCompleter {
         }
 
         if (commando.equals("demote")){
-            String country = Banking.Element(player);
+            String country = Country.Element(player);
             String player_name = args[1];
             Player target_player = Bukkit.getPlayer(player_name);
 
-            Party p = Banking.getParty(country, player.getUniqueId());
+            Party p = Country.getParty(country, player.getUniqueId());
             if (p == null){
                 player.sendMessage("§byou must be in a party");
                 return true;
@@ -166,8 +166,8 @@ public class PartyCommands implements CommandExecutor, TabCompleter {
         }
 
         if (commando.equals("leave")){
-            String country = Banking.Element(player);
-            Party p = Banking.getParty(country, player.getUniqueId());
+            String country = Country.Element(player);
+            Party p = Country.getParty(country, player.getUniqueId());
             if (p == null){
                 player.sendMessage("§byou must be in a party");
                 return true;
@@ -178,14 +178,14 @@ public class PartyCommands implements CommandExecutor, TabCompleter {
 
         if (commando.equals("info")){
             Party p;
-            String country = Banking.Element(player);
+            String country = Country.Element(player);
             if (args.length == 2){
-                p = Banking.getParty(country, args[1]);
+                p = Country.getParty(country, args[1]);
 
             }else if (args.length >= 3){
-                p = Banking.getParty(args[1], args[2]);
+                p = Country.getParty(args[1], args[2]);
             }else{
-                p = Banking.getParty(country, player.getUniqueId());
+                p = Country.getParty(country, player.getUniqueId());
             }
 
             if (p != null){
@@ -196,7 +196,7 @@ public class PartyCommands implements CommandExecutor, TabCompleter {
         }
 
         if (commando.equals("vote")){
-            Party p = Banking.getParty(Banking.Element(player), player.getUniqueId());
+            Party p = Country.getParty(Country.Element(player), player.getUniqueId());
             if (p == null){
                 player.sendMessage("§byou must be in a party");
                 return true;
@@ -206,12 +206,12 @@ public class PartyCommands implements CommandExecutor, TabCompleter {
                 return true;
             }
 
-            PartyDecisionVote screen = new PartyDecisionVote(Banking.getParty(Banking.Element(player), player.getUniqueId()));
+            PartyDecisionVote screen = new PartyDecisionVote(Country.getParty(Country.Element(player), player.getUniqueId()));
             player.openInventory(screen.getInventory());
         }
 
         if (commando.equals("coup")){
-            Party p = Banking.getParty(Banking.Element(player), player.getUniqueId());
+            Party p = Country.getParty(Country.Element(player), player.getUniqueId());
             if (p == null){
                 player.sendMessage("§byou must be in a party");
                 return true;
@@ -221,16 +221,16 @@ public class PartyCommands implements CommandExecutor, TabCompleter {
                 return true;
             }
 
-            if (p == Banking.getRuling(Banking.Element(player))){
+            if (p == Country.getRuling(Country.Element(player))){
                 player.sendMessage("§byou can`t start a coup against yourself");
                 return true;
             }
 
-            Decision d = new DecisionCoup("§6Stage a coup for party §9"+p.name, Math.max(0.9-Banking.getRuling(Banking.Element(player)).PCT, 0.05), Banking.Element(player), p.name);
+            Decision d = new DecisionCoup("§6Stage a coup for party §9"+p.name, Math.max(0.9- Country.getRuling(Country.Element(player)).PCT, 0.05), Country.Element(player), p.name);
 
-            List<Decision> d_list = Banking.decisions.getOrDefault(Banking.Element(player), new ArrayList<>());
+            List<Decision> d_list = Country.decisions.getOrDefault(Country.Element(player), new ArrayList<>());
             d_list.add(d);
-            Banking.decisions.put(Banking.Element(player), d_list);
+            Country.decisions.put(Country.Element(player), d_list);
         }
 
 

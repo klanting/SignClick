@@ -2,7 +2,7 @@ package com.klanting.signclick.Economy.Decisions;
 
 import com.klanting.signclick.SignClick;
 
-import static com.klanting.signclick.Economy.Banking.setPoliciesReal;
+import static com.klanting.signclick.Economy.Country.setPoliciesReal;
 
 public class DecisionPolicy extends Decision{
 

@@ -1,6 +1,6 @@
 package com.klanting.signclick.events;
 
-import com.klanting.signclick.Economy.Banking;
+import com.klanting.signclick.Economy.Country;
 import com.klanting.signclick.Economy.Company;
 import com.klanting.signclick.Economy.CompanyPatent.Auction;
 import com.klanting.signclick.Economy.CompanyPatent.Patent;
@@ -12,7 +12,6 @@ import com.klanting.signclick.Economy.Decisions.DecisionForbidParty;
 import com.klanting.signclick.Economy.Market;
 import com.klanting.signclick.Economy.Parties.Party;
 import com.klanting.signclick.Menus.*;
-import com.klanting.signclick.SignClick;
 import com.klanting.signclick.commands.BankCommands;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -25,7 +24,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 
 public class MenuEvents implements Listener {
     @EventHandler
@@ -56,7 +54,7 @@ public class MenuEvents implements Listener {
                 CompanyUpgradeMenu new_screen = new CompanyUpgradeMenu(player.getUniqueId(), old_screen.comp);
                 player.openInventory(new_screen.getInventory());
             }else if(option.equalsIgnoreCase("§6Patent")){
-                if (Banking.getStability(old_screen.comp.GetCountry()) < 30){
+                if (Country.getStability(old_screen.comp.GetCountry()) < 30){
                     player.sendMessage("§bcan`t acces patent auction with country stability under 30");
                     return;
                 }
@@ -156,7 +154,7 @@ public class MenuEvents implements Listener {
             int location = event.getSlot();
 
             int add_price = 100000;
-            if (Auction.bits_owner.get(location) == null){
+            if (Auction.bitsOwner.get(location) == null){
                 add_price = 0;
             }
 
@@ -183,8 +181,8 @@ public class MenuEvents implements Listener {
             String option = event.getCurrentItem().getItemMeta().getDisplayName();
             if (option.equalsIgnoreCase("§6Get Patent Sheet")){
                 Player player = (Player) event.getWhoClicked();
-                if (old_screen.comp.patent_crafted < old_screen.comp.upgrades.get(3).getBonus()){
-                    old_screen.comp.patent_crafted += 1;
+                if (old_screen.comp.patentCrafted < old_screen.comp.upgrades.get(3).getBonus()){
+                    old_screen.comp.patentCrafted += 1;
 
                     ItemStack item = new ItemStack(Material.PAPER, 1);
 
@@ -213,9 +211,9 @@ public class MenuEvents implements Listener {
                 return;
             }
 
-            String country = Banking.ElementUUID(player.getUniqueId());
+            String country = Country.ElementUUID(player.getUniqueId());
 
-            Banking.setPolicies(country, row-1, level);
+            Country.setPolicies(country, row-1, level);
             old_screen.init(player.getUniqueId());
         }
 
@@ -239,7 +237,7 @@ public class MenuEvents implements Listener {
 
             PartyDecisionVote old_screen = (PartyDecisionVote) event.getClickedInventory().getHolder();
             String country = old_screen.p.country;
-            Decision d = Banking.decisions.get(country).get(slot);
+            Decision d = Country.decisions.get(country).get(slot);
 
             PartyDecisionChoice new_screen = new PartyDecisionChoice(old_screen.p, d);
             player.openInventory(new_screen.getInventory());
@@ -276,7 +274,7 @@ public class MenuEvents implements Listener {
             event.setCancelled(true);
             String option = event.getCurrentItem().getItemMeta().getDisplayName();
             if (option.equalsIgnoreCase("§6Ban party")){
-                if (BankCommands.CountryElections.containsKey(Banking.Element(player))){
+                if (BankCommands.countryElections.containsKey(Country.Element(player))){
                     player.sendMessage("§b you can`t ban parties during elections");
                     return;
                 }
@@ -291,18 +289,18 @@ public class MenuEvents implements Listener {
                 }
 
 
-                String country = Banking.Element(player);
-                boolean go_to = !Banking.forbid_party.getOrDefault(country, false);
+                String country = Country.Element(player);
+                boolean go_to = !Country.forbid_party.getOrDefault(country, false);
 
-                if (Banking.getStability(country) < 30.0){
+                if (Country.getStability(country) < 30.0){
                     player.sendMessage("§brequired stability is 30");
                     return;
                 }
 
                 Decision d = new DecisionForbidParty(name, 0.5, country, go_to);
-                List<Decision> d_list = Banking.decisions.getOrDefault(country, new ArrayList<>());
+                List<Decision> d_list = Country.decisions.getOrDefault(country, new ArrayList<>());
                 d_list.add(d);
-                Banking.decisions.put(country, d_list);
+                Country.decisions.put(country, d_list);
             }else if (option.equalsIgnoreCase("§6Abort military payments") || option.equalsIgnoreCase("§6Allow military payments")){
                 String name;
                 if (option.equalsIgnoreCase("§6Allow military payments")){
@@ -311,13 +309,13 @@ public class MenuEvents implements Listener {
                     name = "§6Abort military payments";
                 }
 
-                String country = Banking.Element(player);
-                boolean go_to = !Banking.aboard_military.getOrDefault(country, false);
+                String country = Country.Element(player);
+                boolean go_to = !Country.aboard_military.getOrDefault(country, false);
 
                 Decision d = new DecisionAboardMilitary(name, 0.5, country, go_to);
-                List<Decision> d_list = Banking.decisions.getOrDefault(country, new ArrayList<>());
+                List<Decision> d_list = Country.decisions.getOrDefault(country, new ArrayList<>());
                 d_list.add(d);
-                Banking.decisions.put(country, d_list);
+                Country.decisions.put(country, d_list);
 
             }
 
@@ -327,23 +325,23 @@ public class MenuEvents implements Listener {
             Player player = (Player) event.getWhoClicked();
             event.setCancelled(true);
             int slot = event.getSlot();
-            String country = Banking.Element(player);
-            Party p = Banking.parties.get(country).get(slot);
-            Party ph = Banking.getRuling(country);
+            String country = Country.Element(player);
+            Party p = Country.parties.get(country).get(slot);
+            Party ph = Country.getRuling(country);
             if (ph == p){
                 player.sendMessage("§bcan`t ban ruling party");
                 return;
             }
 
-            if (Banking.getStability(country) < 40.0){
+            if (Country.getStability(country) < 40.0){
                 player.sendMessage("§brequired stability is 40");
                 return;
             }
 
             Decision d = new DecisionBanParty("§6Ban Party §9"+p.name, 0.5, country, p);
-            List<Decision> d_list = Banking.decisions.getOrDefault(country, new ArrayList<>());
+            List<Decision> d_list = Country.decisions.getOrDefault(country, new ArrayList<>());
             d_list.add(d);
-            Banking.decisions.put(country, d_list);
+            Country.decisions.put(country, d_list);
 
             player.closeInventory();
 

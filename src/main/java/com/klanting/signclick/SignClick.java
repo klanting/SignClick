@@ -1,7 +1,7 @@
 package com.klanting.signclick;
 
 import com.klanting.signclick.Calculate.*;
-import com.klanting.signclick.Economy.Banking;
+import com.klanting.signclick.Economy.Country;
 import com.klanting.signclick.Economy.CompanyPatent.Auction;
 import com.klanting.signclick.Economy.Market;
 import com.klanting.signclick.commands.*;
@@ -10,13 +10,10 @@ import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.dynmap.DynmapAPI;
-import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
 import java.util.Map;
 import java.util.UUID;
 
@@ -42,7 +39,7 @@ public class SignClick extends JavaPlugin{
             this.RestoreDoors();
         }
 
-        Banking.RestoreData();
+        Country.RestoreData();
 
         if (this.getConfig().contains("weekly")){
             WeeklyPay.restore();
@@ -85,7 +82,7 @@ public class SignClick extends JavaPlugin{
         }
 
         WeeklyPay.save();
-        Banking.SaveData();
+        Country.SaveData();
         Market.SaveData();
         Auction.Save();
         WeeklyComp.Save();

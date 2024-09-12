@@ -1,13 +1,9 @@
 package com.klanting.signclick.events;
 
-import com.klanting.signclick.Calculate.WeeklyPay;
-import com.klanting.signclick.Economy.Banking;
 import com.klanting.signclick.SignClick;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-
-import static com.klanting.signclick.SignClick.getEconomy;
 
 public class DynmapEvents implements Listener {
 

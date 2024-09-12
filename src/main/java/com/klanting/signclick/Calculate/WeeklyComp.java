@@ -1,6 +1,6 @@
 package com.klanting.signclick.Calculate;
 
-import com.klanting.signclick.Economy.Banking;
+import com.klanting.signclick.Economy.Country;
 import com.klanting.signclick.Economy.Market;
 import com.klanting.signclick.SignClick;
 import org.bukkit.Bukkit;
@@ -15,14 +15,14 @@ public class WeeklyComp {
         Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(SignClick.getPlugin(), new Runnable() {
 
             public void run() {
-                Banking.RunLawSalary();
-                Market.reset_spendable();
-                Market.reset_patent_crafted();
-                Market.run_dividends();
-                Market.RunContracts();
-                Market.RunStockCompare();
-                Market.RunWeeklyCompanySalary();
-                Banking.runStability();
+                Country.RunLawSalary();
+                Market.resetSpendable();
+                Market.resetPatentCrafted();
+                Market.runDividends();
+                Market.runContracts();
+                Market.runStockCompare();
+                Market.runWeeklyCompanySalary();
+                Country.runStability();
 
             }
         },system_end,60*20*60*24*7);

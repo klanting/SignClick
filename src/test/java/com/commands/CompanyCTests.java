@@ -2,42 +2,21 @@ package com.commands;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
-import com.klanting.signclick.Economy.Banking;
+import com.klanting.signclick.Economy.Country;
 import com.klanting.signclick.Economy.Company;
 import com.klanting.signclick.Economy.Market;
-import com.klanting.signclick.Menus.CompanySelector;
 import com.klanting.signclick.SignClick;
-import org.bukkit.Material;
-import org.bukkit.entity.Item;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import tools.TestTools;
 
-
-import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
 
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
-import be.seeseemelk.mockbukkit.plugin.PluginManagerMock;
-import com.klanting.signclick.Economy.Banking;
-import com.klanting.signclick.SignClick;
-import org.bukkit.plugin.Plugin;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import net.milkbowl.vault.economy.Economy;
-import tools.MockDynmap;
-import tools.MockEconomy;
-
 import static org.junit.jupiter.api.Assertions.*;
-import org.dynmap.DynmapAPI;
-import tools.TestTools;
-
-import java.util.Objects;
 
 
 class CompanyCTests {
@@ -56,7 +35,7 @@ class CompanyCTests {
 
         testPlayer = TestTools.addPermsPlayer(server, plugin);
 
-        boolean suc6 = Market.add_business("TestCaseInc", "TCI", Market.get_account(testPlayer));
+        boolean suc6 = Market.add_business("TestCaseInc", "TCI", Market.getAccount(testPlayer));
         assertTrue(suc6);
 
     }
@@ -65,7 +44,7 @@ class CompanyCTests {
     public void tearDown() {
 
         MockBukkit.unmock();
-        Banking.clear();
+        Country.clear();
         Market.clear();
     }
 
@@ -160,7 +139,7 @@ class CompanyCTests {
         companyGive();
         Company comp = Market.get_business("TCI");
 
-        assertEquals(1000000, Market.get_account(testPlayer.getUniqueId()).shares.get("TCI"));
+        assertEquals(1000000, Market.getAccount(testPlayer.getUniqueId()).shares.get("TCI"));
 
         /*
         * Sell 1000 stocks
@@ -178,7 +157,7 @@ class CompanyCTests {
         testPlayer.assertSaid("§bsell: §aaccepted");
         testPlayer.assertNoMoreSaid();
 
-        assertEquals(999000, Market.get_account(testPlayer.getUniqueId()).shares.get("TCI"));
+        assertEquals(999000, Market.getAccount(testPlayer.getUniqueId()).shares.get("TCI"));
         assertEquals(1000, Market.get_market_amount("TCI"));
         assertEquals(993, Math.round(comp.get_value()));
 
@@ -198,7 +177,7 @@ class CompanyCTests {
         testPlayer.assertSaid("§bbuy: §aaccepted");
         testPlayer.assertNoMoreSaid();
 
-        assertEquals(1000000, Market.get_account(testPlayer.getUniqueId()).shares.get("TCI"));
+        assertEquals(1000000, Market.getAccount(testPlayer.getUniqueId()).shares.get("TCI"));
         assertEquals(0, Market.get_market_amount("TCI"));
         assertEquals(997, Math.round(comp.get_value()));
 
@@ -209,8 +188,8 @@ class CompanyCTests {
 
         PlayerMock testPlayer2 = server.addPlayer();
 
-        assertEquals(1000000, Market.get_account(testPlayer.getUniqueId()).shares.get("TCI"));
-        assertEquals(null, Market.get_account(testPlayer2.getUniqueId()).shares.get("TCI"));
+        assertEquals(1000000, Market.getAccount(testPlayer.getUniqueId()).shares.get("TCI"));
+        assertEquals(null, Market.getAccount(testPlayer2.getUniqueId()).shares.get("TCI"));
 
         boolean suc6 = server.execute("company", testPlayer, "transfer",
                 "TCI", testPlayer2.getName(), "1000").hasSucceeded();
@@ -234,8 +213,8 @@ class CompanyCTests {
         testPlayer2.assertSaid("§breceived: 1000 shares for TCI from Player0");
         testPlayer2.assertNoMoreSaid();
 
-        assertEquals(999000, Market.get_account(testPlayer.getUniqueId()).shares.get("TCI"));
-        assertEquals(1000, Market.get_account(testPlayer2.getUniqueId()).shares.get("TCI"));
+        assertEquals(999000, Market.getAccount(testPlayer.getUniqueId()).shares.get("TCI"));
+        assertEquals(1000, Market.getAccount(testPlayer2.getUniqueId()).shares.get("TCI"));
     }
 
     @Test

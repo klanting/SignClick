@@ -1,8 +1,6 @@
 package com.klanting.signclick.Menus;
 
 import com.klanting.signclick.Economy.Company;
-import com.klanting.signclick.Economy.Market;
-import com.klanting.signclick.SignClick;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
@@ -12,9 +10,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
-import java.util.logging.Level;
 
 public class CompanyOwnerMenu implements InventoryHolder {
     private Inventory menu;
@@ -36,7 +32,7 @@ public class CompanyOwnerMenu implements InventoryHolder {
         ArrayList<String> l = new ArrayList<>();
         l.add("§6Value: §9"+ df.format(comp.get_value()));
         l.add("§6Spendable: §9"+ df.format(comp.get_spendable()));
-        l.add("§6Points: §9"+ df.format(comp.security_funds));
+        l.add("§6Points: §9"+ df.format(comp.securityFunds));
         l.add("§6Type: §9"+ comp.type);
 
         m.setDisplayName("§6Balance");

@@ -1,6 +1,6 @@
 package com.klanting.signclick.Economy.Decisions;
 
-import com.klanting.signclick.Economy.Banking;
+import com.klanting.signclick.Economy.Country;
 import com.klanting.signclick.Economy.Parties.Party;
 import com.klanting.signclick.SignClick;
 
@@ -12,12 +12,12 @@ public class DecisionBanParty extends Decision{
     }
 
     public void DoEffect(){
-        Banking.removeParty(p);
+        Country.removeParty(p);
     }
 
     public void Save(Integer index){
         super.Save(index);
         String path = "decision." + s+"."+index+".";
-        SignClick.getPlugin().getConfig().set(path+"p", Banking.parties.get(s).indexOf(p));
+        SignClick.getPlugin().getConfig().set(path+"p", Country.parties.get(s).indexOf(p));
     }
 }

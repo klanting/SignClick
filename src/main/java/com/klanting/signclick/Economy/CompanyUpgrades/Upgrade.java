@@ -2,18 +2,15 @@ package com.klanting.signclick.Economy.CompanyUpgrades;
 
 import com.klanting.signclick.Economy.Company;
 import com.klanting.signclick.SignClick;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.bukkit.Bukkit.getServer;
-
 public class Upgrade {
     public Map<Integer, Integer> bonus = new HashMap<Integer, Integer>();
-    public Map<Integer, Integer> UpgradeCost = new HashMap<Integer, Integer>();
-    public Map<Integer, Integer> UpgradeCostPoints = new HashMap<Integer, Integer>();
+    public Map<Integer, Integer> upgradeCost = new HashMap<Integer, Integer>();
+    public Map<Integer, Integer> upgradeCostPoints = new HashMap<Integer, Integer>();
 
     public String name;
     public Material material;
@@ -26,10 +23,10 @@ public class Upgrade {
     }
 
     public Boolean canUpgrade(Integer balance, Integer points){
-        if (UpgradeCost.get(level) == -1 || UpgradeCostPoints.get(level) == -1){
+        if (upgradeCost.get(level) == -1 || upgradeCostPoints.get(level) == -1){
             return false;
         }
-        return UpgradeCost.get(level) <= balance && UpgradeCostPoints.get(level) <= points;
+        return upgradeCost.get(level) <= balance && upgradeCostPoints.get(level) <= points;
     }
 
     public Integer getBonus(){
@@ -41,11 +38,11 @@ public class Upgrade {
     }
 
     public Integer getUpgradeCost(){
-        return UpgradeCost.getOrDefault(level, -1);
+        return upgradeCost.getOrDefault(level, -1);
     }
 
     public Integer getUpgradeCostPoints(){
-        return UpgradeCostPoints.getOrDefault(level, -1);
+        return upgradeCostPoints.getOrDefault(level, -1);
     }
 
     public void save(Company company){

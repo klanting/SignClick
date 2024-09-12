@@ -1,6 +1,5 @@
 package com.klanting.signclick.Calculate;
 
-import com.klanting.signclick.Economy.Banking;
 import com.klanting.signclick.Economy.Company;
 import com.klanting.signclick.Economy.CompanyPatent.Auction;
 import com.klanting.signclick.Economy.Market;
@@ -16,12 +15,12 @@ public class WeeklyAuction {
 
             public void run() {
                 for (int i=0; i<5; i++){
-                    if (Auction.bits_owner.get(i) == null){
+                    if (Auction.bitsOwner.get(i) == null){
                         continue;
                     }
 
-                    Company comp = Market.get_business(Auction.bits_owner.get(i));
-                    comp.patent_upgrades.add(Auction.to_buy.get(i));
+                    Company comp = Market.get_business(Auction.bitsOwner.get(i));
+                    comp.patentUpgrades.add(Auction.toBuy.get(i));
                 }
 
                 Auction.init();

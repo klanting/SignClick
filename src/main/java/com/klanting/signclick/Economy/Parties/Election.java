@@ -1,32 +1,29 @@
 package com.klanting.signclick.Economy.Parties;
 
-import com.klanting.signclick.Economy.Banking;
+import com.klanting.signclick.Economy.Country;
 import com.klanting.signclick.SignClick;
-import org.bukkit.ChatColor;
 
 import java.util.*;
-
-import static org.bukkit.Bukkit.getServer;
 
 public class Election {
 
     public Map<String, Integer> vote_dict =  new HashMap<String, Integer>();
 
-    public List<UUID> already_voted = new ArrayList<>();
+    public List<UUID> alreadyVoted = new ArrayList<>();
     public String s;
-    public long time_ended;
-    public Election(String s, long time_ended){
+    public long timeEnded;
+    public Election(String s, long timeEnded){
 
-        for (Party p: Banking.parties.getOrDefault(s, new ArrayList<>())){
+        for (Party p: Country.parties.getOrDefault(s, new ArrayList<>())){
             vote_dict.put(p.name, 0);
             this.s = s;
-            this.time_ended = time_ended;
+            this.timeEnded = timeEnded;
         }
     }
 
     public void vote(String name, UUID uuid){
-        if (!already_voted.contains(uuid)){
-            already_voted.add(uuid);
+        if (!alreadyVoted.contains(uuid)){
+            alreadyVoted.add(uuid);
             int party_val = vote_dict.getOrDefault(name, 0);
             vote_dict.put(name, party_val+1);
         }
@@ -39,12 +36,12 @@ public class Election {
         SignClick.getPlugin().getConfig().set(path+"vote_dict", vote_dict);
 
         List<String> f_list = new ArrayList<String>();
-        for (UUID uuid: already_voted){
+        for (UUID uuid: alreadyVoted){
             f_list.add(uuid.toString());
         }
 
         SignClick.getPlugin().getConfig().set(path+"voted", f_list);
 
-        SignClick.getPlugin().getConfig().set(path+"to_wait", time_ended-System.currentTimeMillis()/1000);
+        SignClick.getPlugin().getConfig().set(path+"to_wait", timeEnded -System.currentTimeMillis()/1000);
     }
 }

@@ -4,10 +4,9 @@ import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
 import com.klanting.signclick.Calculate.WeeklyPay;
-import com.klanting.signclick.Economy.Banking;
+import com.klanting.signclick.Economy.Country;
 import com.klanting.signclick.Economy.Market;
 import com.klanting.signclick.SignClick;
-import net.kyori.adventure.text.TextComponent;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,7 +36,7 @@ public class WeeklyPayCTests {
     public void tearDown() {
 
         MockBukkit.unmock();
-        Banking.clear();
+        Country.clear();
         Market.clear();
         WeeklyPay.payments.clear();
     }

@@ -1,6 +1,6 @@
 package com.klanting.signclick.Economy.Decisions;
 
-import com.klanting.signclick.Economy.Banking;
+import com.klanting.signclick.Economy.Country;
 import com.klanting.signclick.SignClick;
 
 public class DecisionAboardMilitary extends Decision{
@@ -11,9 +11,9 @@ public class DecisionAboardMilitary extends Decision{
     }
 
     public void DoEffect(){
-        Banking.aboard_military.put(s, b);
+        Country.aboard_military.put(s, b);
         if (b){
-            Banking.add_stability(s, -2.0);
+            Country.add_stability(s, -2.0);
         }
     }
 

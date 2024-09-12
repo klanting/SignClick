@@ -1,6 +1,6 @@
 package com.klanting.signclick.commands;
 
-import com.klanting.signclick.Economy.Banking;
+import com.klanting.signclick.Economy.Country;
 import com.klanting.signclick.Economy.Decisions.Decision;
 import com.klanting.signclick.Economy.Parties.Election;
 import com.klanting.signclick.Economy.Parties.Party;
@@ -23,8 +23,8 @@ import java.util.*;
 
 
 public class BankCommands implements CommandExecutor, TabCompleter {
-    private static Map<String, String> CountryInvites = new HashMap<String, String>();
-    public static Map<String, Election> CountryElections = new HashMap<String, Election>();
+    private static Map<String, String> countryInvites = new HashMap<String, String>();
+    public static Map<String, Election> countryElections = new HashMap<String, Election>();
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -43,9 +43,9 @@ public class BankCommands implements CommandExecutor, TabCompleter {
             if (type.equals("bal")){
                 DecimalFormat df = new DecimalFormat("###,###,###");
                 if (args.length == 2){
-                    player.sendMessage("§bsaldo: "+String.valueOf(df.format(Banking.bal(args[1]))));
+                    player.sendMessage("§bsaldo: "+String.valueOf(df.format(Country.bal(args[1]))));
                 }else{
-                    player.sendMessage("§bsaldo: "+String.valueOf(df.format(Banking.bal(Banking.Element(player)))));
+                    player.sendMessage("§bsaldo: "+String.valueOf(df.format(Country.bal(Country.Element(player)))));
                 }
 
 
@@ -53,7 +53,7 @@ public class BankCommands implements CommandExecutor, TabCompleter {
 
                 String name = args[1];
                 Player user = Bukkit.getServer().getPlayer(args[2]);
-                Banking.create(name, user);
+                Country.create(name, user);
 
             }else if (type.equals("pay")){
                 int amount;
@@ -67,10 +67,10 @@ public class BankCommands implements CommandExecutor, TabCompleter {
                     return true;
                 }
 
-                String name = Banking.Element(player);
+                String name = Country.Element(player);
 
-                if (Banking.isOwner(name, player)){
-                    if (Banking.has(name, amount)){
+                if (Country.isOwner(name, player)){
+                    if (Country.has(name, amount)){
                         if (!player.getName().equals(p)) {
                             try {
                                 Player target = Bukkit.getServer().getPlayer(p);
@@ -84,7 +84,7 @@ public class BankCommands implements CommandExecutor, TabCompleter {
                                     }
                                 }
                             }
-                            Banking.withdraw(name, amount);
+                            Country.withdraw(name, amount);
                             player.sendMessage("§byou paid " + amount + " to " + p);
                         }
                     }else{
@@ -96,13 +96,13 @@ public class BankCommands implements CommandExecutor, TabCompleter {
             }else if (type.equals("donate")){
                 String name;
                 if (args.length == 3){
-                    if (Banking.GetBanks().contains(args[1])){
+                    if (Country.GetBanks().contains(args[1])){
                         name = args[1];
                     }else{
                         name = "none";
                     }
                 }else{
-                    name = Banking.Element(player);
+                    name = Country.Element(player);
                 }
                 if (name != "none"){
 
@@ -123,7 +123,7 @@ public class BankCommands implements CommandExecutor, TabCompleter {
                     }
 
                     if (SignClick.getEconomy().has(player, amount)){
-                        Banking.deposit(name, amount);
+                        Country.deposit(name, amount);
                         SignClick.getEconomy().withdrawPlayer(player, amount);
                         player.sendMessage("§bYou paid " + amount + " to " + name);
                     }else{
@@ -132,7 +132,7 @@ public class BankCommands implements CommandExecutor, TabCompleter {
                     }
 
                     for (Player pl : Bukkit.getServer().getOnlinePlayers()){
-                        if (Banking.GetOwners(name).contains(pl.getUniqueId())){
+                        if (Country.GetOwners(name).contains(pl.getUniqueId())){
                             pl.sendMessage("§b"+player.getName()+" donated "+amount + " to your country");
                         }
                     }
@@ -145,9 +145,9 @@ public class BankCommands implements CommandExecutor, TabCompleter {
             }else if (type.equals("baltop")){
                 StringBuilder line = new StringBuilder("§bBaltop: ");
                 int index = 1;
-                for (String bank : Banking.getTop()){
+                for (String bank : Country.getTop()){
                     if (index <= 10){
-                        int amount = Banking.bal(bank);
+                        int amount = Country.bal(bank);
                         DecimalFormat df = new DecimalFormat("###,###,###");
                         line.append("\n").append("§b"+index+".§3 ").append(bank).append(": §7").append(df.format(amount));
                         index += 1;
@@ -165,10 +165,10 @@ public class BankCommands implements CommandExecutor, TabCompleter {
                     return true;
                 }
 
-                String name = Banking.Element(player);
-                if (Banking.isOwner(name, player)){
+                String name = Country.Element(player);
+                if (Country.isOwner(name, player)){
                     if (0 <= amount && amount <= 20){
-                        Banking.setPCT(name, amount);
+                        Country.setPCT(name, amount);
                         player.sendMessage("§bthe tax has been changed");
                     }else{
                         player.sendMessage("§bpls enter an integer from 0 to 20");
@@ -177,8 +177,8 @@ public class BankCommands implements CommandExecutor, TabCompleter {
                     player.sendMessage("§byou are not allowed to do this");
                 }
             }else if (type.equals("invite")){
-                String name = Banking.Element(player);
-                if (Banking.isOwner(name, player)){
+                String name = Country.Element(player);
+                if (Country.isOwner(name, player)){
 
                     String username;
                     try{
@@ -188,7 +188,7 @@ public class BankCommands implements CommandExecutor, TabCompleter {
                         return true;
                     }
 
-                    CountryInvites.put(username, name);
+                    countryInvites.put(username, name);
                     boolean inviteSend = false;
                     for (Player p: Bukkit.getOnlinePlayers()){
                         if (p.getName().equals(username)){
@@ -199,7 +199,7 @@ public class BankCommands implements CommandExecutor, TabCompleter {
 
                             Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(SignClick.getPlugin(), new Runnable() {
                                 public void run() {
-                                    CountryInvites.remove(username);
+                                    countryInvites.remove(username);
 
 
                                 }
@@ -216,14 +216,14 @@ public class BankCommands implements CommandExecutor, TabCompleter {
                     player.sendMessage("§byou are not allowed to do this");
                 }
             }else if (type.equals("accept")){
-                if (CountryInvites.containsKey(player.getName())){
-                    Banking.addMember(CountryInvites.get(player.getName()), player);
+                if (countryInvites.containsKey(player.getName())){
+                    Country.addMember(countryInvites.get(player.getName()), player);
                     player.sendMessage("§byou succesfully joint this country");
-                    player.setPlayerListName(Banking.GetColor(CountryInvites.get(player.getName()))+player.getName());
+                    player.setPlayerListName(Country.GetColor(countryInvites.get(player.getName()))+player.getName());
                 }
             }else if (type.equals("kick")){
-                String name = Banking.Element(player);
-                if (Banking.isOwner(name, player)){
+                String name = Country.Element(player);
+                if (Country.isOwner(name, player)){
                     Player target;
                     try{
                         target = Bukkit.getServer().getPlayer(args[1]);
@@ -232,7 +232,7 @@ public class BankCommands implements CommandExecutor, TabCompleter {
                         return true;
                     }
 
-                    Banking.removeMember(name, target);
+                    Country.removeMember(name, target);
                     player.sendMessage("§btarget has been kicked from your country");
                 }else{
                     player.sendMessage("§byou are not allowed to kick members");
@@ -241,25 +241,25 @@ public class BankCommands implements CommandExecutor, TabCompleter {
             }else if (type.equals("info")){
                 if (args.length == 2){
                     String name = args[1];
-                    Banking.info(name, player);
+                    Country.info(name, player);
                 }else{
-                    if (!Banking.Element(player).equals("none")){
-                        Banking.info(Banking.Element(player), player);
+                    if (!Country.Element(player).equals("none")){
+                        Country.info(Country.Element(player), player);
                     }
                 }
             }else if (type.equals("leave")){
-                String name = Banking.Element(player);
+                String name = Country.Element(player);
 
-                if (Banking.isOwner(name, player)){
-                    Banking.removeOwner(name, player);
+                if (Country.isOwner(name, player)){
+                    Country.removeOwner(name, player);
                 }else{
-                    Banking.removeMember(name, player);
+                    Country.removeMember(name, player);
                 }
                 player.sendMessage("§bcountry succesfully left");
             }else if (type.equals("setspawn")) {
-                String name = Banking.Element(player);
-                if (Banking.isOwner(name, player)) {
-                    Banking.SetSpawn(name, player.getLocation());
+                String name = Country.Element(player);
+                if (Country.isOwner(name, player)) {
+                    Country.SetSpawn(name, player.getLocation());
                     player.sendMessage("§bspawn succesfully relocated");
                 }
 
@@ -268,11 +268,11 @@ public class BankCommands implements CommandExecutor, TabCompleter {
                 if ((player.hasPermission("signclick.staff")) && (args.length == 2)){
                     name = args[1];
                 }else{
-                    name = Banking.Element(player);
+                    name = Country.Element(player);
                 }
 
                 if (name != null){
-                    Location loc = Banking.GetSpawn(name);
+                    Location loc = Country.GetSpawn(name);
                     if (loc != null){
                         player.teleport(loc);
                         player.sendMessage("§bteleported to country spawn");
@@ -291,15 +291,15 @@ public class BankCommands implements CommandExecutor, TabCompleter {
                 }
                 String player_name = args[1];
 
-                String country = Banking.Element(player);
-                if (!Banking.isOwner(country, player)){
+                String country = Country.Element(player);
+                if (!Country.isOwner(country, player)){
                     player.sendMessage("§byou are not country owner");
                     return true;
                 }
 
                 Player target = Bukkit.getPlayer(player_name);
                 if (target != null){
-                    Banking.addLawEnforcement(Banking.Element(player), target);
+                    Country.addLawEnforcement(Country.Element(player), target);
                     player.sendMessage("§byou succesfully assigned an law enforcement agent");
                 }else{
                     player.sendMessage("§bassigning failed");
@@ -315,20 +315,20 @@ public class BankCommands implements CommandExecutor, TabCompleter {
                 }
                 String player_name = args[1];
 
-                String country = Banking.Element(player);
-                if (!Banking.isOwner(country, player)){
+                String country = Country.Element(player);
+                if (!Country.isOwner(country, player)){
                     player.sendMessage("§byou are not country owner");
                     return true;
                 }
 
                 Player target = Bukkit.getPlayer(player_name);
                 if (target != null){
-                    Banking.removeLawEnforcement(country, target);
+                    Country.removeLawEnforcement(country, target);
                     player.sendMessage("§byou succesfully resigned an law enforcement agent");
                 }else{
                     for (OfflinePlayer op: Bukkit.getOfflinePlayers()){
                         if (op.getName().equals(player_name)){
-                            Banking.removeLawEnforcement(country, op);
+                            Country.removeLawEnforcement(country, op);
                             break;
                         }
                     }
@@ -337,9 +337,9 @@ public class BankCommands implements CommandExecutor, TabCompleter {
 
 
             }else if (type.equals("menu")) {
-                String country = Banking.Element(player);
+                String country = Country.Element(player);
 
-                if (!Banking.isOwner(country, player)){
+                if (!Country.isOwner(country, player)){
                     player.sendMessage("§bplayer is not the owner");
                     return true;
                 }
@@ -348,28 +348,28 @@ public class BankCommands implements CommandExecutor, TabCompleter {
                 player.openInventory(screen.getInventory());
 
             }else if (type.equals("election")) {
-                String country = Banking.Element(player);
+                String country = Country.Element(player);
 
-                if (!Banking.isOwner(country, player)){
+                if (!Country.isOwner(country, player)){
                     player.sendMessage("§bplayer is not the owner");
                     return true;
                 }
 
-                if (CountryElections.containsKey(country)){
+                if (countryElections.containsKey(country)){
                     player.sendMessage("§bcountry is already in an election phase");
                     return true;
                 }
 
                 long system_end = System.currentTimeMillis()/1000 + 60*60*24*7;
-                CountryElections.put(country, new Election(country, system_end));
-                Banking.add_stability(country, 15.0);
+                countryElections.put(country, new Election(country, system_end));
+                Country.add_stability(country, 15.0);
                 player.sendMessage("§belections started");
 
 
                 Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(SignClick.getPlugin(), new Runnable() {
                     public void run() {
-                        Election e = CountryElections.get(country);
-                        CountryElections.remove(country);
+                        Election e = countryElections.get(country);
+                        countryElections.remove(country);
 
                         double total = 0.0;
                         for (float f : e.vote_dict.values()) {
@@ -383,7 +383,7 @@ public class BankCommands implements CommandExecutor, TabCompleter {
                         double highest_pct = -0.1;
                         Party highest_party = null;
 
-                        for (Party p: Banking.parties.getOrDefault(country, new ArrayList<>())){
+                        for (Party p: Country.parties.getOrDefault(country, new ArrayList<>())){
                             double pct = (double) e.vote_dict.getOrDefault(p.name, 0)/total;
                             p.PCT = pct;
 
@@ -393,25 +393,25 @@ public class BankCommands implements CommandExecutor, TabCompleter {
                             }
                         }
 
-                        if (highest_party != Banking.getRuling(country)){
-                            double base = 2.0*(1.0-Banking.getPolicyBonus(country, 2, 8));
-                            Banking.add_stability(country, -base);
+                        if (highest_party != Country.getRuling(country)){
+                            double base = 2.0*(1.0- Country.getPolicyBonus(country, 2, 8));
+                            Country.add_stability(country, -base);
                         }
 
-                        List<UUID> old_owners = Banking.owners.getOrDefault(country, new ArrayList<>());
-                        List<UUID> members = Banking.members.getOrDefault(country, new ArrayList<>());
+                        List<UUID> old_owners = Country.owners.getOrDefault(country, new ArrayList<>());
+                        List<UUID> members = Country.members.getOrDefault(country, new ArrayList<>());
                         for (UUID uuid: old_owners){
                             members.add(uuid);
                         }
-                        Banking.members.put(country, members);
+                        Country.members.put(country, members);
 
-                        Banking.owners.put(country, highest_party.owners);
+                        Country.owners.put(country, highest_party.owners);
 
                         for (UUID uuid: highest_party.owners){
                             members.remove(uuid);
                         }
 
-                        for (Decision d: Banking.decisions.get(country)){
+                        for (Decision d: Country.decisions.get(country)){
                             d.checkApprove();
                         }
 
@@ -426,14 +426,14 @@ public class BankCommands implements CommandExecutor, TabCompleter {
             }
 
             else if (type.equals("vote")) {
-                String country = Banking.Element(player);
-                if (!CountryElections.containsKey(country)){
+                String country = Country.Element(player);
+                if (!countryElections.containsKey(country)){
                     player.sendMessage("§bcountry is not in an election phase");
                     return true;
                 }
 
-                Election e = CountryElections.get(country);
-                if (e.already_voted.contains(player.getUniqueId())){
+                Election e = countryElections.get(country);
+                if (e.alreadyVoted.contains(player.getUniqueId())){
                     player.sendMessage("§byou can`t vote twice");
                     return true;
                 }
@@ -447,7 +447,7 @@ public class BankCommands implements CommandExecutor, TabCompleter {
                 if (type.equals("setowner")){
                     Player p = Bukkit.getPlayer(args[2]);
                     assert p != null;
-                    boolean suc6 = Banking.addOwner(args[1], p);
+                    boolean suc6 = Country.addOwner(args[1], p);
 
                     if (suc6){
                         p.sendMessage("you are added as owner");
@@ -459,17 +459,17 @@ public class BankCommands implements CommandExecutor, TabCompleter {
                 }else if (type.equals("removeowner")){
                     Player p = Bukkit.getPlayer(args[2]);
                     assert p != null;
-                    Banking.removeOwner(args[1], p);
+                    Country.removeOwner(args[1], p);
                     player.sendMessage("§bowner has been set");
                 }else if (type.equals("color")){
-                    Banking.SetColor(args[1], args[2]);
+                    Country.SetColor(args[1], args[2]);
                     player.sendMessage("§bcolor changed");
                 }else if (type.equals("promote")){
                     try{
                         Player p = Bukkit.getPlayer(args[1]);
-                        String name = Banking.Element(p);
-                        Banking.removeMember(name, p);
-                        boolean suc6 = Banking.addOwner(name, p);
+                        String name = Country.Element(p);
+                        Country.removeMember(name, p);
+                        boolean suc6 = Country.addOwner(name, p);
                         if (suc6){
                             p.sendMessage("you are promoted to owner");
                         }else{
@@ -479,9 +479,9 @@ public class BankCommands implements CommandExecutor, TabCompleter {
                     }catch (Exception e){
                         for (OfflinePlayer target : Bukkit.getOfflinePlayers()) {
                             if (target.getName().equalsIgnoreCase(args[1])) {
-                                String name = Banking.Element(target);
-                                Banking.removeMember(name, target);
-                                Banking.addOwner(name, target);
+                                String name = Country.Element(target);
+                                Country.removeMember(name, target);
+                                Country.addOwner(name, target);
                             }
 
                         }
@@ -491,15 +491,15 @@ public class BankCommands implements CommandExecutor, TabCompleter {
                 }else if (type.equals("demote")){
                     try{
                         Player p = Bukkit.getPlayer(args[1]);
-                        String name = Banking.Element(p);
-                        Banking.removeOwner(name, p);
-                        Banking.addMember(name, p);
+                        String name = Country.Element(p);
+                        Country.removeOwner(name, p);
+                        Country.addMember(name, p);
                     }catch (Exception e){
                         for (OfflinePlayer target : Bukkit.getOfflinePlayers()) {
                             if (target.getName().equalsIgnoreCase(args[1])) {
-                                String name = Banking.Element(target);
-                                Banking.removeOwner(name, target);
-                                Banking.addMember(name, target);
+                                String name = Country.Element(target);
+                                Country.removeOwner(name, target);
+                                Country.addMember(name, target);
                             }
 
                         }
@@ -507,17 +507,17 @@ public class BankCommands implements CommandExecutor, TabCompleter {
                     }
                 }else if (type.equals("remove")) {
                     String name = args[1];
-                    Banking.delete(name, player);
+                    Country.delete(name, player);
 
                 }else if (type.equals("addmember")) {
-                    Banking.addMember(args[1], Bukkit.getPlayer(args[2]));
+                    Country.addMember(args[1], Bukkit.getPlayer(args[2]));
                     player.sendMessage("§bplayer succesfully joint this country");
-                    player.setPlayerListName(Banking.GetColor(CountryInvites.get(player.getName()))+player.getName());
+                    player.setPlayerListName(Country.GetColor(countryInvites.get(player.getName()))+player.getName());
 
                 }else if (type.equals("removemember")) {
-                    Banking.removeMember(args[2], Objects.requireNonNull(Bukkit.getPlayer(args[1])));
+                    Country.removeMember(args[2], Objects.requireNonNull(Bukkit.getPlayer(args[1])));
                     player.sendMessage("§bplayer succesfully left this country");
-                    player.setPlayerListName(Banking.GetColor(CountryInvites.get(player.getName()))+player.getName());
+                    player.setPlayerListName(Country.GetColor(countryInvites.get(player.getName()))+player.getName());
 
                 }
 
@@ -570,22 +570,22 @@ public class BankCommands implements CommandExecutor, TabCompleter {
 
             }else if (args.length == 2){
                 if (args[0].equals("donate") || args[0].equals("bal") || args[0].equals("info")){
-                    return Banking.GetBanks();
+                    return Country.GetBanks();
                 }else if (player.hasPermission("signclick.staff")){
                     if (args[0].equals("setowner")){
-                        return Banking.GetBanks();
+                        return Country.GetBanks();
                     }else if (args[0].equals("removeowner")){
-                        return Banking.GetBanks();
+                        return Country.GetBanks();
                     }else if (args[0].equals("color")){
-                        return Banking.GetBanks();
+                        return Country.GetBanks();
                     }else if (args[0].equals("spawn")){
-                        return Banking.GetBanks();
+                        return Country.GetBanks();
                     }else if (args[0].equals("remove")){
-                        return Banking.GetBanks();
+                        return Country.GetBanks();
                     }else if (args[0].equals("addmember")){
-                        return Banking.GetBanks();
+                        return Country.GetBanks();
                     }else if (args[0].equals("removemember")){
-                        return Banking.GetBanks();
+                        return Country.GetBanks();
                     }
 
                 }

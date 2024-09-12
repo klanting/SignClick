@@ -2,27 +2,21 @@ package com.klanting.signclick.Calculate;
 
 import com.klanting.signclick.Economy.Market;
 import com.klanting.signclick.SignClick;
-import org.bukkit.*;
 
 
-import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.SignChangeEvent;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
 
 import java.text.DecimalFormat;
-import java.util.Arrays;
 
 import static com.klanting.signclick.Economy.Market.stock_signs;
-import static org.bukkit.Bukkit.getServer;
 
 public class SignStock {
     public static void set(SignChangeEvent sign, Player player){
         String Sname = sign.getLine(1);
         Sname = Sname.toUpperCase();
-        if (Market.has_business(Sname)){
+        if (Market.hasBusiness(Sname)){
             stock_signs.add(sign.getBlock().getLocation());
 
             sign.setLine(0, "§b[stock]");
@@ -41,7 +35,7 @@ public class SignStock {
 
     public static void update(Sign sign){
         String stock_name = sign.getLine(1);
-        if (Market.has_business(stock_name)){
+        if (Market.hasBusiness(stock_name)){
 
             DecimalFormat df = new DecimalFormat("###,##0.00");
             DecimalFormat df2 = new DecimalFormat("###,###,###");

@@ -4,20 +4,14 @@ import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
-import be.seeseemelk.mockbukkit.plugin.PluginManagerMock;
-import com.klanting.signclick.Economy.Banking;
+import com.klanting.signclick.Economy.Country;
 import com.klanting.signclick.SignClick;
-import org.bukkit.plugin.Plugin;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import net.milkbowl.vault.economy.Economy;
-import tools.MockDynmap;
-import tools.MockEconomy;
-
 import static org.junit.jupiter.api.Assertions.*;
-import org.dynmap.DynmapAPI;
+
 import tools.TestTools;
 
 
@@ -40,7 +34,7 @@ class CountryCTests {
     public void tearDown() {
 
         MockBukkit.unmock();
-        Banking.clear();
+        Country.clear();
     }
 
     @Test
@@ -51,7 +45,7 @@ class CountryCTests {
         boolean result = server.execute("country", testPlayer, "create", "empire1", testPlayer.getName()).hasSucceeded();
         assertTrue(result);
 
-        assertEquals("empire1", Banking.Element(testPlayer));
+        assertEquals("empire1", Country.Element(testPlayer));
 
         testPlayer.assertSaid("§bcountry has been succesfully created");
         testPlayer.assertNoMoreSaid();
@@ -66,7 +60,7 @@ class CountryCTests {
         boolean result = server.execute("country", testPlayer, "create", "empire1", testPlayer.getName()).hasSucceeded();
         assertTrue(result);
 
-        assertFalse(Banking.GetBanks().contains("empire1"));
+        assertFalse(Country.GetBanks().contains("empire1"));
 
         testPlayer.assertSaid("§bplayer does not have permission to create a country");
         testPlayer.assertNoMoreSaid();
@@ -169,7 +163,7 @@ class CountryCTests {
         testPlayer2.assertSaid("§byou succesfully joint this country");
         testPlayer2.assertNoMoreSaid();
 
-        assertEquals("empire1", Banking.Element(testPlayer2));
+        assertEquals("empire1", Country.Element(testPlayer2));
 
     }
 
@@ -178,8 +172,8 @@ class CountryCTests {
         PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
         PlayerMock testPlayer2 = TestTools.addPermsPlayer(server, plugin);
 
-        Banking.create("empire1", testPlayer);
-        Banking.addMember("empire1", testPlayer2);
+        Country.create("empire1", testPlayer);
+        Country.addMember("empire1", testPlayer2);
         testPlayer.nextMessage();
 
         boolean result = server.execute("country", testPlayer, "kick", testPlayer2.getName()).hasSucceeded();
@@ -191,29 +185,29 @@ class CountryCTests {
         /*
         * Check player2 not in country anymore
         * */
-        assertEquals("none", Banking.Element(testPlayer2));
+        assertEquals("none", Country.Element(testPlayer2));
     }
 
     @Test
     void countryAddLawEnforcement() {
         PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
         PlayerMock testPlayer2 = TestTools.addPermsPlayer(server, plugin);
-        Banking.create("empire1", testPlayer);
-        Banking.addMember("empire1", testPlayer2);
+        Country.create("empire1", testPlayer);
+        Country.addMember("empire1", testPlayer2);
 
         /*
         * Add player as law enforcement
         * */
-        assertEquals(0, Banking.getLawEnforcement("empire1").size());
-        Banking.addLawEnforcement("empire1", testPlayer2);
-        assertEquals(1, Banking.getLawEnforcement("empire1").size());
-        assertEquals(testPlayer2.getUniqueId(), Banking.getLawEnforcement("empire1").get(0));
+        assertEquals(0, Country.getLawEnforcement("empire1").size());
+        Country.addLawEnforcement("empire1", testPlayer2);
+        assertEquals(1, Country.getLawEnforcement("empire1").size());
+        assertEquals(testPlayer2.getUniqueId(), Country.getLawEnforcement("empire1").get(0));
 
         /*
         * Remove Law Enforcement
         * */
-        Banking.removeLawEnforcement("empire1", testPlayer2);
-        assertEquals(0, Banking.getLawEnforcement("empire1").size());
+        Country.removeLawEnforcement("empire1", testPlayer2);
+        assertEquals(0, Country.getLawEnforcement("empire1").size());
 
 
 

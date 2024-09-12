@@ -13,17 +13,15 @@ import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.Directional;
 import org.bukkit.block.data.Waterlogged;
 import org.bukkit.block.data.type.Door;
-import org.bukkit.block.data.type.WallSign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.SignChangeEvent;
-import org.bukkit.event.entity.EntityBreakDoorEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import java.util.*;
 
 public class SignIncome {
-    private static ArrayList<Door> door_cooldown = new ArrayList<Door>();
+    private static ArrayList<Door> doorCooldown = new ArrayList<Door>();
     public static Map<Location, UUID> owner = new HashMap<>();
 
     public static void Open(Sign sign, Player player){
@@ -45,7 +43,7 @@ public class SignIncome {
                     DoorState = block.getState();
                 }
 
-                if (!door_cooldown.contains(door)){
+                if (!doorCooldown.contains(door)){
 
                     if (SignClick.getEconomy().getBalance(player) >= amount) {
                         try {
@@ -65,7 +63,7 @@ public class SignIncome {
                         door.setOpen(!old);
                         DoorState.setBlockData(door);
                         DoorState.update();
-                        door_cooldown.add(door);
+                        doorCooldown.add(door);
 
 
                         Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(SignClick.getPlugin(), new Runnable() {
@@ -73,7 +71,7 @@ public class SignIncome {
                                 door.setOpen(old);
                                 DoorState.setBlockData(door);
                                 DoorState.update();
-                                door_cooldown.remove(door);
+                                doorCooldown.remove(door);
 
                             }
                         }, 20*5L);

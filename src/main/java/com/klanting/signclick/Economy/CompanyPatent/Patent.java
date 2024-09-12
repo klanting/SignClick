@@ -2,17 +2,13 @@ package com.klanting.signclick.Economy.CompanyPatent;
 
 import com.klanting.signclick.Economy.Company;
 import com.klanting.signclick.SignClick;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
-import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -127,7 +123,7 @@ public class Patent {
 
         List<String> index_list = new ArrayList<String>();
         for (PatentUpgrade up: upgrades){
-            Integer index = comp.patent_upgrades.indexOf(up);
+            Integer index = comp.patentUpgrades.indexOf(up);
             index_list.add(index.toString());
         }
 

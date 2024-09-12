@@ -2,47 +2,24 @@ package com.company;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
-import be.seeseemelk.mockbukkit.inventory.ChestInventoryMock;
-import com.klanting.signclick.Economy.Banking;
+import com.klanting.signclick.Economy.Country;
 import com.klanting.signclick.Economy.Company;
 import com.klanting.signclick.Economy.CompanyPatent.PatentUpgrade;
 import com.klanting.signclick.Economy.CompanyPatent.PatentUpgradeJumper;
 import com.klanting.signclick.Economy.Market;
 import com.klanting.signclick.Menus.CompanyAuctionMenu;
-import com.klanting.signclick.Menus.CompanySelector;
 import com.klanting.signclick.SignClick;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.entity.Item;
-import org.bukkit.event.inventory.*;
 import org.bukkit.inventory.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import tools.TestTools;
 
 
-import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
-
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
-import be.seeseemelk.mockbukkit.plugin.PluginManagerMock;
-import com.klanting.signclick.Economy.Banking;
-import com.klanting.signclick.SignClick;
-import org.bukkit.plugin.Plugin;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import net.milkbowl.vault.economy.Economy;
-import tools.MockDynmap;
-import tools.MockEconomy;
-
 import static org.junit.jupiter.api.Assertions.*;
-import org.dynmap.DynmapAPI;
-import tools.TestTools;
-
-import java.util.Objects;
 
 
 public class CompanyMenuTests {
@@ -61,7 +38,7 @@ public class CompanyMenuTests {
 
         testPlayer = TestTools.addPermsPlayer(server, plugin);
 
-        boolean suc6 = Market.add_business("TestCaseInc", "TCI", Market.get_account(testPlayer));
+        boolean suc6 = Market.add_business("TestCaseInc", "TCI", Market.getAccount(testPlayer));
         assertTrue(suc6);
 
         suc6 = server.execute("company", testPlayer, "menu").hasSucceeded();
@@ -76,7 +53,7 @@ public class CompanyMenuTests {
     public void tearDown() {
 
         MockBukkit.unmock();
-        Banking.clear();
+        Country.clear();
         Market.clear();
     }
 
@@ -245,7 +222,7 @@ public class CompanyMenuTests {
         betItem = auctionMenu.getItem(0);
         assertEquals("§7Bet by: TCI", betItem.getItemMeta().getLore().get(1));
 
-        assertEquals(0, comp.patent_upgrades.size());
+        assertEquals(0, comp.patentUpgrades.size());
         testPlayer.closeInventory();
 
         /*
@@ -261,7 +238,7 @@ public class CompanyMenuTests {
         betItem = auctionMenu.getItem(0);
 
         assertEquals("§7Bet by: None", betItem.getItemMeta().getLore().get(1));
-        assertEquals(1, comp.patent_upgrades.size());
+        assertEquals(1, comp.patentUpgrades.size());
     }
 
     @Test
@@ -273,7 +250,7 @@ public class CompanyMenuTests {
         * */
         PatentUpgrade up = new PatentUpgradeJumper();
         up.level = 1;
-        comp.patent_upgrades.add(up);
+        comp.patentUpgrades.add(up);
 
         /*
         * open company menu

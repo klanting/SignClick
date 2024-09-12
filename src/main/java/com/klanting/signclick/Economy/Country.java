@@ -15,11 +15,11 @@ import org.bukkit.entity.Player;
 import java.text.DecimalFormat;
 import java.util.*;
 
-import static com.klanting.signclick.commands.BankCommands.CountryElections;
+import static com.klanting.signclick.commands.BankCommands.countryElections;
 import static org.bukkit.Bukkit.getServer;
 
-public class Banking {
-    public static Map<String, Integer> banks = new HashMap<String, Integer>();
+public class Country {
+    private static final Map<String, Integer> countries = new HashMap<String, Integer>();
     public static Map<String, List<UUID>> owners = new HashMap<String, List<UUID>>();
     public static Map<String, List<UUID>> members = new HashMap<String, List<UUID>>();
     private static Map<UUID, String> Country = new HashMap<UUID, String>();
@@ -28,10 +28,10 @@ public class Banking {
     private static Map<String, Location> spawn_loc = new HashMap<String, Location>();
 
     public static List<UUID> getLawEnforcement(String s) {
-        return law_enforcement.getOrDefault(s, new ArrayList<UUID>());
+        return lawEnforcement.getOrDefault(s, new ArrayList<UUID>());
     }
 
-    private static Map<String, List<UUID>> law_enforcement = new HashMap<String, List<UUID>>();
+    private static Map<String, List<UUID>> lawEnforcement = new HashMap<String, List<UUID>>();
 
     private static Map<String, Double> stabilityMap = new HashMap<String, Double>();
 
@@ -53,14 +53,14 @@ public class Banking {
     }
 
     public static void clear(){
-        banks.clear();
+        countries.clear();
         owners.clear();
         members.clear();
         Country.clear();
         PCT.clear();
         color_map.clear();
         spawn_loc.clear();
-        law_enforcement.clear();
+        lawEnforcement.clear();
         stabilityMap.clear();
         policies.clear();
         parties.clear();
@@ -70,7 +70,7 @@ public class Banking {
     }
 
     public static int countryCount(){
-        return banks.size();
+        return countries.size();
     }
 
     public static Double add_stability(String s, Double change){
@@ -84,8 +84,8 @@ public class Banking {
             return;
         }
 
-        if (!banks.containsKey(s)){
-            banks.put(s, 0);
+        if (!countries.containsKey(s)){
+            countries.put(s, 0);
 
             List<UUID> owner_list = new ArrayList<>();
             owner_list.add(player.getUniqueId());
@@ -102,8 +102,8 @@ public class Banking {
         }
     }
     public static void delete(String s,Player player){
-        if (banks.containsKey(s)){
-            banks.remove(s);
+        if (countries.containsKey(s)){
+            countries.remove(s);
             owners.remove(s);
             members.remove(s);
             PCT.remove(s);
@@ -123,32 +123,32 @@ public class Banking {
     }
     public static boolean withdraw(String s, int amount){
 
-        if (!banks.containsKey(s)){
+        if (!countries.containsKey(s)){
             return false;
         }
 
-        int balance = banks.get(s);
+        int balance = countries.get(s);
         int bal = balance - amount;
 
         if (bal < 0){
             return false;
         }
 
-        banks.put(s, bal);
+        countries.put(s, bal);
         changeCapital(s, balance, bal);
         return true;
     }
     public static void deposit(String s, int amount){
-        if (banks.containsKey(s)){
-            int balance = banks.get(s);
+        if (countries.containsKey(s)){
+            int balance = countries.get(s);
             int bal = balance + amount;
-            banks.put(s, bal);
+            countries.put(s, bal);
             changeCapital(s, balance, bal);
         }
     }
     public static boolean has(String s,int amount){
-        if (banks.containsKey(s)){
-            int balance = banks.get(s);
+        if (countries.containsKey(s)){
+            int balance = countries.get(s);
             int bal = balance - amount;
             if(bal >= 0){
                 return true;
@@ -201,14 +201,14 @@ public class Banking {
     }
 
     public static int bal (String s){
-        return banks.get(s);
+        return countries.get(s);
 
     }
 
     public static void addLawEnforcement(String s, Player player){
         List<UUID> law_list;
-        if (law_enforcement.get(s) != null){
-            law_list = law_enforcement.get(s);
+        if (lawEnforcement.get(s) != null){
+            law_list = lawEnforcement.get(s);
         }else{
             law_list = new ArrayList<>();
         }
@@ -221,16 +221,16 @@ public class Banking {
         }
         if (!law_list.contains(player.getUniqueId()) || !owner_list.contains(player.getUniqueId())) {
             law_list.add(player.getUniqueId());
-            law_enforcement.put(s, law_list);
+            lawEnforcement.put(s, law_list);
         }
     }
 
     public static void removeLawEnforcement(String s, OfflinePlayer offlinePlayer){
-        List<UUID> law_list = law_enforcement.get(s);
+        List<UUID> law_list = lawEnforcement.get(s);
         UUID uuid = offlinePlayer.getUniqueId();
         if (law_list.contains(uuid)) {
             law_list.remove(uuid);
-            law_enforcement.put(s, law_list);
+            lawEnforcement.put(s, law_list);
         }
     }
 
@@ -256,7 +256,7 @@ public class Banking {
             members.put(s, member_list);
             Country.put(uuid, s);
 
-            Banking.add_stability(s, 3.0*(1.0+Banking.getPolicyBonus(s, 2, 9)));
+            com.klanting.signclick.Economy.Country.add_stability(s, 3.0*(1.0+ com.klanting.signclick.Economy.Country.getPolicyBonus(s, 2, 9)));
         }
     }
 
@@ -267,12 +267,12 @@ public class Banking {
             member_list.remove(uuid);
             members.put(s, member_list);
             Country.remove(uuid);
-            Banking.add_stability(s, -3.0*(1.0-Banking.getPolicyBonus(s, 2, 10)));
+            com.klanting.signclick.Economy.Country.add_stability(s, -3.0*(1.0- com.klanting.signclick.Economy.Country.getPolicyBonus(s, 2, 10)));
         }
     }
 
     public static List<String> GetBanks(){
-        List<String> lst = new ArrayList<String>(banks.keySet());
+        List<String> lst = new ArrayList<String>(countries.keySet());
         return lst;
 
     }
@@ -288,10 +288,10 @@ public class Banking {
     }
 
     public static void info(String name, Player player){
-        int amount = banks.get(name);
+        int amount = countries.get(name);
         List<UUID> player_list = owners.get(name);
         List<UUID> member_list = members.get(name);
-        List<UUID> law_list = law_enforcement.get(name);
+        List<UUID> law_list = lawEnforcement.get(name);
 
         List<String> p_list = new ArrayList<String>();
         for (UUID p: player_list){
@@ -327,17 +327,17 @@ public class Banking {
     }
 
     public static List<String> getTop(){
-        List<String> start = new ArrayList<String>(Banking.GetBanks());
+        List<String> start = new ArrayList<String>(com.klanting.signclick.Economy.Country.GetBanks());
         List<String> end = new ArrayList<String>();
         for (String s: start){
-            int amount = banks.get(s);
+            int amount = countries.get(s);
             if (end.size() == 0){
                 end.add(s);
             }
             int index = end.size();
             //int index = 0;
             for (String old: end){
-                int value = banks.get(old);
+                int value = countries.get(old);
                 if (value < amount){
                     index = end.indexOf(old);
                     break;
@@ -379,7 +379,7 @@ public class Banking {
     }
 
     public static void SaveData(){
-        for (Map.Entry<String, Integer> entry : banks.entrySet()){
+        for (Map.Entry<String, Integer> entry : countries.entrySet()){
             SignClick.getPlugin().getConfig().set("bank." + entry.getKey(), entry.getValue());
         }
 
@@ -424,7 +424,7 @@ public class Banking {
 
         }
 
-        for (Map.Entry<String, List<UUID>> entry : law_enforcement.entrySet()){
+        for (Map.Entry<String, List<UUID>> entry : lawEnforcement.entrySet()){
 
             List<String> f_list = new ArrayList<String>();
             for (UUID uuid: entry.getValue()){
@@ -453,7 +453,7 @@ public class Banking {
         }
 
         SignClick.getPlugin().getConfig().set("elections", null);
-        for (Map.Entry<String, Election> entry : CountryElections.entrySet()){
+        for (Map.Entry<String, Election> entry : countryElections.entrySet()){
             entry.getValue().Save();
         }
 
@@ -487,7 +487,7 @@ public class Banking {
         if (SignClick.getPlugin().getConfig().contains("bank")){
             SignClick.getPlugin().getConfig().getConfigurationSection("bank").getKeys(true).forEach(key ->{
                 int amount = (int) SignClick.getPlugin().getConfig().get("bank." + key);
-                banks.put(key, amount);
+                countries.put(key, amount);
             });
         }
 
@@ -555,7 +555,7 @@ public class Banking {
                     f_list.add(UUID.fromString(s));
                 }
 
-                law_enforcement.put(key, f_list);
+                lawEnforcement.put(key, f_list);
             });
         }
 
@@ -590,7 +590,7 @@ public class Banking {
 
         }
 
-        for (String name: banks.keySet()){
+        for (String name: countries.keySet()){
             if (!checked.contains(name)){
 
                 policies.put(name, Arrays.asList(new PolicyEconomics(2), new PolicyMarket(2), new PolicyMilitary(2), new PolicyTourist(2), new PolicyTaxation(2)));
@@ -624,13 +624,13 @@ public class Banking {
 
             });
 
-            for (String country: Banking.banks.keySet()){
+            for (String country: com.klanting.signclick.Economy.Country.countries.keySet()){
                 if (done_countries.contains(country)){
                     continue;
                 }
 
                 List<Party> party_list = new ArrayList<>();
-                Party p = new Party("current government", country, 1.0, Banking.owners.get(country), new ArrayList<>());
+                Party p = new Party("current government", country, 1.0, com.klanting.signclick.Economy.Country.owners.get(country), new ArrayList<>());
                 party_list.add(p);
 
                 parties.put(country, party_list);
@@ -652,13 +652,13 @@ public class Banking {
                 long time = (int) SignClick.getPlugin().getConfig().get("election."+country_vs+".to_wait");
                 Election e = new Election(country_vs, time+(System.currentTimeMillis()/1000));
                 e.vote_dict = vote_dict;
-                e.already_voted = already_voted;
-                BankCommands.CountryElections.put(country_vs, e);
+                e.alreadyVoted = already_voted;
+                BankCommands.countryElections.put(country_vs, e);
 
                 Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(SignClick.getPlugin(), new Runnable() {
                     public void run() {
-                        Election e = CountryElections.get(country_vs);
-                        CountryElections.remove(country_vs);
+                        Election e = countryElections.get(country_vs);
+                        countryElections.remove(country_vs);
 
                         double total = 0.0;
                         for (float f : e.vote_dict.values()) {
@@ -669,7 +669,7 @@ public class Banking {
                             return;
                         }
 
-                        for (Party p: Banking.parties.getOrDefault(country_vs, new ArrayList<>())){
+                        for (Party p: com.klanting.signclick.Economy.Country.parties.getOrDefault(country_vs, new ArrayList<>())){
                             double pct = (double) e.vote_dict.getOrDefault(p.name, 0)/total;
                             p.PCT = pct;
                         }
@@ -677,7 +677,7 @@ public class Banking {
                         double highest_pct = -0.1;
                         Party highest_party = null;
 
-                        for (Party p: Banking.parties.getOrDefault(country_vs, new ArrayList<>())){
+                        for (Party p: com.klanting.signclick.Economy.Country.parties.getOrDefault(country_vs, new ArrayList<>())){
                             double pct = (double) e.vote_dict.getOrDefault(p.name, 0)/total;
                             p.PCT = pct;
 
@@ -687,25 +687,25 @@ public class Banking {
                             }
                         }
 
-                        if (highest_party != Banking.getRuling(country_vs)){
-                            double base = 2.0*(1.0-Banking.getPolicyBonus(country_vs, 2, 8));
-                            Banking.add_stability(country_vs, -base);
+                        if (highest_party != com.klanting.signclick.Economy.Country.getRuling(country_vs)){
+                            double base = 2.0*(1.0- com.klanting.signclick.Economy.Country.getPolicyBonus(country_vs, 2, 8));
+                            com.klanting.signclick.Economy.Country.add_stability(country_vs, -base);
                         }
 
-                        List<UUID> old_owners = Banking.owners.getOrDefault(country_vs, new ArrayList<>());
-                        List<UUID> members = Banking.members.getOrDefault(country_vs, new ArrayList<>());
+                        List<UUID> old_owners = com.klanting.signclick.Economy.Country.owners.getOrDefault(country_vs, new ArrayList<>());
+                        List<UUID> members = com.klanting.signclick.Economy.Country.members.getOrDefault(country_vs, new ArrayList<>());
                         for (UUID uuid: old_owners){
                             members.add(uuid);
                         }
-                        Banking.members.put(country_vs, members);
+                        com.klanting.signclick.Economy.Country.members.put(country_vs, members);
 
-                        Banking.owners.put(country_vs, highest_party.owners);
+                        com.klanting.signclick.Economy.Country.owners.put(country_vs, highest_party.owners);
 
                         for (UUID uuid: highest_party.owners){
                             members.remove(uuid);
                         }
 
-                        for (Decision d: Banking.decisions.get(country_vs)){
+                        for (Decision d: com.klanting.signclick.Economy.Country.decisions.get(country_vs)){
                             d.checkApprove();
                         }
 
@@ -725,13 +725,13 @@ public class Banking {
                     List<String> approved_index = (List<String>) SignClick.getPlugin().getConfig().get("decision."+country_vs+"."+index+".approved_index");
                     List<Party> approved = new ArrayList<>();
                     for (String a: approved_index){
-                        approved.add(Banking.parties.get(country_vs).get(Integer.valueOf(a)));
+                        approved.add(com.klanting.signclick.Economy.Country.parties.get(country_vs).get(Integer.valueOf(a)));
                     }
 
                     List<String> disapproved_index = (List<String>) SignClick.getPlugin().getConfig().get("decision."+country_vs+"."+index+".disapproved_index");
                     List<Party> disapproved = new ArrayList<>();
                     for (String d: disapproved_index){
-                        disapproved.add(Banking.parties.get(country_vs).get(Integer.valueOf(d)));
+                        disapproved.add(com.klanting.signclick.Economy.Country.parties.get(country_vs).get(Integer.valueOf(d)));
                     }
 
                     Decision d = null;
@@ -744,7 +744,7 @@ public class Banking {
                         d_list.add(d);
                     }else if (id == 1){
                         int p = (int) SignClick.getPlugin().getConfig().get("decision."+country_vs+"."+index+".p");
-                        d = new DecisionBanParty(name, needed, country_vs, Banking.parties.get(country_vs).get(p));
+                        d = new DecisionBanParty(name, needed, country_vs, com.klanting.signclick.Economy.Country.parties.get(country_vs).get(p));
                         d_list.add(d);
                     }else if (id == 2){
                         boolean b = (boolean) SignClick.getPlugin().getConfig().get("decision."+country_vs+"."+index+".b");
@@ -764,7 +764,7 @@ public class Banking {
                     d.disapproved = disapproved;
                 });
 
-                Banking.decisions.put(country_vs, d_list);
+                com.klanting.signclick.Economy.Country.decisions.put(country_vs, d_list);
 
             });
 
@@ -788,19 +788,19 @@ public class Banking {
     }
 
     public static void RunLawSalary(){
-        for (Map.Entry<String , List<UUID>> entry : law_enforcement.entrySet()){
+        for (Map.Entry<String , List<UUID>> entry : lawEnforcement.entrySet()){
             for (UUID uuid : entry.getValue()){
                 double base = 0;
-                if (Banking.getStability(entry.getKey()) < 50){
+                if (com.klanting.signclick.Economy.Country.getStability(entry.getKey()) < 50){
                     base += 2000.0;
                 }
 
-                if (Banking.getStability(entry.getKey()) < 30){
+                if (com.klanting.signclick.Economy.Country.getStability(entry.getKey()) < 30){
                     base += 3000.0;
                 }
 
-                Banking.withdraw(entry.getKey(), (int) Banking.getPolicyBonus(entry.getKey(), 2, 0)+(int) base);
-                SignClick.getEconomy().depositPlayer(Bukkit.getOfflinePlayer(uuid), (int) Banking.getPolicyBonus(entry.getKey(), 2, 0)+(int) base);
+                com.klanting.signclick.Economy.Country.withdraw(entry.getKey(), (int) com.klanting.signclick.Economy.Country.getPolicyBonus(entry.getKey(), 2, 0)+(int) base);
+                SignClick.getEconomy().depositPlayer(Bukkit.getOfflinePlayer(uuid), (int) com.klanting.signclick.Economy.Country.getPolicyBonus(entry.getKey(), 2, 0)+(int) base);
             }
         }
     }
@@ -816,26 +816,26 @@ public class Banking {
         }
 
         if (id == 0 || id == 3){
-            int gov_cap = Banking.getPolicyRequire(s, id, 0, level);
-            if (gov_cap > Banking.bal(s)){
+            int gov_cap = com.klanting.signclick.Economy.Country.getPolicyRequire(s, id, 0, level);
+            if (gov_cap > com.klanting.signclick.Economy.Country.bal(s)){
                 return false;
             }
         }
 
         if (id == 2 || id == 4){
-            int gov_cap = Banking.getPolicyRequire(s, id, 1, level);
-            if (gov_cap > Banking.bal(s)){
+            int gov_cap = com.klanting.signclick.Economy.Country.getPolicyRequire(s, id, 1, level);
+            if (gov_cap > com.klanting.signclick.Economy.Country.bal(s)){
                 return false;
             }
 
-            int law_enfo = Banking.getPolicyRequire(s, id, 0, level);
-            if (law_enfo > law_enforcement.getOrDefault(s, new ArrayList<>(0)).size()){
+            int law_enfo = com.klanting.signclick.Economy.Country.getPolicyRequire(s, id, 0, level);
+            if (law_enfo > lawEnforcement.getOrDefault(s, new ArrayList<>(0)).size()){
                 return false;
             }
         }
 
         if (id == 4){
-            int tax_rate = Banking.getPolicyRequire(s, id, 2, level);
+            int tax_rate = com.klanting.signclick.Economy.Country.getPolicyRequire(s, id, 2, level);
             if (level < 2 && tax_rate > PCT.get(s)){
                 return false;
             }
@@ -853,7 +853,7 @@ public class Banking {
         Decision d = new DecisionPolicy("§6Policy §9"+policies.get(s).get(id).titles.get(old_level)+
                 "§6 to §9"+policies.get(s).get(id).titles.get(level), change, s, id, old_level, level);
 
-        if (Banking.hasDecisionName(s, d.name)){
+        if (com.klanting.signclick.Economy.Country.hasDecisionName(s, d.name)){
             return false;
         }
 
@@ -964,7 +964,7 @@ public class Banking {
         double highest_pct = -0.1;
         Party highest_party = null;
 
-        for (Party p: Banking.parties.getOrDefault(s, new ArrayList<>())){
+        for (Party p: com.klanting.signclick.Economy.Country.parties.getOrDefault(s, new ArrayList<>())){
 
             if (p.PCT > highest_pct){
                 highest_pct = p.PCT;
@@ -987,16 +987,16 @@ public class Banking {
 
     public static void runStability(){
         //no election
-        for (String s: Banking.banks.keySet()){
+        for (String s: com.klanting.signclick.Economy.Country.countries.keySet()){
             double base = 1.0;
-            base -= Banking.getPolicyBonus(s, 2, 3);
-            Banking.add_stability(s, -base);
+            base -= com.klanting.signclick.Economy.Country.getPolicyBonus(s, 2, 3);
+            com.klanting.signclick.Economy.Country.add_stability(s, -base);
 
         }
 
-        for (Map.Entry<String, Boolean> entry: Banking.forbid_party.entrySet()){
+        for (Map.Entry<String, Boolean> entry: com.klanting.signclick.Economy.Country.forbid_party.entrySet()){
             if (entry.getValue()){
-                Banking.add_stability(entry.getKey(), -3.0);
+                com.klanting.signclick.Economy.Country.add_stability(entry.getKey(), -3.0);
             }
 
         }
@@ -1020,19 +1020,19 @@ public class Banking {
             boolean grow = new_cap-old_cap > 0;
 
             if (grow){
-                Banking.add_stability(s, entry.getValue());
+                com.klanting.signclick.Economy.Country.add_stability(s, entry.getValue());
             }else{
-                Banking.add_stability(s, -entry.getValue());
+                com.klanting.signclick.Economy.Country.add_stability(s, -entry.getValue());
             }
         }
     }
 
     public static void removeParty(Party p){
         String country = p.country;
-        Party ph = Banking.getRuling(country);
+        Party ph = com.klanting.signclick.Economy.Country.getRuling(country);
 
         ph.PCT += p.PCT;
-        Banking.parties.get(country).remove(p);
+        com.klanting.signclick.Economy.Country.parties.get(country).remove(p);
 
         add_stability(country, -10.0);
     }

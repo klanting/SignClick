@@ -1,7 +1,5 @@
 package com.klanting.signclick.events;
 
-import com.klanting.signclick.Calculate.WeeklyPay;
-import com.klanting.signclick.Economy.Banking;
 import com.klanting.signclick.Economy.Market;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,7 +11,7 @@ public class BusEvents implements Listener {
     public static void OnJoin(PlayerJoinEvent event){
         Player player = event.getPlayer();
 
-        if (!Market.has_account(player)){
+        if (!Market.hasAccount(player)){
             Market.create_account(player);
         }
 

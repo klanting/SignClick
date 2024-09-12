@@ -1,6 +1,6 @@
 package com.klanting.signclick.Calculate;
 
-import com.klanting.signclick.Economy.Banking;
+import com.klanting.signclick.Economy.Country;
 import com.klanting.signclick.SignClick;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -18,15 +18,15 @@ public class DynmapCheck {
                         int amount = 1000;
                         if (SignClick.getEconomy().getBalance(player) >= amount) {
                             SignClick.getEconomy().withdrawPlayer(player, amount);
-                            if (Banking.Element(player) != "none"){
-                                Banking.deposit(Banking.Element(player), amount);
+                            if (Country.Element(player) != "none"){
+                                Country.deposit(Country.Element(player), amount);
                             }else{
-                                List<String> list = Banking.GetBanks();
+                                List<String> list = Country.GetBanks();
                                 if (list.size() == 0){
                                     continue;
                                 }
                                 Random rand = new Random();
-                                Banking.deposit(list.get(rand.nextInt(list.size())), amount);
+                                Country.deposit(list.get(rand.nextInt(list.size())), amount);
                             }
 
 

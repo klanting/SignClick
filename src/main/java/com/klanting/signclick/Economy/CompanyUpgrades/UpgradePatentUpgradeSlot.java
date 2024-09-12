@@ -12,17 +12,17 @@ public class UpgradePatentUpgradeSlot extends Upgrade{
         bonus.put(4, 7);
         bonus.put(5, 8);
 
-        UpgradeCost.put(0, 4000000);
-        UpgradeCost.put(1, 8000000);
-        UpgradeCost.put(2, 12000000);
-        UpgradeCost.put(3, 16000000);
-        UpgradeCost.put(4, 20000000);
+        upgradeCost.put(0, 4000000);
+        upgradeCost.put(1, 8000000);
+        upgradeCost.put(2, 12000000);
+        upgradeCost.put(3, 16000000);
+        upgradeCost.put(4, 20000000);
 
-        UpgradeCostPoints.put(0, 100000);
-        UpgradeCostPoints.put(1, 200000);
-        UpgradeCostPoints.put(2, 300000);
-        UpgradeCostPoints.put(3, 600000);
-        UpgradeCostPoints.put(4, 1000000);
+        upgradeCostPoints.put(0, 100000);
+        upgradeCostPoints.put(1, 200000);
+        upgradeCostPoints.put(2, 300000);
+        upgradeCostPoints.put(3, 600000);
+        upgradeCostPoints.put(4, 1000000);
 
         name = "Patent Upgrade Slot";
         material = Material.ITEM_FRAME;

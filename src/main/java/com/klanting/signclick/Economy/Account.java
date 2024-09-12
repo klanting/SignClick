@@ -13,11 +13,11 @@ public class Account {
     public Map<String, Integer> shares = new HashMap<String, Integer>();
     boolean offer = false;
 
-    public String comp_name_pending = null;
-    public double comp_amount_pending = 0.0;
-    public int comp_weeks_pending = 0;
+    public String compNamePending = null;
+    public double compAmountPending = 0.0;
+    public int compWeeksPending = 0;
 
-    public String comp_reason = "no_reason";
+    public String compReason = "no_reason";
 
     Account(UUID u){
         uuid = u;
@@ -48,8 +48,8 @@ public class Account {
 
                 int share_amount = shares.getOrDefault(Sname, 0);
                 shares.put(Sname, share_amount+amount);
-                if (Market.get_business(Sname).open_trade){
-                    Market.set_total(Sname, Market.get_total(Sname)+amount);
+                if (Market.get_business(Sname).openTrade){
+                    Market.setTotal(Sname, Market.getTotal(Sname)+amount);
                 }
                 player.sendMessage("§bbuy: §aaccepted");
             }else{
@@ -66,14 +66,14 @@ public class Account {
 
         String country = Market.get_business(Sname).GetCountry();
 
-        double sub_fee = Market.get_fee();
-        if (Banking.getStability(country) < 50){
+        double sub_fee = Market.getFee();
+        if (Country.getStability(country) < 50){
             sub_fee += 0.01;
         }
-        double to_gov = v/(1.0-(sub_fee-Banking.getPolicyBonus(country, 0, 0))*(Market.get_fee()-Banking.getPolicyBonus(country, 0, 0)- Banking.getPolicyBonus(country, 1, 1)));
-        String bank = Banking.Element(player);
+        double to_gov = v/(1.0-(sub_fee- Country.getPolicyBonus(country, 0, 0))*(Market.getFee()- Country.getPolicyBonus(country, 0, 0)- Country.getPolicyBonus(country, 1, 1)));
+        String bank = Country.Element(player);
         if (bank != null){
-            Banking.deposit(bank, (int) to_gov);
+            Country.deposit(bank, (int) to_gov);
         }else{
             Market.get_business(Sname).add_books(to_gov);
         }
@@ -146,7 +146,7 @@ public class Account {
         for(Map.Entry<String, Integer> entry : shares.entrySet()){
             String b = entry.getKey();
             int s = entry.getValue();
-            double v = (Market.get_business(b).get_value()/Market.get_total(b).doubleValue())*s;
+            double v = (Market.get_business(b).get_value()/Market.getTotal(b).doubleValue())*s;
 
             if (order.size() > 0){
                 boolean found = false;
@@ -183,7 +183,7 @@ public class Account {
             DecimalFormat df2 = new DecimalFormat("0.00");
             int i2 = i + 1;
             total += v;
-            player.sendMessage("§b"+i2+". §3"+b+": §7" +df.format(v)+" ("+df2.format((shares.get(b).doubleValue()/Market.get_total(b).doubleValue()*100.0))+"%)\n");
+            player.sendMessage("§b"+i2+". §3"+b+": §7" +df.format(v)+" ("+df2.format((shares.get(b).doubleValue()/Market.getTotal(b).doubleValue()*100.0))+"%)\n");
         }
         DecimalFormat df = new DecimalFormat("###,###,###");
         player.sendMessage("§9Total value: §e" +df.format(total));
@@ -193,31 +193,31 @@ public class Account {
     }
 
     public void accept_offer_comp_contract(){
-        if (comp_name_pending == null){
+        if (compNamePending == null){
             return;
         }
 
-        Market.SetContractPlayertoComp(uuid.toString(), comp_name_pending, comp_amount_pending, comp_weeks_pending, comp_reason);
+        Market.setContractPlayertoComp(uuid.toString(), compNamePending, compAmountPending, compWeeksPending, compReason);
 
-        comp_name_pending = null;
-        comp_amount_pending = 0.0;
-        comp_weeks_pending= 0;
-        comp_reason = "no_reason";
+        compNamePending = null;
+        compAmountPending = 0.0;
+        compWeeksPending = 0;
+        compReason = "no_reason";
 
     }
 
     public void receive_offer_comp_contract(String stock_name, double amount, int weeks, String reason){
-        comp_name_pending = stock_name;
-        comp_amount_pending = amount;
-        comp_weeks_pending = weeks;
-        comp_reason = reason;
+        compNamePending = stock_name;
+        compAmountPending = amount;
+        compWeeksPending = weeks;
+        compReason = reason;
 
         Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(SignClick.getPlugin(), new Runnable() {
             public void run() {
-                comp_name_pending = null;
-                comp_amount_pending = 0.0;
-                comp_weeks_pending= 0;
-                comp_reason = "no_reason";
+                compNamePending = null;
+                compAmountPending = 0.0;
+                compWeeksPending = 0;
+                compReason = "no_reason";
 
             }
         }, 20*120L);

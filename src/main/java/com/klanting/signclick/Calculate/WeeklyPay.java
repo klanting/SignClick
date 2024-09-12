@@ -1,10 +1,9 @@
 package com.klanting.signclick.Calculate;
 
-import com.klanting.signclick.Economy.Banking;
+import com.klanting.signclick.Economy.Country;
 import com.klanting.signclick.SignClick;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.Server;
 import org.bukkit.entity.Player;
 
 import java.util.*;
@@ -62,10 +61,10 @@ public class WeeklyPay {
             }
 
             int PCT_amount;
-            String bank = Banking.Element(finalTarget);
+            String bank = Country.Element(finalTarget);
             if (bank.equals("none")){
-                PCT_amount = (int) (amount * ((double) Banking.getPCT(bank))/100.0);
-                Banking.deposit(bank, PCT_amount);
+                PCT_amount = (int) (amount * ((double) Country.getPCT(bank))/100.0);
+                Country.deposit(bank, PCT_amount);
             }else{
                 PCT_amount = 0;
             }

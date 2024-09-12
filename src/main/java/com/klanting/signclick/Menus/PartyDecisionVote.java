@@ -1,8 +1,7 @@
 package com.klanting.signclick.Menus;
 
-import com.klanting.signclick.Economy.Banking;
+import com.klanting.signclick.Economy.Country;
 import com.klanting.signclick.Economy.Decisions.Decision;
-import com.klanting.signclick.Economy.Decisions.DecisionPolicy;
 import com.klanting.signclick.Economy.Parties.Party;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -14,7 +13,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class PartyDecisionVote implements InventoryHolder {
 
@@ -29,7 +27,7 @@ public class PartyDecisionVote implements InventoryHolder {
     }
 
     public void init(){
-        List<Decision> des = Banking.decisions.getOrDefault(p.country, new ArrayList<>());
+        List<Decision> des = Country.decisions.getOrDefault(p.country, new ArrayList<>());
         for (Decision d: des){
             if (d.hasVoted(p)){
                 continue;

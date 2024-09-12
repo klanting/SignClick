@@ -5,15 +5,12 @@ import com.klanting.signclick.Economy.CompanyPatent.Patent;
 import com.klanting.signclick.Economy.CompanyPatent.PatentUpgrade;
 import com.klanting.signclick.Economy.CompanyPatent.PatentUpgradeCustom;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
-
-import static org.bukkit.Bukkit.getServer;
 
 public class CompanyPatentDesignerUpgrade implements InventoryHolder {
     private Inventory menu;
@@ -34,7 +31,7 @@ public class CompanyPatentDesignerUpgrade implements InventoryHolder {
 
     public void init(){
         int counter = 0;
-        for (PatentUpgrade patent_up: comp.patent_upgrades){
+        for (PatentUpgrade patent_up: comp.patentUpgrades){
 
             if (patent_up instanceof PatentUpgradeCustom){
                 PatentUpgradeCustom p = (PatentUpgradeCustom) patent_up;

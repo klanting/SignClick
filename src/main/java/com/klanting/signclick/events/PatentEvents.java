@@ -1,34 +1,20 @@
 package com.klanting.signclick.events;
 
-import com.klanting.signclick.Economy.Banking;
-import com.klanting.signclick.Economy.Market;
+import com.klanting.signclick.Economy.Country;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerExpChangeEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.event.player.PlayerVelocityEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.util.Vector;
 
-import java.util.ArrayList;
 import java.util.Random;
-
-import static org.bukkit.Bukkit.getServer;
-import static org.bukkit.Bukkit.isPrimaryThread;
 
 
 public class PatentEvents implements Listener {
@@ -109,8 +95,8 @@ public class PatentEvents implements Listener {
 
     public static void OnPlayerXp(PlayerExpChangeEvent event){
         Player player = event.getPlayer();
-        String country = Banking.Element(player);
-        double m = 1.0 + Banking.getPolicyBonus(country, 2, 2);
+        String country = Country.Element(player);
+        double m = 1.0 + Country.getPolicyBonus(country, 2, 2);
         event.setAmount((int) Math.round(event.getAmount()*m));
     }
 

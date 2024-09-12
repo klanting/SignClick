@@ -1,7 +1,6 @@
 package com.klanting.signclick.Economy.Decisions;
 
-import com.klanting.signclick.Economy.Banking;
-import com.klanting.signclick.Economy.Parties.Party;
+import com.klanting.signclick.Economy.Country;
 import com.klanting.signclick.SignClick;
 
 public class DecisionForbidParty extends Decision{
@@ -12,7 +11,7 @@ public class DecisionForbidParty extends Decision{
     }
 
     public void DoEffect(){
-        Banking.forbid_party.put(s, b);
+        Country.forbid_party.put(s, b);
     }
 
     public void Save(Integer index){
