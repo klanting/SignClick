@@ -1,10 +1,17 @@
 package com.klanting.signclick.Economy;
 
 import com.klanting.signclick.Economy.Policies.*;
+import com.klanting.signclick.SignClick;
+import org.bukkit.ChatColor;
+import org.bukkit.Color;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.MemorySection;
 import org.bukkit.entity.Player;
 
 import java.util.*;
+
+import static org.bukkit.Bukkit.getServer;
 
 public class CountryManager {
     private static final Map<String, Country> countries = new HashMap<String, Country>();
@@ -79,6 +86,7 @@ public class CountryManager {
 
     }
 
+
     public static Integer countryCount(){
         return countries.size();
     }
@@ -86,5 +94,82 @@ public class CountryManager {
     public static void clear(){
         countries.clear();
         playerToCountryMap.clear();
+    }
+
+    public static List<Country> getTop(){
+        List<Country> start = new ArrayList<Country>(countries.values());
+        List<Country> end = new ArrayList<Country>();
+        for (Country s: start){
+            int amount = s.getBalance();
+            if (end.isEmpty()){
+                end.add(s);
+            }
+            int index = end.size();
+            for (Country old: end){
+                int value = old.getBalance();
+                if (value < amount){
+                    index = end.indexOf(old);
+                    break;
+                }
+
+            }
+            if (!end.contains(s)){
+                end.add(index ,s);
+            }
+
+        }
+        return end;
+    }
+
+    public static void leaveCountry(OfflinePlayer offlinePlayer){
+        leaveCountry(offlinePlayer.getUniqueId());
+    }
+
+    public static void leaveCountry(UUID uuid){
+        playerToCountryMap.remove(uuid);
+    }
+
+    public static void joinCountry(Country country, UUID uuid){
+        playerToCountryMap.put(uuid, country);
+    }
+
+    public static void saveData(){
+        SignClick.getPlugin().getConfig().set("parties", null);
+        SignClick.getPlugin().getConfig().set("elections", null);
+        SignClick.getPlugin().getConfig().set("decision", null);
+
+        countries.values().forEach(Country::save);
+
+        /*
+        * Save mapping from user to company
+        * TODO remove this and load from countries restore
+        * */
+        for (Map.Entry<UUID, Country> entry : playerToCountryMap.entrySet()){
+            SignClick.getPlugin().getConfig().set("country." + entry.getKey().toString(), entry.getValue().getName());
+        }
+
+        /*
+        * save results
+        * */
+        SignClick.getPlugin().getConfig().options().copyDefaults(true);
+        SignClick.getPlugin().saveConfig();
+
+        getServer().getConsoleSender().sendMessage(Color.GREEN + "SignClick save banking completed!");
+    }
+
+    public static void restoreData(){
+        if (!SignClick.getPlugin().getConfig().contains("bank")){
+            return;
+        }
+
+        ConfigurationSection balanceSection = SignClick.getPlugin().getConfig().getConfigurationSection("bank");
+        ConfigurationSection ownersSection = SignClick.getPlugin().getConfig().getConfigurationSection("owners");
+        ConfigurationSection membersSection = SignClick.getPlugin().getConfig().getConfigurationSection("members");
+        ConfigurationSection userCountrySection = SignClick.getPlugin().getConfig().getConfigurationSection("country");
+
+        balanceSection.getKeys(true).forEach(key ->{
+
+
+        });
     }
 }

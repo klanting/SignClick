@@ -8,6 +8,7 @@ import com.klanting.signclick.Economy.CountryDep;
 import com.klanting.signclick.Economy.CountryManager;
 import com.klanting.signclick.SignClick;
 import org.bukkit.ChatColor;
+import org.bukkit.Color;
 import org.bukkit.Location;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -188,40 +189,41 @@ class CountryTests {
     @Test
     void CountryDepositWithdraw(){
         PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
-        CountryDep.create("empire1", testPlayer);
+        Country country = CountryManager.create("empire1", testPlayer);
+        assertNotNull(country);
 
         /*
          * Check money is zero
          * */
-        assertEquals(0, CountryDep.bal("empire1"));
+        assertEquals(0, country.getBalance());
 
         /*
          * add money to the country
          * */
-        CountryDep.deposit("empire1", 100);
+        country.deposit(100);
 
         /*
          * Check money is 100
          * */
-        assertEquals(100, CountryDep.bal("empire1"));
+        assertEquals(100, country.getBalance());
 
         /*
          * remove money from the country
          * */
-        assertTrue(CountryDep.withdraw("empire1", 60));
+        assertTrue(country.withdraw( 60));
 
         /*
          * Check money is 40
          * */
-        assertEquals(40, CountryDep.bal("empire1"));
+        assertEquals(40, country.getBalance());
 
         /*Failed withdrawal*/
-        assertFalse(CountryDep.withdraw("empire1", 60));
+        assertFalse(country.withdraw( 60));
 
         /*
-         * Check money is -20
+         * Check money remains to 40
          * */
-        assertEquals(40, CountryDep.bal("empire1"));
+        assertEquals(40, country.getBalance());
     }
 
     @Test
@@ -232,42 +234,50 @@ class CountryTests {
 
         PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
         PlayerMock testPlayer2 = TestTools.addPermsPlayer(server, plugin);
-        CountryDep.create("empire1", testPlayer);
-        CountryDep.create("empire2", testPlayer2);
+        Country country = CountryManager.create("empire1", testPlayer);
+        Country country2 = CountryManager.create("empire2", testPlayer2);
 
-        CountryDep.deposit("empire1", 100);
+        assertNotNull(country);
+        assertNotNull(country2);
 
-        List<String> countries = CountryDep.getTop();
+        country.deposit(100);
+
+        List<Country> countries = CountryManager.getTop();
 
         /*
         * check that country top is correctly ranked
         * */
         assertEquals(2, countries.size());
-        assertEquals("empire1", countries.get(0));
-        assertEquals("empire2", countries.get(1));
+        assertEquals("empire1", countries.get(0).getName());
+        assertEquals("empire2", countries.get(1).getName());
     }
 
     @Test
     void countryColors(){
         PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
-        CountryDep.create("empire1", testPlayer);
+        Country country = CountryManager.create("empire1", testPlayer);
+
+        assertNotNull(country);
 
         /*Check that TAB color is white*/
-        assertEquals(ChatColor.valueOf("WHITE"), CountryDep.GetColor("empire1"));
+        assertEquals(Color.WHITE, country.getColor());
 
         /*
         * Change color
         * */
-        CountryDep.SetColor("empire1", "AQUA");
+        country.setColor(Color.AQUA);
 
         /*Check that TAB color is AQUA*/
-        assertEquals(ChatColor.valueOf("AQUA"), CountryDep.GetColor("empire1"));
+        assertEquals(Color.AQUA, country.getColor());
     }
 
     @Test
     void countrySpawn(){
         PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
-        CountryDep.create("empire1", testPlayer);
+        Country country = CountryManager.create("empire1", testPlayer);
+
+        assertNotNull(country);
+
         Location spawn = CountryDep.GetSpawn("empire1");
 
         /*
@@ -278,13 +288,13 @@ class CountryTests {
         /*
         * set new location for spawn
         * */
-        CountryDep.SetSpawn("empire1", testPlayer.getLocation());
+        country.setSpawn(testPlayer.getLocation());
 
         /*
          * Check that the spawn location is correctly set
          * */
 
-        spawn = CountryDep.GetSpawn("empire1");
+        spawn = country.getSpawn();
         assertEquals(testPlayer.getLocation(), spawn);
 
     }
@@ -293,16 +303,18 @@ class CountryTests {
     void countryLeaveOwner(){
         PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
 
-        CountryDep.create("empire1", testPlayer);
+        Country country = CountryManager.create("empire1", testPlayer);
 
-        CountryDep.removeOwner("empire1", testPlayer);
+        assertNotNull(country);
+
+        country.removeOwner(testPlayer);
 
         /*
         * Check that the player does not have an association with the country anymore
         * */
-        assertFalse(CountryDep.isOwner("empire1", testPlayer));
-        assertEquals("none", CountryDep.Element(testPlayer));
-        assertEquals(0, CountryDep.GetOwners("empire1").size());
+        assertFalse(country.isOwner(testPlayer));
+        assertEquals(null, CountryManager.getCountry(testPlayer));
+        assertEquals(0, country.getOwners().size());
 
     }
 
@@ -311,72 +323,78 @@ class CountryTests {
         PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
         PlayerMock testPlayer2 = TestTools.addPermsPlayer(server, plugin);
         PlayerMock testPlayer3 = TestTools.addPermsPlayer(server, plugin);
-        CountryDep.create("empire1", testPlayer);
+        Country country = CountryManager.create("empire1", testPlayer);
 
-        CountryDep.addMember("empire1", testPlayer2);
-        CountryDep.addMember("empire1", testPlayer3);
+        assertNotNull(country);
+
+        country.addMember(testPlayer2);
+        country.addMember(testPlayer3);
 
         /*
         * Check player is correctly added to country
         * */
-        assertEquals(1, CountryDep.GetOwners("empire1").size());
-        assertEquals(2, CountryDep.getMembers("empire1").size());
-        assertEquals(testPlayer2.getUniqueId(), CountryDep.getMembers("empire1").get(0));
+        assertEquals(1, country.getOwners().size());
+        assertEquals(2, country.getMembers().size());
+        assertEquals(testPlayer2.getUniqueId(), country.getMembers().get(0));
 
-        assertFalse(CountryDep.isOwner("empire1", testPlayer2));
-        assertEquals("empire1", CountryDep.Element(testPlayer2));
-        assertEquals("empire1", CountryDep.Element(testPlayer3));
+        assertFalse(country.isOwner(testPlayer2));
+
+        assertEquals("empire1", CountryManager.getCountry(testPlayer2).getName());
+        assertEquals("empire1", CountryManager.getCountry(testPlayer3).getName());
     }
 
     @Test
     void countryElementByUUID(){
         PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
-        CountryDep.create("empire1", testPlayer);
+        Country country = CountryManager.create("empire1", testPlayer);
+        assertNotNull(country);
 
-        String countryString = CountryDep.ElementUUID(testPlayer.getUniqueId());
-        assertEquals("empire1", countryString);
+        country = CountryManager.getCountry(testPlayer.getUniqueId());
+        assertNotNull(country);
+        assertEquals("empire1", country.getName());
     }
 
     @Test
     void countryElementOffline(){
         PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
-        CountryDep.create("empire1", testPlayer);
+        CountryManager.create("empire1", testPlayer);
 
-        String countryString = CountryDep.Element(testPlayer);
-        assertEquals("empire1", countryString);
+        Country country = CountryManager.getCountry(testPlayer);
+        assertEquals("empire1", country.getName());
     }
 
     @Test
     void countryRemoveMember(){
         PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
         PlayerMock testPlayer2 = TestTools.addPermsPlayer(server, plugin);
-        CountryDep.create("empire1", testPlayer);
+        Country country = CountryManager.create("empire1", testPlayer);
 
-        CountryDep.addMember("empire1", testPlayer2);
+        assertNotNull(country);
+        country.addMember(testPlayer2);
 
         /*
          * Check player is correctly added to country
          * */
-        assertEquals(1, CountryDep.GetOwners("empire1").size());
-        assertEquals(1, CountryDep.getMembers("empire1").size());
-        assertEquals(testPlayer2.getUniqueId(), CountryDep.getMembers("empire1").get(0));
+        assertEquals(1, country.getOwners().size());
+        assertEquals(1, country.getMembers().size());
+        assertEquals(testPlayer2.getUniqueId(), country.getMembers().get(0));
 
-        assertFalse(CountryDep.isOwner("empire1", testPlayer2));
-        assertEquals("empire1", CountryDep.Element(testPlayer2));
+        assertFalse(country.isOwner(testPlayer2));
+        assertEquals("empire1", CountryManager.getCountry(testPlayer2).getName());
 
         /*
         * Remove Player
         * */
-        CountryDep.removeMember("empire1", testPlayer2);
+        country.removeMember(testPlayer2);
 
         /*
          * Check player is correctly removed from country
          * */
-        assertEquals(1, CountryDep.GetOwners("empire1").size());
-        assertEquals(0, CountryDep.getMembers("empire1").size());
+        assertEquals(1, country.getOwners().size());
+        assertEquals(0, country.getMembers().size());
 
-        assertFalse(CountryDep.isOwner("empire1", testPlayer2));
-        assertEquals("none", CountryDep.Element(testPlayer2));
+        assertFalse(country.isOwner(testPlayer2));
+        assertNull(CountryManager.getCountry(testPlayer2));
     }
 
     @Test

@@ -9,45 +9,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b3aa4a96-499c-4e97-84b9-6312c5389c7a" name="Changes" comment="added some small tests">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/CountryDep.java" afterDir="false" />
+    <list default="true" id="b3aa4a96-499c-4e97-84b9-6312c5389c7a" name="Changes" comment="first party country refactoring from C style static methods to OOP">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Calculate/DynmapCheck.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Calculate/DynmapCheck.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Calculate/SignTP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Calculate/SignTP.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Calculate/WeeklyComp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Calculate/WeeklyComp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Calculate/WeeklyPay.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Calculate/WeeklyPay.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Account.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Account.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Company.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Company.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Country.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Country.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/CountryManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/CountryManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Decisions/Decision.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Decisions/Decision.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Decisions/DecisionAboardMilitary.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Decisions/DecisionAboardMilitary.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Decisions/DecisionBanParty.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Decisions/DecisionBanParty.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Decisions/DecisionCoup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Decisions/DecisionCoup.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Decisions/DecisionForbidParty.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Decisions/DecisionForbidParty.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Decisions/DecisionPolicy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Decisions/DecisionPolicy.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Market.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Market.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Parties/Election.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Parties/Election.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CompanyUpgradeMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CompanyUpgradeMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CountryDecisionMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CountryDecisionMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CountryMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CountryMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CountryPartyBan.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CountryPartyBan.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CountryPolicy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CountryPolicy.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/PartyDecisionVote.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/PartyDecisionVote.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/SignClick.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/SignClick.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/BankCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/BankCommands.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/CompanyCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/CompanyCommands.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/PartyCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/PartyCommands.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/events/CountryEvents.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/events/CountryEvents.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/events/MenuEvents.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/events/MenuEvents.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/events/PatentEvents.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/events/PatentEvents.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/commands/CompanyCTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/commands/CompanyCTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/commands/CountryCTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/commands/CountryCTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/commands/WeeklyPayCTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/commands/WeeklyPayCTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/company/CompanyMenuTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/company/CompanyMenuTests.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/com/country/CountryTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/country/CountryTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/country/PartyTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/country/PartyTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/country/PolicyTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/country/PolicyTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -140,22 +106,28 @@
     "Gradle.CountryTests.CountryCreate (1).executor": "Run",
     "Gradle.CountryTests.CountryCreate.executor": "Coverage",
     "Gradle.CountryTests.CountryDelete.executor": "Run",
+    "Gradle.CountryTests.CountryDepositWithdraw.executor": "Run",
     "Gradle.CountryTests.CountryGetBalance.executor": "Run",
     "Gradle.CountryTests.capitalChangeStability.executor": "Run",
     "Gradle.CountryTests.countryAddMember.executor": "Run",
     "Gradle.CountryTests.countryAddRemoveOwner.executor": "Run",
+    "Gradle.CountryTests.countryColors.executor": "Run",
     "Gradle.CountryTests.countryCreate.executor": "Run",
     "Gradle.CountryTests.countryDelete.executor": "Run",
     "Gradle.CountryTests.countryDeleteFailed.executor": "Run",
     "Gradle.CountryTests.countryElementByUUID.executor": "Run",
     "Gradle.CountryTests.countryElementOffline.executor": "Run",
     "Gradle.CountryTests.countryFailedCreate.executor": "Run",
+    "Gradle.CountryTests.countryLeaveOwner.executor": "Run",
     "Gradle.CountryTests.countryOwner.executor": "Run",
+    "Gradle.CountryTests.countryRemoveMember.executor": "Run",
     "Gradle.CountryTests.countrySaveLoad.executor": "Run",
     "Gradle.CountryTests.countrySetOwner.executor": "Run",
+    "Gradle.CountryTests.countrySpawn.executor": "Run",
     "Gradle.CountryTests.countryStability.executor": "Run",
     "Gradle.CountryTests.countryTax.executor": "Run",
     "Gradle.CountryTests.executor": "Run",
+    "Gradle.CountryTests.getTopCountries.executor": "Run",
     "Gradle.Download Sources.executor": "Run",
     "Gradle.PartyTests.createParty.executor": "Run",
     "Gradle.PartyTests.elections.executor": "Run",
@@ -206,7 +178,7 @@
     </key>
   </component>
   <component name="RunManager" selected="Gradle.TestAll">
-    <configuration name="CountryTests.CountryGetBalance" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="CountryTests.countryAddMember" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -219,7 +191,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;com.country.CountryTests.CountryGetBalance&quot;" />
+            <option value="&quot;com.country.CountryTests.countryAddMember&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -230,7 +202,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="CountryTests.countryDelete" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="CountryTests.countryElementByUUID" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -243,7 +215,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;com.country.CountryTests.countryDelete&quot;" />
+            <option value="&quot;com.country.CountryTests.countryElementByUUID&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -254,7 +226,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="CountryTests.countryDeleteFailed" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="CountryTests.countryElementOffline" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -267,7 +239,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;com.country.CountryTests.countryDeleteFailed&quot;" />
+            <option value="&quot;com.country.CountryTests.countryElementOffline&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -278,7 +250,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="CountryTests.countryFailedCreate" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="CountryTests.countryRemoveMember" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -291,7 +263,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;com.country.CountryTests.countryFailedCreate&quot;" />
+            <option value="&quot;com.country.CountryTests.countryRemoveMember&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -302,7 +274,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="CountryTests.countryOwner" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="CountryTests.countrySaveLoad" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -315,7 +287,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;com.country.CountryTests.countryOwner&quot;" />
+            <option value="&quot;com.country.CountryTests.countrySaveLoad&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -351,19 +323,19 @@
     </configuration>
     <list>
       <item itemvalue="Gradle.TestAll" />
-      <item itemvalue="Gradle.CountryTests.CountryGetBalance" />
-      <item itemvalue="Gradle.CountryTests.countryDelete" />
-      <item itemvalue="Gradle.CountryTests.countryDeleteFailed" />
-      <item itemvalue="Gradle.CountryTests.countryFailedCreate" />
-      <item itemvalue="Gradle.CountryTests.countryOwner" />
+      <item itemvalue="Gradle.CountryTests.countryAddMember" />
+      <item itemvalue="Gradle.CountryTests.countryElementByUUID" />
+      <item itemvalue="Gradle.CountryTests.countryElementOffline" />
+      <item itemvalue="Gradle.CountryTests.countryRemoveMember" />
+      <item itemvalue="Gradle.CountryTests.countrySaveLoad" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.CountryTests.CountryGetBalance" />
-        <item itemvalue="Gradle.CountryTests.countryOwner" />
-        <item itemvalue="Gradle.CountryTests.countryFailedCreate" />
-        <item itemvalue="Gradle.CountryTests.countryDeleteFailed" />
-        <item itemvalue="Gradle.CountryTests.countryDelete" />
+        <item itemvalue="Gradle.CountryTests.countrySaveLoad" />
+        <item itemvalue="Gradle.CountryTests.countryRemoveMember" />
+        <item itemvalue="Gradle.CountryTests.countryElementOffline" />
+        <item itemvalue="Gradle.CountryTests.countryElementByUUID" />
+        <item itemvalue="Gradle.CountryTests.countryAddMember" />
       </list>
     </recent_temporary>
   </component>
@@ -408,7 +380,7 @@
       <workItem from="1726126866788" duration="14666000" />
       <workItem from="1726151689451" duration="4310000" />
       <workItem from="1726159259813" duration="3008000" />
-      <workItem from="1726729878479" duration="3427000" />
+      <workItem from="1726729878479" duration="10118000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Github Commit">
       <option name="closed" value="true" />
@@ -530,7 +502,15 @@
       <option name="project" value="LOCAL" />
       <updated>1726161271115</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="first party country refactoring from C style static methods to OOP">
+      <option name="closed" value="true" />
+      <created>1726735347694</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1726735347694</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -566,7 +546,8 @@
     <MESSAGE value="testcases weekly pay" />
     <MESSAGE value="added some tests, and cleaning up really small part of Banking class" />
     <MESSAGE value="added some small tests" />
-    <option name="LAST_COMMIT_MESSAGE" value="added some small tests" />
+    <MESSAGE value="first party country refactoring from C style static methods to OOP" />
+    <option name="LAST_COMMIT_MESSAGE" value="first party country refactoring from C style static methods to OOP" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
