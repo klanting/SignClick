@@ -1,6 +1,6 @@
 package com.klanting.signclick.Economy.Decisions;
 
-import com.klanting.signclick.Economy.Country;
+import com.klanting.signclick.Economy.CountryDep;
 import com.klanting.signclick.Economy.Parties.Party;
 import com.klanting.signclick.SignClick;
 
@@ -16,28 +16,28 @@ public class DecisionCoup extends Decision{
     }
 
     public void DoEffect(){
-        Party p = Country.getParty(s, party_name);
-        Party ph = Country.getRuling(s);
+        Party p = CountryDep.getParty(s, party_name);
+        Party ph = CountryDep.getRuling(s);
 
         p.PCT = ph.PCT;
         ph.PCT = 0;
 
-        Country.add_stability(s, -40.0);
+        CountryDep.add_stability(s, -40.0);
 
-        List<UUID> old_owners = Country.owners.getOrDefault(s, new ArrayList<>());
-        List<UUID> members = Country.members.getOrDefault(s, new ArrayList<>());
+        List<UUID> old_owners = CountryDep.owners.getOrDefault(s, new ArrayList<>());
+        List<UUID> members = CountryDep.members.getOrDefault(s, new ArrayList<>());
         for (UUID uuid: old_owners){
             members.add(uuid);
         }
-        Country.members.put(s, members);
+        CountryDep.members.put(s, members);
 
-        Country.owners.put(s, ph.owners);
+        CountryDep.owners.put(s, ph.owners);
 
         for (UUID uuid: ph.owners){
             members.remove(uuid);
         }
 
-        for (Decision d: Country.decisions.get(s)){
+        for (Decision d: CountryDep.decisions.get(s)){
             d.checkApprove();
         }
     }

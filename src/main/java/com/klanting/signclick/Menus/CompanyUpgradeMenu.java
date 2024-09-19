@@ -1,6 +1,6 @@
 package com.klanting.signclick.Menus;
 
-import com.klanting.signclick.Economy.Country;
+import com.klanting.signclick.Economy.CountryDep;
 import com.klanting.signclick.Economy.Company;
 import com.klanting.signclick.Economy.CompanyUpgrades.Upgrade;
 import org.bukkit.Bukkit;
@@ -36,10 +36,10 @@ public class CompanyUpgradeMenu implements InventoryHolder {
             ArrayList<String> l = new ArrayList<>();
             DecimalFormat df = new DecimalFormat("###,###,###");
             if (up.getUpgradeCost() != -1){
-                l.add("§6Cost: §8"+ df.format((double) up.getUpgradeCost()*(1.0- Country.getPolicyBonus(comp.GetCountry(), 1, 3))));
+                l.add("§6Cost: §8"+ df.format((double) up.getUpgradeCost()*(1.0- CountryDep.getPolicyBonus(comp.GetCountry(), 1, 3))));
             }
             if (up.getUpgradeCostPoints() != -1){
-                l.add("§6Points: §8"+ df.format((double) up.getUpgradeCostPoints()*(1.0- Country.getPolicyBonus(comp.GetCountry(), 1, 3))));
+                l.add("§6Points: §8"+ df.format((double) up.getUpgradeCostPoints()*(1.0- CountryDep.getPolicyBonus(comp.GetCountry(), 1, 3))));
             }
 
             m.setLore(l);

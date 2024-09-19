@@ -67,13 +67,13 @@ public class Account {
         String country = Market.get_business(Sname).GetCountry();
 
         double sub_fee = Market.getFee();
-        if (Country.getStability(country) < 50){
+        if (CountryDep.getStability(country) < 50){
             sub_fee += 0.01;
         }
-        double to_gov = v/(1.0-(sub_fee- Country.getPolicyBonus(country, 0, 0))*(Market.getFee()- Country.getPolicyBonus(country, 0, 0)- Country.getPolicyBonus(country, 1, 1)));
-        String bank = Country.Element(player);
+        double to_gov = v/(1.0-(sub_fee- CountryDep.getPolicyBonus(country, 0, 0))*(Market.getFee()- CountryDep.getPolicyBonus(country, 0, 0)- CountryDep.getPolicyBonus(country, 1, 1)));
+        String bank = CountryDep.Element(player);
         if (bank != null){
-            Country.deposit(bank, (int) to_gov);
+            CountryDep.deposit(bank, (int) to_gov);
         }else{
             Market.get_business(Sname).add_books(to_gov);
         }

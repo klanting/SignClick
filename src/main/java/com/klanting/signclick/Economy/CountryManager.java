@@ -1,10 +1,10 @@
 package com.klanting.signclick.Economy;
 
+import com.klanting.signclick.Economy.Policies.*;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class CountryManager {
     private static final Map<String, Country> countries = new HashMap<String, Country>();
@@ -22,6 +22,69 @@ public class CountryManager {
         /*
         * get country that the player is a part of
         * */
-        return playerToCountryMap.getOrDefault(offlinePlayer.getUniqueId(), null);
+        return getCountry(offlinePlayer.getUniqueId());
+    }
+
+    public static Country getCountry(UUID uuid){
+        /*
+         * get country that the player UUID is a part of
+         * */
+        return playerToCountryMap.getOrDefault(uuid, null);
+    }
+
+    public static Country create(String countryName, Player player){
+        if (!player.hasPermission("signclick.staff")){
+            player.sendMessage("§bplayer does not have permission to create a country");
+            return null;
+        }
+
+        if (countries.containsKey(countryName)){
+            player.sendMessage("§bthis country already exists");
+            return null;
+        }
+
+        Country newCountry = new Country(countryName, player);
+        countries.put(countryName, newCountry);
+        playerToCountryMap.put(player.getUniqueId(), newCountry);
+
+
+        player.sendMessage("§bcountry has been succesfully created");
+        return newCountry;
+    }
+
+    public static boolean delete(String countryName, Player player){
+        if (!countries.containsKey(countryName)){
+            player.sendMessage("this country does not exists");
+            return false;
+        }
+
+        countries.remove(countryName);
+
+        Map<UUID, Country> playerToCountryMapCopy = new HashMap<>(playerToCountryMap);
+
+        playerToCountryMapCopy.keySet().forEach(key ->{
+            Country playerCountry = playerToCountryMap.getOrDefault(key, null);
+            if (playerCountry == null){
+                return;
+            }
+            if (!playerCountry.getName().equals(countryName)){
+                return;
+            }
+
+            playerToCountryMap.remove(key);
+        });
+
+        player.sendMessage("country removed");
+        return true;
+
+    }
+
+    public static Integer countryCount(){
+        return countries.size();
+    }
+
+    public static void clear(){
+        countries.clear();
+        playerToCountryMap.clear();
     }
 }

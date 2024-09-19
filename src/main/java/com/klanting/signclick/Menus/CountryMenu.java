@@ -1,6 +1,6 @@
 package com.klanting.signclick.Menus;
 
-import com.klanting.signclick.Economy.Country;
+import com.klanting.signclick.Economy.CountryDep;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
@@ -24,7 +24,7 @@ public class CountryMenu implements InventoryHolder {
 
     public void init(){
 
-        String country = Country.ElementUUID(uuid);
+        String country = CountryDep.ElementUUID(uuid);
         
         ItemStack value;
         ItemMeta m;
@@ -34,8 +34,8 @@ public class CountryMenu implements InventoryHolder {
         DecimalFormat df = new DecimalFormat("###,###,###.00");
         m.setDisplayName("§6"+country);
         ArrayList<String> l = new ArrayList<>();
-        l.add("§6balance: §9"+ df.format(Country.bal(country)));
-        l.add("§6Stability: §9"+ df.format(Country.getStability(country)));
+        l.add("§6balance: §9"+ df.format(CountryDep.bal(country)));
+        l.add("§6Stability: §9"+ df.format(CountryDep.getStability(country)));
         m.setLore(l);
         value.setItemMeta(m);
         menu.setItem(13, value);

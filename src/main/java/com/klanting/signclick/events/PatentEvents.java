@@ -1,6 +1,6 @@
 package com.klanting.signclick.events;
 
-import com.klanting.signclick.Economy.Country;
+import com.klanting.signclick.Economy.CountryDep;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -95,8 +95,8 @@ public class PatentEvents implements Listener {
 
     public static void OnPlayerXp(PlayerExpChangeEvent event){
         Player player = event.getPlayer();
-        String country = Country.Element(player);
-        double m = 1.0 + Country.getPolicyBonus(country, 2, 2);
+        String country = CountryDep.Element(player);
+        double m = 1.0 + CountryDep.getPolicyBonus(country, 2, 2);
         event.setAmount((int) Math.round(event.getAmount()*m));
     }
 

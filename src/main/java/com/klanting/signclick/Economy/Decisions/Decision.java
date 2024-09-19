@@ -1,6 +1,6 @@
 package com.klanting.signclick.Economy.Decisions;
 
-import com.klanting.signclick.Economy.Country;
+import com.klanting.signclick.Economy.CountryDep;
 import com.klanting.signclick.Economy.Parties.Party;
 import com.klanting.signclick.SignClick;
 
@@ -63,12 +63,12 @@ public class Decision {
 
     public void checkApprove(){
         if (getApproved() >= needed){
-            Country.decisions.getOrDefault(s, new ArrayList<>()).remove(this);
+            CountryDep.decisions.getOrDefault(s, new ArrayList<>()).remove(this);
             DoEffect();
         }
 
         if (getDisapproved() > (1.0-needed)){
-            Country.decisions.getOrDefault(s, new ArrayList<>()).remove(this);
+            CountryDep.decisions.getOrDefault(s, new ArrayList<>()).remove(this);
         }
     }
 
@@ -81,7 +81,7 @@ public class Decision {
 
         List<Integer> approved_index = new ArrayList<>();
         for (Party p: approved){
-            int val = Country.parties.get(s).indexOf(p);
+            int val = CountryDep.parties.get(s).indexOf(p);
             approved_index.add(val);
         }
 
@@ -89,7 +89,7 @@ public class Decision {
 
         List<Integer> disapproved_index = new ArrayList<>();
         for (Party p: disapproved){
-            int val = Country.parties.get(s).indexOf(p);
+            int val = CountryDep.parties.get(s).indexOf(p);
             disapproved_index.add(val);
         }
 

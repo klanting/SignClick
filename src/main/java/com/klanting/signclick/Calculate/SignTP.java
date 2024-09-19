@@ -1,6 +1,6 @@
 package com.klanting.signclick.Calculate;
 
-import com.klanting.signclick.Economy.Country;
+import com.klanting.signclick.Economy.CountryDep;
 import com.klanting.signclick.Economy.Company;
 import com.klanting.signclick.Economy.Market;
 import com.klanting.signclick.SignClick;
@@ -159,8 +159,8 @@ public class SignTP {
         if (SignClick.getEconomy().getBalance(player) >= amount) {
             Company comp = Market.get_business(sign.getLine(2));
 
-            String country = Country.Element(player);
-            double d = Country.getPolicyBonus(country, 3, 0);
+            String country = CountryDep.Element(player);
+            double d = CountryDep.getPolicyBonus(country, 3, 0);
             int amount_first = amount;
             amount = (int) (amount*(1.0+d));
 
@@ -171,7 +171,7 @@ public class SignTP {
 
             if (amount_first > amount){
                 comp.add_bal((double) amount_first);
-                Country.withdraw(country, amount_first-amount);
+                CountryDep.withdraw(country, amount_first-amount);
             }else{
                 comp.add_bal((double) amount);
             }

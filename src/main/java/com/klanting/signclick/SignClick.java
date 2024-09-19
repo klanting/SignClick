@@ -1,7 +1,7 @@
 package com.klanting.signclick;
 
 import com.klanting.signclick.Calculate.*;
-import com.klanting.signclick.Economy.Country;
+import com.klanting.signclick.Economy.CountryDep;
 import com.klanting.signclick.Economy.CompanyPatent.Auction;
 import com.klanting.signclick.Economy.Market;
 import com.klanting.signclick.commands.*;
@@ -39,7 +39,7 @@ public class SignClick extends JavaPlugin{
             this.RestoreDoors();
         }
 
-        Country.RestoreData();
+        CountryDep.RestoreData();
 
         if (this.getConfig().contains("weekly")){
             WeeklyPay.restore();
@@ -82,7 +82,7 @@ public class SignClick extends JavaPlugin{
         }
 
         WeeklyPay.save();
-        Country.SaveData();
+        CountryDep.SaveData();
         Market.SaveData();
         Auction.Save();
         WeeklyComp.Save();

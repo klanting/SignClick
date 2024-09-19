@@ -2,7 +2,7 @@ package com.company;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
-import com.klanting.signclick.Economy.Country;
+import com.klanting.signclick.Economy.CountryDep;
 import com.klanting.signclick.Economy.Company;
 import com.klanting.signclick.Economy.CompanyPatent.PatentUpgrade;
 import com.klanting.signclick.Economy.CompanyPatent.PatentUpgradeJumper;
@@ -53,7 +53,7 @@ public class CompanyMenuTests {
     public void tearDown() {
 
         MockBukkit.unmock();
-        Country.clear();
+        CountryDep.clear();
         Market.clear();
     }
 

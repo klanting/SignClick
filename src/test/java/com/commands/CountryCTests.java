@@ -4,7 +4,7 @@ import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
-import com.klanting.signclick.Economy.Country;
+import com.klanting.signclick.Economy.CountryDep;
 import com.klanting.signclick.SignClick;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,7 +34,7 @@ class CountryCTests {
     public void tearDown() {
 
         MockBukkit.unmock();
-        Country.clear();
+        CountryDep.clear();
     }
 
     @Test
@@ -45,7 +45,7 @@ class CountryCTests {
         boolean result = server.execute("country", testPlayer, "create", "empire1", testPlayer.getName()).hasSucceeded();
         assertTrue(result);
 
-        assertEquals("empire1", Country.Element(testPlayer));
+        assertEquals("empire1", CountryDep.Element(testPlayer));
 
         testPlayer.assertSaid("§bcountry has been succesfully created");
         testPlayer.assertNoMoreSaid();
@@ -60,7 +60,7 @@ class CountryCTests {
         boolean result = server.execute("country", testPlayer, "create", "empire1", testPlayer.getName()).hasSucceeded();
         assertTrue(result);
 
-        assertFalse(Country.GetBanks().contains("empire1"));
+        assertFalse(CountryDep.GetBanks().contains("empire1"));
 
         testPlayer.assertSaid("§bplayer does not have permission to create a country");
         testPlayer.assertNoMoreSaid();
@@ -163,7 +163,7 @@ class CountryCTests {
         testPlayer2.assertSaid("§byou succesfully joint this country");
         testPlayer2.assertNoMoreSaid();
 
-        assertEquals("empire1", Country.Element(testPlayer2));
+        assertEquals("empire1", CountryDep.Element(testPlayer2));
 
     }
 
@@ -172,8 +172,8 @@ class CountryCTests {
         PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
         PlayerMock testPlayer2 = TestTools.addPermsPlayer(server, plugin);
 
-        Country.create("empire1", testPlayer);
-        Country.addMember("empire1", testPlayer2);
+        CountryDep.create("empire1", testPlayer);
+        CountryDep.addMember("empire1", testPlayer2);
         testPlayer.nextMessage();
 
         boolean result = server.execute("country", testPlayer, "kick", testPlayer2.getName()).hasSucceeded();
@@ -185,29 +185,29 @@ class CountryCTests {
         /*
         * Check player2 not in country anymore
         * */
-        assertEquals("none", Country.Element(testPlayer2));
+        assertEquals("none", CountryDep.Element(testPlayer2));
     }
 
     @Test
     void countryAddLawEnforcement() {
         PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
         PlayerMock testPlayer2 = TestTools.addPermsPlayer(server, plugin);
-        Country.create("empire1", testPlayer);
-        Country.addMember("empire1", testPlayer2);
+        CountryDep.create("empire1", testPlayer);
+        CountryDep.addMember("empire1", testPlayer2);
 
         /*
         * Add player as law enforcement
         * */
-        assertEquals(0, Country.getLawEnforcement("empire1").size());
-        Country.addLawEnforcement("empire1", testPlayer2);
-        assertEquals(1, Country.getLawEnforcement("empire1").size());
-        assertEquals(testPlayer2.getUniqueId(), Country.getLawEnforcement("empire1").get(0));
+        assertEquals(0, CountryDep.getLawEnforcement("empire1").size());
+        CountryDep.addLawEnforcement("empire1", testPlayer2);
+        assertEquals(1, CountryDep.getLawEnforcement("empire1").size());
+        assertEquals(testPlayer2.getUniqueId(), CountryDep.getLawEnforcement("empire1").get(0));
 
         /*
         * Remove Law Enforcement
         * */
-        Country.removeLawEnforcement("empire1", testPlayer2);
-        assertEquals(0, Country.getLawEnforcement("empire1").size());
+        CountryDep.removeLawEnforcement("empire1", testPlayer2);
+        assertEquals(0, CountryDep.getLawEnforcement("empire1").size());
 
 
 

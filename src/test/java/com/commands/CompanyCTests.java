@@ -2,7 +2,7 @@ package com.commands;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
-import com.klanting.signclick.Economy.Country;
+import com.klanting.signclick.Economy.CountryDep;
 import com.klanting.signclick.Economy.Company;
 import com.klanting.signclick.Economy.Market;
 import com.klanting.signclick.SignClick;
@@ -44,7 +44,7 @@ class CompanyCTests {
     public void tearDown() {
 
         MockBukkit.unmock();
-        Country.clear();
+        CountryDep.clear();
         Market.clear();
     }
 

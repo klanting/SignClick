@@ -1,7 +1,7 @@
 package com.klanting.signclick.commands;
 
 import com.klanting.signclick.Economy.Account;
-import com.klanting.signclick.Economy.Country;
+import com.klanting.signclick.Economy.CountryDep;
 import com.klanting.signclick.Economy.Company;
 import com.klanting.signclick.Economy.CompanyPatent.PatentUpgradeCustom;
 import com.klanting.signclick.Economy.Market;
@@ -56,7 +56,7 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
                     return true;
                 }
 
-                double discount_pct = (1.0- Country.getPolicyBonus(Country.Element(player), 1, 4));
+                double discount_pct = (1.0- CountryDep.getPolicyBonus(CountryDep.Element(player), 1, 4));
                 if (!SignClick.getEconomy().has(player, 40000000.0*discount_pct)){
                     player.sendMessage("§bmaking a company costs §c40 million (or discount policy)");
                     confirm.put(player, "");
