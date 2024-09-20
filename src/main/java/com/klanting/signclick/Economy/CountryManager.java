@@ -1,15 +1,20 @@
 package com.klanting.signclick.Economy;
 
+import com.klanting.signclick.Economy.Decisions.*;
+import com.klanting.signclick.Economy.Parties.Party;
 import com.klanting.signclick.Economy.Policies.*;
 import com.klanting.signclick.SignClick;
+import com.klanting.signclick.utils.Utils;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.MemorySection;
 import org.bukkit.entity.Player;
+import org.checkerframework.checker.units.qual.C;
 
 import java.util.*;
+import java.util.function.Consumer;
 
 import static org.bukkit.Bukkit.getServer;
 
@@ -165,11 +170,132 @@ public class CountryManager {
         ConfigurationSection balanceSection = SignClick.getPlugin().getConfig().getConfigurationSection("bank");
         ConfigurationSection ownersSection = SignClick.getPlugin().getConfig().getConfigurationSection("owners");
         ConfigurationSection membersSection = SignClick.getPlugin().getConfig().getConfigurationSection("members");
-        ConfigurationSection userCountrySection = SignClick.getPlugin().getConfig().getConfigurationSection("country");
+        ConfigurationSection taxRateSection = SignClick.getPlugin().getConfig().getConfigurationSection("pct");
+        ConfigurationSection colorSection = SignClick.getPlugin().getConfig().getConfigurationSection("color");
+        ConfigurationSection spawnSection = SignClick.getPlugin().getConfig().getConfigurationSection("spawn");
+        ConfigurationSection policiesSection = SignClick.getPlugin().getConfig().getConfigurationSection("policies");
+        ConfigurationSection partiesSection = SignClick.getPlugin().getConfig().getConfigurationSection("parties");
+        ConfigurationSection lawEnforcementSection = SignClick.getPlugin().getConfig().getConfigurationSection("law_enforcement");
+        ConfigurationSection stabilitySection = SignClick.getPlugin().getConfig().getConfigurationSection("stability_map");
+        ConfigurationSection forbidPartySection = SignClick.getPlugin().getConfig().getConfigurationSection("forbid_party");
+        ConfigurationSection aboardMilitarySection = SignClick.getPlugin().getConfig().getConfigurationSection("aboard_military");
+        ConfigurationSection decisionsSection = SignClick.getPlugin().getConfig().getConfigurationSection("aboard_military");
 
-        balanceSection.getKeys(true).forEach(key ->{
 
+
+        balanceSection.getKeys(true).forEach(name ->{
+
+            List<UUID> ownerList = Utils.toUUIDList((List<String>) ownersSection.get(name));
+            List<UUID> memberList = Utils.toUUIDList((List<String>) membersSection.get(name));
+            List<UUID> lawEnforcementList = Utils.toUUIDList((List<String>) lawEnforcementSection.get(name));
+
+            /*
+            * Load policies
+            * */
+            List<Policy> policyList = new ArrayList<>();
+            for (int i=0; i<5; i++){
+                int level = (int) policiesSection.getConfigurationSection(name).get(String.valueOf(i));
+                if (i == 0){
+                    policyList.add(new PolicyEconomics(level));
+                }
+                if (i == 1){
+                    policyList.add(new PolicyMarket(level));
+                }
+                if (i == 2){
+                    policyList.add(new PolicyMilitary(level));
+                }
+                if (i == 3){
+                    policyList.add(new PolicyTourist(level));
+                }
+                if (i == 4){
+                    policyList.add(new PolicyTaxation(level));
+                }
+            }
+
+            /*
+            * Load parties
+            * */
+            List<Party> partiesList = new ArrayList<>();
+            ConfigurationSection countryPartiesSection = partiesSection.getConfigurationSection(name);
+            countryPartiesSection.getKeys(false).forEach(party -> {
+                double pct = (double) countryPartiesSection.get(party+".PCT");
+                List<UUID> partyOwnerList = Utils.toUUIDList((List<String>) countryPartiesSection.get(party+".owners"));
+                List<UUID> partyMemberList = Utils.toUUIDList((List<String>) countryPartiesSection.get(party+".members"));
+
+                Party p = new Party(party, name, pct, partyOwnerList, partyMemberList);
+                partiesList.add(p);
+
+            });
+
+            /*
+            * Load decisions
+            * */
+            ConfigurationSection countryDecisionsSection = decisionsSection.getConfigurationSection(name);
+            List<Decision> decisionList = new ArrayList<>();
+            countryDecisionsSection.getKeys(false).forEach(index -> {
+                String decisionName = (String) countryDecisionsSection.get(index+".name");
+                double needed = (double) countryDecisionsSection.get(index+".needed");
+                int id = (int) countryDecisionsSection.get(index+".id");
+
+                List<String> approvedIndex = (List<String>) countryDecisionsSection.get(index+".approved_index");
+                List<Party> approved = new ArrayList<>();
+                for (String a: approvedIndex){
+                    approved.add(partiesList.get(Integer.valueOf(a)));
+                }
+
+                List<String> disapproved_index = (List<String>) countryDecisionsSection.get(index+".disapproved_index");
+                List<Party> disapproved = new ArrayList<>();
+                for (String d: disapproved_index){
+                    disapproved.add(partiesList.get(Integer.valueOf(d)));
+                }
+
+
+                Decision d = null;
+                if (id == 0){
+                    int policy_id = (int) countryDecisionsSection.get(index+".policy_id");
+                    int old_level = (int) countryDecisionsSection.get(index+".old_level");
+                    int level = (int) countryDecisionsSection.get(index+".level");
+
+                    d = new DecisionPolicy(name, needed, name, policy_id, old_level, level);
+                    decisionList.add(d);
+                }else if (id == 1){
+                    int p = (int) countryDecisionsSection.get(index+".p");
+                    d = new DecisionBanParty(name, needed, name, partiesList.get(p));
+                    decisionList.add(d);
+                }else if (id == 2){
+                    boolean b = (boolean) countryDecisionsSection.get(index+".b");
+                    d = new DecisionForbidParty(name, needed, name, b);
+                    decisionList.add(d);
+                }else if (id == 3){
+                    boolean b = (boolean) countryDecisionsSection.get(index+".b");
+                    d = new DecisionAboardMilitary(name, needed, name, b);
+                    decisionList.add(d);
+                }else if (id == 4){
+                    String party_name = (String) countryDecisionsSection.get(index+".party_name");
+                    d = new DecisionCoup(name, needed, name, party_name);
+                    decisionList.add(d);
+                }
+
+                d.approved = approved;
+                d.disapproved = disapproved;
+            });
+
+            /*
+            * Load Election
+            * */
+
+            /*
+            Country country = new Country(name,
+                    balanceSection.get(name),
+                    ownerList, memberList, lawEnforcementList,
+                    policyList, partiesList, decisionList
+                    );
+
+             */
 
         });
+
+        ConfigurationSection userCountrySection = SignClick.getPlugin().getConfig().getConfigurationSection("country");
+
     }
 }

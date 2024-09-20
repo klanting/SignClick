@@ -231,7 +231,7 @@ public class Country {
             f_list.add(uuid.toString());
         }
 
-        SignClick.getPlugin().getConfig().set("owners." + name, f_list);
+        SignClick.getPlugin().getConfig().set("members." + name, f_list);
 
         SignClick.getPlugin().getConfig().set("pct." + name, taxRate);
         SignClick.getPlugin().getConfig().set("color." + name, memberColor.toString());
