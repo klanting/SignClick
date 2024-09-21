@@ -1,13 +1,13 @@
 package com.klanting.signclick.Economy;
 
 import com.klanting.signclick.Economy.Decisions.*;
+import com.klanting.signclick.Economy.Parties.Election;
 import com.klanting.signclick.Economy.Parties.Party;
 import com.klanting.signclick.Economy.Policies.*;
 import com.klanting.signclick.SignClick;
+import com.klanting.signclick.commands.BankCommands;
 import com.klanting.signclick.utils.Utils;
-import org.bukkit.ChatColor;
-import org.bukkit.Color;
-import org.bukkit.OfflinePlayer;
+import org.bukkit.*;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.MemorySection;
 import org.bukkit.entity.Player;
@@ -16,6 +16,7 @@ import org.checkerframework.checker.units.qual.C;
 import java.util.*;
 import java.util.function.Consumer;
 
+import static com.klanting.signclick.commands.BankCommands.countryElections;
 import static org.bukkit.Bukkit.getServer;
 
 public class CountryManager {
@@ -180,6 +181,7 @@ public class CountryManager {
         ConfigurationSection forbidPartySection = SignClick.getPlugin().getConfig().getConfigurationSection("forbid_party");
         ConfigurationSection aboardMilitarySection = SignClick.getPlugin().getConfig().getConfigurationSection("aboard_military");
         ConfigurationSection decisionsSection = SignClick.getPlugin().getConfig().getConfigurationSection("aboard_military");
+        ConfigurationSection electionSection = SignClick.getPlugin().getConfig().getConfigurationSection("election");
 
 
 
@@ -283,19 +285,57 @@ public class CountryManager {
             /*
             * Load Election
             * */
+            Election election = null;
 
-            /*
-            Country country = new Country(name,
-                    balanceSection.get(name),
+            Map<String, Integer> vote_dict = new HashMap<>();
+
+            if (electionSection.contains(name)){
+                ConfigurationSection countryElection = electionSection.getConfigurationSection(name);
+                ConfigurationSection voteDict = countryElection.getConfigurationSection("vote_dict");
+
+                voteDict.getKeys(false).forEach(voteKey -> {
+                    vote_dict.put(voteKey, (int) voteDict.get(voteKey));
+                });
+
+                List<UUID> already_voted = new ArrayList<UUID>();
+                for (String s: (List<String>) countryElection.get("voted")){
+                    already_voted.add(UUID.fromString(s));
+                }
+
+                long time = (int) countryElection.get("to_wait");
+                election = new Election(name, time+(System.currentTimeMillis()/1000));
+                election.vote_dict = vote_dict;
+                election.alreadyVoted = already_voted;
+
+                //TODO activate election deadline date here
+            }
+
+
+            Color memberColor = (Color) colorSection.get(name);
+            Location spawnLocation = (Location) spawnSection.get(name);
+            int balance = (int) balanceSection.get(name);
+            double taxRate = (double) taxRateSection.get(name);
+            double stability = (double) stabilitySection.get(name);
+            boolean forbidParty = (boolean) forbidPartySection.get(name);
+            boolean aboardMilitary = (boolean) aboardMilitarySection.get(name);
+
+
+            Country country = new Country(name, balance,
                     ownerList, memberList, lawEnforcementList,
-                    policyList, partiesList, decisionList
+                    policyList, partiesList, decisionList, election,
+                    memberColor, spawnLocation, taxRate, stability,
+                    forbidParty, aboardMilitary
                     );
 
-             */
+            countries.put(name, country);
 
         });
 
         ConfigurationSection userCountrySection = SignClick.getPlugin().getConfig().getConfigurationSection("country");
+        userCountrySection.getKeys(true).forEach(key ->{
+            String countryName = String.valueOf(SignClick.getPlugin().getPlugin().getConfig().get("country." + key));
 
+            playerToCountryMap.put(UUID.fromString(key), countries.get(countryName));
+        });
     }
 }

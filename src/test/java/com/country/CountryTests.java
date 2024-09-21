@@ -3,6 +3,7 @@ package com.country;
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
+import com.klanting.signclick.Calculate.WeeklyPay;
 import com.klanting.signclick.Economy.Country;
 import com.klanting.signclick.Economy.CountryDep;
 import com.klanting.signclick.Economy.CountryManager;
@@ -421,6 +422,120 @@ class CountryTests {
         * */
         String country = CountryDep.Element(testPlayer);
         assertEquals("empire1", country);
+    }
+
+    @Test
+    void countrySaveLoadAdvanced(){
+        /*
+         * Check that the country saves and loads correctly
+         * */
+
+        /*
+         * Create Country
+         * */
+        PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
+        PlayerMock testPlayer2 = TestTools.addPermsPlayer(server, plugin);
+        PlayerMock testPlayer3 = TestTools.addPermsPlayer(server, plugin);
+
+        /*
+        * Set owners and members
+        * */
+        CountryDep.create("empire1", testPlayer);
+        CountryDep.addOwner("empire1", testPlayer2);
+        CountryDep.addMember("empire1", testPlayer3);
+        CountryDep.addLawEnforcement("empire1", testPlayer2);
+
+        CountryDep.add_stability("empire1", 5.0);
+        CountryDep.setPCT("empire1", 10);
+        CountryDep.SetColor("empire1", "AQUA");
+        CountryDep.SetSpawn("empire1", testPlayer.getLocation());
+        CountryDep.setPoliciesReal("empire1", 0, 2, 1);
+
+        /*
+        * Create party
+        * */
+        CountryDep.createParty("empire1", "AAA", testPlayer.getUniqueId());
+
+        /*
+        * Create Decision
+        * */
+        CountryDep.setPolicies("empire1", 0, 2);
+
+        double stability = CountryDep.getStability("empire1");
+        assertEquals(10, CountryDep.getPCT("empire1"));
+
+        /*
+         * Save Data
+         * */
+
+        plugin.onDisable();
+        CountryDep.clear();
+
+        plugin = TestTools.setupPlugin(server);
+
+        /*
+         * Check that country is loaded again
+         * */
+        String country = CountryDep.Element(testPlayer);
+        assertEquals("empire1", country);
+
+        /*
+        * Check owners correct
+        * */
+        assertEquals(2, CountryDep.GetOwners("empire1").size());
+        assertTrue(CountryDep.isOwner("empire1", testPlayer));
+        assertTrue(CountryDep.isOwner("empire1", testPlayer2));
+        assertFalse(CountryDep.isOwner("empire1", testPlayer3));
+
+        /*
+         * Check members correct
+         * */
+        assertEquals(1, CountryDep.getMembers("empire1").size());
+        assertTrue(CountryDep.getMembers("empire1").contains(testPlayer3.getUniqueId()));
+
+        /*
+        * Check stability correctly stored
+        * */
+        assertEquals(stability, CountryDep.getStability("empire1"));
+
+        /*
+        * check tax rate correctly stored
+        * */
+        assertEquals(10, CountryDep.getPCT("empire1"));
+
+        /*
+        * check color correctly stored
+        * */
+        assertEquals(ChatColor.AQUA, CountryDep.GetColor("empire1"));
+
+        /*
+         * check spawn location correctly stored
+         * */
+        assertEquals(testPlayer.getLocation(), CountryDep.GetSpawn("empire1"));
+
+        /*
+         * check law enforcement correctly stored
+         * */
+        assertEquals(1, CountryDep.getLawEnforcement("empire1").size());
+        assertEquals(testPlayer2.getUniqueId(), CountryDep.getLawEnforcement("empire1").get(0));
+
+        /*
+         * check policies correctly stored
+         * */
+        assertEquals(5, CountryDep.getPolicies("empire1").size());
+        assertEquals(1, CountryDep.getPolicies("empire1").get(0).level);
+
+        /*
+         * check policies correctly stored
+         * */
+        assertEquals(1, CountryDep.parties.get("empire1").size());
+        assertNotNull(CountryDep.getParty("empire1", testPlayer.getUniqueId()));
+        assertNotNull(CountryDep.getParty("empire1", "AAA"));
+
+        /*
+         * check policies correctly stored
+         * */
+        assertEquals(1, CountryDep.decisions.get("empire1").size());
     }
 
     @Test
