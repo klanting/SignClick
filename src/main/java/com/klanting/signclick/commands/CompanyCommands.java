@@ -54,7 +54,10 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
                 }
 
                 Country country = CountryManager.getCountry(player);
-                double discount_pct = (1.0- country.getPolicyBonus(1, 4));
+                double discount_pct = 1.0;
+                if (country != null){
+                    discount_pct = (1.0- country.getPolicyBonus(1, 4));
+                }
                 if (!SignClick.getEconomy().has(player, 40000000.0*discount_pct)){
                     player.sendMessage("§bmaking a company costs §c40 million (or discount policy)");
                     confirm.put(player, "");
@@ -65,12 +68,12 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
                     confirm.put(player, "");
                     player.sendMessage("§byou succesfully found "+company_name+" good luck CEO "+player.getName());
                     stock_name = stock_name.toUpperCase();
-                    Boolean succes = Market.add_business(company_name, stock_name, Market.getAccount(player));
+                    Boolean succes = Market.addBusiness(company_name, stock_name, Market.getAccount(player));
 
                     if (succes){
                         SignClick.getEconomy().withdrawPlayer(player, 40000000.0*discount_pct);
-                        Company comp = Market.get_business(stock_name);
-                        comp.add_bal(40000000.0*discount_pct);
+                        Company comp = Market.getBusiness(stock_name);
+                        comp.addBal(40000000.0*discount_pct);
                     }else{
                         player.sendMessage("§bcompany create failed: name/stockName already in use");
                     }
@@ -95,7 +98,7 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
 
                 String stock_name = args[1].toUpperCase();
                 if (Market.hasBusiness(stock_name)){
-                    Market.get_business(stock_name).info(player);;
+                    Market.getBusiness(stock_name).info(player);;
                 }else{
                     player.sendMessage("§bplease enter a valid company stockname");
                 }
@@ -111,7 +114,7 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
                 String stock_name = args[1].toUpperCase();
 
                 if (Market.hasBusiness(stock_name)){
-                    Market.get_business(stock_name).get_share_top(player);
+                    Market.getBusiness(stock_name).get_share_top(player);
                 }else{
                     player.sendMessage("§bplease enter a valid company stockname");
                 }
@@ -145,11 +148,11 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
                     confirm.put(player, "");
                     player.sendMessage("§byou succesfully gave §f"+df.format(amount)+"§b to §f"+stock_name);
 
-                    Market.get_business(stock_name).add_bal(amount);
+                    Market.getBusiness(stock_name).addBal(amount);
 
                     SignClick.getEconomy().withdrawPlayer(player, amount);
 
-                    Market.get_business(stock_name).send_owner("§byour business §f"+stock_name+" §b received §f"+amount+" §b from §f"+player.getName());
+                    Market.getBusiness(stock_name).send_owner("§byour business §f"+stock_name+" §b received §f"+amount+" §b from §f"+player.getName());
 
                 }else{
                     player.sendMessage("§bplease re-enter your command to confirm\nthat you want to give §f" +df.format(amount)+
@@ -247,22 +250,10 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
 
                 String player_name = args[2];
                 double amount = Double.parseDouble(args[3]);
-                OfflinePlayer player_offline = null;
+                OfflinePlayer player_offline = Bukkit.getOfflinePlayer(player_name);
 
-                for (OfflinePlayer target : Bukkit.getOfflinePlayers()) {
-                    if (target.getName().equals(player_name)){
-                        player_offline = target;
-                    }
-                }
-
-                if (!Market.get_business(stock_name).is_owner(player.getUniqueId())){
+                if (!Market.getBusiness(stock_name).isOwner(player.getUniqueId())){
                     player.sendMessage("§byou must be a CEO of this company");
-                    confirm.put(player, "");
-                    return true;
-                }
-
-                if (player_offline == null){
-                    player.sendMessage("§bplayer doesn't exist");
                     confirm.put(player, "");
                     return true;
                 }
@@ -276,7 +267,7 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
                 if (confirm.getOrDefault(player, "").equals("pay")){
                     confirm.put(player, "");
                     //still need refresh weekly the 20 % cap
-                    if (Market.get_business(stock_name).remove_bal(amount)){
+                    if (Market.getBusiness(stock_name).remove_bal(amount)){
                         SignClick.getEconomy().depositPlayer(player_offline, amount);
                         player.sendMessage("§bsuccesfully paid §f"+player_name+" "+amount);
                         Player target = Bukkit.getPlayer(player_offline.getUniqueId());
@@ -314,7 +305,7 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
                     return true;
                 }
                 DecimalFormat df = new DecimalFormat("###,###,##0.00");
-                player.sendMessage("§b spendable money: "+df.format(Market.get_business(stock_name).get_spendable()));
+                player.sendMessage("§b spendable money: "+df.format(Market.getBusiness(stock_name).get_spendable()));
             }
 
             if (commando.equals("support")){
@@ -344,7 +335,7 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
 
                 if (player_name.equals("neutral")){
                     Account acc = Market.getAccount(player);
-                    Market.get_business(stock_name).support_update(acc, null);
+                    Market.getBusiness(stock_name).support_update(acc, null);
                     confirm.put(player, "");
                     player.sendMessage("§bsupport changed to §e"+player_name);
                     return true;
@@ -356,7 +347,7 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
                     return true;
                 }
                 Account acc = Market.getAccount(player);
-                Market.get_business(stock_name).support_update(acc, player_offline.getUniqueId());
+                Market.getBusiness(stock_name).support_update(acc, player_offline.getUniqueId());
                 player.sendMessage("§bsupport changed to §f"+player_name);
 
             }
@@ -405,8 +396,8 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
                     Account target = Market.getAccount(player_offline.getUniqueId());
                     boolean suc6 = Market.getAccount(player).transfer(stock_name, amount, target, player);
                     if (suc6){
-                        Market.get_business(stock_name).change_share_holder(target, amount);
-                        Market.get_business(stock_name).change_share_holder(Market.getAccount(player), -amount);
+                        Market.getBusiness(stock_name).change_share_holder(target, amount);
+                        Market.getBusiness(stock_name).change_share_holder(Market.getAccount(player), -amount);
                     }
 
                     //target.send_player("§byou got §f"+amount+" §bshares from §f"+player.getName());
@@ -483,7 +474,7 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
                     return true;
                 }
 
-                UUID result = Market.get_business(stock_name).support.getOrDefault(target_uuid, null);
+                UUID result = Market.getBusiness(stock_name).support.getOrDefault(target_uuid, null);
                 String name;
                 if (result == null){
                     name = "neutral";
@@ -517,7 +508,7 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
                     return true;
                 }
 
-                if (!Market.get_business(stock_name).is_owner(player.getUniqueId())){
+                if (!Market.getBusiness(stock_name).isOwner(player.getUniqueId())){
                     player.sendMessage("§byou must be CEO to send that request");
                     confirm.put(player, "");
                     return true;
@@ -537,8 +528,8 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
 
                 if (confirm.getOrDefault(player, "").equals("send_contract_ctc")){
                     confirm.put(player, "");
-                    if (Market.get_business(target_stock_name).compNamePending == null){
-                        Market.get_business(stock_name).send_offer_comp_contract(target_stock_name, amount, weeks, reason);
+                    if (Market.getBusiness(target_stock_name).compNamePending == null){
+                        Market.getBusiness(stock_name).send_offer_comp_contract(target_stock_name, amount, weeks, reason);
                     }else{
                         player.sendMessage("§ccompany still has another offer pending, try again in 2 minutes");
                     }
@@ -569,13 +560,13 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
                     return true;
                 }
 
-                if (!Market.get_business(stock_name).is_owner(player.getUniqueId())){
+                if (!Market.getBusiness(stock_name).isOwner(player.getUniqueId())){
                     player.sendMessage("§byou must be CEO to sign that request");
                     confirm.put(player, "");
                     return true;
                 }
 
-                Company comp = Market.get_business(stock_name);
+                Company comp = Market.getBusiness(stock_name);
                 if (comp.spendable < comp.compAmountPending){
                     player.sendMessage("§bcan't sign contract because lack of weekly spendable funds");
                     confirm.put(player, "");
@@ -655,8 +646,8 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
 
                 if (confirm.getOrDefault(player, "").equals("send_contract_ctp")){
                     confirm.put(player, "");
-                    if (Market.get_business(target_stock_name).playerNamePending == null){
-                        Market.get_business(target_stock_name).receive_offer_player_contract(player.getUniqueId().toString(), amount, weeks, reason);
+                    if (Market.getBusiness(target_stock_name).playerNamePending == null){
+                        Market.getBusiness(target_stock_name).receive_offer_player_contract(player.getUniqueId().toString(), amount, weeks, reason);
                     }else{
                         player.sendMessage("§ccompany still has another offer pending, try again in 2 minutes");
                     }
@@ -687,20 +678,20 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
                     return true;
                 }
 
-                if (!Market.get_business(stock_name).is_owner(player.getUniqueId())){
+                if (!Market.getBusiness(stock_name).isOwner(player.getUniqueId())){
                     player.sendMessage("§byou must be CEO to sign that request");
                     confirm.put(player, "");
                     return true;
                 }
 
-                Company comp = Market.get_business(stock_name);
+                Company comp = Market.getBusiness(stock_name);
                 if (comp.spendable < comp.compAmountPending){
                     player.sendMessage("§bcan't sign contract because lack of weekly spendable funds");
                     confirm.put(player, "");
                     return true;
                 }
 
-                if (comp.is_owner(UUID.fromString(comp.playerNamePending)) && player.getUniqueId().equals(UUID.fromString(comp.playerNamePending))){
+                if (comp.isOwner(UUID.fromString(comp.playerNamePending)) && player.getUniqueId().equals(UUID.fromString(comp.playerNamePending))){
                     player.sendMessage("§byou can't' make a contract with yourself");
                     confirm.put(player, "");
                     return true;
@@ -746,7 +737,7 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
                     return true;
                 }
 
-                if (!Market.get_business(stock_name).is_owner(player.getUniqueId())){
+                if (!Market.getBusiness(stock_name).isOwner(player.getUniqueId())){
                     player.sendMessage("§byou must be CEO to send that request");
                     confirm.put(player, "");
                     return true;
@@ -914,7 +905,7 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
 
                 double amount = Double.parseDouble(args[3]);
 
-                if (!Market.get_business(stock_name).is_owner(player.getUniqueId())){
+                if (!Market.getBusiness(stock_name).isOwner(player.getUniqueId())){
                     player.sendMessage("§byou must be a CEO of this com.company");
                     confirm.put(player, "");
                     return true;
@@ -923,9 +914,9 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
                 if (confirm.getOrDefault(player, "").equals("transact")){
                     confirm.put(player, "");
                     //still need refresh weekly the 20 % cap
-                    if (Market.get_business(stock_name).remove_bal(amount)){
-                        Company comp_target = Market.get_business(target_stock_name);
-                        comp_target.add_bal(amount);
+                    if (Market.getBusiness(stock_name).remove_bal(amount)){
+                        Company comp_target = Market.getBusiness(target_stock_name);
+                        comp_target.addBal(amount);
                         player.sendMessage("§bsuccesfully paid §f"+target_stock_name+" "+amount);
                         comp_target.send_owner("§bsuccesfully received §f"+amount+" §bfrom §f"+stock_name);
 
@@ -967,7 +958,7 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
                     return true;
                 }
 
-                Company comp = Market.get_business(stock_name);
+                Company comp = Market.getBusiness(stock_name);
                 comp.patentUpgrades.add(new PatentUpgradeCustom(args[2], item));
             }
 
@@ -1007,18 +998,18 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
                 }
 
                 if (args.length < 3){
-                    player.sendMessage("§bopen trade is "+ Market.get_business(stock_name).openTrade);
+                    player.sendMessage("§bopen trade is "+ Market.getBusiness(stock_name).openTrade);
                     return true;
                 }
 
-                if (!Market.get_business(stock_name).is_owner(player.getUniqueId())){
+                if (!Market.getBusiness(stock_name).isOwner(player.getUniqueId())){
                     player.sendMessage("§byou must be a CEO of this com.company");
                     confirm.put(player, "");
                     return true;
                 }
 
                 boolean to_open = Objects.equals(args[2], "TRUE");
-                Market.get_business(stock_name).openTrade = to_open;
+                Market.getBusiness(stock_name).openTrade = to_open;
 
                 if (!to_open){
                     Market.set_market_amount(stock_name, 0);
@@ -1028,7 +1019,7 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
                     Market.set_market_amount(stock_name, 0);
                 }
 
-                player.sendMessage("§bopen trade set yo "+ Market.get_business(stock_name).openTrade);
+                player.sendMessage("§bopen trade set yo "+ Market.getBusiness(stock_name).openTrade);
 
             }
 

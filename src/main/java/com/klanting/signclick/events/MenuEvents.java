@@ -34,7 +34,7 @@ public class MenuEvents implements Listener {
             Player player = (Player) event.getWhoClicked();
             event.setCancelled(true);
 
-            Company company = Market.get_business(event.getCurrentItem().getItemMeta().getDisplayName());
+            Company company = Market.getBusiness(event.getCurrentItem().getItemMeta().getDisplayName());
             CompanyOwnerMenu screen = new CompanyOwnerMenu(player.getUniqueId(), company);
 
             player.openInventory(screen.getInventory());

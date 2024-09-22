@@ -475,7 +475,6 @@ class CountryTests {
 
         plugin.onDisable();
         CountryManager.clear();
-
         plugin = TestTools.setupPlugin(server);
 
         /*

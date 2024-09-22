@@ -38,7 +38,7 @@ public class CompanyMenuTests {
 
         testPlayer = TestTools.addPermsPlayer(server, plugin);
 
-        boolean suc6 = Market.add_business("TestCaseInc", "TCI", Market.getAccount(testPlayer));
+        boolean suc6 = Market.addBusiness("TestCaseInc", "TCI", Market.getAccount(testPlayer));
         assertTrue(suc6);
 
         suc6 = server.execute("company", testPlayer, "menu").hasSucceeded();
@@ -61,7 +61,7 @@ public class CompanyMenuTests {
         ItemStack companyOption = inventoryMenu.getItem(slot);
         assertNotNull(companyOption);
         String companyName = companyOption.getItemMeta().getDisplayName();
-        return Market.get_business(companyName);
+        return Market.getBusiness(companyName);
     }
 
     private InventoryView openMenu(int slot){
@@ -185,7 +185,7 @@ public class CompanyMenuTests {
         /*
         * Give company enough spendable
         * */
-        comp.add_bal(20000000.0);
+        comp.addBal(20000000.0);
 
         testPlayer.simulateInventoryClick(upgradeMenu, 11);
         assertEquals(1, comp.upgrades.get(0).level);
@@ -196,7 +196,7 @@ public class CompanyMenuTests {
     @Test
     void companyAuction(){
         Company comp = getCompany(0);
-        comp.add_bal(10000000.0);
+        comp.addBal(10000000.0);
 
         /*
         * Tick needed to get auction values

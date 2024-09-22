@@ -4,6 +4,7 @@ import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
 import com.klanting.signclick.Economy.Company;
+import com.klanting.signclick.Economy.CountryManager;
 import com.klanting.signclick.Economy.Market;
 import com.klanting.signclick.SignClick;
 import org.bukkit.entity.Player;
@@ -49,11 +50,11 @@ class CompanyTests {
         SignClick.getEconomy().depositPlayer(testPlayer, 40000000);
         assertTrue(SignClick.getEconomy().has(testPlayer, 40000000));
 
-        Boolean succes = Market.add_business("TestCaseInc", "TCI", Market.getAccount(testPlayer));
+        Boolean succes = Market.addBusiness("TestCaseInc", "TCI", Market.getAccount(testPlayer));
         assertTrue(succes);
         SignClick.getEconomy().withdrawPlayer(testPlayer, 40000000);
 
-        Company comp = Market.get_business("TCI");
+        Company comp = Market.getBusiness("TCI");
         assertEquals(0, comp.get_value());
         assertEquals(1000000, Market.getAccount(testPlayer).shares.get("TCI"));
 
@@ -63,11 +64,42 @@ class CompanyTests {
     void companyAddMoney(){
         Player testPlayer = server.addPlayer();
 
-        Boolean succes = Market.add_business("TestCaseInc", "TCI", Market.getAccount(testPlayer));
+        Boolean succes = Market.addBusiness("TestCaseInc", "TCI", Market.getAccount(testPlayer));
         assertTrue(succes);
 
 
-        Company comp = Market.get_business("TCI");
+        Company comp = Market.getBusiness("TCI");
+
+    }
+
+    @Test
+    void companySaveLoad(){
+        Player testPlayer = server.addPlayer();
+
+        Boolean succes = Market.addBusiness("TestCaseInc", "TCI", Market.getAccount(testPlayer));
+        assertTrue(succes);
+
+        Company comp = Market.getBusiness("TCI");
+        comp.addBal(1000.0);
+
+        plugin.onDisable();
+        CountryManager.clear();
+        Market.clear();
+        plugin = TestTools.setupPlugin(server);
+
+    }
+
+    @Test
+    void companyRunTicks(){
+        Player testPlayer = server.addPlayer();
+
+        Boolean succes = Market.addBusiness("TestCaseInc", "TCI", Market.getAccount(testPlayer));
+        assertTrue(succes);
+
+        Company comp = Market.getBusiness("TCI");
+        comp.addBal(1000.0);
+
+        server.getScheduler().performTicks(60*60*24*7*20+1);
 
     }
 }

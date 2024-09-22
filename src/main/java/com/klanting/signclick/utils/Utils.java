@@ -14,17 +14,4 @@ public class Utils {
         }
         return UUIDList;
     }
-
-    public Color toColor(String colorString){
-        switch (colorString){
-            case "AQUA":
-                return Color.AQUA;
-            case "BLACK":
-                return Color.BLACK;
-            case "BLUE":
-                return Color.BLUE;
-            default:
-                return Color.WHITE;
-        }
-    }
 }

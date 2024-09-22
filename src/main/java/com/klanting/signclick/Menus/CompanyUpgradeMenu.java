@@ -21,7 +21,7 @@ public class CompanyUpgradeMenu implements InventoryHolder {
     public CompanyUpgradeMenu(UUID uuid, Company company){
         menu = Bukkit.createInventory(this, 27, "Company Upgrade Menu");
         comp = company;
-        if (!comp.is_owner(uuid)){
+        if (!comp.isOwner(uuid)){
             return;
         }
 

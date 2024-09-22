@@ -42,13 +42,13 @@ public class Account {
         if (getBal() >= v){
             if (Market.buy(Sname, amount, this)){
                 removeBal(v);
-                Market.get_business(Sname).add_books(v);
+                Market.getBusiness(Sname).add_books(v);
 
                 Market.change_base(Sname);
 
                 int share_amount = shares.getOrDefault(Sname, 0);
                 shares.put(Sname, share_amount+amount);
-                if (Market.get_business(Sname).openTrade){
+                if (Market.getBusiness(Sname).openTrade){
                     Market.setTotal(Sname, Market.getTotal(Sname)+amount);
                 }
                 player.sendMessage("§bbuy: §aaccepted");
@@ -64,7 +64,7 @@ public class Account {
     public void sellShare(String Sname, Integer amount, Player player){
         double v = Market.get_sell_price(Sname, amount);
 
-        String countryName = Market.get_business(Sname).GetCountry();
+        String countryName = Market.getBusiness(Sname).GetCountry();
 
         double sub_fee = Market.getFee();
         Country country = CountryManager.getCountry(countryName);
@@ -81,7 +81,7 @@ public class Account {
             if (playerCountry != null){
                 playerCountry.deposit((int) to_gov);
             }else{
-                Market.get_business(Sname).add_books(to_gov);
+                Market.getBusiness(Sname).add_books(to_gov);
             }
         }else{
             to_gov = v/(1.0-sub_fee);
@@ -93,7 +93,7 @@ public class Account {
         if (share_amount >= amount){
             if (Market.sell(Sname, amount, this)){
                 addBal(v);
-                Market.get_business(Sname).remove_books(v+to_gov);
+                Market.getBusiness(Sname).remove_books(v+to_gov);
                 Market.change_base(Sname);
 
                 shares.put(Sname, share_amount-amount);
@@ -107,7 +107,7 @@ public class Account {
     }
 
     void set_support(String Sname, UUID value){
-        Market.get_business(Sname).support_update(this, value);
+        Market.getBusiness(Sname).support_update(this, value);
 
     }
 
@@ -157,7 +157,7 @@ public class Account {
         for(Map.Entry<String, Integer> entry : shares.entrySet()){
             String b = entry.getKey();
             int s = entry.getValue();
-            double v = (Market.get_business(b).get_value()/Market.getTotal(b).doubleValue())*s;
+            double v = (Market.getBusiness(b).get_value()/Market.getTotal(b).doubleValue())*s;
 
             if (order.size() > 0){
                 boolean found = false;

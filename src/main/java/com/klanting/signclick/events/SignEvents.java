@@ -100,10 +100,5 @@ public class SignEvents implements Listener {
 
     }
 
-    //@EventHandler(priority = EventPriority.LOWEST)
-    //public static void OnPower (BlockRedstoneEvent event){
-        //event.getBlock();
-    //}
-
 
 }

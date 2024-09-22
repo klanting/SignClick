@@ -103,6 +103,42 @@ class CountryCTests {
     }
 
     @Test
+    void countryBalance() {
+        PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
+
+        CountryManager.create("empire1", testPlayer);
+
+        testPlayer.nextMessage();
+        testPlayer.assertNoMoreSaid();
+
+        CountryManager.getCountry("empire1").deposit(1000);
+
+        /*
+        * check balance of own country
+        * */
+        boolean result = server.execute("country", testPlayer, "bal").hasSucceeded();
+        assertTrue(result);
+
+        /*
+        * check country balance
+        * */
+        testPlayer.assertSaid("§bsaldo: 1.000");
+        testPlayer.assertNoMoreSaid();
+
+        /*
+         * check balance of provided country
+         * */
+        result = server.execute("country", testPlayer, "bal", "empire1").hasSucceeded();
+        assertTrue(result);
+
+        /*
+         * check country balance
+         * */
+        testPlayer.assertSaid("§bsaldo: 1.000");
+        testPlayer.assertNoMoreSaid();
+    }
+
+    @Test
     void countryDonateNegative() {
         PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
         SignClick.getEconomy().depositPlayer(testPlayer, 1000);

@@ -96,7 +96,7 @@ public class Company {
         return bal+books;
     }
 
-    public Boolean add_bal(Double amount){
+    public Boolean addBal(Double amount){
         bal += amount;
         Market.change_base(Sname);
 
@@ -232,7 +232,7 @@ public class Company {
 
     }
 
-    public Boolean is_owner(UUID uuid){
+    public Boolean isOwner(UUID uuid){
         return owners.contains(uuid);
     }
 
@@ -297,7 +297,14 @@ public class Company {
 
     void dividend(){
 
-        double value_one = (get_value()/Market.getTotal(Sname).doubleValue())*(0.01- country.getPolicyBonus(0, 1)- country.getPolicyBonus(1, 1));
+        double modifier1 = 0.0;
+        double modifier2 = 0.0;
+        if (country != null){
+            modifier1 = country.getPolicyBonus(0, 1);
+            modifier2 = country.getPolicyBonus(1, 1);
+        }
+
+        double value_one = (get_value()/Market.getTotal(Sname).doubleValue())*(0.01- modifier1-modifier2);
         remove_bal(value_one*(Market.getTotal(Sname)-Market.get_market_amount(Sname)));
         for (Entry<UUID, Integer> entry : shareHolders.entrySet()){
             UUID holder = entry.getKey();
@@ -361,7 +368,7 @@ public class Company {
     }
 
     public void send_offer_comp_contract(String stock_name, double amount, int weeks, String reason){
-        Market.get_business(stock_name).receive_offer_comp_contract(Sname, amount, weeks, reason);
+        Market.getBusiness(stock_name).receive_offer_comp_contract(Sname, amount, weeks, reason);
     }
 
     public void receive_offer_comp_contract(String stock_name, double amount, int weeks, String reason){
@@ -432,12 +439,17 @@ public class Company {
     public void reset_spendable(){
         double base = 0.2;
 
-        if (country.getStability() < 50){
+        if (country == null || country.getStability() < 50){
             base -= 0.03;
         }
 
-        double pct = (base+ country.getPolicyBonus(0, 3));
-        if (type.equals("bank")){
+        double modifier = 0.0;
+        if (country != null){
+            modifier = country.getPolicyBonus(0, 3);
+        }
+
+        double pct = (base+modifier);
+        if (type.equals("bank") && country != null){
             pct += country.getPolicyBonus(0, 7);
             pct += country.getPolicyBonus(1, 5);
             pct += country.getPolicyBonus(2, 11);

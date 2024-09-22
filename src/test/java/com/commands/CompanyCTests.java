@@ -36,7 +36,7 @@ class CompanyCTests {
 
         testPlayer = TestTools.addPermsPlayer(server, plugin);
 
-        boolean suc6 = Market.add_business("TestCaseInc", "TCI", Market.getAccount(testPlayer));
+        boolean suc6 = Market.addBusiness("TestCaseInc", "TCI", Market.getAccount(testPlayer));
         assertTrue(suc6);
 
     }
@@ -47,6 +47,48 @@ class CompanyCTests {
         MockBukkit.unmock();
         CountryManager.clear();
         Market.clear();
+    }
+
+    @Test
+    void companyCreate(){
+        SignClick.getEconomy().depositPlayer(testPlayer, 40000000);
+        boolean suc6 = server.execute("company", testPlayer, "create", "TESTINGCOMP", "COMP").hasSucceeded();
+        assertTrue(suc6);
+
+        testPlayer.assertSaid("§bplease re-enter your command to confirm that you want to start a company and want to auto-transfer §640 million §bto your business from your account If you agree, enter: §c/company create TESTINGCOMP COMP");
+        testPlayer.assertNoMoreSaid();
+
+        suc6 = server.execute("company", testPlayer, "create", "TESTINGCOMP", "COMP").hasSucceeded();
+        assertTrue(suc6);
+
+        testPlayer.assertSaid("§byou succesfully found TESTINGCOMP good luck CEO Player0");
+        testPlayer.assertNoMoreSaid();
+
+
+    }
+
+    @Test
+    void companyPay(){
+        Company company = Market.getBusiness("TCI");
+        PlayerMock testPlayer2 = TestTools.addPermsPlayer(server, plugin);
+        assertNotNull(company);
+        company.addBal(100000.0);
+
+        boolean suc6 = server.execute("company", testPlayer, "pay",
+                "TCI", testPlayer2.getName(), "1000").hasSucceeded();
+        assertTrue(suc6);
+
+        testPlayer.nextMessage();
+
+        suc6 = server.execute("company", testPlayer, "pay",
+                "TCI", testPlayer2.getName(), "1000").hasSucceeded();
+        assertTrue(suc6);
+
+        testPlayer.assertSaid("§bsuccesfully paid §fPlayer1 1000.0");
+        testPlayer.assertNoMoreSaid();
+        assertEquals(99000.0, company.bal);
+
+
     }
 
     @Test
@@ -110,7 +152,7 @@ class CompanyCTests {
 
         SignClick.getEconomy().depositPlayer(testPlayer, 1000);
 
-        Company comp = Market.get_business("TCI");
+        Company comp = Market.getBusiness("TCI");
         assertEquals(0, comp.get_value());
 
         boolean suc6 = server.execute("company", testPlayer, "give", "TCI", "1000").hasSucceeded();
@@ -138,7 +180,7 @@ class CompanyCTests {
     @Test
     void companySellBuyShares(){
         companyGive();
-        Company comp = Market.get_business("TCI");
+        Company comp = Market.getBusiness("TCI");
 
         assertEquals(1000000, Market.getAccount(testPlayer.getUniqueId()).shares.get("TCI"));
 

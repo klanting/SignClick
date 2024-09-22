@@ -27,7 +27,6 @@ public class BasicCommands implements CommandExecutor , TabCompleter {
         Player player = (Player) sender;
 
         if (cmd.getName().equalsIgnoreCase("signclick")){
-
             player.sendMessage("§bstart your own payment travel system in some simple steps.\n" +
                                   "step 1: go to your endpoint location en do /signclickpos\n" +
                                   "step 2: set your sign on another location with the first line: §6[signclick_tp]");

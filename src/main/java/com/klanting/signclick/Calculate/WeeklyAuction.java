@@ -19,7 +19,7 @@ public class WeeklyAuction {
                         continue;
                     }
 
-                    Company comp = Market.get_business(Auction.bitsOwner.get(i));
+                    Company comp = Market.getBusiness(Auction.bitsOwner.get(i));
                     comp.patentUpgrades.add(Auction.toBuy.get(i));
                 }
 

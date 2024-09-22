@@ -53,7 +53,6 @@ public class CountryManager {
         }
 
         if (countries.containsKey(countryName)){
-            player.sendMessage("§bthis country already exists");
             return null;
         }
 

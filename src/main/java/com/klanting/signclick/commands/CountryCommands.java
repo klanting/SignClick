@@ -26,7 +26,6 @@ import static com.klanting.signclick.Economy.Parties.ElectionTools.setupElection
 
 public class CountryCommands implements CommandExecutor, TabCompleter {
     private static Map<String, String> countryInvites = new HashMap<String, String>();
-    public static Map<String, Election> countryElections = new HashMap<String, Election>();
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -41,18 +40,21 @@ public class CountryCommands implements CommandExecutor, TabCompleter {
                 player.sendMessage("§bplease enter /country <category>");
                 return true;
             }
-            String type = args[0];
-            if (type.equals("bal")){
+            String commando = args[0];
+
+            if (commando.equals("bal")){
                 DecimalFormat df = new DecimalFormat("###,###,###");
+
+                double balance;
                 if (args.length == 2){
-
-                    player.sendMessage("§bsaldo: "+df.format(CountryManager.getCountry(args[1]).getBalance()));
+                    balance = CountryManager.getCountry(args[1]).getBalance();
                 }else{
-                    player.sendMessage("§bsaldo: "+df.format(CountryManager.getCountry(player).getBalance()));
+                    balance = CountryManager.getCountry(player).getBalance();
                 }
+                player.sendMessage("§bsaldo: "+df.format(balance));
 
 
-            }else if (type.equals("create")){
+            }else if (commando.equals("create")){
                 if (args.length < 3){
                     player.sendMessage("§bplease enter /country create <name> <owner>");
                     return true;
@@ -62,7 +64,7 @@ public class CountryCommands implements CommandExecutor, TabCompleter {
                 OfflinePlayer user = Bukkit.getServer().getOfflinePlayer(args[2]);
 
                 if (CountryManager.getCountriesString().contains(countryName)){
-                    player.sendMessage("§bcountry name is already in use");
+                    player.sendMessage("§bthis country already exists");
                     return true;
                 }
 
@@ -73,7 +75,7 @@ public class CountryCommands implements CommandExecutor, TabCompleter {
 
                 CountryManager.create(countryName, player, user);
 
-            }else if (type.equals("pay")){
+            }else if (commando.equals("pay")){
                 int amount;
                 String p;
                 try{
@@ -92,31 +94,37 @@ public class CountryCommands implements CommandExecutor, TabCompleter {
                     return true;
                 }
 
-                if (country.isOwner(player)){
-                    if (country.has(amount)){
-                        if (!player.getName().equals(p)) {
-                            try {
-                                Player target = Bukkit.getServer().getPlayer(p);
-                                SignClick.getEconomy().depositPlayer(target, amount);
-                                target.sendMessage("§byou got " + amount + " from " + country.getName());
-
-                            } catch (Exception e) {
-                                for (OfflinePlayer target : Bukkit.getOfflinePlayers()) {
-                                    if (target.getName().equals(p)) {
-                                        SignClick.getEconomy().depositPlayer(target, amount);
-                                    }
-                                }
-                            }
-                            country.withdraw(amount);
-                            player.sendMessage("§byou paid " + amount + " to " + p);
-                        }
-                    }else{
-                        player.sendMessage("§byou have not enough money");
-                    }
-
+                if (!country.isOwner(player)){
+                    player.sendMessage("§bthis command can only be executed by a country owner");
+                    return true;
                 }
 
-            }else if (type.equals("donate")){
+                if (!country.has(amount)){
+                    player.sendMessage("§byou have not enough money");
+                    return true;
+                }
+
+                if (player.getName().equals(p)) {
+                    player.sendMessage("§byou cannot pay yourself");
+                    return true;
+                }
+
+                try {
+                    Player target = Bukkit.getServer().getPlayer(p);
+                    SignClick.getEconomy().depositPlayer(target, amount);
+                    target.sendMessage("§byou got " + amount + " from " + country.getName());
+
+                } catch (Exception e) {
+                    for (OfflinePlayer target : Bukkit.getOfflinePlayers()) {
+                        if (target.getName().equals(p)) {
+                            SignClick.getEconomy().depositPlayer(target, amount);
+                        }
+                    }
+                }
+                country.withdraw(amount);
+                player.sendMessage("§byou paid " + amount + " to " + p);
+
+            }else if (commando.equals("donate")){
                 Country country;
                 if (args.length == 3){
                     country = CountryManager.getCountry(args[1]);
@@ -162,7 +170,7 @@ public class CountryCommands implements CommandExecutor, TabCompleter {
                 }else{
                     player.sendMessage("§bYou are not in a country or your designated country does not exist");
                 }
-            }else if (type.equals("baltop")){
+            }else if (commando.equals("baltop")){
                 StringBuilder line = new StringBuilder("§bBaltop: ");
                 int index = 1;
 
@@ -177,7 +185,7 @@ public class CountryCommands implements CommandExecutor, TabCompleter {
                 }
                 player.sendMessage(String.valueOf(line));
 
-            }else if (type.equals("tax")){
+            }else if (commando.equals("tax")){
                 int amount;
                 try{
                     amount = Integer.parseInt(args[1]);
@@ -197,7 +205,7 @@ public class CountryCommands implements CommandExecutor, TabCompleter {
                 }else{
                     player.sendMessage("§byou are not allowed to do this");
                 }
-            }else if (type.equals("invite")){
+            }else if (commando.equals("invite")){
                 Country country = CountryManager.getCountry(player);
                 if (country.isOwner(player)){
 
@@ -236,7 +244,7 @@ public class CountryCommands implements CommandExecutor, TabCompleter {
                 }else{
                     player.sendMessage("§byou are not allowed to do this");
                 }
-            }else if (type.equals("accept")){
+            }else if (commando.equals("accept")){
                 if (countryInvites.containsKey(player.getName())){
                     String countryName = countryInvites.get(player.getName());
                     Country country = CountryManager.getCountry(countryName);
@@ -244,7 +252,7 @@ public class CountryCommands implements CommandExecutor, TabCompleter {
                     player.sendMessage("§byou succesfully joint this country");
                     player.setPlayerListName(country.getColor()+player.getName());
                 }
-            }else if (type.equals("kick")){
+            }else if (commando.equals("kick")){
                 Country country = CountryManager.getCountry(player);
                 if (country != null && country.isOwner(player)){
                     Player target;
@@ -261,7 +269,7 @@ public class CountryCommands implements CommandExecutor, TabCompleter {
                     player.sendMessage("§byou are not allowed to kick members");
                 }
 
-            }else if (type.equals("info")){
+            }else if (commando.equals("info")){
                 Country country;
                 if (args.length == 2){
                     String name = args[1];
@@ -278,7 +286,7 @@ public class CountryCommands implements CommandExecutor, TabCompleter {
                 }
 
                 country.info(player);
-            }else if (type.equals("leave")){
+            }else if (commando.equals("leave")){
                 Country country = CountryManager.getCountry(player);
 
                 if (country.isOwner(player)){
@@ -287,7 +295,7 @@ public class CountryCommands implements CommandExecutor, TabCompleter {
                     country.removeMember(player);
                 }
                 player.sendMessage("§bcountry succesfully left");
-            }else if (type.equals("setspawn")) {
+            }else if (commando.equals("setspawn")) {
                 Country country = CountryManager.getCountry(player);
 
                 if (country.isOwner(player)) {
@@ -295,7 +303,7 @@ public class CountryCommands implements CommandExecutor, TabCompleter {
                     player.sendMessage("§bspawn succesfully relocated");
                 }
 
-            }else if (type.equals("spawn")){
+            }else if (commando.equals("spawn")){
                 Country country;
                 if ((player.hasPermission("signclick.staff")) && (args.length == 2)){
                     String countryName = args[1];
@@ -317,7 +325,7 @@ public class CountryCommands implements CommandExecutor, TabCompleter {
                     player.sendMessage("§byou are not in a country");
                 }
 
-            }else if (type.equals("add_enforcement")){
+            }else if (commando.equals("add_enforcement")){
                 if (args.length < 2){
                     player.sendMessage("§bplease enter /country add_enforcement <playername>");
                     return true;
@@ -341,7 +349,7 @@ public class CountryCommands implements CommandExecutor, TabCompleter {
 
 
 
-            }else if (type.equals("remove_enforcement")){
+            }else if (commando.equals("remove_enforcement")){
                 if (args.length < 2){
                     player.sendMessage("§bplease enter /country remove_enforcement <playername>");
                     return true;
@@ -369,7 +377,7 @@ public class CountryCommands implements CommandExecutor, TabCompleter {
                 }
 
 
-            }else if (type.equals("menu")) {
+            }else if (commando.equals("menu")) {
                 Country country = CountryManager.getCountry(player);
 
                 if (!country.isOwner(player)){
@@ -380,7 +388,7 @@ public class CountryCommands implements CommandExecutor, TabCompleter {
                 CountryMenu screen = new CountryMenu(player.getUniqueId());
                 player.openInventory(screen.getInventory());
 
-            }else if (type.equals("election")) {
+            }else if (commando.equals("election")) {
                 Country country = CountryManager.getCountry(player);
 
                 if (!country.isOwner(player)){
@@ -406,7 +414,7 @@ public class CountryCommands implements CommandExecutor, TabCompleter {
 
             }
 
-            else if (type.equals("vote")) {
+            else if (commando.equals("vote")) {
                 Country country = CountryManager.getCountry(player);
                 if (country.getCountryElection() == null){
                     player.sendMessage("§bcountry is not in an election phase");
@@ -425,7 +433,7 @@ public class CountryCommands implements CommandExecutor, TabCompleter {
             }
 
             if (player.hasPermission("signclick.staff")){
-                if (type.equals("setowner")){
+                if (commando.equals("setowner")){
                     Player p = Bukkit.getPlayer(args[2]);
                     assert p != null;
 
@@ -439,17 +447,17 @@ public class CountryCommands implements CommandExecutor, TabCompleter {
                     }
 
                     player.sendMessage("§bowner has been set");
-                }else if (type.equals("removeowner")){
+                }else if (commando.equals("removeowner")){
                     Player p = Bukkit.getPlayer(args[2]);
                     assert p != null;
                     Country country = CountryManager.getCountry(args[1]);
                     country.removeOwner(p);
                     player.sendMessage("§bowner has been set");
-                }else if (type.equals("color")){
+                }else if (commando.equals("color")){
                     Country country = CountryManager.getCountry(args[1]);
                     country.setColor(ChatColor.valueOf(args[2]));
                     player.sendMessage("§bcolor changed");
-                }else if (type.equals("promote")){
+                }else if (commando.equals("promote")){
                     try{
                         Player p = Bukkit.getPlayer(args[1]);
 
@@ -474,7 +482,7 @@ public class CountryCommands implements CommandExecutor, TabCompleter {
 
                     }
 
-                }else if (type.equals("demote")){
+                }else if (commando.equals("demote")){
                     try{
                         Player p = Bukkit.getPlayer(args[1]);
                         Country country = CountryManager.getCountry(p);
@@ -491,12 +499,12 @@ public class CountryCommands implements CommandExecutor, TabCompleter {
                         }
 
                     }
-                }else if (type.equals("remove")) {
+                }else if (commando.equals("remove")) {
                     String name = args[1];
                     Country country = CountryManager.getCountry(name);
                     CountryManager.delete(country.getName(), player);
 
-                }else if (type.equals("addmember")) {
+                }else if (commando.equals("addmember")) {
                     Country country = CountryManager.getCountry(args[1]);
 
                     Player addedPlayer = Bukkit.getPlayer(args[2]);
@@ -505,7 +513,7 @@ public class CountryCommands implements CommandExecutor, TabCompleter {
 
                     addedPlayer.setPlayerListName(country.getColor()+player.getName());
 
-                }else if (type.equals("removemember")) {
+                }else if (commando.equals("removemember")) {
 
                     Country country = CountryManager.getCountry(args[2]);
 

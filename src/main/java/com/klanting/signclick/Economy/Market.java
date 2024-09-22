@@ -81,7 +81,7 @@ public class Market {
 
     public static  Double get_sell_price(String Sname, Integer amount){
 
-        String countryName = Market.get_business(Sname).GetCountry();
+        String countryName = Market.getBusiness(Sname).GetCountry();
         Country country = CountryManager.getCountry(countryName);
 
 
@@ -108,7 +108,7 @@ public class Market {
     }
 
     public static Boolean buy(String Sname, Integer amount, Account acc){
-        if (marketAmount.get(Sname) >= amount || get_business(Sname).openTrade){
+        if (marketAmount.get(Sname) >= amount || getBusiness(Sname).openTrade){
             int market_am = marketAmount.get(Sname);
             marketAmount.put(Sname, market_am-amount);
 
@@ -144,11 +144,11 @@ public class Market {
         change_value(Sname);
     }
 
-    public static Company get_business(String Sname){
+    public static Company getBusiness(String Sname){
         return company.get(Sname);
     }
 
-    public static Boolean add_business(String namebus, String Sname, Account acc){
+    public static Boolean addBusiness(String namebus, String Sname, Account acc){
         if ((!names.contains(namebus)) & (!total.containsKey(Sname))){
             names.add(namebus);
             Company comp = new Company(namebus, Sname, acc);
@@ -179,7 +179,7 @@ public class Market {
     public static ArrayList<Company> getBusinessByOwner(UUID uuid){
         ArrayList<Company> outputs = new ArrayList<Company>();
         for(Map.Entry<String, Company> entry : company.entrySet()){
-            if (entry.getValue().is_owner(uuid)){
+            if (entry.getValue().isOwner(uuid)){
                 outputs.add(entry.getValue());
             }
         }
@@ -374,7 +374,7 @@ public class Market {
     }
 
     public static double getBooks(String Sname){
-        Company comp = get_business(Sname);
+        Company comp = getBusiness(Sname);
         return comp.books;
     }
 
@@ -446,7 +446,7 @@ public class Market {
             DecimalFormat df2 = new DecimalFormat("0.00");
             int i2 = i + 1;
 
-            if (Market.get_business(b).openTrade){
+            if (Market.getBusiness(b).openTrade){
                 player.sendMessage("§b"+i2+". §9"+b+": §7" +"inf"+" ("+"inf"+"%)\n");
             }else{
                 player.sendMessage("§b"+i2+". §9"+b+": §7" +df.format(v)+" ("+df2.format((v/Market.getTotal(b).doubleValue()*100.0))+"%)\n");
@@ -666,13 +666,13 @@ public class Market {
         // still crashes
         ArrayList<Object[]> new_data = new ArrayList<>();
         for (Object[] tuple : ContractComptoComp) {
-            Company from = Market.get_business(tuple[0].toString());
+            Company from = Market.getBusiness(tuple[0].toString());
             double amount = (Double) tuple[2];
             if (from.remove_bal(amount)) {
-                Company to = Market.get_business(tuple[1].toString());
+                Company to = Market.getBusiness(tuple[1].toString());
                 int weeks = (Integer) tuple[3];
                 weeks -= 1;
-                to.add_bal(amount);
+                to.addBal(amount);
                 if (weeks > 0) {
                     Object[] new_tuple = {tuple[0], tuple[1], amount, weeks, tuple[4]};
                     new_data.add(new_tuple);
@@ -689,7 +689,7 @@ public class Market {
 
         new_data = new ArrayList<>();
         for (Object[] tuple : ContractComptoPlayer) {
-            Company from = Market.get_business(tuple[0].toString());
+            Company from = Market.getBusiness(tuple[0].toString());
             double amount = (Double) tuple[2];
             if (from.remove_bal(amount)) {
                 Account to = Market.getAccount(UUID.fromString(tuple[1].toString()));
@@ -719,10 +719,10 @@ public class Market {
                 Account from = Market.getAccount(UUID.fromString(tuple[0].toString()));
                 double amount = (Double) tuple[2];
                 if (from.removeBal(amount)) {
-                    Company to = Market.get_business(tuple[1].toString());
+                    Company to = Market.getBusiness(tuple[1].toString());
                     int weeks = (Integer) tuple[3];
                     weeks -= 1;
-                    to.add_bal(amount);
+                    to.addBal(amount);
                     if (weeks > 0) {
                         Object[] new_tuple = {tuple[0], tuple[1], amount, weeks, tuple[4]};
                         new_data.add(new_tuple);
@@ -746,7 +746,7 @@ public class Market {
 
         for (Object[] tuple : ContractServertoComp) {
             double amount = (Double) tuple[2];
-            Company to = Market.get_business(tuple[1].toString());
+            Company to = Market.getBusiness(tuple[1].toString());
             int weeks = (Integer) tuple[3];
             int delay = (Integer) tuple[5];
 
@@ -809,9 +809,9 @@ public class Market {
 
         for (Object[] tuple : ContractComptoComp) {
 
-            Company from = Market.get_business(tuple[0].toString());
+            Company from = Market.getBusiness(tuple[0].toString());
             double amount = (Double) tuple[2];
-            Company to = Market.get_business(tuple[1].toString());
+            Company to = Market.getBusiness(tuple[1].toString());
             int weeks = (Integer) tuple[3];
             if (to.Sname.equals(stock_name)){
                 income.add("§aContract: from " + from.Sname + "(C) to " + to.Sname + "(C) amount: " + amount
@@ -826,7 +826,7 @@ public class Market {
         }
 
         for (Object[] tuple : ContractComptoPlayer) {
-            Company from = Market.get_business(tuple[0].toString());
+            Company from = Market.getBusiness(tuple[0].toString());
             double amount = (Double) tuple[2];
             Account to = Market.getAccount(UUID.fromString(tuple[1].toString()));
             int weeks = (Integer) tuple[3];
@@ -842,7 +842,7 @@ public class Market {
             try{
                 Account from = Market.getAccount(UUID.fromString(tuple[0].toString()));
                 double amount = (Double) tuple[2];
-                Company to = Market.get_business(tuple[1].toString());
+                Company to = Market.getBusiness(tuple[1].toString());
                 int weeks = (Integer) tuple[3];
 
                 if (to.Sname.equals(stock_name)){
@@ -858,7 +858,7 @@ public class Market {
 
         for (Object[] tuple : ContractServertoComp) {
             double amount = (Double) tuple[2];
-            Company to = Market.get_business(tuple[1].toString());
+            Company to = Market.getBusiness(tuple[1].toString());
             int weeks = (Integer) tuple[3];
             if (to.Sname.equals(stock_name)){
                 income.add("§aContract: from SERVER (S) to " + to.Sname + "(C) amount: " + amount
@@ -896,45 +896,45 @@ public class Market {
             int total = 0;
             if (comp.type.equals("product")){
 
-                comp.add_bal(0+ country.getPolicyBonus(0, 4));
-                comp.add_bal(0+ country.getPolicyBonus(4, 2));
+                comp.addBal(0+ country.getPolicyBonus(0, 4));
+                comp.addBal(0+ country.getPolicyBonus(4, 2));
                 total += (int) (country.getPolicyBonus(0, 4)+ country.getPolicyBonus(4, 2));
 
             }else if (comp.type.equals("building")){
 
                 total+= 1000;
-                comp.add_bal(1000.0);
+                comp.addBal(1000.0);
 
-                comp.add_bal(0+ country.getPolicyBonus(0, 6));
-                comp.add_bal(0+ country.getPolicyBonus(3, 5));
-                comp.add_bal(0+ country.getPolicyBonus(4, 5));
+                comp.addBal(0+ country.getPolicyBonus(0, 6));
+                comp.addBal(0+ country.getPolicyBonus(3, 5));
+                comp.addBal(0+ country.getPolicyBonus(4, 5));
                 total += (int) (country.getPolicyBonus(0, 6)+ country.getPolicyBonus(3, 5)+ country.getPolicyBonus(4, 5));
             }else if (comp.type.equals("military")){
 
                 if (!country.isAboardMilitary()){
                     total+= 4000;
-                    comp.add_bal(4000.0);
+                    comp.addBal(4000.0);
                 }
 
 
-                comp.add_bal(0+ country.getPolicyBonus(2, 5));
-                comp.add_bal(0+ country.getPolicyBonus(4, 4));
+                comp.addBal(0+ country.getPolicyBonus(2, 5));
+                comp.addBal(0+ country.getPolicyBonus(4, 4));
                 total += (int) (country.getPolicyBonus(2, 5)+ country.getPolicyBonus(4, 4));
             }else if (comp.type.equals("transport")){
-                comp.add_bal(0+ country.getPolicyBonus(2, 6));
-                comp.add_bal(0+ country.getPolicyBonus(3, 3));
-                comp.add_bal(0+ country.getPolicyBonus(4, 1));
+                comp.addBal(0+ country.getPolicyBonus(2, 6));
+                comp.addBal(0+ country.getPolicyBonus(3, 3));
+                comp.addBal(0+ country.getPolicyBonus(4, 1));
                 total += (int) (country.getPolicyBonus(2, 6)+ country.getPolicyBonus(3, 3)+ country.getPolicyBonus(4, 1));
             }else if (comp.type.equals("bank")){
-                comp.add_bal(0+ country.getPolicyBonus(2, 7));
-                comp.add_bal(0+ country.getPolicyBonus(4, 0));
+                comp.addBal(0+ country.getPolicyBonus(2, 7));
+                comp.addBal(0+ country.getPolicyBonus(4, 0));
                 total += (int) (country.getPolicyBonus(2, 7)+ country.getPolicyBonus(4, 0));
             }else if(comp.type.equals("real estate")){
-                comp.add_bal(0+ country.getPolicyBonus(3, 4));
-                comp.add_bal(0+country.getPolicyBonus(4, 3));
+                comp.addBal(0+ country.getPolicyBonus(3, 4));
+                comp.addBal(0+country.getPolicyBonus(4, 3));
                 total += (int) (country.getPolicyBonus(3, 4)+ country.getPolicyBonus(4, 3));
             }else{
-                comp.add_bal(0+ country.getPolicyBonus(4, 6));
+                comp.addBal(0+ country.getPolicyBonus(4, 6));
                 total += (int) country.getPolicyBonus(4, 6);
             }
 
@@ -942,7 +942,7 @@ public class Market {
                 double value = country.getPolicyBonus(1, 0);
                 total += (int) value;
                 if (value > 0.0){
-                    comp.add_bal(value);
+                    comp.addBal(value);
                 }else{
                     comp.remove_bal(value*-1);
                 }
