@@ -66,7 +66,7 @@ public class SignClick extends JavaPlugin{
         getCommand("weeklypay").setExecutor(new BasicCommands());
         getCommand("discord").setExecutor(new BasicCommands());
         getCommand("dynmap").setExecutor(new BasicCommands());
-        getCommand("country").setExecutor(new BankCommands());
+        getCommand("country").setExecutor(new CountryCommands());
         getCommand("company").setExecutor(new CompanyCommands());
         getCommand("party").setExecutor(new PartyCommands());
         getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "SignClick is enabled!");

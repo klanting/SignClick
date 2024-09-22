@@ -7,12 +7,11 @@ import com.klanting.signclick.Economy.Parties.Party;
 import com.klanting.signclick.Economy.Policies.*;
 import com.klanting.signclick.SignClick;
 import org.bukkit.*;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
 import java.text.DecimalFormat;
 import java.util.*;
-
-import static com.klanting.signclick.commands.BankCommands.countryElections;
 
 public class Country {
 
@@ -277,6 +276,7 @@ public class Country {
         SignClick.getPlugin().getConfig().createSection("parties."+name);
         SignClick.getPlugin().getConfig().createSection("decision."+name);
         SignClick.getPlugin().getConfig().createSection("spawn."+name);
+        SignClick.getPlugin().getConfig().createSection("members."+name);
 
         /*
         * Save balance
@@ -553,15 +553,23 @@ public class Country {
             }
         }
         Location spawn = spawnLocation;
+        String spawnString;
+        if (spawn != null){
+            spawnString = "\nX: "+spawn.getX()+ "\nY: "+spawn.getY()+ "\nZ: "+spawn.getZ();
+        }else{
+            spawnString = "No spawn has been set use '/country setspawn' to set a country spawn location";
+        }
+
+
         DecimalFormat df = new DecimalFormat("###,###,###");
         player.sendMessage("§bBank: §7"+name+"\n" +
-                "§bbalance: §7"+String.valueOf(df.format(amount))+"\n" +
+                "§bbalance: §7"+df.format(amount)+"\n" +
                 "§bowners: §7"+p_list+"\n" +
                 "§bmembers: §7"+m_list+"\n" +
                 "§blaw enforcement: §7"+l_list+"\n" +
                 "§btaxrate: §7"+ taxRate*100+"\n" +
                 "§bstability: §7"+ df.format(getStability())+"\n" +
-                "§bspawn: §7"+ "\nX: "+spawn.getX()+ "\nY: "+spawn.getY()+ "\nZ: "+spawn.getZ());
+                "§bspawn: §7"+ spawnString);
 
     }
 

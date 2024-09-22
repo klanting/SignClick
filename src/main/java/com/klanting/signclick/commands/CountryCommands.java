@@ -2,9 +2,7 @@ package com.klanting.signclick.commands;
 
 import com.klanting.signclick.Economy.Country;
 import com.klanting.signclick.Economy.CountryManager;
-import com.klanting.signclick.Economy.Decisions.Decision;
 import com.klanting.signclick.Economy.Parties.Election;
-import com.klanting.signclick.Economy.Parties.Party;
 import com.klanting.signclick.Menus.CountryElectionMenu;
 import com.klanting.signclick.Menus.CountryMenu;
 import com.klanting.signclick.SignClick;
@@ -26,7 +24,7 @@ import java.util.*;
 import static com.klanting.signclick.Economy.Parties.ElectionTools.setupElectionDeadline;
 
 
-public class BankCommands implements CommandExecutor, TabCompleter {
+public class CountryCommands implements CommandExecutor, TabCompleter {
     private static Map<String, String> countryInvites = new HashMap<String, String>();
     public static Map<String, Election> countryElections = new HashMap<String, Election>();
 
@@ -55,11 +53,25 @@ public class BankCommands implements CommandExecutor, TabCompleter {
 
 
             }else if (type.equals("create")){
+                if (args.length < 3){
+                    player.sendMessage("§bplease enter /country create <name> <owner>");
+                    return true;
+                }
 
-                String name = args[1];
+                String countryName = args[1];
                 OfflinePlayer user = Bukkit.getServer().getOfflinePlayer(args[2]);
 
-                CountryManager.create(name, player, user);
+                if (CountryManager.getCountriesString().contains(countryName)){
+                    player.sendMessage("§bcountry name is already in use");
+                    return true;
+                }
+
+                if (CountryManager.getCountry(user) != null){
+                    player.sendMessage("§bplayer cannot join a new country, because he/she is already part of one");
+                    return true;
+                }
+
+                CountryManager.create(countryName, player, user);
 
             }else if (type.equals("pay")){
                 int amount;

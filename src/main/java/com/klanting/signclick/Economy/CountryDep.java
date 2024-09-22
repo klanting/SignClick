@@ -5,7 +5,7 @@ import com.klanting.signclick.Economy.Parties.Election;
 import com.klanting.signclick.Economy.Parties.Party;
 import com.klanting.signclick.Economy.Policies.*;
 import com.klanting.signclick.SignClick;
-import com.klanting.signclick.commands.BankCommands;
+import com.klanting.signclick.commands.CountryCommands;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -15,7 +15,7 @@ import org.bukkit.entity.Player;
 import java.text.DecimalFormat;
 import java.util.*;
 
-import static com.klanting.signclick.commands.BankCommands.countryElections;
+import static com.klanting.signclick.commands.CountryCommands.countryElections;
 import static org.bukkit.Bukkit.getServer;
 
 public class CountryDep {
@@ -658,7 +658,7 @@ public class CountryDep {
                 Election e = new Election(country_vs, time+(System.currentTimeMillis()/1000));
                 e.vote_dict = vote_dict;
                 e.alreadyVoted = already_voted;
-                BankCommands.countryElections.put(country_vs, e);
+                CountryCommands.countryElections.put(country_vs, e);
 
                 Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(SignClick.getPlugin(), new Runnable() {
                     public void run() {

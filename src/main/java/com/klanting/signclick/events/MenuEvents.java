@@ -10,7 +10,6 @@ import com.klanting.signclick.Economy.Decisions.DecisionBanParty;
 import com.klanting.signclick.Economy.Decisions.DecisionForbidParty;
 import com.klanting.signclick.Economy.Parties.Party;
 import com.klanting.signclick.Menus.*;
-import com.klanting.signclick.commands.BankCommands;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -21,7 +20,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class MenuEvents implements Listener {
     @EventHandler
