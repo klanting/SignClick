@@ -9,23 +9,25 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b3aa4a96-499c-4e97-84b9-6312c5389c7a" name="Changes" comment="Completed the restore country data, not tested yet">
+    <list default="true" id="b3aa4a96-499c-4e97-84b9-6312c5389c7a" name="Changes" comment="Progress in bring CountryManagement to OOP">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Parties/ElectionTools.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Account.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Account.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Calculate/DynmapCheck.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Calculate/DynmapCheck.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Calculate/SignTP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Calculate/SignTP.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Calculate/WeeklyComp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Calculate/WeeklyComp.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Company.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Company.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Country.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Country.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/CountryDep.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/CountryDep.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/CountryManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/CountryManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Market.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Market.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CountryPolicy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CountryPolicy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Decisions/DecisionCoup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Decisions/DecisionCoup.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Parties/Election.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Parties/Election.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CountryDecisionMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CountryDecisionMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CountryPartyBan.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CountryPartyBan.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/PartyDecisionVote.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/PartyDecisionVote.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/SignClick.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/SignClick.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/BankCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/BankCommands.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/CompanyCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/CompanyCommands.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/PartyCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/PartyCommands.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/events/CountryEvents.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/events/CountryEvents.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/utils/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/utils/Utils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/commands/CompanyCTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/commands/CompanyCTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/country/CountryTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/country/CountryTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/country/PolicyTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/country/PolicyTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/events/MenuEvents.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/events/MenuEvents.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -396,7 +398,7 @@
       <workItem from="1726729878479" duration="10118000" />
       <workItem from="1726854949041" duration="1586000" />
       <workItem from="1726939743397" duration="3143000" />
-      <workItem from="1726944302147" duration="6775000" />
+      <workItem from="1726944302147" duration="12338000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Github Commit">
       <option name="closed" value="true" />
@@ -534,7 +536,15 @@
       <option name="project" value="LOCAL" />
       <updated>1726941932466</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="Progress in bring CountryManagement to OOP">
+      <option name="closed" value="true" />
+      <created>1727001784356</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1727001784356</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -572,7 +582,8 @@
     <MESSAGE value="added some small tests" />
     <MESSAGE value="first party country refactoring from C style static methods to OOP" />
     <MESSAGE value="Completed the restore country data, not tested yet" />
-    <option name="LAST_COMMIT_MESSAGE" value="Completed the restore country data, not tested yet" />
+    <MESSAGE value="Progress in bring CountryManagement to OOP" />
+    <option name="LAST_COMMIT_MESSAGE" value="Progress in bring CountryManagement to OOP" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -1,7 +1,8 @@
 package com.klanting.signclick.events;
 
 import com.klanting.signclick.Calculate.WeeklyPay;
-import com.klanting.signclick.Economy.CountryDep;
+import com.klanting.signclick.Economy.Country;
+import com.klanting.signclick.Economy.CountryManager;
 import org.bukkit.Color;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -20,9 +21,10 @@ public class CountryEvents implements Listener {
                 WeeklyPay.offcheck.remove(player.getUniqueId());
             }
         }
-        if (CountryDep.Element(player) != null){
-            String bank = CountryDep.Element(player);
-            player.setPlayerListName(CountryDep.GetColor(bank)+player.getName());
+
+        Country country = CountryManager.getCountry(player);
+        if (country != null){
+            player.setPlayerListName(country.getColor()+player.getName());
         }
 
 

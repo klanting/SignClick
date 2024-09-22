@@ -1,6 +1,7 @@
 package com.klanting.signclick.Economy.Parties;
 
-import com.klanting.signclick.Economy.CountryDep;
+import com.klanting.signclick.Economy.Country;
+import com.klanting.signclick.Economy.CountryManager;
 import com.klanting.signclick.SignClick;
 
 import java.util.*;
@@ -14,7 +15,9 @@ public class Election {
     public long timeEnded;
     public Election(String s, long timeEnded){
 
-        for (Party p: CountryDep.parties.getOrDefault(s, new ArrayList<>())){
+        Country country = CountryManager.getCountry(s);
+
+        for (Party p: country.getParties()){
             vote_dict.put(p.name, 0);
             this.s = s;
             this.timeEnded = timeEnded;

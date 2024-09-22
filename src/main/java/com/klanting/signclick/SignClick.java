@@ -1,7 +1,6 @@
 package com.klanting.signclick;
 
 import com.klanting.signclick.Calculate.*;
-import com.klanting.signclick.Economy.CountryDep;
 import com.klanting.signclick.Economy.CompanyPatent.Auction;
 import com.klanting.signclick.Economy.CountryManager;
 import com.klanting.signclick.Economy.Market;

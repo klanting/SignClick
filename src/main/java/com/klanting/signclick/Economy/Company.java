@@ -55,7 +55,7 @@ public class Company {
 
     public Integer patentCrafted = 0;
 
-    public String countryName;
+    public Country country;
 
     public String type;
 
@@ -101,7 +101,8 @@ public class Company {
         Market.change_base(Sname);
 
         if (amount > 0){
-            spendable += ((0.2+ CountryDep.getPolicyBonus(countryName, 0, 3))*amount);
+
+            spendable += ((0.2+ country.getPolicyBonus(0, 3))*amount);
         }
 
         double sub_pct = 1.0;
@@ -115,7 +116,7 @@ public class Company {
             sub_pct += 0.10;
         }
 
-        securityFunds += (0.01*amount)*(sub_pct+(double) upgrades.get(0).getBonus()/100.0)*(1.0+ CountryDep.getPolicyBonus(countryName, 0, 2));
+        securityFunds += (0.01*amount)*(sub_pct+(double) upgrades.get(0).getBonus()/100.0)*(1.0+ country.getPolicyBonus(0, 2));
         return true;
     }
 
@@ -423,11 +424,12 @@ public class Company {
         if (CountryDep.getStability(GetCountry()) < 50){
             base -= 0.03;
         }
-        double pct = (base+ CountryDep.getPolicyBonus(countryName, 0, 3));
+
+        double pct = (base+ country.getPolicyBonus(0, 3));
         if (type.equals("bank")){
-            pct += CountryDep.getPolicyBonus(countryName, 0, 7);
-            pct += CountryDep.getPolicyBonus(countryName, 1, 5);
-            pct += CountryDep.getPolicyBonus(countryName, 2, 11);
+            pct += country.getPolicyBonus(0, 7);
+            pct += country.getPolicyBonus(1, 5);
+            pct += country.getPolicyBonus(2, 11);
         }
         spendable = get_value()*pct;
     }
@@ -513,7 +515,7 @@ public class Company {
             bal -= cost;
             u.DoUpgrade();
 
-            int pct = upgrades.get(4).getBonus()+(int) (CountryDep.getPolicyBonus(countryName, 3, 2)*100.0);
+            int pct = upgrades.get(4).getBonus()+(int) (country.getPolicyBonus(3, 2)*100.0);
             double weeks = (10.0-(10.0*pct/100.0));
             double weekly_back = cost/weeks;
             Market.setContractServertoComp(this.Sname, weekly_back, (int) Math.floor(weeks), "Upgrade["+u.id+"] "+u.level, 0);
@@ -531,23 +533,23 @@ public class Company {
         String linked_name = null;
 
         for (Entry<UUID, Integer> entry : shareHolders.entrySet()){
-            String country = CountryDep.ElementUUID(entry.getKey());
-            Integer amount = country_top.getOrDefault(country, 0);
+            String countryName = CountryDep.ElementUUID(entry.getKey());
+            Integer amount = country_top.getOrDefault(countryName, 0);
             amount += entry.getValue();
-            country_top.put(country, amount);
+            country_top.put(countryName, amount);
 
             if (highest < amount){
                 highest = amount;
-                linked_name = country;
+                linked_name = countryName;
             }
         }
 
-        countryName = linked_name;
+        country = CountryManager.getCountry(linked_name);
 
     }
 
     public String GetCountry(){
-        return countryName;
+        return country.getName();
     }
 
 }

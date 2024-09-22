@@ -1,6 +1,8 @@
 package com.klanting.signclick.Menus;
 
+import com.klanting.signclick.Economy.Country;
 import com.klanting.signclick.Economy.CountryDep;
+import com.klanting.signclick.Economy.CountryManager;
 import com.klanting.signclick.Economy.Decisions.Decision;
 import com.klanting.signclick.Economy.Parties.Party;
 import org.bukkit.Bukkit;
@@ -27,8 +29,8 @@ public class PartyDecisionVote implements InventoryHolder {
     }
 
     public void init(){
-        List<Decision> des = CountryDep.decisions.getOrDefault(p.country, new ArrayList<>());
-        for (Decision d: des){
+        Country country = CountryManager.getCountry(p.country);
+        for (Decision d: country.getDecisions()){
             if (d.hasVoted(p)){
                 continue;
             }

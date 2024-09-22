@@ -6,12 +6,10 @@ import com.klanting.signclick.Economy.Parties.Election;
 import com.klanting.signclick.Economy.Parties.Party;
 import com.klanting.signclick.Economy.Policies.*;
 import com.klanting.signclick.SignClick;
-import org.bukkit.ChatColor;
-import org.bukkit.Color;
-import org.bukkit.OfflinePlayer;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
-import org.bukkit.Location;
 
+import java.text.DecimalFormat;
 import java.util.*;
 
 import static com.klanting.signclick.commands.BankCommands.countryElections;
@@ -521,5 +519,75 @@ public class Country {
 
     public boolean isAboardMilitary() {
         return aboardMilitary;
+    }
+
+    public void addDecision(Decision d){
+        decisions.add(d);
+    }
+
+    public void info(Player player){
+        int amount = balance;
+        List<UUID> player_list = owners;
+        List<UUID> member_list = members;
+        List<UUID> law_list = lawEnforcement;
+
+        List<String> p_list = new ArrayList<String>();
+        for (UUID p: player_list){
+            p_list.add(Bukkit.getOfflinePlayer(p).getName());
+        }
+
+        List<String> m_list = new ArrayList<String>();
+        if (member_list != null){
+            for (UUID p: member_list){
+                m_list.add(Bukkit.getOfflinePlayer(p).getName());
+            }
+        }
+
+        List<String> l_list = new ArrayList<String>();
+        if (law_list != null){
+            for (UUID p: law_list){
+                l_list.add(Bukkit.getOfflinePlayer(p).getName());
+            }
+        }
+        Location spawn = spawnLocation;
+        DecimalFormat df = new DecimalFormat("###,###,###");
+        player.sendMessage("§bBank: §7"+name+"\n" +
+                "§bbalance: §7"+String.valueOf(df.format(amount))+"\n" +
+                "§bowners: §7"+p_list+"\n" +
+                "§bmembers: §7"+m_list+"\n" +
+                "§blaw enforcement: §7"+l_list+"\n" +
+                "§btaxrate: §7"+ taxRate*100+"\n" +
+                "§bstability: §7"+ df.format(getStability())+"\n" +
+                "§bspawn: §7"+ "\nX: "+spawn.getX()+ "\nY: "+spawn.getY()+ "\nZ: "+spawn.getZ());
+
+    }
+
+    public void removeLawEnforcement(OfflinePlayer offlinePlayer){
+        UUID uuid = offlinePlayer.getUniqueId();
+        lawEnforcement.remove(uuid);
+    }
+
+
+    public void setCountryElection(Election countryElection) {
+        this.countryElection = countryElection;
+    }
+
+    public Boolean inParty(UUID uuid){
+        for (Party p : parties){
+            if (p.inParty(uuid)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Boolean hasPartyName(String name){
+        for (Party p : parties){
+            if (p.name.equals(name)){
+                return true;
+            }
+        }
+
+        return false;
     }
 }

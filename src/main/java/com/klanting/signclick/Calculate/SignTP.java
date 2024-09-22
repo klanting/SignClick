@@ -1,8 +1,6 @@
 package com.klanting.signclick.Calculate;
 
-import com.klanting.signclick.Economy.CountryDep;
-import com.klanting.signclick.Economy.Company;
-import com.klanting.signclick.Economy.Market;
+import com.klanting.signclick.Economy.*;
 import com.klanting.signclick.SignClick;
 import org.bukkit.*;
 import org.bukkit.block.Sign;
@@ -159,8 +157,8 @@ public class SignTP {
         if (SignClick.getEconomy().getBalance(player) >= amount) {
             Company comp = Market.get_business(sign.getLine(2));
 
-            String country = CountryDep.Element(player);
-            double d = CountryDep.getPolicyBonus(country, 3, 0);
+            Country country = CountryManager.getCountry(player);
+            double d = country.getPolicyBonus(3, 0);
             int amount_first = amount;
             amount = (int) (amount*(1.0+d));
 
@@ -171,7 +169,7 @@ public class SignTP {
 
             if (amount_first > amount){
                 comp.add_bal((double) amount_first);
-                CountryDep.withdraw(country, amount_first-amount);
+                country.withdraw(amount_first-amount);
             }else{
                 comp.add_bal((double) amount);
             }

@@ -1,6 +1,7 @@
 package com.klanting.signclick.Calculate;
 
 import com.klanting.signclick.Economy.CountryDep;
+import com.klanting.signclick.Economy.CountryManager;
 import com.klanting.signclick.Economy.Market;
 import com.klanting.signclick.SignClick;
 import org.bukkit.Bukkit;
@@ -15,7 +16,7 @@ public class WeeklyComp {
         Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(SignClick.getPlugin(), new Runnable() {
 
             public void run() {
-                CountryDep.RunLawSalary();
+                CountryManager.runLawSalary();
                 Market.resetSpendable();
                 Market.resetPatentCrafted();
                 Market.runDividends();

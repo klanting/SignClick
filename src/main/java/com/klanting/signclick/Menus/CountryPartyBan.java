@@ -1,6 +1,8 @@
 package com.klanting.signclick.Menus;
 
+import com.klanting.signclick.Economy.Country;
 import com.klanting.signclick.Economy.CountryDep;
+import com.klanting.signclick.Economy.CountryManager;
 import com.klanting.signclick.Economy.Parties.Party;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -22,8 +24,8 @@ public class CountryPartyBan implements InventoryHolder {
     }
 
     public void init(){
-        String country = CountryDep.ElementUUID(uuid);
-        for (Party p: CountryDep.parties.get(country)){
+        Country country = CountryManager.getCountry(uuid);
+        for (Party p: country.getParties()){
             String name = p.name;
 
             ItemStack value;

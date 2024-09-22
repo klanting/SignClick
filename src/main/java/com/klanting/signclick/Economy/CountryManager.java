@@ -5,20 +5,15 @@ import com.klanting.signclick.Economy.Parties.Election;
 import com.klanting.signclick.Economy.Parties.Party;
 import com.klanting.signclick.Economy.Policies.*;
 import com.klanting.signclick.SignClick;
-import com.klanting.signclick.commands.BankCommands;
 import com.klanting.signclick.utils.Utils;
 import org.bukkit.ChatColor;
 import org.bukkit.*;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.MemorySection;
 import org.bukkit.entity.Player;
-import org.checkerframework.checker.units.qual.C;
 
 import java.util.*;
-import java.util.function.Consumer;
-import java.util.logging.Level;
 
-import static com.klanting.signclick.commands.BankCommands.countryElections;
+import static com.klanting.signclick.Economy.Parties.ElectionTools.setupElectionDeadline;
 import static org.bukkit.Bukkit.getServer;
 
 public class CountryManager {
@@ -335,63 +330,8 @@ public class CountryManager {
                  * */
                 ConfigurationSection countryElection = electionSection.getConfigurationSection(name);
                 long time = (int) countryElection.get("to_wait");
-                Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(SignClick.getPlugin(), new Runnable() {
-                    final Election election = country.getCountryElection();
-                    public void run() {
 
-                        double total = 0.0;
-                        for (float f : election.vote_dict.values()) {
-                            total += f;
-                        }
-
-                        if (total == 0.0){
-                            return;
-                        }
-
-
-                        for (Party p: country.getParties()){
-                            double pct = (double) election.vote_dict.getOrDefault(p.name, 0)/total;
-                            p.PCT = pct;
-                        }
-
-                        double highest_pct = -0.1;
-                        Party highest_party = null;
-
-                        for (Party p: country.getParties()){
-                            double pct = (double) election.vote_dict.getOrDefault(p.name, 0)/total;
-                            p.PCT = pct;
-
-                            if (pct > highest_pct){
-                                highest_pct = pct;
-                                highest_party = p;
-                            }
-                        }
-
-                        if (highest_party != country.getRuling()){
-                            double base = 2.0*(1.0- CountryDep.getPolicyBonus(name, 2, 8));
-                            CountryDep.add_stability(name, -base);
-                        }
-
-
-                        List<UUID> old_owners = country.getOwners();
-                        for (UUID uuid: old_owners){
-                            country.removeOwner(uuid);
-                            country.addMember(uuid);
-
-                        }
-
-                        for (UUID uuid: highest_party.owners){
-                            country.removeMember(uuid);
-                            country.addOwner(uuid);
-
-                        }
-
-                        for (Decision d: CountryDep.decisions.get(name)){
-                            d.checkApprove();
-                        }
-
-                    }
-                }, 20*time);
+                setupElectionDeadline(country, time*20L);
             }
 
             countries.put(name, country);
@@ -405,5 +345,28 @@ public class CountryManager {
 
             playerToCountryMap.put(UUID.fromString(key), countries.get(countryName));
         });
+    }
+
+    public static List<Country> getCountries(){
+        return (List<Country>) countries.values();
+    }
+
+    public static void runLawSalary(){
+        for (Country country: countries.values()){
+            for (UUID uuid: country.getLawEnforcement()){
+                double base = 0;
+
+                if (country.getStability() < 50){
+                    base += 2000.0;
+                }
+
+                if (country.getStability() < 30){
+                    base += 3000.0;
+                }
+
+                country.withdraw((int) country.getPolicyBonus(2, 0)+(int) base);
+                SignClick.getEconomy().depositPlayer(Bukkit.getOfflinePlayer(uuid), (int) country.getPolicyBonus(2, 0)+(int) base);
+            }
+        }
     }
 }

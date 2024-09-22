@@ -1,6 +1,7 @@
 package com.klanting.signclick.Menus;
 
-import com.klanting.signclick.Economy.CountryDep;
+import com.klanting.signclick.Economy.Country;
+import com.klanting.signclick.Economy.CountryManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
@@ -38,9 +39,9 @@ public class CountryDecisionMenu implements InventoryHolder {
         m = value.getItemMeta();
 
         String name = "§6Forbid party";
-        String country = CountryDep.ElementUUID(uuid);
+        Country country = CountryManager.getCountry(uuid);
 
-        if (CountryDep.forbid_party.getOrDefault(country, false)){
+        if (country.isForbidParty()){
             name = "§6Allow party";
         }
 
@@ -55,7 +56,8 @@ public class CountryDecisionMenu implements InventoryHolder {
         value = new ItemStack(Material.IRON_SWORD, 1);
         m = value.getItemMeta();
         name = "§6Abort military payments";
-        if (CountryDep.aboard_military.getOrDefault(country, false)){
+
+        if (country.isAboardMilitary()){
             name = "§6Allow military payments";
         }
         m.setDisplayName(name);
