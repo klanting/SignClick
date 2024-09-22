@@ -5,12 +5,12 @@ import be.seeseemelk.mockbukkit.ServerMock;
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
 import com.klanting.signclick.Calculate.WeeklyPay;
 import com.klanting.signclick.Economy.Country;
-import com.klanting.signclick.Economy.CountryDep;
 import com.klanting.signclick.Economy.CountryManager;
 import com.klanting.signclick.SignClick;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Location;
+import org.bukkit.Note;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -41,7 +41,7 @@ class CountryTests {
     {
 
         MockBukkit.unmock();
-        CountryDep.clear();
+
         CountryManager.clear();
     }
 
@@ -261,15 +261,15 @@ class CountryTests {
         assertNotNull(country);
 
         /*Check that TAB color is white*/
-        assertEquals(Color.WHITE, country.getColor());
+        assertEquals(ChatColor.WHITE, country.getColor());
 
         /*
         * Change color
         * */
-        country.setColor(Color.AQUA);
+        country.setColor(ChatColor.AQUA);
 
         /*Check that TAB color is AQUA*/
-        assertEquals(Color.AQUA, country.getColor());
+        assertEquals(ChatColor.AQUA, country.getColor());
     }
 
     @Test
@@ -279,7 +279,7 @@ class CountryTests {
 
         assertNotNull(country);
 
-        Location spawn = CountryDep.GetSpawn("empire1");
+        Location spawn = country.getSpawn();
 
         /*
         * Check that there is no default spawn location
@@ -408,20 +408,22 @@ class CountryTests {
         * Create Country
         * */
         PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
-        CountryDep.create("empire1", testPlayer);
+        Country country = CountryManager.create("empire1", testPlayer);
+        assertNotNull(country);
 
         /*
         * Save Data
         * */
-        CountryDep.SaveData();
-        CountryDep.clear();
-        CountryDep.RestoreData();
+
+        CountryManager.saveData();
+        CountryManager.clear();
+        CountryManager.restoreData();
 
         /*
         * Check that country is loaded again
         * */
-        String country = CountryDep.Element(testPlayer);
-        assertEquals("empire1", country);
+        country = CountryManager.getCountry(testPlayer);
+        assertEquals("empire1", country.getName());
     }
 
     @Test
@@ -440,102 +442,106 @@ class CountryTests {
         /*
         * Set owners and members
         * */
-        CountryDep.create("empire1", testPlayer);
-        CountryDep.addOwner("empire1", testPlayer2);
-        CountryDep.addMember("empire1", testPlayer3);
-        CountryDep.addLawEnforcement("empire1", testPlayer2);
+        Country country = CountryManager.create("empire1", testPlayer);
+        assertNotNull(country);
+        country.addOwner(testPlayer2);
+        country.addMember(testPlayer3);
+        country.addLawEnforcement(testPlayer2);
 
-        CountryDep.add_stability("empire1", 5.0);
-        CountryDep.setPCT("empire1", 10);
-        CountryDep.SetColor("empire1", "AQUA");
-        CountryDep.SetSpawn("empire1", testPlayer.getLocation());
-        CountryDep.setPoliciesReal("empire1", 0, 2, 1);
+        country.addStability(5.0);
+        country.setTaxRate(0.10);
+        country.setColor(ChatColor.AQUA);
+        country.setSpawn(testPlayer.getLocation());
+
+        country.setPoliciesReal(0, 2, 1);
 
         /*
         * Create party
         * */
-        CountryDep.createParty("empire1", "AAA", testPlayer.getUniqueId());
+
+        country.createParty("AAA", testPlayer.getUniqueId());
 
         /*
         * Create Decision
         * */
-        CountryDep.setPolicies("empire1", 0, 2);
+        country.setPolicies(0, 2);
 
-        double stability = CountryDep.getStability("empire1");
-        assertEquals(10, CountryDep.getPCT("empire1"));
+        double stability = country.getStability();
+        assertEquals(0.10, country.getTaxRate());
 
         /*
          * Save Data
          * */
 
         plugin.onDisable();
-        CountryDep.clear();
+        CountryManager.clear();
 
         plugin = TestTools.setupPlugin(server);
 
         /*
          * Check that country is loaded again
          * */
-        String country = CountryDep.Element(testPlayer);
-        assertEquals("empire1", country);
+        country = CountryManager.getCountry(testPlayer);
+        assertEquals("empire1", country.getName());
 
         /*
         * Check owners correct
         * */
-        assertEquals(2, CountryDep.GetOwners("empire1").size());
-        assertTrue(CountryDep.isOwner("empire1", testPlayer));
-        assertTrue(CountryDep.isOwner("empire1", testPlayer2));
-        assertFalse(CountryDep.isOwner("empire1", testPlayer3));
+        assertEquals(2, country.getOwners().size());
+        assertTrue(country.isOwner(testPlayer));
+        assertTrue(country.isOwner(testPlayer2));
+        assertFalse(country.isOwner(testPlayer3));
 
         /*
          * Check members correct
          * */
-        assertEquals(1, CountryDep.getMembers("empire1").size());
-        assertTrue(CountryDep.getMembers("empire1").contains(testPlayer3.getUniqueId()));
+        assertEquals(1, country.getMembers().size());
+        assertTrue(country.getMembers().contains(testPlayer3.getUniqueId()));
 
         /*
         * Check stability correctly stored
         * */
-        assertEquals(stability, CountryDep.getStability("empire1"));
+        assertEquals(stability, country.getStability());
 
         /*
         * check tax rate correctly stored
         * */
-        assertEquals(10, CountryDep.getPCT("empire1"));
+        assertEquals(0.10, country.getTaxRate());
 
         /*
         * check color correctly stored
         * */
-        assertEquals(ChatColor.AQUA, CountryDep.GetColor("empire1"));
+        assertEquals(ChatColor.AQUA, country.getColor());
 
         /*
          * check spawn location correctly stored
          * */
-        assertEquals(testPlayer.getLocation(), CountryDep.GetSpawn("empire1"));
+        assertEquals(testPlayer.getLocation(), country.getSpawn());
 
         /*
          * check law enforcement correctly stored
          * */
-        assertEquals(1, CountryDep.getLawEnforcement("empire1").size());
-        assertEquals(testPlayer2.getUniqueId(), CountryDep.getLawEnforcement("empire1").get(0));
+        assertEquals(1, country.getLawEnforcement().size());
+        assertEquals(testPlayer2.getUniqueId(), country.getLawEnforcement().get(0));
 
         /*
          * check policies correctly stored
          * */
-        assertEquals(5, CountryDep.getPolicies("empire1").size());
-        assertEquals(1, CountryDep.getPolicies("empire1").get(0).level);
+        assertEquals(5, country.getPolicies().size());
+        assertEquals(1, country.getPolicies().get(0).level);
 
         /*
          * check policies correctly stored
          * */
-        assertEquals(1, CountryDep.parties.get("empire1").size());
-        assertNotNull(CountryDep.getParty("empire1", testPlayer.getUniqueId()));
-        assertNotNull(CountryDep.getParty("empire1", "AAA"));
+
+        assertEquals(1, country.getParties().size());
+        assertNotNull(country.getParty(testPlayer.getUniqueId()));
+        assertNotNull(country.getParty("AAA"));
 
         /*
          * check policies correctly stored
          * */
-        assertEquals(1, CountryDep.decisions.get("empire1").size());
+        assertEquals(1, country.getDecisions().size());
     }
 
     @Test
@@ -544,50 +550,52 @@ class CountryTests {
         * Check the country tax data
         * */
         PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
-        CountryDep.create("empire1", testPlayer);
+        Country country = CountryManager.create("empire1", testPlayer);
+        assertNotNull(country);
 
-        assertEquals(0, CountryDep.getPCT("empire1"));
+        assertEquals(0, country.getTaxRate());
 
-        CountryDep.setPCT("empire1", 20);
-        assertEquals(20, CountryDep.getPCT("empire1"));
+        country.setTaxRate(0.20);
+        assertEquals(0.20, country.getTaxRate());
     }
 
     @Test
     void countryAddRemoveOwner(){
         PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
         PlayerMock testPlayer2 = TestTools.addPermsPlayer(server, plugin);
-        CountryDep.create("empire1", testPlayer);
+        Country country = CountryManager.create("empire1", testPlayer);
 
         /*
         * Add owner
         * */
-        CountryDep.addOwner("empire1", testPlayer2);
+        country.addOwner(testPlayer2);
 
 
         /*
         * Check that both are owners
         * */
-        assertTrue(CountryDep.isOwner("empire1", testPlayer));
-        assertTrue(CountryDep.isOwner("empire1", testPlayer2));
-        assertEquals(2, CountryDep.GetOwners("empire1").size());
+        assertTrue(country.isOwner(testPlayer));
+        assertTrue(country.isOwner(testPlayer2));
+        assertEquals(2, country.getOwners().size());
 
         /*
          * Remove owner
          * */
-        CountryDep.removeOwner("empire1", testPlayer2);
+        country.removeOwner(testPlayer2);
 
-        assertTrue(CountryDep.isOwner("empire1", testPlayer));
-        assertFalse(CountryDep.isOwner("empire1", testPlayer2));
-        assertEquals("none", CountryDep.Element(testPlayer2));
-        assertEquals(1, CountryDep.GetOwners("empire1").size());
+        assertTrue(country.isOwner(testPlayer));
+        assertFalse(country.isOwner(testPlayer2));
+        assertNull(CountryManager.getCountry(testPlayer2));
+        assertEquals(1, country.getOwners().size());
     }
 
     @Test
     void countryStability(){
         PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
-        CountryDep.create("empire1", testPlayer);
+        Country country = CountryManager.create("empire1", testPlayer);
+        assertNotNull(country);
 
-        double stability = CountryDep.getStability("empire1");
+        double stability = country.getStability();
 
         /*
         * assert base stability
@@ -598,28 +606,29 @@ class CountryTests {
     @Test
     void capitalChangeStability(){
         PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
-        CountryDep.create("empire1", testPlayer);
+        Country country = CountryManager.create("empire1", testPlayer);
+        assertNotNull(country);
 
-        assertEquals(70.0, CountryDep.getStability("empire1"));
+        assertEquals(70.0, country.getStability());
 
         /*
         * Over 40 mil -> +5 stability
         * */
-        CountryDep.deposit("empire1", 40000001);
+        country.deposit(40000001);
 
-        assertEquals(75.0, CountryDep.getStability("empire1"));
+        assertEquals(75.0, country.getStability());
 
         /*
         * Over 60 mil -> +7 stability
         * */
-        CountryDep.deposit("empire1", 20000000);
-        assertEquals(77.0, CountryDep.getStability("empire1"));
+        country.deposit(20000000);
+        assertEquals(77.0, country.getStability());
 
         /*
          * Over 40 mil -> +5 stability (reduction)
          * */
-        CountryDep.withdraw("empire1", 20000000);
-        assertEquals(75.0, CountryDep.getStability("empire1"));
+        country.withdraw(20000000);
+        assertEquals(75.0, country.getStability());
     }
 
 }

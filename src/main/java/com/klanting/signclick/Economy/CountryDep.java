@@ -379,6 +379,11 @@ public class CountryDep {
     }
 
     public static void SaveData(){
+        SignClick.getPlugin().getConfig().createSection("election");
+        SignClick.getPlugin().getConfig().createSection("forbid_party");
+        SignClick.getPlugin().getConfig().createSection("aboard_military");
+
+
         for (Map.Entry<String, Integer> entry : countries.entrySet()){
             SignClick.getPlugin().getConfig().set("bank." + entry.getKey(), entry.getValue());
         }

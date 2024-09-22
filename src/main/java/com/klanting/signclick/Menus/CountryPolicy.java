@@ -1,6 +1,7 @@
 package com.klanting.signclick.Menus;
 
-import com.klanting.signclick.Economy.CountryDep;
+import com.klanting.signclick.Economy.Country;
+import com.klanting.signclick.Economy.CountryManager;
 import com.klanting.signclick.Economy.Policies.Policy;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -23,8 +24,8 @@ public class CountryPolicy implements InventoryHolder {
 
     public void init(UUID uuid){
         int start_index = 11;
-        String country = CountryDep.ElementUUID(uuid);
-        for (Policy p: CountryDep.getPolicies(country)){
+        Country country = CountryManager.getCountry(uuid);
+        for (Policy p: country.getPolicies()){
 
             menu.setItem(start_index-1, new ItemStack(p.material));
             for (int i=0; i<5; i++){

@@ -2,7 +2,9 @@ package com.country;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
+import com.klanting.signclick.Economy.Country;
 import com.klanting.signclick.Economy.CountryDep;
+import com.klanting.signclick.Economy.CountryManager;
 import com.klanting.signclick.SignClick;
 import org.bukkit.entity.Player;
 import org.junit.jupiter.api.AfterEach;
@@ -21,6 +23,8 @@ class PolicyTests {
     private SignClick plugin;
     private Player testPlayer;
 
+    private Country country;
+
     @BeforeEach
     public void setUp() {
 
@@ -31,7 +35,8 @@ class PolicyTests {
         /*Create country*/
         testPlayer = server.addPlayer();
         testPlayer.addAttachment(plugin, "signclick.staff", true);
-        CountryDep.create("empire1", testPlayer);
+
+        country = CountryManager.create("empire1", testPlayer);
     }
 
     @AfterEach
@@ -39,6 +44,7 @@ class PolicyTests {
 
         MockBukkit.unmock();
         CountryDep.clear();
+        CountryManager.clear();
     }
 
     @Test
@@ -47,13 +53,13 @@ class PolicyTests {
         * Test policy changes
         * */
 
-        assertEquals(70.0, CountryDep.getStability("empire1"));
+        assertEquals(70.0, country.getStability());
 
-        CountryDep.setPoliciesReal("empire1", 0, 2, 3);
-        assertEquals(69.0, CountryDep.getStability("empire1"));
+        country.setPoliciesReal(0, 2, 3);
+        assertEquals(69.0, country.getStability());
 
-        CountryDep.setPoliciesReal("empire1", 0, 3, 1);
-        assertEquals(71.0, CountryDep.getStability("empire1"));
+        country.setPoliciesReal(0, 3, 1);
+        assertEquals(71.0, country.getStability());
 
     }
 
@@ -63,19 +69,19 @@ class PolicyTests {
         * Check that a decision is created to decide weather or not to follow a certain policy
         * */
 
-        assertEquals(0, CountryDep.decisions.getOrDefault("empire1", new ArrayList<>()).size());
-        assertTrue(CountryDep.setPolicies("empire1", 0, 3));
-        assertEquals(1, CountryDep.decisions.getOrDefault("empire1", new ArrayList<>()).size());
+        assertEquals(0, country.getDecisions().size());
+        assertTrue(country.setPolicies(0, 3));
+        assertEquals(1, country.getDecisions().size());
 
-        assertTrue(CountryDep.setPolicies("empire1", 1, 3));
-        assertEquals(2, CountryDep.decisions.getOrDefault("empire1", new ArrayList<>()).size());
+        assertTrue(country.setPolicies(1, 3));
+        assertEquals(2, country.getDecisions().size());
 
-        assertFalse(CountryDep.setPolicies("empire1", 4, 3));
-        assertEquals(2, CountryDep.decisions.getOrDefault("empire1", new ArrayList<>()).size());
+        assertFalse(country.setPolicies(4, 3));
+        assertEquals(2, country.getDecisions().size());
 
-        CountryDep.deposit("empire1", 5000000);
-        assertTrue(CountryDep.setPolicies("empire1", 4, 3));
-        assertEquals(3, CountryDep.decisions.getOrDefault("empire1", new ArrayList<>()).size());
+        country.deposit(5000000);
+        assertTrue(country.setPolicies(4, 3));
+        assertEquals(3, country.getDecisions().size());
     }
 
     @Test
@@ -83,9 +89,10 @@ class PolicyTests {
         policyMakeDecision();
 
         plugin.onDisable();
-        CountryDep.clear();
+        CountryManager.clear();
         plugin = TestTools.setupPlugin(server);
 
-        assertEquals(3, CountryDep.decisions.getOrDefault("empire1", new ArrayList<>()).size());
+        Country country = CountryManager.getCountry("empire1");
+        assertEquals(3, country.getDecisions().size());
     }
 }

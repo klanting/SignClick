@@ -186,7 +186,7 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
                 if (confirm.getOrDefault(player, "").equals("buy")){
                     confirm.put(player, "");
                     Account acc = Market.getAccount(player);
-                    acc.buy_share(stock_name, amount, player);
+                    acc.buyShare(stock_name, amount, player);
 
                 }else{
                     DecimalFormat df = new DecimalFormat("###,###,##0.00");
@@ -218,7 +218,7 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
                 if (confirm.getOrDefault(player, "").equals("sell")){
                     confirm.put(player, "");
                     Account acc = Market.getAccount(player);
-                    acc.sell_share(stock_name, amount, player);
+                    acc.sellShare(stock_name, amount, player);
 
                 }else{
                     double v = Market.get_sell_price(stock_name, amount);
@@ -444,7 +444,7 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
                     return true;
                 }
 
-                Market.getAccount(target_uuid).get_portfolio(player);
+                Market.getAccount(target_uuid).getPortfolio(player);
 
             }
 
@@ -797,7 +797,7 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
 
                 Account acc = Market.getAccount(player);
 
-                if (acc.get_bal() < acc.compAmountPending){
+                if (acc.getBal() < acc.compAmountPending){
                     player.sendMessage("§bcan't sign contract because lack of money");
                     confirm.put(player, "");
                     return true;

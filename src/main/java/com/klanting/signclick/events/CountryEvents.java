@@ -2,6 +2,7 @@ package com.klanting.signclick.events;
 
 import com.klanting.signclick.Calculate.WeeklyPay;
 import com.klanting.signclick.Economy.CountryDep;
+import org.bukkit.Color;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

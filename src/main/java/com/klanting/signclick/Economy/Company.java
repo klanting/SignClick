@@ -65,7 +65,7 @@ public class Company {
 
         support.put(creater.uuid, creater.uuid);
         shareHolders.put(creater.uuid, 1000000);
-        creater.receive_private(Sname, 1000000);
+        creater.receivePrivate(Sname, 1000000);
 
         upgrades.add(new UpgradeExtraPoints(0));
         upgrades.add(new UpgradePatentSlot(0));
@@ -295,7 +295,7 @@ public class Company {
             double payout = value_one*shares;
             SignClick.getEconomy().depositPlayer(offlinePlayer, payout);
             DecimalFormat df = new DecimalFormat("###,###,##0.00");
-            Market.getAccount(holder).send_player("§byou got §7"+df.format(payout)+" §b from dividends in §7"+Sname);
+            Market.getAccount(holder).sendPlayer("§byou got §7"+df.format(payout)+" §b from dividends in §7"+Sname);
 
         }
     }

@@ -4,6 +4,7 @@ import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 import com.klanting.signclick.Economy.CountryDep;
 import com.klanting.signclick.Economy.Company;
+import com.klanting.signclick.Economy.CountryManager;
 import com.klanting.signclick.Economy.Market;
 import com.klanting.signclick.SignClick;
 import org.bukkit.inventory.InventoryView;
@@ -44,7 +45,7 @@ class CompanyCTests {
     public void tearDown() {
 
         MockBukkit.unmock();
-        CountryDep.clear();
+        CountryManager.clear();
         Market.clear();
     }
 

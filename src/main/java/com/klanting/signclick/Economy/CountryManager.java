@@ -7,6 +7,7 @@ import com.klanting.signclick.Economy.Policies.*;
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.commands.BankCommands;
 import com.klanting.signclick.utils.Utils;
+import org.bukkit.ChatColor;
 import org.bukkit.*;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.MemorySection;
@@ -15,6 +16,7 @@ import org.checkerframework.checker.units.qual.C;
 
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.logging.Level;
 
 import static com.klanting.signclick.commands.BankCommands.countryElections;
 import static org.bukkit.Bukkit.getServer;
@@ -46,6 +48,10 @@ public class CountryManager {
     }
 
     public static Country create(String countryName, Player player){
+        return create(countryName, player, player);
+    }
+
+    public static Country create(String countryName, Player player, OfflinePlayer targetPlayer){
         if (!player.hasPermission("signclick.staff")){
             player.sendMessage("§bplayer does not have permission to create a country");
             return null;
@@ -56,9 +62,9 @@ public class CountryManager {
             return null;
         }
 
-        Country newCountry = new Country(countryName, player);
+        Country newCountry = new Country(countryName, targetPlayer);
         countries.put(countryName, newCountry);
-        playerToCountryMap.put(player.getUniqueId(), newCountry);
+        playerToCountryMap.put(targetPlayer.getUniqueId(), newCountry);
 
 
         player.sendMessage("§bcountry has been succesfully created");
@@ -140,10 +146,6 @@ public class CountryManager {
     }
 
     public static void saveData(){
-        SignClick.getPlugin().getConfig().set("parties", null);
-        SignClick.getPlugin().getConfig().set("elections", null);
-        SignClick.getPlugin().getConfig().set("decision", null);
-
         countries.values().forEach(Country::save);
 
         /*
@@ -180,7 +182,7 @@ public class CountryManager {
         ConfigurationSection stabilitySection = SignClick.getPlugin().getConfig().getConfigurationSection("stability_map");
         ConfigurationSection forbidPartySection = SignClick.getPlugin().getConfig().getConfigurationSection("forbid_party");
         ConfigurationSection aboardMilitarySection = SignClick.getPlugin().getConfig().getConfigurationSection("aboard_military");
-        ConfigurationSection decisionsSection = SignClick.getPlugin().getConfig().getConfigurationSection("aboard_military");
+        ConfigurationSection decisionsSection = SignClick.getPlugin().getConfig().getConfigurationSection("decision");
         ConfigurationSection electionSection = SignClick.getPlugin().getConfig().getConfigurationSection("election");
 
 
@@ -306,32 +308,98 @@ public class CountryManager {
                 election = new Election(name, time+(System.currentTimeMillis()/1000));
                 election.vote_dict = vote_dict;
                 election.alreadyVoted = already_voted;
-
-                //TODO activate election deadline date here
             }
 
 
-            Color memberColor = (Color) colorSection.get(name);
+            ChatColor memberColor = ChatColor.valueOf(colorSection.get(name).toString());
+
             Location spawnLocation = (Location) spawnSection.get(name);
+
             int balance = (int) balanceSection.get(name);
-            double taxRate = (double) taxRateSection.get(name);
-            double stability = (double) stabilitySection.get(name);
-            boolean forbidParty = (boolean) forbidPartySection.get(name);
-            boolean aboardMilitary = (boolean) aboardMilitarySection.get(name);
+            double taxRate = Double.parseDouble(taxRateSection.get(name).toString());
+            double stability = Double.parseDouble(stabilitySection.get(name).toString());
+            boolean forbidParty = Boolean.parseBoolean(forbidPartySection.get(name).toString());
+            boolean aboardMilitary = Boolean.parseBoolean(aboardMilitarySection.get(name).toString());
 
 
-            Country country = new Country(name, balance,
+            final Country country = new Country(name, balance,
                     ownerList, memberList, lawEnforcementList,
                     policyList, partiesList, decisionList, election,
                     memberColor, spawnLocation, taxRate, stability,
                     forbidParty, aboardMilitary
                     );
 
+            if (electionSection.contains(name)){
+                /*
+                 * Load election deadline
+                 * */
+                ConfigurationSection countryElection = electionSection.getConfigurationSection(name);
+                long time = (int) countryElection.get("to_wait");
+                Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(SignClick.getPlugin(), new Runnable() {
+                    final Election election = country.getCountryElection();
+                    public void run() {
+
+                        double total = 0.0;
+                        for (float f : election.vote_dict.values()) {
+                            total += f;
+                        }
+
+                        if (total == 0.0){
+                            return;
+                        }
+
+
+                        for (Party p: country.getParties()){
+                            double pct = (double) election.vote_dict.getOrDefault(p.name, 0)/total;
+                            p.PCT = pct;
+                        }
+
+                        double highest_pct = -0.1;
+                        Party highest_party = null;
+
+                        for (Party p: country.getParties()){
+                            double pct = (double) election.vote_dict.getOrDefault(p.name, 0)/total;
+                            p.PCT = pct;
+
+                            if (pct > highest_pct){
+                                highest_pct = pct;
+                                highest_party = p;
+                            }
+                        }
+
+                        if (highest_party != country.getRuling()){
+                            double base = 2.0*(1.0- CountryDep.getPolicyBonus(name, 2, 8));
+                            CountryDep.add_stability(name, -base);
+                        }
+
+
+                        List<UUID> old_owners = country.getOwners();
+                        for (UUID uuid: old_owners){
+                            country.removeOwner(uuid);
+                            country.addMember(uuid);
+
+                        }
+
+                        for (UUID uuid: highest_party.owners){
+                            country.removeMember(uuid);
+                            country.addOwner(uuid);
+
+                        }
+
+                        for (Decision d: CountryDep.decisions.get(name)){
+                            d.checkApprove();
+                        }
+
+                    }
+                }, 20*time);
+            }
+
             countries.put(name, country);
 
         });
 
         ConfigurationSection userCountrySection = SignClick.getPlugin().getConfig().getConfigurationSection("country");
+
         userCountrySection.getKeys(true).forEach(key ->{
             String countryName = String.valueOf(SignClick.getPlugin().getPlugin().getConfig().get("country." + key));
 

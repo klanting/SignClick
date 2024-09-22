@@ -81,12 +81,21 @@ public class Market {
 
     public static  Double get_sell_price(String Sname, Integer amount){
 
-        String country = Market.get_business(Sname).GetCountry();
+        String countryName = Market.get_business(Sname).GetCountry();
+        Country country = CountryManager.getCountry(countryName);
+
+
         double sub_fee = fee;
-        if (CountryDep.getStability(country) < 50){
+
+        if (country == null){
+            //TODO make this not temp
+            return (get_buy_price(Sname, -amount)*-1)*(1-sub_fee);
+        }
+
+        if (country.getStability() < 50){
             sub_fee += 0.01;
         }
-        return (get_buy_price(Sname, -amount)*-1)*(1.0 - (sub_fee - CountryDep.getPolicyBonus(country, 0, 0)- CountryDep.getPolicyBonus(country, 1, 1)));
+        return (get_buy_price(Sname, -amount)*-1)*(1.0 - (sub_fee - country.getPolicyBonus(0, 0)- country.getPolicyBonus(1, 1)));
 
     }
 
@@ -686,7 +695,7 @@ public class Market {
                 Account to = Market.getAccount(UUID.fromString(tuple[1].toString()));
                 int weeks = (Integer) tuple[3];
                 weeks -= 1;
-                to.add_bal(amount);
+                to.addBal(amount);
                 if (weeks > 0) {
                     Object[] new_tuple = {tuple[0], tuple[1], amount, weeks, tuple[4]};
                     new_data.add(new_tuple);
@@ -709,7 +718,7 @@ public class Market {
             try{
                 Account from = Market.getAccount(UUID.fromString(tuple[0].toString()));
                 double amount = (Double) tuple[2];
-                if (from.remove_bal(amount)) {
+                if (from.removeBal(amount)) {
                     Company to = Market.get_business(tuple[1].toString());
                     int weeks = (Integer) tuple[3];
                     weeks -= 1;
@@ -882,52 +891,55 @@ public class Market {
     public static void runWeeklyCompanySalary(){
         for (Company comp : company.values()){
 
-            String country = comp.GetCountry();
+            String countryName = comp.GetCountry();
+            Country country = CountryManager.getCountry(countryName);
             int total = 0;
             if (comp.type.equals("product")){
-                comp.add_bal(0+ CountryDep.getPolicyBonus(comp.GetCountry(), 0, 4));
-                comp.add_bal(0+ CountryDep.getPolicyBonus(comp.GetCountry(), 4, 2));
-                total += (int) (CountryDep.getPolicyBonus(comp.GetCountry(), 0, 4)+ CountryDep.getPolicyBonus(comp.GetCountry(), 4, 2));
+
+                comp.add_bal(0+ country.getPolicyBonus(0, 4));
+                comp.add_bal(0+ country.getPolicyBonus(4, 2));
+                total += (int) (country.getPolicyBonus(0, 4)+ country.getPolicyBonus(4, 2));
 
             }else if (comp.type.equals("building")){
 
                 total+= 1000;
                 comp.add_bal(1000.0);
 
-                comp.add_bal(0+ CountryDep.getPolicyBonus(comp.GetCountry(), 0, 6));
-                comp.add_bal(0+ CountryDep.getPolicyBonus(comp.GetCountry(), 3, 5));
-                comp.add_bal(0+ CountryDep.getPolicyBonus(comp.GetCountry(), 4, 5));
-                total += (int) (CountryDep.getPolicyBonus(comp.GetCountry(), 0, 6)+ CountryDep.getPolicyBonus(comp.GetCountry(), 3, 5)+ CountryDep.getPolicyBonus(comp.GetCountry(), 4, 5));
+                comp.add_bal(0+ country.getPolicyBonus(0, 6));
+                comp.add_bal(0+ country.getPolicyBonus(3, 5));
+                comp.add_bal(0+ country.getPolicyBonus(4, 5));
+                total += (int) (country.getPolicyBonus(0, 6)+ country.getPolicyBonus(3, 5)+ country.getPolicyBonus(4, 5));
             }else if (comp.type.equals("military")){
-                if (!CountryDep.aboard_military.getOrDefault(country, false)){
+
+                if (!country.isAboardMilitary()){
                     total+= 4000;
                     comp.add_bal(4000.0);
                 }
 
 
-                comp.add_bal(0+ CountryDep.getPolicyBonus(comp.GetCountry(), 2, 5));
-                comp.add_bal(0+ CountryDep.getPolicyBonus(comp.GetCountry(), 4, 4));
-                total += (int) (CountryDep.getPolicyBonus(comp.GetCountry(), 2, 5)+ CountryDep.getPolicyBonus(comp.GetCountry(), 4, 4));
+                comp.add_bal(0+ country.getPolicyBonus(2, 5));
+                comp.add_bal(0+ country.getPolicyBonus(4, 4));
+                total += (int) (country.getPolicyBonus(2, 5)+ country.getPolicyBonus(4, 4));
             }else if (comp.type.equals("transport")){
-                comp.add_bal(0+ CountryDep.getPolicyBonus(comp.GetCountry(), 2, 6));
-                comp.add_bal(0+ CountryDep.getPolicyBonus(comp.GetCountry(), 3, 3));
-                comp.add_bal(0+ CountryDep.getPolicyBonus(comp.GetCountry(), 4, 1));
-                total += (int) (CountryDep.getPolicyBonus(comp.GetCountry(), 2, 6)+ CountryDep.getPolicyBonus(comp.GetCountry(), 3, 3)+ CountryDep.getPolicyBonus(comp.GetCountry(), 4, 1));
+                comp.add_bal(0+ country.getPolicyBonus(2, 6));
+                comp.add_bal(0+ country.getPolicyBonus(3, 3));
+                comp.add_bal(0+ country.getPolicyBonus(4, 1));
+                total += (int) (country.getPolicyBonus(2, 6)+ country.getPolicyBonus(3, 3)+ country.getPolicyBonus(4, 1));
             }else if (comp.type.equals("bank")){
-                comp.add_bal(0+ CountryDep.getPolicyBonus(comp.GetCountry(), 2, 7));
-                comp.add_bal(0+ CountryDep.getPolicyBonus(comp.GetCountry(), 4, 0));
-                total += (int) (CountryDep.getPolicyBonus(comp.GetCountry(), 2, 7)+ CountryDep.getPolicyBonus(comp.GetCountry(), 4, 0));
+                comp.add_bal(0+ country.getPolicyBonus(2, 7));
+                comp.add_bal(0+ country.getPolicyBonus(4, 0));
+                total += (int) (country.getPolicyBonus(2, 7)+ country.getPolicyBonus(4, 0));
             }else if(comp.type.equals("real estate")){
-                comp.add_bal(0+ CountryDep.getPolicyBonus(comp.GetCountry(), 3, 4));
-                comp.add_bal(0+ CountryDep.getPolicyBonus(comp.GetCountry(), 4, 3));
-                total += (int) (CountryDep.getPolicyBonus(comp.GetCountry(), 3, 4)+ CountryDep.getPolicyBonus(comp.GetCountry(), 4, 3));
+                comp.add_bal(0+ country.getPolicyBonus(3, 4));
+                comp.add_bal(0+country.getPolicyBonus(4, 3));
+                total += (int) (country.getPolicyBonus(3, 4)+ country.getPolicyBonus(4, 3));
             }else{
-                comp.add_bal(0+ CountryDep.getPolicyBonus(comp.GetCountry(), 4, 6));
-                total += (int) CountryDep.getPolicyBonus(comp.GetCountry(), 4, 6);
+                comp.add_bal(0+ country.getPolicyBonus(4, 6));
+                total += (int) country.getPolicyBonus(4, 6);
             }
 
             if (!comp.openTrade){
-                double value = CountryDep.getPolicyBonus(comp.GetCountry(), 1, 0);
+                double value = country.getPolicyBonus(1, 0);
                 total += (int) value;
                 if (value > 0.0){
                     comp.add_bal(value);
@@ -937,9 +949,9 @@ public class Market {
             }
 
             if (total > 0){
-                CountryDep.withdraw(country, total);
+                country.withdraw(total);
             }else{
-                CountryDep.deposit(country, total);
+                country.deposit(total);
             }
         }
     }

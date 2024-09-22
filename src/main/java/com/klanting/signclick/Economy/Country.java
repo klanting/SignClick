@@ -1,10 +1,12 @@
 package com.klanting.signclick.Economy;
 
 import com.klanting.signclick.Economy.Decisions.Decision;
+import com.klanting.signclick.Economy.Decisions.DecisionPolicy;
 import com.klanting.signclick.Economy.Parties.Election;
 import com.klanting.signclick.Economy.Parties.Party;
 import com.klanting.signclick.Economy.Policies.*;
 import com.klanting.signclick.SignClick;
+import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -31,7 +33,7 @@ public class Country {
 
     private Election countryElection;
 
-    private Color memberColor;
+    private ChatColor memberColor;
 
     private Location spawnLocation;
 
@@ -52,7 +54,7 @@ public class Country {
         taxRate = 0;
         stability = 70.0;
         balance = 0;
-        memberColor = Color.WHITE;
+        memberColor = ChatColor.WHITE;
         spawnLocation = null;
         countryElection = null;
 
@@ -68,7 +70,7 @@ public class Country {
                    List<UUID> lawEnforcement,
                    List<Policy> policies, List<Party> parties,
                    List<Decision> decisions, Election countryElection,
-                   Color memberColor, Location spawnLocation,
+                   ChatColor memberColor, Location spawnLocation,
                    double taxRate, double stability,
                    boolean forbidParty, boolean aboardMilitary){
         /*
@@ -142,14 +144,35 @@ public class Country {
     }
 
     private void changeCapital(int oldCap){
-        //TODO finish this function
+        Map<Integer, Double> d = new HashMap<>();
+
+        d.put(5000000, 2.0);
+        d.put(20000000, 2.0);
+        d.put(40000000, 1.0);
+        d.put(60000000, 2.0);
+        d.put(80000000, 1.0);
+        d.put(100000000, 2.0);
+
+        for (Map.Entry<Integer, Double> entry: d.entrySet()){
+            if (!(Math.min(oldCap, balance) < entry.getKey() && entry.getKey() < Math.max(oldCap, balance))){
+                continue;
+            }
+
+            boolean grow = balance-oldCap > 0;
+
+            if (grow){
+                addStability(entry.getValue());
+            }else{
+                addStability(-entry.getValue());
+            }
+        }
     }
 
-    public Color getColor(){
+    public ChatColor getColor(){
         return memberColor;
     }
 
-    public void setColor(Color color){
+    public void setColor(ChatColor color){
         memberColor = color;
     }
 
@@ -163,6 +186,10 @@ public class Country {
 
     public void removeOwner(OfflinePlayer offlinePlayer){
         UUID uuid = offlinePlayer.getUniqueId();
+        removeOwner(uuid);
+    }
+
+    public void removeOwner(UUID uuid){
         if (!owners.contains(uuid)){
             return;
         }
@@ -174,6 +201,11 @@ public class Country {
     public void addMember(OfflinePlayer offlinePlayer){
         UUID uuid = offlinePlayer.getUniqueId();
 
+        addMember(uuid);
+
+    }
+
+    public void addMember(UUID uuid){
 
         if (!members.contains(uuid) || !owners.contains(uuid)) {
             members.add(uuid);
@@ -185,15 +217,47 @@ public class Country {
 
     }
 
+    public boolean addOwner(OfflinePlayer offlinePlayer){
+
+        UUID uuid = offlinePlayer.getUniqueId();
+        return addOwner(uuid);
+
+    }
+
+    public boolean addOwner(UUID uuid){
+
+        if (owners.contains(uuid)){
+            return false;
+        }
+        owners.add(uuid);
+        return true;
+
+    }
+
+    public void addLawEnforcement(Player player){
+
+        if (!lawEnforcement.contains(player.getUniqueId()) || !owners.contains(player.getUniqueId())) {
+            lawEnforcement.add(player.getUniqueId());
+        }
+    }
+
+    public void setTaxRate(double rate){
+        taxRate = rate;
+    }
+
     public void removeMember(OfflinePlayer offlinePlayer){
         UUID uuid = offlinePlayer.getUniqueId();
+        removeMember(uuid);
+    }
+
+    public void removeMember(UUID uuid){
         if (!members.contains(uuid)) {
             return;
         }
 
         members.remove(uuid);
 
-        CountryManager.leaveCountry(offlinePlayer);
+        CountryManager.leaveCountry(uuid);
         addStability(-3.0*(1.0- getPolicyBonus(2, 10)));
     }
 
@@ -208,6 +272,14 @@ public class Country {
     }
 
     public void save(){
+
+        SignClick.getPlugin().getConfig().createSection("election");
+        SignClick.getPlugin().getConfig().createSection("forbid_party."+name);
+        SignClick.getPlugin().getConfig().createSection("aboard_military."+name);
+        SignClick.getPlugin().getConfig().createSection("parties."+name);
+        SignClick.getPlugin().getConfig().createSection("decision."+name);
+        SignClick.getPlugin().getConfig().createSection("spawn."+name);
+
         /*
         * Save balance
         * */
@@ -234,7 +306,7 @@ public class Country {
         SignClick.getPlugin().getConfig().set("members." + name, f_list);
 
         SignClick.getPlugin().getConfig().set("pct." + name, taxRate);
-        SignClick.getPlugin().getConfig().set("color." + name, memberColor.toString());
+        SignClick.getPlugin().getConfig().set("color." + name, memberColor.name());
         SignClick.getPlugin().getConfig().set("spawn." + name, spawnLocation);
 
         /*
@@ -276,5 +348,178 @@ public class Country {
     }
 
 
+    public double getStability() {
+        return stability;
+    }
 
+    public double getTaxRate() {
+        return taxRate;
+    }
+
+    public Election getCountryElection() {
+        return countryElection;
+    }
+
+    public List<Party> getParties() {
+        return parties;
+    }
+
+    public Party getRuling(){
+        /*
+         * First Ruling party is automatic the highest, when no elections occurred
+         * */
+        double highest_pct = -0.1;
+        Party highest_party = null;
+
+
+        for (Party p: parties){
+
+            if (p.PCT > highest_pct){
+                highest_pct = p.PCT;
+                highest_party = p;
+            }
+        }
+
+        return highest_party;
+    }
+
+    public void setPoliciesReal(int id, int old_level, int level){
+        policies.get(id).level = level;
+
+        if (id == 0){
+            Double old_stab = policies.get(id).getBonusLevel(5, old_level);
+            Double new_stab = policies.get(id).getBonusLevel(5, level);
+            double change = new_stab-old_stab;
+            stability += change;
+        }
+
+        if (id == 2){
+
+            Double old_stab = policies.get(id).getBonusLevel(1, old_level);
+            Double new_stab = policies.get(id).getBonusLevel(1, level);
+            double change = new_stab-old_stab;
+            stability += change;
+
+            if (old_level == 4){
+                forbidParty = false;
+            }
+
+        }
+
+        if (id == 4){
+            Double old_stab = policies.get(id).getBonusLevel(7, old_level);
+            Double new_stab = policies.get(id).getBonusLevel(7, level);
+            double change = new_stab-old_stab;
+            stability += change;
+
+        }
+
+    }
+
+    public boolean setPolicies(int id, int level){
+        int old_level = policies.get(id).level;
+        if (old_level == level){
+            return false;
+        }
+
+        if (id == 0 || id == 3){
+            int gov_cap = getPolicyRequire(id, 0, level);
+            if (gov_cap > getBalance()){
+                return false;
+            }
+        }
+
+        if (id == 2 || id == 4){
+            int gov_cap = getPolicyRequire(id, 1, level);
+            if (gov_cap > getBalance()){
+                return false;
+            }
+
+            int law_enfo = getPolicyRequire(id, 0, level);
+            if (law_enfo > lawEnforcement.size()){
+                return false;
+            }
+        }
+
+        if (id == 4){
+            int tax_rate = getPolicyRequire(id, 2, level);
+            if (level < 2 && tax_rate > taxRate){
+                return false;
+            }
+
+            if (level > 2 && tax_rate < taxRate){
+                return false;
+            }
+        }
+
+        double change = 0.5;
+        if (level == 0 || level == 4){
+            change = 0.7;
+        }
+
+        Decision d = new DecisionPolicy("§6Policy §9"+policies.get(id).titles.get(old_level)+
+                "§6 to §9"+policies.get(id).titles.get(level), change, this.name, id, old_level, level);
+
+        if (hasDecisionName(d.name)){
+            return false;
+        }
+
+        decisions.add(d);
+        return true;
+    }
+
+    public int getPolicyRequire(int id, int index, int level){
+        return policies.get(id).getRequireLevel(index, level);
+    }
+
+    public void createParty(String name, UUID owner){
+        Party p = new Party(name, this.name, owner);
+        parties.add(p);
+    }
+
+    public Boolean hasDecisionName(String name){
+        for (Decision d : decisions){
+            if (d.name.equals(name)){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public List<Policy> getPolicies(){
+        return policies;
+    }
+
+    public Party getParty(UUID uuid){
+        for (Party p : parties){
+            if (p.inParty(uuid)){
+                return p;
+            }
+        }
+
+        return null;
+    }
+
+    public Party getParty(String name){
+        for (Party p : parties){
+            if (p.name.equals(name)){
+                return p;
+            }
+        }
+
+        return null;
+    }
+
+    public List<Decision> getDecisions() {
+        return decisions;
+    }
+
+    public boolean isForbidParty() {
+        return forbidParty;
+    }
+
+    public boolean isAboardMilitary() {
+        return aboardMilitary;
+    }
 }

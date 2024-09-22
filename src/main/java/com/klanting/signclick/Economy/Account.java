@@ -23,25 +23,25 @@ public class Account {
         uuid = u;
     }
 
-    public double get_bal(){
+    public double getBal(){
         return SignClick.getEconomy().getBalance(Bukkit.getOfflinePlayer(uuid));
 
     }
 
-    void add_bal(double amount){
+    void addBal(double amount){
         SignClick.getEconomy().depositPlayer(Bukkit.getOfflinePlayer(uuid), amount);
     }
 
-    boolean remove_bal(double amount){
+    boolean removeBal(double amount){
         SignClick.getEconomy().withdrawPlayer(Bukkit.getOfflinePlayer(uuid), amount);
         return true;
     }
 
-    public void buy_share(String Sname, Integer amount, Player player){
+    public void buyShare(String Sname, Integer amount, Player player){
         double v = Market.get_buy_price(Sname, amount);
-        if (get_bal() >= v){
+        if (getBal() >= v){
             if (Market.buy(Sname, amount, this)){
-                remove_bal(v);
+                removeBal(v);
                 Market.get_business(Sname).add_books(v);
 
                 Market.change_base(Sname);
@@ -61,27 +61,38 @@ public class Account {
         }
     }
 
-    public void sell_share(String Sname, Integer amount, Player player){
+    public void sellShare(String Sname, Integer amount, Player player){
         double v = Market.get_sell_price(Sname, amount);
 
-        String country = Market.get_business(Sname).GetCountry();
+        String countryName = Market.get_business(Sname).GetCountry();
 
         double sub_fee = Market.getFee();
-        if (CountryDep.getStability(country) < 50){
-            sub_fee += 0.01;
-        }
-        double to_gov = v/(1.0-(sub_fee- CountryDep.getPolicyBonus(country, 0, 0))*(Market.getFee()- CountryDep.getPolicyBonus(country, 0, 0)- CountryDep.getPolicyBonus(country, 1, 1)));
-        String bank = CountryDep.Element(player);
-        if (bank != null){
-            CountryDep.deposit(bank, (int) to_gov);
+        Country country = CountryManager.getCountry(countryName);
+
+        double to_gov;
+        //TODO fix this later
+        if (country != null){
+            if (country.getStability() < 50){
+                sub_fee += 0.01;
+            }
+
+            to_gov = v/(1.0-(sub_fee- country.getPolicyBonus(0, 0))*(Market.getFee()- country.getPolicyBonus(0, 0)- country.getPolicyBonus(1, 1)));
+            Country playerCountry = CountryManager.getCountry(player);
+            if (playerCountry != null){
+                playerCountry.deposit((int) to_gov);
+            }else{
+                Market.get_business(Sname).add_books(to_gov);
+            }
         }else{
-            Market.get_business(Sname).add_books(to_gov);
+            to_gov = v/(1.0-sub_fee);
         }
+
+
 
         int share_amount = shares.getOrDefault(Sname, 0);
         if (share_amount >= amount){
             if (Market.sell(Sname, amount, this)){
-                add_bal(v);
+                addBal(v);
                 Market.get_business(Sname).remove_books(v+to_gov);
                 Market.change_base(Sname);
 
@@ -120,12 +131,12 @@ public class Account {
         player.sendMessage("§breceived: "+amount+" shares for "+Sname+" from "+Bukkit.getPlayer(sender.uuid).getName());
     }
 
-    public void receive_private(String Sname, Integer amount){
+    public void receivePrivate(String Sname, Integer amount){
         int share_amount = shares.getOrDefault(Sname, 0);
         shares.put(Sname, share_amount+amount);
     }
 
-    public void send_player(String message){
+    public void sendPlayer(String message){
 
             Player p = Bukkit.getPlayer(uuid);
             if (p != null){
@@ -140,7 +151,7 @@ public class Account {
 
     }
 
-    public void get_portfolio(Player player){
+    public void getPortfolio(Player player){
         ArrayList<String> order = new ArrayList<String>();
         ArrayList<Double> values = new ArrayList<Double>();
         for(Map.Entry<String, Integer> entry : shares.entrySet()){

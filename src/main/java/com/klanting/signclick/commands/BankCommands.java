@@ -1,6 +1,8 @@
 package com.klanting.signclick.commands;
 
+import com.klanting.signclick.Economy.Country;
 import com.klanting.signclick.Economy.CountryDep;
+import com.klanting.signclick.Economy.CountryManager;
 import com.klanting.signclick.Economy.Decisions.Decision;
 import com.klanting.signclick.Economy.Parties.Election;
 import com.klanting.signclick.Economy.Parties.Party;
@@ -43,17 +45,19 @@ public class BankCommands implements CommandExecutor, TabCompleter {
             if (type.equals("bal")){
                 DecimalFormat df = new DecimalFormat("###,###,###");
                 if (args.length == 2){
-                    player.sendMessage("§bsaldo: "+String.valueOf(df.format(CountryDep.bal(args[1]))));
+
+                    player.sendMessage("§bsaldo: "+df.format(CountryManager.getCountry(args[1]).getBalance()));
                 }else{
-                    player.sendMessage("§bsaldo: "+String.valueOf(df.format(CountryDep.bal(CountryDep.Element(player)))));
+                    player.sendMessage("§bsaldo: "+df.format(CountryManager.getCountry(player).getBalance()));
                 }
 
 
             }else if (type.equals("create")){
 
                 String name = args[1];
-                Player user = Bukkit.getServer().getPlayer(args[2]);
-                CountryDep.create(name, user);
+                OfflinePlayer user = Bukkit.getServer().getOfflinePlayer(args[2]);
+
+                CountryManager.create(name, player, user);
 
             }else if (type.equals("pay")){
                 int amount;
@@ -67,15 +71,20 @@ public class BankCommands implements CommandExecutor, TabCompleter {
                     return true;
                 }
 
-                String name = CountryDep.Element(player);
+                Country country = CountryManager.getCountry(player);
 
-                if (CountryDep.isOwner(name, player)){
-                    if (CountryDep.has(name, amount)){
+                if (country == null){
+                    player.sendMessage("§bplease enter a valid country");
+                    return true;
+                }
+
+                if (country.isOwner(player)){
+                    if (country.has(amount)){
                         if (!player.getName().equals(p)) {
                             try {
                                 Player target = Bukkit.getServer().getPlayer(p);
                                 SignClick.getEconomy().depositPlayer(target, amount);
-                                target.sendMessage("§byou got " + amount + " from " + name);
+                                target.sendMessage("§byou got " + amount + " from " + country.getName());
 
                             } catch (Exception e) {
                                 for (OfflinePlayer target : Bukkit.getOfflinePlayers()) {
@@ -84,7 +93,7 @@ public class BankCommands implements CommandExecutor, TabCompleter {
                                     }
                                 }
                             }
-                            CountryDep.withdraw(name, amount);
+                            country.withdraw(amount);
                             player.sendMessage("§byou paid " + amount + " to " + p);
                         }
                     }else{
