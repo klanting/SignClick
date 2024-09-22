@@ -1,8 +1,8 @@
 package com.klanting.signclick.Economy.Decisions;
 
+import com.klanting.signclick.Economy.Country;
+import com.klanting.signclick.Economy.CountryManager;
 import com.klanting.signclick.SignClick;
-
-import static com.klanting.signclick.Economy.CountryDep.setPoliciesReal;
 
 public class DecisionPolicy extends Decision{
 
@@ -17,7 +17,8 @@ public class DecisionPolicy extends Decision{
     }
 
     public void DoEffect(){
-        setPoliciesReal(s, policy_id, old_level, level);
+        Country country = CountryManager.getCountry(s);
+        country.setPoliciesReal(policy_id, old_level, level);
     }
 
     public void Save(Integer index){

@@ -1,8 +1,9 @@
 package com.klanting.signclick.Menus;
 
-import com.klanting.signclick.Economy.CountryDep;
+import com.klanting.signclick.Economy.Country;
 import com.klanting.signclick.Economy.Company;
 import com.klanting.signclick.Economy.CompanyUpgrades.Upgrade;
+import com.klanting.signclick.Economy.CountryManager;
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
@@ -35,12 +36,16 @@ public class CompanyUpgradeMenu implements InventoryHolder {
             m.setDisplayName("§6"+up.name +" Lvl. §c"+ up.level);
             ArrayList<String> l = new ArrayList<>();
             DecimalFormat df = new DecimalFormat("###,###,###");
-            if (up.getUpgradeCost() != -1){
-                l.add("§6Cost: §8"+ df.format((double) up.getUpgradeCost()*(1.0- CountryDep.getPolicyBonus(comp.GetCountry(), 1, 3))));
+            Country country = CountryManager.getCountry(comp.GetCountry());
+            if (country != null){
+                if (up.getUpgradeCost() != -1){
+                    l.add("§6Cost: §8"+ df.format((double) up.getUpgradeCost()*(1.0- country.getPolicyBonus(1, 3))));
+                }
+                if (up.getUpgradeCostPoints() != -1){
+                    l.add("§6Points: §8"+ df.format((double) up.getUpgradeCostPoints()*(1.0- country.getPolicyBonus(1, 3))));
+                }
             }
-            if (up.getUpgradeCostPoints() != -1){
-                l.add("§6Points: §8"+ df.format((double) up.getUpgradeCostPoints()*(1.0- CountryDep.getPolicyBonus(comp.GetCountry(), 1, 3))));
-            }
+
 
             m.setLore(l);
             value.setItemMeta(m);

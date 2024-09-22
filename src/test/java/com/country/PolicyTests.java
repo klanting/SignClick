@@ -3,7 +3,7 @@ package com.country;
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 import com.klanting.signclick.Economy.Country;
-import com.klanting.signclick.Economy.CountryDep;
+
 import com.klanting.signclick.Economy.CountryManager;
 import com.klanting.signclick.SignClick;
 import org.bukkit.entity.Player;
@@ -43,7 +43,7 @@ class PolicyTests {
     public void tearDown() {
 
         MockBukkit.unmock();
-        CountryDep.clear();
+        CountryManager.clear();
         CountryManager.clear();
     }
 

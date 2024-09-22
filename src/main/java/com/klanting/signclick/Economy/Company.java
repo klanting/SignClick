@@ -100,23 +100,34 @@ public class Company {
         bal += amount;
         Market.change_base(Sname);
 
+        double modifier = 0.0;
+        if (country != null){
+            modifier += country.getPolicyBonus(0, 3);
+        }
+
         if (amount > 0){
 
-            spendable += ((0.2+ country.getPolicyBonus(0, 3))*amount);
+            spendable += ((0.2+ modifier)*amount);
         }
 
         double sub_pct = 1.0;
-        if (CountryDep.getStability(GetCountry()) < 30){
-            sub_pct -= 0.20;
-        }
-        if (CountryDep.getStability(GetCountry()) < 50){
-            sub_pct -= 0.10;
-        }
-        if (CountryDep.getStability(GetCountry()) > 80){
-            sub_pct += 0.10;
+
+        double modifier2 = 0.0;
+        if (country != null){
+            if (country.getStability() < 30){
+                sub_pct -= 0.20;
+            }
+            if (country.getStability() < 50){
+                sub_pct -= 0.10;
+            }
+            if (country.getStability() > 80){
+                sub_pct += 0.10;
+            }
+            modifier2 += country.getPolicyBonus(0, 2);
         }
 
-        securityFunds += (0.01*amount)*(sub_pct+(double) upgrades.get(0).getBonus()/100.0)*(1.0+ country.getPolicyBonus(0, 2));
+
+        securityFunds += (0.01*amount)*(sub_pct+(double) upgrades.get(0).getBonus()/100.0)*(1.0+ modifier2);
         return true;
     }
 
@@ -285,9 +296,8 @@ public class Company {
 
 
     void dividend(){
-        String country = GetCountry();
 
-        double value_one = (get_value()/Market.getTotal(Sname).doubleValue())*(0.01- CountryDep.getPolicyBonus(country, 0, 1)- CountryDep.getPolicyBonus(country, 1, 1));
+        double value_one = (get_value()/Market.getTotal(Sname).doubleValue())*(0.01- country.getPolicyBonus(0, 1)- country.getPolicyBonus(1, 1));
         remove_bal(value_one*(Market.getTotal(Sname)-Market.get_market_amount(Sname)));
         for (Entry<UUID, Integer> entry : shareHolders.entrySet()){
             UUID holder = entry.getKey();
@@ -421,7 +431,8 @@ public class Company {
 
     public void reset_spendable(){
         double base = 0.2;
-        if (CountryDep.getStability(GetCountry()) < 50){
+
+        if (country.getStability() < 50){
             base -= 0.03;
         }
 
@@ -504,18 +515,26 @@ public class Company {
         Upgrade u = upgrades.get(id);
         if (u.canUpgrade((int) (bal+books), (int) securityFunds)){
             double base = 1.0;
-            if (CountryDep.getStability(GetCountry()) < 30){
-                base += 0.05;
+
+            double modifier = 0.0;
+            double modifier2 = 0.0;
+            if (country != null){
+                if (country.getStability() < 30){
+                    base += 0.05;
+                }
+                if (country.getStability() < 50){
+                    base += 0.15;
+                }
+                modifier += country.getPolicyBonus(1, 3);
+                modifier2 += country.getPolicyBonus(3, 2);
             }
-            if (CountryDep.getStability(GetCountry()) < 50){
-                base += 0.15;
-            }
-            securityFunds -= u.getUpgradeCostPoints()*(base- CountryDep.getPolicyBonus(GetCountry(), 1, 3));
-            int cost = (int) ((double) u.getUpgradeCost()*(base- CountryDep.getPolicyBonus(GetCountry(), 1, 3)));
+
+            securityFunds -= u.getUpgradeCostPoints()*(base-modifier);
+            int cost = (int) ((double) u.getUpgradeCost()*(base-modifier));
             bal -= cost;
             u.DoUpgrade();
 
-            int pct = upgrades.get(4).getBonus()+(int) (country.getPolicyBonus(3, 2)*100.0);
+            int pct = upgrades.get(4).getBonus()+(int) (modifier2*100.0);
             double weeks = (10.0-(10.0*pct/100.0));
             double weekly_back = cost/weeks;
             Market.setContractServertoComp(this.Sname, weekly_back, (int) Math.floor(weeks), "Upgrade["+u.id+"] "+u.level, 0);
@@ -533,7 +552,12 @@ public class Company {
         String linked_name = null;
 
         for (Entry<UUID, Integer> entry : shareHolders.entrySet()){
-            String countryName = CountryDep.ElementUUID(entry.getKey());
+
+            if (CountryManager.getCountry(entry.getKey()) == null){
+                continue;
+            }
+
+            String countryName = CountryManager.getCountry(entry.getKey()).getName();
             Integer amount = country_top.getOrDefault(countryName, 0);
             amount += entry.getValue();
             country_top.put(countryName, amount);
@@ -549,6 +573,10 @@ public class Company {
     }
 
     public String GetCountry(){
+        if (country == null){
+            return "none";
+        }
+
         return country.getName();
     }
 

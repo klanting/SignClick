@@ -1,6 +1,5 @@
 package com.klanting.signclick.Calculate;
 
-import com.klanting.signclick.Economy.CountryDep;
 import com.klanting.signclick.Economy.CountryManager;
 import com.klanting.signclick.Economy.Market;
 import com.klanting.signclick.SignClick;
@@ -23,7 +22,7 @@ public class WeeklyComp {
                 Market.runContracts();
                 Market.runStockCompare();
                 Market.runWeeklyCompanySalary();
-                CountryDep.runStability();
+                CountryManager.runStability();
 
             }
         },system_end,60*20*60*24*7);

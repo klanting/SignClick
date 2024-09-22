@@ -351,6 +351,14 @@ public class CountryManager {
         return (List<Country>) countries.values();
     }
 
+    public static List<String> getCountriesString(){
+        List<String> countriesString = new ArrayList<>();
+        for (Country c: countries.values()){
+            countriesString.add(c.getName());
+        }
+        return countriesString;
+    }
+
     public static void runLawSalary(){
         for (Country country: countries.values()){
             for (UUID uuid: country.getLawEnforcement()){
@@ -367,6 +375,21 @@ public class CountryManager {
                 country.withdraw((int) country.getPolicyBonus(2, 0)+(int) base);
                 SignClick.getEconomy().depositPlayer(Bukkit.getOfflinePlayer(uuid), (int) country.getPolicyBonus(2, 0)+(int) base);
             }
+        }
+    }
+
+    public static void runStability(){
+        //no election
+        for (Country country: countries.values()){
+
+            double base = 1.0;
+            base -= country.getPolicyBonus(2, 3);
+            country.addStability(-base);
+
+            if (country.isForbidParty()){
+                country.addStability(-3.0);
+            }
+
         }
     }
 }

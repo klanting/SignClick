@@ -54,7 +54,7 @@ public class MenuEvents implements Listener {
             }else if(option.equalsIgnoreCase("§6Patent")){
 
                 Country country = CountryManager.getCountry(old_screen.comp.GetCountry());
-                if (country.getStability() < 30){
+                if (country != null && country.getStability() < 30){
                     player.sendMessage("§bcan`t access patent auction with country stability under 30");
                     return;
                 }

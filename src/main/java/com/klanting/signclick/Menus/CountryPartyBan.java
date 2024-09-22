@@ -1,7 +1,6 @@
 package com.klanting.signclick.Menus;
 
 import com.klanting.signclick.Economy.Country;
-import com.klanting.signclick.Economy.CountryDep;
 import com.klanting.signclick.Economy.CountryManager;
 import com.klanting.signclick.Economy.Parties.Party;
 import org.bukkit.Bukkit;

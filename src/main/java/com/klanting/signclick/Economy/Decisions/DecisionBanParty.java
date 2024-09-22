@@ -1,6 +1,7 @@
 package com.klanting.signclick.Economy.Decisions;
 
-import com.klanting.signclick.Economy.CountryDep;
+import com.klanting.signclick.Economy.Country;
+import com.klanting.signclick.Economy.CountryManager;
 import com.klanting.signclick.Economy.Parties.Party;
 import com.klanting.signclick.SignClick;
 
@@ -12,12 +13,15 @@ public class DecisionBanParty extends Decision{
     }
 
     public void DoEffect(){
-        CountryDep.removeParty(p);
+        Country country = CountryManager.getCountry(p.country);
+        country.removeParty(p);
+
     }
 
     public void Save(Integer index){
         super.Save(index);
         String path = "decision." + s+"."+index+".";
-        SignClick.getPlugin().getConfig().set(path+"p", CountryDep.parties.get(s).indexOf(p));
+        Country country = CountryManager.getCountry(s);
+        SignClick.getPlugin().getConfig().set(path+"p", country.getParties().indexOf(p));
     }
 }

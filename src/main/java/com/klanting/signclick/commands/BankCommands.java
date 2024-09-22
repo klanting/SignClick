@@ -1,7 +1,6 @@
 package com.klanting.signclick.commands;
 
 import com.klanting.signclick.Economy.Country;
-import com.klanting.signclick.Economy.CountryDep;
 import com.klanting.signclick.Economy.CountryManager;
 import com.klanting.signclick.Economy.Decisions.Decision;
 import com.klanting.signclick.Economy.Parties.Election;
@@ -441,9 +440,10 @@ public class BankCommands implements CommandExecutor, TabCompleter {
                 }else if (type.equals("promote")){
                     try{
                         Player p = Bukkit.getPlayer(args[1]);
-                        String name = CountryDep.Element(p);
-                        CountryDep.removeMember(name, p);
-                        boolean suc6 = CountryDep.addOwner(name, p);
+
+                        Country country = CountryManager.getCountry(p);
+                        country.removeMember(p);
+                        boolean suc6 = country.addOwner(p);
                         if (suc6){
                             p.sendMessage("you are promoted to owner");
                         }else{
@@ -453,9 +453,9 @@ public class BankCommands implements CommandExecutor, TabCompleter {
                     }catch (Exception e){
                         for (OfflinePlayer target : Bukkit.getOfflinePlayers()) {
                             if (target.getName().equalsIgnoreCase(args[1])) {
-                                String name = CountryDep.Element(target);
-                                CountryDep.removeMember(name, target);
-                                CountryDep.addOwner(name, target);
+                                Country country = CountryManager.getCountry(target);
+                                country.removeMember(target);
+                                country.addOwner(target);
                             }
 
                         }
@@ -465,15 +465,15 @@ public class BankCommands implements CommandExecutor, TabCompleter {
                 }else if (type.equals("demote")){
                     try{
                         Player p = Bukkit.getPlayer(args[1]);
-                        String name = CountryDep.Element(p);
-                        CountryDep.removeOwner(name, p);
-                        CountryDep.addMember(name, p);
+                        Country country = CountryManager.getCountry(p);
+                        country.removeOwner(p);
+                        country.addMember(p);
                     }catch (Exception e){
                         for (OfflinePlayer target : Bukkit.getOfflinePlayers()) {
                             if (target.getName().equalsIgnoreCase(args[1])) {
-                                String name = CountryDep.Element(target);
-                                CountryDep.removeOwner(name, target);
-                                CountryDep.addMember(name, target);
+                                Country country = CountryManager.getCountry(target);
+                                country.removeOwner(target);
+                                country.addMember(target);
                             }
 
                         }
@@ -481,17 +481,27 @@ public class BankCommands implements CommandExecutor, TabCompleter {
                     }
                 }else if (type.equals("remove")) {
                     String name = args[1];
-                    CountryDep.delete(name, player);
+                    Country country = CountryManager.getCountry(name);
+                    CountryManager.delete(country.getName(), player);
 
                 }else if (type.equals("addmember")) {
-                    CountryDep.addMember(args[1], Bukkit.getPlayer(args[2]));
+                    Country country = CountryManager.getCountry(args[1]);
+
+                    Player addedPlayer = Bukkit.getPlayer(args[2]);
+                    country.addMember(addedPlayer);
                     player.sendMessage("§bplayer succesfully joint this country");
-                    player.setPlayerListName(CountryDep.GetColor(countryInvites.get(player.getName()))+player.getName());
+
+                    addedPlayer.setPlayerListName(country.getColor()+player.getName());
 
                 }else if (type.equals("removemember")) {
-                    CountryDep.removeMember(args[2], Objects.requireNonNull(Bukkit.getPlayer(args[1])));
+
+                    Country country = CountryManager.getCountry(args[2]);
+
+                    Player removedPlayer = Objects.requireNonNull(Bukkit.getPlayer(args[1]));
+
+                    country.removeMember(removedPlayer);
                     player.sendMessage("§bplayer succesfully left this country");
-                    player.setPlayerListName(CountryDep.GetColor(countryInvites.get(player.getName()))+player.getName());
+                    removedPlayer.setPlayerListName(ChatColor.WHITE+player.getName());
 
                 }
 
@@ -544,22 +554,22 @@ public class BankCommands implements CommandExecutor, TabCompleter {
 
             }else if (args.length == 2){
                 if (args[0].equals("donate") || args[0].equals("bal") || args[0].equals("info")){
-                    return CountryDep.GetBanks();
+                    return CountryManager.getCountriesString();
                 }else if (player.hasPermission("signclick.staff")){
                     if (args[0].equals("setowner")){
-                        return CountryDep.GetBanks();
+                        return CountryManager.getCountriesString();
                     }else if (args[0].equals("removeowner")){
-                        return CountryDep.GetBanks();
+                        return CountryManager.getCountriesString();
                     }else if (args[0].equals("color")){
-                        return CountryDep.GetBanks();
+                        return CountryManager.getCountriesString();
                     }else if (args[0].equals("spawn")){
-                        return CountryDep.GetBanks();
+                        return CountryManager.getCountriesString();
                     }else if (args[0].equals("remove")){
-                        return CountryDep.GetBanks();
+                        return CountryManager.getCountriesString();
                     }else if (args[0].equals("addmember")){
-                        return CountryDep.GetBanks();
+                        return CountryManager.getCountriesString();
                     }else if (args[0].equals("removemember")){
-                        return CountryDep.GetBanks();
+                        return CountryManager.getCountriesString();
                     }
 
                 }

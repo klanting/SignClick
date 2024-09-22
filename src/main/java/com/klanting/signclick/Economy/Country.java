@@ -524,6 +524,9 @@ public class Country {
     public void addDecision(Decision d){
         decisions.add(d);
     }
+    public void removeDecision(Decision d){
+        decisions.remove(d);
+    }
 
     public void info(Player player){
         int amount = balance;
@@ -589,5 +592,23 @@ public class Country {
         }
 
         return false;
+    }
+
+    public void setForbidParty(boolean forbidParty) {
+        this.forbidParty = forbidParty;
+    }
+
+    public void setAboardMilitary(boolean aboardMilitary) {
+        this.aboardMilitary = aboardMilitary;
+    }
+
+    public void removeParty(Party p){
+        Party ph = getRuling();
+
+        ph.PCT += p.PCT;
+
+        parties.remove(p);
+
+        addStability(-10.0);
     }
 }

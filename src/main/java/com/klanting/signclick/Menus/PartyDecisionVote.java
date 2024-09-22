@@ -1,10 +1,14 @@
 package com.klanting.signclick.Menus;
 
+import java.util.List;
+import java.util.ArrayList;
+import java.text.DecimalFormat;
+
 import com.klanting.signclick.Economy.Country;
-import com.klanting.signclick.Economy.CountryDep;
 import com.klanting.signclick.Economy.CountryManager;
 import com.klanting.signclick.Economy.Decisions.Decision;
 import com.klanting.signclick.Economy.Parties.Party;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
@@ -12,9 +16,9 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
+
+
+
 
 public class PartyDecisionVote implements InventoryHolder {
 
