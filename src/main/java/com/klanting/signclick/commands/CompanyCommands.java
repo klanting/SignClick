@@ -192,7 +192,7 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
                 }else{
                     DecimalFormat df = new DecimalFormat("###,###,##0.00");
                     player.sendMessage("§bplease re-enter your command to confirm\nthat you want to buy §f" +amount+
-                            "§b from §f"+ stock_name+" for a price of §6"+df.format(Market.get_buy_price(stock_name, amount))+" \n§c/company buy "+stock_name+" "+amount);
+                            "§b from §f"+ stock_name+" for a price of §6"+df.format(Market.getBuyPrice(stock_name, amount))+" \n§c/company buy "+stock_name+" "+amount);
                     confirm.put(player, "buy");
 
                 }
@@ -222,7 +222,7 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
                     acc.sellShare(stock_name, amount, player);
 
                 }else{
-                    double v = Market.get_sell_price(stock_name, amount);
+                    double v = Market.getSellPrice(stock_name, amount);
                     DecimalFormat df = new DecimalFormat("###,###,##0.00");
                     player.sendMessage("§bplease re-enter your command to confirm\nthat you want to sell §f" +amount+
                             "§b from §f"+ stock_name+"§b for a price of §6"+df.format(v)+" \n§c/company sell "+stock_name+" "+amount);
@@ -828,7 +828,7 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
                     return true;
                 }
                 DecimalFormat df = new DecimalFormat("###,###,##0.00");
-                player.sendMessage("§f"+amount+"§b share(s) costs §f"+ df.format(Market.get_buy_price(stock_name, amount)));
+                player.sendMessage("§f"+amount+"§b share(s) costs §f"+ df.format(Market.getBuyPrice(stock_name, amount)));
             }
 
             if (commando.equals("get_sell_price")){
@@ -850,7 +850,7 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
                     return true;
                 }
                 DecimalFormat df = new DecimalFormat("###,###,##0.00");
-                player.sendMessage("§f"+amount+"§b share(s) costs §f"+ df.format(Market.get_sell_price(stock_name, amount)));
+                player.sendMessage("§f"+amount+"§b share(s) costs §f"+ df.format(Market.getSellPrice(stock_name, amount)));
             }
 
             if (commando.equals("get_contracts")){
@@ -1012,11 +1012,11 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
                 Market.getBusiness(stock_name).openTrade = to_open;
 
                 if (!to_open){
-                    Market.set_market_amount(stock_name, 0);
+                    Market.setMarketAmount(stock_name, 0);
                 }else{
 
-                    Market.setTotal(stock_name, Market.getTotal(stock_name)-Market.get_market_amount(stock_name));
-                    Market.set_market_amount(stock_name, 0);
+                    Market.setTotal(stock_name, Market.getTotal(stock_name)-Market.getMarketAmount(stock_name));
+                    Market.setMarketAmount(stock_name, 0);
                 }
 
                 player.sendMessage("§bopen trade set yo "+ Market.getBusiness(stock_name).openTrade);

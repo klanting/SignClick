@@ -19,7 +19,9 @@ import java.util.UUID;
 
 public class SignClick extends JavaPlugin{
 
-
+    /*
+    * Store the plugin instance as static to easily locate it
+    * */
     private static SignClick plugin;
 
     @Override
@@ -46,7 +48,7 @@ public class SignClick extends JavaPlugin{
         }
 
         if (this.getConfig().contains("accounts")){
-            Market.RestoreData();
+            Market.restoreData();
         }
 
         DynmapCheck.Hide();

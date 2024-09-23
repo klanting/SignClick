@@ -13,6 +13,9 @@ import java.text.DecimalFormat;
 import static com.klanting.signclick.Economy.Market.stock_signs;
 
 public class SignStock {
+    /*
+    * SignStock is a tool to track the stock value of a company on a sign
+    * */
     public static void set(SignChangeEvent sign, Player player){
         String Sname = sign.getLine(1);
         Sname = Sname.toUpperCase();

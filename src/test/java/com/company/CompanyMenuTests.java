@@ -189,8 +189,6 @@ public class CompanyMenuTests {
 
         testPlayer.simulateInventoryClick(upgradeMenu, 11);
         assertEquals(1, comp.upgrades.get(0).level);
-
-        printInventory(upgradeMenu);
     }
 
     @Test

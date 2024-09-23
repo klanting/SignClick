@@ -27,21 +27,22 @@ public class CountryPolicy implements InventoryHolder {
         Country country = CountryManager.getCountry(uuid);
         for (Policy p: country.getPolicies()){
 
-            menu.setItem(start_index-1, new ItemStack(p.material));
+            menu.setItem(start_index-1, new ItemStack(p.getMaterial()));
             for (int i=0; i<5; i++){
 
                 ItemStack color;
-                if (i != p.level){
+                if (i != p.getLevel()){
                     color = new ItemStack(Material.RED_STAINED_GLASS_PANE);
                 }else{
                     color = new ItemStack(Material.LIME_STAINED_GLASS_PANE);
                 }
 
                 ItemMeta m = color.getItemMeta();
-                m.setDisplayName("§6"+p.titles.get(i));
+
+                m.setDisplayName("§6"+p.getTitle(i));
 
                 List<String> lore_list = new ArrayList<>();
-                for (List<String> s: p.description){
+                for (List<String> s: p.getDescription()){
                     String d = s.get(i);
                     if (d != ""){
                         lore_list.add(d);

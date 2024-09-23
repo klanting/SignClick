@@ -98,7 +98,7 @@ public class Company {
 
     public Boolean addBal(Double amount){
         bal += amount;
-        Market.change_base(Sname);
+        Market.changeBase(Sname);
 
         double modifier = 0.0;
         if (country != null){
@@ -133,7 +133,7 @@ public class Company {
 
     public Boolean add_bal_no_point(Double amount){
         bal += amount;
-        Market.change_base(Sname);
+        Market.changeBase(Sname);
 
         return true;
     }
@@ -142,7 +142,7 @@ public class Company {
         if ((bal+books >= amount) & (spendable >= amount)){
             bal -= amount;
             spendable -= amount;
-            Market.change_base(Sname);
+            Market.changeBase(Sname);
             return true;
         }
         return false;
@@ -286,7 +286,7 @@ public class Company {
         if (openTrade){
             player.sendMessage("§eMarket: §f"+"inf"+" ("+"inf"+"%)");
         }else{
-            player.sendMessage("§eMarket: §f"+df.format(Market.get_market_amount(Sname))+" ("+df2.format(Market.get_market_amount(Sname)/total.doubleValue()*100.0)+"%)");
+            player.sendMessage("§eMarket: §f"+df.format(Market.getMarketAmount(Sname))+" ("+df2.format(Market.getMarketAmount(Sname)/total.doubleValue()*100.0)+"%)");
         }
 
 
@@ -305,7 +305,7 @@ public class Company {
         }
 
         double value_one = (get_value()/Market.getTotal(Sname).doubleValue())*(0.01- modifier1-modifier2);
-        remove_bal(value_one*(Market.getTotal(Sname)-Market.get_market_amount(Sname)));
+        remove_bal(value_one*(Market.getTotal(Sname)-Market.getMarketAmount(Sname)));
         for (Entry<UUID, Integer> entry : shareHolders.entrySet()){
             UUID holder = entry.getKey();
             OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(holder);
@@ -478,9 +478,9 @@ public class Company {
         SignClick.getPlugin().getConfig().set("company."+Sname+"." + "support", support.toString());
         SignClick.getPlugin().getConfig().set("company."+Sname+"." + "share_holders", shareHolders.toString());
         SignClick.getPlugin().getConfig().set("company."+Sname+"." + "open_trade", openTrade);
-        SignClick.getPlugin().getConfig().set("company."+Sname+"." + "share_value", Market.get_value(Sname));
-        SignClick.getPlugin().getConfig().set("company."+Sname+"." + "share_base", Market.get_base(Sname));
-        SignClick.getPlugin().getConfig().set("company."+Sname+"." + "market_amount", Market.get_market_amount(Sname));
+        SignClick.getPlugin().getConfig().set("company."+Sname+"." + "share_value", Market.getValue(Sname));
+        SignClick.getPlugin().getConfig().set("company."+Sname+"." + "share_base", Market.getBase(Sname));
+        SignClick.getPlugin().getConfig().set("company."+Sname+"." + "market_amount", Market.getMarketAmount(Sname));
         SignClick.getPlugin().getConfig().set("company."+Sname+"." + "total", Market.getTotal(Sname));
         SignClick.getPlugin().getConfig().set("company."+Sname+"." + "last_value", lastValue);
         SignClick.getPlugin().getConfig().set("company."+Sname+"." + "security_funds", securityFunds);

@@ -527,7 +527,7 @@ class CountryTests {
          * check policies correctly stored
          * */
         assertEquals(5, country.getPolicies().size());
-        assertEquals(1, country.getPolicies().get(0).level);
+        assertEquals(1, country.getPolicies().get(0).getLevel());
 
         /*
          * check policies correctly stored

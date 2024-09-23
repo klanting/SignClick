@@ -7,18 +7,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Policy {
-    public Material material;
 
-    public List<String> titles = new ArrayList<>();
+    /*
+    * This Class represents a policy of a country
+    * Each country has its own policies to influence certain modifiers, and options for countries and companies
+    * */
+    protected Material material;
 
-    public ArrayList<List<Double>> bonus = new ArrayList<>();
+    protected List<String> titles = new ArrayList<>();
 
-    public ArrayList<List<String>> description = new ArrayList<>();
+    protected ArrayList<List<Double>> bonus = new ArrayList<>();
 
-    public ArrayList<List<Integer>> require = new ArrayList<>();
+    protected ArrayList<List<String>> description = new ArrayList<>();
 
-    public Integer id;
-    public Integer level;
+    protected ArrayList<List<Integer>> require = new ArrayList<>();
+
+    private Integer id;
+    private Integer level;
 
     public Double getBonus(Integer index){
         return bonus.get(index).get(level);
@@ -40,5 +45,29 @@ public class Policy {
 
     public void Save(String country){
         SignClick.getPlugin().getConfig().set("policies." + country+"."+id, level);
+    }
+
+    public Material getMaterial() {
+        return material;
+    }
+
+    public String getTitle(int level){
+        return titles.get(level);
+    }
+
+    public ArrayList<List<String>> getDescription() {
+        return description;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public Integer getLevel() {
+        return level;
+    }
+
+    public void setLevel(Integer level) {
+        this.level = level;
     }
 }

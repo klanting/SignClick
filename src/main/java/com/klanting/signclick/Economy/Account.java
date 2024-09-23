@@ -38,13 +38,13 @@ public class Account {
     }
 
     public void buyShare(String Sname, Integer amount, Player player){
-        double v = Market.get_buy_price(Sname, amount);
+        double v = Market.getBuyPrice(Sname, amount);
         if (getBal() >= v){
             if (Market.buy(Sname, amount, this)){
                 removeBal(v);
                 Market.getBusiness(Sname).add_books(v);
 
-                Market.change_base(Sname);
+                Market.changeBase(Sname);
 
                 int share_amount = shares.getOrDefault(Sname, 0);
                 shares.put(Sname, share_amount+amount);
@@ -62,7 +62,7 @@ public class Account {
     }
 
     public void sellShare(String Sname, Integer amount, Player player){
-        double v = Market.get_sell_price(Sname, amount);
+        double v = Market.getSellPrice(Sname, amount);
 
         String countryName = Market.getBusiness(Sname).GetCountry();
 
@@ -94,7 +94,7 @@ public class Account {
             if (Market.sell(Sname, amount, this)){
                 addBal(v);
                 Market.getBusiness(Sname).remove_books(v+to_gov);
-                Market.change_base(Sname);
+                Market.changeBase(Sname);
 
                 shares.put(Sname, share_amount-amount);
                 player.sendMessage("§bsell: §aaccepted");

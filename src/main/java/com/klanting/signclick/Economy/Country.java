@@ -15,8 +15,14 @@ import java.util.*;
 
 public class Country {
 
-    private String name;
+    /*
+    * Name of the country
+    * */
+    private final String name;
 
+    /*
+    * balance of the country its bank account
+    * */
     private int balance;
 
     private List<UUID> owners = new ArrayList<>();
@@ -382,7 +388,7 @@ public class Country {
     }
 
     public void setPoliciesReal(int id, int old_level, int level){
-        policies.get(id).level = level;
+        policies.get(id).setLevel(level);
 
         if (id == 0){
             Double old_stab = policies.get(id).getBonusLevel(5, old_level);
@@ -415,7 +421,7 @@ public class Country {
     }
 
     public boolean setPolicies(int id, int level){
-        int old_level = policies.get(id).level;
+        int old_level = policies.get(id).getLevel();
         if (old_level == level){
             return false;
         }
@@ -455,8 +461,9 @@ public class Country {
             change = 0.7;
         }
 
-        Decision d = new DecisionPolicy("§6Policy §9"+policies.get(id).titles.get(old_level)+
-                "§6 to §9"+policies.get(id).titles.get(level), change, this.name, id, old_level, level);
+
+        Decision d = new DecisionPolicy("§6Policy §9"+policies.get(id).getTitle(old_level)+
+                "§6 to §9"+policies.get(id).getTitle(level), change, this.name, id, old_level, level);
 
         if (hasDecisionName(d.name)){
             return false;

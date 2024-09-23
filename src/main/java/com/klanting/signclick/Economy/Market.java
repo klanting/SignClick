@@ -14,6 +14,9 @@ import java.util.*;
 import static org.bukkit.Bukkit.getServer;
 
 public class Market {
+    /*
+    * Stores which account corresponds to which UUID (player)
+    * */
     private static Map<UUID, Account> accounts = new HashMap<UUID, Account>();
     private static Map<String, Company> company = new HashMap<String, Company>();
     private static Map<String, Double> shareValues = new HashMap<String, Double>();
@@ -27,14 +30,14 @@ public class Market {
 
     private static ArrayList<String> names = new ArrayList<String>();
 
-    public static Double get_value(String Sname){
+    public static Double getValue(String Sname){
         return shareValues.get(Sname);
     }
-    public static Double get_base(String Sname){
+    public static Double getBase(String Sname){
         return shareBase.get(Sname);
     }
 
-    public static Integer get_market_amount(String Sname){
+    public static Integer getMarketAmount(String Sname){
         return marketAmount.get(Sname);
     }
 
@@ -63,15 +66,15 @@ public class Market {
         stock_signs.clear();
     }
 
-    public static void set_market_amount(String Sname, Integer amount){
+    public static void setMarketAmount(String Sname, Integer amount){
         marketAmount.put(Sname, amount);
     }
 
-    public static Double get_buy_price(String Sname, Integer amount){
-        double market_pct = (marketAmount.get(Sname).doubleValue()/(total.get(Sname).doubleValue()+Math.min(Market.get_market_amount(Sname), 0)));
+    public static Double getBuyPrice(String Sname, Integer amount){
+        double market_pct = (marketAmount.get(Sname).doubleValue()/(total.get(Sname).doubleValue()+Math.min(Market.getMarketAmount(Sname), 0)));
         double a = (1.0 - market_pct) * 25.0 - 10.0;
 
-        market_pct = ((marketAmount.get(Sname).doubleValue()-amount.doubleValue())/(total.get(Sname).doubleValue()+Math.min(Market.get_market_amount(Sname), 0)));
+        market_pct = ((marketAmount.get(Sname).doubleValue()-amount.doubleValue())/(total.get(Sname).doubleValue()+Math.min(Market.getMarketAmount(Sname), 0)));
         double b = (1.0 - market_pct) * 25.0 - 10.0;
 
         double base = shareBase.get(Sname);
@@ -79,7 +82,7 @@ public class Market {
         return v*amount;
     }
 
-    public static  Double get_sell_price(String Sname, Integer amount){
+    public static  Double getSellPrice(String Sname, Integer amount){
 
         String countryName = Market.getBusiness(Sname).GetCountry();
         Country country = CountryManager.getCountry(countryName);
@@ -89,17 +92,17 @@ public class Market {
 
         if (country == null){
             //TODO make this not temp
-            return (get_buy_price(Sname, -amount)*-1)*(1-sub_fee);
+            return (getBuyPrice(Sname, -amount)*-1)*(1-sub_fee);
         }
 
         if (country.getStability() < 50){
             sub_fee += 0.01;
         }
-        return (get_buy_price(Sname, -amount)*-1)*(1.0 - (sub_fee - country.getPolicyBonus(0, 0)- country.getPolicyBonus(1, 1)));
+        return (getBuyPrice(Sname, -amount)*-1)*(1.0 - (sub_fee - country.getPolicyBonus(0, 0)- country.getPolicyBonus(1, 1)));
 
     }
 
-    public static void change_value(String Sname){
+    public static void changeValue(String Sname){
         double market_pct = (marketAmount.get(Sname).doubleValue()/total.get(Sname).doubleValue());
         double x = (1.0 - market_pct)*25.0 - 10.0;
 
@@ -115,7 +118,7 @@ public class Market {
             Company comp = company.get(Sname);
             comp.change_share_holder(acc, amount);
 
-            change_value(Sname);
+            changeValue(Sname);
 
             return true;
         }
@@ -129,19 +132,19 @@ public class Market {
         Company comp = company.get(Sname);
         comp.change_share_holder(acc, -amount);
 
-        change_value(Sname);
+        changeValue(Sname);
 
         return true;
     }
 
-    public static void change_base(String Sname){
+    public static void changeBase(String Sname){
         Company comp = company.get(Sname);
         double a = -10.0;
         double b = 15.0;
         double v = (comp.get_bal()/total.get(Sname)) / (((Math.pow(flux, b)) - (Math.pow(flux, a))) /Math.log(flux)/(b-a));
         shareBase.put(Sname, v);
 
-        change_value(Sname);
+        changeValue(Sname);
     }
 
     public static Company getBusiness(String Sname){
@@ -158,10 +161,10 @@ public class Market {
             total.put(Sname, 1000000);
 
             shareBase.put(Sname, 0.0);
-            change_base(Sname);
+            changeBase(Sname);
 
             shareValues.put(Sname, 0.0);
-            change_value(Sname);
+            changeValue(Sname);
 
             comp.check_support();
             comp.CalculateCountry();
@@ -304,10 +307,10 @@ public class Market {
         total.put(Sname, to);
 
         shareBase.put(Sname, sb);
-        change_base(Sname);
+        changeBase(Sname);
 
         shareValues.put(Sname, sv);
-        change_value(Sname);
+        changeValue(Sname);
 
         comp.check_support();
         comp.CalculateCountry();
@@ -502,7 +505,7 @@ public class Market {
         SignClick.getPlugin().saveConfig();
     }
 
-    public static void RestoreData(){
+    public static void restoreData(){
         if (SignClick.getPlugin().getConfig().contains("accounts")){
             SignClick.getPlugin().getConfig().getConfigurationSection("accounts").getKeys(true).forEach(key ->{
                 Map<String, Integer> sh = new HashMap<String, Integer>();
