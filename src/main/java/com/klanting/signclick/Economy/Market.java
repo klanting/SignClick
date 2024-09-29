@@ -4,6 +4,7 @@ import com.klanting.signclick.Calculate.SignStock;
 import com.klanting.signclick.Economy.CompanyPatent.*;
 import com.klanting.signclick.Economy.CompanyUpgrades.*;
 import com.klanting.signclick.SignClick;
+import com.klanting.signclick.utils.Utils;
 import org.bukkit.*;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
@@ -11,6 +12,7 @@ import org.javatuples.Quintet;
 
 import java.text.DecimalFormat;
 import java.util.*;
+import java.util.logging.Level;
 
 import static org.bukkit.Bukkit.getServer;
 
@@ -18,7 +20,7 @@ public class Market {
     /*
     * Stores which account corresponds to which UUID (player)
     * */
-    private static final Map<UUID, Account> accounts = new HashMap<UUID, Account>();
+    private static Map<UUID, Account> accounts = new HashMap<UUID, Account>();
     private static final Map<String, Company> company = new HashMap<String, Company>();
     private static final Map<String, Double> shareValues = new HashMap<String, Double>();
     private static final Map<String, Double> shareBase = new HashMap<String, Double>();
@@ -252,6 +254,7 @@ public class Market {
     }
 
     public static Boolean hasAccount(Player player){
+
         return accounts.containsKey(player.getUniqueId());
 
     }
@@ -272,6 +275,21 @@ public class Market {
     }
 
     public static Boolean hasAccount(UUID uuid){
+        SignClick.getPlugin().getLogger().log(Level.SEVERE, uuid.toString());
+        SignClick.getPlugin().getLogger().log(Level.SEVERE, String.valueOf(uuid.getMostSignificantBits()));
+        SignClick.getPlugin().getLogger().log(Level.SEVERE, String.valueOf(uuid.getLeastSignificantBits()));
+        SignClick.getPlugin().getLogger().log(Level.SEVERE, String.valueOf(accounts.size()));
+        SignClick.getPlugin().getLogger().log(Level.SEVERE, String.valueOf(accounts.keySet().toString()));
+        SignClick.getPlugin().getLogger().log(Level.SEVERE, String.valueOf(accounts.containsKey(uuid)));
+
+        for (UUID uuid2: accounts.keySet()){
+            SignClick.getPlugin().getLogger().log(Level.SEVERE, "w");
+            //SignClick.getPlugin().getLogger().log(Level.SEVERE, String.valueOf(uuid2.getMostSignificantBits()));
+            //SignClick.getPlugin().getLogger().log(Level.SEVERE, String.valueOf(uuid2.getLeastSignificantBits()));
+        }
+
+
+
         return accounts.containsKey(uuid);
 
     }
@@ -463,15 +481,18 @@ public class Market {
     }
 
     public static void SaveData(){
+        /*
         for (Map.Entry<UUID, Account> entry : accounts.entrySet()){
             Account acc = entry.getValue();
             getServer().getConsoleSender().sendMessage(ChatColor.BLUE + "shares " + acc.shares.toString());
             SignClick.getPlugin().getConfig().set("accounts." + entry.getKey(), acc.shares.toString());
-        }
+        }*/
+        Utils.writeSave("accounts", accounts);
 
         for (Company comp: company.values()){
             comp.SaveData();
         }
+
 
         List<String> contractString = new ArrayList<>();
         for (Object[] o : ContractComptoComp){
@@ -510,6 +531,7 @@ public class Market {
     }
 
     public static void restoreData(){
+        /*
         if (SignClick.getPlugin().getConfig().contains("accounts")){
             SignClick.getPlugin().getConfig().getConfigurationSection("accounts").getKeys(true).forEach(key ->{
                 Map<String, Integer> sh = new HashMap<String, Integer>();
@@ -532,7 +554,9 @@ public class Market {
 
                 accounts.put(UUID.fromString(key), acc);
             });
-        }
+        }*/
+        accounts = Utils.readSave("accounts", new HashMap<>());
+        //Utils.writeSave("accounts", accounts);
 
         if (SignClick.getPlugin().getConfig().contains("company")){
             for (String key : SignClick.getPlugin().getConfig().getConfigurationSection("company").getKeys(true)) {
