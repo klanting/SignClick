@@ -63,8 +63,8 @@ public class Company {
         name = n;
         Sname = StockName;
 
-        support.put(creater.uuid, creater.uuid);
-        shareHolders.put(creater.uuid, 1000000);
+        support.put(creater.getUuid(), creater.getUuid());
+        shareHolders.put(creater.getUuid(), 1000000);
         creater.receivePrivate(Sname, 1000000);
 
         upgrades.add(new UpgradeExtraPoints(0));
@@ -160,23 +160,23 @@ public class Company {
     }
 
     public void change_share_holder(Account holder, Integer amount){
-        if (shareHolders.getOrDefault(holder.uuid, null) != null){
-            Integer am = shareHolders.get(holder.uuid);
-            shareHolders.put(holder.uuid, am+amount);
+        if (shareHolders.getOrDefault(holder.getUuid(), null) != null){
+            Integer am = shareHolders.get(holder.getUuid());
+            shareHolders.put(holder.getUuid(), am+amount);
 
         }else {
-            shareHolders.put(holder.uuid, amount);
-            support.put(holder.uuid, null);
+            shareHolders.put(holder.getUuid(), amount);
+            support.put(holder.getUuid(), null);
         }
 
-        if (shareHolders.getOrDefault(holder.uuid, 0) == 0){
-            shareHolders.remove(holder.uuid);
-            support.remove(holder.uuid);
+        if (shareHolders.getOrDefault(holder.getUuid(), 0) == 0){
+            shareHolders.remove(holder.getUuid());
+            support.remove(holder.getUuid());
         }
     }
 
     public void support_update(Account holder, UUID uuid){
-        support.put(holder.uuid, uuid);
+        support.put(holder.getUuid(), uuid);
         check_support();
         CalculateCountry();
     }

@@ -9,9 +9,12 @@ import java.util.*;
 
 public class Account {
 
-    public UUID uuid;
+    /*
+    * This class defines a portfolio/account from a user
+    * */
+
+    private final UUID uuid;
     public Map<String, Integer> shares = new HashMap<String, Integer>();
-    boolean offer = false;
 
     public String compNamePending = null;
     public double compAmountPending = 0.0;
@@ -39,26 +42,27 @@ public class Account {
 
     public void buyShare(String Sname, Integer amount, Player player){
         double v = Market.getBuyPrice(Sname, amount);
-        if (getBal() >= v){
-            if (Market.buy(Sname, amount, this)){
-                removeBal(v);
-                Market.getBusiness(Sname).add_books(v);
-
-                Market.changeBase(Sname);
-
-                int share_amount = shares.getOrDefault(Sname, 0);
-                shares.put(Sname, share_amount+amount);
-                if (Market.getBusiness(Sname).openTrade){
-                    Market.setTotal(Sname, Market.getTotal(Sname)+amount);
-                }
-                player.sendMessage("§bbuy: §aaccepted");
-            }else{
-                player.sendMessage("§bbuy: §cdenied (not enough shares on the market)");
-            }
-
-        }else{
+        if (getBal()<v){
             player.sendMessage("§bbuy: §cdenied (not enough money)");
+            return;
         }
+
+        if (!Market.buy(Sname, amount, this)){
+            player.sendMessage("§bbuy: §cdenied (not enough shares on the market)");
+            return;
+        }
+
+        removeBal(v);
+        Market.getBusiness(Sname).add_books(v);
+
+        Market.changeBase(Sname);
+
+        int share_amount = shares.getOrDefault(Sname, 0);
+        shares.put(Sname, share_amount+amount);
+        if (Market.getBusiness(Sname).openTrade){
+            Market.setTotal(Sname, Market.getTotal(Sname)+amount);
+        }
+        player.sendMessage("§bbuy: §aaccepted");
     }
 
     public void sellShare(String Sname, Integer amount, Player player){
@@ -241,4 +245,15 @@ public class Account {
     }
 
 
+    public UUID getUuid() {
+        return uuid;
+    }
+
+    public String getName(){
+        return Bukkit.getOfflinePlayer(uuid).getName();
+    }
+
+    public Player getPlayer(){
+        return Bukkit.getPlayer(uuid);
+    }
 }

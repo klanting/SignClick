@@ -7,6 +7,7 @@ import com.klanting.signclick.SignClick;
 import org.bukkit.*;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
+import org.javatuples.Quintet;
 
 import java.text.DecimalFormat;
 import java.util.*;
@@ -17,18 +18,18 @@ public class Market {
     /*
     * Stores which account corresponds to which UUID (player)
     * */
-    private static Map<UUID, Account> accounts = new HashMap<UUID, Account>();
-    private static Map<String, Company> company = new HashMap<String, Company>();
-    private static Map<String, Double> shareValues = new HashMap<String, Double>();
-    private static Map<String, Double> shareBase = new HashMap<String, Double>();
-    private static Map<String, Integer> marketAmount = new HashMap<String, Integer>();
-    private static Map<String, Integer> total = new HashMap<String, Integer>();
-    private static Double fee = 0.05;
-    private static Double flux = 1.15;
+    private static final Map<UUID, Account> accounts = new HashMap<UUID, Account>();
+    private static final Map<String, Company> company = new HashMap<String, Company>();
+    private static final Map<String, Double> shareValues = new HashMap<String, Double>();
+    private static final Map<String, Double> shareBase = new HashMap<String, Double>();
+    private static final Map<String, Integer> marketAmount = new HashMap<String, Integer>();
+    private static final Map<String, Integer> total = new HashMap<String, Integer>();
+    public static final Double fee = 0.05;
+    public static final Double flux = 1.15;
 
     public static Boolean showParticles = true;
 
-    private static ArrayList<String> names = new ArrayList<String>();
+    private static final ArrayList<String> names = new ArrayList<String>();
 
     public static Double getValue(String Sname){
         return shareValues.get(Sname);
@@ -41,7 +42,7 @@ public class Market {
         return marketAmount.get(Sname);
     }
 
-    public static ArrayList<Object[]> ContractComptoComp = new ArrayList<Object[]>();
+    public static ArrayList<Object[]> ContractComptoComp = new ArrayList<>();
 
     public static ArrayList<Object[]> ContractComptoPlayer = new ArrayList<Object[]>();
 
@@ -52,6 +53,9 @@ public class Market {
     public static ArrayList<Location> stock_signs = new ArrayList<Location>();
 
     public static void clear(){
+        /*
+        * Clear all static information
+        * */
         accounts.clear();
         company.clear();
         shareValues.clear();
@@ -278,7 +282,7 @@ public class Market {
     }
 
     public static void addAccount(Account acc){
-        accounts.put(acc.uuid, acc);
+        accounts.put(acc.getUuid(), acc);
 
     }
 
@@ -704,9 +708,9 @@ public class Market {
                     new_data.add(new_tuple);
                 }
 
-                from.send_owner("§cContract: from " + from.Sname + "(C) to " + Bukkit.getOfflinePlayer(to.uuid).getName() + "(P) amount: " + amount);
-                if (Bukkit.getPlayer(to.uuid) != null){
-                    Bukkit.getPlayer(to.uuid).sendMessage("§aContract: from " + from.Sname + "(C) to " + Bukkit.getOfflinePlayer(to.uuid).getName() + "(P) amount: " + amount);
+                from.send_owner("§cContract: from " + from.Sname + "(C) to " + to.getName() + "(P) amount: " + amount);
+                if (to.getPlayer() != null){
+                    to.getPlayer().sendMessage("§aContract: from " + from.Sname + "(C) to " + to.getName() + "(P) amount: " + amount);
                 }
 
             } else {
@@ -731,9 +735,9 @@ public class Market {
                         new_data.add(new_tuple);
                     }
 
-                    to.send_owner("§aContract: from " + Bukkit.getOfflinePlayer(from.uuid).getName() + "(P) to " + to.Sname + "(C) amount: " + amount);
-                    if (Bukkit.getPlayer(from.uuid) != null){
-                        Bukkit.getPlayer(from.uuid).sendMessage("§cContract: from " + Bukkit.getOfflinePlayer(from.uuid).getName() + "(P) to " + to.Sname + "(C) amount: " + amount);
+                    to.send_owner("§aContract: from " + from.getName() + "(P) to " + to.Sname + "(C) amount: " + amount);
+                    if (from.getPlayer() != null){
+                        from.getPlayer().sendMessage("§cContract: from " + from.getName() + "(P) to " + to.Sname + "(C) amount: " + amount);
                     }
 
                 } else {
@@ -835,7 +839,7 @@ public class Market {
             int weeks = (Integer) tuple[3];
 
             if (from.Sname.equals(stock_name)){
-                outcome.add("§cContract: from " + from.Sname + "(C) to " + Bukkit.getOfflinePlayer(to.uuid).getName() + "(P) amount: " + amount
+                outcome.add("§cContract: from " + from.Sname + "(C) to " + to.getName() + "(P) amount: " + amount
                         + " for "+weeks+" weeks, "+ "reason: "+tuple[4]);
             }
 
@@ -849,7 +853,7 @@ public class Market {
                 int weeks = (Integer) tuple[3];
 
                 if (to.Sname.equals(stock_name)){
-                    income.add("§aContract: from " + Bukkit.getOfflinePlayer(from.uuid).getName() + "(P) to " + to.Sname + "(C) amount: " + amount
+                    income.add("§aContract: from " + from.getName() + "(P) to " + to.Sname + "(C) amount: " + amount
                             + " for "+weeks+" weeks, "+ "reason: "+tuple[4]);
                 }
             }catch (Exception e){
