@@ -1,10 +1,10 @@
 package com.klanting.signclick.commands;
 
-import com.klanting.signclick.Economy.Country;
-import com.klanting.signclick.Economy.CountryManager;
-import com.klanting.signclick.Economy.Decisions.Decision;
-import com.klanting.signclick.Economy.Decisions.DecisionCoup;
-import com.klanting.signclick.Economy.Parties.Party;
+import com.klanting.signclick.economy.Country;
+import com.klanting.signclick.economy.CountryManager;
+import com.klanting.signclick.economy.decisions.Decision;
+import com.klanting.signclick.economy.decisions.DecisionCoup;
+import com.klanting.signclick.economy.parties.Party;
 import com.klanting.signclick.Menus.PartyDecisionVote;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;

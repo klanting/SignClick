@@ -1,9 +1,8 @@
 package com.klanting.signclick.events;
 
-import com.klanting.signclick.Calculate.WeeklyPay;
-import com.klanting.signclick.Economy.Country;
-import com.klanting.signclick.Economy.CountryManager;
-import org.bukkit.Color;
+import com.klanting.signclick.calculate.WeeklyPay;
+import com.klanting.signclick.economy.Country;
+import com.klanting.signclick.economy.CountryManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

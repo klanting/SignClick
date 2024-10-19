@@ -1,14 +1,14 @@
 package com.klanting.signclick.events;
 
-import com.klanting.signclick.Economy.*;
-import com.klanting.signclick.Economy.CompanyPatent.Auction;
-import com.klanting.signclick.Economy.CompanyPatent.Patent;
-import com.klanting.signclick.Economy.CompanyPatent.PatentUpgrade;
-import com.klanting.signclick.Economy.Decisions.Decision;
-import com.klanting.signclick.Economy.Decisions.DecisionAboardMilitary;
-import com.klanting.signclick.Economy.Decisions.DecisionBanParty;
-import com.klanting.signclick.Economy.Decisions.DecisionForbidParty;
-import com.klanting.signclick.Economy.Parties.Party;
+import com.klanting.signclick.economy.*;
+import com.klanting.signclick.economy.companyPatent.Auction;
+import com.klanting.signclick.economy.companyPatent.Patent;
+import com.klanting.signclick.economy.companyPatent.PatentUpgrade;
+import com.klanting.signclick.economy.decisions.Decision;
+import com.klanting.signclick.economy.decisions.DecisionAboardMilitary;
+import com.klanting.signclick.economy.decisions.DecisionBanParty;
+import com.klanting.signclick.economy.decisions.DecisionForbidParty;
+import com.klanting.signclick.economy.parties.Party;
 import com.klanting.signclick.Menus.*;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;

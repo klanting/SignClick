@@ -1,18 +1,12 @@
 package com.klanting.signclick.Menus;
 
-import com.klanting.signclick.Economy.Company;
-import com.klanting.signclick.Economy.Parties.Election;
+import com.klanting.signclick.economy.parties.Election;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-
-import java.util.UUID;
-
-import static org.bukkit.Bukkit.getServer;
 
 public class CountryElectionMenu implements InventoryHolder {
     private Inventory menu;

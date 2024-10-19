@@ -2,17 +2,15 @@ package com.country;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
-import com.klanting.signclick.Economy.Country;
+import com.klanting.signclick.economy.Country;
 
-import com.klanting.signclick.Economy.CountryManager;
+import com.klanting.signclick.economy.CountryManager;
 import com.klanting.signclick.SignClick;
 import org.bukkit.entity.Player;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import tools.TestTools;
-
-import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 

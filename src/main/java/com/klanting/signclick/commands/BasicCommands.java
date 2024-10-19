@@ -1,10 +1,8 @@
 package com.klanting.signclick.commands;
 
-import com.klanting.signclick.Calculate.WeeklyPay;
-import com.klanting.signclick.SignClick;
+import com.klanting.signclick.calculate.WeeklyPay;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

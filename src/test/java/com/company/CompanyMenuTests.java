@@ -2,11 +2,11 @@ package com.company;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
-import com.klanting.signclick.Economy.Company;
-import com.klanting.signclick.Economy.CompanyPatent.PatentUpgrade;
-import com.klanting.signclick.Economy.CompanyPatent.PatentUpgradeJumper;
-import com.klanting.signclick.Economy.CountryManager;
-import com.klanting.signclick.Economy.Market;
+import com.klanting.signclick.economy.Company;
+import com.klanting.signclick.economy.companyPatent.PatentUpgrade;
+import com.klanting.signclick.economy.companyPatent.PatentUpgradeJumper;
+import com.klanting.signclick.economy.CountryManager;
+import com.klanting.signclick.economy.Market;
 import com.klanting.signclick.Menus.CompanyAuctionMenu;
 import com.klanting.signclick.SignClick;
 import org.bukkit.Material;

@@ -2,10 +2,10 @@ package com.country;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
-import com.klanting.signclick.Economy.Country;
+import com.klanting.signclick.economy.Country;
 
-import com.klanting.signclick.Economy.CountryManager;
-import com.klanting.signclick.Economy.Parties.Party;
+import com.klanting.signclick.economy.CountryManager;
+import com.klanting.signclick.economy.parties.Party;
 import com.klanting.signclick.SignClick;
 import org.bukkit.entity.Player;
 import org.junit.jupiter.api.AfterEach;

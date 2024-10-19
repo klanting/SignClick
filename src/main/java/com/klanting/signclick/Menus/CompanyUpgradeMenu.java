@@ -1,9 +1,9 @@
 package com.klanting.signclick.Menus;
 
-import com.klanting.signclick.Economy.Country;
-import com.klanting.signclick.Economy.Company;
-import com.klanting.signclick.Economy.CompanyUpgrades.Upgrade;
-import com.klanting.signclick.Economy.CountryManager;
+import com.klanting.signclick.economy.Country;
+import com.klanting.signclick.economy.Company;
+import com.klanting.signclick.economy.companyUpgrades.Upgrade;
+import com.klanting.signclick.economy.CountryManager;
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;

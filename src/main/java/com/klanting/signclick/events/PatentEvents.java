@@ -1,7 +1,7 @@
 package com.klanting.signclick.events;
 
-import com.klanting.signclick.Economy.Country;
-import com.klanting.signclick.Economy.CountryManager;
+import com.klanting.signclick.economy.Country;
+import com.klanting.signclick.economy.CountryManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;

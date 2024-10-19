@@ -1,13 +1,12 @@
 package com.klanting.signclick;
 
 
-import com.klanting.signclick.Calculate.*;
-import com.klanting.signclick.Economy.CompanyPatent.Auction;
-import com.klanting.signclick.Economy.CountryManager;
-import com.klanting.signclick.Economy.Market;
+import com.klanting.signclick.calculate.*;
+import com.klanting.signclick.economy.companyPatent.Auction;
+import com.klanting.signclick.economy.CountryManager;
+import com.klanting.signclick.economy.Market;
 import com.klanting.signclick.commands.*;
 import com.klanting.signclick.events.*;
-import com.klanting.signclick.utils.Utils;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -16,7 +15,6 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.dynmap.DynmapAPI;
 
-import java.io.IOException;
 import java.util.Map;
 import java.util.UUID;
 

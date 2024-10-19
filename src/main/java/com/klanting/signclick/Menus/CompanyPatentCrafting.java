@@ -1,17 +1,14 @@
 package com.klanting.signclick.Menus;
 
-import com.klanting.signclick.Economy.Company;
-import com.klanting.signclick.Economy.CompanyPatent.Patent;
-import com.klanting.signclick.Economy.CompanyPatent.PatentUpgrade;
+import com.klanting.signclick.economy.Company;
+import com.klanting.signclick.economy.companyPatent.Patent;
+import com.klanting.signclick.economy.companyPatent.PatentUpgrade;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.entity.Item;
 import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
 public class CompanyPatentCrafting implements InventoryHolder {
 

@@ -1,7 +1,12 @@
 package com.klanting.signclick.commands;
 
-import com.klanting.signclick.Economy.*;
-import com.klanting.signclick.Economy.CompanyPatent.PatentUpgradeCustom;
+import com.klanting.signclick.economy.Market;
+import com.klanting.signclick.economy.Country;
+import com.klanting.signclick.economy.Company;
+import com.klanting.signclick.economy.Account;
+import com.klanting.signclick.economy.CountryManager;
+
+import com.klanting.signclick.economy.companyPatent.PatentUpgradeCustom;
 import com.klanting.signclick.Menus.CompanySelector;
 import com.klanting.signclick.SignClick;
 import org.bukkit.Bukkit;
@@ -17,6 +22,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.text.DecimalFormat;
 import java.util.*;
+
 
 public class CompanyCommands implements CommandExecutor, TabCompleter {
     private static Map<Player, String> confirm = new HashMap<Player, String>();

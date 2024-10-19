@@ -4,9 +4,9 @@ import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
-import com.klanting.signclick.Economy.Country;
+import com.klanting.signclick.economy.Country;
 
-import com.klanting.signclick.Economy.CountryManager;
+import com.klanting.signclick.economy.CountryManager;
 import com.klanting.signclick.SignClick;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

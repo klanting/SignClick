@@ -1,8 +1,8 @@
 package com.klanting.signclick.commands;
 
-import com.klanting.signclick.Economy.Country;
-import com.klanting.signclick.Economy.CountryManager;
-import com.klanting.signclick.Economy.Parties.Election;
+import com.klanting.signclick.economy.Country;
+import com.klanting.signclick.economy.CountryManager;
+import com.klanting.signclick.economy.parties.Election;
 import com.klanting.signclick.Menus.CountryElectionMenu;
 import com.klanting.signclick.Menus.CountryMenu;
 import com.klanting.signclick.SignClick;
@@ -21,7 +21,7 @@ import org.jetbrains.annotations.Nullable;
 import java.text.DecimalFormat;
 import java.util.*;
 
-import static com.klanting.signclick.Economy.Parties.ElectionTools.setupElectionDeadline;
+import static com.klanting.signclick.economy.parties.ElectionTools.setupElectionDeadline;
 
 
 public class CountryCommands implements CommandExecutor, TabCompleter {
