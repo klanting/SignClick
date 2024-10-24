@@ -5,6 +5,7 @@ import be.seeseemelk.mockbukkit.ServerMock;
 import com.google.common.reflect.TypeToken;
 import com.klanting.signclick.economy.Account;
 import com.klanting.signclick.SignClick;
+import com.klanting.signclick.economy.Company;
 import com.klanting.signclick.utils.Utils;
 import org.bukkit.entity.Player;
 import org.junit.jupiter.api.AfterEach;
@@ -58,8 +59,24 @@ public class GsonTests {
         Map<UUID, Account> accounts = Utils.readSave("accounts", new TypeToken<HashMap<UUID, Account>>(){}.getType(), new HashMap<>());
         assertEquals(1, accounts.size());
 
-        //assertEquals(testPlayer.getUniqueId(), accounts.keySet().iterator().next());
-
         assertEquals(testPlayer.getUniqueId(), accounts.values().iterator().next().getUuid());
+    }
+
+    @Test
+    void saveLoadCompany(){
+
+        Map<String, Company> accountsPreSave = new HashMap<>();
+        accountsPreSave.put("A", new Company("AA", "A"));
+
+        Utils.writeSave("companies", accountsPreSave);
+
+        Map<String, Company> companies = Utils.readSave("companies", new TypeToken<HashMap<String, Company>>(){}.getType(), new HashMap<>());
+        assertEquals(1, companies.size());
+
+        Company comp = companies.values().iterator().next();
+
+        assertEquals("A", comp.Sname);
+        assertEquals("AA", comp.name);
+        assertEquals(0, comp.bal);
     }
 }

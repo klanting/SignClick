@@ -1,5 +1,6 @@
 package com.klanting.signclick.economy;
 
+import com.google.gson.JsonObject;
 import com.klanting.signclick.economy.companyPatent.Patent;
 import com.klanting.signclick.economy.companyPatent.PatentUpgrade;
 import com.klanting.signclick.economy.companyPatent.PatentUpgradeCustom;
@@ -75,7 +76,28 @@ public class Company {
         type = "other";
     }
 
-    Company(String n, String StockName){
+    public Company(JsonObject jsonObject){
+        /*
+        * Load/create company from json file
+        * */
+
+        Sname = jsonObject.get("stockName").getAsString();
+        name = jsonObject.get("name").getAsString();
+        bal = jsonObject.get("balance").getAsDouble();
+    }
+
+    public JsonObject toJson(){
+        JsonObject jsonObject = new JsonObject();
+
+        jsonObject.addProperty("stockName", Sname);
+        jsonObject.addProperty("name", name);
+
+        jsonObject.addProperty("balance", bal);
+        jsonObject.addProperty("owners", String.valueOf(owners));
+        return jsonObject;
+    }
+
+    public Company(String n, String StockName){
         name = n;
         Sname = StockName;
         lastValue = get_value();

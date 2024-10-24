@@ -2,6 +2,7 @@ package com.klanting.signclick.utils;
 
 import com.google.gson.*;
 import com.klanting.signclick.SignClick;
+import com.klanting.signclick.economy.Company;
 
 import java.io.*;
 import java.lang.reflect.Type;
@@ -30,9 +31,28 @@ public class Utils {
 
     }
 
+    public static class CompanySerializer implements JsonSerializer<Company>, JsonDeserializer<Company> {
+
+        @Override
+        public JsonElement serialize(Company company, Type type, JsonSerializationContext jsonSerializationContext) {
+            return company.toJson();
+        }
+
+        @Override
+        public Company deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+            JsonObject obj = json.getAsJsonObject();
+            return new Company(obj);
+        }
+
+
+    }
+
 
     public static <T> void writeSave(String name, T value){
-        Gson gson = new GsonBuilder().create();
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(Company.class, new CompanySerializer());
+        Gson gson = builder.create();
+
         File file = new File(SignClick.getPlugin().getDataFolder()+"/"+name+".json");
 
         try {
@@ -54,7 +74,7 @@ public class Utils {
     public static <T> T readSave(String name, Type token, T defaultValue){
 
         GsonBuilder builder = new GsonBuilder();
-
+        builder.registerTypeAdapter(Company.class, new CompanySerializer());
         builder.registerTypeAdapter(UUID.class, new UUIDDeserializer());
 
 

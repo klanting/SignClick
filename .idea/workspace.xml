@@ -9,90 +9,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b3aa4a96-499c-4e97-84b9-6312c5389c7a" name="Changes" comment="first part of making contracts objects">
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/storage/GsonTests.java" afterDir="false" />
+    <list default="true" id="b3aa4a96-499c-4e97-84b9-6312c5389c7a" name="Changes" comment="some progress with gson">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Calculate/DynmapCheck.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/calculate/DynmapCheck.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Calculate/SignIncome.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/calculate/SignIncome.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Calculate/SignStock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/calculate/SignStock.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Calculate/SignTP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/calculate/SignTP.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Calculate/WeeklyAuction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/calculate/WeeklyAuction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Calculate/WeeklyComp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/calculate/WeeklyComp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Calculate/WeeklyPay.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/calculate/WeeklyPay.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Account.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/Account.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Company.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/Company.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/CompanyPatent/Auction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/companyPatent/Auction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/CompanyPatent/Patent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/companyPatent/Patent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/CompanyPatent/PatentUpgrade.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/companyPatent/PatentUpgrade.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/CompanyPatent/PatentUpgradeCunning.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/companyPatent/PatentUpgradeCunning.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/CompanyPatent/PatentUpgradeCustom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/companyPatent/PatentUpgradeCustom.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/CompanyPatent/PatentUpgradeEvade.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/companyPatent/PatentUpgradeEvade.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/CompanyPatent/PatentUpgradeJumper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/companyPatent/PatentUpgradeJumper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/CompanyPatent/PatentUpgradeRefill.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/companyPatent/PatentUpgradeRefill.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/CompanyUpgrades/Upgrade.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/companyUpgrades/Upgrade.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/CompanyUpgrades/UpgradeCraftLimit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/companyUpgrades/UpgradeCraftLimit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/CompanyUpgrades/UpgradeExtraPoints.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/companyUpgrades/UpgradeExtraPoints.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/CompanyUpgrades/UpgradeInvestReturnTime.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/companyUpgrades/UpgradeInvestReturnTime.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/CompanyUpgrades/UpgradePatentSlot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/companyUpgrades/UpgradePatentSlot.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/CompanyUpgrades/UpgradePatentUpgradeSlot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/companyUpgrades/UpgradePatentUpgradeSlot.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Contracts/Contract.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/contracts/Contract.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Contracts/ContractCTC.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/contracts/ContractCTC.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Country.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/Country.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/CountryManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/CountryManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Decisions/Decision.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/decisions/Decision.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Decisions/DecisionAboardMilitary.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/decisions/DecisionAboardMilitary.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Decisions/DecisionBanParty.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/decisions/DecisionBanParty.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Decisions/DecisionCoup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/decisions/DecisionCoup.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Decisions/DecisionForbidParty.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/decisions/DecisionForbidParty.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Decisions/DecisionPolicy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/decisions/DecisionPolicy.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Market.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/Market.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Parties/Election.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/parties/Election.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Parties/ElectionTools.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/parties/ElectionTools.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Parties/Party.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/parties/Party.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Policies/Policy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/policies/Policy.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Policies/PolicyEconomics.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/policies/PolicyEconomics.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Policies/PolicyMarket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/policies/PolicyMarket.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Policies/PolicyMilitary.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/policies/PolicyMilitary.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Policies/PolicyTaxation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/policies/PolicyTaxation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Economy/Policies/PolicyTourist.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/policies/PolicyTourist.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CompanyAuctionMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CompanyAuctionMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CompanyOwnerMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CompanyOwnerMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CompanyPatentCrafting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CompanyPatentCrafting.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CompanyPatentDesignerMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CompanyPatentDesignerMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CompanyPatentDesignerUpgrade.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CompanyPatentDesignerUpgrade.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CompanyPatentIDMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CompanyPatentIDMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CompanyPatentSelectorMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CompanyPatentSelectorMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CompanySelector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CompanySelector.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CompanyTypeSelect.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CompanyTypeSelect.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CompanyUpgradeMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CompanyUpgradeMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CountryDecisionMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CountryDecisionMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CountryElectionMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CountryElectionMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CountryMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CountryMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CountryPartyBan.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CountryPartyBan.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CountryPolicy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CountryPolicy.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/PartyDecisionChoice.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/PartyDecisionChoice.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/PartyDecisionVote.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/PartyDecisionVote.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/SignClick.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/SignClick.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/BasicCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/BasicCommands.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/CompanyCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/CompanyCommands.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/CountryCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/CountryCommands.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/PartyCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/PartyCommands.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/events/BusEvents.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/events/BusEvents.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/events/CountryEvents.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/events/CountryEvents.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/events/MenuEvents.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/events/MenuEvents.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/events/PatentEvents.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/events/PatentEvents.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/events/SignEvents.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/events/SignEvents.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/Company.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/Company.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/utils/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/utils/Utils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/commands/CompanyCTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/commands/CompanyCTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/commands/CountryCTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/commands/CountryCTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/commands/WeeklyPayCTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/commands/WeeklyPayCTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/company/CompanyMenuTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/company/CompanyMenuTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/company/CompanyTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/company/CompanyTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/country/CountryTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/country/CountryTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/country/PartyTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/country/PartyTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/country/PolicyTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/country/PolicyTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/storage/GsonTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/storage/GsonTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -215,6 +136,7 @@
     "Gradle.CountryTests.getTopCountries.executor": "Run",
     "Gradle.Download Sources.executor": "Run",
     "Gradle.GsonTests.saveLoadAccount.executor": "Run",
+    "Gradle.GsonTests.saveLoadCompany.executor": "Run",
     "Gradle.GsonTests.saveLoadUUID.executor": "Run",
     "Gradle.PartyTests.createParty.executor": "Run",
     "Gradle.PartyTests.elections.executor": "Run",
@@ -265,7 +187,7 @@
       <recent name="F:\Projects\Programming\PluginDev\SignClick" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.TestAll">
+  <component name="RunManager" selected="Gradle.GsonTests.saveLoadCompany">
     <configuration name="CompanyCTests.companyInfo" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -290,30 +212,6 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="CompanyCTests.companyPay" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value=":test" />
-            <option value="--tests" />
-            <option value="&quot;com.commands.CompanyCTests.companyPay&quot;" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>true</RunAsTest>
-      <method v="2" />
-    </configuration>
     <configuration name="GsonTests.saveLoadAccount" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -328,6 +226,30 @@
             <option value=":test" />
             <option value="--tests" />
             <option value="&quot;com.storage.GsonTests.saveLoadAccount&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="GsonTests.saveLoadCompany" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;com.storage.GsonTests.saveLoadCompany&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -411,19 +333,19 @@
     </configuration>
     <list>
       <item itemvalue="Gradle.TestAll" />
+      <item itemvalue="Gradle.GsonTests.saveLoadCompany" />
       <item itemvalue="Gradle.CompanyCTests.companyInfo" />
       <item itemvalue="Gradle.GsonTests.saveLoadAccount" />
       <item itemvalue="Gradle.GsonTests.saveLoadUUID" />
       <item itemvalue="Gradle.PolicyTests.policySaveAndRestore" />
-      <item itemvalue="Gradle.CompanyCTests.companyPay" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.GsonTests.saveLoadCompany" />
+        <item itemvalue="Gradle.GsonTests.saveLoadAccount" />
         <item itemvalue="Gradle.CompanyCTests.companyInfo" />
         <item itemvalue="Gradle.GsonTests.saveLoadUUID" />
-        <item itemvalue="Gradle.GsonTests.saveLoadAccount" />
         <item itemvalue="Gradle.PolicyTests.policySaveAndRestore" />
-        <item itemvalue="Gradle.CompanyCTests.companyPay" />
       </list>
     </recent_temporary>
   </component>
@@ -477,7 +399,10 @@
       <workItem from="1727035686779" duration="24000" />
       <workItem from="1727077544927" duration="2119000" />
       <workItem from="1727615384146" duration="8229000" />
-      <workItem from="1729359090317" duration="5662000" />
+      <workItem from="1729359090317" duration="6159000" />
+      <workItem from="1729803415020" duration="21000" />
+      <workItem from="1729803443425" duration="109000" />
+      <workItem from="1729803577967" duration="1298000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Github Commit">
       <option name="closed" value="true" />
@@ -671,7 +596,15 @@
       <option name="project" value="LOCAL" />
       <updated>1727620873863</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="some progress with gson">
+      <option name="closed" value="true" />
+      <created>1729364966904</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1729364966904</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -716,7 +649,8 @@
     <MESSAGE value="increased test coverage" />
     <MESSAGE value="added encapsulation for Policy Component" />
     <MESSAGE value="first part of making contracts objects" />
-    <option name="LAST_COMMIT_MESSAGE" value="first part of making contracts objects" />
+    <MESSAGE value="some progress with gson" />
+    <option name="LAST_COMMIT_MESSAGE" value="some progress with gson" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -725,11 +659,6 @@
           <properties class="java.lang.ClassNotFoundException" package="java.lang" />
           <option name="timeStamp" value="2" />
         </breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/klanting/signclick/utils/Utils.java</url>
-          <line>72</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
