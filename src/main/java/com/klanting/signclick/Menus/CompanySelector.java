@@ -26,7 +26,7 @@ public class CompanySelector implements InventoryHolder {
         for(Company c: Market.getBusinessByOwner(uuid)){
             item = new ItemStack(Material.DIAMOND_BLOCK,1);
             ItemMeta m = item.getItemMeta();
-            m.setDisplayName(c.Sname);
+            m.setDisplayName(c.getStockName());
             item.setItemMeta(m);
             menu.setItem(menu.firstEmpty(), item);
         }

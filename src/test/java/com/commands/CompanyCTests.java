@@ -153,7 +153,7 @@ class CompanyCTests {
         SignClick.getEconomy().depositPlayer(testPlayer, 1000);
 
         Company comp = Market.getBusiness("TCI");
-        assertEquals(0, comp.get_value());
+        assertEquals(0, comp.getValue());
 
         boolean suc6 = server.execute("company", testPlayer, "give", "TCI", "1000").hasSucceeded();
         assertTrue(suc6);
@@ -173,7 +173,7 @@ class CompanyCTests {
         testPlayer.assertSaid("§byour business §fTCI §b received §f1000.0 §b from §fPlayer0");
         testPlayer.assertNoMoreSaid();
 
-        assertEquals(1000, comp.get_value());
+        assertEquals(1000, comp.getValue());
 
     }
 
@@ -202,7 +202,7 @@ class CompanyCTests {
 
         assertEquals(999000, Market.getAccount(testPlayer.getUniqueId()).shares.get("TCI"));
         assertEquals(1000, Market.getMarketAmount("TCI"));
-        assertEquals(993, Math.round(comp.get_value()));
+        assertEquals(993, Math.round(comp.getValue()));
 
         /*
          * Buy 1000 stocks
@@ -222,7 +222,7 @@ class CompanyCTests {
 
         assertEquals(1000000, Market.getAccount(testPlayer.getUniqueId()).shares.get("TCI"));
         assertEquals(0, Market.getMarketAmount("TCI"));
-        assertEquals(997, Math.round(comp.get_value()));
+        assertEquals(997, Math.round(comp.getValue()));
 
     }
 

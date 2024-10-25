@@ -21,12 +21,12 @@ public class ContractCTC extends Contract {
         * return true -> keep contract, else not
         * */
 
-        if (from.remove_bal(amount)) {
+        if (from.removeBal(amount)) {
             weeks -= 1;
             to.addBal(amount);
 
-            from.send_owner("§cContract: from " + from.Sname + "(C) to " + to.Sname + "(C) amount: " + amount);
-            to.send_owner("§aContract: from " + from.Sname + "(C) to " + to.Sname + "(C) amount: " + amount);
+            from.sendOwner("§cContract: from " + from.getStockName() + "(C) to " + to.getStockName() + "(C) amount: " + amount);
+            to.sendOwner("§aContract: from " + from.getStockName() + "(C) to " + to.getStockName() + "(C) amount: " + amount);
             return weeks > 0;
         } else {
 
@@ -36,11 +36,11 @@ public class ContractCTC extends Contract {
 
     @Override
     public String from() {
-        return from.Sname+"(C)";
+        return from.getStockName() +"(C)";
     }
 
     @Override
     public String to() {
-        return to.Sname+"(C)";
+        return to.getStockName() +"(C)";
     }
 }

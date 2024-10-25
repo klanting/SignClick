@@ -12,69 +12,54 @@ import com.klanting.signclick.SignClick;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 
 import java.lang.reflect.Field;
 import java.text.DecimalFormat;
 import java.util.*;
 import java.util.Map.Entry;
-import java.util.logging.Level;
 
 import static org.bukkit.Bukkit.getServer;
 
 public class Company {
 
-    public String name;
-    public String Sname;
+    private String name;
+    private String stockName;
 
     public ArrayList<UUID> owners = new ArrayList<>();
 
     public double bal = 0.0;
     public double books = 0.0;
     public double securityFunds = 0.0;
-
     public double spendable = 0.0;
-
     public Boolean openTrade = false;
-
     public double lastValue = 40000000.0;
     public Map<UUID, UUID> support = new HashMap<UUID, UUID>();
-
     public Map<UUID, Integer> shareHolders = new HashMap<UUID, Integer>();
-
     public String compNamePending = null;
     public double compAmountPending = 0.0;
     public int compWeeksPending = 0;
-
     public String compReason = "no_reason";
-
     public String playerNamePending = null;
     public double playerAmountPending = 0.0;
     public int playerWeeksPending = 0;
-
     public String playerReason = "no_reason";
-
-
     public ArrayList<Upgrade> upgrades = new ArrayList<>();
 
     public ArrayList<Patent> patent = new ArrayList<>();
-
     public ArrayList<PatentUpgrade> patentUpgrades = new ArrayList<>();
-
     public Integer patentCrafted = 0;
 
     public Country country;
-
     public String type;
 
     public Company(String n, String StockName, Account creater){
         name = n;
-        Sname = StockName;
+        stockName = StockName;
 
         support.put(creater.getUuid(), creater.getUuid());
         shareHolders.put(creater.getUuid(), 1000000);
-        creater.receivePrivate(Sname, 1000000);
+        creater.receivePrivate(stockName, 1000000);
 
         upgrades.add(new UpgradeExtraPoints(0));
         upgrades.add(new UpgradePatentSlot(0));
@@ -84,7 +69,7 @@ public class Company {
         type = "other";
     }
 
-    private static List<String> softLink = new ArrayList<>(List.of("country"));
+    private static final List<String> softLink = new ArrayList<>(List.of("country"));
 
 
     public Company(JsonObject jsonObject, JsonDeserializationContext context){
@@ -98,17 +83,26 @@ public class Company {
 
             try{
                 String fieldName = field.getName();
-                if (softLink.contains(fieldName)){
-                    continue;
-                }
 
                 JsonElement element = jsonObject.get(fieldName);
 
+                if (element == null){
+                    field.set(this, null);
+                    continue;
+                }
+
+                if (softLink.contains(fieldName)){
+                    switch (fieldName){
+                        case "country":
+                            field.set(this, CountryManager.getCountry(element.getAsString()));
+                    }
+
+                    continue;
+                }
+
                 Object o;
 
-                if (element == null){
-                    o = null;
-                }else if (field.getType() == String.class){
+                if (field.getType() == String.class){
                     o = element.getAsString();
                 }else if (field.getType() == Integer.class){
                     o = element.getAsInt();
@@ -117,7 +111,6 @@ public class Company {
                 }else{
                     o = context.deserialize(element, field.getType());
                 }
-
 
                 field.set(this, o);
 
@@ -128,28 +121,25 @@ public class Company {
         }
 
 
-
     }
 
     public JsonObject toJson(JsonSerializationContext context){
 
         JsonObject jsonObject = new JsonObject();
-
         Field[] fields = this.getClass().getDeclaredFields();
 
-
-
         for (Field field : fields) {
-
             try{
-
                 String fieldName = field.getName();
                 Object fieldValue = field.get(this);
 
-                if (softLink.contains(fieldName) && fieldValue != null){
-                    fieldValue = fieldValue.hashCode();
-                }
+                if (softLink.contains(fieldName)){
 
+                    switch (fieldName){
+                        case "country":
+                            field.set(this, fieldValue);
+                    }
+                }
 
                 jsonObject.add(fieldName, context.serialize(fieldValue));
 
@@ -164,8 +154,8 @@ public class Company {
 
     public Company(String n, String StockName){
         name = n;
-        Sname = StockName;
-        lastValue = get_value();
+        stockName = StockName;
+        lastValue = getValue();
 
         upgrades.add(new UpgradeExtraPoints(0));
         upgrades.add(new UpgradePatentSlot(0));
@@ -175,17 +165,17 @@ public class Company {
 
     }
 
-    Double get_bal(){
+    Double getBal(){
         return bal;
     }
 
-    public Double get_value(){
+    public Double getValue(){
         return bal+books;
     }
 
     public Boolean addBal(Double amount){
         bal += amount;
-        Market.changeBase(Sname);
+        Market.changeBase(stockName);
 
         double modifier = 0.0;
         if (country != null){
@@ -218,35 +208,34 @@ public class Company {
         return true;
     }
 
-    public Boolean add_bal_no_point(Double amount){
+    public Boolean addBalNoPoint(Double amount){
         bal += amount;
-        Market.changeBase(Sname);
+        Market.changeBase(stockName);
 
         return true;
     }
 
-    public Boolean remove_bal(Double amount){
+    public Boolean removeBal(Double amount){
         if ((bal+books >= amount) & (spendable >= amount)){
             bal -= amount;
             spendable -= amount;
-            Market.changeBase(Sname);
+            Market.changeBase(stockName);
             return true;
         }
         return false;
-
     }
 
-    void add_books(Double amount){
+    void addBooks(Double amount){
         books += amount;
         spendable += (0.2*amount);
     }
 
-    void remove_books(Double amount){
+    void removeBooks(Double amount){
         books -= amount;
         spendable -= amount;
     }
 
-    public void change_share_holder(Account holder, Integer amount){
+    public void changeShareHolder(Account holder, Integer amount){
         if (shareHolders.getOrDefault(holder.getUuid(), null) != null){
             Integer am = shareHolders.get(holder.getUuid());
             shareHolders.put(holder.getUuid(), am+amount);
@@ -262,15 +251,15 @@ public class Company {
         }
     }
 
-    public void support_update(Account holder, UUID uuid){
+    public void supportUpdate(Account holder, UUID uuid){
         support.put(holder.getUuid(), uuid);
-        check_support();
-        CalculateCountry();
+        checkSupport();
+        calculateCountry();
     }
 
-    public void check_support(){
+    public void checkSupport(){
         double neutral = 0.0;
-        Integer total = Market.getTotal(Sname);
+        Integer total = Market.getTotal(stockName);
         Map<UUID, Integer> s_dict = new HashMap<UUID, Integer>();
 
         int highest = 0;
@@ -323,7 +312,7 @@ public class Company {
         return owners.contains(uuid);
     }
 
-    public void get_share_top(Player player){
+    public void getShareTop(Player player){
         ArrayList<UUID> order = new ArrayList<UUID>();
         ArrayList<Integer> values = new ArrayList<Integer>();
 
@@ -346,7 +335,6 @@ public class Company {
                     }
                 }
 
-
                 if (!found){
                     order.add(s);
                     values.add(v);
@@ -358,11 +346,10 @@ public class Company {
                 values.add(v);
             }
 
-
         }
 
         player.sendMessage("§bsharetop:");
-        Integer total = Market.getTotal(Sname);
+        Integer total = Market.getTotal(stockName);
         DecimalFormat df = new DecimalFormat("###,###,###");
         DecimalFormat df2 = new DecimalFormat("0.00");
         for (int i = 0; i < values.size(); i++) {
@@ -373,9 +360,8 @@ public class Company {
         if (openTrade){
             player.sendMessage("§eMarket: §f"+"inf"+" ("+"inf"+"%)");
         }else{
-            player.sendMessage("§eMarket: §f"+df.format(Market.getMarketAmount(Sname))+" ("+df2.format(Market.getMarketAmount(Sname)/total.doubleValue()*100.0)+"%)");
+            player.sendMessage("§eMarket: §f"+df.format(Market.getMarketAmount(stockName))+" ("+df2.format(Market.getMarketAmount(stockName)/total.doubleValue()*100.0)+"%)");
         }
-
 
         order.clear();
         values.clear();
@@ -391,8 +377,8 @@ public class Company {
             modifier2 = country.getPolicyBonus(1, 1);
         }
 
-        double value_one = (get_value()/Market.getTotal(Sname).doubleValue())*(0.01- modifier1-modifier2);
-        remove_bal(value_one*(Market.getTotal(Sname)-Market.getMarketAmount(Sname)));
+        double value_one = (getValue()/Market.getTotal(stockName).doubleValue())*(0.01- modifier1-modifier2);
+        removeBal(value_one*(Market.getTotal(stockName)-Market.getMarketAmount(stockName)));
         for (Entry<UUID, Integer> entry : shareHolders.entrySet()){
             UUID holder = entry.getKey();
             OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(holder);
@@ -400,7 +386,7 @@ public class Company {
             double payout = value_one*shares;
             SignClick.getEconomy().depositPlayer(offlinePlayer, payout);
             DecimalFormat df = new DecimalFormat("###,###,##0.00");
-            Market.getAccount(holder).sendPlayer("§byou got §7"+df.format(payout)+" §b from dividends in §7"+Sname);
+            Market.getAccount(holder).sendPlayer("§byou got §7"+df.format(payout)+" §b from dividends in §7"+ stockName);
 
         }
     }
@@ -419,10 +405,10 @@ public class Company {
         }
 
         player.sendMessage("§bName: §7"+name+"\n" +
-                "§bStockname: §7"+Sname+"\n" +
+                "§bStockname: §7"+ stockName +"\n" +
                 "§bCEO: §7"+owner_array+"\n" +
-                "§bbal: §7"+df.format(get_value())+"\n" +
-                "§bshares: §7"+df.format(Market.getTotal(Sname))+"\n" +
+                "§bbal: §7"+df.format(getValue())+"\n" +
+                "§bshares: §7"+df.format(Market.getTotal(stockName))+"\n" +
                 "§bshareholders: §7"+ name_array);
 
         name_array.clear();
@@ -430,7 +416,7 @@ public class Company {
 
     }
 
-    public void send_owner(String message){
+    public void sendOwner(String message){
         for (int i = 0; i < owners.size(); i++){
             Player p = Bukkit.getPlayer(owners.get(i));
             if (p != null){
@@ -440,12 +426,12 @@ public class Company {
         }
     }
 
-    public void accept_offer_comp_contract(){
+    public void acceptOfferCompContract(){
         if (compNamePending == null){
             return;
         }
 
-        Market.setContractComptoComp(Sname, compNamePending, compAmountPending, compWeeksPending, compReason);
+        Market.setContractComptoComp(stockName, compNamePending, compAmountPending, compWeeksPending, compReason);
 
         compNamePending = null;
         compAmountPending = 0.0;
@@ -454,11 +440,11 @@ public class Company {
 
     }
 
-    public void send_offer_comp_contract(String stock_name, double amount, int weeks, String reason){
-        Market.getBusiness(stock_name).receive_offer_comp_contract(Sname, amount, weeks, reason);
+    public void sendOfferCompContract(String stock_name, double amount, int weeks, String reason){
+        Market.getBusiness(stock_name).receiveOfferCompContract(stockName, amount, weeks, reason);
     }
 
-    public void receive_offer_comp_contract(String stock_name, double amount, int weeks, String reason){
+    public void receiveOfferCompContract(String stock_name, double amount, int weeks, String reason){
         compNamePending = stock_name;
         compAmountPending = amount;
         compWeeksPending = weeks;
@@ -474,18 +460,18 @@ public class Company {
             }
         }, 20*120L);
 
-        send_owner("§b your company §7"+Sname+"§b got a contract from §7" + stock_name
-                + "§b they will ask you §7"+amount+"§b for §7"+weeks+"§b weeks, do §c/company sign_contract_ctc "+Sname);
+        sendOwner("§b your company §7"+ stockName +"§b got a contract from §7" + stock_name
+                + "§b they will ask you §7"+amount+"§b for §7"+weeks+"§b weeks, do §c/company sign_contract_ctc "+ stockName);
     }
 
 
     //correct
-    public void accept_offer_player_contract(){
+    public void acceptOfferPlayerContract(){
         if (playerNamePending == null){
             return;
         }
 
-        Market.setContractComptoPlayer(Sname, playerNamePending, playerAmountPending, playerWeeksPending, playerReason);
+        Market.setContractComptoPlayer(stockName, playerNamePending, playerAmountPending, playerWeeksPending, playerReason);
 
         playerNamePending = null;
         playerAmountPending = 0.0;
@@ -497,7 +483,7 @@ public class Company {
 
 
     //correct
-    public void receive_offer_player_contract(String playerUUID, double amount, int weeks, String reason){
+    public void receiveOfferPlayerContract(String playerUUID, double amount, int weeks, String reason){
         playerNamePending = playerUUID;
         playerAmountPending = amount;
         playerWeeksPending = weeks;
@@ -513,17 +499,17 @@ public class Company {
             }
         }, 20*120L);
 
-        send_owner("§b your company §7"+Sname+"§b got a contract from §7" + Bukkit.getOfflinePlayer(UUID.fromString(playerUUID)).getName()
-                + "§b he/she will ask you §7"+amount+"§b for §7"+weeks+"§b weeks, do §c/company sign_contract_ctp "+ Sname);
+        sendOwner("§b your company §7"+ stockName +"§b got a contract from §7" + Bukkit.getOfflinePlayer(UUID.fromString(playerUUID)).getName()
+                + "§b he/she will ask you §7"+amount+"§b for §7"+weeks+"§b weeks, do §c/company sign_contract_ctp "+ stockName);
     }
 
 
 
-    public double get_spendable(){
+    public double getSpendable(){
         return spendable;
     }
 
-    public void reset_spendable(){
+    public void resetSpendable(){
         double base = 0.2;
 
         if (country == null || country.getStability() < 50){
@@ -541,15 +527,15 @@ public class Company {
             pct += country.getPolicyBonus(1, 5);
             pct += country.getPolicyBonus(2, 11);
         }
-        spendable = get_value()*pct;
+        spendable = getValue()*pct;
     }
 
-    public void reset_patent_crafted(){
+    public void resetPatentCrafted(){
         patentCrafted = 0;
     }
 
 
-    public void SaveData(){
+    public void saveData(){
 
         List<String> f_list = new ArrayList<String>();
         for (UUID uuid: owners){
@@ -557,23 +543,23 @@ public class Company {
         }
         f_list.clear();
 
-        SignClick.getPlugin().getConfig().set("company."+Sname+"." + "owners", f_list);
-        SignClick.getPlugin().getConfig().set("company."+Sname+"." + "name", name);
-        SignClick.getPlugin().getConfig().set("company."+Sname+"." + "bal", bal);
-        SignClick.getPlugin().getConfig().set("company."+Sname+"." + "books", books);
-        SignClick.getPlugin().getConfig().set("company."+Sname+"." + "spendable", spendable);
-        SignClick.getPlugin().getConfig().set("company."+Sname+"." + "support", support.toString());
-        SignClick.getPlugin().getConfig().set("company."+Sname+"." + "share_holders", shareHolders.toString());
-        SignClick.getPlugin().getConfig().set("company."+Sname+"." + "open_trade", openTrade);
-        SignClick.getPlugin().getConfig().set("company."+Sname+"." + "share_value", Market.getValue(Sname));
-        SignClick.getPlugin().getConfig().set("company."+Sname+"." + "share_base", Market.getBase(Sname));
-        SignClick.getPlugin().getConfig().set("company."+Sname+"." + "market_amount", Market.getMarketAmount(Sname));
-        SignClick.getPlugin().getConfig().set("company."+Sname+"." + "total", Market.getTotal(Sname));
-        SignClick.getPlugin().getConfig().set("company."+Sname+"." + "last_value", lastValue);
-        SignClick.getPlugin().getConfig().set("company."+Sname+"." + "security_funds", securityFunds);
-        SignClick.getPlugin().getConfig().set("company."+Sname+"." + "type", type);
+        SignClick.getPlugin().getConfig().set("company."+ stockName +"." + "owners", f_list);
+        SignClick.getPlugin().getConfig().set("company."+ stockName +"." + "name", name);
+        SignClick.getPlugin().getConfig().set("company."+ stockName +"." + "bal", bal);
+        SignClick.getPlugin().getConfig().set("company."+ stockName +"." + "books", books);
+        SignClick.getPlugin().getConfig().set("company."+ stockName +"." + "spendable", spendable);
+        SignClick.getPlugin().getConfig().set("company."+ stockName +"." + "support", support.toString());
+        SignClick.getPlugin().getConfig().set("company."+ stockName +"." + "share_holders", shareHolders.toString());
+        SignClick.getPlugin().getConfig().set("company."+ stockName +"." + "open_trade", openTrade);
+        SignClick.getPlugin().getConfig().set("company."+ stockName +"." + "share_value", Market.getValue(stockName));
+        SignClick.getPlugin().getConfig().set("company."+ stockName +"." + "share_base", Market.getBase(stockName));
+        SignClick.getPlugin().getConfig().set("company."+ stockName +"." + "market_amount", Market.getMarketAmount(stockName));
+        SignClick.getPlugin().getConfig().set("company."+ stockName +"." + "total", Market.getTotal(stockName));
+        SignClick.getPlugin().getConfig().set("company."+ stockName +"." + "last_value", lastValue);
+        SignClick.getPlugin().getConfig().set("company."+ stockName +"." + "security_funds", securityFunds);
+        SignClick.getPlugin().getConfig().set("company."+ stockName +"." + "type", type);
 
-        getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "SignClick save company "+Sname+" completed!");
+        getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "SignClick save company "+ stockName +" completed!");
 
         SignClick.getPlugin().getConfig().options().copyDefaults(true);
         SignClick.getPlugin().saveConfig();
@@ -582,12 +568,12 @@ public class Company {
             u.save(this);
         }
 
-        SignClick.getPlugin().getConfig().set("company."+Sname+".patent", null);
+        SignClick.getPlugin().getConfig().set("company."+ stockName +".patent", null);
         for (Patent p: patent){
             p.save(this);
         }
 
-        SignClick.getPlugin().getConfig().set("company."+Sname+".patent_up", null);
+        SignClick.getPlugin().getConfig().set("company."+ stockName +".patent_up", null);
         Integer counter = 0;
         for (PatentUpgrade up: patentUpgrades){
             if (up instanceof PatentUpgradeCustom){
@@ -600,17 +586,17 @@ public class Company {
         }
     }
 
-    public double StockCompareGet(){
-        return ((get_value()/ lastValue)-1)*100;
+    public double stockCompareGet(){
+        return ((getValue()/ lastValue)-1)*100;
 
     }
-    public double StockCompare(){
-        double diff = ((get_value()/ lastValue)-1)*100;
-        lastValue = get_value();
+    public double stockCompare(){
+        double diff = ((getValue()/ lastValue)-1)*100;
+        lastValue = getValue();
         return diff;
     }
 
-    public void DoUpgrade(Integer id){
+    public void doUpgrade(Integer id){
         Upgrade u = upgrades.get(id);
         if (u.canUpgrade((int) (bal+books), (int) securityFunds)){
             double base = 1.0;
@@ -636,15 +622,15 @@ public class Company {
             int pct = upgrades.get(4).getBonus()+(int) (modifier2*100.0);
             double weeks = (10.0-(10.0*pct/100.0));
             double weekly_back = cost/weeks;
-            Market.setContractServertoComp(this.Sname, weekly_back, (int) Math.floor(weeks), "Upgrade["+u.id+"] "+u.level, 0);
+            Market.setContractServertoComp(this.stockName, weekly_back, (int) Math.floor(weeks), "Upgrade["+u.id+"] "+u.level, 0);
             if (Math.floor(weeks) < weeks){
-                Market.setContractServertoComp(this.Sname, cost - (weekly_back*Math.floor(weeks)), 1, "Upgrade["+u.id+"] "+u.level, (int) Math.floor(weeks));
+                Market.setContractServertoComp(this.stockName, cost - (weekly_back*Math.floor(weeks)), 1, "Upgrade["+u.id+"] "+u.level, (int) Math.floor(weeks));
             }
 
         }
     }
 
-    public void CalculateCountry(){
+    public void calculateCountry(){
         HashMap<String, Integer> country_top = new HashMap<String, Integer>();
 
         Integer highest = -1;
@@ -671,7 +657,7 @@ public class Company {
 
     }
 
-    public String GetCountry(){
+    public String getCountry(){
         if (country == null){
             return "none";
         }
@@ -679,4 +665,11 @@ public class Company {
         return country.getName();
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public String getStockName() {
+        return stockName;
+    }
 }

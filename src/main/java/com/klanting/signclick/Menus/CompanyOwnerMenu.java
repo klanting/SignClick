@@ -30,8 +30,8 @@ public class CompanyOwnerMenu implements InventoryHolder {
         ItemMeta m = value.getItemMeta();
         DecimalFormat df = new DecimalFormat("###,###,###");
         ArrayList<String> l = new ArrayList<>();
-        l.add("§6Value: §9"+ df.format(comp.get_value()));
-        l.add("§6Spendable: §9"+ df.format(comp.get_spendable()));
+        l.add("§6Value: §9"+ df.format(comp.getValue()));
+        l.add("§6Spendable: §9"+ df.format(comp.getSpendable()));
         l.add("§6Points: §9"+ df.format(comp.securityFunds));
         l.add("§6Type: §9"+ comp.type);
 

@@ -325,5 +325,26 @@ public class CompanyMenuTests {
 
     }
 
+    @Test
+    void companyPatentUpgradePersistent(){
+        /*
+        * Check if a patent upgrade is saved and loaded by the company save and load
+        * */
+
+        Company comp = getCompany(0);
+
+        PatentUpgrade up = new PatentUpgradeJumper();
+        up.level = 1;
+        comp.patentUpgrades.add(up);
+
+        plugin.onDisable();
+        CountryManager.clear();
+        Market.clear();
+        plugin = TestTools.setupPlugin(server);
+
+        comp = Market.getBusiness("TCI");
+        assertEquals(1, comp.patentUpgrades.size());
+
+    }
 
 }

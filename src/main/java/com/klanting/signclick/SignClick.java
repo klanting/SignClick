@@ -50,9 +50,7 @@ public class SignClick extends JavaPlugin{
             WeeklyPay.restore();
         }
 
-        if (this.getConfig().contains("accounts")){
-            Market.restoreData();
-        }
+        Market.restoreData();
 
         DynmapCheck.Hide();
         WeeklyPay.check();

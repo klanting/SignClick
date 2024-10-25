@@ -51,7 +51,7 @@ public class MenuEvents implements Listener {
                 player.openInventory(new_screen.getInventory());
             }else if(option.equalsIgnoreCase("§6Patent")){
 
-                Country country = CountryManager.getCountry(old_screen.comp.GetCountry());
+                Country country = CountryManager.getCountry(old_screen.comp.getCountry());
                 if (country != null && country.getStability() < 30){
                     player.sendMessage("§bcan`t access patent auction with country stability under 30");
                     return;
@@ -79,7 +79,7 @@ public class MenuEvents implements Listener {
             Player player = (Player) event.getWhoClicked();
             event.setCancelled(true);
             int id = event.getSlot()-11;
-            screen.comp.DoUpgrade(id);
+            screen.comp.doUpgrade(id);
             screen.init();
         }
         if (event.getClickedInventory().getHolder() instanceof CompanyPatentIDMenu){
@@ -156,7 +156,7 @@ public class MenuEvents implements Listener {
                 add_price = 0;
             }
 
-            Auction.setBit(location, Auction.getBit(location)+add_price, old_screen.comp.Sname);
+            Auction.setBit(location, Auction.getBit(location)+add_price, old_screen.comp.getStockName());
             //old_screen.comp.patent_upgrades.add(Auction.to_buy.get(location));
             old_screen.init();
         }
@@ -185,7 +185,7 @@ public class MenuEvents implements Listener {
                     ItemStack item = new ItemStack(Material.PAPER, 1);
 
                     ItemMeta m = item.getItemMeta();
-                    m.setDisplayName("§6"+old_screen.comp.Sname+":"+old_screen.patent.getName()+":"+old_screen.comp.patent.indexOf(old_screen.patent));
+                    m.setDisplayName("§6"+old_screen.comp.getStockName() +":"+old_screen.patent.getName()+":"+old_screen.comp.patent.indexOf(old_screen.patent));
                     item.setItemMeta(m);
 
                     player.getInventory().setItem(player.getInventory().firstEmpty(), item);

@@ -36,7 +36,7 @@ public class CompanyUpgradeMenu implements InventoryHolder {
             m.setDisplayName("§6"+up.name +" Lvl. §c"+ up.level);
             ArrayList<String> l = new ArrayList<>();
             DecimalFormat df = new DecimalFormat("###,###,###");
-            Country country = CountryManager.getCountry(comp.GetCountry());
+            Country country = CountryManager.getCountry(comp.getCountry());
             if (country != null){
                 if (up.getUpgradeCost() != -1){
                     l.add("§6Cost: §8"+ df.format((double) up.getUpgradeCost()*(1.0- country.getPolicyBonus(1, 3))));

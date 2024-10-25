@@ -53,7 +53,7 @@ public class Account {
         }
 
         removeBal(v);
-        Market.getBusiness(Sname).add_books(v);
+        Market.getBusiness(Sname).addBooks(v);
 
         Market.changeBase(Sname);
 
@@ -68,7 +68,7 @@ public class Account {
     public void sellShare(String Sname, Integer amount, Player player){
         double v = Market.getSellPrice(Sname, amount);
 
-        String countryName = Market.getBusiness(Sname).GetCountry();
+        String countryName = Market.getBusiness(Sname).getCountry();
 
         double sub_fee = Market.getFee();
         Country country = CountryManager.getCountry(countryName);
@@ -85,7 +85,7 @@ public class Account {
             if (playerCountry != null){
                 playerCountry.deposit((int) to_gov);
             }else{
-                Market.getBusiness(Sname).add_books(to_gov);
+                Market.getBusiness(Sname).addBooks(to_gov);
             }
         }else{
             to_gov = v/(1.0-sub_fee);
@@ -97,7 +97,7 @@ public class Account {
         if (share_amount >= amount){
             if (Market.sell(Sname, amount, this)){
                 addBal(v);
-                Market.getBusiness(Sname).remove_books(v+to_gov);
+                Market.getBusiness(Sname).removeBooks(v+to_gov);
                 Market.changeBase(Sname);
 
                 shares.put(Sname, share_amount-amount);
@@ -111,7 +111,7 @@ public class Account {
     }
 
     void set_support(String Sname, UUID value){
-        Market.getBusiness(Sname).support_update(this, value);
+        Market.getBusiness(Sname).supportUpdate(this, value);
 
     }
 
@@ -161,7 +161,7 @@ public class Account {
         for(Map.Entry<String, Integer> entry : shares.entrySet()){
             String b = entry.getKey();
             int s = entry.getValue();
-            double v = (Market.getBusiness(b).get_value()/Market.getTotal(b).doubleValue())*s;
+            double v = (Market.getBusiness(b).getValue()/Market.getTotal(b).doubleValue())*s;
 
             if (order.size() > 0){
                 boolean found = false;

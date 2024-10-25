@@ -24,7 +24,7 @@ public class CompanyPatentCrafting implements InventoryHolder {
         menu = Bukkit.createInventory(this, 27, "Company Upgrade Menu");
         ItemStack gear_item = new ItemStack(patent.item, 1);
         ItemMeta m = gear_item.getItemMeta();
-        m.setDisplayName("§6"+comp.Sname+":"+patent.getName()+":"+comp.patent.indexOf(patent));
+        m.setDisplayName("§6"+comp.getStockName() +":"+patent.getName()+":"+comp.patent.indexOf(patent));
         gear_item.setItemMeta(m);
 
         menu.setItem(13, gear_item);

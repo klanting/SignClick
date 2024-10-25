@@ -55,7 +55,7 @@ class CompanyTests {
         SignClick.getEconomy().withdrawPlayer(testPlayer, 40000000);
 
         Company comp = Market.getBusiness("TCI");
-        assertEquals(0, comp.get_value());
+        assertEquals(0, comp.getValue());
         assertEquals(1000000, Market.getAccount(testPlayer).shares.get("TCI"));
 
     }
@@ -102,5 +102,7 @@ class CompanyTests {
         server.getScheduler().performTicks(60*60*24*7*20+1);
 
     }
+
+
 }
 

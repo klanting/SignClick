@@ -46,6 +46,6 @@ public class Upgrade {
     }
 
     public void save(Company company){
-        SignClick.getPlugin().getConfig().set("company."+company.Sname+".upgrade."+id, level);
+        SignClick.getPlugin().getConfig().set("company."+company.getStockName() +".upgrade."+id, level);
     }
 }

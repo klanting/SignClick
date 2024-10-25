@@ -64,7 +64,6 @@ public class GsonTests {
 
     @Test
     void saveLoadCompany(){
-
         Map<String, Company> accountsPreSave = new HashMap<>();
         accountsPreSave.put("A", new Company("AA", "A"));
 
@@ -76,8 +75,8 @@ public class GsonTests {
         Company comp = companies.values().iterator().next();
         comp.owners.add(testPlayer.getUniqueId());
 
-        assertEquals("A", comp.Sname);
-        assertEquals("AA", comp.name);
+        assertEquals("A", comp.getStockName());
+        assertEquals("AA", comp.getName());
         assertEquals(0, comp.bal);
         assertEquals(1, comp.owners.size());
     }

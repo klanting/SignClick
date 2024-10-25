@@ -89,7 +89,7 @@ public class Market {
 
     public static  Double getSellPrice(String Sname, Integer amount){
 
-        String countryName = Market.getBusiness(Sname).GetCountry();
+        String countryName = Market.getBusiness(Sname).getCountry();
         Country country = CountryManager.getCountry(countryName);
 
 
@@ -121,7 +121,7 @@ public class Market {
             marketAmount.put(Sname, market_am-amount);
 
             Company comp = company.get(Sname);
-            comp.change_share_holder(acc, amount);
+            comp.changeShareHolder(acc, amount);
 
             changeValue(Sname);
 
@@ -135,7 +135,7 @@ public class Market {
         marketAmount.put(Sname, market_am+amount);
 
         Company comp = company.get(Sname);
-        comp.change_share_holder(acc, -amount);
+        comp.changeShareHolder(acc, -amount);
 
         changeValue(Sname);
 
@@ -146,7 +146,7 @@ public class Market {
         Company comp = company.get(Sname);
         double a = -10.0;
         double b = 15.0;
-        double v = (comp.get_bal()/total.get(Sname)) / (((Math.pow(flux, b)) - (Math.pow(flux, a))) /Math.log(flux)/(b-a));
+        double v = (comp.getBal()/total.get(Sname)) / (((Math.pow(flux, b)) - (Math.pow(flux, a))) /Math.log(flux)/(b-a));
         shareBase.put(Sname, v);
 
         changeValue(Sname);
@@ -171,8 +171,8 @@ public class Market {
             shareValues.put(Sname, 0.0);
             changeValue(Sname);
 
-            comp.check_support();
-            comp.CalculateCountry();
+            comp.checkSupport();
+            comp.calculateCountry();
 
             return true;
         }
@@ -181,7 +181,6 @@ public class Market {
 
     public static Boolean hasBusiness(String Sname){
         return company.containsKey(Sname);
-
     }
 
     public static ArrayList<Company> getBusinessByOwner(UUID uuid){
@@ -200,7 +199,7 @@ public class Market {
 
         for(Map.Entry<String, Company> entry : company.entrySet()){
             String b = entry.getKey();
-            Double v = entry.getValue().get_value();
+            Double v = entry.getValue().getValue();
 
             if (order.size() > 0){
                 boolean found = false;
@@ -318,8 +317,8 @@ public class Market {
         shareValues.put(Sname, sv);
         changeValue(Sname);
 
-        comp.check_support();
-        comp.CalculateCountry();
+        comp.checkSupport();
+        comp.calculateCountry();
         if (!upgrades.isEmpty()){
             comp.upgrades = upgrades;
         }
@@ -391,7 +390,7 @@ public class Market {
 
         for(Map.Entry<String, Company> entry : company.entrySet()){
             Company comp = entry.getValue();
-            comp.reset_spendable();
+            comp.resetSpendable();
         }
 
     }
@@ -400,7 +399,7 @@ public class Market {
 
         for(Map.Entry<String, Company> entry : company.entrySet()){
             Company comp = entry.getValue();
-            comp.reset_patent_crafted();
+            comp.resetPatentCrafted();
         }
 
     }
@@ -465,19 +464,9 @@ public class Market {
     }
 
     public static void SaveData(){
-        /*
-        for (Map.Entry<UUID, Account> entry : accounts.entrySet()){
-            Account acc = entry.getValue();
-            getServer().getConsoleSender().sendMessage(ChatColor.BLUE + "shares " + acc.shares.toString());
-            SignClick.getPlugin().getConfig().set("accounts." + entry.getKey(), acc.shares.toString());
-        }*/
         Utils.writeSave("accounts", accounts);
-        //Utils.writeSave("company", company);
 
-        for (Company comp: company.values()){
-            comp.SaveData();
-        }
-
+        Utils.writeSave("companies", company);
 
         List<String> contractString = new ArrayList<>();
         for (Object[] o : ContractComptoComp){
@@ -518,9 +507,9 @@ public class Market {
     public static void restoreData(){
         accounts = Utils.readSave("accounts", new TypeToken<HashMap<UUID, Account>>(){}.getType(), new HashMap<>());
 
-        //company = Utils.readSave("company", new TypeToken<HashMap<String, Company>>(){}.getType(), new HashMap<>());
+        company = Utils.readSave("companies", new TypeToken<HashMap<String, Company>>(){}.getType(), new HashMap<>());
 
-        if (SignClick.getPlugin().getConfig().contains("company")){
+        if (SignClick.getPlugin().getConfig().contains("company") && false){
             for (String key : SignClick.getPlugin().getConfig().getConfigurationSection("company").getKeys(true)) {
                 String Sname = key;
                 if (Sname.contains(".")) {
@@ -661,7 +650,7 @@ public class Market {
         for (Object[] tuple : ContractComptoComp) {
             Company from = Market.getBusiness(tuple[0].toString());
             double amount = (Double) tuple[2];
-            if (from.remove_bal(amount)) {
+            if (from.removeBal(amount)) {
                 Company to = Market.getBusiness(tuple[1].toString());
                 int weeks = (Integer) tuple[3];
                 weeks -= 1;
@@ -671,8 +660,8 @@ public class Market {
                     new_data.add(new_tuple);
                 }
 
-                from.send_owner("§cContract: from " + from.Sname + "(C) to " + to.Sname + "(C) amount: " + amount);
-                to.send_owner("§aContract: from " + from.Sname + "(C) to " + to.Sname + "(C) amount: " + amount);
+                from.sendOwner("§cContract: from " + from.getStockName() + "(C) to " + to.getStockName() + "(C) amount: " + amount);
+                to.sendOwner("§aContract: from " + from.getStockName() + "(C) to " + to.getStockName() + "(C) amount: " + amount);
             } else {
                 //message: not paid
                 new_data.add(tuple);
@@ -684,7 +673,7 @@ public class Market {
         for (Object[] tuple : ContractComptoPlayer) {
             Company from = Market.getBusiness(tuple[0].toString());
             double amount = (Double) tuple[2];
-            if (from.remove_bal(amount)) {
+            if (from.removeBal(amount)) {
                 Account to = Market.getAccount(UUID.fromString(tuple[1].toString()));
                 int weeks = (Integer) tuple[3];
                 weeks -= 1;
@@ -694,9 +683,9 @@ public class Market {
                     new_data.add(new_tuple);
                 }
 
-                from.send_owner("§cContract: from " + from.Sname + "(C) to " + to.getName() + "(P) amount: " + amount);
+                from.sendOwner("§cContract: from " + from.getStockName() + "(C) to " + to.getName() + "(P) amount: " + amount);
                 if (to.getPlayer() != null){
-                    to.getPlayer().sendMessage("§aContract: from " + from.Sname + "(C) to " + to.getName() + "(P) amount: " + amount);
+                    to.getPlayer().sendMessage("§aContract: from " + from.getStockName() + "(C) to " + to.getName() + "(P) amount: " + amount);
                 }
 
             } else {
@@ -721,9 +710,9 @@ public class Market {
                         new_data.add(new_tuple);
                     }
 
-                    to.send_owner("§aContract: from " + from.getName() + "(P) to " + to.Sname + "(C) amount: " + amount);
+                    to.sendOwner("§aContract: from " + from.getName() + "(P) to " + to.getStockName() + "(C) amount: " + amount);
                     if (from.getPlayer() != null){
-                        from.getPlayer().sendMessage("§cContract: from " + from.getName() + "(P) to " + to.Sname + "(C) amount: " + amount);
+                        from.getPlayer().sendMessage("§cContract: from " + from.getName() + "(P) to " + to.getStockName() + "(C) amount: " + amount);
                     }
 
                 } else {
@@ -745,13 +734,13 @@ public class Market {
 
             if (delay == 0){
                 weeks -= 1;
-                to.add_bal_no_point(amount);
+                to.addBalNoPoint(amount);
                 if (weeks > 0) {
                     Object[] new_tuple = {tuple[0], tuple[1], amount, weeks, tuple[4], delay};
                     new_data.add(new_tuple);
                 }
 
-                to.send_owner("§aContract: from SERVER (S) to " + to.Sname + "(C) amount: " + amount);
+                to.sendOwner("§aContract: from SERVER (S) to " + to.getStockName() + "(C) amount: " + amount);
             }else{
                 delay -= 1;
                 Object[] new_tuple = {tuple[0], tuple[1], amount, weeks, tuple[4], delay};
@@ -791,7 +780,7 @@ public class Market {
     public static List<String> getBusinesses(){
         List<String> autoCompletes = new ArrayList<>();
         for (Company comp : company.values()){
-            autoCompletes.add(comp.Sname);
+            autoCompletes.add(comp.getStockName());
         }
         return autoCompletes;
     }
@@ -806,13 +795,13 @@ public class Market {
             double amount = (Double) tuple[2];
             Company to = Market.getBusiness(tuple[1].toString());
             int weeks = (Integer) tuple[3];
-            if (to.Sname.equals(stock_name)){
-                income.add("§aContract: from " + from.Sname + "(C) to " + to.Sname + "(C) amount: " + amount
+            if (to.getStockName().equals(stock_name)){
+                income.add("§aContract: from " + from.getStockName() + "(C) to " + to.getStockName() + "(C) amount: " + amount
                         + " for "+weeks+" weeks, " + "reason: "+tuple[4]);
             }
 
-            if (from.Sname.equals(stock_name)){
-                outcome.add("§cContract: from " + from.Sname + "(C) to " + to.Sname + "(C) amount: " + amount
+            if (from.getStockName().equals(stock_name)){
+                outcome.add("§cContract: from " + from.getStockName() + "(C) to " + to.getStockName() + "(C) amount: " + amount
                         + " for "+weeks+" weeks, "+ "reason: "+tuple[4]);
             }
 
@@ -824,8 +813,8 @@ public class Market {
             Account to = Market.getAccount(UUID.fromString(tuple[1].toString()));
             int weeks = (Integer) tuple[3];
 
-            if (from.Sname.equals(stock_name)){
-                outcome.add("§cContract: from " + from.Sname + "(C) to " + to.getName() + "(P) amount: " + amount
+            if (from.getStockName().equals(stock_name)){
+                outcome.add("§cContract: from " + from.getStockName() + "(C) to " + to.getName() + "(P) amount: " + amount
                         + " for "+weeks+" weeks, "+ "reason: "+tuple[4]);
             }
 
@@ -838,8 +827,8 @@ public class Market {
                 Company to = Market.getBusiness(tuple[1].toString());
                 int weeks = (Integer) tuple[3];
 
-                if (to.Sname.equals(stock_name)){
-                    income.add("§aContract: from " + from.getName() + "(P) to " + to.Sname + "(C) amount: " + amount
+                if (to.getStockName().equals(stock_name)){
+                    income.add("§aContract: from " + from.getName() + "(P) to " + to.getStockName() + "(C) amount: " + amount
                             + " for "+weeks+" weeks, "+ "reason: "+tuple[4]);
                 }
             }catch (Exception e){
@@ -853,8 +842,8 @@ public class Market {
             double amount = (Double) tuple[2];
             Company to = Market.getBusiness(tuple[1].toString());
             int weeks = (Integer) tuple[3];
-            if (to.Sname.equals(stock_name)){
-                income.add("§aContract: from SERVER (S) to " + to.Sname + "(C) amount: " + amount
+            if (to.getStockName().equals(stock_name)){
+                income.add("§aContract: from SERVER (S) to " + to.getStockName() + "(C) amount: " + amount
                         + " for "+weeks+" weeks, " + "reason: "+tuple[4] + " delay: "+tuple[5]);
             }
         }
@@ -877,16 +866,17 @@ public class Market {
         }
 
         for (Company comp: company.values()){
-            comp.StockCompare();
+            comp.stockCompare();
         }
     }
 
     public static void runWeeklyCompanySalary(){
         for (Company comp : company.values()){
 
-            String countryName = comp.GetCountry();
+            String countryName = comp.getCountry();
             Country country = CountryManager.getCountry(countryName);
             int total = 0;
+
             if (comp.type.equals("product")){
 
                 comp.addBal(0+ country.getPolicyBonus(0, 4));
@@ -908,7 +898,6 @@ public class Market {
                     total+= 4000;
                     comp.addBal(4000.0);
                 }
-
 
                 comp.addBal(0+ country.getPolicyBonus(2, 5));
                 comp.addBal(0+ country.getPolicyBonus(4, 4));
@@ -937,7 +926,7 @@ public class Market {
                 if (value > 0.0){
                     comp.addBal(value);
                 }else{
-                    comp.remove_bal(value*-1);
+                    comp.removeBal(value*-1);
                 }
             }
 

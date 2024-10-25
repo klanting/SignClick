@@ -37,15 +37,15 @@ public class Patent {
     public void createCraft(Company comp){
         ItemStack pre_made_gear = new ItemStack(item, 1);
         ItemMeta m = pre_made_gear.getItemMeta();
-        m.setDisplayName("§6"+comp.Sname+":"+name+":"+comp.patent.indexOf(this));
+        m.setDisplayName("§6"+comp.getStockName() +":"+name+":"+comp.patent.indexOf(this));
         pre_made_gear.setItemMeta(m);
 
-        ShapelessRecipe pre_made_recip = new ShapelessRecipe(NamespacedKey.minecraft("primitive_patent-"+comp.Sname.toLowerCase()+"-"+name.toLowerCase()+"-"+comp.patent.indexOf(this)), pre_made_gear);
+        ShapelessRecipe pre_made_recip = new ShapelessRecipe(NamespacedKey.minecraft("primitive_patent-"+comp.getStockName().toLowerCase()+"-"+name.toLowerCase()+"-"+comp.patent.indexOf(this)), pre_made_gear);
 
         ItemStack patent_paper = new ItemStack(Material.PAPER, 1);
 
         m = patent_paper.getItemMeta();
-        m.setDisplayName("§6"+comp.Sname+":"+name+":"+comp.patent.indexOf(this));
+        m.setDisplayName("§6"+comp.getStockName() +":"+name+":"+comp.patent.indexOf(this));
         patent_paper.setItemMeta(m);
 
         RecipeChoice patent_paper_type = new RecipeChoice.ExactChoice(patent_paper);
@@ -105,7 +105,7 @@ public class Patent {
         m.setLore(upgrade_text);
         final_item.setItemMeta(m);
 
-        ShapelessRecipe recip = new ShapelessRecipe(NamespacedKey.minecraft("patent-"+comp.Sname.toLowerCase()+"-"+name.toLowerCase()+"-"+comp.patent.indexOf(this)), final_item);
+        ShapelessRecipe recip = new ShapelessRecipe(NamespacedKey.minecraft("patent-"+comp.getStockName().toLowerCase()+"-"+name.toLowerCase()+"-"+comp.patent.indexOf(this)), final_item);
 
         RecipeChoice patent_gear_type = new RecipeChoice.ExactChoice(pre_made_gear);
         recip.addIngredient(patent_gear_type);
@@ -117,7 +117,7 @@ public class Patent {
     }
 
     public void save(Company comp){
-        String path = "company."+comp.Sname+".patent."+comp.patent.indexOf(this)+".";
+        String path = "company."+comp.getStockName() +".patent."+comp.patent.indexOf(this)+".";
         SignClick.getPlugin().getConfig().set(path+"name", name);
         SignClick.getPlugin().getConfig().set(path+"item", item.toString());
 

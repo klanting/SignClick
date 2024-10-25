@@ -25,7 +25,7 @@ public class SignStock {
             sign.setLine(0, "§b[stock]");
             sign.setLine(1, Sname);
             DecimalFormat df = new DecimalFormat("###,##0.00");
-            sign.setLine(2, df.format(Market.getBusiness(Sname).StockCompareGet()));
+            sign.setLine(2, df.format(Market.getBusiness(Sname).stockCompareGet()));
 
             Market.getBusiness(Sname).addBal(100000.0);
             SignClick.getEconomy().withdrawPlayer(player, 100000);
@@ -42,7 +42,7 @@ public class SignStock {
 
             DecimalFormat df = new DecimalFormat("###,##0.00");
             DecimalFormat df2 = new DecimalFormat("###,###,###");
-            double pct = Market.getBusiness(stock_name).StockCompareGet();
+            double pct = Market.getBusiness(stock_name).stockCompareGet();
             String color;
             if (pct < 0){
                 color = "§c";
@@ -50,7 +50,7 @@ public class SignStock {
                 color = "§a";
             }
             sign.setLine(2, color + df.format(pct));
-            sign.setLine(3, df2.format(Market.getBusiness(stock_name).get_value()));
+            sign.setLine(3, df2.format(Market.getBusiness(stock_name).getValue()));
             sign.update();
         }
 
