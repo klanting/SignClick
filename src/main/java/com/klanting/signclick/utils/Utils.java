@@ -25,7 +25,6 @@ public class Utils {
     public static class UUIDDeserializer implements JsonDeserializer<UUID> {
         @Override
         public UUID deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-            SignClick.getPlugin().getLogger().log(Level.SEVERE, "triggered");
             return UUID.fromString(json.getAsString());
         }
 
@@ -34,14 +33,14 @@ public class Utils {
     public static class CompanySerializer implements JsonSerializer<Company>, JsonDeserializer<Company> {
 
         @Override
-        public JsonElement serialize(Company company, Type type, JsonSerializationContext jsonSerializationContext) {
-            return company.toJson();
+        public JsonElement serialize(Company company, Type type, JsonSerializationContext context) {
+            return company.toJson(context);
         }
 
         @Override
         public Company deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
             JsonObject obj = json.getAsJsonObject();
-            return new Company(obj);
+            return new Company(obj, context);
         }
 
 

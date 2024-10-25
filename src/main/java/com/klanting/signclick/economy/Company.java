@@ -1,6 +1,9 @@
 package com.klanting.signclick.economy;
 
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonSerializationContext;
 import com.klanting.signclick.economy.companyPatent.Patent;
 import com.klanting.signclick.economy.companyPatent.PatentUpgrade;
 import com.klanting.signclick.economy.companyPatent.PatentUpgradeCustom;
@@ -9,18 +12,23 @@ import com.klanting.signclick.SignClick;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 
+import java.lang.reflect.Field;
 import java.text.DecimalFormat;
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.logging.Level;
 
 import static org.bukkit.Bukkit.getServer;
 
 public class Company {
-    public ArrayList<UUID> owners = new ArrayList<UUID>();
+
     public String name;
     public String Sname;
+
+    public ArrayList<UUID> owners = new ArrayList<>();
 
     public double bal = 0.0;
     public double books = 0.0;
@@ -76,24 +84,81 @@ public class Company {
         type = "other";
     }
 
-    public Company(JsonObject jsonObject){
+    private static List<String> softLink = new ArrayList<>(List.of("country"));
+
+
+    public Company(JsonObject jsonObject, JsonDeserializationContext context){
         /*
         * Load/create company from json file
         * */
 
-        Sname = jsonObject.get("stockName").getAsString();
-        name = jsonObject.get("name").getAsString();
-        bal = jsonObject.get("balance").getAsDouble();
+        Field[] fields = this.getClass().getDeclaredFields();
+
+        for (Field field : fields) {
+
+            try{
+                String fieldName = field.getName();
+                if (softLink.contains(fieldName)){
+                    continue;
+                }
+
+                JsonElement element = jsonObject.get(fieldName);
+
+                Object o;
+
+                if (element == null){
+                    o = null;
+                }else if (field.getType() == String.class){
+                    o = element.getAsString();
+                }else if (field.getType() == Integer.class){
+                    o = element.getAsInt();
+                }else if (field.getType() == Double.class){
+                    o = element.getAsDouble();
+                }else{
+                    o = context.deserialize(element, field.getType());
+                }
+
+
+                field.set(this, o);
+
+            }catch (IllegalAccessException ignored){
+
+            }
+
+        }
+
+
+
     }
 
-    public JsonObject toJson(){
+    public JsonObject toJson(JsonSerializationContext context){
+
         JsonObject jsonObject = new JsonObject();
 
-        jsonObject.addProperty("stockName", Sname);
-        jsonObject.addProperty("name", name);
+        Field[] fields = this.getClass().getDeclaredFields();
 
-        jsonObject.addProperty("balance", bal);
-        jsonObject.addProperty("owners", String.valueOf(owners));
+
+
+        for (Field field : fields) {
+
+            try{
+
+                String fieldName = field.getName();
+                Object fieldValue = field.get(this);
+
+                if (softLink.contains(fieldName) && fieldValue != null){
+                    fieldValue = fieldValue.hashCode();
+                }
+
+
+                jsonObject.add(fieldName, context.serialize(fieldValue));
+
+            }catch (IllegalAccessException ignored){
+
+            }
+
+        }
+
         return jsonObject;
     }
 
