@@ -9,21 +9,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b3aa4a96-499c-4e97-84b9-6312c5389c7a" name="Changes" comment="improved company save and restore">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/CompanyHandelers/CompanyHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/CompanyHandelers/CompanyHandlerBalTop.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/CompanyHandelers/CompanyHandlerCreate.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/CompanyHandelers/CompanyHandlerGive.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/CompanyHandelers/CompanyHandlerInfo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/CompanyHandelers/CompanyHandlerSell.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/CompanyHandelers/CompanyHandlerSharetop.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/Exceptions/CommandAssert.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/Exceptions/CommandException.java" afterDir="false" />
+    <list default="true" id="b3aa4a96-499c-4e97-84b9-6312c5389c7a" name="Changes" comment="part cleanup company commands code">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/SignClick.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/SignClick.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/CompanyCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/Company/CompanyCommands.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/com/commands/CompanyCTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/commands/CompanyCTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/storage/GsonTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/storage/GsonTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,17 +73,20 @@
     "Batch.gradlew.executor": "Run",
     "Downloaded.Files.Path.Enabled": "true",
     "Gradle.Build SignClick.executor": "Run",
+    "Gradle.CompanyCTests.companyBaltop.executor": "Run",
     "Gradle.CompanyCTests.companyCreate.executor": "Run",
     "Gradle.CompanyCTests.companyCreateWrongParamCount.executor": "Run",
     "Gradle.CompanyCTests.companyGetSupport.executor": "Run",
     "Gradle.CompanyCTests.companyGive.executor": "Run",
     "Gradle.CompanyCTests.companyInfo.executor": "Run",
+    "Gradle.CompanyCTests.companyInfoInvalidCompany.executor": "Run",
     "Gradle.CompanyCTests.companyMenu.executor": "Run",
     "Gradle.CompanyCTests.companyNoParam.executor": "Run",
     "Gradle.CompanyCTests.companyPay.executor": "Run",
     "Gradle.CompanyCTests.companyPortfolio.executor": "Run",
     "Gradle.CompanyCTests.companySellBuyShares.executor": "Run",
     "Gradle.CompanyCTests.companyShareTop.executor": "Run",
+    "Gradle.CompanyCTests.companyShareTopInvalidCompany.executor": "Run",
     "Gradle.CompanyCTests.companyTransferShares.executor": "Run",
     "Gradle.CompanyCTests.executor": "Run",
     "Gradle.CompanyMenuTests.changeCompanyType.executor": "Run",
@@ -201,6 +192,30 @@
     </key>
   </component>
   <component name="RunManager" selected="Gradle.TestAll">
+    <configuration name="CompanyCTests.companyBaltop" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;com.commands.CompanyCTests.companyBaltop&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
     <configuration name="CompanyCTests.companyCreateWrongParamCount" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -249,7 +264,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="CompanyCTests.companyNoParam" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="CompanyCTests.companyInfoInvalidCompany" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -262,7 +277,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;com.commands.CompanyCTests.companyNoParam&quot;" />
+            <option value="&quot;com.commands.CompanyCTests.companyInfoInvalidCompany&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -273,7 +288,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="CompanyMenuTests.companyPatentsPersistent" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="CompanyCTests.companyShareTopInvalidCompany" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -286,31 +301,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;com.company.CompanyMenuTests.companyPatentsPersistent&quot;" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>true</RunAsTest>
-      <method v="2" />
-    </configuration>
-    <configuration name="GsonTests.saveLoadCompany" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value=":test" />
-            <option value="--tests" />
-            <option value="&quot;com.storage.GsonTests.saveLoadCompany&quot;" />
+            <option value="&quot;com.commands.CompanyCTests.companyShareTopInvalidCompany&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -346,19 +337,19 @@
     </configuration>
     <list>
       <item itemvalue="Gradle.TestAll" />
+      <item itemvalue="Gradle.CompanyCTests.companyBaltop" />
+      <item itemvalue="Gradle.CompanyCTests.companyInfoInvalidCompany" />
+      <item itemvalue="Gradle.CompanyCTests.companyShareTopInvalidCompany" />
       <item itemvalue="Gradle.CompanyCTests.companyCreateWrongParamCount" />
-      <item itemvalue="Gradle.CompanyCTests.companyNoParam" />
-      <item itemvalue="Gradle.CompanyMenuTests.companyPatentsPersistent" />
-      <item itemvalue="Gradle.GsonTests.saveLoadCompany" />
       <item itemvalue="Gradle.CompanyCTests.companyInfo" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.CompanyCTests.companyShareTopInvalidCompany" />
+        <item itemvalue="Gradle.CompanyCTests.companyInfoInvalidCompany" />
+        <item itemvalue="Gradle.CompanyCTests.companyBaltop" />
         <item itemvalue="Gradle.CompanyCTests.companyInfo" />
         <item itemvalue="Gradle.CompanyCTests.companyCreateWrongParamCount" />
-        <item itemvalue="Gradle.CompanyCTests.companyNoParam" />
-        <item itemvalue="Gradle.GsonTests.saveLoadCompany" />
-        <item itemvalue="Gradle.CompanyMenuTests.companyPatentsPersistent" />
       </list>
     </recent_temporary>
   </component>
@@ -421,7 +412,7 @@
       <workItem from="1729969443070" duration="1114000" />
       <workItem from="1729970570910" duration="2004000" />
       <workItem from="1729972904803" duration="1514000" />
-      <workItem from="1729976900447" duration="1041000" />
+      <workItem from="1729976900447" duration="2050000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Github Commit">
       <option name="closed" value="true" />
@@ -647,7 +638,15 @@
       <option name="project" value="LOCAL" />
       <updated>1729890007055</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="part cleanup company commands code">
+      <option name="closed" value="true" />
+      <created>1729978201108</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1729978201108</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -669,7 +668,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="pre maven" />
     <MESSAGE value="temp commit" />
     <MESSAGE value="Finally Got the Gradle &amp; Testing Working" />
     <MESSAGE value="progress in getting the plugin inside the tests" />
@@ -694,7 +692,8 @@
     <MESSAGE value="made start of companies being serialized into json" />
     <MESSAGE value="Improved the company to json" />
     <MESSAGE value="improved company save and restore" />
-    <option name="LAST_COMMIT_MESSAGE" value="improved company save and restore" />
+    <MESSAGE value="part cleanup company commands code" />
+    <option name="LAST_COMMIT_MESSAGE" value="part cleanup company commands code" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -719,7 +718,7 @@
     <SUITE FILE_PATH="coverage/SignClick$CountryTests_countryAddRemoveOwner.ic" NAME="CountryTests.countryAddRemoveOwner Coverage Results" MODIFIED="1726152178872" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/SignClick$CountryTests_CountryCreate.ic" NAME="CountryTests.CountryCreate Coverage Results" MODIFIED="1725952175146" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/SignClick$CompanyCTests_companyGive.ic" NAME="CompanyCTests.companyGive Coverage Results" MODIFIED="1726042791871" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/SignClick$TestAll.ic" NAME="TestAll Coverage Results" MODIFIED="1729977924283" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/SignClick$TestAll.ic" NAME="TestAll Coverage Results" MODIFIED="1729978948521" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/SignClick$CountryTests_countrySaveLoadAdvanced.ic" NAME="CountryTests.countrySaveLoadAdvanced Coverage Results" MODIFIED="1726940586011" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/SignClick$CompanyTests_companySaveLoad.ic" NAME="CompanyTests.companySaveLoad Coverage Results" MODIFIED="1727021115277" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>

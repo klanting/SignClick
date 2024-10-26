@@ -130,6 +130,19 @@ class CompanyCTests {
     }
 
     @Test
+    void companyShareTopInvalidCompany(){
+
+        boolean suc6 = server.execute("company", testPlayer, "sharetop", "TCIS").hasSucceeded();
+        assertTrue(suc6);
+
+        /*
+         * Check correctly received sharetop invalid message
+         * */
+        testPlayer.assertSaid("§bplease enter a valid company stockname");
+        testPlayer.assertNoMoreSaid();
+    }
+
+    @Test
     void companyInfo(){
 
         boolean suc6 = server.execute("company", testPlayer, "info", "TCI").hasSucceeded();
@@ -145,6 +158,20 @@ class CompanyCTests {
                 "§bshares: §71.000.000\n" +
                 "§bshareholders: §7[Player0]");
 
+
+        testPlayer.assertNoMoreSaid();
+    }
+
+    @Test
+    void companyInfoInvalidCompany(){
+
+        boolean suc6 = server.execute("company", testPlayer, "info", "TCIS").hasSucceeded();
+        assertTrue(suc6);
+
+        /*
+         * Check correctly received info warning
+         * */
+        testPlayer.assertSaid("§bplease enter a valid company stockname");
 
         testPlayer.assertNoMoreSaid();
     }
@@ -308,6 +335,15 @@ class CompanyCTests {
         assertTrue(suc6);
 
         testPlayer.assertSaid("§bplease enter /company create <name> <stockname>");
+        testPlayer.assertNoMoreSaid();
+    }
+
+    @Test
+    void companyBaltop(){
+        boolean suc6 = server.execute("company", testPlayer, "baltop").hasSucceeded();
+        assertTrue(suc6);
+
+        testPlayer.assertSaid("§b1. §3TCI: §70\n");
         testPlayer.assertNoMoreSaid();
     }
 }
