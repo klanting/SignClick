@@ -1,4 +1,4 @@
-package com.klanting.signclick.commands.Exceptions;
+package com.klanting.signclick.commands.exceptions;
 
 public class CommandAssert {
     /*

@@ -1,15 +1,13 @@
-package com.klanting.signclick.commands.CompanyHandelers;
+package com.klanting.signclick.commands.companyHandelers;
 
 import com.klanting.signclick.SignClick;
-import com.klanting.signclick.commands.Exceptions.CommandAssert;
-import com.klanting.signclick.commands.Exceptions.CommandException;
+import com.klanting.signclick.commands.exceptions.CommandAssert;
+import com.klanting.signclick.commands.exceptions.CommandException;
 import com.klanting.signclick.economy.Company;
 import com.klanting.signclick.economy.Country;
 import com.klanting.signclick.economy.CountryManager;
 import com.klanting.signclick.economy.Market;
 import org.bukkit.entity.Player;
-
-import static com.klanting.signclick.commands.Company.CompanyCommands.confirm;
 
 public class CompanyHandlerCreate extends CompanyHandler{
     /*

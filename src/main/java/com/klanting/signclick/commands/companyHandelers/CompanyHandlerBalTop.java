@@ -1,6 +1,6 @@
-package com.klanting.signclick.commands.CompanyHandelers;
+package com.klanting.signclick.commands.companyHandelers;
 
-import com.klanting.signclick.commands.Exceptions.CommandException;
+import com.klanting.signclick.commands.exceptions.CommandException;
 import com.klanting.signclick.economy.Market;
 import org.bukkit.entity.Player;
 

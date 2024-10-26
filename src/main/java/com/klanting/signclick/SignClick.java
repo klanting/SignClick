@@ -2,7 +2,7 @@ package com.klanting.signclick;
 
 
 import com.klanting.signclick.calculate.*;
-import com.klanting.signclick.commands.Company.CompanyCommands;
+import com.klanting.signclick.commands.CompanyCommands;
 import com.klanting.signclick.economy.companyPatent.Auction;
 import com.klanting.signclick.economy.CountryManager;
 import com.klanting.signclick.economy.Market;

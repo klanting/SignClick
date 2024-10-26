@@ -1,7 +1,7 @@
-package com.klanting.signclick.commands.Company;
+package com.klanting.signclick.commands;
 
-import com.klanting.signclick.commands.CompanyHandelers.*;
-import com.klanting.signclick.commands.Exceptions.CommandException;
+import com.klanting.signclick.commands.companyHandelers.*;
+import com.klanting.signclick.commands.exceptions.CommandException;
 import com.klanting.signclick.economy.Market;
 import com.klanting.signclick.economy.Company;
 import com.klanting.signclick.economy.Account;
