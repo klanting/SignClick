@@ -144,6 +144,8 @@ class CompanyCTests {
                 "§bbal: §70\n" +
                 "§bshares: §71.000.000\n" +
                 "§bshareholders: §7[Player0]");
+
+
         testPlayer.assertNoMoreSaid();
     }
 
@@ -279,6 +281,33 @@ class CompanyCTests {
         assertTrue(suc6);
 
         testPlayer.assertSaid("§bplayer supports §7Player0");
+        testPlayer.assertNoMoreSaid();
+    }
+
+    @Test
+    void companyNoParam(){
+        boolean suc6 = server.execute("company", testPlayer).hasSucceeded();
+        assertTrue(suc6);
+
+        testPlayer.assertSaid("§bplease enter /company <category>");
+        testPlayer.assertNoMoreSaid();
+    }
+
+    @Test
+    void companyWrongParam(){
+        boolean suc6 = server.execute("company", testPlayer).hasSucceeded();
+        assertTrue(suc6);
+
+        testPlayer.assertSaid("§bplease enter /company <category>");
+        testPlayer.assertNoMoreSaid();
+    }
+
+    @Test
+    void companyCreateWrongParamCount(){
+        boolean suc6 = server.execute("company", testPlayer, "create", "missingStockName").hasSucceeded();
+        assertTrue(suc6);
+
+        testPlayer.assertSaid("§bplease enter /company create <name> <stockname>");
         testPlayer.assertNoMoreSaid();
     }
 }

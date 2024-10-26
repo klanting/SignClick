@@ -79,5 +79,6 @@ public class GsonTests {
         assertEquals("AA", comp.getName());
         assertEquals(0, comp.bal);
         assertEquals(1, comp.owners.size());
+        assertEquals(5, comp.upgrades.size());
     }
 }

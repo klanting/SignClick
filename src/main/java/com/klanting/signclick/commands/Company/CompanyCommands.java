@@ -1,10 +1,10 @@
-package com.klanting.signclick.commands;
+package com.klanting.signclick.commands.Company;
 
+import com.klanting.signclick.commands.CompanyHandelers.*;
+import com.klanting.signclick.commands.Exceptions.CommandException;
 import com.klanting.signclick.economy.Market;
-import com.klanting.signclick.economy.Country;
 import com.klanting.signclick.economy.Company;
 import com.klanting.signclick.economy.Account;
-import com.klanting.signclick.economy.CountryManager;
 
 import com.klanting.signclick.economy.companyPatent.PatentUpgradeCustom;
 import com.klanting.signclick.Menus.CompanySelector;
@@ -25,7 +25,7 @@ import java.util.*;
 
 
 public class CompanyCommands implements CommandExecutor, TabCompleter {
-    private static Map<Player, String> confirm = new HashMap<Player, String>();
+    public static Map<Player, String> confirm = new HashMap<>();
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -43,199 +43,34 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
 
             String commando = args[0];
 
-            if (commando.equals("create")){
-                if (args.length < 3){
-                    player.sendMessage("§bplease enter /company create <name> <stockname>");
-                    confirm.put(player, "");
-                    return true;
-                }
+            HashMap<String, CompanyHandler> handlerTranslation = new HashMap<>();
+            handlerTranslation.put("create", new CompanyHandlerCreate());
+            handlerTranslation.put("info", new CompanyHandlerInfo());
+            handlerTranslation.put("sharetop", new CompanyHandlerSharetop());
+            handlerTranslation.put("give", new CompanyHandlerGive());
+            handlerTranslation.put("baltop", new CompanyHandlerBalTop());
+            handlerTranslation.put("buy", new CompanyHandlerBuy());
+            handlerTranslation.put("sell", new CompanyHandlerSell());
 
-                String company_name = args[1];
-                String stock_name = args[2];
+            try{
 
-                if (stock_name.length() > 4){
-                    player.sendMessage("§bstockname has a max length of 4");
-                    confirm.put(player, "");
-                    return true;
-                }
+                if (handlerTranslation.containsKey(commando)){
+                    CompanyHandler ch = handlerTranslation.get(commando);
+                    boolean setConfirm = ch.handleCommand(player, args,
+                            !confirm.getOrDefault(player, "").equals(commando));
 
-                Country country = CountryManager.getCountry(player);
-                double discount_pct = 1.0;
-                if (country != null){
-                    discount_pct = (1.0- country.getPolicyBonus(1, 4));
-                }
-                if (!SignClick.getEconomy().has(player, 40000000.0*discount_pct)){
-                    player.sendMessage("§bmaking a company costs §c40 million (or discount policy)");
-                    confirm.put(player, "");
-                    return true;
-                }
-
-                if (confirm.getOrDefault(player, "").equals("create")){
-                    confirm.put(player, "");
-                    player.sendMessage("§byou succesfully found "+company_name+" good luck CEO "+player.getName());
-                    stock_name = stock_name.toUpperCase();
-                    Boolean succes = Market.addBusiness(company_name, stock_name, Market.getAccount(player));
-
-                    if (succes){
-                        SignClick.getEconomy().withdrawPlayer(player, 40000000.0*discount_pct);
-                        Company comp = Market.getBusiness(stock_name);
-                        comp.addBal(40000000.0*discount_pct);
+                    if (setConfirm){
+                        confirm.put(player, commando);
                     }else{
-                        player.sendMessage("§bcompany create failed: name/stockName already in use");
+                        confirm.remove(player);
                     }
 
-
-                }else{
-                    player.sendMessage("§bplease re-enter your command to confirm that you want to start a company" +
-                            " and want to auto-transfer §640 million §bto your business from your account"+
-                            " If you agree, enter: §c/company create "+company_name+" "+stock_name);
-                    confirm.put(player, "create");
-
                 }
 
-            }
-
-            if (commando.equals("info")){
+            }catch (CommandException e){
+                player.sendMessage(e.getMessage());
                 confirm.put(player, "");
-                if (args.length < 2){
-                    player.sendMessage("§bplease enter /company info <stockname>");
-                    return true;
-                }
-
-                String stock_name = args[1].toUpperCase();
-                if (Market.hasBusiness(stock_name)){
-                    Market.getBusiness(stock_name).info(player);;
-                }else{
-                    player.sendMessage("§bplease enter a valid company stockname");
-                }
-            }
-
-            if (commando.equals("sharetop")){
-                confirm.put(player, "");
-                if (args.length < 2){
-                    player.sendMessage("§bplease enter /company sharetop <stockname>");
-                    return true;
-                }
-
-                String stock_name = args[1].toUpperCase();
-
-                if (Market.hasBusiness(stock_name)){
-                    Market.getBusiness(stock_name).getShareTop(player);
-                }else{
-                    player.sendMessage("§bplease enter a valid company stockname");
-                }
-            }
-
-            if (commando.equals("give")){
-                if (args.length < 3){
-                    player.sendMessage("§bplease enter /company give <stockname> <amount>");
-                    confirm.put(player, "");
-                    return true;
-                }
-
-                String stock_name = args[1].toUpperCase();
-                stock_name = stock_name.toUpperCase();
-                double amount = Double.parseDouble(args[2]);
-
-                if (!Market.hasBusiness(stock_name)){
-                    player.sendMessage("§bplease enter a valid company stockname");
-                    confirm.put(player, "");
-                    return true;
-                }
-
-                if (!SignClick.getEconomy().has(player, amount)){
-                    player.sendMessage("§byou do not have enough money");
-                    confirm.put(player, "");
-                    return true;
-                }
-
-                DecimalFormat df = new DecimalFormat("###,###,###");
-                if (confirm.getOrDefault(player, "").equals("give")){
-                    confirm.put(player, "");
-                    player.sendMessage("§byou succesfully gave §f"+df.format(amount)+"§b to §f"+stock_name);
-
-                    Market.getBusiness(stock_name).addBal(amount);
-
-                    SignClick.getEconomy().withdrawPlayer(player, amount);
-
-                    Market.getBusiness(stock_name).sendOwner("§byour business §f"+stock_name+" §b received §f"+amount+" §b from §f"+player.getName());
-
-                }else{
-                    player.sendMessage("§bplease re-enter your command to confirm\nthat you want to give §f" +df.format(amount)+
-                            "§b to §f"+ stock_name+"\n§c/company give "+stock_name+" "+amount);
-                    confirm.put(player, "give");
-
-                }
-            }
-
-            if (commando.equals("baltop")){
-                confirm.put(player, "");
-                Market.getMarketValueTop(player);
-            }
-
-            if (commando.equals("buy")){
-                if (args.length < 2){
-                    player.sendMessage("§bplease enter /company buy <stockname> <amount>");
-                    confirm.put(player, "");
-                    return true;
-                }
-
-                String stock_name = args[1].toUpperCase();
-                stock_name = stock_name.toUpperCase();
-                int amount = Integer.parseInt(args[2]);
-
-                if (!Market.hasBusiness(stock_name)){
-                    player.sendMessage("§bplease enter a valid company stockname");
-                    confirm.put(player, "");
-                    return true;
-                }
-
-                if (confirm.getOrDefault(player, "").equals("buy")){
-                    confirm.put(player, "");
-                    Account acc = Market.getAccount(player);
-                    acc.buyShare(stock_name, amount, player);
-
-                }else{
-                    DecimalFormat df = new DecimalFormat("###,###,##0.00");
-                    player.sendMessage("§bplease re-enter your command to confirm\nthat you want to buy §f" +amount+
-                            "§b from §f"+ stock_name+" for a price of §6"+df.format(Market.getBuyPrice(stock_name, amount))+" \n§c/company buy "+stock_name+" "+amount);
-                    confirm.put(player, "buy");
-
-                }
-
-            }
-
-            if (commando.equals("sell")){
-                if (args.length < 3){
-                    player.sendMessage("§bplease enter /company sell <stockname> <amount>");
-                    confirm.put(player, "");
-                    return true;
-                }
-
-                String stock_name = args[1].toUpperCase();
-                stock_name = stock_name.toUpperCase();
-                int amount = Integer.parseInt(args[2]);
-
-                if (!Market.hasBusiness(stock_name)){
-                    player.sendMessage("§bplease enter a valid company stockname");
-                    confirm.put(player, "");
-                    return true;
-                }
-
-                if (confirm.getOrDefault(player, "").equals("sell")){
-                    confirm.put(player, "");
-                    Account acc = Market.getAccount(player);
-                    acc.sellShare(stock_name, amount, player);
-
-                }else{
-                    double v = Market.getSellPrice(stock_name, amount);
-                    DecimalFormat df = new DecimalFormat("###,###,##0.00");
-                    player.sendMessage("§bplease re-enter your command to confirm\nthat you want to sell §f" +amount+
-                            "§b from §f"+ stock_name+"§b for a price of §6"+df.format(v)+" \n§c/company sell "+stock_name+" "+amount);
-                    confirm.put(player, "sell");
-
-                }
-
+                return true;
             }
 
             if (commando.equals("pay")){
