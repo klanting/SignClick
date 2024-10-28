@@ -51,6 +51,7 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
             handlerTranslation.put("baltop", new CompanyHandlerBalTop());
             handlerTranslation.put("buy", new CompanyHandlerBuy());
             handlerTranslation.put("sell", new CompanyHandlerSell());
+            handlerTranslation.put("pay", new CompanyHandlerPay());
 
             try{
 
@@ -71,63 +72,6 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
                 player.sendMessage(e.getMessage());
                 confirm.put(player, "");
                 return true;
-            }
-
-            if (commando.equals("pay")){
-                if (args.length < 4){
-                    player.sendMessage("§bplease enter /company pay <company> <player_name> <amount>");
-                    confirm.put(player, "");
-                    return true;
-                }
-
-                String stock_name = args[1].toUpperCase();
-                stock_name = stock_name.toUpperCase();
-
-                if (!Market.hasBusiness(stock_name)){
-                    player.sendMessage("§bbusiness name is invalid");
-                    confirm.put(player, "");
-                    return true;
-                }
-
-                String player_name = args[2];
-                double amount = Double.parseDouble(args[3]);
-                OfflinePlayer player_offline = Bukkit.getOfflinePlayer(player_name);
-
-                if (!Market.getBusiness(stock_name).isOwner(player.getUniqueId())){
-                    player.sendMessage("§byou must be a CEO of this company");
-                    confirm.put(player, "");
-                    return true;
-                }
-
-                if (player.getName().equals(player_name)){
-                    player.sendMessage("§byou can't pay out yourself");
-                    confirm.put(player, "");
-                    return true;
-                }
-
-                if (confirm.getOrDefault(player, "").equals("pay")){
-                    confirm.put(player, "");
-                    //still need refresh weekly the 20 % cap
-                    if (Market.getBusiness(stock_name).removeBal(amount)){
-                        SignClick.getEconomy().depositPlayer(player_offline, amount);
-                        player.sendMessage("§bsuccesfully paid §f"+player_name+" "+amount);
-                        Player target = Bukkit.getPlayer(player_offline.getUniqueId());
-                        if (target != null){
-                            target.sendMessage("§bsuccesfully received §f"+amount+" §bfrom §f"+stock_name);
-                        }
-
-                    }else{
-                        player.sendMessage("§bbusiness does not have enough money, or you reached your monthly spending limit\ndo §c/company spendable "+
-                                stock_name+"§b to see monthly available money");
-                    }
-
-                }else{
-                    player.sendMessage("§bplease re-enter your command to confirm\nthat you want to pay §f" +amount+
-                            "§b to §f"+ player_name+"\n§c/company pay "+stock_name+" "+player_name+" "+amount);
-                    confirm.put(player, "pay");
-
-                }
-
             }
 
             if (commando.equals("spendable")){
