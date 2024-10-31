@@ -69,6 +69,9 @@ class CompanyTests {
 
 
         Company comp = Market.getBusiness("TCI");
+        comp.addBal(100.0);
+
+        assertEquals(100.0, comp.bal);
 
     }
 
@@ -86,6 +89,10 @@ class CompanyTests {
         CountryManager.clear();
         Market.clear();
         plugin = TestTools.setupPlugin(server);
+
+        comp = Market.getBusiness("TCI");
+        assertNotNull(comp);
+        assertEquals(1000.0, comp.bal);
 
     }
 

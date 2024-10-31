@@ -40,7 +40,7 @@ public class Market {
     }
 
     public static Integer getMarketAmount(String Sname){
-        return marketAmount.get(Sname);
+        return marketAmount.getOrDefault(Sname, 0);
     }
 
     public static ArrayList<Object[]> ContractComptoComp = new ArrayList<>();
@@ -108,7 +108,7 @@ public class Market {
     }
 
     public static void changeValue(String Sname){
-        double market_pct = (marketAmount.get(Sname).doubleValue()/total.get(Sname).doubleValue());
+        double market_pct = (getMarketAmount(Sname).doubleValue()/getTotal(Sname).doubleValue());
         double x = (1.0 - market_pct)*25.0 - 10.0;
 
         double base = shareBase.get(Sname);
@@ -146,7 +146,7 @@ public class Market {
         Company comp = company.get(Sname);
         double a = -10.0;
         double b = 15.0;
-        double v = (comp.getBal()/total.get(Sname)) / (((Math.pow(flux, b)) - (Math.pow(flux, a))) /Math.log(flux)/(b-a));
+        double v = (comp.getBal()/getTotal(Sname)) / (((Math.pow(flux, b)) - (Math.pow(flux, a))) /Math.log(flux)/(b-a));
         shareBase.put(Sname, v);
 
         changeValue(Sname);
@@ -240,7 +240,7 @@ public class Market {
     }
 
     public static Integer getTotal(String Sname){
-        return total.get(Sname);
+        return total.getOrDefault(Sname, 1000000);
     }
 
     public static void setTotal(String Sname, Integer value){

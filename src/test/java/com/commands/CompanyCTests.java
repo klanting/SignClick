@@ -346,4 +346,102 @@ class CompanyCTests {
         testPlayer.assertSaid("§b1. §3TCI: §70\n");
         testPlayer.assertNoMoreSaid();
     }
+
+    @Test
+    void createCompany2CompanyContract(){
+        PlayerMock testPlayer2 = TestTools.addPermsPlayer(server, plugin);
+
+        boolean suc6 = Market.addBusiness("TestCaseInc2",
+                "TCI2", Market.getAccount(testPlayer2.getUniqueId()));
+        assertTrue(suc6);
+
+        Market.getBusiness("TCI2").addBal(200000.0);
+
+        suc6 = server.execute("company", testPlayer, "send_contract_ctc",
+                "TCI", "TCI2", "100", "2", "I am cold").hasSucceeded();
+        assertTrue(suc6);
+
+        testPlayer.assertSaid("§bplease re-enter your command to confirm\n" +
+                "that you want to send a contract request to §fTCI2\n" +
+                "§bfor an amount of §f100.0\n" +
+                "§bfor a time of §f2 weeks \n" +
+                "§c/company send_contract_ctc TCI TCI2 100.0 2");
+
+        suc6 = server.execute("company", testPlayer, "send_contract_ctc",
+                "TCI", "TCI2", "100", "2", "I am cold").hasSucceeded();
+        assertTrue(suc6);
+
+        testPlayer.assertNoMoreSaid();
+
+        testPlayer2.assertSaid("§b your company §7TCI2§b got a contract from §7TCI§b they " +
+                "will ask you §7100.0§b for §72§b weeks, do §c/company sign_contract_ctc TCI2");
+        testPlayer2.assertNoMoreSaid();
+
+        suc6 = server.execute("company", testPlayer2, "sign_contract_ctc",
+                "TCI2").hasSucceeded();
+        assertTrue(suc6);
+
+        testPlayer2.assertSaid("§bplease re-enter your command to confirm\n" +
+                "that you want to sign a contract (§cYOU PAY THEM§b) requested from §fTCI§b \n" +
+                "for an amount of §f100§b \n" +
+                "for a time of §f2 weeks \n" +
+                "§c/company sign_contract_ctc TCI2");
+
+        suc6 = server.execute("company", testPlayer2, "sign_contract_ctc",
+                "TCI2").hasSucceeded();
+        assertTrue(suc6);
+
+        testPlayer2.assertSaid("§bcontract confirmed");
+
+        testPlayer.assertNoMoreSaid();
+        testPlayer2.assertNoMoreSaid();
+
+        /*
+        * Check 1 comp to comp exists
+        * */
+        assertEquals(1, Market.ContractComptoComp.size());
+
+        /*
+        * Check valid transaction
+        * */
+        assertEquals("TCI2", Market.ContractComptoComp.get(0)[0]);
+        assertEquals("TCI", Market.ContractComptoComp.get(0)[1]);
+        assertEquals(100.0, Market.ContractComptoComp.get(0)[2]);
+        assertEquals(2, Market.ContractComptoComp.get(0)[3]);
+        assertEquals("I am cold", Market.ContractComptoComp.get(0)[4]);
+
+        /*
+        * Restart Server, check persistence
+        * */
+        plugin.onDisable();
+        CountryManager.clear();
+        Market.clear();
+        plugin = TestTools.setupPlugin(server);
+
+        /*
+         * Check 1 comp to comp exists
+         * */
+        assertEquals(1, Market.ContractComptoComp.size());
+
+        /*
+         * Check valid transaction
+         * */
+        assertEquals("TCI2", Market.ContractComptoComp.get(0)[0]);
+        assertEquals("TCI", Market.ContractComptoComp.get(0)[1]);
+        assertEquals(100.0, Market.ContractComptoComp.get(0)[2]);
+        assertEquals(2, Market.ContractComptoComp.get(0)[3]);
+        assertEquals("I am cold", Market.ContractComptoComp.get(0)[4]);
+
+        server.getScheduler().performTicks(60*60*24*7*20+1);
+
+        /*
+         * Check valid transaction, with 1 week less
+         * */
+        assertEquals("TCI2", Market.ContractComptoComp.get(0)[0]);
+        assertEquals("TCI", Market.ContractComptoComp.get(0)[1]);
+        assertEquals(100.0, Market.ContractComptoComp.get(0)[2]);
+        assertEquals(1, Market.ContractComptoComp.get(0)[3]);
+        assertEquals("I am cold", Market.ContractComptoComp.get(0)[4]);
+
+    }
 }

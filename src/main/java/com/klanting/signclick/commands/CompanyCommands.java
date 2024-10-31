@@ -321,8 +321,8 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
 
                 }else{
                     player.sendMessage("§bplease re-enter your command to confirm\nthat you want to send a contract request to §f" +target_stock_name
-                            +"§b \n for an amount of §f"+ amount
-                            +"§b \n for a time of §f"+ weeks+
+                            +"\n§bfor an amount of §f"+ amount
+                            +"\n§bfor a time of §f"+ weeks+
                             " weeks \n§c/company send_contract_ctc "+stock_name+" "+target_stock_name+" "+amount+ " "+ weeks);
                     confirm.put(player, "send_contract_ctc");
                 }
