@@ -4,6 +4,7 @@ import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 
 import com.klanting.signclick.economy.Company;
+import com.klanting.signclick.economy.Country;
 import com.klanting.signclick.economy.CountryManager;
 import com.klanting.signclick.economy.Market;
 import com.klanting.signclick.SignClick;
@@ -349,11 +350,18 @@ class CompanyCTests {
 
     @Test
     void createCompany2CompanyContract(){
+        Country c = CountryManager.create("C", testPlayer);
+        testPlayer.nextMessage();
+
         PlayerMock testPlayer2 = TestTools.addPermsPlayer(server, plugin);
 
         boolean suc6 = Market.addBusiness("TestCaseInc2",
                 "TCI2", Market.getAccount(testPlayer2.getUniqueId()));
         assertTrue(suc6);
+
+
+        Market.getBusiness("TCI").country = c;
+        Market.getBusiness("TCI2").country = c;
 
         Market.getBusiness("TCI2").addBal(200000.0);
 
@@ -437,6 +445,7 @@ class CompanyCTests {
         /*
          * Check valid transaction, with 1 week less
          * */
+        assertEquals(1, Market.ContractComptoComp.size());
         assertEquals("TCI2", Market.ContractComptoComp.get(0)[0]);
         assertEquals("TCI", Market.ContractComptoComp.get(0)[1]);
         assertEquals(100.0, Market.ContractComptoComp.get(0)[2]);

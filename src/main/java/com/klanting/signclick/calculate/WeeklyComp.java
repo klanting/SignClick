@@ -12,7 +12,7 @@ public class WeeklyComp {
         if (SignClick.getPlugin().getConfig().contains("weekly_comp")){
             system_end = (int) SignClick.getPlugin().getConfig().get("weekly_comp");
         }
-        Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(SignClick.getPlugin(), new Runnable() {
+        Bukkit.getServer().getScheduler().runTaskTimer(SignClick.getPlugin(), new Runnable() {
 
             public void run() {
                 CountryManager.runLawSalary();
@@ -27,12 +27,12 @@ public class WeeklyComp {
             }
         },system_end,60*20*60*24*7);
 
-        system_end = System.currentTimeMillis()/1000 + 60*60*24*7;
+        system_end = System.currentTimeMillis()/1000 + 60*60*24*7*20;
 
     }
 
     public static void Save(){
-        SignClick.getPlugin().getConfig().set("weekly_comp", system_end-System.currentTimeMillis()/1000);
+        SignClick.getPlugin().getConfig().set("weekly_comp", system_end);
     }
 
 }

@@ -59,6 +59,7 @@ public class GsonTests {
         Map<UUID, Account> accounts = Utils.readSave("accounts", new TypeToken<HashMap<UUID, Account>>(){}.getType(), new HashMap<>());
         assertEquals(1, accounts.size());
 
+        assertEquals(testPlayer.getUniqueId(), accounts.keySet().iterator().next());
         assertEquals(testPlayer.getUniqueId(), accounts.values().iterator().next().getUuid());
     }
 

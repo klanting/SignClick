@@ -109,17 +109,17 @@ public class Company {
                 }else if (field.getType() == Double.class){
                     o = element.getAsDouble();
                 }else{
-                    o = context.deserialize(element, field.getType());
+                    o = context.deserialize(element, field.getGenericType());
                 }
 
                 field.set(this, o);
+
 
             }catch (IllegalAccessException ignored){
 
             }
 
         }
-
 
     }
 
@@ -137,10 +137,13 @@ public class Company {
 
                     switch (fieldName){
                         case "country":
-                            field.set(this, fieldValue);
-                    }
-                }
+                            if (country != null){
+                                jsonObject.addProperty(fieldName, country.getName());
+                            }
 
+                    }
+                    continue;
+                }
                 jsonObject.add(fieldName, context.serialize(fieldValue));
 
             }catch (IllegalAccessException ignored){

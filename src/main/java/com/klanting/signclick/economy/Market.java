@@ -617,6 +617,7 @@ public class Market {
             }
         }
 
+
         if (SignClick.getPlugin().getConfig().contains("ctp") && !SignClick.getPlugin().getConfig().get("ctp").equals("[]")){
             for (String s :  (List<String>) SignClick.getPlugin().getConfig().get("ctp")) {
                 String[] pairs = s.split(",");
@@ -659,7 +660,6 @@ public class Market {
                     Object[] new_tuple = {tuple[0], tuple[1], amount, weeks, tuple[4]};
                     new_data.add(new_tuple);
                 }
-
                 from.sendOwner("§cContract: from " + from.getStockName() + "(C) to " + to.getStockName() + "(C) amount: " + amount);
                 to.sendOwner("§aContract: from " + from.getStockName() + "(C) to " + to.getStockName() + "(C) amount: " + amount);
             } else {

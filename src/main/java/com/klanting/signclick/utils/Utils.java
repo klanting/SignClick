@@ -43,9 +43,7 @@ public class Utils {
             return new Company(obj, context);
         }
 
-
     }
-
 
     public static <T> void writeSave(String name, T value){
         GsonBuilder builder = new GsonBuilder();
@@ -76,8 +74,6 @@ public class Utils {
         builder.registerTypeAdapter(Company.class, new CompanySerializer());
         builder.registerTypeAdapter(UUID.class, new UUIDDeserializer());
 
-
-
         Gson gson = builder.create();
 
         File file = new File(SignClick.getPlugin().getDataFolder()+"/"+name+".json");
@@ -95,7 +91,7 @@ public class Utils {
 
             reader.close();
             return value;
-        } catch (IOException e) {
+        } catch (IOException | IllegalArgumentException e) {
             throw new RuntimeException(e);
         }
 
