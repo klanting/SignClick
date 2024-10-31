@@ -407,16 +407,16 @@ class CompanyCTests {
         /*
         * Check 1 comp to comp exists
         * */
-        assertEquals(1, Market.ContractComptoComp.size());
+        assertEquals(1, Market.contractCompToComp.size());
 
         /*
         * Check valid transaction
         * */
-        assertEquals("TCI2", Market.ContractComptoComp.get(0)[0]);
-        assertEquals("TCI", Market.ContractComptoComp.get(0)[1]);
-        assertEquals(100.0, Market.ContractComptoComp.get(0)[2]);
-        assertEquals(2, Market.ContractComptoComp.get(0)[3]);
-        assertEquals("I am cold", Market.ContractComptoComp.get(0)[4]);
+        assertEquals("TCI2", Market.contractCompToComp.get(0).from());
+        assertEquals("TCI", Market.contractCompToComp.get(0).to());
+        assertEquals(100.0, Market.contractCompToComp.get(0).getAmount());
+        assertEquals(2, Market.contractCompToComp.get(0).getWeeks());
+        assertEquals("I am cold", Market.contractCompToComp.get(0).getReason());
 
         /*
         * Restart Server, check persistence
@@ -429,28 +429,35 @@ class CompanyCTests {
         /*
          * Check 1 comp to comp exists
          * */
-        assertEquals(1, Market.ContractComptoComp.size());
+        assertEquals(1, Market.contractCompToComp.size());
 
         /*
          * Check valid transaction
          * */
-        assertEquals("TCI2", Market.ContractComptoComp.get(0)[0]);
-        assertEquals("TCI", Market.ContractComptoComp.get(0)[1]);
-        assertEquals(100.0, Market.ContractComptoComp.get(0)[2]);
-        assertEquals(2, Market.ContractComptoComp.get(0)[3]);
-        assertEquals("I am cold", Market.ContractComptoComp.get(0)[4]);
+        assertEquals("TCI2", Market.contractCompToComp.get(0).from());
+        assertEquals("TCI", Market.contractCompToComp.get(0).to());
+        assertEquals(100.0, Market.contractCompToComp.get(0).getAmount());
+        assertEquals(2, Market.contractCompToComp.get(0).getWeeks());
+        assertEquals("I am cold", Market.contractCompToComp.get(0).getReason());
 
         server.getScheduler().performTicks(60*60*24*7*20+1);
 
         /*
          * Check valid transaction, with 1 week less
          * */
-        assertEquals(1, Market.ContractComptoComp.size());
-        assertEquals("TCI2", Market.ContractComptoComp.get(0)[0]);
-        assertEquals("TCI", Market.ContractComptoComp.get(0)[1]);
-        assertEquals(100.0, Market.ContractComptoComp.get(0)[2]);
-        assertEquals(1, Market.ContractComptoComp.get(0)[3]);
-        assertEquals("I am cold", Market.ContractComptoComp.get(0)[4]);
+        assertEquals(1, Market.contractCompToComp.size());
+        assertEquals("TCI2", Market.contractCompToComp.get(0).from());
+        assertEquals("TCI", Market.contractCompToComp.get(0).to());
+        assertEquals(100.0, Market.contractCompToComp.get(0).getAmount());
+        assertEquals(1, Market.contractCompToComp.get(0).getWeeks());
+        assertEquals("I am cold", Market.contractCompToComp.get(0).getReason());
 
+    }
+
+    @Test
+    void companyBuyUnavailableShare(){
+        boolean suc6 = server.execute("company", testPlayer, "buy",
+                "TCI", "1").hasSucceeded();
+        assertTrue(suc6);
     }
 }

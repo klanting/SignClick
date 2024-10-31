@@ -5,6 +5,8 @@ import com.klanting.signclick.calculate.SignStock;
 import com.klanting.signclick.economy.companyPatent.*;
 import com.klanting.signclick.economy.companyUpgrades.*;
 import com.klanting.signclick.SignClick;
+import com.klanting.signclick.economy.contracts.Contract;
+import com.klanting.signclick.economy.contracts.ContractCTC;
 import com.klanting.signclick.utils.Utils;
 import org.bukkit.*;
 import org.bukkit.block.Sign;
@@ -43,7 +45,7 @@ public class Market {
         return marketAmount.getOrDefault(Sname, 0);
     }
 
-    public static ArrayList<Object[]> ContractComptoComp = new ArrayList<>();
+    public static ArrayList<Contract> contractCompToComp = new ArrayList<>();
 
     public static ArrayList<Object[]> ContractComptoPlayer = new ArrayList<Object[]>();
 
@@ -64,7 +66,7 @@ public class Market {
         marketAmount.clear();
         total.clear();
         names.clear();
-        ContractComptoComp.clear();
+        contractCompToComp.clear();
         ContractComptoPlayer.clear();
         ContractServertoComp.clear();
         ContractPlayertoComp.clear();
@@ -76,10 +78,11 @@ public class Market {
     }
 
     public static Double getBuyPrice(String Sname, Integer amount){
-        double market_pct = (marketAmount.get(Sname).doubleValue()/(total.get(Sname).doubleValue()+Math.min(Market.getMarketAmount(Sname), 0)));
+
+        double market_pct = (getMarketAmount(Sname).doubleValue()/(getTotal(Sname).doubleValue()+Math.min(Market.getMarketAmount(Sname), 0)));
         double a = (1.0 - market_pct) * 25.0 - 10.0;
 
-        market_pct = ((marketAmount.get(Sname).doubleValue()-amount.doubleValue())/(total.get(Sname).doubleValue()+Math.min(Market.getMarketAmount(Sname), 0)));
+        market_pct = ((getMarketAmount(Sname).doubleValue()-amount.doubleValue())/(getTotal(Sname).doubleValue()+Math.min(Market.getMarketAmount(Sname), 0)));
         double b = (1.0 - market_pct) * 25.0 - 10.0;
 
         double base = shareBase.get(Sname);
@@ -131,7 +134,7 @@ public class Market {
     }
 
     public static Boolean sell(String Sname, Integer amount, Account acc){
-        int market_am = marketAmount.get(Sname);
+        int market_am = getMarketAmount(Sname);
         marketAmount.put(Sname, market_am+amount);
 
         Company comp = company.get(Sname);
@@ -468,14 +471,9 @@ public class Market {
 
         Utils.writeSave("companies", company);
 
-        List<String> contractString = new ArrayList<>();
-        for (Object[] o : ContractComptoComp){
-            contractString.add(o[0].toString()+","+o[1].toString()+","+o[2].toString()+","+o[3].toString()+","+o[4].toString());
-        }
+        Utils.writeSave("contractCompToComp", contractCompToComp);
 
-        SignClick.getPlugin().getConfig().set("ctc", contractString);
-
-        contractString = new ArrayList<>();
+        List<String>  contractString = new ArrayList<>();
         for (Object[] o : ContractComptoPlayer){
             contractString.add(o[0].toString()+","+o[1].toString()+","+o[2].toString()+","+o[3].toString()+","+o[4].toString());
         }
@@ -607,16 +605,8 @@ public class Market {
             }
         }
 
-        if (SignClick.getPlugin().getConfig().contains("ctc") && !SignClick.getPlugin().getConfig().get("ctc").equals("[]")){
-            for (String s :  (List<String>) SignClick.getPlugin().getConfig().get("ctc")) {
-                String[] pairs = s.split(",");
-
-
-                Object[] tup = {pairs[0], pairs[1], Double.parseDouble(pairs[2]), Integer.parseInt(pairs[3]), pairs[4]};
-                ContractComptoComp.add(tup);
-            }
-        }
-
+        contractCompToComp = Utils.readSave("contractCompToComp",
+                new TypeToken<ArrayList<ContractCTC>>(){}.getType(), new ArrayList<>());
 
         if (SignClick.getPlugin().getConfig().contains("ctp") && !SignClick.getPlugin().getConfig().get("ctp").equals("[]")){
             for (String s :  (List<String>) SignClick.getPlugin().getConfig().get("ctp")) {
@@ -647,29 +637,18 @@ public class Market {
 
     public static void runContracts(){
         // still crashes
-        ArrayList<Object[]> new_data = new ArrayList<>();
-        for (Object[] tuple : ContractComptoComp) {
-            Company from = Market.getBusiness(tuple[0].toString());
-            double amount = (Double) tuple[2];
-            if (from.removeBal(amount)) {
-                Company to = Market.getBusiness(tuple[1].toString());
-                int weeks = (Integer) tuple[3];
-                weeks -= 1;
-                to.addBal(amount);
-                if (weeks > 0) {
-                    Object[] new_tuple = {tuple[0], tuple[1], amount, weeks, tuple[4]};
-                    new_data.add(new_tuple);
-                }
-                from.sendOwner("§cContract: from " + from.getStockName() + "(C) to " + to.getStockName() + "(C) amount: " + amount);
-                to.sendOwner("§aContract: from " + from.getStockName() + "(C) to " + to.getStockName() + "(C) amount: " + amount);
-            } else {
-                //message: not paid
-                new_data.add(tuple);
+        ArrayList<Contract> new_ctc = new ArrayList<>();
+        for (Contract c: contractCompToComp){
+            boolean keep = c.runContract();
+            if (keep){
+             new_ctc.add(c);
             }
-        }
-        ContractComptoComp = new_data;
 
-        new_data = new ArrayList<>();
+        }
+
+        contractCompToComp = new_ctc;
+
+        ArrayList<Object[]> new_data = new ArrayList<>();
         for (Object[] tuple : ContractComptoPlayer) {
             Company from = Market.getBusiness(tuple[0].toString());
             double amount = (Double) tuple[2];
@@ -753,8 +732,7 @@ public class Market {
     }
 
     public static void setContractComptoComp(String from, String to, double amount, int weeks, String reason){
-        Object[] tuple = {from, to, amount, weeks, reason};
-        ContractComptoComp.add(tuple);
+        contractCompToComp.add(new ContractCTC(Market.getBusiness(from), Market.getBusiness(to), amount, weeks, reason));
 
     }
 
@@ -789,20 +767,20 @@ public class Market {
         ArrayList<String> income = new ArrayList<>();
         ArrayList<String> outcome = new ArrayList<>();
 
-        for (Object[] tuple : ContractComptoComp) {
+        for (Contract c : contractCompToComp) {
 
-            Company from = Market.getBusiness(tuple[0].toString());
-            double amount = (Double) tuple[2];
-            Company to = Market.getBusiness(tuple[1].toString());
-            int weeks = (Integer) tuple[3];
+            Company from = Market.getBusiness(c.from());
+            double amount = c.getAmount();
+            Company to = Market.getBusiness(c.to());
+            int weeks = c.getWeeks();
             if (to.getStockName().equals(stock_name)){
                 income.add("§aContract: from " + from.getStockName() + "(C) to " + to.getStockName() + "(C) amount: " + amount
-                        + " for "+weeks+" weeks, " + "reason: "+tuple[4]);
+                        + " for "+weeks+" weeks, " + "reason: "+c.getReason());
             }
 
             if (from.getStockName().equals(stock_name)){
                 outcome.add("§cContract: from " + from.getStockName() + "(C) to " + to.getStockName() + "(C) amount: " + amount
-                        + " for "+weeks+" weeks, "+ "reason: "+tuple[4]);
+                        + " for "+weeks+" weeks, "+ "reason: "+c.getReason());
             }
 
         }

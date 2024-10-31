@@ -21,26 +21,30 @@ public class ContractCTC extends Contract {
         * return true -> keep contract, else not
         * */
 
-        if (from.removeBal(amount)) {
-            weeks -= 1;
-            to.addBal(amount);
-
-            from.sendOwner("§cContract: from " + from.getStockName() + "(C) to " + to.getStockName() + "(C) amount: " + amount);
-            to.sendOwner("§aContract: from " + from.getStockName() + "(C) to " + to.getStockName() + "(C) amount: " + amount);
-            return weeks > 0;
-        } else {
-
+        /*
+        * In case we are unable to retrieve the money from the company account
+        * */
+        if (!from.removeBal(amount)) {
             return true;
         }
+
+        weeks -= 1;
+        to.addBal(amount);
+
+        from.sendOwner("§cContract: from " + from.getStockName() + "(C) to " + to.getStockName() + "(C) amount: " + amount);
+        to.sendOwner("§aContract: from " + from.getStockName() + "(C) to " + to.getStockName() + "(C) amount: " + amount);
+        return weeks > 0;
+
+
     }
 
     @Override
     public String from() {
-        return from.getStockName() +"(C)";
+        return from.getStockName();
     }
 
     @Override
     public String to() {
-        return to.getStockName() +"(C)";
+        return to.getStockName();
     }
 }

@@ -6,11 +6,23 @@ abstract public class Contract {
     protected int weeks;
     protected String reason;
 
+    public int getWeeks() {
+        return weeks;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
     public Contract(double amount, int weeks, String reason){
         this.amount = amount;
         this.weeks = weeks;
         this.reason = reason;
 
+    }
+
+    public double getAmount(){
+        return amount;
     }
 
     abstract public boolean runContract();
