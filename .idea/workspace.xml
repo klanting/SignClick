@@ -9,9 +9,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b3aa4a96-499c-4e97-84b9-6312c5389c7a" name="Changes" comment="made test for CTC contracts">
-      <change afterPath="$PROJECT_DIR$/.github/workflows/testing.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="b3aa4a96-499c-4e97-84b9-6312c5389c7a" name="Changes" comment="fix Gradle build">
+      <change beforePath="$PROJECT_DIR$/.github/workflows/testing.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/testing.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradlew" beforeDir="false" afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -417,7 +417,7 @@
       <workItem from="1729976900447" duration="2424000" />
       <workItem from="1730140723185" duration="392000" />
       <workItem from="1730401712956" duration="6679000" />
-      <workItem from="1730496891337" duration="301000" />
+      <workItem from="1730496891337" duration="611000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Github Commit">
       <option name="closed" value="true" />
@@ -691,7 +691,31 @@
       <option name="project" value="LOCAL" />
       <updated>1730408559351</updated>
     </task>
-    <option name="localTasksCounter" value="35" />
+    <task id="LOCAL-00035" summary="check if github actions works">
+      <option name="closed" value="true" />
+      <created>1730497220235</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1730497220235</updated>
+    </task>
+    <task id="LOCAL-00036" summary="fix java version Github actions">
+      <option name="closed" value="true" />
+      <created>1730497319034</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1730497319034</updated>
+    </task>
+    <task id="LOCAL-00037" summary="fix Gradle build">
+      <option name="closed" value="true" />
+      <created>1730497417777</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1730497417777</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -713,9 +737,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="added some extra tests" />
-    <MESSAGE value="Finally got command test working" />
-    <MESSAGE value="made some company menu tests" />
     <MESSAGE value="testcases weekly pay" />
     <MESSAGE value="added some tests, and cleaning up really small part of Banking class" />
     <MESSAGE value="added some small tests" />
@@ -738,7 +759,10 @@
     <MESSAGE value="changed 1 company handler" />
     <MESSAGE value="progress adding new testcases" />
     <MESSAGE value="made test for CTC contracts" />
-    <option name="LAST_COMMIT_MESSAGE" value="made test for CTC contracts" />
+    <MESSAGE value="check if github actions works" />
+    <MESSAGE value="fix java version Github actions" />
+    <MESSAGE value="fix Gradle build" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix Gradle build" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
