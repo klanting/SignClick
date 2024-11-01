@@ -9,9 +9,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b3aa4a96-499c-4e97-84b9-6312c5389c7a" name="Changes" comment="added missing Gradle files">
-      <change beforePath="$PROJECT_DIR$/.github/workflows/testing.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/testing.yml" afterDir="false" />
-    </list>
+    <list default="true" id="b3aa4a96-499c-4e97-84b9-6312c5389c7a" name="Changes" comment="check if changes have an effect on CI" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -67,119 +65,119 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Batch.gradlew.executor&quot;: &quot;Run&quot;,
-    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;true&quot;,
-    &quot;Gradle.Build SignClick.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CompanyCTests.companyBaltop.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CompanyCTests.companyBuyUnavailableShare.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CompanyCTests.companyCreate.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CompanyCTests.companyCreateWrongParamCount.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CompanyCTests.companyGetSupport.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CompanyCTests.companyGive.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CompanyCTests.companyInfo.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CompanyCTests.companyInfoInvalidCompany.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CompanyCTests.companyMenu.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CompanyCTests.companyNoParam.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CompanyCTests.companyPay.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CompanyCTests.companyPortfolio.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CompanyCTests.companySellBuyShares.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CompanyCTests.companyShareTop.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CompanyCTests.companyShareTopInvalidCompany.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CompanyCTests.companyTransferShares.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CompanyCTests.createCompany2CompanyContract.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CompanyCTests.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CompanyMenuTests.changeCompanyType.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CompanyMenuTests.companyAuction.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CompanyMenuTests.companyCreatePatentItem.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CompanyMenuTests.companyPatentDesign.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CompanyMenuTests.companyPatentsPersistent.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CompanyMenuTests.companyUpgrade.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CompanyTests.companyCreate (1).executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CompanyTests.companyCreate.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CompanyTests.companyRunTicks.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CompanyTests.companySaveLoad.executor&quot;: &quot;Coverage&quot;,
-    &quot;Gradle.CountryCTests.countryAddLawEnforcement.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CountryCTests.countryBalance.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CountryCTests.countryDonate.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CountryCTests.countryDonateNegative.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CountryCTests.countryDonateNotEnoughMoney.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CountryCTests.countryDonateSuc6.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CountryCTests.countryInvite.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CountryCTests.countryKick.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CountryCTests.createCountry.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CountryCTests.createCountryFailedDuplicatedName.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CountryCTests.createCountryFailedPerms.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CountryCTests.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CountryTests (1).executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CountryTests.CountryCreate (1).executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CountryTests.CountryCreate.executor&quot;: &quot;Coverage&quot;,
-    &quot;Gradle.CountryTests.CountryDelete.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CountryTests.CountryDepositWithdraw.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CountryTests.CountryGetBalance.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CountryTests.capitalChangeStability.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CountryTests.countryAddMember.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CountryTests.countryAddRemoveOwner.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CountryTests.countryColors.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CountryTests.countryCreate.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CountryTests.countryDelete.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CountryTests.countryDeleteFailed.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CountryTests.countryElementByUUID.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CountryTests.countryElementOffline.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CountryTests.countryFailedCreate.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CountryTests.countryLeaveOwner.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CountryTests.countryOwner.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CountryTests.countryRemoveMember.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CountryTests.countrySaveLoad.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CountryTests.countrySaveLoadAdvanced.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CountryTests.countrySetOwner.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CountryTests.countrySpawn.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CountryTests.countryStability.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CountryTests.countryTax.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CountryTests.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.CountryTests.getTopCountries.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.Download Sources.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.GsonTests.saveLoadAccount.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.GsonTests.saveLoadCompany.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.GsonTests.saveLoadUUID.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.PartyTests.createParty.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.PartyTests.elections.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.PartyTests.getRulingParty.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.PartyTests.partyMembership.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.PartyTests.removeParty.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.PolicyTests.policyMakeDecision.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.PolicyTests.policySaveAndRestore.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.PolicyTests.setPolicy.executor&quot;: &quot;Coverage&quot;,
-    &quot;Gradle.SignTpTests.doSignTp.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.TestAll.executor&quot;: &quot;Coverage&quot;,
-    &quot;Gradle.WeeklyPayCTests.makeWeeklyPay.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.WeeklyPayCTests.makeWeeklyPayNotEnoughMoney.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.WeeklyPayCTests.weeklyPaySaveRestore.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.CountryTests (1).executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.CountryTests.CountryCreate.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.CountryTests.executor&quot;: &quot;Run&quot;,
-    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;18&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;F:/Projects/Programming/PluginDev/SignClick/src/main/resources&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Batch.gradlew.executor": "Run",
+    "Downloaded.Files.Path.Enabled": "true",
+    "Gradle.Build SignClick.executor": "Run",
+    "Gradle.CompanyCTests.companyBaltop.executor": "Run",
+    "Gradle.CompanyCTests.companyBuyUnavailableShare.executor": "Run",
+    "Gradle.CompanyCTests.companyCreate.executor": "Run",
+    "Gradle.CompanyCTests.companyCreateWrongParamCount.executor": "Run",
+    "Gradle.CompanyCTests.companyGetSupport.executor": "Run",
+    "Gradle.CompanyCTests.companyGive.executor": "Run",
+    "Gradle.CompanyCTests.companyInfo.executor": "Run",
+    "Gradle.CompanyCTests.companyInfoInvalidCompany.executor": "Run",
+    "Gradle.CompanyCTests.companyMenu.executor": "Run",
+    "Gradle.CompanyCTests.companyNoParam.executor": "Run",
+    "Gradle.CompanyCTests.companyPay.executor": "Run",
+    "Gradle.CompanyCTests.companyPortfolio.executor": "Run",
+    "Gradle.CompanyCTests.companySellBuyShares.executor": "Run",
+    "Gradle.CompanyCTests.companyShareTop.executor": "Run",
+    "Gradle.CompanyCTests.companyShareTopInvalidCompany.executor": "Run",
+    "Gradle.CompanyCTests.companyTransferShares.executor": "Run",
+    "Gradle.CompanyCTests.createCompany2CompanyContract.executor": "Run",
+    "Gradle.CompanyCTests.executor": "Run",
+    "Gradle.CompanyMenuTests.changeCompanyType.executor": "Run",
+    "Gradle.CompanyMenuTests.companyAuction.executor": "Run",
+    "Gradle.CompanyMenuTests.companyCreatePatentItem.executor": "Run",
+    "Gradle.CompanyMenuTests.companyPatentDesign.executor": "Run",
+    "Gradle.CompanyMenuTests.companyPatentsPersistent.executor": "Run",
+    "Gradle.CompanyMenuTests.companyUpgrade.executor": "Run",
+    "Gradle.CompanyTests.companyCreate (1).executor": "Run",
+    "Gradle.CompanyTests.companyCreate.executor": "Run",
+    "Gradle.CompanyTests.companyRunTicks.executor": "Run",
+    "Gradle.CompanyTests.companySaveLoad.executor": "Coverage",
+    "Gradle.CountryCTests.countryAddLawEnforcement.executor": "Run",
+    "Gradle.CountryCTests.countryBalance.executor": "Run",
+    "Gradle.CountryCTests.countryDonate.executor": "Run",
+    "Gradle.CountryCTests.countryDonateNegative.executor": "Run",
+    "Gradle.CountryCTests.countryDonateNotEnoughMoney.executor": "Run",
+    "Gradle.CountryCTests.countryDonateSuc6.executor": "Run",
+    "Gradle.CountryCTests.countryInvite.executor": "Run",
+    "Gradle.CountryCTests.countryKick.executor": "Run",
+    "Gradle.CountryCTests.createCountry.executor": "Run",
+    "Gradle.CountryCTests.createCountryFailedDuplicatedName.executor": "Run",
+    "Gradle.CountryCTests.createCountryFailedPerms.executor": "Run",
+    "Gradle.CountryCTests.executor": "Run",
+    "Gradle.CountryTests (1).executor": "Run",
+    "Gradle.CountryTests.CountryCreate (1).executor": "Run",
+    "Gradle.CountryTests.CountryCreate.executor": "Coverage",
+    "Gradle.CountryTests.CountryDelete.executor": "Run",
+    "Gradle.CountryTests.CountryDepositWithdraw.executor": "Run",
+    "Gradle.CountryTests.CountryGetBalance.executor": "Run",
+    "Gradle.CountryTests.capitalChangeStability.executor": "Run",
+    "Gradle.CountryTests.countryAddMember.executor": "Run",
+    "Gradle.CountryTests.countryAddRemoveOwner.executor": "Run",
+    "Gradle.CountryTests.countryColors.executor": "Run",
+    "Gradle.CountryTests.countryCreate.executor": "Run",
+    "Gradle.CountryTests.countryDelete.executor": "Run",
+    "Gradle.CountryTests.countryDeleteFailed.executor": "Run",
+    "Gradle.CountryTests.countryElementByUUID.executor": "Run",
+    "Gradle.CountryTests.countryElementOffline.executor": "Run",
+    "Gradle.CountryTests.countryFailedCreate.executor": "Run",
+    "Gradle.CountryTests.countryLeaveOwner.executor": "Run",
+    "Gradle.CountryTests.countryOwner.executor": "Run",
+    "Gradle.CountryTests.countryRemoveMember.executor": "Run",
+    "Gradle.CountryTests.countrySaveLoad.executor": "Run",
+    "Gradle.CountryTests.countrySaveLoadAdvanced.executor": "Run",
+    "Gradle.CountryTests.countrySetOwner.executor": "Run",
+    "Gradle.CountryTests.countrySpawn.executor": "Run",
+    "Gradle.CountryTests.countryStability.executor": "Run",
+    "Gradle.CountryTests.countryTax.executor": "Run",
+    "Gradle.CountryTests.executor": "Run",
+    "Gradle.CountryTests.getTopCountries.executor": "Run",
+    "Gradle.Download Sources.executor": "Run",
+    "Gradle.GsonTests.saveLoadAccount.executor": "Run",
+    "Gradle.GsonTests.saveLoadCompany.executor": "Run",
+    "Gradle.GsonTests.saveLoadUUID.executor": "Run",
+    "Gradle.PartyTests.createParty.executor": "Run",
+    "Gradle.PartyTests.elections.executor": "Run",
+    "Gradle.PartyTests.getRulingParty.executor": "Run",
+    "Gradle.PartyTests.partyMembership.executor": "Run",
+    "Gradle.PartyTests.removeParty.executor": "Run",
+    "Gradle.PolicyTests.policyMakeDecision.executor": "Run",
+    "Gradle.PolicyTests.policySaveAndRestore.executor": "Run",
+    "Gradle.PolicyTests.setPolicy.executor": "Coverage",
+    "Gradle.SignTpTests.doSignTp.executor": "Run",
+    "Gradle.TestAll.executor": "Run",
+    "Gradle.WeeklyPayCTests.makeWeeklyPay.executor": "Run",
+    "Gradle.WeeklyPayCTests.makeWeeklyPayNotEnoughMoney.executor": "Run",
+    "Gradle.WeeklyPayCTests.weeklyPaySaveRestore.executor": "Run",
+    "JUnit.CountryTests (1).executor": "Run",
+    "JUnit.CountryTests.CountryCreate.executor": "Run",
+    "JUnit.CountryTests.executor": "Run",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "jdk.selected.JAVA_MODULE": "18",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "F:/Projects/Programming/PluginDev/SignClick/src/main/resources",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Artifacts",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="F:\Projects\Programming\PluginDev\SignClick\src\main\resources" />
@@ -416,7 +414,7 @@
       <workItem from="1729976900447" duration="2424000" />
       <workItem from="1730140723185" duration="392000" />
       <workItem from="1730401712956" duration="6679000" />
-      <workItem from="1730496891337" duration="909000" />
+      <workItem from="1730496891337" duration="1306000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Github Commit">
       <option name="closed" value="true" />
@@ -730,7 +728,39 @@
       <option name="project" value="LOCAL" />
       <updated>1730497610144</updated>
     </task>
-    <option name="localTasksCounter" value="40" />
+    <task id="LOCAL-00040" summary="see if this helps the CI working">
+      <option name="closed" value="true" />
+      <created>1730497875390</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1730497875390</updated>
+    </task>
+    <task id="LOCAL-00041" summary="see if this helps the CI working">
+      <option name="closed" value="true" />
+      <created>1730497958999</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1730497958999</updated>
+    </task>
+    <task id="LOCAL-00042" summary="changed workflow Java version for gradle compatible">
+      <option name="closed" value="true" />
+      <created>1730498045288</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1730498045288</updated>
+    </task>
+    <task id="LOCAL-00043" summary="check if changes have an effect on CI">
+      <option name="closed" value="true" />
+      <created>1730498196716</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1730498196716</updated>
+    </task>
+    <option name="localTasksCounter" value="44" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -752,9 +782,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="added some small tests" />
-    <MESSAGE value="first party country refactoring from C style static methods to OOP" />
-    <MESSAGE value="Completed the restore country data, not tested yet" />
     <MESSAGE value="Progress in bring CountryManagement to OOP" />
     <MESSAGE value="continue refactoring" />
     <MESSAGE value="made the testcases working after refactoring to OOP countries" />
@@ -777,7 +804,10 @@
     <MESSAGE value="fix Gradle build" />
     <MESSAGE value="small change so gradlew is executable" />
     <MESSAGE value="added missing Gradle files" />
-    <option name="LAST_COMMIT_MESSAGE" value="added missing Gradle files" />
+    <MESSAGE value="see if this helps the CI working" />
+    <MESSAGE value="changed workflow Java version for gradle compatible" />
+    <MESSAGE value="check if changes have an effect on CI" />
+    <option name="LAST_COMMIT_MESSAGE" value="check if changes have an effect on CI" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
