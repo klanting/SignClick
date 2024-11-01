@@ -9,7 +9,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b3aa4a96-499c-4e97-84b9-6312c5389c7a" name="Changes" comment="last CI try fix for today" />
+    <list default="true" id="b3aa4a96-499c-4e97-84b9-6312c5389c7a" name="Changes" comment="see if this workaround works">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/company/CompanyTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/company/CompanyTests.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -190,7 +194,7 @@
       <recent name="F:\Projects\Programming\PluginDev\SignClick" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.CompanyCTests.companyGive">
+  <component name="RunManager" selected="Gradle.TestAll">
     <configuration name="CompanyCTests.companyBuyUnavailableShare" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -414,7 +418,7 @@
       <workItem from="1729976900447" duration="2424000" />
       <workItem from="1730140723185" duration="392000" />
       <workItem from="1730401712956" duration="6679000" />
-      <workItem from="1730496891337" duration="2534000" />
+      <workItem from="1730496891337" duration="3871000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Github Commit">
       <option name="closed" value="true" />
@@ -800,7 +804,15 @@
       <option name="project" value="LOCAL" />
       <updated>1730499289346</updated>
     </task>
-    <option name="localTasksCounter" value="49" />
+    <task id="LOCAL-00049" summary="see if this workaround works">
+      <option name="closed" value="true" />
+      <created>1730499557645</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1730499557645</updated>
+    </task>
+    <option name="localTasksCounter" value="50" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -822,7 +834,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="added encapsulation for Policy Component" />
     <MESSAGE value="first part of making contracts objects" />
     <MESSAGE value="some progress with gson" />
     <MESSAGE value="made start of companies being serialized into json" />
@@ -847,7 +858,8 @@
     <MESSAGE value="Debug logging test case" />
     <MESSAGE value="another gradle try" />
     <MESSAGE value="last CI try fix for today" />
-    <option name="LAST_COMMIT_MESSAGE" value="last CI try fix for today" />
+    <MESSAGE value="see if this workaround works" />
+    <option name="LAST_COMMIT_MESSAGE" value="see if this workaround works" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

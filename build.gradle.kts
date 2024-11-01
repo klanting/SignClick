@@ -25,6 +25,7 @@ repositories {
     maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/");
     maven("https://oss.sonatype.org/content/repositories/snapshots");
     maven("https://oss.sonatype.org/content/repositories/central");
+    maven("https://repo1.maven.org/maven2/com/github/seeseemelk/MockBukkit-v1.19");
 }
 
 dependencies {
@@ -36,9 +37,8 @@ dependencies {
     implementation("com.google.code.gson:gson:2.10.1")
 
     testImplementation("org.mockito:mockito-core:5.2.0")
-    implementation("org.junit.jupiter:junit-jupiter:5.11.0");
+    implementation("org.junit.jupiter:junit-jupiter:5.11.3");
 
-    testImplementation("org.opentest4j:opentest4j:1.3.0")
     implementation("com.github.seeseemelk:MockBukkit-v1.19:3.1.0")
     implementation("com.github.MilkBowl:VaultAPI:1.7");
     implementation("us.dynmap:dynmap-api:3.1-beta-2");
