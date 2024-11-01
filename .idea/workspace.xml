@@ -9,9 +9,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b3aa4a96-499c-4e97-84b9-6312c5389c7a" name="Changes" comment="fix Gradle build">
+    <list default="true" id="b3aa4a96-499c-4e97-84b9-6312c5389c7a" name="Changes" comment="added missing Gradle files">
       <change beforePath="$PROJECT_DIR$/.github/workflows/testing.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/testing.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradlew" beforeDir="false" afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -417,7 +416,7 @@
       <workItem from="1729976900447" duration="2424000" />
       <workItem from="1730140723185" duration="392000" />
       <workItem from="1730401712956" duration="6679000" />
-      <workItem from="1730496891337" duration="611000" />
+      <workItem from="1730496891337" duration="909000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Github Commit">
       <option name="closed" value="true" />
@@ -715,7 +714,23 @@
       <option name="project" value="LOCAL" />
       <updated>1730497417777</updated>
     </task>
-    <option name="localTasksCounter" value="38" />
+    <task id="LOCAL-00038" summary="small change so gradlew is executable">
+      <option name="closed" value="true" />
+      <created>1730497519008</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1730497519009</updated>
+    </task>
+    <task id="LOCAL-00039" summary="added missing Gradle files">
+      <option name="closed" value="true" />
+      <created>1730497610144</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1730497610144</updated>
+    </task>
+    <option name="localTasksCounter" value="40" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -737,8 +752,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="testcases weekly pay" />
-    <MESSAGE value="added some tests, and cleaning up really small part of Banking class" />
     <MESSAGE value="added some small tests" />
     <MESSAGE value="first party country refactoring from C style static methods to OOP" />
     <MESSAGE value="Completed the restore country data, not tested yet" />
@@ -762,7 +775,9 @@
     <MESSAGE value="check if github actions works" />
     <MESSAGE value="fix java version Github actions" />
     <MESSAGE value="fix Gradle build" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix Gradle build" />
+    <MESSAGE value="small change so gradlew is executable" />
+    <MESSAGE value="added missing Gradle files" />
+    <option name="LAST_COMMIT_MESSAGE" value="added missing Gradle files" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
