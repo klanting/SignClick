@@ -9,10 +9,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b3aa4a96-499c-4e97-84b9-6312c5389c7a" name="Changes" comment="Debug logging test case">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/commands/CompanyCTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/commands/CompanyCTests.java" afterDir="false" />
-    </list>
+    <list default="true" id="b3aa4a96-499c-4e97-84b9-6312c5389c7a" name="Changes" comment="last CI try fix for today" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -417,7 +414,7 @@
       <workItem from="1729976900447" duration="2424000" />
       <workItem from="1730140723185" duration="392000" />
       <workItem from="1730401712956" duration="6679000" />
-      <workItem from="1730496891337" duration="2231000" />
+      <workItem from="1730496891337" duration="2534000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Github Commit">
       <option name="closed" value="true" />
@@ -787,7 +784,23 @@
       <option name="project" value="LOCAL" />
       <updated>1730498769263</updated>
     </task>
-    <option name="localTasksCounter" value="47" />
+    <task id="LOCAL-00047" summary="another gradle try">
+      <option name="closed" value="true" />
+      <created>1730499245276</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1730499245276</updated>
+    </task>
+    <task id="LOCAL-00048" summary="last CI try fix for today">
+      <option name="closed" value="true" />
+      <created>1730499289346</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1730499289346</updated>
+    </task>
+    <option name="localTasksCounter" value="49" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -809,8 +822,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="improved country creation" />
-    <MESSAGE value="increased test coverage" />
     <MESSAGE value="added encapsulation for Policy Component" />
     <MESSAGE value="first part of making contracts objects" />
     <MESSAGE value="some progress with gson" />
@@ -834,7 +845,9 @@
     <MESSAGE value="debugging CI" />
     <MESSAGE value="other gradle version maybe ?" />
     <MESSAGE value="Debug logging test case" />
-    <option name="LAST_COMMIT_MESSAGE" value="Debug logging test case" />
+    <MESSAGE value="another gradle try" />
+    <MESSAGE value="last CI try fix for today" />
+    <option name="LAST_COMMIT_MESSAGE" value="last CI try fix for today" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
