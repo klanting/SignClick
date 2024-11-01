@@ -9,7 +9,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b3aa4a96-499c-4e97-84b9-6312c5389c7a" name="Changes" comment="check if changes have an effect on CI" />
+    <list default="true" id="b3aa4a96-499c-4e97-84b9-6312c5389c7a" name="Changes" comment="debugging CI">
+      <change beforePath="$PROJECT_DIR$/.github/workflows/testing.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/testing.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/commands/CompanyCTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/commands/CompanyCTests.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -414,7 +417,7 @@
       <workItem from="1729976900447" duration="2424000" />
       <workItem from="1730140723185" duration="392000" />
       <workItem from="1730401712956" duration="6679000" />
-      <workItem from="1730496891337" duration="1306000" />
+      <workItem from="1730496891337" duration="1612000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Github Commit">
       <option name="closed" value="true" />
@@ -760,7 +763,15 @@
       <option name="project" value="LOCAL" />
       <updated>1730498196716</updated>
     </task>
-    <option name="localTasksCounter" value="44" />
+    <task id="LOCAL-00044" summary="debugging CI">
+      <option name="closed" value="true" />
+      <created>1730498365226</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1730498365226</updated>
+    </task>
+    <option name="localTasksCounter" value="45" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -782,7 +793,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Progress in bring CountryManagement to OOP" />
     <MESSAGE value="continue refactoring" />
     <MESSAGE value="made the testcases working after refactoring to OOP countries" />
     <MESSAGE value="improved country creation" />
@@ -807,7 +817,8 @@
     <MESSAGE value="see if this helps the CI working" />
     <MESSAGE value="changed workflow Java version for gradle compatible" />
     <MESSAGE value="check if changes have an effect on CI" />
-    <option name="LAST_COMMIT_MESSAGE" value="check if changes have an effect on CI" />
+    <MESSAGE value="debugging CI" />
+    <option name="LAST_COMMIT_MESSAGE" value="debugging CI" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
