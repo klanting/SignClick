@@ -190,7 +190,6 @@ class CompanyCTests {
         boolean suc6 = server.execute("company", testPlayer, "give", "TCI", "1000").hasSucceeded();
         assertTrue(suc6);
 
-        SignClick.getPlugin().getLogger().log(Level.SEVERE, testPlayer.nextMessage());
         testPlayer.assertSaid("§bplease re-enter your command to confirm\n" +
                 "that you want to give §f1.000§b to §fTCI\n" +
                 "§c/company give TCI 1000.0");

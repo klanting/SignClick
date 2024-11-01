@@ -9,8 +9,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b3aa4a96-499c-4e97-84b9-6312c5389c7a" name="Changes" comment="debugging CI">
-      <change beforePath="$PROJECT_DIR$/.github/workflows/testing.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/testing.yml" afterDir="false" />
+    <list default="true" id="b3aa4a96-499c-4e97-84b9-6312c5389c7a" name="Changes" comment="Debug logging test case">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/com/commands/CompanyCTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/commands/CompanyCTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -193,7 +193,7 @@
       <recent name="F:\Projects\Programming\PluginDev\SignClick" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.TestAll">
+  <component name="RunManager" selected="Gradle.CompanyCTests.companyGive">
     <configuration name="CompanyCTests.companyBuyUnavailableShare" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -218,7 +218,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="CompanyCTests.companyShareTopInvalidCompany" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="CompanyCTests.companyGive" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -231,7 +231,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;com.commands.CompanyCTests.companyShareTopInvalidCompany&quot;" />
+            <option value="&quot;com.commands.CompanyCTests.companyGive&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -339,19 +339,19 @@
     </configuration>
     <list>
       <item itemvalue="Gradle.TestAll" />
+      <item itemvalue="Gradle.CompanyCTests.companyGive" />
       <item itemvalue="Gradle.CompanyCTests.companyBuyUnavailableShare" />
       <item itemvalue="Gradle.CompanyCTests.createCompany2CompanyContract" />
       <item itemvalue="Gradle.GsonTests.saveLoadAccount" />
       <item itemvalue="Gradle.GsonTests.saveLoadCompany" />
-      <item itemvalue="Gradle.CompanyCTests.companyShareTopInvalidCompany" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.CompanyCTests.companyGive" />
         <item itemvalue="Gradle.CompanyCTests.companyBuyUnavailableShare" />
         <item itemvalue="Gradle.CompanyCTests.createCompany2CompanyContract" />
         <item itemvalue="Gradle.GsonTests.saveLoadCompany" />
         <item itemvalue="Gradle.GsonTests.saveLoadAccount" />
-        <item itemvalue="Gradle.CompanyCTests.companyShareTopInvalidCompany" />
       </list>
     </recent_temporary>
   </component>
@@ -417,7 +417,7 @@
       <workItem from="1729976900447" duration="2424000" />
       <workItem from="1730140723185" duration="392000" />
       <workItem from="1730401712956" duration="6679000" />
-      <workItem from="1730496891337" duration="1612000" />
+      <workItem from="1730496891337" duration="2231000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Github Commit">
       <option name="closed" value="true" />
@@ -771,7 +771,23 @@
       <option name="project" value="LOCAL" />
       <updated>1730498365226</updated>
     </task>
-    <option name="localTasksCounter" value="45" />
+    <task id="LOCAL-00045" summary="other gradle version maybe ?">
+      <option name="closed" value="true" />
+      <created>1730498523845</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1730498523845</updated>
+    </task>
+    <task id="LOCAL-00046" summary="Debug logging test case">
+      <option name="closed" value="true" />
+      <created>1730498769263</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1730498769263</updated>
+    </task>
+    <option name="localTasksCounter" value="47" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -793,8 +809,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="continue refactoring" />
-    <MESSAGE value="made the testcases working after refactoring to OOP countries" />
     <MESSAGE value="improved country creation" />
     <MESSAGE value="increased test coverage" />
     <MESSAGE value="added encapsulation for Policy Component" />
@@ -818,7 +832,9 @@
     <MESSAGE value="changed workflow Java version for gradle compatible" />
     <MESSAGE value="check if changes have an effect on CI" />
     <MESSAGE value="debugging CI" />
-    <option name="LAST_COMMIT_MESSAGE" value="debugging CI" />
+    <MESSAGE value="other gradle version maybe ?" />
+    <MESSAGE value="Debug logging test case" />
+    <option name="LAST_COMMIT_MESSAGE" value="Debug logging test case" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
