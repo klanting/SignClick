@@ -237,7 +237,8 @@ class CompanyCTests {
         testPlayer.assertNoMoreSaid();
 
         assertEquals(999000, Market.getAccount(testPlayer.getUniqueId()).shares.get("TCI"));
-        assertEquals(1000, Market.getMarketAmount("TCI"));
+
+        assertEquals(1000, comp.getMarketShares());
         assertEquals(993, Math.round(comp.getValue()));
 
         /*
@@ -257,7 +258,7 @@ class CompanyCTests {
         testPlayer.assertNoMoreSaid();
 
         assertEquals(1000000, Market.getAccount(testPlayer.getUniqueId()).shares.get("TCI"));
-        assertEquals(0, Market.getMarketAmount("TCI"));
+        assertEquals(0, comp.getMarketShares());
         assertEquals(997, Math.round(comp.getValue()));
 
     }

@@ -797,13 +797,14 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
                 Market.getBusiness(stock_name).openTrade = to_open;
 
                 if (!to_open){
-                    Market.setMarketAmount(stock_name, 0);
+                    Market.getBusiness(stock_name).marketShares = 0;
                 }else{
 
                     Company comp = Market.getBusiness(stock_name);
-                    comp.totalShares = comp.getTotalShares()-Market.getMarketAmount(stock_name);
 
-                    Market.setMarketAmount(stock_name, 0);
+                    comp.totalShares = comp.getTotalShares()-comp.getMarketShares();
+
+                    comp.marketShares = 0;
                 }
 
                 player.sendMessage("§bopen trade set yo "+ Market.getBusiness(stock_name).openTrade);

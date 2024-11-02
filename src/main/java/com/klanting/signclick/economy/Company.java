@@ -53,11 +53,20 @@ public class Company {
     public Country country;
     public String type;
 
+    public Integer totalShares = 1000000;
+
+    public Integer marketShares = 0;
+
+    public Integer getMarketShares() {
+        return marketShares;
+    }
+
+
     public Integer getTotalShares() {
         return totalShares;
     }
 
-    public Integer totalShares = 1000000;
+
 
     public Company(String n, String StockName, Account creater){
         name = n;
@@ -369,7 +378,7 @@ public class Company {
         if (openTrade){
             player.sendMessage("§eMarket: §f"+"inf"+" ("+"inf"+"%)");
         }else{
-            player.sendMessage("§eMarket: §f"+df.format(Market.getMarketAmount(stockName))+" ("+df2.format(Market.getMarketAmount(stockName)/totalShares.doubleValue()*100.0)+"%)");
+            player.sendMessage("§eMarket: §f"+df.format(marketShares)+" ("+df2.format(marketShares/totalShares.doubleValue()*100.0)+"%)");
         }
 
         order.clear();
@@ -388,7 +397,7 @@ public class Company {
 
 
         double value_one = (getValue()/totalShares.doubleValue())*(0.01- modifier1-modifier2);
-        removeBal(value_one*(totalShares-Market.getMarketAmount(stockName)));
+        removeBal(value_one*(totalShares-marketShares));
         for (Entry<UUID, Integer> entry : shareHolders.entrySet()){
             UUID holder = entry.getKey();
             OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(holder);

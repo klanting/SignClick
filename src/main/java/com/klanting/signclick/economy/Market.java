@@ -25,8 +25,7 @@ public class Market {
     private static Map<String, Company> company = new HashMap<String, Company>();
     private static final Map<String, Double> shareValues = new HashMap<String, Double>();
     private static final Map<String, Double> shareBase = new HashMap<String, Double>();
-    private static final Map<String, Integer> marketAmount = new HashMap<String, Integer>();
-    private static final Map<String, Integer> total = new HashMap<String, Integer>();
+
     public static final Double fee = 0.05;
     public static final Double flux = 1.15;
 
@@ -39,10 +38,6 @@ public class Market {
     }
     public static Double getBase(String Sname){
         return shareBase.get(Sname);
-    }
-
-    public static Integer getMarketAmount(String Sname){
-        return marketAmount.getOrDefault(Sname, 0);
     }
 
     public static ArrayList<Contract> contractCompToComp = new ArrayList<>();
@@ -63,8 +58,7 @@ public class Market {
         company.clear();
         shareValues.clear();
         shareBase.clear();
-        marketAmount.clear();
-        total.clear();
+
         names.clear();
         contractCompToComp.clear();
         ContractComptoPlayer.clear();
@@ -73,16 +67,13 @@ public class Market {
         stock_signs.clear();
     }
 
-    public static void setMarketAmount(String Sname, Integer amount){
-        marketAmount.put(Sname, amount);
-    }
-
     public static Double getBuyPrice(String Sname, Integer amount){
         Company comp = Market.getBusiness(Sname);
-        double market_pct = (getMarketAmount(Sname).doubleValue()/(comp.getTotalShares().doubleValue()+Math.min(Market.getMarketAmount(Sname), 0)));
+
+        double market_pct = (comp.getMarketShares().doubleValue()/(comp.getTotalShares().doubleValue()+Math.min(comp.getMarketShares(), 0)));
         double a = (1.0 - market_pct) * 25.0 - 10.0;
 
-        market_pct = ((getMarketAmount(Sname).doubleValue()-amount.doubleValue())/(comp.getTotalShares().doubleValue()+Math.min(Market.getMarketAmount(Sname), 0)));
+        market_pct = ((comp.getMarketShares().doubleValue()-amount.doubleValue())/(comp.getTotalShares().doubleValue()+Math.min(comp.getMarketShares(), 0)));
         double b = (1.0 - market_pct) * 25.0 - 10.0;
 
         double base = shareBase.get(Sname);
@@ -112,7 +103,7 @@ public class Market {
 
     public static void changeValue(String Sname){
         Company comp = Market.getBusiness(Sname);
-        double market_pct = (getMarketAmount(Sname).doubleValue()/comp.getTotalShares().doubleValue());
+        double market_pct = (comp.getMarketShares().doubleValue()/comp.getTotalShares().doubleValue());
         double x = (1.0 - market_pct)*25.0 - 10.0;
 
         double base = shareBase.get(Sname);
@@ -120,11 +111,11 @@ public class Market {
     }
 
     public static Boolean buy(String Sname, Integer amount, Account acc){
-        if (marketAmount.get(Sname) >= amount || getBusiness(Sname).openTrade){
-            int market_am = marketAmount.get(Sname);
-            marketAmount.put(Sname, market_am-amount);
+        Company comp = getBusiness(Sname);
+        if (comp.getMarketShares() >= amount || comp.openTrade){
+            int market_am = comp.getMarketShares();
+            comp.marketShares = market_am-amount;
 
-            Company comp = company.get(Sname);
             comp.changeShareHolder(acc, amount);
 
             changeValue(Sname);
@@ -135,10 +126,11 @@ public class Market {
     }
 
     public static Boolean sell(String Sname, Integer amount, Account acc){
-        int market_am = getMarketAmount(Sname);
-        marketAmount.put(Sname, market_am+amount);
-
         Company comp = company.get(Sname);
+
+        int market_am = comp.getMarketShares();
+        comp.marketShares = market_am+amount;
+
         comp.changeShareHolder(acc, -amount);
 
         changeValue(Sname);
@@ -166,7 +158,7 @@ public class Market {
             Company comp = new Company(namebus, Sname, acc);
             company.put(Sname, comp);
 
-            marketAmount.put(Sname, 0);
+            comp.marketShares = 0;
 
             comp.totalShares = 1000000;
 
@@ -306,8 +298,9 @@ public class Market {
         comp.type = type;
         company.put(Sname, comp);
 
-        marketAmount.put(Sname, ma);
-        total.put(Sname, to);
+        comp.marketShares = ma;
+
+        comp.totalShares = to;
 
         shareBase.put(Sname, sb);
         changeBase(Sname);
@@ -414,9 +407,9 @@ public class Market {
     public static void marketAvailable(Player player){
         ArrayList<String> order = new ArrayList<String>();
         ArrayList<Integer> values = new ArrayList<Integer>();
-        for(Map.Entry<String, Integer> entry : marketAmount.entrySet()){
+        for(Map.Entry<String, Company> entry : company.entrySet()){
             String b = entry.getKey();
-            int v = entry.getValue();
+            int v = entry.getValue().getMarketShares();
 
             if (order.size() > 0){
                 boolean found = false;
