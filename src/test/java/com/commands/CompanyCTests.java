@@ -19,6 +19,7 @@ import be.seeseemelk.mockbukkit.entity.PlayerMock;
 import org.junit.jupiter.api.Test;
 
 import java.util.Locale;
+import java.util.Map;
 import java.util.logging.Level;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -466,5 +467,103 @@ class CompanyCTests {
         boolean suc6 = server.execute("company", testPlayer, "buy",
                 "TCI", "1").hasSucceeded();
         assertTrue(suc6);
+
+        testPlayer.assertSaid("§bplease re-enter your command to confirm\n" +
+                "that you want to buy §f1§b from §fTCI for a price of §60,00 \n" +
+                "§c/company buy TCI 1");
+        testPlayer.assertNoMoreSaid();
+
+        suc6 = server.execute("company", testPlayer, "buy",
+                "TCI", "1").hasSucceeded();
+        assertTrue(suc6);
+
+        testPlayer.assertSaid("§bbuy: §cdenied (not enough shares on the market)");
+        testPlayer.assertNoMoreSaid();
     }
+
+    @Test
+    void companyOpenTrade(){
+        boolean suc6 = server.execute("company", testPlayer, "open_trade",
+                "TCI", "TRUE").hasSucceeded();
+        assertTrue(suc6);
+
+        testPlayer.assertSaid("§bopen trade set to true");
+        testPlayer.assertNoMoreSaid();
+
+        Company comp = Market.getBusiness("TCI");
+        assertTrue(comp.openTrade);
+        assertEquals(0, comp.marketShares);
+
+    }
+
+    @Test
+    void companyBuyOpenTrade(){
+        companyOpenTrade();
+        boolean suc6 = server.execute("company", testPlayer, "buy",
+                "TCI", "1").hasSucceeded();
+        assertTrue(suc6);
+
+        testPlayer.assertSaid("§bplease re-enter your command to confirm\n" +
+                "that you want to buy §f1§b from §fTCI for a price of §60,00 \n" +
+                "§c/company buy TCI 1");
+        testPlayer.assertNoMoreSaid();
+
+        suc6 = server.execute("company", testPlayer, "buy",
+                "TCI", "1").hasSucceeded();
+        assertTrue(suc6);
+
+        testPlayer.assertSaid("§bbuy: §aaccepted");
+        testPlayer.assertNoMoreSaid();
+
+        Company comp = Market.getBusiness("TCI");
+        assertTrue(comp.openTrade);
+        assertEquals(1000001, comp.totalShares);
+
+
+        assertEquals(-1, comp.marketShares);
+
+    }
+
+    @Test
+    void companyTransact(){
+        PlayerMock testPlayer2 = TestTools.addPermsPlayer(server, plugin);
+        Market.addBusiness("TCI2", "TCI2", Market.getAccount(testPlayer2));
+
+        Market.getBusiness("TCI").addBal(100000.0);
+
+        boolean suc6 = server.execute("company", testPlayer, "transact",
+                "TCI", "TCI2", "100").hasSucceeded();
+        assertTrue(suc6);
+
+        testPlayer.assertSaid("§bplease re-enter the command to confirm");
+        testPlayer.assertNoMoreSaid();
+
+        suc6 = server.execute("company", testPlayer, "transact",
+                "TCI", "TCI2", "100").hasSucceeded();
+        assertTrue(suc6);
+
+        testPlayer.assertSaid("§bsuccesfully paid §fTCI2 100.0");
+        testPlayer.assertNoMoreSaid();
+
+        testPlayer2.assertSaid("§bsuccesfully received §f100.0 §bfrom §fTCI");
+        testPlayer2.assertNoMoreSaid();
+
+        assertEquals(100.0, Market.getBusiness("TCI2").bal);
+        assertEquals(100000.0-100, Market.getBusiness("TCI").bal);
+
+    }
+
+    @Test
+    void companyGetSpendable(){
+        Market.getBusiness("TCI").addBal(1000.0);
+
+        boolean suc6 = server.execute("company", testPlayer, "spendable",
+                "TCI").hasSucceeded();
+        assertTrue(suc6);
+
+        testPlayer.assertSaid("§b spendable money: 200,00");
+        testPlayer.assertNoMoreSaid();
+    }
+
+
 }

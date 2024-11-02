@@ -36,9 +36,6 @@ public class Market {
     public static Double getValue(String Sname){
         return shareValues.get(Sname);
     }
-    public static Double getBase(String Sname){
-        return shareBase.get(Sname);
-    }
 
     public static ArrayList<Contract> contractCompToComp = new ArrayList<>();
 
@@ -803,7 +800,6 @@ public class Market {
             }catch (Exception e){
 
             }
-
 
         }
 

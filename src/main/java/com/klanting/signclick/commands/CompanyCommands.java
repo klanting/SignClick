@@ -52,6 +52,8 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
             handlerTranslation.put("buy", new CompanyHandlerBuy());
             handlerTranslation.put("sell", new CompanyHandlerSell());
             handlerTranslation.put("pay", new CompanyHandlerPay());
+            handlerTranslation.put("spendable", new CompanyHandlerSpendable());
+            handlerTranslation.put("transfer", new CompanyHandlerTransfer());
 
             try{
 
@@ -72,25 +74,6 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
                 player.sendMessage(e.getMessage());
                 confirm.put(player, "");
                 return true;
-            }
-
-            if (commando.equals("spendable")){
-                if (args.length < 2){
-                    player.sendMessage("§bplease enter /company spendable <company>");
-                    confirm.put(player, "");
-                    return true;
-                }
-
-                String stock_name = args[1].toUpperCase();
-                stock_name = stock_name.toUpperCase();
-
-                if (!Market.hasBusiness(stock_name)){
-                    player.sendMessage("§bbusiness name is invalid");
-                    confirm.put(player, "");
-                    return true;
-                }
-                DecimalFormat df = new DecimalFormat("###,###,##0.00");
-                player.sendMessage("§b spendable money: "+df.format(Market.getBusiness(stock_name).getSpendable()));
             }
 
             if (commando.equals("support")){
@@ -135,64 +118,6 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
                 Market.getBusiness(stock_name).supportUpdate(acc, player_offline.getUniqueId());
                 player.sendMessage("§bsupport changed to §f"+player_name);
 
-            }
-
-            if (commando.equals("transfer")){
-                if (args.length < 4){
-                    player.sendMessage("§bplease enter /company transfer <company> <player_name> <amount>");
-                    confirm.put(player, "");
-                    return true;
-                }
-
-                String stock_name = args[1].toUpperCase();
-                stock_name = stock_name.toUpperCase();
-
-                if (!Market.hasBusiness(stock_name)){
-                    player.sendMessage("§bbusiness name is invalid");
-                    confirm.put(player, "");
-                    return true;
-                }
-
-                String player_name = args[2];
-                OfflinePlayer player_offline = null;
-
-                for (OfflinePlayer target : Bukkit.getOfflinePlayers()) {
-                    if (target.getName().equals(player_name)){
-                        player_offline = target;
-                    }
-                }
-
-                if (player_offline == null){
-                    player.sendMessage("§bplayer doesn't exist");
-                    confirm.put(player, "");
-                    return true;
-                }
-
-                if (!Market.hasAccount(player_offline.getUniqueId())){
-                    player.sendMessage("§bplayer doesn't have an account");
-                    confirm.put(player, "");
-                    return true;
-                }
-
-                int amount = Integer.parseInt(args[3]);
-
-                if (confirm.getOrDefault(player, "").equals("transfer")){
-                    confirm.put(player, "");
-                    Account target = Market.getAccount(player_offline.getUniqueId());
-                    boolean suc6 = Market.getAccount(player).transfer(stock_name, amount, target, player);
-                    if (suc6){
-                        Market.getBusiness(stock_name).changeShareHolder(target, amount);
-                        Market.getBusiness(stock_name).changeShareHolder(Market.getAccount(player), -amount);
-                    }
-
-                    //target.send_player("§byou got §f"+amount+" §bshares from §f"+player.getName());
-
-
-                }else{
-                    player.sendMessage("§bplease re-enter your command to confirm\nthat you want to transfer §f" +amount+"§b shares to §f"+ player_name+
-                            "\n§c/company transfer "+stock_name+" "+player_name+" "+amount);
-                    confirm.put(player, "transfer");
-                }
             }
 
             if (commando.equals("portfolio")){
@@ -665,7 +590,7 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
 
             else if (commando.equals("transact")) {
                 if (args.length < 4){
-                    player.sendMessage("§bplease enter /com.company transact <com.company> <target_company> <amount>");
+                    player.sendMessage("§bplease enter /company transact <company> <target_company> <amount>");
                     confirm.put(player, "");
                     return true;
                 }
@@ -807,7 +732,7 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
                     comp.marketShares = 0;
                 }
 
-                player.sendMessage("§bopen trade set yo "+ Market.getBusiness(stock_name).openTrade);
+                player.sendMessage("§bopen trade set to "+ Market.getBusiness(stock_name).openTrade);
 
             }
 
