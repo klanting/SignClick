@@ -53,6 +53,12 @@ public class Company {
     public Country country;
     public String type;
 
+    public Integer getTotalShares() {
+        return totalShares;
+    }
+
+    public Integer totalShares = 1000000;
+
     public Company(String n, String StockName, Account creater){
         name = n;
         stockName = StockName;
@@ -262,7 +268,7 @@ public class Company {
 
     public void checkSupport(){
         double neutral = 0.0;
-        Integer total = Market.getTotal(stockName);
+
         Map<UUID, Integer> s_dict = new HashMap<UUID, Integer>();
 
         int highest = 0;
@@ -287,13 +293,13 @@ public class Company {
 
         }
 
-        neutral = neutral/total.doubleValue();
+        neutral = neutral/totalShares.doubleValue();
         ArrayList<UUID> new_owners = new ArrayList<UUID>();
         for(Entry<UUID, Integer> entry : s_dict.entrySet()){
             UUID k = entry.getKey();
             double v = entry.getValue();
 
-            v = v/total.doubleValue();
+            v = v/totalShares.doubleValue();
 
             if (v >= 0.45){
                 new_owners.add(k);
@@ -352,18 +358,18 @@ public class Company {
         }
 
         player.sendMessage("§bsharetop:");
-        Integer total = Market.getTotal(stockName);
+
         DecimalFormat df = new DecimalFormat("###,###,###");
         DecimalFormat df2 = new DecimalFormat("0.00");
         for (int i = 0; i < values.size(); i++) {
             player.sendMessage("§9"+Bukkit.getOfflinePlayer(order.get(i)).getName()+": §f"+df.format(values.get(i))+
-                    " ("+df2.format(values.get(i)/total.doubleValue()*100.0)+"%)");
+                    " ("+df2.format(values.get(i)/totalShares.doubleValue()*100.0)+"%)");
         }
 
         if (openTrade){
             player.sendMessage("§eMarket: §f"+"inf"+" ("+"inf"+"%)");
         }else{
-            player.sendMessage("§eMarket: §f"+df.format(Market.getMarketAmount(stockName))+" ("+df2.format(Market.getMarketAmount(stockName)/total.doubleValue()*100.0)+"%)");
+            player.sendMessage("§eMarket: §f"+df.format(Market.getMarketAmount(stockName))+" ("+df2.format(Market.getMarketAmount(stockName)/totalShares.doubleValue()*100.0)+"%)");
         }
 
         order.clear();
@@ -380,8 +386,9 @@ public class Company {
             modifier2 = country.getPolicyBonus(1, 1);
         }
 
-        double value_one = (getValue()/Market.getTotal(stockName).doubleValue())*(0.01- modifier1-modifier2);
-        removeBal(value_one*(Market.getTotal(stockName)-Market.getMarketAmount(stockName)));
+
+        double value_one = (getValue()/totalShares.doubleValue())*(0.01- modifier1-modifier2);
+        removeBal(value_one*(totalShares-Market.getMarketAmount(stockName)));
         for (Entry<UUID, Integer> entry : shareHolders.entrySet()){
             UUID holder = entry.getKey();
             OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(holder);
@@ -411,7 +418,7 @@ public class Company {
                 "§bStockname: §7"+ stockName +"\n" +
                 "§bCEO: §7"+owner_array+"\n" +
                 "§bbal: §7"+df.format(getValue())+"\n" +
-                "§bshares: §7"+df.format(Market.getTotal(stockName))+"\n" +
+                "§bshares: §7"+df.format(totalShares)+"\n" +
                 "§bshareholders: §7"+ name_array);
 
         name_array.clear();
@@ -537,57 +544,6 @@ public class Company {
         patentCrafted = 0;
     }
 
-
-    public void saveData(){
-
-        List<String> f_list = new ArrayList<String>();
-        for (UUID uuid: owners){
-            f_list.add(uuid.toString());
-        }
-        f_list.clear();
-
-        SignClick.getPlugin().getConfig().set("company."+ stockName +"." + "owners", f_list);
-        SignClick.getPlugin().getConfig().set("company."+ stockName +"." + "name", name);
-        SignClick.getPlugin().getConfig().set("company."+ stockName +"." + "bal", bal);
-        SignClick.getPlugin().getConfig().set("company."+ stockName +"." + "books", books);
-        SignClick.getPlugin().getConfig().set("company."+ stockName +"." + "spendable", spendable);
-        SignClick.getPlugin().getConfig().set("company."+ stockName +"." + "support", support.toString());
-        SignClick.getPlugin().getConfig().set("company."+ stockName +"." + "share_holders", shareHolders.toString());
-        SignClick.getPlugin().getConfig().set("company."+ stockName +"." + "open_trade", openTrade);
-        SignClick.getPlugin().getConfig().set("company."+ stockName +"." + "share_value", Market.getValue(stockName));
-        SignClick.getPlugin().getConfig().set("company."+ stockName +"." + "share_base", Market.getBase(stockName));
-        SignClick.getPlugin().getConfig().set("company."+ stockName +"." + "market_amount", Market.getMarketAmount(stockName));
-        SignClick.getPlugin().getConfig().set("company."+ stockName +"." + "total", Market.getTotal(stockName));
-        SignClick.getPlugin().getConfig().set("company."+ stockName +"." + "last_value", lastValue);
-        SignClick.getPlugin().getConfig().set("company."+ stockName +"." + "security_funds", securityFunds);
-        SignClick.getPlugin().getConfig().set("company."+ stockName +"." + "type", type);
-
-        getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "SignClick save company "+ stockName +" completed!");
-
-        SignClick.getPlugin().getConfig().options().copyDefaults(true);
-        SignClick.getPlugin().saveConfig();
-
-        for (Upgrade u: upgrades){
-            u.save(this);
-        }
-
-        SignClick.getPlugin().getConfig().set("company."+ stockName +".patent", null);
-        for (Patent p: patent){
-            p.save(this);
-        }
-
-        SignClick.getPlugin().getConfig().set("company."+ stockName +".patent_up", null);
-        Integer counter = 0;
-        for (PatentUpgrade up: patentUpgrades){
-            if (up instanceof PatentUpgradeCustom){
-                PatentUpgradeCustom u = (PatentUpgradeCustom) up;
-                u.save(this, counter);
-            }else{
-                up.save(this, counter);
-            }
-            counter++;
-        }
-    }
 
     public double stockCompareGet(){
         return ((getValue()/ lastValue)-1)*100;

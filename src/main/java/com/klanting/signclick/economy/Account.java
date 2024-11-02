@@ -60,7 +60,8 @@ public class Account {
         int share_amount = shares.getOrDefault(Sname, 0);
         shares.put(Sname, share_amount+amount);
         if (Market.getBusiness(Sname).openTrade){
-            Market.setTotal(Sname, Market.getTotal(Sname)+amount);
+            Company comp = Market.getBusiness(Sname);
+            comp.totalShares = comp.totalShares+amount;
         }
         player.sendMessage("§bbuy: §aaccepted");
     }
@@ -161,7 +162,10 @@ public class Account {
         for(Map.Entry<String, Integer> entry : shares.entrySet()){
             String b = entry.getKey();
             int s = entry.getValue();
-            double v = (Market.getBusiness(b).getValue()/Market.getTotal(b).doubleValue())*s;
+
+            Company comp = Market.getBusiness(b);
+
+            double v = (comp.getValue()/(comp.getTotalShares().doubleValue()))*s;
 
             if (order.size() > 0){
                 boolean found = false;
@@ -198,7 +202,8 @@ public class Account {
             DecimalFormat df2 = new DecimalFormat("0.00");
             int i2 = i + 1;
             total += v;
-            player.sendMessage("§b"+i2+". §3"+b+": §7" +df.format(v)+" ("+df2.format((shares.get(b).doubleValue()/Market.getTotal(b).doubleValue()*100.0))+"%)\n");
+            Company comp = Market.getBusiness(b);
+            player.sendMessage("§b"+i2+". §3"+b+": §7" +df.format(v)+" ("+df2.format((shares.get(b).doubleValue()/comp.getTotalShares().doubleValue()*100.0))+"%)\n");
         }
         DecimalFormat df = new DecimalFormat("###,###,###");
         player.sendMessage("§9Total value: §e" +df.format(total));

@@ -78,11 +78,11 @@ public class Market {
     }
 
     public static Double getBuyPrice(String Sname, Integer amount){
-
-        double market_pct = (getMarketAmount(Sname).doubleValue()/(getTotal(Sname).doubleValue()+Math.min(Market.getMarketAmount(Sname), 0)));
+        Company comp = Market.getBusiness(Sname);
+        double market_pct = (getMarketAmount(Sname).doubleValue()/(comp.getTotalShares().doubleValue()+Math.min(Market.getMarketAmount(Sname), 0)));
         double a = (1.0 - market_pct) * 25.0 - 10.0;
 
-        market_pct = ((getMarketAmount(Sname).doubleValue()-amount.doubleValue())/(getTotal(Sname).doubleValue()+Math.min(Market.getMarketAmount(Sname), 0)));
+        market_pct = ((getMarketAmount(Sname).doubleValue()-amount.doubleValue())/(comp.getTotalShares().doubleValue()+Math.min(Market.getMarketAmount(Sname), 0)));
         double b = (1.0 - market_pct) * 25.0 - 10.0;
 
         double base = shareBase.get(Sname);
@@ -111,7 +111,8 @@ public class Market {
     }
 
     public static void changeValue(String Sname){
-        double market_pct = (getMarketAmount(Sname).doubleValue()/getTotal(Sname).doubleValue());
+        Company comp = Market.getBusiness(Sname);
+        double market_pct = (getMarketAmount(Sname).doubleValue()/comp.getTotalShares().doubleValue());
         double x = (1.0 - market_pct)*25.0 - 10.0;
 
         double base = shareBase.get(Sname);
@@ -149,7 +150,7 @@ public class Market {
         Company comp = company.get(Sname);
         double a = -10.0;
         double b = 15.0;
-        double v = (comp.getBal()/getTotal(Sname)) / (((Math.pow(flux, b)) - (Math.pow(flux, a))) /Math.log(flux)/(b-a));
+        double v = (comp.getBal()/comp.getTotalShares()) / (((Math.pow(flux, b)) - (Math.pow(flux, a))) /Math.log(flux)/(b-a));
         shareBase.put(Sname, v);
 
         changeValue(Sname);
@@ -160,13 +161,14 @@ public class Market {
     }
 
     public static Boolean addBusiness(String namebus, String Sname, Account acc){
-        if ((!names.contains(namebus)) & (!total.containsKey(Sname))){
+        if (!names.contains(namebus)){
             names.add(namebus);
             Company comp = new Company(namebus, Sname, acc);
             company.put(Sname, comp);
 
             marketAmount.put(Sname, 0);
-            total.put(Sname, 1000000);
+
+            comp.totalShares = 1000000;
 
             shareBase.put(Sname, 0.0);
             changeBase(Sname);
@@ -242,13 +244,6 @@ public class Market {
         values.clear();
     }
 
-    public static Integer getTotal(String Sname){
-        return total.getOrDefault(Sname, 1000000);
-    }
-
-    public static void setTotal(String Sname, Integer value){
-        total.put(Sname, value);
-    }
 
     public static Double getFee(){
         return fee;
@@ -449,9 +444,12 @@ public class Market {
 
         }
 
+
+
         player.sendMessage("§eMarket:\n");
         for (int i=0; i<values.size(); i++){
             String b = order.get(i);
+            Company comp = Market.getBusiness(b);
             double v = values.get(i);
             DecimalFormat df = new DecimalFormat("###,###,###");
             DecimalFormat df2 = new DecimalFormat("0.00");
@@ -460,7 +458,7 @@ public class Market {
             if (Market.getBusiness(b).openTrade){
                 player.sendMessage("§b"+i2+". §9"+b+": §7" +"inf"+" ("+"inf"+"%)\n");
             }else{
-                player.sendMessage("§b"+i2+". §9"+b+": §7" +df.format(v)+" ("+df2.format((v/Market.getTotal(b).doubleValue()*100.0))+"%)\n");
+                player.sendMessage("§b"+i2+". §9"+b+": §7" +df.format(v)+" ("+df2.format((v/comp.getTotalShares().doubleValue()*100.0))+"%)\n");
             }
 
         }

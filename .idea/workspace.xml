@@ -9,13 +9,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b3aa4a96-499c-4e97-84b9-6312c5389c7a" name="Changes" comment="I believe I found the issue opentest4j has errors with line seperation">
+    <list default="true" id="b3aa4a96-499c-4e97-84b9-6312c5389c7a" name="Changes" comment="small cleanup post got CI working">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/SignClick.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/SignClick.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/companyHandelers/CompanyHandlerGive.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/companyHandelers/CompanyHandlerGive.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/commands/CompanyCTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/commands/CompanyCTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/tools/TestTools.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/tools/TestTools.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/CompanyCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/CompanyCommands.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/Account.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/Account.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/Company.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/Company.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/Market.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/Market.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/storage/GsonTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/storage/GsonTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -351,10 +351,10 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.GsonTests.saveLoadCompany" />
         <item itemvalue="Gradle.CompanyCTests.companyGive" />
         <item itemvalue="Gradle.CompanyCTests.companyBuyUnavailableShare" />
         <item itemvalue="Gradle.CompanyCTests.createCompany2CompanyContract" />
-        <item itemvalue="Gradle.GsonTests.saveLoadCompany" />
         <item itemvalue="Gradle.GsonTests.saveLoadAccount" />
       </list>
     </recent_temporary>
@@ -422,23 +422,8 @@
       <workItem from="1730140723185" duration="392000" />
       <workItem from="1730401712956" duration="6679000" />
       <workItem from="1730496891337" duration="3920000" />
-      <workItem from="1730560823449" duration="2401000" />
-    </task>
-    <task id="LOCAL-00006" summary="Finally Got the Gradle &amp; Testing Working">
-      <option name="closed" value="true" />
-      <created>1725915714069</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1725915714069</updated>
-    </task>
-    <task id="LOCAL-00007" summary="progress in getting the plugin inside the tests">
-      <option name="closed" value="true" />
-      <created>1725916914146</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1725916914146</updated>
+      <workItem from="1730560823449" duration="2671000" />
+      <workItem from="1730575306627" duration="1316000" />
     </task>
     <task id="LOCAL-00008" summary="added first set of test suits">
       <option name="closed" value="true" />
@@ -816,7 +801,23 @@
       <option name="project" value="LOCAL" />
       <updated>1730562312269</updated>
     </task>
-    <option name="localTasksCounter" value="55" />
+    <task id="LOCAL-00055" summary="see if locale setting fix the issue, because it appears to be a decimal format issue">
+      <option name="closed" value="true" />
+      <created>1730563285074</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1730563285074</updated>
+    </task>
+    <task id="LOCAL-00056" summary="small cleanup post got CI working">
+      <option name="closed" value="true" />
+      <created>1730563433904</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1730563433904</updated>
+    </task>
+    <option name="localTasksCounter" value="57" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -838,8 +839,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="part cleanup company commands code" />
-    <MESSAGE value="added some tests" />
     <MESSAGE value="changed package structure" />
     <MESSAGE value="changed 1 company handler" />
     <MESSAGE value="progress adding new testcases" />
@@ -863,7 +862,9 @@
     <MESSAGE value="See if this helps me read the message forgot change" />
     <MESSAGE value="Check if this fixes anything" />
     <MESSAGE value="I believe I found the issue opentest4j has errors with line seperation" />
-    <option name="LAST_COMMIT_MESSAGE" value="I believe I found the issue opentest4j has errors with line seperation" />
+    <MESSAGE value="see if locale setting fix the issue, because it appears to be a decimal format issue" />
+    <MESSAGE value="small cleanup post got CI working" />
+    <option name="LAST_COMMIT_MESSAGE" value="small cleanup post got CI working" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

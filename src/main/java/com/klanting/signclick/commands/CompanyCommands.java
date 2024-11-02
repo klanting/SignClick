@@ -800,7 +800,9 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
                     Market.setMarketAmount(stock_name, 0);
                 }else{
 
-                    Market.setTotal(stock_name, Market.getTotal(stock_name)-Market.getMarketAmount(stock_name));
+                    Company comp = Market.getBusiness(stock_name);
+                    comp.totalShares = comp.getTotalShares()-Market.getMarketAmount(stock_name);
+
                     Market.setMarketAmount(stock_name, 0);
                 }
 
