@@ -27,4 +27,4 @@ jobs:
           gradle-version: '8.4'
 
       - name: Build and run tests
-        run: ./gradlew test --rerun-tasks --info
+        run: ./gradlew test --rerun-tasks

@@ -184,8 +184,6 @@ class CompanyCTests {
 
     @Test
     void companyGive(){
-        System.out.print(Locale.getDefault());
-
 
         SignClick.getEconomy().depositPlayer(testPlayer, 1000);
 
