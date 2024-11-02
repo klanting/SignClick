@@ -12,11 +12,9 @@ import org.bukkit.plugin.Plugin;
 import org.dynmap.DynmapAPI;
 import org.gradle.internal.impldep.org.testng.ITest;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+import static groovy.test.GroovyTestCase.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class TestTools {
@@ -46,6 +44,7 @@ public class TestTools {
     }
 
     public static PlayerMock addPermsPlayer(ServerMock server, SignClick plugin){
+
         PlayerMock testPlayer = server.addPlayer();
         testPlayer.addAttachment(plugin, "signclick.staff", true);
         return testPlayer;
@@ -74,5 +73,9 @@ public class TestTools {
         }
 
         return null;
+    }
+
+    public static void assertSaid(PlayerMock player, String expected){
+        assertEquals(expected.replace("\n", "-"), player.nextMessage().replace("\n", "-"));
     }
 }

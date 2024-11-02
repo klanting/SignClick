@@ -9,7 +9,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b3aa4a96-499c-4e97-84b9-6312c5389c7a" name="Changes" comment="See if this helps me read the message forgot change" />
+    <list default="true" id="b3aa4a96-499c-4e97-84b9-6312c5389c7a" name="Changes" comment="Check if this fixes anything">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/commands/CompanyCTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/commands/CompanyCTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/tools/TestTools.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/tools/TestTools.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -190,7 +194,7 @@
       <recent name="F:\Projects\Programming\PluginDev\SignClick" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.TestAll">
+  <component name="RunManager" selected="Gradle.CompanyCTests.companyGive">
     <configuration name="CompanyCTests.companyBuyUnavailableShare" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -415,15 +419,7 @@
       <workItem from="1730140723185" duration="392000" />
       <workItem from="1730401712956" duration="6679000" />
       <workItem from="1730496891337" duration="3920000" />
-      <workItem from="1730560823449" duration="337000" />
-    </task>
-    <task id="LOCAL-00004" summary="pre maven">
-      <option name="closed" value="true" />
-      <created>1725025735168</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1725025735168</updated>
+      <workItem from="1730560823449" duration="1447000" />
     </task>
     <task id="LOCAL-00005" summary="temp commit">
       <option name="closed" value="true" />
@@ -809,7 +805,15 @@
       <option name="project" value="LOCAL" />
       <updated>1730561012644</updated>
     </task>
-    <option name="localTasksCounter" value="53" />
+    <task id="LOCAL-00053" summary="Check if this fixes anything">
+      <option name="closed" value="true" />
+      <created>1730561287931</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1730561287931</updated>
+    </task>
+    <option name="localTasksCounter" value="54" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -831,7 +835,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Improved the company to json" />
     <MESSAGE value="improved company save and restore" />
     <MESSAGE value="part cleanup company commands code" />
     <MESSAGE value="added some tests" />
@@ -856,7 +859,8 @@
     <MESSAGE value="Have not solved anything about CI" />
     <MESSAGE value="See if this helps me read the message" />
     <MESSAGE value="See if this helps me read the message forgot change" />
-    <option name="LAST_COMMIT_MESSAGE" value="See if this helps me read the message forgot change" />
+    <MESSAGE value="Check if this fixes anything" />
+    <option name="LAST_COMMIT_MESSAGE" value="Check if this fixes anything" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
