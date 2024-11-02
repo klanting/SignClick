@@ -53,7 +53,9 @@ java {
 tasks.test {
     useJUnitPlatform()
     finalizedBy(tasks.jacocoTestReport)
+    jvmArgs = listOf("-Duser.language=nl", "-Duser.country=NL")
 }
+
 
 tasks.jacocoTestReport {
     dependsOn(tasks.test)

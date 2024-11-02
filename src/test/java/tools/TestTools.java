@@ -75,7 +75,4 @@ public class TestTools {
         return null;
     }
 
-    public static void assertSaid(PlayerMock player, String expected){
-        assertEquals(expected.replace("\n", "-"), player.nextMessage().replace("\n", "-"));
-    }
 }

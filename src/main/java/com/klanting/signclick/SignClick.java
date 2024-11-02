@@ -16,6 +16,7 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.dynmap.DynmapAPI;
 
+import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 
@@ -29,6 +30,7 @@ public class SignClick extends JavaPlugin{
 
     @Override
     public void onEnable() {
+
 
         plugin = this;
 

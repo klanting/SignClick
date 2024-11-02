@@ -7,6 +7,7 @@ import com.klanting.signclick.economy.Market;
 import org.bukkit.entity.Player;
 
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 
 public class CompanyHandlerGive extends CompanyHandler{
     @Override
