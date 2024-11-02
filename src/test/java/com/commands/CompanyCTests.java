@@ -192,11 +192,10 @@ class CompanyCTests {
         boolean suc6 = server.execute("company", testPlayer, "give", "TCI", "1000").hasSucceeded();
         assertTrue(suc6);
 
-        System.out.print(testPlayer.nextMessage());
-
-        testPlayer.assertSaid("§bplease re-enter your command to confirm\n" +
+        assertEquals("§bplease re-enter your command to confirm\n" +
                 "that you want to give §f1.000§b to §fTCI\n" +
-                "§c/company give TCI 1000.0");
+                "§c/company give TCI 1000.0", testPlayer.nextMessage());
+
         testPlayer.assertNoMoreSaid();
 
         /*
