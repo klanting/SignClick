@@ -182,6 +182,8 @@ class CompanyCTests {
     @Test
     void companyGive(){
 
+
+
         SignClick.getEconomy().depositPlayer(testPlayer, 1000);
 
         Company comp = Market.getBusiness("TCI");
@@ -189,6 +191,8 @@ class CompanyCTests {
 
         boolean suc6 = server.execute("company", testPlayer, "give", "TCI", "1000").hasSucceeded();
         assertTrue(suc6);
+
+        System.out.print(testPlayer.nextMessage());
 
         testPlayer.assertSaid("§bplease re-enter your command to confirm\n" +
                 "that you want to give §f1.000§b to §fTCI\n" +
