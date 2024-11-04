@@ -7,7 +7,7 @@ import org.bukkit.Bukkit;
 
 
 public class WeeklyComp {
-    public static long system_end = 60*20*60*24*7;
+    public static long system_end = 60*60*24*7*20L;
     public static void check(){
         if (SignClick.getPlugin().getConfig().contains("weekly_comp")){
             system_end = (int) SignClick.getPlugin().getConfig().get("weekly_comp");
@@ -25,9 +25,9 @@ public class WeeklyComp {
                 CountryManager.runStability();
 
             }
-        },system_end,60*20*60*24*7);
+        },system_end,60*60*24*7*20);
 
-        system_end = System.currentTimeMillis()/1000 + 60*60*24*7*20;
+        system_end = (System.currentTimeMillis()/1000) % 60*60*24*7*20;
 
     }
 

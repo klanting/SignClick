@@ -226,7 +226,7 @@ public class CompanyMenuTests {
         /*
         * Check that after some time, stock delay has changed
         * */
-        int i = 60*60*24*7*20+5;
+        int i = 60*60*24*7*20+1;
         server.getScheduler().performTicks(i);
 
         CompanyAuctionMenu new_screen = new CompanyAuctionMenu(comp);

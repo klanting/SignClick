@@ -7,10 +7,12 @@ import com.klanting.signclick.economy.companyUpgrades.*;
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.economy.contracts.Contract;
 import com.klanting.signclick.economy.contracts.ContractCTC;
+import com.klanting.signclick.economy.contracts.ContractCTP;
 import com.klanting.signclick.utils.Utils;
 import org.bukkit.*;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
+import org.yaml.snakeyaml.error.Mark;
 
 import java.text.DecimalFormat;
 import java.util.*;
@@ -39,7 +41,7 @@ public class Market {
 
     public static ArrayList<Contract> contractCompToComp = new ArrayList<>();
 
-    public static ArrayList<Object[]> ContractComptoPlayer = new ArrayList<Object[]>();
+    public static ArrayList<Contract> contractCompToPlayer = new ArrayList<>();
 
     public static ArrayList<Object[]> ContractPlayertoComp = new ArrayList<Object[]>();
 
@@ -58,7 +60,7 @@ public class Market {
 
         names.clear();
         contractCompToComp.clear();
-        ContractComptoPlayer.clear();
+        contractCompToPlayer.clear();
         ContractServertoComp.clear();
         ContractPlayertoComp.clear();
         stock_signs.clear();
@@ -461,14 +463,9 @@ public class Market {
 
         Utils.writeSave("contractCompToComp", contractCompToComp);
 
-        List<String>  contractString = new ArrayList<>();
-        for (Object[] o : ContractComptoPlayer){
-            contractString.add(o[0].toString()+","+o[1].toString()+","+o[2].toString()+","+o[3].toString()+","+o[4].toString());
-        }
+        Utils.writeSave("contractCompToPlayer", contractCompToPlayer);
 
-        SignClick.getPlugin().getConfig().set("ctp", contractString);
-
-        contractString = new ArrayList<>();
+        List<String> contractString = new ArrayList<>();
         for (Object[] o : ContractPlayertoComp){
             contractString.add(o[0].toString()+","+o[1].toString()+","+o[2].toString()+","+o[3].toString()+","+o[4].toString());
         }
@@ -596,15 +593,8 @@ public class Market {
         contractCompToComp = Utils.readSave("contractCompToComp",
                 new TypeToken<ArrayList<ContractCTC>>(){}.getType(), new ArrayList<>());
 
-        if (SignClick.getPlugin().getConfig().contains("ctp") && !SignClick.getPlugin().getConfig().get("ctp").equals("[]")){
-            for (String s :  (List<String>) SignClick.getPlugin().getConfig().get("ctp")) {
-                String[] pairs = s.split(",");
-
-
-                Object[] tup = {pairs[0], pairs[1], Double.parseDouble(pairs[2]), Integer.parseInt(pairs[3]), pairs[4]};
-                ContractComptoPlayer.add(tup);
-            }
-        }
+        contractCompToPlayer = Utils.readSave("contractCompToPlayer",
+                new TypeToken<ArrayList<ContractCTP>>(){}.getType(), new ArrayList<>());
 
         if (SignClick.getPlugin().getConfig().contains("ptc") && !SignClick.getPlugin().getConfig().get("ptc").equals("[]")){
             for (String s :  (List<String>) SignClick.getPlugin().getConfig().get("ptc")) {
@@ -636,33 +626,19 @@ public class Market {
 
         contractCompToComp = new_ctc;
 
-        ArrayList<Object[]> new_data = new ArrayList<>();
-        for (Object[] tuple : ContractComptoPlayer) {
-            Company from = Market.getBusiness(tuple[0].toString());
-            double amount = (Double) tuple[2];
-            if (from.removeBal(amount)) {
-                Account to = Market.getAccount(UUID.fromString(tuple[1].toString()));
-                int weeks = (Integer) tuple[3];
-                weeks -= 1;
-                to.addBal(amount);
-                if (weeks > 0) {
-                    Object[] new_tuple = {tuple[0], tuple[1], amount, weeks, tuple[4]};
-                    new_data.add(new_tuple);
-                }
+        ArrayList<Contract> new_ctp = new ArrayList<>();
+        for (Contract c: contractCompToPlayer){
 
-                from.sendOwner("§cContract: from " + from.getStockName() + "(C) to " + to.getName() + "(P) amount: " + amount);
-                if (to.getPlayer() != null){
-                    to.getPlayer().sendMessage("§aContract: from " + from.getStockName() + "(C) to " + to.getName() + "(P) amount: " + amount);
-                }
-
-            } else {
-                //message: not paid
-                new_data.add(tuple);
+            boolean keep = c.runContract();
+            if (keep){
+                new_ctp.add(c);
             }
-        }
-        ContractComptoPlayer = new_data;
 
-        new_data = new ArrayList<>();
+        }
+
+        contractCompToPlayer = new_ctp;
+
+        ArrayList<Object[]> new_data = new ArrayList<>();
         for (Object[] tuple : ContractPlayertoComp) {
             try{
                 Account from = Market.getAccount(UUID.fromString(tuple[0].toString()));
@@ -725,8 +701,10 @@ public class Market {
     }
 
     public static void setContractComptoPlayer(String from, String toUUID, double amount, int weeks, String reason){
-        Object[] tuple = {from, toUUID, amount, weeks, reason};
-        ContractComptoPlayer.add(tuple);
+        Contract contract = new ContractCTP(Market.getBusiness(from), UUID.fromString(toUUID),
+                amount, weeks, reason);
+
+        contractCompToPlayer.add(contract);
 
     }
 
@@ -773,15 +751,15 @@ public class Market {
 
         }
 
-        for (Object[] tuple : ContractComptoPlayer) {
-            Company from = Market.getBusiness(tuple[0].toString());
-            double amount = (Double) tuple[2];
-            Account to = Market.getAccount(UUID.fromString(tuple[1].toString()));
-            int weeks = (Integer) tuple[3];
+        for (Contract c : contractCompToPlayer) {
+            Company from = Market.getBusiness(c.toString());
+            double amount = c.getAmount();
+            Account to = Market.getAccount(Bukkit.getServer().getPlayer(c.to()));
+            int weeks = c.getWeeks();
 
             if (from.getStockName().equals(stock_name)){
                 outcome.add("§cContract: from " + from.getStockName() + "(C) to " + to.getName() + "(P) amount: " + amount
-                        + " for "+weeks+" weeks, "+ "reason: "+tuple[4]);
+                        + " for "+weeks+" weeks, "+ "reason: "+c.getReason());
             }
 
         }
@@ -840,6 +818,10 @@ public class Market {
 
             String countryName = comp.getCountry();
             Country country = CountryManager.getCountry(countryName);
+            if (country == null){
+                country = new CountryNull();
+            }
+
             int total = 0;
 
             if (comp.type.equals("product")){
@@ -881,8 +863,11 @@ public class Market {
                 comp.addBal(0+country.getPolicyBonus(4, 3));
                 total += (int) (country.getPolicyBonus(3, 4)+ country.getPolicyBonus(4, 3));
             }else{
-                comp.addBal(0+ country.getPolicyBonus(4, 6));
-                total += (int) country.getPolicyBonus(4, 6);
+                if (country != null){
+                    comp.addBal(0+ country.getPolicyBonus(4, 6));
+                    total += (int) country.getPolicyBonus(4, 6);
+                }
+
             }
 
             if (!comp.openTrade){

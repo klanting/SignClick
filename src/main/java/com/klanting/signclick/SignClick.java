@@ -95,6 +95,7 @@ public class SignClick extends JavaPlugin{
 
         getServer().getConsoleSender().sendMessage(ChatColor.RED + "SignClick is disabled!");
         this.saveConfig();
+        Bukkit.getScheduler().cancelTasks(SignClick.getPlugin());
 
     }
 

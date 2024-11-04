@@ -32,6 +32,7 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
         if (!(sender instanceof Player)) {
             sender.sendMessage("Only players allowed");
             return true; }
+
         Player player = (Player) sender;
 
         if (cmd.getName().equalsIgnoreCase("company")){

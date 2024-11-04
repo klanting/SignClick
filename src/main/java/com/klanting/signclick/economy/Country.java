@@ -66,6 +66,10 @@ public class Country {
         policies = Arrays.asList(new PolicyEconomics(2), new PolicyMarket(2), new PolicyMilitary(2), new PolicyTourist(2), new PolicyTaxation(2));
     }
 
+    public Country(){
+        name = null;
+    }
+
 
     public Country(String name, int balance,
                    List<UUID> owners, List<UUID> members,

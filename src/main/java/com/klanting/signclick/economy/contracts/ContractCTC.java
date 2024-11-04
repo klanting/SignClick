@@ -16,6 +16,7 @@ public class ContractCTC extends Contract {
 
     }
 
+    @Override
     public boolean runContract(){
         /*
         * return true -> keep contract, else not

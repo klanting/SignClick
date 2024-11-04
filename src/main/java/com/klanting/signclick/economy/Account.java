@@ -31,7 +31,7 @@ public class Account {
 
     }
 
-    void addBal(double amount){
+    public void addBal(double amount){
         SignClick.getEconomy().depositPlayer(Bukkit.getOfflinePlayer(uuid), amount);
     }
 
