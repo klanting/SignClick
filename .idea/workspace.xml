@@ -9,12 +9,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b3aa4a96-499c-4e97-84b9-6312c5389c7a" name="Changes" comment="Added testing for Contract Company To Player">
+    <list default="true" id="b3aa4a96-499c-4e97-84b9-6312c5389c7a" name="Changes" comment="cleanup of Market.java">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/contracts/ContractSTC.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/SignClick.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/SignClick.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/Company.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/Company.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/CompanyCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/CompanyCommands.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/Market.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/Market.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/com/commands/CompanyCTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/commands/CompanyCTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/company/CompanyTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/company/CompanyTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -106,6 +107,7 @@
     "Gradle.CompanyMenuTests.companyPatentDesign.executor": "Run",
     "Gradle.CompanyMenuTests.companyPatentsPersistent.executor": "Run",
     "Gradle.CompanyMenuTests.companyUpgrade.executor": "Run",
+    "Gradle.CompanyTests.companyContractServerToCompany.executor": "Run",
     "Gradle.CompanyTests.companyCreate (1).executor": "Run",
     "Gradle.CompanyTests.companyCreate.executor": "Run",
     "Gradle.CompanyTests.companyRunTicks.executor": "Run",
@@ -202,7 +204,7 @@
       <recent name="F:\Projects\Programming\PluginDev\SignClick" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.CompanyCTests.companyGetBuyPriceAfterReload">
+  <component name="RunManager" selected="Gradle.TestAll">
     <configuration name="CompanyCTests.companyGetBuyPriceAfterReload" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -217,30 +219,6 @@
             <option value=":test" />
             <option value="--tests" />
             <option value="&quot;com.commands.CompanyCTests.companyGetBuyPriceAfterReload&quot;" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>true</RunAsTest>
-      <method v="2" />
-    </configuration>
-    <configuration name="CompanyCTests.companyGetSpendable" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value=":test" />
-            <option value="--tests" />
-            <option value="&quot;com.commands.CompanyCTests.companyGetSpendable&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -323,6 +301,30 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
+    <configuration name="CompanyTests.companyContractServerToCompany" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;com.company.CompanyTests.companyContractServerToCompany&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
     <configuration name="TestAll" type="GradleRunConfiguration" factoryName="Gradle">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -349,18 +351,18 @@
     <list>
       <item itemvalue="Gradle.TestAll" />
       <item itemvalue="Gradle.CompanyCTests.companyGetBuyPriceAfterReload" />
+      <item itemvalue="Gradle.CompanyTests.companyContractServerToCompany" />
       <item itemvalue="Gradle.CompanyCTests.createCompany2CompanyContract" />
       <item itemvalue="Gradle.CompanyCTests.createCompany2PlayerContract" />
       <item itemvalue="Gradle.CompanyMenuTests.companyAuction" />
-      <item itemvalue="Gradle.CompanyCTests.companyGetSpendable" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.CompanyTests.companyContractServerToCompany" />
         <item itemvalue="Gradle.CompanyCTests.companyGetBuyPriceAfterReload" />
         <item itemvalue="Gradle.CompanyCTests.createCompany2PlayerContract" />
         <item itemvalue="Gradle.CompanyMenuTests.companyAuction" />
         <item itemvalue="Gradle.CompanyCTests.createCompany2CompanyContract" />
-        <item itemvalue="Gradle.CompanyCTests.companyGetSpendable" />
       </list>
     </recent_temporary>
   </component>
@@ -431,15 +433,7 @@
       <workItem from="1730575306627" duration="4047000" />
       <workItem from="1730580199929" duration="480000" />
       <workItem from="1730734974613" duration="4139000" />
-      <workItem from="1731009915500" duration="921000" />
-    </task>
-    <task id="LOCAL-00012" summary="made some company menu tests">
-      <option name="closed" value="true" />
-      <created>1726041873509</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1726041873509</updated>
+      <workItem from="1731009915500" duration="2210000" />
     </task>
     <task id="LOCAL-00013" summary="testcases weekly pay">
       <option name="closed" value="true" />
@@ -825,7 +819,15 @@
       <option name="project" value="LOCAL" />
       <updated>1730739121711</updated>
     </task>
-    <option name="localTasksCounter" value="61" />
+    <task id="LOCAL-00061" summary="cleanup of Market.java">
+      <option name="closed" value="true" />
+      <created>1731010935900</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1731010935900</updated>
+    </task>
+    <option name="localTasksCounter" value="62" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -847,7 +849,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="check if github actions works" />
     <MESSAGE value="fix java version Github actions" />
     <MESSAGE value="fix Gradle build" />
     <MESSAGE value="small change so gradlew is executable" />
@@ -872,7 +873,8 @@
     <MESSAGE value="moved  marketShares from Market to Company object" />
     <MESSAGE value="additional cleanup company commands" />
     <MESSAGE value="Added testing for Contract Company To Player" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added testing for Contract Company To Player" />
+    <MESSAGE value="cleanup of Market.java" />
+    <option name="LAST_COMMIT_MESSAGE" value="cleanup of Market.java" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -881,6 +883,11 @@
           <properties class="java.lang.ClassNotFoundException" package="java.lang" />
           <option name="timeStamp" value="2" />
         </breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/com/commands/CompanyCTests.java</url>
+          <line>508</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>

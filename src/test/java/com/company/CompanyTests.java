@@ -109,6 +109,39 @@ class CompanyTests {
 
     }
 
+    @Test
+    void companyContractServerToCompany(){
+        PlayerMock testPlayer = server.addPlayer();
+
+        Boolean succes = Market.addBusiness("TestCaseInc", "TCI", Market.getAccount(testPlayer));
+        assertTrue(succes);
+
+        Company comp = Market.getBusiness("TCI");
+        comp.addBal(1000000000.0);
+        comp.doUpgrade(0);
+
+        Market.getContracts("TCI", testPlayer);
+
+        testPlayer.assertSaid("§aincome:");
+        testPlayer.assertSaid("§aContract: from SERVER (S) to TCI(C) amount: 200000.0 for 10 weeks, reason: Upgrade[0] 1 delay: 0");
+        testPlayer.assertSaid("§coutgoing:");
+        testPlayer.assertNoMoreSaid();
+
+        plugin.onDisable();
+        CountryManager.clear();
+        Market.clear();
+        plugin = TestTools.setupPlugin(server);
+
+        Market.getContracts("TCI", testPlayer);
+
+        testPlayer.assertSaid("§aincome:");
+        testPlayer.assertSaid("§aContract: from SERVER (S) to TCI(C) amount: 200000.0 for 10 weeks, reason: Upgrade[0] 1 delay: 0");
+        testPlayer.assertSaid("§coutgoing:");
+        testPlayer.assertNoMoreSaid();
+
+
+    }
+
 
 }
 

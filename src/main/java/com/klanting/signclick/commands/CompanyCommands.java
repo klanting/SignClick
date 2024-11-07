@@ -331,7 +331,7 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
 
             if (commando.equals("send_contract_ctp")){
                 if (args.length < 4){
-                    player.sendMessage("§bplease enter /com.company send_contract_ctp <othercompany> <amount> <weeks> [reason]");
+                    player.sendMessage("§bplease enter /company send_contract_ctp <othercompany> <amount> <weeks> [reason]");
                     confirm.put(player, "");
                     return true;
                 }
@@ -367,7 +367,7 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
                     player.sendMessage("§bplease re-enter your command to confirm\nthat you want to send a contract request to §f" +target_stock_name
                             +"§b \n for an amount of §f"+ amount
                             +"§b \n for a time of §f"+ weeks+
-                            " weeks \n§c/com.company send_contract_ctp "+target_stock_name+" "+amount+ " "+ weeks);
+                            " weeks \n§c/company send_contract_ctp "+target_stock_name+" "+amount+ " "+ weeks);
                     confirm.put(player, "send_contract_ctp");
                 }
 
@@ -375,7 +375,7 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
 
             if (commando.equals("sign_contract_ctp")){
                 if (args.length < 2){
-                    player.sendMessage("§bplease enter /com.company sign_contract_ctp <owncompany>");
+                    player.sendMessage("§bplease enter /company sign_contract_ctp <owncompany>");
                     confirm.put(player, "");
                     return true;
                 }
@@ -420,14 +420,14 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
                     player.sendMessage("§bplease re-enter your command to confirm\nthat you want to sign a contract (§cYOU PAY THEM§b) requested from §f" + Bukkit.getOfflinePlayer(UUID.fromString(comp.playerNamePending)).getName()
                             +"§b \nfor an amount of §f"+ df.format(comp.playerAmountPending)
                             +"§b \nfor a time of §f"+ comp.playerWeeksPending +
-                            " weeks \n§c/com.company sign_contract_ctp "+stock_name);
+                            " weeks \n§c/company sign_contract_ctp "+stock_name);
                     confirm.put(player, "sign_contract_ctp");
                 }
             }
 
             if (commando.equals("send_contract_ptc")){
                 if (args.length < 5){
-                    player.sendMessage("§bplease enter /com.company send_contract_ptc <owncompany> <player> <amount> <weeks> [reason]");
+                    player.sendMessage("§bplease enter /company send_contract_ptc <owncompany> <player> <amount> <weeks> [reason]");
                     confirm.put(player, "");
                     return true;
                 }
@@ -487,7 +487,7 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
                     player.sendMessage("§bplease re-enter your command to confirm\nthat you want to send a contract request to §f" +args[2]
                             +"§b \n for an amount of §f"+ amount
                             +"§b \n for a time of §f"+ weeks+
-                            " weeks \n§c/com.company send_contract_ptc "+stock_name+" "+args[2]+" "+amount+ " "+ weeks);
+                            " weeks \n§c/company send_contract_ptc "+stock_name+" "+args[2]+" "+amount+ " "+ weeks);
                     confirm.put(player, "send_contract_ptc");
                 }
 
@@ -515,7 +515,7 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
                     player.sendMessage("§bplease re-enter your command to confirm\nthat you want to sign a contract (§cYOU PAY THEM§b) requested from §f" + acc.compNamePending
                             +"§b \nfor an amount of §f"+ df.format(acc.compAmountPending)
                             +"§b \nfor a time of §f"+ acc.compWeeksPending +
-                            " weeks \n§c/com.company sign_contract_ptc");
+                            " weeks \n§c/company sign_contract_ptc");
                     confirm.put(player, "sign_contract_ptc");
                 }
             }
@@ -524,7 +524,7 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
                 confirm.put(player, "");
                 int amount = 1;
                 if (args.length < 2){
-                    player.sendMessage("§bplease enter /com.company get_buy_price <com.company> [amount]");
+                    player.sendMessage("§bplease enter /company get_buy_price <com.company> [amount]");
                     return true;
                 }else if (args.length == 3){
                     amount = Integer.parseInt(args[2]);
@@ -546,7 +546,7 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
                 confirm.put(player, "");
                 int amount = 1;
                 if (args.length < 2){
-                    player.sendMessage("§bplease enter /com.company get_sell_price <com.company> [amount]");
+                    player.sendMessage("§bplease enter /company get_sell_price <com.company> [amount]");
                     return true;
                 }else if (args.length == 3){
                     amount = Integer.parseInt(args[2]);
@@ -567,7 +567,7 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
             if (commando.equals("get_contracts")){
                 confirm.put(player, "");
                 if (args.length < 2){
-                    player.sendMessage("§bplease enter /com.company get_contracts <com.company>");
+                    player.sendMessage("§bplease enter /company get_contracts <com.company>");
                     return true;
                 }
 
@@ -632,7 +632,7 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
                         comp_target.sendOwner("§bsuccesfully received §f"+amount+" §bfrom §f"+stock_name);
 
                     }else{
-                        player.sendMessage("§bbusiness does not have enough money, or you reached your monthly spending limit\ndo §c/com.company spendable "+
+                        player.sendMessage("§bbusiness does not have enough money, or you reached your monthly spending limit\ndo §c/company spendable "+
                                 stock_name+"§b to see monthly available money");
                     }
                 }else{
@@ -645,7 +645,7 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
             if (commando.equals("add_custom")){
                 confirm.put(player, "");
                 if (args.length < 4){
-                    player.sendMessage("§bplease enter /com.company add_custom <Company> <Texture> <Item>");
+                    player.sendMessage("§bplease enter /company add_custom <Company> <Texture> <Item>");
                     return true;
                 }
 
@@ -695,7 +695,7 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
                 confirm.put(player, "");
 
                 if (args.length < 2){
-                    player.sendMessage("§bplease enter /com.company open_trade <Company> [TRUE/FALSE]");
+                    player.sendMessage("§bplease enter /company open_trade <Company> [TRUE/FALSE]");
                     return true;
                 }
 

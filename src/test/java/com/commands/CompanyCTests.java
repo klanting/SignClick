@@ -484,7 +484,7 @@ class CompanyCTests {
                 "that you want to send a contract request to §fTCI§b \n" +
                 " for an amount of §f100.0§b \n" +
                 " for a time of §f2 weeks \n" +
-                "§c/com.company send_contract_ctp TCI 100.0 2");
+                "§c/company send_contract_ctp TCI 100.0 2");
         testPlayer2.assertNoMoreSaid();
 
         suc6 = server.execute("company", testPlayer2, "send_contract_ctp",
@@ -508,7 +508,7 @@ class CompanyCTests {
                 "that you want to sign a contract (§cYOU PAY THEM§b) requested from §fPlayer1§b \n" +
                 "for an amount of §f100§b \n" +
                 "for a time of §f2 weeks \n" +
-                "§c/com.company sign_contract_ctp TCI");
+                "§c/company sign_contract_ctp TCI");
 
         testPlayer.assertNoMoreSaid();
 
