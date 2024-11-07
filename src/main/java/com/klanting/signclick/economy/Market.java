@@ -25,8 +25,6 @@ public class Market {
     * */
     private static Map<UUID, Account> accounts = new HashMap<UUID, Account>();
     private static Map<String, Company> company = new HashMap<String, Company>();
-    private static final Map<String, Double> shareValues = new HashMap<String, Double>();
-    private static final Map<String, Double> shareBase = new HashMap<String, Double>();
 
     public static final Double fee = 0.05;
     public static final Double flux = 1.15;
@@ -35,9 +33,6 @@ public class Market {
 
     private static final ArrayList<String> names = new ArrayList<String>();
 
-    public static Double getValue(String Sname){
-        return shareValues.get(Sname);
-    }
 
     public static ArrayList<Contract> contractCompToComp = new ArrayList<>();
 
@@ -55,8 +50,6 @@ public class Market {
         * */
         accounts.clear();
         company.clear();
-        shareValues.clear();
-        shareBase.clear();
 
         names.clear();
         contractCompToComp.clear();
@@ -75,7 +68,8 @@ public class Market {
         market_pct = ((comp.getMarketShares().doubleValue()-amount.doubleValue())/(comp.getTotalShares().doubleValue()+Math.min(comp.getMarketShares(), 0)));
         double b = (1.0 - market_pct) * 25.0 - 10.0;
 
-        double base = shareBase.get(Sname);
+
+        double base = comp.getShareBase();
         double v = base * ((Math.pow(flux, b)) - (Math.pow(flux, a))) /Math.log(flux)/(b-a);
         return v*amount;
     }
@@ -100,14 +94,6 @@ public class Market {
 
     }
 
-    public static void changeValue(String Sname){
-        Company comp = Market.getBusiness(Sname);
-        double market_pct = (comp.getMarketShares().doubleValue()/comp.getTotalShares().doubleValue());
-        double x = (1.0 - market_pct)*25.0 - 10.0;
-
-        double base = shareBase.get(Sname);
-        shareValues.put(Sname, base*Math.pow(flux, x));
-    }
 
     public static Boolean buy(String Sname, Integer amount, Account acc){
         Company comp = getBusiness(Sname);
@@ -116,8 +102,6 @@ public class Market {
             comp.marketShares = market_am-amount;
 
             comp.changeShareHolder(acc, amount);
-
-            changeValue(Sname);
 
             return true;
         }
@@ -132,8 +116,6 @@ public class Market {
 
         comp.changeShareHolder(acc, -amount);
 
-        changeValue(Sname);
-
         return true;
     }
 
@@ -142,9 +124,8 @@ public class Market {
         double a = -10.0;
         double b = 15.0;
         double v = (comp.getBal()/comp.getTotalShares()) / (((Math.pow(flux, b)) - (Math.pow(flux, a))) /Math.log(flux)/(b-a));
-        shareBase.put(Sname, v);
 
-        changeValue(Sname);
+        comp.shareBase = v;
     }
 
     public static Company getBusiness(String Sname){
@@ -161,11 +142,8 @@ public class Market {
 
             comp.totalShares = 1000000;
 
-            shareBase.put(Sname, 0.0);
+            comp.shareBase = 0.0;
             changeBase(Sname);
-
-            shareValues.put(Sname, 0.0);
-            changeValue(Sname);
 
             comp.checkSupport();
             comp.calculateCountry();
@@ -301,11 +279,8 @@ public class Market {
 
         comp.totalShares = to;
 
-        shareBase.put(Sname, sb);
+        comp.shareBase = sb;
         changeBase(Sname);
-
-        shareValues.put(Sname, sv);
-        changeValue(Sname);
 
         comp.checkSupport();
         comp.calculateCountry();
@@ -491,97 +466,6 @@ public class Market {
         accounts = Utils.readSave("accounts", new TypeToken<HashMap<UUID, Account>>(){}.getType(), new HashMap<>());
 
         company = Utils.readSave("companies", new TypeToken<HashMap<String, Company>>(){}.getType(), new HashMap<>());
-
-        if (SignClick.getPlugin().getConfig().contains("company") && false){
-            for (String key : SignClick.getPlugin().getConfig().getConfigurationSection("company").getKeys(true)) {
-                String Sname = key;
-                if (Sname.contains(".")) {
-                    continue;
-                }
-                getServer().getConsoleSender().sendMessage(ChatColor.BLUE + "Sname found " + Sname);
-
-                ArrayList<UUID> owners = new ArrayList<>();
-                for (String s : (List<String>) SignClick.getPlugin().getConfig().get("company." + Sname + "." + "owners")) {
-                    owners.add(UUID.fromString(s));
-                }
-
-                String name = SignClick.getPlugin().getConfig().get("company." + Sname + "." + "name").toString();
-                double bal = (double) SignClick.getPlugin().getConfig().get("company." + Sname + "." + "bal");
-                double books = (double) SignClick.getPlugin().getConfig().get("company." + Sname + "." + "books");
-                double spendable = (double) SignClick.getPlugin().getConfig().get("company." + Sname + "." + "spendable");
-                double last_value = (double) SignClick.getPlugin().getConfig().get("company." + Sname + "." + "last_value");
-                double security_funds = (double) SignClick.getPlugin().getConfig().get("company."+Sname+"." + "security_funds");
-
-                Map<UUID, UUID> su = new HashMap<>();
-                String support_string = (String) SignClick.getPlugin().getConfig().get("company." + Sname + "." + "support");
-                support_string = support_string.substring(1, support_string.length() - 1);
-                if (support_string.contains(",") | support_string.contains("=")) {
-                    String[] pairs = support_string.split(", ");
-                    for (int i = 0; i < pairs.length; i++) {
-                        String pair = pairs[i];
-                        String[] keyValue = pair.split("=");
-                        if (keyValue[1].equals("null")){
-                            su.put(UUID.fromString(keyValue[0]), null);
-                        }else{
-                            su.put(UUID.fromString(keyValue[0]), UUID.fromString(keyValue[1]));
-                        }
-
-                    }
-
-                }
-
-                Map<UUID, Integer> sh = new HashMap<>();
-                String share_holder_string = (String) SignClick.getPlugin().getConfig().get("company." + Sname + "." + "share_holders");
-                share_holder_string = share_holder_string.substring(1, share_holder_string.length() - 1);
-                if (share_holder_string.contains(",") | share_holder_string.contains("=")) {
-                    String[] pairs = share_holder_string.split(", ");
-                    for (int i = 0; i < pairs.length; i++) {
-                        String pair = pairs[i];
-                        String[] keyValue = pair.split("=");
-                        sh.put(UUID.fromString(keyValue[0]), Integer.parseInt(keyValue[1]));
-                    }
-
-                }
-
-                double sv = (double) SignClick.getPlugin().getConfig().get("company." + Sname + "." + "share_value");
-                double sb = (double) SignClick.getPlugin().getConfig().get("company." + Sname + "." + "share_base");
-                int ma = (int) SignClick.getPlugin().getConfig().get("company." + Sname + "." + "market_amount");
-                int to = (int) SignClick.getPlugin().getConfig().get("company." + Sname + "." + "total");
-
-
-                ArrayList<Upgrade> upgrades = new ArrayList<>();
-                for (int i=0; i<5; i++){
-                    if (SignClick.getPlugin().getConfig().contains("company."+Sname+".upgrade."+i)){
-                        int level = (int) SignClick.getPlugin().getConfig().get("company."+Sname+".upgrade."+i);
-                        if (i == 0){
-                            upgrades.add(new UpgradeExtraPoints(level));
-                        }else if (i == 1){
-                            upgrades.add(new UpgradePatentSlot(level));
-                        }else if (i == 2){
-                            upgrades.add(new UpgradePatentUpgradeSlot(level));
-                        }else if (i == 3){
-                            upgrades.add(new UpgradeCraftLimit(level));
-                        }else if (i == 4){
-
-                            upgrades.add(new UpgradeInvestReturnTime(level));
-                        }
-                    }
-                }
-
-                boolean open_trade = false;
-                if (SignClick.getPlugin().getConfig().contains("company." + Sname + "." + "open_trade")){
-                    open_trade = (Boolean) SignClick.getPlugin().getConfig().get("company." + Sname + "." + "open_trade");
-                }
-
-                String type = "other";
-                if (SignClick.getPlugin().getConfig().contains("company." + Sname + "." + "type")){
-                    type = (String) SignClick.getPlugin().getConfig().get("company." + Sname + "." + "type");
-                }
-
-                Market.addCompany(name, Sname, owners, bal, books, spendable, su, sh, sv, sb, ma, to, last_value, security_funds, upgrades, open_trade, type);
-
-            }
-        }
 
         if (SignClick.getPlugin().getConfig().contains("sign") && !SignClick.getPlugin().getConfig().get("sign").equals("[]")){
 

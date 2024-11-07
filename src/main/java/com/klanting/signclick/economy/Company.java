@@ -34,6 +34,13 @@ public class Company {
     public double spendable = 0.0;
     public Boolean openTrade = false;
     public double lastValue = 40000000.0;
+
+    public double getShareBase() {
+        return shareBase;
+    }
+
+    public double shareBase = 0.0;
+
     public Map<UUID, UUID> support = new HashMap<UUID, UUID>();
     public Map<UUID, Integer> shareHolders = new HashMap<UUID, Integer>();
     public String compNamePending = null;

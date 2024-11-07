@@ -675,5 +675,33 @@ class CompanyCTests {
         testPlayer.assertNoMoreSaid();
     }
 
+    @Test
+    void companyGetBuyPriceAfterReload(){
+        Market.getBusiness("TCI").addBal(1000.0);
+
+        boolean suc6 = server.execute("company", testPlayer, "get_buy_price",
+                "TCI").hasSucceeded();
+        assertTrue(suc6);
+
+        testPlayer.assertSaid("§f1§b share(s) costs §f0,00");
+        testPlayer.assertNoMoreSaid();
+
+        /*
+         * Restart Server, check persistence
+         * */
+        plugin.onDisable();
+        CountryManager.clear();
+        Market.clear();
+        plugin = TestTools.setupPlugin(server);
+
+
+        suc6 = server.execute("company", testPlayer, "get_buy_price",
+                "TCI").hasSucceeded();
+        assertTrue(suc6);
+
+        testPlayer.assertSaid("§f1§b share(s) costs §f0,00");
+        testPlayer.assertNoMoreSaid();
+    }
+
 
 }

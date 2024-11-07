@@ -109,7 +109,6 @@ public class SignClick extends JavaPlugin{
             return false;
         }
         RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
-        getServer().getConsoleSender().sendMessage(ChatColor.RED + String.valueOf(Economy.class));
         if (rsp == null) {
             rsp = getServer().getServicesManager().getRegistration(Economy.class);
         }
