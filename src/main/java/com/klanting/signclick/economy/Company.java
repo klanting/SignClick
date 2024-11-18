@@ -6,11 +6,9 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 import com.klanting.signclick.economy.companyPatent.Patent;
 import com.klanting.signclick.economy.companyPatent.PatentUpgrade;
-import com.klanting.signclick.economy.companyPatent.PatentUpgradeCustom;
 import com.klanting.signclick.economy.companyUpgrades.*;
 import com.klanting.signclick.SignClick;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
@@ -19,16 +17,18 @@ import java.text.DecimalFormat;
 import java.util.*;
 import java.util.Map.Entry;
 
-import static org.bukkit.Bukkit.getServer;
-
 public class Company {
 
     private String name;
     private String stockName;
 
+    public ArrayList<UUID> getOwners() {
+        return owners;
+    }
+
     public ArrayList<UUID> owners = new ArrayList<>();
 
-    public double bal = 0.0;
+    private double bal = 0.0;
     public double books = 0.0;
     public double securityFunds = 0.0;
     public double spendable = 0.0;
@@ -190,7 +190,7 @@ public class Company {
 
     }
 
-    Double getBal(){
+    public Double getBal(){
         return bal;
     }
 

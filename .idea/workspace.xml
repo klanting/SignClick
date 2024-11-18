@@ -9,13 +9,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b3aa4a96-499c-4e97-84b9-6312c5389c7a" name="Changes" comment="cleanup of Market.java">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/contracts/ContractSTC.java" afterDir="false" />
+    <list default="true" id="b3aa4a96-499c-4e97-84b9-6312c5389c7a" name="Changes" comment="Contract Server To Company Cleaned up, and saved after server restart">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/companyHandelers/CompanyHandlerGetSupport.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/CompanyCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/CompanyCommands.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/Company.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/Company.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/CountryNull.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/CountryNull.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/Market.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/Market.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/com/commands/CompanyCTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/commands/CompanyCTests.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/com/company/CompanyTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/company/CompanyTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/storage/GsonTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/storage/GsonTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -164,7 +167,7 @@
     "Gradle.PolicyTests.policySaveAndRestore.executor": "Run",
     "Gradle.PolicyTests.setPolicy.executor": "Coverage",
     "Gradle.SignTpTests.doSignTp.executor": "Run",
-    "Gradle.TestAll.executor": "Run",
+    "Gradle.TestAll.executor": "Coverage",
     "Gradle.WeeklyPayCTests.makeWeeklyPay.executor": "Run",
     "Gradle.WeeklyPayCTests.makeWeeklyPayNotEnoughMoney.executor": "Run",
     "Gradle.WeeklyPayCTests.weeklyPaySaveRestore.executor": "Run",
@@ -433,15 +436,10 @@
       <workItem from="1730575306627" duration="4047000" />
       <workItem from="1730580199929" duration="480000" />
       <workItem from="1730734974613" duration="4139000" />
-      <workItem from="1731009915500" duration="2210000" />
-    </task>
-    <task id="LOCAL-00013" summary="testcases weekly pay">
-      <option name="closed" value="true" />
-      <created>1726137151555</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1726137151555</updated>
+      <workItem from="1731009915500" duration="2531000" />
+      <workItem from="1731013146569" duration="8000" />
+      <workItem from="1731247897829" duration="21000" />
+      <workItem from="1731941159412" duration="1136000" />
     </task>
     <task id="LOCAL-00014" summary="added some tests, and cleaning up really small part of Banking class">
       <option name="closed" value="true" />
@@ -827,7 +825,15 @@
       <option name="project" value="LOCAL" />
       <updated>1731010935900</updated>
     </task>
-    <option name="localTasksCounter" value="62" />
+    <task id="LOCAL-00062" summary="Contract Server To Company Cleaned up, and saved after server restart">
+      <option name="closed" value="true" />
+      <created>1731012216447</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1731012216447</updated>
+    </task>
+    <option name="localTasksCounter" value="63" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -849,7 +855,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fix java version Github actions" />
     <MESSAGE value="fix Gradle build" />
     <MESSAGE value="small change so gradlew is executable" />
     <MESSAGE value="added missing Gradle files" />
@@ -874,7 +879,8 @@
     <MESSAGE value="additional cleanup company commands" />
     <MESSAGE value="Added testing for Contract Company To Player" />
     <MESSAGE value="cleanup of Market.java" />
-    <option name="LAST_COMMIT_MESSAGE" value="cleanup of Market.java" />
+    <MESSAGE value="Contract Server To Company Cleaned up, and saved after server restart" />
+    <option name="LAST_COMMIT_MESSAGE" value="Contract Server To Company Cleaned up, and saved after server restart" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -903,11 +909,11 @@
     <SUITE FILE_PATH="coverage/SignClick$CompanyMenuTests_companyUpgrade.ic" NAME="CompanyMenuTests.companyUpgrade Coverage Results" MODIFIED="1726041324122" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/SignClick$CountryTests_countryAddRemoveOwner.ic" NAME="CountryTests.countryAddRemoveOwner Coverage Results" MODIFIED="1726152178872" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/SignClick$CompanyCTests_createCompany2CompanyContract.ic" NAME="CompanyCTests.createCompany2CompanyContract Coverage Results" MODIFIED="1730408523662" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/SignClick$CountryTests_CountryCreate.ic" NAME="CountryTests.CountryCreate Coverage Results" MODIFIED="1725952175146" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/SignClick$CompanyCTests_createCompany2PlayerContract.ic" NAME="CompanyCTests.createCompany2PlayerContract Coverage Results" MODIFIED="1730736932057" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/SignClick$CountryTests_CountryCreate.ic" NAME="CountryTests.CountryCreate Coverage Results" MODIFIED="1725952175146" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/SignClick$SignTpTests_doSignTp.ic" NAME="SignTpTests.doSignTp Coverage Results" MODIFIED="1726139305725" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/SignClick$CompanyCTests_companyGive.ic" NAME="CompanyCTests.companyGive Coverage Results" MODIFIED="1726042791871" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/SignClick$TestAll.ic" NAME="TestAll Coverage Results" MODIFIED="1730739031045" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/SignClick$TestAll.ic" NAME="TestAll Coverage Results" MODIFIED="1731942270454" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/SignClick$CountryTests_countrySaveLoadAdvanced.ic" NAME="CountryTests.countrySaveLoadAdvanced Coverage Results" MODIFIED="1726940586011" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/SignClick$CompanyTests_companySaveLoad.ic" NAME="CompanyTests.companySaveLoad Coverage Results" MODIFIED="1727021115277" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>

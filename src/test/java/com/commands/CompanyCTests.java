@@ -93,7 +93,7 @@ class CompanyCTests {
 
         testPlayer.assertSaid("§bsuccesfully paid §fPlayer1 1000.0");
         testPlayer.assertNoMoreSaid();
-        assertEquals(99000.0, company.bal);
+        assertEquals(99000.0, company.getBal());
 
 
     }
@@ -658,8 +658,8 @@ class CompanyCTests {
         testPlayer2.assertSaid("§bsuccesfully received §f100.0 §bfrom §fTCI");
         testPlayer2.assertNoMoreSaid();
 
-        assertEquals(100.0, Market.getBusiness("TCI2").bal);
-        assertEquals(100000.0-100, Market.getBusiness("TCI").bal);
+        assertEquals(100.0, Market.getBusiness("TCI2").getBal());
+        assertEquals(100000.0-100, Market.getBusiness("TCI").getBal());
 
     }
 

@@ -2,8 +2,6 @@ package com.klanting.signclick.economy;
 
 import com.google.common.reflect.TypeToken;
 import com.klanting.signclick.calculate.SignStock;
-import com.klanting.signclick.economy.companyPatent.*;
-import com.klanting.signclick.economy.companyUpgrades.*;
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.economy.contracts.Contract;
 import com.klanting.signclick.economy.contracts.ContractCTC;
@@ -78,14 +76,12 @@ public class Market {
 
         String countryName = Market.getBusiness(Sname).getCountry();
         Country country = CountryManager.getCountry(countryName);
+        if (country == null){
+            country = new CountryNull();
+        }
 
 
         double sub_fee = fee;
-
-        if (country == null){
-            //TODO make this not temp
-            return (getBuyPrice(Sname, -amount)*-1)*(1-sub_fee);
-        }
 
         if (country.getStability() < 50){
             sub_fee += 0.01;
@@ -133,24 +129,25 @@ public class Market {
     }
 
     public static Boolean addBusiness(String namebus, String Sname, Account acc){
-        if (!names.contains(namebus)){
-            names.add(namebus);
-            Company comp = new Company(namebus, Sname, acc);
-            company.put(Sname, comp);
-
-            comp.marketShares = 0;
-
-            comp.totalShares = 1000000;
-
-            comp.shareBase = 0.0;
-            changeBase(Sname);
-
-            comp.checkSupport();
-            comp.calculateCountry();
-
-            return true;
+        if (names.contains(namebus)){
+            return false;
         }
-        return false;
+
+        names.add(namebus);
+        Company comp = new Company(namebus, Sname, acc);
+        company.put(Sname, comp);
+
+        comp.marketShares = 0;
+
+        comp.totalShares = 1000000;
+
+        comp.shareBase = 0.0;
+        changeBase(Sname);
+
+        comp.checkSupport();
+        comp.calculateCountry();
+
+        return true;
     }
 
     public static Boolean hasBusiness(String Sname){
@@ -254,97 +251,6 @@ public class Market {
 
     }
 
-
-
-    public static void addCompany(String namebus, String Sname, ArrayList<UUID> owners,
-                                  double bal, double books, double spendable,
-                                  Map<UUID, UUID> support, Map<UUID, Integer> share_holders,
-                                  double sv, double sb, int ma, int to, double last, double sf,
-                                  ArrayList<Upgrade> upgrades, Boolean open_trade, String type){
-        names.add(namebus);
-        Company comp = new Company(namebus, Sname);
-        comp.owners = owners;
-        comp.bal = bal;
-        comp.books = books;
-        comp.spendable = spendable;
-        comp.support = support;
-        comp.shareHolders = share_holders;
-        comp.lastValue = last;
-        comp.securityFunds = sf;
-        comp.openTrade = open_trade;
-        comp.type = type;
-        company.put(Sname, comp);
-
-        comp.marketShares = ma;
-
-        comp.totalShares = to;
-
-        comp.shareBase = sb;
-        changeBase(Sname);
-
-        comp.checkSupport();
-        comp.calculateCountry();
-        if (!upgrades.isEmpty()){
-            comp.upgrades = upgrades;
-        }
-
-        String path = "company."+Sname+".patent_up";
-        if (SignClick.getPlugin().getConfig().contains(path)){
-            Integer counter = 0;
-            while(SignClick.getPlugin().getConfig().contains(path+"."+counter)){
-                int id = (Integer) SignClick.getPlugin().getConfig().get(path+"."+counter+".id");
-                int level = (Integer) SignClick.getPlugin().getConfig().get(path+"."+counter+".level");
-                String name = (String) SignClick.getPlugin().getConfig().get(path+"."+counter+".name");
-
-                if (id == 4){
-                    Material texture_item = Material.valueOf((String) SignClick.getPlugin().getConfig().get(path+"."+counter+".applied_item"));
-                    PatentUpgrade up = new PatentUpgradeCustom(name,texture_item);
-                    up.level = level;
-                    comp.patentUpgrades.add(up);
-                }else if (id == 0){
-                    PatentUpgrade up = new PatentUpgradeJumper();
-                    up.level = level;
-                    comp.patentUpgrades.add(up);
-                }else if (id == 1){
-                    PatentUpgrade up = new PatentUpgradeEvade();
-                    up.level = level;
-                    comp.patentUpgrades.add(up);
-                }else if (id == 2){
-                    PatentUpgrade up = new PatentUpgradeRefill();
-                    up.level = level;
-                    comp.patentUpgrades.add(up);
-                }else if (id == 3){
-                    PatentUpgrade up = new PatentUpgradeCunning();
-                    up.level = level;
-                    comp.patentUpgrades.add(up);
-                }
-
-                counter++;
-            }
-        }
-
-        path = "company."+Sname+".patent";
-        if (SignClick.getPlugin().getConfig().contains(path)){
-            Integer counter = 0;
-            while(SignClick.getPlugin().getConfig().contains(path+"."+counter)){
-
-                String name = (String) SignClick.getPlugin().getConfig().get(path+"."+counter+".name");
-                Material item = Material.valueOf((String) SignClick.getPlugin().getConfig().get(path+"."+counter+".item"));
-                List<String> patent_ups_index = (List<String>) SignClick.getPlugin().getConfig().get(path+"."+counter+".upgrades");
-
-                ArrayList<PatentUpgrade> p_ups = new ArrayList<>();
-                for (String index: patent_ups_index){
-                    p_ups.add(comp.patentUpgrades.get(Integer.parseInt(index)));
-                }
-
-                Patent p =  new Patent(name, item, p_ups);
-                p.createCraft(comp);
-                comp.patent.add(p);
-                counter++;
-            }
-        }
-
-    }
 
     public static double getBooks(String Sname){
         Company comp = getBusiness(Sname);

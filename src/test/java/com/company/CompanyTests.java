@@ -70,7 +70,7 @@ class CompanyTests {
         Company comp = Market.getBusiness("TCI");
         comp.addBal(100.0);
 
-        assertEquals(100.0, comp.bal);
+        assertEquals(100.0, comp.getBal());
 
     }
 
@@ -91,7 +91,7 @@ class CompanyTests {
 
         comp = Market.getBusiness("TCI");
         assertNotNull(comp);
-        assertEquals(1000.0, comp.bal);
+        assertEquals(1000.0, comp.getBal());
 
     }
 

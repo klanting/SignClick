@@ -80,9 +80,9 @@ public class GsonTests {
 
         assertEquals("A", comp.getStockName());
         assertEquals("AA", comp.getName());
-        assertEquals(0, comp.bal);
-        assertEquals(1, comp.owners.size());
-        assertEquals(testPlayer.getUniqueId(), comp.owners.get(0));
+        assertEquals(0, comp.getBal());
+        assertEquals(1, comp.getOwners().size());
+        assertEquals(testPlayer.getUniqueId(), comp.getOwners().get(0));
         assertEquals(5, comp.upgrades.size());
         assertEquals(100, comp.totalShares);
 

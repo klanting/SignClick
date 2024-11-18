@@ -55,6 +55,7 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
             handlerTranslation.put("pay", new CompanyHandlerPay());
             handlerTranslation.put("spendable", new CompanyHandlerSpendable());
             handlerTranslation.put("transfer", new CompanyHandlerTransfer());
+            handlerTranslation.put("get_support", new CompanyHandlerGetSupport());
 
             try{
 
@@ -151,49 +152,6 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
             if (commando.equals("market")){
                 confirm.put(player, "");
                 Market.marketAvailable(player);
-            }
-
-            if (commando.equals("get_support")){
-                confirm.put(player, "");
-                UUID target_uuid = null;
-                if (args.length < 2){
-                    player.sendMessage("§bplease enter /company get_support <company> [player_name]");
-                    return true;
-
-                }else if(args.length < 3){
-                    target_uuid = player.getUniqueId();
-                }else{
-                    for (OfflinePlayer target : Bukkit.getOfflinePlayers()) {
-                        if (target.getName().equals(args[2])){
-                            target_uuid = target.getUniqueId();
-                        }
-                    }
-                }
-
-                if (target_uuid == null){
-                    player.sendMessage("§bplayer doesn't exist");
-                    confirm.put(player, "");
-                    return true;
-                }
-
-                String stock_name = args[1].toUpperCase();
-                stock_name = stock_name.toUpperCase();
-
-                if (!Market.hasBusiness(stock_name)){
-                    player.sendMessage("§bbusiness name is invalid");
-                    confirm.put(player, "");
-                    return true;
-                }
-
-                UUID result = Market.getBusiness(stock_name).support.getOrDefault(target_uuid, null);
-                String name;
-                if (result == null){
-                    name = "neutral";
-                }else{
-                    name = Bukkit.getOfflinePlayer(result).getName();
-                }
-
-                player.sendMessage("§bplayer supports §7"+name);
             }
 
             if (commando.equals("send_contract_ctc")){

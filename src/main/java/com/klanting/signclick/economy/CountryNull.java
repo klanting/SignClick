@@ -13,4 +13,9 @@ public class CountryNull extends Country{
 
         return 0.0;
     }
+
+    @Override
+    public double getStability(){
+        return 100.0;
+    }
 }
