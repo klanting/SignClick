@@ -13,6 +13,10 @@ import org.junit.jupiter.api.Test;
 
 import tools.TestTools;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -113,7 +117,7 @@ class CompanyTests {
     void companyContractServerToCompany(){
         PlayerMock testPlayer = server.addPlayer();
 
-        Boolean succes = Market.addBusiness("TestCaseInc", "TCI", Market.getAccount(testPlayer));
+        boolean succes = Market.addBusiness("TestCaseInc", "TCI", Market.getAccount(testPlayer));
         assertTrue(succes);
 
         Company comp = Market.getBusiness("TCI");
@@ -139,7 +143,25 @@ class CompanyTests {
         testPlayer.assertSaid("§coutgoing:");
         testPlayer.assertNoMoreSaid();
 
+    }
 
+    @Test
+    void companyGetCompanies(){
+        PlayerMock testPlayer = server.addPlayer();
+
+        boolean suc6 = Market.addBusiness("TestCaseInc", "TCI", Market.getAccount(testPlayer));
+        assertTrue(suc6);
+
+        suc6 = Market.addBusiness("TestCaseInc2", "TCI2", Market.getAccount(testPlayer));
+        assertTrue(suc6);
+
+        suc6 = Market.addBusiness("TestCaseInc3", "TCI3", Market.getAccount(testPlayer));
+        assertTrue(suc6);
+
+        assertEquals(3, Market.getBusinesses().size());
+        assertEquals("TCI", Market.getBusinesses().get(0));
+        assertEquals("TCI3", Market.getBusinesses().get(1));
+        assertEquals("TCI2", Market.getBusinesses().get(2));
     }
 
 

@@ -56,6 +56,7 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
             handlerTranslation.put("spendable", new CompanyHandlerSpendable());
             handlerTranslation.put("transfer", new CompanyHandlerTransfer());
             handlerTranslation.put("get_support", new CompanyHandlerGetSupport());
+            handlerTranslation.put("support", new CompanyHandlerSupport());
 
             try{
 
@@ -78,49 +79,6 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
                 return true;
             }
 
-            if (commando.equals("support")){
-                if (args.length < 3){
-                    player.sendMessage("§bplease enter /company support <company> <player_name>");
-                    confirm.put(player, "");
-                    return true;
-                }
-
-                String stock_name = args[1].toUpperCase();
-                stock_name = stock_name.toUpperCase();
-
-                if (!Market.hasBusiness(stock_name)){
-                    player.sendMessage("§bbusiness name is invalid");
-                    confirm.put(player, "");
-                    return true;
-                }
-
-                String player_name = args[2];
-                OfflinePlayer player_offline = null;
-
-                for (OfflinePlayer target : Bukkit.getOfflinePlayers()) {
-                    if (target.getName().equals(player_name)){
-                        player_offline = target;
-                    }
-                }
-
-                if (player_name.equals("neutral")){
-                    Account acc = Market.getAccount(player);
-                    Market.getBusiness(stock_name).supportUpdate(acc, null);
-                    confirm.put(player, "");
-                    player.sendMessage("§bsupport changed to §e"+player_name);
-                    return true;
-                }
-
-                if (player_offline == null){
-                    player.sendMessage("§bplayer doesn't exist");
-                    confirm.put(player, "");
-                    return true;
-                }
-                Account acc = Market.getAccount(player);
-                Market.getBusiness(stock_name).supportUpdate(acc, player_offline.getUniqueId());
-                player.sendMessage("§bsupport changed to §f"+player_name);
-
-            }
 
             if (commando.equals("portfolio")){
                 confirm.put(player, "");

@@ -782,5 +782,40 @@ class CompanyCTests {
 
     }
 
+    @Test
+    void companySupportNeutral2(){
+        PlayerMock testPlayer2 = server.addPlayer();
+
+        Company comp = Market.getBusiness("TCI");
+
+        /*
+         * Check that testPlayer is the owner
+         * */
+        assertEquals(1, comp.getOwners().size());
+        assertEquals(testPlayer.getUniqueId(), comp.getOwners().get(0));
+
+        Market.getAccount(testPlayer).sellShare("TCI", 900000, testPlayer);
+        Market.getAccount(testPlayer2).buyShare("TCI", 900000, testPlayer2);
+
+        testPlayer.assertSaid("§bsell: §aaccepted");
+        testPlayer.assertNoMoreSaid();
+
+        testPlayer2.assertSaid("§bbuy: §aaccepted");
+        testPlayer2.assertNoMoreSaid();
+
+        /*
+         * change shares
+         * */
+        assertEquals(900000, Market.getAccount(testPlayer2).shares.get("TCI"));
+        assertEquals(100000, Market.getAccount(testPlayer).shares.get("TCI"));
+
+        /*
+         * Check that testPlayer is the owner, because testPlayer2 its support is neutral
+         * */
+        assertEquals(1, comp.getOwners().size());
+        assertEquals(testPlayer.getUniqueId(), comp.getOwners().get(0));
+
+    }
+
 
 }

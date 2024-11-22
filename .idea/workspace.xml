@@ -9,9 +9,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b3aa4a96-499c-4e97-84b9-6312c5389c7a" name="Changes" comment="Added some tests and refactoring">
+    <list default="true" id="b3aa4a96-499c-4e97-84b9-6312c5389c7a" name="Changes" comment="added testcases covering the support command">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/companyHandelers/CompanyHandlerSupport.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/CompanyCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/CompanyCommands.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/com/commands/CompanyCTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/commands/CompanyCTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/company/CompanyTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/company/CompanyTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -94,6 +97,7 @@
     "Gradle.CompanyCTests.companyShareTopInvalidCompany.executor": "Run",
     "Gradle.CompanyCTests.companySupport.executor": "Run",
     "Gradle.CompanyCTests.companySupportNeutral.executor": "Run",
+    "Gradle.CompanyCTests.companySupportNeutral2.executor": "Run",
     "Gradle.CompanyCTests.companyTransact.executor": "Run",
     "Gradle.CompanyCTests.companyTransferShares.executor": "Run",
     "Gradle.CompanyCTests.createCompany2CompanyContract.executor": "Run",
@@ -108,6 +112,7 @@
     "Gradle.CompanyTests.companyContractServerToCompany.executor": "Run",
     "Gradle.CompanyTests.companyCreate (1).executor": "Run",
     "Gradle.CompanyTests.companyCreate.executor": "Run",
+    "Gradle.CompanyTests.companyGetCompanies.executor": "Coverage",
     "Gradle.CompanyTests.companyRunTicks.executor": "Run",
     "Gradle.CompanyTests.companySaveLoad.executor": "Coverage",
     "Gradle.CountryCTests.countryAddLawEnforcement.executor": "Run",
@@ -203,30 +208,6 @@
     </key>
   </component>
   <component name="RunManager" selected="Gradle.TestAll">
-    <configuration name="CompanyCTests.companyGetBuyPriceAfterReload" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value=":test" />
-            <option value="--tests" />
-            <option value="&quot;com.commands.CompanyCTests.companyGetBuyPriceAfterReload&quot;" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>true</RunAsTest>
-      <method v="2" />
-    </configuration>
     <configuration name="CompanyCTests.companySupport" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -275,7 +256,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="CompanyCTests.createCompany2PlayerContract" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="CompanyCTests.companySupportNeutral2" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -288,7 +269,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;com.commands.CompanyCTests.createCompany2PlayerContract&quot;" />
+            <option value="&quot;com.commands.CompanyCTests.companySupportNeutral2&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -313,6 +294,30 @@
             <option value=":test" />
             <option value="--tests" />
             <option value="&quot;com.company.CompanyTests.companyContractServerToCompany&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="CompanyTests.companyGetCompanies" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;com.company.CompanyTests.companyGetCompanies&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -348,19 +353,19 @@
     </configuration>
     <list>
       <item itemvalue="Gradle.TestAll" />
+      <item itemvalue="Gradle.CompanyCTests.companySupportNeutral2" />
+      <item itemvalue="Gradle.CompanyTests.companyGetCompanies" />
       <item itemvalue="Gradle.CompanyCTests.companySupport" />
       <item itemvalue="Gradle.CompanyCTests.companySupportNeutral" />
-      <item itemvalue="Gradle.CompanyCTests.companyGetBuyPriceAfterReload" />
       <item itemvalue="Gradle.CompanyTests.companyContractServerToCompany" />
-      <item itemvalue="Gradle.CompanyCTests.createCompany2PlayerContract" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.CompanyTests.companyGetCompanies" />
+        <item itemvalue="Gradle.CompanyCTests.companySupportNeutral2" />
         <item itemvalue="Gradle.CompanyCTests.companySupportNeutral" />
         <item itemvalue="Gradle.CompanyCTests.companySupport" />
         <item itemvalue="Gradle.CompanyTests.companyContractServerToCompany" />
-        <item itemvalue="Gradle.CompanyCTests.companyGetBuyPriceAfterReload" />
-        <item itemvalue="Gradle.CompanyCTests.createCompany2PlayerContract" />
       </list>
     </recent_temporary>
   </component>
@@ -436,15 +441,8 @@
       <workItem from="1731247897829" duration="21000" />
       <workItem from="1731941159412" duration="2227000" />
       <workItem from="1731948684848" duration="695000" />
-      <workItem from="1732309705082" duration="1049000" />
-    </task>
-    <task id="LOCAL-00015" summary="added some small tests">
-      <option name="closed" value="true" />
-      <created>1726161271115</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1726161271115</updated>
+      <workItem from="1732309705082" duration="1198000" />
+      <workItem from="1732312418416" duration="990000" />
     </task>
     <task id="LOCAL-00016" summary="first party country refactoring from C style static methods to OOP">
       <option name="closed" value="true" />
@@ -830,7 +828,15 @@
       <option name="project" value="LOCAL" />
       <updated>1731942798554</updated>
     </task>
-    <option name="localTasksCounter" value="64" />
+    <task id="LOCAL-00064" summary="added testcases covering the support command">
+      <option name="closed" value="true" />
+      <created>1732310897390</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1732310897391</updated>
+    </task>
+    <option name="localTasksCounter" value="65" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -852,7 +858,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="small change so gradlew is executable" />
     <MESSAGE value="added missing Gradle files" />
     <MESSAGE value="see if this helps the CI working" />
     <MESSAGE value="changed workflow Java version for gradle compatible" />
@@ -877,7 +882,8 @@
     <MESSAGE value="cleanup of Market.java" />
     <MESSAGE value="Contract Server To Company Cleaned up, and saved after server restart" />
     <MESSAGE value="Added some tests and refactoring" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added some tests and refactoring" />
+    <MESSAGE value="added testcases covering the support command" />
+    <option name="LAST_COMMIT_MESSAGE" value="added testcases covering the support command" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -906,11 +912,12 @@
     <SUITE FILE_PATH="coverage/SignClick$CompanyMenuTests_companyUpgrade.ic" NAME="CompanyMenuTests.companyUpgrade Coverage Results" MODIFIED="1726041324122" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/SignClick$CountryTests_countryAddRemoveOwner.ic" NAME="CountryTests.countryAddRemoveOwner Coverage Results" MODIFIED="1726152178872" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/SignClick$CompanyCTests_createCompany2CompanyContract.ic" NAME="CompanyCTests.createCompany2CompanyContract Coverage Results" MODIFIED="1730408523662" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/SignClick$CompanyCTests_createCompany2PlayerContract.ic" NAME="CompanyCTests.createCompany2PlayerContract Coverage Results" MODIFIED="1730736932057" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/SignClick$CountryTests_CountryCreate.ic" NAME="CountryTests.CountryCreate Coverage Results" MODIFIED="1725952175146" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/SignClick$CompanyCTests_createCompany2PlayerContract.ic" NAME="CompanyCTests.createCompany2PlayerContract Coverage Results" MODIFIED="1730736932057" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/SignClick$SignTpTests_doSignTp.ic" NAME="SignTpTests.doSignTp Coverage Results" MODIFIED="1726139305725" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/SignClick$CompanyTests_companyGetCompanies.ic" NAME="CompanyTests.companyGetCompanies Coverage Results" MODIFIED="1732313388635" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/SignClick$CompanyCTests_companyGive.ic" NAME="CompanyCTests.companyGive Coverage Results" MODIFIED="1726042791871" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/SignClick$TestAll.ic" NAME="TestAll Coverage Results" MODIFIED="1732309712830" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/SignClick$TestAll.ic" NAME="TestAll Coverage Results" MODIFIED="1732313417734" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/SignClick$CountryTests_countrySaveLoadAdvanced.ic" NAME="CountryTests.countrySaveLoadAdvanced Coverage Results" MODIFIED="1726940586011" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/SignClick$CompanyTests_companySaveLoad.ic" NAME="CompanyTests.companySaveLoad Coverage Results" MODIFIED="1727021115277" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
