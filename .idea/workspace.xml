@@ -9,16 +9,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b3aa4a96-499c-4e97-84b9-6312c5389c7a" name="Changes" comment="Contract Server To Company Cleaned up, and saved after server restart">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/companyHandelers/CompanyHandlerGetSupport.java" afterDir="false" />
+    <list default="true" id="b3aa4a96-499c-4e97-84b9-6312c5389c7a" name="Changes" comment="Added some tests and refactoring">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/CompanyCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/CompanyCommands.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/Company.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/Company.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/CountryNull.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/CountryNull.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/Market.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/Market.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/com/commands/CompanyCTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/commands/CompanyCTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/company/CompanyTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/company/CompanyTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/storage/GsonTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/storage/GsonTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,6 +92,8 @@
     "Gradle.CompanyCTests.companySellBuyShares.executor": "Run",
     "Gradle.CompanyCTests.companyShareTop.executor": "Run",
     "Gradle.CompanyCTests.companyShareTopInvalidCompany.executor": "Run",
+    "Gradle.CompanyCTests.companySupport.executor": "Run",
+    "Gradle.CompanyCTests.companySupportNeutral.executor": "Run",
     "Gradle.CompanyCTests.companyTransact.executor": "Run",
     "Gradle.CompanyCTests.companyTransferShares.executor": "Run",
     "Gradle.CompanyCTests.createCompany2CompanyContract.executor": "Run",
@@ -232,7 +227,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="CompanyCTests.createCompany2CompanyContract" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="CompanyCTests.companySupport" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -245,7 +240,31 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;com.commands.CompanyCTests.createCompany2CompanyContract&quot;" />
+            <option value="&quot;com.commands.CompanyCTests.companySupport&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="CompanyCTests.companySupportNeutral" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;com.commands.CompanyCTests.companySupportNeutral&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -270,30 +289,6 @@
             <option value=":test" />
             <option value="--tests" />
             <option value="&quot;com.commands.CompanyCTests.createCompany2PlayerContract&quot;" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>true</RunAsTest>
-      <method v="2" />
-    </configuration>
-    <configuration name="CompanyMenuTests.companyAuction" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value=":test" />
-            <option value="--tests" />
-            <option value="&quot;com.company.CompanyMenuTests.companyAuction&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -353,19 +348,19 @@
     </configuration>
     <list>
       <item itemvalue="Gradle.TestAll" />
+      <item itemvalue="Gradle.CompanyCTests.companySupport" />
+      <item itemvalue="Gradle.CompanyCTests.companySupportNeutral" />
       <item itemvalue="Gradle.CompanyCTests.companyGetBuyPriceAfterReload" />
       <item itemvalue="Gradle.CompanyTests.companyContractServerToCompany" />
-      <item itemvalue="Gradle.CompanyCTests.createCompany2CompanyContract" />
       <item itemvalue="Gradle.CompanyCTests.createCompany2PlayerContract" />
-      <item itemvalue="Gradle.CompanyMenuTests.companyAuction" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.CompanyCTests.companySupportNeutral" />
+        <item itemvalue="Gradle.CompanyCTests.companySupport" />
         <item itemvalue="Gradle.CompanyTests.companyContractServerToCompany" />
         <item itemvalue="Gradle.CompanyCTests.companyGetBuyPriceAfterReload" />
         <item itemvalue="Gradle.CompanyCTests.createCompany2PlayerContract" />
-        <item itemvalue="Gradle.CompanyMenuTests.companyAuction" />
-        <item itemvalue="Gradle.CompanyCTests.createCompany2CompanyContract" />
       </list>
     </recent_temporary>
   </component>
@@ -439,15 +434,9 @@
       <workItem from="1731009915500" duration="2531000" />
       <workItem from="1731013146569" duration="8000" />
       <workItem from="1731247897829" duration="21000" />
-      <workItem from="1731941159412" duration="1136000" />
-    </task>
-    <task id="LOCAL-00014" summary="added some tests, and cleaning up really small part of Banking class">
-      <option name="closed" value="true" />
-      <created>1726157352209</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1726157352209</updated>
+      <workItem from="1731941159412" duration="2227000" />
+      <workItem from="1731948684848" duration="695000" />
+      <workItem from="1732309705082" duration="1049000" />
     </task>
     <task id="LOCAL-00015" summary="added some small tests">
       <option name="closed" value="true" />
@@ -833,7 +822,15 @@
       <option name="project" value="LOCAL" />
       <updated>1731012216447</updated>
     </task>
-    <option name="localTasksCounter" value="63" />
+    <task id="LOCAL-00063" summary="Added some tests and refactoring">
+      <option name="closed" value="true" />
+      <created>1731942798553</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1731942798554</updated>
+    </task>
+    <option name="localTasksCounter" value="64" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -855,7 +852,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fix Gradle build" />
     <MESSAGE value="small change so gradlew is executable" />
     <MESSAGE value="added missing Gradle files" />
     <MESSAGE value="see if this helps the CI working" />
@@ -880,7 +876,8 @@
     <MESSAGE value="Added testing for Contract Company To Player" />
     <MESSAGE value="cleanup of Market.java" />
     <MESSAGE value="Contract Server To Company Cleaned up, and saved after server restart" />
-    <option name="LAST_COMMIT_MESSAGE" value="Contract Server To Company Cleaned up, and saved after server restart" />
+    <MESSAGE value="Added some tests and refactoring" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added some tests and refactoring" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -913,7 +910,7 @@
     <SUITE FILE_PATH="coverage/SignClick$CountryTests_CountryCreate.ic" NAME="CountryTests.CountryCreate Coverage Results" MODIFIED="1725952175146" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/SignClick$SignTpTests_doSignTp.ic" NAME="SignTpTests.doSignTp Coverage Results" MODIFIED="1726139305725" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/SignClick$CompanyCTests_companyGive.ic" NAME="CompanyCTests.companyGive Coverage Results" MODIFIED="1726042791871" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/SignClick$TestAll.ic" NAME="TestAll Coverage Results" MODIFIED="1731942270454" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/SignClick$TestAll.ic" NAME="TestAll Coverage Results" MODIFIED="1732309712830" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/SignClick$CountryTests_countrySaveLoadAdvanced.ic" NAME="CountryTests.countrySaveLoadAdvanced Coverage Results" MODIFIED="1726940586011" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/SignClick$CompanyTests_companySaveLoad.ic" NAME="CompanyTests.companySaveLoad Coverage Results" MODIFIED="1727021115277" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>

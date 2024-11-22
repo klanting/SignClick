@@ -703,5 +703,84 @@ class CompanyCTests {
         testPlayer.assertNoMoreSaid();
     }
 
+    @Test
+    void companySupport(){
+        PlayerMock testPlayer2 = server.addPlayer();
+
+        Company comp = Market.getBusiness("TCI");
+
+        /*
+        * Check that testPlayer is the owner
+        * */
+        assertEquals(1, comp.getOwners().size());
+        assertEquals(testPlayer.getUniqueId(), comp.getOwners().get(0));
+
+        boolean suc6 = server.execute("company", testPlayer, "support",
+                "TCI", testPlayer2.getName()).hasSucceeded();
+        assertTrue(suc6);
+
+        testPlayer.assertSaid("§bsupport changed to §fPlayer1");
+        testPlayer.assertNoMoreSaid();
+
+        /*
+         * Check that testPlayer2 is the owner
+         * */
+        assertEquals(1, comp.getOwners().size());
+        assertEquals(testPlayer2.getUniqueId(), comp.getOwners().get(0));
+
+    }
+
+    @Test
+    void companySupportNeutral(){
+        PlayerMock testPlayer2 = server.addPlayer();
+
+        Company comp = Market.getBusiness("TCI");
+
+        /*
+         * Check that testPlayer is the owner
+         * */
+        assertEquals(1, comp.getOwners().size());
+        assertEquals(testPlayer.getUniqueId(), comp.getOwners().get(0));
+
+        Market.getAccount(testPlayer).sellShare("TCI", 5, testPlayer);
+        Market.getAccount(testPlayer2).buyShare("TCI", 5, testPlayer2);
+
+        testPlayer.assertSaid("§bsell: §aaccepted");
+        testPlayer.assertNoMoreSaid();
+
+        testPlayer2.assertSaid("§bbuy: §aaccepted");
+        testPlayer2.assertNoMoreSaid();
+
+        /*
+        *
+        * */
+        assertEquals(5, Market.getAccount(testPlayer2).shares.get("TCI"));
+        assertEquals(1000000-5, Market.getAccount(testPlayer).shares.get("TCI"));
+
+        boolean suc6 = server.execute("company", testPlayer, "support",
+                "TCI", "neutral").hasSucceeded();
+        assertTrue(suc6);
+
+        testPlayer.assertSaid("§bsupport changed to §eneutral");
+        testPlayer.assertNoMoreSaid();
+
+        /*
+        * When having minority of the support, but the remains is neutral support the person with the most support
+        * */
+        suc6 = server.execute("company", testPlayer2, "support",
+                "TCI", testPlayer2.getName()).hasSucceeded();
+        assertTrue(suc6);
+
+        testPlayer2.assertSaid("§bsupport changed to §fPlayer1");
+        testPlayer2.assertNoMoreSaid();
+
+        /*
+         * Check that testPlayer2 is the owner
+         * */
+        assertEquals(1, comp.getOwners().size());
+        assertEquals(testPlayer2.getUniqueId(), comp.getOwners().get(0));
+
+    }
+
 
 }
