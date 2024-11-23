@@ -18,10 +18,6 @@ import tools.TestTools;
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
 import org.junit.jupiter.api.Test;
 
-import java.util.Locale;
-import java.util.Map;
-import java.util.logging.Level;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -573,6 +569,107 @@ class CompanyCTests {
     }
 
     @Test
+    void createPlayer2CompanyContract(){
+
+        Country c = CountryManager.create("C", testPlayer);
+        testPlayer.nextMessage();
+
+        PlayerMock testPlayer2 = TestTools.addPermsPlayer(server, plugin);
+
+        Market.getBusiness("TCI").country = c;
+
+        Market.getBusiness("TCI").addBal(200000.0);
+
+        /*
+        * send ptc contract
+        * */
+        boolean suc6 = server.execute("company", testPlayer, "send_contract_ptc",
+                "TCI", testPlayer2.getName(), "100", "2", "I am cold").hasSucceeded();
+        assertTrue(suc6);
+        testPlayer.assertSaid("§bplease re-enter your command to confirm\n" +
+                "that you want to send a contract request to §fPlayer1§b \n" +
+                " for an amount of §f100.0§b \n" +
+                " for a time of §f2 weeks \n" +
+                "§c/company send_contract_ptc TCI Player1 100.0 2");
+        testPlayer.assertNoMoreSaid();
+        suc6 = server.execute("company", testPlayer, "send_contract_ptc",
+                "TCI", testPlayer2.getName(), "100", "2", "I am cold").hasSucceeded();
+        assertTrue(suc6);
+        testPlayer2.assertSaid("§b you §7Player1§b got a contract request from §7TCI§b they will ask " +
+                "you §7100.0§b for §72§b weeks, do §c/company sign_contract_ptc");
+        testPlayer2.assertNoMoreSaid();
+
+        SignClick.getEconomy().depositPlayer(testPlayer2, 1000);
+
+        suc6 = server.execute("company", testPlayer2, "sign_contract_ptc",
+                "TCI").hasSucceeded();
+        assertTrue(suc6);
+
+        testPlayer2.assertSaid("§bplease re-enter your command to confirm\n" +
+                "that you want to sign a contract (§cYOU PAY THEM§b) requested from §fTCI§b \n" +
+                "for an amount of §f100§b \n" +
+                "for a time of §f2 weeks \n" +
+                "§c/company sign_contract_ptc");
+        testPlayer2.assertNoMoreSaid();
+
+        suc6 = server.execute("company", testPlayer2, "sign_contract_ptc",
+                "TCI").hasSucceeded();
+        assertTrue(suc6);
+
+        testPlayer2.assertSaid("§bcontract confirmed");
+        testPlayer2.assertNoMoreSaid();
+
+        /*
+         * Check 1 comp to comp exists
+         * */
+
+        assertEquals(1, Market.contractPlayerToComp.size());
+
+        /*
+         * Check valid transaction
+         * */
+        assertEquals(testPlayer2.getName(), Market.contractPlayerToComp.get(0).from());
+        assertEquals("TCI", Market.contractPlayerToComp.get(0).to());
+        assertEquals(100.0, Market.contractPlayerToComp.get(0).getAmount());
+        assertEquals(2, Market.contractPlayerToComp.get(0).getWeeks());
+        assertEquals("I am cold", Market.contractPlayerToComp.get(0).getReason());
+
+        /*
+         * Restart Server, check persistence
+         * */
+        plugin.onDisable();
+        CountryManager.clear();
+        Market.clear();
+        plugin = TestTools.setupPlugin(server);
+
+        /*
+         * Check 1 comp to player exists
+         * */
+        assertEquals(1, Market.contractPlayerToComp.size());
+
+        /*
+         * Check valid transaction
+         * */
+        assertEquals(testPlayer2.getName(), Market.contractPlayerToComp.get(0).from());
+        assertEquals("TCI", Market.contractPlayerToComp.get(0).to());
+        assertEquals(100.0, Market.contractPlayerToComp.get(0).getAmount());
+        assertEquals(2, Market.contractPlayerToComp.get(0).getWeeks());
+        assertEquals("I am cold", Market.contractPlayerToComp.get(0).getReason());
+
+        server.getScheduler().performTicks(60*60*24*7*20+1);
+
+        /*
+         * Check valid transaction, with 1 week less
+         * */
+        assertEquals(testPlayer2.getName(), Market.contractPlayerToComp.get(0).from());
+        assertEquals("TCI", Market.contractPlayerToComp.get(0).to());
+        assertEquals(100.0, Market.contractPlayerToComp.get(0).getAmount());
+        assertEquals(1, Market.contractPlayerToComp.get(0).getWeeks());
+        assertEquals("I am cold", Market.contractPlayerToComp.get(0).getReason());
+
+    }
+
+    @Test
     void companyBuyUnavailableShare(){
         boolean suc6 = server.execute("company", testPlayer, "buy",
                 "TCI", "1").hasSucceeded();
@@ -814,6 +911,20 @@ class CompanyCTests {
          * */
         assertEquals(1, comp.getOwners().size());
         assertEquals(testPlayer.getUniqueId(), comp.getOwners().get(0));
+
+    }
+
+    @Test
+    void companyMarketAvailability(){
+        Market.getAccount(testPlayer).sellShare("TCI", 900000, testPlayer);
+
+        testPlayer.assertSaid("§bsell: §aaccepted");
+
+        boolean suc6 = server.execute("company", testPlayer, "market").hasSucceeded();
+        assertTrue(suc6);
+
+        testPlayer.assertSaid("§eMarket:\n§b1. §9TCI: §7900.000 (90,00%)");
+        testPlayer.assertNoMoreSaid();
 
     }
 

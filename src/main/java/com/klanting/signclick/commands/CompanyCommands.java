@@ -57,6 +57,8 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
             handlerTranslation.put("transfer", new CompanyHandlerTransfer());
             handlerTranslation.put("get_support", new CompanyHandlerGetSupport());
             handlerTranslation.put("support", new CompanyHandlerSupport());
+            handlerTranslation.put("open_trade", new CompanyHandlerOpenTrade());
+            handlerTranslation.put("market", new CompanyHandlerMarket());
 
             try{
 
@@ -105,11 +107,6 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
 
                 Market.getAccount(target_uuid).getPortfolio(player);
 
-            }
-
-            if (commando.equals("market")){
-                confirm.put(player, "");
-                Market.marketAvailable(player);
             }
 
             if (commando.equals("send_contract_ctc")){
@@ -604,52 +601,6 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
                     Market.showParticles = Objects.equals(args[1], "TRUE");
                 }
 
-
-            }
-
-            if (commando.equals("open_trade")){
-                confirm.put(player, "");
-
-                if (args.length < 2){
-                    player.sendMessage("§bplease enter /company open_trade <Company> [TRUE/FALSE]");
-                    return true;
-                }
-
-                String stock_name = args[1].toUpperCase();
-                stock_name = stock_name.toUpperCase();
-
-                if (!Market.hasBusiness(stock_name)){
-                    player.sendMessage("§bbusiness name is invalid");
-                    confirm.put(player, "");
-                    return true;
-                }
-
-                if (args.length < 3){
-                    player.sendMessage("§bopen trade is "+ Market.getBusiness(stock_name).openTrade);
-                    return true;
-                }
-
-                if (!Market.getBusiness(stock_name).isOwner(player.getUniqueId())){
-                    player.sendMessage("§byou must be a CEO of this com.company");
-                    confirm.put(player, "");
-                    return true;
-                }
-
-                boolean to_open = Objects.equals(args[2], "TRUE");
-                Market.getBusiness(stock_name).openTrade = to_open;
-
-                if (!to_open){
-                    Market.getBusiness(stock_name).marketShares = 0;
-                }else{
-
-                    Company comp = Market.getBusiness(stock_name);
-
-                    comp.totalShares = comp.getTotalShares()-comp.getMarketShares();
-
-                    comp.marketShares = 0;
-                }
-
-                player.sendMessage("§bopen trade set to "+ Market.getBusiness(stock_name).openTrade);
 
             }
 

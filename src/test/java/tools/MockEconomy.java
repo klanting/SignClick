@@ -141,7 +141,6 @@ public class MockEconomy implements Economy {
 
     @Override
     public EconomyResponse depositPlayer(OfflinePlayer offlinePlayer, double v) {
-
         balance.put(offlinePlayer, balance.getOrDefault(offlinePlayer, 0.0)+v);
 
         return null;

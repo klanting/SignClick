@@ -26,7 +26,14 @@ public class Company {
         return owners;
     }
 
-    public ArrayList<UUID> owners = new ArrayList<>();
+    private ArrayList<UUID> owners = new ArrayList<>();
+
+    public void testAddOwner(UUID uuid){
+        /*
+        * Test method to inject an owner
+        * */
+        owners.add(uuid);
+    }
 
     private double bal = 0.0;
     public double books = 0.0;
