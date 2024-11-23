@@ -22,11 +22,11 @@ public class Company {
     private String name;
     private String stockName;
 
+    private ArrayList<UUID> owners = new ArrayList<>();
+
     public ArrayList<UUID> getOwners() {
         return owners;
     }
-
-    private ArrayList<UUID> owners = new ArrayList<>();
 
     public void testAddOwner(UUID uuid){
         /*
@@ -36,7 +36,7 @@ public class Company {
     }
 
     private double bal = 0.0;
-    public double books = 0.0;
+    public double share_balance = 0.0;
     public double securityFunds = 0.0;
     public double spendable = 0.0;
     public Boolean openTrade = false;
@@ -202,7 +202,7 @@ public class Company {
     }
 
     public Double getValue(){
-        return bal+books;
+        return bal+ share_balance;
     }
 
     public Boolean addBal(Double amount){
@@ -248,7 +248,7 @@ public class Company {
     }
 
     public Boolean removeBal(Double amount){
-        if ((bal+books >= amount) & (spendable >= amount)){
+        if ((bal+ share_balance >= amount) & (spendable >= amount)){
             bal -= amount;
             spendable -= amount;
             Market.changeBase(stockName);
@@ -258,12 +258,12 @@ public class Company {
     }
 
     void addBooks(Double amount){
-        books += amount;
+        share_balance += amount;
         spendable += (0.2*amount);
     }
 
     void removeBooks(Double amount){
-        books -= amount;
+        share_balance -= amount;
         spendable -= amount;
     }
 
@@ -580,7 +580,7 @@ public class Company {
 
     public void doUpgrade(Integer id){
         Upgrade u = upgrades.get(id);
-        if (u.canUpgrade((int) (bal+books), (int) securityFunds)){
+        if (u.canUpgrade((int) (bal+ share_balance), (int) securityFunds)){
             double base = 1.0;
 
             double modifier = 0.0;

@@ -251,7 +251,7 @@ public class Market {
 
     public static double getBooks(String Sname){
         Company comp = getBusiness(Sname);
-        return comp.books;
+        return comp.share_balance;
     }
 
     public static void resetSpendable(){
