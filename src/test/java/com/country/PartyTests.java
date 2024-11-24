@@ -2,9 +2,12 @@ package com.country;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
+import be.seeseemelk.mockbukkit.entity.PlayerMock;
 import com.klanting.signclick.economy.Country;
 
 import com.klanting.signclick.economy.CountryManager;
+import com.klanting.signclick.economy.Market;
+import com.klanting.signclick.economy.parties.Election;
 import com.klanting.signclick.economy.parties.Party;
 import com.klanting.signclick.SignClick;
 import org.bukkit.entity.Player;
@@ -168,5 +171,56 @@ class PartyTests {
         country.removeParty(p);
 
         assertEquals(60, country.getStability());
+    }
+
+    @Test
+    void electionParty(){
+        Country country = CountryManager.getCountry("empire1");
+        country.createParty("TestParty", testPlayer.getUniqueId());
+
+        /*
+        * add player to country
+        * */
+        PlayerMock testPlayer2 = server.addPlayer();
+        country.addMember(testPlayer2.getUniqueId());
+
+        /*
+        * make second party
+        * */
+        country.createParty("TestParty2", testPlayer2.getUniqueId());
+
+        long system_end = System.currentTimeMillis()/1000 + 60*60*24*7;
+        country.setCountryElection(new Election(country.getName(), system_end));
+
+        Election election = country.getCountryElection();
+        assertNotNull(election);
+
+        assertEquals("TestParty", country.getRuling().name);
+
+        /*
+        * vote on the party
+        * */
+        election.vote("TestParty2", testPlayer.getUniqueId());
+        assertTrue(election.alreadyVoted.contains(testPlayer.getUniqueId()));
+
+        /*
+         * Restart Server, check persistence
+         * */
+        plugin.onDisable();
+        CountryManager.clear();
+        Market.clear();
+        plugin = TestTools.setupPlugin(server);
+
+        country = CountryManager.getCountry("empire1");
+        election = country.getCountryElection();
+        assertNotNull(election);
+
+        server.getScheduler().performTicks(60*60*24*7*20L+1);
+
+        /*
+        * check change of power happened
+        * */
+        assertEquals("TestParty2", country.getRuling().name);
+
     }
 }

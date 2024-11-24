@@ -5,6 +5,7 @@ import com.klanting.signclick.economy.decisions.Decision;
 import com.klanting.signclick.SignClick;
 import org.bukkit.Bukkit;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -48,8 +49,7 @@ public class ElectionTools {
                     country.addStability(-base);
                 }
 
-
-                List<UUID> old_owners = country.getOwners();
+                List<UUID> old_owners = new ArrayList<>(country.getOwners());
                 for (UUID uuid: old_owners){
                     country.removeOwner(uuid);
                     country.addMember(uuid);

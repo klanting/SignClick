@@ -285,25 +285,6 @@ public class CountryManager {
 
             Map<String, Integer> vote_dict = new HashMap<>();
 
-            if (electionSection.contains(name)){
-                ConfigurationSection countryElection = electionSection.getConfigurationSection(name);
-                ConfigurationSection voteDict = countryElection.getConfigurationSection("vote_dict");
-
-                voteDict.getKeys(false).forEach(voteKey -> {
-                    vote_dict.put(voteKey, (int) voteDict.get(voteKey));
-                });
-
-                List<UUID> already_voted = new ArrayList<UUID>();
-                for (String s: (List<String>) countryElection.get("voted")){
-                    already_voted.add(UUID.fromString(s));
-                }
-
-                long time = (int) countryElection.get("to_wait");
-                election = new Election(name, time+(System.currentTimeMillis()/1000));
-                election.vote_dict = vote_dict;
-                election.alreadyVoted = already_voted;
-            }
-
 
             ChatColor memberColor = ChatColor.valueOf(colorSection.get(name).toString());
 
@@ -322,6 +303,28 @@ public class CountryManager {
                     memberColor, spawnLocation, taxRate, stability,
                     forbidParty, aboardMilitary
                     );
+
+            countries.put(name, country);
+
+            if (electionSection.contains(name)){
+                ConfigurationSection countryElection = electionSection.getConfigurationSection(name);
+                ConfigurationSection voteDict = countryElection.getConfigurationSection("vote_dict");
+
+                voteDict.getKeys(false).forEach(voteKey -> {
+                    vote_dict.put(voteKey, (int) voteDict.get(voteKey));
+                });
+
+                List<UUID> already_voted = new ArrayList<UUID>();
+                for (String s: (List<String>) countryElection.get("voted")){
+                    already_voted.add(UUID.fromString(s));
+                }
+
+                long time = (int) countryElection.get("to_wait");
+                election = new Election(name, time+(System.currentTimeMillis()/1000));
+                election.vote_dict = vote_dict;
+                election.alreadyVoted = already_voted;
+                country.setCountryElection(election);
+            }
 
             if (electionSection.contains(name)){
                 /*

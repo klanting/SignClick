@@ -24,8 +24,6 @@ public class Market {
     public static final Double fee = 0.05;
     public static final Double flux = 1.15;
 
-    public static Boolean showParticles = true;
-
     private static final ArrayList<String> names = new ArrayList<String>();
 
 
@@ -357,8 +355,6 @@ public class Market {
 
         SignClick.getPlugin().getConfig().set("sign", Signs);
 
-        SignClick.getPlugin().getConfig().set("show_particles", showParticles);
-
         getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "SignClick save Market completed!");
 
         SignClick.getPlugin().getConfig().options().copyDefaults(true);
@@ -389,9 +385,6 @@ public class Market {
         contractPlayerToComp = Utils.readSave("contractPlayerToComp",
                 new TypeToken<ArrayList<ContractPTC>>(){}.getType(), new ArrayList<>());
 
-        if (SignClick.getPlugin().getConfig().contains("show_particles")){
-            showParticles = (Boolean) SignClick.getPlugin().getConfig().get("show_particles", false);
-        }
 
 
     }
