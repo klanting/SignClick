@@ -3,7 +3,9 @@ package com.klanting.signclick.commands;
 import com.klanting.signclick.commands.companyHandelers.*;
 
 import com.klanting.signclick.commands.companyHandelers.contractHandlers.ContractSendCTC;
+import com.klanting.signclick.commands.companyHandelers.contractHandlers.ContractSendCTP;
 import com.klanting.signclick.commands.companyHandelers.contractHandlers.ContractSignCTC;
+import com.klanting.signclick.commands.companyHandelers.contractHandlers.ContractSignCTP;
 import com.klanting.signclick.commands.exceptions.CommandException;
 import com.klanting.signclick.economy.Market;
 import com.klanting.signclick.economy.Company;
@@ -67,6 +69,8 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
             handlerTranslation.put("transact", new CompanyHandlerTransact());
             handlerTranslation.put("send_contract_ctc", new ContractSendCTC());
             handlerTranslation.put("sign_contract_ctc", new ContractSignCTC());
+            handlerTranslation.put("send_contract_ctp", new ContractSendCTP());
+            handlerTranslation.put("sign_contract_ctp", new ContractSignCTP());
 
             try{
 
@@ -114,102 +118,6 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
 
                 DecimalFormat df = new DecimalFormat("###,###,##0.00");
                 player.sendMessage("§b books money: "+df.format(Market.getBooks(stock_name)));
-            }
-
-            if (commando.equals("send_contract_ctp")){
-                if (args.length < 4){
-                    player.sendMessage("§bplease enter /company send_contract_ctp <othercompany> <amount> <weeks> [reason]");
-                    confirm.put(player, "");
-                    return true;
-                }
-
-                String reason;
-                if (args.length < 5){
-                    reason = "no_reason";
-                }else{
-                    reason = args[4];
-                }
-
-                String target_stock_name = args[1].toUpperCase();
-                target_stock_name = target_stock_name.toUpperCase();
-
-                if (!Market.hasBusiness(target_stock_name)){
-                    player.sendMessage("§bbusiness name is invalid");
-                    confirm.put(player, "");
-                    return true;
-                }
-
-                double amount = Double.parseDouble(args[2]);
-                int weeks = Integer.parseInt(args[3]);
-
-                if (confirm.getOrDefault(player, "").equals("send_contract_ctp")){
-                    confirm.put(player, "");
-                    if (Market.getBusiness(target_stock_name).playerNamePending == null){
-                        Market.getBusiness(target_stock_name).receiveOfferPlayerContract(player.getUniqueId().toString(), amount, weeks, reason);
-                    }else{
-                        player.sendMessage("§ccompany still has another offer pending, try again in 2 minutes");
-                    }
-
-                }else{
-                    player.sendMessage("§bplease re-enter your command to confirm\nthat you want to send a contract request to §f" +target_stock_name
-                            +"§b \n for an amount of §f"+ amount
-                            +"§b \n for a time of §f"+ weeks+
-                            " weeks \n§c/company send_contract_ctp "+target_stock_name+" "+amount+ " "+ weeks);
-                    confirm.put(player, "send_contract_ctp");
-                }
-
-            }
-
-            if (commando.equals("sign_contract_ctp")){
-                if (args.length < 2){
-                    player.sendMessage("§bplease enter /company sign_contract_ctp <owncompany>");
-                    confirm.put(player, "");
-                    return true;
-                }
-
-                String stock_name = args[1].toUpperCase();
-                stock_name = stock_name.toUpperCase();
-
-                if (!Market.hasBusiness(stock_name)){
-                    player.sendMessage("§bbusiness name is invalid");
-                    confirm.put(player, "");
-                    return true;
-                }
-
-                if (!Market.getBusiness(stock_name).isOwner(player.getUniqueId())){
-                    player.sendMessage("§byou must be CEO to sign that request");
-                    confirm.put(player, "");
-                    return true;
-                }
-
-                Company comp = Market.getBusiness(stock_name);
-                if (comp.spendable < comp.compAmountPending){
-                    player.sendMessage("§bcan't sign contract because lack of weekly spendable funds");
-                    confirm.put(player, "");
-                    return true;
-                }
-
-                if (comp.isOwner(UUID.fromString(comp.playerNamePending)) && player.getUniqueId().equals(UUID.fromString(comp.playerNamePending))){
-                    player.sendMessage("§byou can't' make a contract with yourself");
-                    confirm.put(player, "");
-                    return true;
-                }
-
-
-                if (confirm.getOrDefault(player, "").equals("sign_contract_ctp")){
-                    confirm.put(player, "");
-                    comp.acceptOfferPlayerContract();
-                    player.sendMessage("§bcontract confirmed");
-
-                }else{
-                    DecimalFormat df = new DecimalFormat("###,###,###");
-
-                    player.sendMessage("§bplease re-enter your command to confirm\nthat you want to sign a contract (§cYOU PAY THEM§b) requested from §f" + Bukkit.getOfflinePlayer(UUID.fromString(comp.playerNamePending)).getName()
-                            +"§b \nfor an amount of §f"+ df.format(comp.playerAmountPending)
-                            +"§b \nfor a time of §f"+ comp.playerWeeksPending +
-                            " weeks \n§c/company sign_contract_ctp "+stock_name);
-                    confirm.put(player, "sign_contract_ctp");
-                }
             }
 
             if (commando.equals("send_contract_ptc")){

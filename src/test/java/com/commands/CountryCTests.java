@@ -247,7 +247,6 @@ class CountryCTests {
         country.removeLawEnforcement(testPlayer2);
         assertEquals(0, country.getLawEnforcement().size());
 
-
-
     }
+
 }
