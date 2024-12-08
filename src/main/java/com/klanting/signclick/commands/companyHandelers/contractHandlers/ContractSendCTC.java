@@ -42,7 +42,7 @@ public class ContractSendCTC extends CompanyHandler {
             return true;
         }
 
-        if (Market.getBusiness(target_stock_name).compNamePending == null){
+        if (!Market.getBusiness(target_stock_name).hasPendingContractRequest()){
             Market.getBusiness(stock_name).sendOfferCompContract(target_stock_name, amount, weeks, reason);
         }else{
             player.sendMessage("§ccompany still has another offer pending, try again in 2 minutes");

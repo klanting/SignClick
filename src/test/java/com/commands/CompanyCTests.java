@@ -392,7 +392,6 @@ class CompanyCTests {
         suc6 = server.execute("company", testPlayer2, "sign_contract_ctc",
                 "TCI2").hasSucceeded();
         assertTrue(suc6);
-
         testPlayer2.assertSaid("§bplease re-enter your command to confirm\n" +
                 "that you want to sign a contract (§cYOU PAY THEM§b) requested from §fTCI§b \n" +
                 "for an amount of §f100§b \n" +

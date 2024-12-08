@@ -247,11 +247,6 @@ public class Market {
     }
 
 
-    public static double getBooks(String Sname){
-        Company comp = getBusiness(Sname);
-        return comp.share_balance;
-    }
-
     public static void resetSpendable(){
 
         for(Map.Entry<String, Company> entry : company.entrySet()){

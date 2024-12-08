@@ -28,6 +28,8 @@ import org.jetbrains.annotations.Nullable;
 import java.text.DecimalFormat;
 import java.util.*;
 
+import static com.klanting.signclick.economy.Market.getBusiness;
+
 
 public class CompanyCommands implements CommandExecutor, TabCompleter {
     public static Map<Player, String> confirm = new HashMap<>();
@@ -117,7 +119,8 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
                 }
 
                 DecimalFormat df = new DecimalFormat("###,###,##0.00");
-                player.sendMessage("§b books money: "+df.format(Market.getBooks(stock_name)));
+                Company comp = getBusiness(stock_name);
+                player.sendMessage("§b books money: "+df.format(comp.getShareBalance()));
             }
 
             if (commando.equals("send_contract_ptc")){
@@ -143,7 +146,7 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
                     return true;
                 }
 
-                if (!Market.getBusiness(stock_name).isOwner(player.getUniqueId())){
+                if (!getBusiness(stock_name).isOwner(player.getUniqueId())){
                     player.sendMessage("§byou must be CEO to send that request");
                     confirm.put(player, "");
                     return true;
@@ -305,7 +308,7 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
                     return true;
                 }
 
-                Company comp = Market.getBusiness(stock_name);
+                Company comp = getBusiness(stock_name);
                 comp.patentUpgrades.add(new PatentUpgradeCustom(args[2], item));
             }
 

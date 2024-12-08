@@ -8,6 +8,8 @@ import com.klanting.signclick.economy.companyPatent.Patent;
 import com.klanting.signclick.economy.companyPatent.PatentUpgrade;
 import com.klanting.signclick.economy.companyUpgrades.*;
 import com.klanting.signclick.SignClick;
+import com.klanting.signclick.economy.contractRequests.ContractRequest;
+import com.klanting.signclick.economy.contractRequests.ContractRequestCTC;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -36,7 +38,12 @@ public class Company {
     }
 
     private double bal = 0.0;
-    public double share_balance = 0.0;
+
+    public double getShareBalance() {
+        return shareBalance;
+    }
+
+    private double shareBalance = 0.0;
     public double securityFunds = 0.0;
     public double spendable = 0.0;
     public Boolean openTrade = false;
@@ -50,11 +57,21 @@ public class Company {
 
     public Map<UUID, UUID> support = new HashMap<UUID, UUID>();
     public Map<UUID, Integer> shareHolders = new HashMap<UUID, Integer>();
-    public String compNamePending = null;
-    public double compAmountPending = 0.0;
-    public int compWeeksPending = 0;
-    public String compReason = "no_reason";
+
+    public boolean hasPendingContractRequest() {
+        return pendingContractRequest != null;
+    }
+
+
+    public ContractRequest getPendingContractRequest() {
+        return pendingContractRequest;
+    }
+
+    private ContractRequest pendingContractRequest = null;
+
+
     public String playerNamePending = null;
+
     public double playerAmountPending = 0.0;
     public int playerWeeksPending = 0;
     public String playerReason = "no_reason";
@@ -202,7 +219,7 @@ public class Company {
     }
 
     public Double getValue(){
-        return bal+ share_balance;
+        return bal+ shareBalance;
     }
 
     public Boolean addBal(Double amount){
@@ -248,7 +265,7 @@ public class Company {
     }
 
     public Boolean removeBal(Double amount){
-        if ((bal+ share_balance >= amount) & (spendable >= amount)){
+        if ((bal+ shareBalance >= amount) & (spendable >= amount)){
             bal -= amount;
             spendable -= amount;
             Market.changeBase(stockName);
@@ -258,12 +275,12 @@ public class Company {
     }
 
     void addBooks(Double amount){
-        share_balance += amount;
+        shareBalance += amount;
         spendable += (0.2*amount);
     }
 
     void removeBooks(Double amount){
-        share_balance -= amount;
+        shareBalance -= amount;
         spendable -= amount;
     }
 
@@ -460,16 +477,13 @@ public class Company {
     }
 
     public void acceptOfferCompContract(){
-        if (compNamePending == null){
+        if (pendingContractRequest == null){
             return;
         }
 
-        Market.setContractComptoComp(stockName, compNamePending, compAmountPending, compWeeksPending, compReason);
+        pendingContractRequest.accept();
 
-        compNamePending = null;
-        compAmountPending = 0.0;
-        compWeeksPending = 0;
-        compReason = "no_reason";
+        pendingContractRequest = null;
 
     }
 
@@ -478,17 +492,13 @@ public class Company {
     }
 
     public void receiveOfferCompContract(String stock_name, double amount, int weeks, String reason){
-        compNamePending = stock_name;
-        compAmountPending = amount;
-        compWeeksPending = weeks;
-        compReason = reason;
+
+        pendingContractRequest = new ContractRequestCTC(this, Market.getBusiness(stock_name), amount, weeks, reason);
 
         Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(SignClick.getPlugin(), new Runnable() {
             public void run() {
-                compNamePending = null;
-                compAmountPending = 0.0;
-                compWeeksPending = 0;
-                compReason = "no_reason";
+
+                pendingContractRequest = null;
 
             }
         }, 20*120L);
@@ -580,7 +590,7 @@ public class Company {
 
     public void doUpgrade(Integer id){
         Upgrade u = upgrades.get(id);
-        if (u.canUpgrade((int) (bal+ share_balance), (int) securityFunds)){
+        if (u.canUpgrade((int) (bal+ shareBalance), (int) securityFunds)){
             double base = 1.0;
 
             double modifier = 0.0;

@@ -5,6 +5,7 @@ import com.klanting.signclick.commands.exceptions.CommandAssert;
 import com.klanting.signclick.commands.exceptions.CommandException;
 import com.klanting.signclick.economy.Company;
 import com.klanting.signclick.economy.Market;
+import com.klanting.signclick.economy.contractRequests.ContractRequest;
 import org.bukkit.entity.Player;
 
 import java.text.DecimalFormat;
@@ -24,13 +25,18 @@ public class ContractSignCTC extends CompanyHandler {
         CommandAssert.assertTrue(Market.getBusiness(stock_name).isOwner(player.getUniqueId()), "§byou must be CEO to sign that request");
 
         Company comp = Market.getBusiness(stock_name);
-        CommandAssert.assertTrue(comp.spendable >= comp.compAmountPending, "§bcan't sign contract because lack of weekly spendable funds");
+        ContractRequest cr = comp.getPendingContractRequest();
+
+        CommandAssert.assertTrue(cr != null, "§bno contract pending");
+
+        CommandAssert.assertTrue(comp.spendable >= cr.getAmount(), "§bcan't sign contract because lack of weekly spendable funds");
 
         if (firstEnter){
+
             DecimalFormat df = new DecimalFormat("###,###,###");
-            player.sendMessage("§bplease re-enter your command to confirm\nthat you want to sign a contract (§cYOU PAY THEM§b) requested from §f" +comp.compNamePending
-                    +"§b \nfor an amount of §f"+ df.format(comp.compAmountPending)
-                    +"§b \nfor a time of §f"+ comp.compWeeksPending +
+            player.sendMessage("§bplease re-enter your command to confirm\nthat you want to sign a contract (§cYOU PAY THEM§b) requested from §f" +cr.to()
+                    +"§b \nfor an amount of §f"+ df.format(cr.getAmount())
+                    +"§b \nfor a time of §f"+ cr.getWeeks() +
                     " weeks \n§c/company sign_contract_ctc "+stock_name);
             return true;
         }

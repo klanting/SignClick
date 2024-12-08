@@ -9,7 +9,7 @@ import java.util.*;
 public class Auction {
     public static ArrayList<PatentUpgrade> toBuy = new ArrayList<>();
 
-    public static Map<Integer, Integer> bits = new HashMap<Integer, Integer>();
+    private static final Map<Integer, Integer> bits = new HashMap<Integer, Integer>();
     public static Map<Integer, String> bitsOwner = new HashMap<Integer, String>();
 
     public static int getBit(int index){

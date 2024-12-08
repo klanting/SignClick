@@ -33,7 +33,7 @@ public class CompanyAuctionMenu implements InventoryHolder {
             ItemMeta m = upgradeItem.getItemMeta();
             List<String> lores = new ArrayList<>();
             DecimalFormat df = new DecimalFormat("###,###,###");
-            lores.add("§7Current Bet: "+df.format(Auction.bits.get(i)));
+            lores.add("§7Current Bet: "+df.format(Auction.getBit(i)));
             String comp = Auction.bitsOwner.get(i);
             if (comp == null){
                 comp = "None";
