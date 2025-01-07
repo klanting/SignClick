@@ -32,6 +32,14 @@ dependencies {
     compileOnly("io.papermc.paper:paper-api:1.18.2-R0.1-SNAPSHOT");
     compileOnly("com.github.MilkBowl:VaultAPI:1.7");
     compileOnly("us.dynmap:dynmap-api:3.1-beta-2");
+
+    /*
+    * Supported Versions 1.18-1.20
+    *
+    * Source: https://www.spigotmc.org/wiki/spigot-nms-and-minecraft-versions-1-16/
+    *
+    * */
+
     compileOnly("org.spigotmc:spigot-api:1.18.2-R0.1-SNAPSHOT");
 
     implementation("com.google.code.gson:gson:2.10.1")

@@ -42,11 +42,12 @@ public class CompanyHandlerCreate extends CompanyHandler{
             return true;
         }
 
-        player.sendMessage("§byou succesfully found "+company_name+" good luck CEO "+player.getName());
         stock_name = stock_name.toUpperCase();
         Boolean succes = Market.addBusiness(company_name, stock_name, Market.getAccount(player));
 
         CommandAssert.assertTrue(succes, "§bcompany create failed: name/stockName already in use");
+
+        player.sendMessage("§byou succesfully found "+company_name+" good luck CEO "+player.getName());
 
         SignClick.getEconomy().withdrawPlayer(player, 40000000.0*discount_pct);
         Company comp = Market.getBusiness(stock_name);

@@ -9,10 +9,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b3aa4a96-499c-4e97-84b9-6312c5389c7a" name="Changes" comment="General Refactoring">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="b3aa4a96-499c-4e97-84b9-6312c5389c7a" name="Changes" comment="Small Party.java Refactoring">
+      <change afterPath="$PROJECT_DIR$/src/main/java/versionCompatibility/VersionDetection.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/versionManagement/versionTests.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/parties/Party.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/parties/Party.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SignClick.iml" beforeDir="false" afterPath="$PROJECT_DIR$/SignClick.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/SignClick.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/SignClick.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/plugin.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -171,10 +175,11 @@
     "Gradle.PolicyTests.setPolicy.executor": "Coverage",
     "Gradle.SignTpTests.doSignTp.executor": "Run",
     "Gradle.SignTpTests.unsetSignTp.executor": "Coverage",
-    "Gradle.TestAll.executor": "Coverage",
+    "Gradle.TestAll.executor": "Run",
     "Gradle.WeeklyPayCTests.makeWeeklyPay.executor": "Run",
     "Gradle.WeeklyPayCTests.makeWeeklyPayNotEnoughMoney.executor": "Run",
     "Gradle.WeeklyPayCTests.weeklyPaySaveRestore.executor": "Run",
+    "Gradle.versionTests.testVersionDetection.executor": "Run",
     "JUnit.CountryTests (1).executor": "Run",
     "JUnit.CountryTests.CountryCreate.executor": "Run",
     "JUnit.CountryTests.executor": "Run",
@@ -186,7 +191,7 @@
     "git-widget-placeholder": "main",
     "jdk.selected.JAVA_MODULE": "18",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "F:/Projects/Programming/PluginDev/SignClick/src/main/resources",
+    "last_opened_file_path": "F:/Projects/Programming/PluginDev/Server-1.20.4/plugins",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -308,30 +313,6 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="SignTpTests.unsetSignTp" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value=":test" />
-            <option value="--tests" />
-            <option value="&quot;com.sign.SignTpTests.unsetSignTp&quot;" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>true</RunAsTest>
-      <method v="2" />
-    </configuration>
     <configuration name="TestAll" type="GradleRunConfiguration" factoryName="Gradle">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -355,21 +336,45 @@
       <RunAsTest>false</RunAsTest>
       <method v="2" />
     </configuration>
+    <configuration name="versionTests.testVersionDetection" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;com.versionManagement.versionTests.testVersionDetection&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue="Gradle.TestAll" />
+      <item itemvalue="Gradle.versionTests.testVersionDetection" />
       <item itemvalue="Gradle.CompanyCTests.companyBaltop" />
       <item itemvalue="Gradle.CompanyCTests.createCompany2PlayerContract" />
       <item itemvalue="Gradle.CountryCTests.countrySpawn" />
-      <item itemvalue="Gradle.SignTpTests.unsetSignTp" />
       <item itemvalue="Gradle.CompanyCTests.createPlayer2CompanyContract" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.versionTests.testVersionDetection" />
         <item itemvalue="Gradle.CompanyCTests.companyBaltop" />
         <item itemvalue="Gradle.CompanyCTests.createCompany2PlayerContract" />
         <item itemvalue="Gradle.CountryCTests.countrySpawn" />
         <item itemvalue="Gradle.CompanyCTests.createPlayer2CompanyContract" />
-        <item itemvalue="Gradle.SignTpTests.unsetSignTp" />
       </list>
     </recent_temporary>
   </component>
@@ -453,6 +458,9 @@
       <workItem from="1733604180164" duration="1004000" />
       <workItem from="1733676075126" duration="2099000" />
       <workItem from="1736263597945" duration="7597000" />
+      <workItem from="1736271816161" duration="56000" />
+      <workItem from="1736275686415" duration="21000" />
+      <workItem from="1736284190480" duration="3354000" />
     </task>
     <task id="LOCAL-00022" summary="increased test coverage">
       <option name="closed" value="true" />
@@ -926,7 +934,7 @@
     <SUITE FILE_PATH="coverage/SignClick$SignTpTests_doSignTp.ic" NAME="SignTpTests.doSignTp Coverage Results" MODIFIED="1726139305725" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/SignClick$CompanyTests_companyGetCompanies.ic" NAME="CompanyTests.companyGetCompanies Coverage Results" MODIFIED="1732313388635" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/SignClick$CompanyCTests_companyGive.ic" NAME="CompanyCTests.companyGive Coverage Results" MODIFIED="1726042791871" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/SignClick$TestAll.ic" NAME="TestAll Coverage Results" MODIFIED="1736271357131" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/SignClick$TestAll.ic" NAME="TestAll Coverage Results" MODIFIED="1736286440031" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/SignClick$CountryTests_countrySaveLoadAdvanced.ic" NAME="CountryTests.countrySaveLoadAdvanced Coverage Results" MODIFIED="1726940586011" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/SignClick$CompanyTests_companySaveLoad.ic" NAME="CompanyTests.companySaveLoad Coverage Results" MODIFIED="1727021115277" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>

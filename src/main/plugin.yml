@@ -2,7 +2,7 @@ name: SignClick
 version: 1.0.0
 author: klanting
 main: com.klanting.signclick.SignClick
-api-version: 1.16
+api-version: 1.18
 commands:
   signclick:
     description: all info about the signclick plugin
@@ -30,4 +30,4 @@ commands:
     usage: /<command>
 
 depend: [Vault, dynmap]
-softdepend: [SpigotTester]
+softdepend: []

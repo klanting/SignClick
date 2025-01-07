@@ -15,10 +15,12 @@ import org.bukkit.Location;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.dynmap.DynmapAPI;
+import versionCompatibility.VersionDetection;
 
 import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
+
 
 public class SignClick extends JavaPlugin{
 
@@ -30,6 +32,8 @@ public class SignClick extends JavaPlugin{
 
     @Override
     public void onEnable() {
+
+        VersionDetection vd = VersionDetection.getInstance();
 
 
         plugin = this;
