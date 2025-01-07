@@ -23,12 +23,6 @@ public class Party {
         this.country = country;
     }
 
-    public Party(String party_name, UUID owner, double PCT){
-        name = party_name;
-        owners.add(owner);
-        this.PCT = PCT;
-    }
-
     public Party(String name, String country, double PCT, List<UUID> owners, List<UUID> members){
         this.name = name;
         this.country = country;
@@ -36,14 +30,6 @@ public class Party {
         this.owners = owners;
         this.members = members;
 
-    }
-
-    public void Vote(Decision d, boolean pro){
-        d.vote(this, pro);
-    }
-
-    public boolean hasVoted(Decision d){
-        return d.hasVoted(this);
     }
 
     public boolean inParty(UUID uuid){

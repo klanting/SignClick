@@ -9,19 +9,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b3aa4a96-499c-4e97-84b9-6312c5389c7a" name="Changes" comment="Store company contract request CTC, more easily.">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/companyHandelers/contractHandlers/ContractSendPTC.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/companyHandelers/contractHandlers/ContractSignPTC.java" afterDir="false" />
+    <list default="true" id="b3aa4a96-499c-4e97-84b9-6312c5389c7a" name="Changes" comment="General Refactoring">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/calculate/SignTP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/calculate/SignTP.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/CompanyCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/CompanyCommands.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/CountryNull.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/CountryNull.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/Market.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/Market.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/utils/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/utils/Utils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/commands/CompanyCTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/commands/CompanyCTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/commands/CountryCTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/commands/CountryCTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/sign/SignTpTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/sign/SignTpTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/parties/Party.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/parties/Party.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -461,15 +452,7 @@
       <workItem from="1732482249417" duration="477000" />
       <workItem from="1733604180164" duration="1004000" />
       <workItem from="1733676075126" duration="2099000" />
-      <workItem from="1736263597945" duration="6926000" />
-    </task>
-    <task id="LOCAL-00021" summary="improved country creation">
-      <option name="closed" value="true" />
-      <created>1727016954712</created>
-      <option name="number" value="00021" />
-      <option name="presentableId" value="LOCAL-00021" />
-      <option name="project" value="LOCAL" />
-      <updated>1727016954712</updated>
+      <workItem from="1736263597945" duration="7597000" />
     </task>
     <task id="LOCAL-00022" summary="increased test coverage">
       <option name="closed" value="true" />
@@ -855,7 +838,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733678041868</updated>
     </task>
-    <option name="localTasksCounter" value="70" />
+    <task id="LOCAL-00070" summary="General Refactoring">
+      <option name="closed" value="true" />
+      <created>1736270796888</created>
+      <option name="number" value="00070" />
+      <option name="presentableId" value="LOCAL-00070" />
+      <option name="project" value="LOCAL" />
+      <updated>1736270796888</updated>
+    </task>
+    <option name="localTasksCounter" value="71" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -877,7 +868,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="other gradle version maybe ?" />
     <MESSAGE value="Debug logging test case" />
     <MESSAGE value="another gradle try" />
     <MESSAGE value="last CI try fix for today" />
@@ -902,7 +892,8 @@
     <MESSAGE value="Added Company Command Handlers" />
     <MESSAGE value="cleanup 2 commands" />
     <MESSAGE value="Store company contract request CTC, more easily." />
-    <option name="LAST_COMMIT_MESSAGE" value="Store company contract request CTC, more easily." />
+    <MESSAGE value="General Refactoring" />
+    <option name="LAST_COMMIT_MESSAGE" value="General Refactoring" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -935,7 +926,7 @@
     <SUITE FILE_PATH="coverage/SignClick$SignTpTests_doSignTp.ic" NAME="SignTpTests.doSignTp Coverage Results" MODIFIED="1726139305725" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/SignClick$CompanyTests_companyGetCompanies.ic" NAME="CompanyTests.companyGetCompanies Coverage Results" MODIFIED="1732313388635" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/SignClick$CompanyCTests_companyGive.ic" NAME="CompanyCTests.companyGive Coverage Results" MODIFIED="1726042791871" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/SignClick$TestAll.ic" NAME="TestAll Coverage Results" MODIFIED="1736270683453" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/SignClick$TestAll.ic" NAME="TestAll Coverage Results" MODIFIED="1736271357131" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/SignClick$CountryTests_countrySaveLoadAdvanced.ic" NAME="CountryTests.countrySaveLoadAdvanced Coverage Results" MODIFIED="1726940586011" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/SignClick$CompanyTests_companySaveLoad.ic" NAME="CompanyTests.companySaveLoad Coverage Results" MODIFIED="1727021115277" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
