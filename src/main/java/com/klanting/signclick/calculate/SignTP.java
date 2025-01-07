@@ -2,6 +2,7 @@ package com.klanting.signclick.calculate;
 
 import com.klanting.signclick.economy.*;
 import com.klanting.signclick.SignClick;
+import com.klanting.signclick.utils.Utils;
 import org.bukkit.*;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
@@ -18,8 +19,6 @@ public class SignTP {
 
 
         int amount = Integer.parseInt(sign.getLine(3));
-
-
 
         if (SignClick.getEconomy().getBalance(player) >= amount) {
             try{
@@ -53,51 +52,25 @@ public class SignTP {
         NamespacedKey key_x = new NamespacedKey(SignClick.getPlugin(), "x");
         NamespacedKey key_y = new NamespacedKey(SignClick.getPlugin(), "y");
         NamespacedKey key_z = new NamespacedKey(SignClick.getPlugin(), "z");
-        if (data.has(key_x, PersistentDataType.INTEGER)) {
-            int x = data.get(key_x, PersistentDataType.INTEGER);
-
-            int y = data.get(key_y, PersistentDataType.INTEGER);
-
-            int z = data.get(key_z, PersistentDataType.INTEGER);
-
-            int sign_x = sign.getBlock().getX();
-            int sign_z = sign.getBlock().getZ();
-
-            double results = Math.sqrt(((sign_x-x)*(sign_x-x))+((sign_z-z)*(sign_z-z)));
-            int amount = (int)results;
-            String amount_string = Integer.toString(amount);
-
-            String cords = String.valueOf(x)+" "+String.valueOf(y)+" "+String.valueOf(z);
-
-            Sign s = (Sign) sign.getBlock().getState();
-
-            sign.setLine(0, "§b[sign_tp]");
-            sign.setLine(1, cords);
-            sign.setLine(2,player.getName());
-            sign.setLine(3,amount_string);
-
-            /*
-            * For testing and wide support
-            * */
-            s.setLine(0, "§b[sign_tp]");
-            s.setLine(1, cords);
-            s.setLine(2,player.getName());
-            s.setLine(3,amount_string);
-            s.update();
-        }else{
-
-            Sign s = (Sign) sign.getBlock().getState();
-
-            sign.setLine(1, "please connect");
-            sign.setLine(2,"cords by");
-            sign.setLine(3,"/signclickpos");
-
-            s.setLine(1, "please connect");
-            s.setLine(2,"cords by");
-            s.setLine(3,"/signclickpos");
-            s.update();
-
+        if (!data.has(key_x, PersistentDataType.INTEGER)) {
+            Utils.setSign(sign, new String[]{"", "please connect", "cords by", "/signclickpos"});
+            return;
         }
+
+        int x = data.get(key_x, PersistentDataType.INTEGER);
+        int y = data.get(key_y, PersistentDataType.INTEGER);
+        int z = data.get(key_z, PersistentDataType.INTEGER);
+
+        int sign_x = sign.getBlock().getX();
+        int sign_z = sign.getBlock().getZ();
+
+        double results = Math.sqrt(((sign_x-x)*(sign_x-x))+((sign_z-z)*(sign_z-z)));
+        int amount = (int)results;
+        String amount_string = Integer.toString(amount);
+
+        String cords = x+" "+y+" "+z;
+
+        Utils.setSign(sign, new String[]{"§b[sign_tp]", cords, player.getName(), amount_string});
     }
 
     public static void setBus(SignChangeEvent sign, Player player){

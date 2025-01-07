@@ -96,6 +96,37 @@ public class SignTpTests {
         testPlayer.assertNoMoreSaid();
         assertEquals(0, testPlayer.getLocation().getX());
 
+    }
+
+    @Test
+    public void unsetSignTp(){
+        /*
+        * Testcase to see that the sign changes to an error message when the sign is created before
+        * /signclickpos has been executed
+        * */
+
+        /*
+         * Create sign
+         * */
+        World world = server.addSimpleWorld("world");
+        Location signLocation = new Location(world, 20, 10, 10);
+        BlockMock block = (BlockMock) signLocation.getBlock();
+        block.setType(Material.OAK_SIGN);
+
+        String[] lines = new String[]{"[sign_tp]", "", "", ""};
+
+
+        SignChangeEvent signChangeEvent = new SignChangeEvent(block, testPlayer, lines);
+        server.getPluginManager().callEvent(signChangeEvent);
+
+        block = (BlockMock) signLocation.getBlock();
+
+        Sign sign = (Sign) block.getState();
+
+        assertEquals("please connect", sign.getLine(1));
+        assertEquals("cords by", sign.getLine(2));
+        assertEquals("/signclickpos", sign.getLine(3));
+
 
     }
 }

@@ -8,6 +8,8 @@ import com.klanting.signclick.economy.Country;
 
 import com.klanting.signclick.economy.CountryManager;
 import com.klanting.signclick.SignClick;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -246,6 +248,59 @@ class CountryCTests {
         * */
         country.removeLawEnforcement(testPlayer2);
         assertEquals(0, country.getLawEnforcement().size());
+
+    }
+
+    @Test
+    void countrySpawn() {
+
+        /*
+        * Test the /spawn and /setspawn command
+        * */
+
+        PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
+        PlayerMock testPlayer2 = TestTools.addPermsPlayer(server, plugin);
+        Country country = CountryManager.create("empire1", testPlayer);
+        country.addMember(testPlayer2);
+
+        testPlayer.nextMessage();
+
+        /*
+        * set spawn location
+        * */
+        World world = server.addSimpleWorld("world");
+        testPlayer.setLocation(new Location(world, 10, 10, 10));
+        boolean result = server.execute("country", testPlayer, "setspawn").hasSucceeded();
+        assertTrue(result);
+
+        testPlayer.assertSaid("§bspawn succesfully relocated");
+        testPlayer.assertNoMoreSaid();
+
+        /*
+        * test spawn command executed by owner
+        * */
+        testPlayer.setLocation(new Location(world, 20, 10, 10));
+
+        result = server.execute("country", testPlayer, "spawn").hasSucceeded();
+        assertTrue(result);
+
+        testPlayer.assertSaid("§bteleported to country spawn");
+        testPlayer.assertNoMoreSaid();
+
+        assertEquals(new Location(world, 10, 10, 10), testPlayer.getLocation());
+
+        /*
+         * test spawn command executed by member
+         * */
+        testPlayer2.setLocation(new Location(world, 20, 10, 10));
+
+        result = server.execute("country", testPlayer2, "spawn").hasSucceeded();
+        assertTrue(result);
+
+        testPlayer2.assertSaid("§bteleported to country spawn");
+        testPlayer2.assertNoMoreSaid();
+
+        assertEquals(new Location(world, 10, 10, 10), testPlayer2.getLocation());
 
     }
 

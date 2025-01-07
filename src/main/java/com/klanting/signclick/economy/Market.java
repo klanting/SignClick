@@ -1,5 +1,6 @@
 package com.klanting.signclick.economy;
 
+import com.github.javaparser.utils.Pair;
 import com.google.common.reflect.TypeToken;
 import com.klanting.signclick.calculate.SignStock;
 import com.klanting.signclick.SignClick;
@@ -8,6 +9,7 @@ import com.klanting.signclick.utils.Utils;
 import org.bukkit.*;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
+import org.checkerframework.checker.units.qual.A;
 
 import java.text.DecimalFormat;
 import java.util.*;
@@ -160,49 +162,21 @@ public class Market {
     }
 
     public static void getMarketValueTop(Player player){
-        ArrayList<String> order = new ArrayList<String>();
-        ArrayList<Double> values = new ArrayList<Double>();
+        /*
+        * Make a ranking of the top companies by value
+        * */
 
-        for(Map.Entry<String, Company> entry : company.entrySet()){
-            String b = entry.getKey();
-            Double v = entry.getValue().getValue();
+        ArrayList<Map.Entry<String, Company>> entries = new ArrayList<>(company.entrySet());
 
-            if (order.size() > 0){
-                boolean found = false;
+        entries.sort(Comparator.comparing(item -> -item.getValue().getValue()));
 
-                for (int i=0; i<values.size(); i++){
-                    double o = values.get(i);
-
-                    if (v > o){
-                        order.add(i, b);
-                        values.add(i, v);
-                        found = true;
-                        break;
-                    }
-                }
-
-                if (!found){
-                    order.add(b);
-                    values.add(v);
-                }
-
-            }else{
-                order.add(b);
-                values.add(v);
-            }
-
-        }
-
-        for (int i=0; i<values.size(); i++){
-            String b = order.get(i);
-            Double v = values.get(i);
+        for (int i=0; i<entries.size(); i++){
+            String b = entries.get(i).getKey();
+            Double v = entries.get(i).getValue().getValue();
             DecimalFormat df = new DecimalFormat("###,###,###");
             int i2 = i + 1;
             player.sendMessage("§b"+i2+". §3"+b+": §7" +df.format(v)+"\n");
         }
-
-        order.clear();
-        values.clear();
     }
 
 
@@ -275,46 +249,19 @@ public class Market {
     }
 
     public static void marketAvailable(Player player){
-        ArrayList<String> order = new ArrayList<String>();
-        ArrayList<Integer> values = new ArrayList<Integer>();
-        for(Map.Entry<String, Company> entry : company.entrySet()){
-            String b = entry.getKey();
-            int v = entry.getValue().getMarketShares();
 
-            if (order.size() > 0){
-                boolean found = false;
+        ArrayList<Map.Entry<String, Company>> entries = new ArrayList<>(company.entrySet());
 
-                for (int i=0; i<values.size(); i++){
-                    double o = values.get(i);
-
-                    if (v > o){
-                        order.add(i, b);
-                        values.add(i, v);
-                        found = true;
-                        break;
-                    }
-                }
-
-                if (!found){
-                    order.add(b);
-                    values.add(v);
-                }
-
-            }else{
-                order.add(b);
-                values.add(v);
-            }
-
-        }
+        entries.sort(Comparator.comparing(item -> -item.getValue().getMarketShares()));
 
         ArrayList<String> marketList = new ArrayList<>();
 
         marketList.add("§eMarket:");
 
-        for (int i=0; i<values.size(); i++){
-            String b = order.get(i);
+        for (int i=0; i<entries.size(); i++){
+            String b = entries.get(i).getKey();
             Company comp = Market.getBusiness(b);
-            double v = values.get(i);
+            double v = entries.get(i).getValue().getMarketShares();
             DecimalFormat df = new DecimalFormat("###,###,###");
             DecimalFormat df2 = new DecimalFormat("0.00");
             int i2 = i + 1;

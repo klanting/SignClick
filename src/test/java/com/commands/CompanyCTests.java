@@ -345,11 +345,35 @@ class CompanyCTests {
 
     @Test
     void companyBaltop(){
+        /*
+        * Test /company baltop command
+        * */
+
+        /*
+        * Test when 1 company exists
+        * */
+
         boolean suc6 = server.execute("company", testPlayer, "baltop").hasSucceeded();
         assertTrue(suc6);
 
         testPlayer.assertSaid("§b1. §3TCI: §70\n");
         testPlayer.assertNoMoreSaid();
+
+        /*
+         * Test when 2 company exists
+         * */
+
+        Market.addBusiness("otherComp", "TCI2", Market.getAccount(testPlayer.getUniqueId()));
+        Market.getBusiness("TCI2").addBal(100.0);
+
+        suc6 = server.execute("company", testPlayer, "baltop").hasSucceeded();
+        assertTrue(suc6);
+
+        testPlayer.assertSaid("§b1. §3TCI2: §7100\n");
+        testPlayer.assertSaid("§b2. §3TCI: §70\n");
+        testPlayer.assertNoMoreSaid();
+
+
     }
 
     @Test

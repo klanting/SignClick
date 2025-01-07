@@ -4,3 +4,11 @@
 
 SignClick is a plugin to simulate capitalism on your minecraft server.
 
+This Minecraft plugin originated in early 2022. 
+It started as a system to allow players to teleport to 
+another location by pressing a sign and paying the provided amount of currency.
+
+Now the plugin has expanded to a full-grown capitalism plugin. 
+Allowing players to create countries, vote and decide policies. 
+Players are able to create companies, buy and sell stocks and so on.
+

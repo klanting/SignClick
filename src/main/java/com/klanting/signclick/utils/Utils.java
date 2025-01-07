@@ -3,6 +3,8 @@ package com.klanting.signclick.utils;
 import com.google.gson.*;
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.economy.Company;
+import org.bukkit.block.Sign;
+import org.bukkit.event.block.SignChangeEvent;
 
 import java.io.*;
 import java.lang.reflect.Type;
@@ -12,8 +14,14 @@ import java.util.logging.Level;
 
 
 public class Utils {
+    /*
+    * Basic utils used everywhere
+    * */
 
     public static List<UUID> toUUIDList(List<String> stringList){
+        /*
+        * Convert a list of UUIDs as String type to a list of UUIDs
+        * */
         List<UUID> UUIDList = new ArrayList<>();
         for (String s: stringList){
             UUIDList.add(UUID.fromString(s));
@@ -46,6 +54,10 @@ public class Utils {
     }
 
     public static <T> void writeSave(String name, T value){
+        /*
+        * Save object inside a json file
+        * */
+
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Company.class, new CompanySerializer());
         Gson gson = builder.create();
@@ -69,6 +81,9 @@ public class Utils {
 
 
     public static <T> T readSave(String name, Type token, T defaultValue){
+        /*
+        * Read object from a json file
+        * */
 
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Company.class, new CompanySerializer());
@@ -94,6 +109,25 @@ public class Utils {
         } catch (IOException | IllegalArgumentException e) {
             throw new RuntimeException(e);
         }
+
+    }
+
+    public static void setSign(SignChangeEvent sign, String[] content){
+        /*
+        * update a sign with the provided text
+        * */
+
+        assert content.length == 4;
+
+        Sign s = (Sign) sign.getBlock().getState();
+
+        for (int i=0; i<4; i++){
+            sign.setLine(i, content[i]);
+            s.setLine(i, content[i]);
+        }
+
+        s.update();
+
 
     }
 }
