@@ -44,22 +44,6 @@ public class Election {
         }
     }
 
-
-
-    public void Save(){
-        String path = "election." + s + ".";
-        SignClick.getPlugin().getConfig().set(path+"vote_dict", voteDict);
-
-        List<String> f_list = new ArrayList<String>();
-        for (UUID uuid: alreadyVoted){
-            f_list.add(uuid.toString());
-        }
-
-        SignClick.getPlugin().getConfig().set(path+"voted", f_list);
-
-        SignClick.getPlugin().getConfig().set(path+"to_wait", timeEnded -System.currentTimeMillis()/1000);
-    }
-
     public JsonObject toJson(JsonSerializationContext context){
         JsonObject jsonObject = new JsonObject();
 

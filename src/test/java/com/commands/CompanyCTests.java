@@ -951,5 +951,11 @@ class CompanyCTests {
 
     }
 
+    @Test
+    void companyTabComplete(){
+        //TODO add auto Tab test
+
+    }
+
 
 }
