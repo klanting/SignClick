@@ -7,12 +7,11 @@ import com.klanting.signclick.economy.Country;
 import com.klanting.signclick.economy.CountryManager;
 import com.klanting.signclick.SignClick;
 
-import java.lang.reflect.Field;
 import java.util.*;
 
 public class Election {
 
-    public Map<String, Integer> vote_dict =  new HashMap<String, Integer>();
+    public Map<String, Integer> voteDict =  new HashMap<String, Integer>();
 
     public List<UUID> alreadyVoted = new ArrayList<>();
     public String s;
@@ -22,7 +21,7 @@ public class Election {
         Country country = CountryManager.getCountry(s);
 
         for (Party p: country.getParties()){
-            vote_dict.put(p.name, 0);
+            voteDict.put(p.name, 0);
 
         }
 
@@ -30,18 +29,18 @@ public class Election {
         this.timeEnded = timeEnded;
     }
 
-    public Election(String s, long timeEnded, Map<String, Integer> vote_dict, List<UUID> alreadyVoted){
+    public Election(String s, long timeEnded, Map<String, Integer> voteDict, List<UUID> alreadyVoted){
         this.s = s;
         this.timeEnded = timeEnded;
-        this.vote_dict = vote_dict;
+        this.voteDict = voteDict;
         this.alreadyVoted = alreadyVoted;
     }
 
     public void vote(String name, UUID uuid){
         if (!alreadyVoted.contains(uuid)){
             alreadyVoted.add(uuid);
-            int party_val = vote_dict.getOrDefault(name, 0);
-            vote_dict.put(name, party_val+1);
+            int party_val = voteDict.getOrDefault(name, 0);
+            voteDict.put(name, party_val+1);
         }
     }
 
@@ -49,7 +48,7 @@ public class Election {
 
     public void Save(){
         String path = "election." + s + ".";
-        SignClick.getPlugin().getConfig().set(path+"vote_dict", vote_dict);
+        SignClick.getPlugin().getConfig().set(path+"vote_dict", voteDict);
 
         List<String> f_list = new ArrayList<String>();
         for (UUID uuid: alreadyVoted){
@@ -69,7 +68,7 @@ public class Election {
             f_list.add(uuid.toString());
         }
 
-        jsonObject.add("vote_dict", context.serialize(vote_dict));
+        jsonObject.add("vote_dict", context.serialize(voteDict));
         jsonObject.add("voted", context.serialize(f_list));
         jsonObject.add("to_wait", new JsonPrimitive(timeEnded -System.currentTimeMillis()/1000));
         jsonObject.add("name", new JsonPrimitive(s));

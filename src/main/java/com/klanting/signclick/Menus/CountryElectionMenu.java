@@ -18,7 +18,7 @@ public class CountryElectionMenu implements InventoryHolder {
     }
 
     public void init(){
-        for (String name: e.vote_dict.keySet()){
+        for (String name: e.voteDict.keySet()){
 
             ItemStack click = new ItemStack(Material.PAPER, 1);
             ItemMeta m = click.getItemMeta();

@@ -149,13 +149,13 @@ public class Utils {
 
             long time = obj.get("to_wait").getAsLong();
 
-            Map<String, Integer> vote_dict = context.deserialize(obj.get("vote_dict"),
+            Map<String, Integer> voteDict = context.deserialize(obj.get("vote_dict"),
                     new TypeToken<HashMap<String, Integer>>(){}.getType());
 
             List<UUID> alreadyVoted = context.deserialize(obj.get("voted"),
                     new TypeToken<ArrayList<UUID>>(){}.getType());
 
-            return new Election(obj.get("name").getAsString(), time+(System.currentTimeMillis()/1000), vote_dict, alreadyVoted);
+            return new Election(obj.get("name").getAsString(), time+(System.currentTimeMillis()/1000), voteDict, alreadyVoted);
         }
 
     }

@@ -10,6 +10,7 @@ import com.klanting.signclick.economy.parties.Election;
 import com.klanting.signclick.economy.parties.Party;
 import com.klanting.signclick.economy.policies.*;
 import com.klanting.signclick.SignClick;
+import com.klanting.signclick.utils.JsonTools;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 
@@ -115,24 +116,22 @@ public class Country {
 
     public JsonObject toJson(JsonSerializationContext context){
 
-        JsonObject jsonObject = new JsonObject();
         Field[] fields = this.getClass().getDeclaredFields();
+        Map<String, Object> fieldMap = new HashMap<>();
 
         for (Field field : fields) {
             try{
                 String fieldName = field.getName();
-
                 Object fieldValue = field.get(this);
 
-                jsonObject.add(fieldName, context.serialize(fieldValue));
+                fieldMap.put(fieldName, fieldValue);
 
             }catch (IllegalAccessException ignored){
-
             }
 
         }
 
-        return jsonObject;
+        return JsonTools.toJson(fieldMap, new HashMap<>(), context);
     }
 
     public Country(){

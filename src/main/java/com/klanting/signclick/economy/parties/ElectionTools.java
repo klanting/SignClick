@@ -17,7 +17,7 @@ public class ElectionTools {
                 country.setCountryElection(null);
 
                 double total = 0.0;
-                for (float f : election.vote_dict.values()) {
+                for (float f : election.voteDict.values()) {
                     total += f;
                 }
 
@@ -27,7 +27,7 @@ public class ElectionTools {
 
 
                 for (Party p: country.getParties()){
-                    double pct = (double) election.vote_dict.getOrDefault(p.name, 0)/total;
+                    double pct = (double) election.voteDict.getOrDefault(p.name, 0)/total;
                     p.PCT = pct;
                 }
 
@@ -35,7 +35,7 @@ public class ElectionTools {
                 Party highest_party = null;
 
                 for (Party p: country.getParties()){
-                    double pct = (double) election.vote_dict.getOrDefault(p.name, 0)/total;
+                    double pct = (double) election.voteDict.getOrDefault(p.name, 0)/total;
                     p.PCT = pct;
 
                     if (pct > highest_pct){

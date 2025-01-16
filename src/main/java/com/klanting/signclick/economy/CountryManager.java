@@ -328,7 +328,7 @@ public class CountryManager {
 
                 long time = (int) countryElection.get("to_wait");
                 election = new Election(name, time+(System.currentTimeMillis()/1000));
-                election.vote_dict = vote_dict;
+                election.voteDict = vote_dict;
                 election.alreadyVoted = already_voted;
                 country.setCountryElection(election);
             }
