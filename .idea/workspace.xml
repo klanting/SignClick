@@ -12,9 +12,18 @@
   <component name="ChangeListManager">
     <list default="true" id="b3aa4a96-499c-4e97-84b9-6312c5389c7a" name="Changes" comment="Move Serializers away from Utils.java file">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CountryMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CountryMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/CompanyCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/CompanyCommands.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/CountryCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/CountryCommands.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/Country.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/Country.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/CountryManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/CountryManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/utils/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/utils/Utils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/companyPatent/Patent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/companyPatent/Patent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/companyPatent/PatentUpgrade.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/companyPatent/PatentUpgrade.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/companyPatent/PatentUpgradeCustom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/companyPatent/PatentUpgradeCustom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/parties/Party.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/parties/Party.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/policies/Policy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/policies/Policy.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/com/commands/CompanyCTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/commands/CompanyCTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/commands/CountryCTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/commands/CountryCTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,6 +108,9 @@
     "Gradle.CompanyCTests.companySupport.executor": "Run",
     "Gradle.CompanyCTests.companySupportNeutral.executor": "Run",
     "Gradle.CompanyCTests.companySupportNeutral2.executor": "Run",
+    "Gradle.CompanyCTests.companyTabComplete.executor": "Run",
+    "Gradle.CompanyCTests.companyTabCompleteInfo.executor": "Run",
+    "Gradle.CompanyCTests.companyTabCompleteStaff.executor": "Run",
     "Gradle.CompanyCTests.companyTransact.executor": "Run",
     "Gradle.CompanyCTests.companyTransferShares.executor": "Run",
     "Gradle.CompanyCTests.companyWrongParam.executor": "Run",
@@ -128,7 +140,14 @@
     "Gradle.CountryCTests.countryDonateSuc6.executor": "Run",
     "Gradle.CountryCTests.countryInvite.executor": "Run",
     "Gradle.CountryCTests.countryKick.executor": "Run",
+    "Gradle.CountryCTests.countryPay.executor": "Run",
+    "Gradle.CountryCTests.countryPayNegative.executor": "Run",
+    "Gradle.CountryCTests.countryPaySelf.executor": "Run",
+    "Gradle.CountryCTests.countrySetColor.executor": "Coverage",
+    "Gradle.CountryCTests.countrySetColorCountryIncorrect.executor": "Run",
+    "Gradle.CountryCTests.countrySetColorIncorrect.executor": "Run",
     "Gradle.CountryCTests.countrySpawn.executor": "Coverage",
+    "Gradle.CountryCTests.countryTax.executor": "Run",
     "Gradle.CountryCTests.createCountry.executor": "Run",
     "Gradle.CountryCTests.createCountryFailedDuplicatedName.executor": "Run",
     "Gradle.CountryCTests.createCountryFailedPerms.executor": "Run",
@@ -219,7 +238,7 @@
     </key>
   </component>
   <component name="RunManager" selected="Gradle.TestAll">
-    <configuration name="CompanyCTests.createCompany2PlayerContract" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="CountryCTests.countryPay" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -232,7 +251,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;com.commands.CompanyCTests.createCompany2PlayerContract&quot;" />
+            <option value="&quot;com.commands.CountryCTests.countryPay&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -243,7 +262,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="CountryTests.countrySaveLoadAdvanced" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="CountryCTests.countryPayNegative" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -256,7 +275,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;com.country.CountryTests.countrySaveLoadAdvanced&quot;" />
+            <option value="&quot;com.commands.CountryCTests.countryPayNegative&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -267,7 +286,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="GsonTests.saveLoadCompanies" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="CountryCTests.countryPaySelf" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -280,7 +299,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;com.storage.GsonTests.saveLoadCompanies&quot;" />
+            <option value="&quot;com.commands.CountryCTests.countryPaySelf&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -291,7 +310,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="GsonTests.saveLoadCountries" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="CountryCTests.countrySetColorIncorrect" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -304,7 +323,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;com.storage.GsonTests.saveLoadCountries&quot;" />
+            <option value="&quot;com.commands.CountryCTests.countrySetColorIncorrect&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -315,7 +334,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="PartyTests.electionParty" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="CountryCTests.countryTax" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -328,7 +347,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;com.country.PartyTests.electionParty&quot;" />
+            <option value="&quot;com.commands.CountryCTests.countryTax&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -364,19 +383,19 @@
     </configuration>
     <list>
       <item itemvalue="Gradle.TestAll" />
-      <item itemvalue="Gradle.PartyTests.electionParty" />
-      <item itemvalue="Gradle.CountryTests.countrySaveLoadAdvanced" />
-      <item itemvalue="Gradle.GsonTests.saveLoadCompanies" />
-      <item itemvalue="Gradle.GsonTests.saveLoadCountries" />
-      <item itemvalue="Gradle.CompanyCTests.createCompany2PlayerContract" />
+      <item itemvalue="Gradle.CountryCTests.countryPay" />
+      <item itemvalue="Gradle.CountryCTests.countryPayNegative" />
+      <item itemvalue="Gradle.CountryCTests.countryPaySelf" />
+      <item itemvalue="Gradle.CountryCTests.countrySetColorIncorrect" />
+      <item itemvalue="Gradle.CountryCTests.countryTax" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.PartyTests.electionParty" />
-        <item itemvalue="Gradle.CountryTests.countrySaveLoadAdvanced" />
-        <item itemvalue="Gradle.CompanyCTests.createCompany2PlayerContract" />
-        <item itemvalue="Gradle.GsonTests.saveLoadCountries" />
-        <item itemvalue="Gradle.GsonTests.saveLoadCompanies" />
+        <item itemvalue="Gradle.CountryCTests.countryTax" />
+        <item itemvalue="Gradle.CountryCTests.countryPayNegative" />
+        <item itemvalue="Gradle.CountryCTests.countryPaySelf" />
+        <item itemvalue="Gradle.CountryCTests.countryPay" />
+        <item itemvalue="Gradle.CountryCTests.countrySetColorIncorrect" />
       </list>
     </recent_temporary>
   </component>
@@ -466,6 +485,7 @@
       <workItem from="1736799365860" duration="45000" />
       <workItem from="1736799461145" duration="5921000" />
       <workItem from="1737058615087" duration="2962000" />
+      <workItem from="1737064067109" duration="4030000" />
     </task>
     <task id="LOCAL-00026" summary="made start of companies being serialized into json">
       <option name="closed" value="true" />
@@ -932,14 +952,17 @@
     <SUITE FILE_PATH="coverage/SignClick$CompanyMenuTests_companyUpgrade.ic" NAME="CompanyMenuTests.companyUpgrade Coverage Results" MODIFIED="1726041324122" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/SignClick$CountryTests_countryAddRemoveOwner.ic" NAME="CountryTests.countryAddRemoveOwner Coverage Results" MODIFIED="1726152178872" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/SignClick$CompanyCTests_createCompany2CompanyContract.ic" NAME="CompanyCTests.createCompany2CompanyContract Coverage Results" MODIFIED="1730408523662" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/SignClick$CountryCTests_countrySetColor.ic" NAME="CountryCTests.countrySetColor Coverage Results" MODIFIED="1737066485169" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/SignClick$CompanyCTests_companyTabCompleteInfo.ic" NAME="CompanyCTests.companyTabCompleteInfo Coverage Results" MODIFIED="1737064762262" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/SignClick$CountryTests_CountryCreate.ic" NAME="CountryTests.CountryCreate Coverage Results" MODIFIED="1725952175146" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/SignClick$CompanyCTests_createCompany2PlayerContract.ic" NAME="CompanyCTests.createCompany2PlayerContract Coverage Results" MODIFIED="1736268732593" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/SignClick$CompanyCTests_companyBaltop.ic" NAME="CompanyCTests.companyBaltop Coverage Results" MODIFIED="1736269666981" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/SignClick$CountryCTests_countrySpawn.ic" NAME="CountryCTests.countrySpawn Coverage Results" MODIFIED="1736268533743" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/SignClick$SignTpTests_doSignTp.ic" NAME="SignTpTests.doSignTp Coverage Results" MODIFIED="1726139305725" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/SignClick$CompanyTests_companyGetCompanies.ic" NAME="CompanyTests.companyGetCompanies Coverage Results" MODIFIED="1732313388635" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/SignClick$CompanyCTests_companyTabCompleteStaff.ic" NAME="CompanyCTests.companyTabCompleteStaff Coverage Results" MODIFIED="1737064478618" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/SignClick$CompanyCTests_companyGive.ic" NAME="CompanyCTests.companyGive Coverage Results" MODIFIED="1726042791871" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/SignClick$TestAll.ic" NAME="TestAll Coverage Results" MODIFIED="1737061319095" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/SignClick$TestAll.ic" NAME="TestAll Coverage Results" MODIFIED="1737067829887" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/SignClick$CountryTests_countrySaveLoadAdvanced.ic" NAME="CountryTests.countrySaveLoadAdvanced Coverage Results" MODIFIED="1726940586011" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/SignClick$CompanyTests_companySaveLoad.ic" NAME="CompanyTests.companySaveLoad Coverage Results" MODIFIED="1727021115277" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>

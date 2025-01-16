@@ -10,6 +10,8 @@ import com.klanting.signclick.economy.CountryManager;
 import com.klanting.signclick.SignClick;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -301,6 +303,174 @@ class CountryCTests {
         testPlayer2.assertNoMoreSaid();
 
         assertEquals(new Location(world, 10, 10, 10), testPlayer2.getLocation());
+
+    }
+
+    @Test
+    void countrySetColor() {
+        PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
+        CountryManager.create("empire1", testPlayer);
+
+        testPlayer.nextMessage();
+
+        assertEquals(testPlayer.getName(), testPlayer.getPlayerListName());
+
+        boolean result = server.execute("country", testPlayer, "color", "empire1", "AQUA").hasSucceeded();
+        assertTrue(result);
+
+        testPlayer.assertSaid("§bColor has been changed to AQUA");
+        testPlayer.assertNoMoreSaid();
+
+        /*
+        * Check TabColor Updated
+        * */
+        assertEquals("§b"+testPlayer.getName(), testPlayer.getPlayerListName());
+
+        /*
+        * Simulate player rejoin, to see if TabColor updates accordingly
+        * */
+
+        PlayerQuitEvent quitEvent = new PlayerQuitEvent(testPlayer, testPlayer.getName() + " left the game");
+        server.getPluginManager().callEvent(quitEvent);
+
+        PlayerJoinEvent joinEvent = new PlayerJoinEvent(testPlayer, testPlayer.getName() + " joined the game");
+        server.getPluginManager().callEvent(joinEvent);
+
+        /*
+         * Check TabColor Updated
+         * */
+        assertEquals("§b"+testPlayer.getName(), testPlayer.getPlayerListName());
+    }
+
+    @Test
+    void countrySetColorIncorrect() {
+        PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
+        CountryManager.create("empire1", testPlayer);
+
+        testPlayer.nextMessage();
+
+        assertEquals(testPlayer.getName(), testPlayer.getPlayerListName());
+
+        boolean result = server.execute("country", testPlayer, "color", "empire1", "AQUI").hasSucceeded();
+        assertTrue(result);
+
+        testPlayer.assertSaid("§bColor AQUI is not a valid color");
+        testPlayer.assertNoMoreSaid();
+
+        assertEquals(testPlayer.getName(), testPlayer.getPlayerListName());
+    }
+
+    @Test
+    void countrySetColorCountryIncorrect() {
+        PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
+        CountryManager.create("empire1", testPlayer);
+
+        testPlayer.nextMessage();
+
+        assertEquals(testPlayer.getName(), testPlayer.getPlayerListName());
+
+        boolean result = server.execute("country", testPlayer, "color", "empire2", "AQUA").hasSucceeded();
+        assertTrue(result);
+
+        testPlayer.assertSaid("§bThe country empire2 does not exists");
+        testPlayer.assertNoMoreSaid();
+
+        assertEquals(testPlayer.getName(), testPlayer.getPlayerListName());
+    }
+
+    @Test
+    void countryPay() {
+        /*
+        * Pay a player as the country leader
+        * */
+        PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
+        PlayerMock testPlayer2 = TestTools.addPermsPlayer(server, plugin);
+        Country country = CountryManager.create("empire1", testPlayer);
+        country.deposit(1000);
+
+        testPlayer.nextMessage();
+        assertEquals(1000, country.getBalance());
+        assertEquals(0, SignClick.getEconomy().getBalance(testPlayer2));
+
+        boolean result = server.execute("country", testPlayer, "pay", testPlayer2.getName(), "100").hasSucceeded();
+        assertTrue(result);
+
+        testPlayer.assertSaid("§byou paid 100 to Player1");
+        testPlayer.assertNoMoreSaid();
+
+        testPlayer2.assertSaid("§byou got 100 from empire1");
+        testPlayer2.assertNoMoreSaid();
+
+        assertEquals(100, SignClick.getEconomy().getBalance(testPlayer2));
+        assertEquals(900, country.getBalance());
+    }
+
+    @Test
+    void countryPaySelf() {
+        /*
+         * Pay yourself as the country leader
+         * */
+        PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
+        Country country = CountryManager.create("empire1", testPlayer);
+        country.deposit(1000);
+
+        testPlayer.nextMessage();
+        assertEquals(1000, country.getBalance());
+        assertEquals(0, SignClick.getEconomy().getBalance(testPlayer));
+
+        boolean result = server.execute("country", testPlayer, "pay", testPlayer.getName(), "100").hasSucceeded();
+        assertTrue(result);
+
+        testPlayer.assertSaid("§byou cannot pay yourself");
+        testPlayer.assertNoMoreSaid();
+
+        assertEquals(1000, country.getBalance());
+        assertEquals(0, SignClick.getEconomy().getBalance(testPlayer));
+    }
+
+    @Test
+    void countryPayNegative() {
+        /*
+         * Pay a player as the country leader with a negative amount
+         * */
+        PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
+        PlayerMock testPlayer2 = TestTools.addPermsPlayer(server, plugin);
+        Country country = CountryManager.create("empire1", testPlayer);
+        country.deposit(1000);
+
+        testPlayer.nextMessage();
+        assertEquals(1000, country.getBalance());
+        assertEquals(0, SignClick.getEconomy().getBalance(testPlayer2));
+
+        boolean result = server.execute("country", testPlayer, "pay", testPlayer2.getName(), "-100").hasSucceeded();
+        assertTrue(result);
+
+        testPlayer.assertSaid("§bYou cannot pay negative amounts");
+        testPlayer.assertNoMoreSaid();
+
+        assertEquals(0, SignClick.getEconomy().getBalance(testPlayer2));
+        assertEquals(1000, country.getBalance());
+    }
+
+    @Test
+    void countryTax() {
+        /*
+         * Pay a player as the country leader
+         * */
+        PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
+        Country country = CountryManager.create("empire1", testPlayer);
+
+        testPlayer.nextMessage();
+
+        assertEquals(0, country.getTaxRate());
+
+        boolean result = server.execute("country", testPlayer, "tax", "20").hasSucceeded();
+        assertTrue(result);
+
+        testPlayer.assertSaid("§bthe tax has been changed");
+        testPlayer.assertNoMoreSaid();
+
+        assertEquals(0.2, country.getTaxRate());
 
     }
 

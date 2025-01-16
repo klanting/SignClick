@@ -23,15 +23,6 @@ public class Party {
         this.country = country;
     }
 
-    public Party(String name, String country, double PCT, List<UUID> owners, List<UUID> members){
-        this.name = name;
-        this.country = country;
-        this.PCT = PCT;
-        this.owners = owners;
-        this.members = members;
-
-    }
-
     public boolean inParty(UUID uuid){
         return members.contains(uuid) || owners.contains(uuid);
     }
@@ -83,28 +74,6 @@ public class Party {
                               +"§bVotes: "+df.format(PCT*100.0)+"%\n"
                               +"§bOwners: "+o_list+"\n"
                               +"§bMembers: "+m_list+"\n");
-
-    }
-
-    public void Save(){
-        String path = "parties." + country+"."+name+".";
-
-        SignClick.getPlugin().getConfig().set(path+"PCT", PCT);
-
-        List<String> m_list = new ArrayList<String>();
-        for (UUID uuid: members){
-            m_list.add(uuid.toString());
-        }
-
-        SignClick.getPlugin().getConfig().set(path+"members", m_list);
-
-        List<String> o_list = new ArrayList<String>();
-        for (UUID uuid: owners){
-            o_list.add(uuid.toString());
-        }
-
-        SignClick.getPlugin().getConfig().set(path+"owners", o_list);
-
 
     }
 }

@@ -115,18 +115,4 @@ public class Patent {
 
         getServer().addRecipe(recip);
     }
-
-    public void save(Company comp){
-        String path = "company."+comp.getStockName() +".patent."+comp.patent.indexOf(this)+".";
-        SignClick.getPlugin().getConfig().set(path+"name", name);
-        SignClick.getPlugin().getConfig().set(path+"item", item.toString());
-
-        List<String> index_list = new ArrayList<String>();
-        for (PatentUpgrade up: upgrades){
-            Integer index = comp.patentUpgrades.indexOf(up);
-            index_list.add(index.toString());
-        }
-
-        SignClick.getPlugin().getConfig().set(path+"upgrades", index_list);
-    }
 }

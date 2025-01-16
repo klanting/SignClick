@@ -23,12 +23,6 @@ public class PatentUpgrade {
         this.level = level;
     }
 
-    public void save(Company comp, Integer index){
-        String path = "company."+comp.getStockName() +".patent_up."+index+".";
-        SignClick.getPlugin().getConfig().set(path+"id", id);
-        SignClick.getPlugin().getConfig().set(path+"level", level);
-    }
-
     public void saveAuction(Integer index){
         String path = "Auction.patent_up."+index+".";
         SignClick.getPlugin().getConfig().set(path+"id", id);

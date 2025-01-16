@@ -18,9 +18,9 @@ import static com.klanting.signclick.economy.parties.ElectionTools.setupElection
 import static org.bukkit.Bukkit.getServer;
 
 public class CountryManager {
-    private static Map<String, Country> countries = new HashMap<String, Country>();
+    private static Map<String, Country> countries = new HashMap<>();
 
-    private static Map<UUID, Country> playerToCountryMap = new HashMap<UUID, Country>();
+    private static Map<UUID, Country> playerToCountryMap = new HashMap<>();
 
     public static Country getCountry(String countryName){
         /*
@@ -163,7 +163,6 @@ public class CountryManager {
     public static void restoreData(){
 
         countries = Utils.readSave("countries", new TypeToken<HashMap<String, Country>>(){}.getType(), new HashMap<>());
-
         playerToCountryMap = Utils.readSave("playerToCountryMap", new TypeToken<Map<UUID, Country>>(){}.getType(), new HashMap<>());
 
 

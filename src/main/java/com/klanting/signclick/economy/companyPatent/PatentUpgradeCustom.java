@@ -15,12 +15,4 @@ public class PatentUpgradeCustom extends PatentUpgrade{
         this.name = "§6Texture "+name;
     }
 
-    public void save(Company comp, Integer index){
-        String path = "company."+comp.getStockName() +".patent_up."+index+".";
-        SignClick.getPlugin().getConfig().set(path+"name", name);
-        SignClick.getPlugin().getConfig().set(path+"id", id);
-        SignClick.getPlugin().getConfig().set(path+"level", level);
-        SignClick.getPlugin().getConfig().set(path+"applied_item", applied_item.toString());
-    }
-
 }

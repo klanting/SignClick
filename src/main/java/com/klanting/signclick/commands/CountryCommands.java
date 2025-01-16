@@ -104,6 +104,11 @@ public class CountryCommands implements CommandExecutor, TabCompleter {
                     return true;
                 }
 
+                if (amount < 0){
+                    player.sendMessage("§bYou cannot pay negative amounts");
+                    return true;
+                }
+
                 if (player.getName().equals(p)) {
                     player.sendMessage("§byou cannot pay yourself");
                     return true;
@@ -164,8 +169,6 @@ public class CountryCommands implements CommandExecutor, TabCompleter {
                             pl.sendMessage("§b"+player.getName()+" donated "+amount + " to your country");
                         }
                     }
-
-
 
                 }else{
                     player.sendMessage("§bYou are not in a country or your designated country does not exist");
@@ -455,8 +458,18 @@ public class CountryCommands implements CommandExecutor, TabCompleter {
                     player.sendMessage("§bowner has been set");
                 }else if (commando.equals("color")){
                     Country country = CountryManager.getCountry(args[1]);
-                    country.setColor(ChatColor.valueOf(args[2]));
-                    player.sendMessage("§bcolor changed");
+                    if (country == null){
+                        player.sendMessage("§bThe country "+args[1]+" does not exists");
+                        return true;
+                    }
+
+                    try {
+                        country.setColor(ChatColor.valueOf(args[2]));
+                        player.sendMessage("§bColor has been changed to "+args[2].toUpperCase());
+                    }catch (IllegalArgumentException e){
+                        player.sendMessage("§bColor "+args[2].toUpperCase()+" is not a valid color");
+                    }
+
                 }else if (commando.equals("promote")){
                     try{
                         Player p = Bukkit.getPlayer(args[1]);

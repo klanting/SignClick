@@ -43,10 +43,6 @@ public class Policy {
         this.level = level;
     }
 
-    public void Save(String country){
-        SignClick.getPlugin().getConfig().set("policies." + country+"."+id, level);
-    }
-
     public Material getMaterial() {
         return material;
     }

@@ -3,6 +3,7 @@ package com.commands;
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 
+import com.klanting.signclick.commands.CompanyCommands;
 import com.klanting.signclick.economy.Company;
 import com.klanting.signclick.economy.Country;
 import com.klanting.signclick.economy.CountryManager;
@@ -17,6 +18,10 @@ import tools.TestTools;
 
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -953,8 +958,86 @@ class CompanyCTests {
 
     @Test
     void companyTabComplete(){
-        //TODO add auto Tab test
+        PlayerMock testPlayer2 = server.addPlayer();
+        List<String> receivedAutoCompletes =  server.getCommandTabComplete(testPlayer2, "company ");
 
+        List<String> autoCompletes = new ArrayList<>();
+        autoCompletes.add("create");
+        autoCompletes.add("info");
+        autoCompletes.add("sharetop");
+        autoCompletes.add("give");
+        autoCompletes.add("baltop");
+        autoCompletes.add("buy");
+        autoCompletes.add("sell");
+        autoCompletes.add("pay");
+        autoCompletes.add("spendable");
+        autoCompletes.add("support");
+        autoCompletes.add("transfer");
+        autoCompletes.add("transact");
+        autoCompletes.add("portfolio");
+        autoCompletes.add("market");
+        autoCompletes.add("get_support");
+        autoCompletes.add("send_contract_ctc");
+        autoCompletes.add("sign_contract_ctc");
+        autoCompletes.add("send_contract_ctp");
+        autoCompletes.add("sign_contract_ctp");
+        autoCompletes.add("send_contract_ptc");
+        autoCompletes.add("sign_contract_ptc");
+        autoCompletes.add("get_buy_price");
+        autoCompletes.add("get_sell_price");
+        autoCompletes.add("get_contracts");
+        autoCompletes.add("open_trade");
+
+        assertEquals(autoCompletes, receivedAutoCompletes);
+    }
+
+    @Test
+    void companyTabCompleteCompany(){
+        /*
+        * Test Autocomplete providing company names
+        * */
+        Market.addBusiness("TestCaseInc2", "TCI2", Market.getAccount(testPlayer));
+
+        for (String item: CompanyCommands.whitelist){
+            List<String> receivedAutoCompletes =  server.getCommandTabComplete(testPlayer, "company "+item+" ");
+            assertEquals(Arrays.asList("TCI", "TCI2"), receivedAutoCompletes);
+        }
+    }
+
+    @Test
+    void companyTabCompleteStaff(){
+        List<String> receivedAutoCompletes =  server.getCommandTabComplete(testPlayer, "company ");
+
+        List<String> autoCompletes = new ArrayList<>();
+        autoCompletes.add("books");
+        autoCompletes.add("add_custom");
+        autoCompletes.add("create");
+        autoCompletes.add("info");
+        autoCompletes.add("sharetop");
+        autoCompletes.add("give");
+        autoCompletes.add("baltop");
+        autoCompletes.add("buy");
+        autoCompletes.add("sell");
+        autoCompletes.add("pay");
+        autoCompletes.add("spendable");
+        autoCompletes.add("support");
+        autoCompletes.add("transfer");
+        autoCompletes.add("transact");
+        autoCompletes.add("portfolio");
+        autoCompletes.add("market");
+        autoCompletes.add("get_support");
+        autoCompletes.add("send_contract_ctc");
+        autoCompletes.add("sign_contract_ctc");
+        autoCompletes.add("send_contract_ctp");
+        autoCompletes.add("sign_contract_ctp");
+        autoCompletes.add("send_contract_ptc");
+        autoCompletes.add("sign_contract_ptc");
+        autoCompletes.add("get_buy_price");
+        autoCompletes.add("get_sell_price");
+        autoCompletes.add("get_contracts");
+        autoCompletes.add("open_trade");
+
+        assertEquals(autoCompletes, receivedAutoCompletes);
     }
 
 

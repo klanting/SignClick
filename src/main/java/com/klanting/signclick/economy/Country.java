@@ -247,7 +247,17 @@ public class Country {
     }
 
     public void setColor(ChatColor color){
+        /*
+        * Change the tab color of players belonging to this country
+        * */
         memberColor = color;
+
+        for (Player player: Bukkit.getOnlinePlayers()){
+            if (owners.contains(player.getUniqueId()) || members.contains(player.getUniqueId())){
+                player.setPlayerListName(memberColor+player.getName());
+            }
+        }
+
     }
 
     public Location getSpawn(){
