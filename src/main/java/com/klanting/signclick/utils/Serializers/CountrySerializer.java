@@ -1,0 +1,33 @@
+package com.klanting.signclick.utils.Serializers;
+
+import com.google.gson.*;
+import com.klanting.signclick.economy.Country;
+
+import java.lang.reflect.Type;
+
+import static com.klanting.signclick.economy.parties.ElectionTools.setupElectionDeadline;
+
+public class CountrySerializer implements JsonSerializer<Country>, JsonDeserializer<Country> {
+    /*
+    * Serialize Country to Gson
+    * */
+
+    @Override
+    public JsonElement serialize(Country country, Type type, JsonSerializationContext context) {
+        return country.toJson(context);
+    }
+
+    @Override
+    public Country deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+        JsonObject obj = json.getAsJsonObject();
+        Country country = new Country(obj, context);
+
+        if (country.getCountryElection() != null){
+            setupElectionDeadline(country, country.getCountryElection().getToWait()*20L);
+        }
+
+
+        return country;
+    }
+
+}

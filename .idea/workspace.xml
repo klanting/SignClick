@@ -10,21 +10,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b3aa4a96-499c-4e97-84b9-6312c5389c7a" name="Changes" comment="Some start of version control">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/utils/JsonTools.java" afterDir="false" />
+    <list default="true" id="b3aa4a96-499c-4e97-84b9-6312c5389c7a" name="Changes" comment="Cleanup toJson Method">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/utils/Serializers/CompanySerializer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/utils/Serializers/CountrySerializer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/utils/Serializers/ElectionSerializer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/utils/Serializers/LocationSerializer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/utils/Serializers/UUIDDeserializer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/SignClick.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/SignClick.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/Company.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/Company.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/Country.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/Country.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/CountryManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/CountryManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/Market.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/Market.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/parties/Election.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/parties/Election.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/utils/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/utils/Utils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/plugin.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/company/CompanyTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/company/CompanyTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/country/CountryTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/country/CountryTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/storage/GsonTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/storage/GsonTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/versionManagement/versionTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/versionManagement/VersionTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -475,23 +468,7 @@
       <workItem from="1736284190480" duration="4578000" />
       <workItem from="1736799365860" duration="45000" />
       <workItem from="1736799461145" duration="5921000" />
-      <workItem from="1737058615087" duration="1715000" />
-    </task>
-    <task id="LOCAL-00023" summary="added encapsulation for Policy Component">
-      <option name="closed" value="true" />
-      <created>1727079591815</created>
-      <option name="number" value="00023" />
-      <option name="presentableId" value="LOCAL-00023" />
-      <option name="project" value="LOCAL" />
-      <updated>1727079591815</updated>
-    </task>
-    <task id="LOCAL-00024" summary="first part of making contracts objects">
-      <option name="closed" value="true" />
-      <created>1727620873863</created>
-      <option name="number" value="00024" />
-      <option name="presentableId" value="LOCAL-00024" />
-      <option name="project" value="LOCAL" />
-      <updated>1727620873863</updated>
+      <workItem from="1737058615087" duration="2335000" />
     </task>
     <task id="LOCAL-00025" summary="some progress with gson">
       <option name="closed" value="true" />
@@ -869,7 +846,23 @@
       <option name="project" value="LOCAL" />
       <updated>1736287721370</updated>
     </task>
-    <option name="localTasksCounter" value="72" />
+    <task id="LOCAL-00072" summary="Country Data Storage Migrated To Json">
+      <option name="closed" value="true" />
+      <created>1737060376140</created>
+      <option name="number" value="00072" />
+      <option name="presentableId" value="LOCAL-00072" />
+      <option name="project" value="LOCAL" />
+      <updated>1737060376141</updated>
+    </task>
+    <task id="LOCAL-00073" summary="Cleanup toJson Method">
+      <option name="closed" value="true" />
+      <created>1737060576866</created>
+      <option name="number" value="00073" />
+      <option name="presentableId" value="LOCAL-00073" />
+      <option name="project" value="LOCAL" />
+      <updated>1737060576866</updated>
+    </task>
+    <option name="localTasksCounter" value="74" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -891,8 +884,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="another gradle try" />
-    <MESSAGE value="last CI try fix for today" />
     <MESSAGE value="see if this workaround works" />
     <MESSAGE value="Have not solved anything about CI" />
     <MESSAGE value="See if this helps me read the message" />
@@ -916,7 +907,9 @@
     <MESSAGE value="Store company contract request CTC, more easily." />
     <MESSAGE value="General Refactoring" />
     <MESSAGE value="Some start of version control" />
-    <option name="LAST_COMMIT_MESSAGE" value="Some start of version control" />
+    <MESSAGE value="Country Data Storage Migrated To Json" />
+    <MESSAGE value="Cleanup toJson Method" />
+    <option name="LAST_COMMIT_MESSAGE" value="Cleanup toJson Method" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
