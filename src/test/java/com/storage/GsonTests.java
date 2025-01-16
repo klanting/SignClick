@@ -6,6 +6,7 @@ import com.google.common.reflect.TypeToken;
 import com.klanting.signclick.economy.Account;
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.economy.Company;
+import com.klanting.signclick.economy.Country;
 import com.klanting.signclick.utils.Utils;
 import org.bukkit.entity.Player;
 import org.junit.jupiter.api.AfterEach;
@@ -18,6 +19,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class GsonTests {
 
@@ -43,7 +45,6 @@ public class GsonTests {
     @Test
     void saveLoadUUID(){
         Utils.writeSave("uuid", testPlayer.getUniqueId());
-        System.out.print(UUID.class);
 
         assertEquals(testPlayer.getUniqueId(), Utils.readSave("uuid", UUID.class, new UUID(1, 1)));
     }
@@ -64,7 +65,7 @@ public class GsonTests {
     }
 
     @Test
-    void saveLoadCompany(){
+    void saveLoadCompanies(){
         Map<String, Company> accountsPreSave = new HashMap<>();
         accountsPreSave.put("A", new Company("AA", "A"));
         accountsPreSave.get("A").shareHolders.put(testPlayer.getUniqueId(), 10);
@@ -88,5 +89,31 @@ public class GsonTests {
         assertEquals(100, comp.totalShares);
 
         assertEquals(testPlayer.getUniqueId(), comp.shareHolders.keySet().stream().iterator().next());
+    }
+
+    @Test
+    void saveLoadCountries(){
+        Map<String, Country> countries = new HashMap<>();
+
+        String countryName = "A";
+        Country newCountry = new Country(countryName, testPlayer);
+
+        Player testPlayer2 = server.addPlayer();
+        newCountry.addMember(testPlayer2);
+
+        countries.put(countryName, newCountry);
+
+        Utils.writeSave("countries", countries);
+
+        countries = Utils.readSave("countries", new TypeToken<HashMap<String, Country>>(){}.getType(), new HashMap<>());
+        assertEquals(1, countries.size());
+
+        Country country = countries.values().iterator().next();
+
+        assertEquals(countryName, country.getName());
+        assertTrue(country.isOwner(testPlayer));
+        assertEquals(1, country.getMembers().size());
+        assertEquals(testPlayer2.getUniqueId(), country.getMembers().get(0));
+
     }
 }

@@ -29,5 +29,18 @@ commands:
     description: use the party commands.
     usage: /<command>
 
+localization:
+  default: en_US
+  supported: [en_US]
+
+signclick.use:
+  description: Allows using the main feature of the plugin.
+  default: true
+  signclick.staff:
+    description: Allows access to staff features.
+    default: op
+    children:
+      signclick.use: true
+
 depend: [Vault, dynmap]
 softdepend: []

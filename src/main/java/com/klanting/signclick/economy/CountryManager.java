@@ -1,5 +1,6 @@
 package com.klanting.signclick.economy;
 
+import com.google.common.reflect.TypeToken;
 import com.klanting.signclick.economy.decisions.*;
 import com.klanting.signclick.economy.parties.Election;
 import com.klanting.signclick.economy.parties.Party;
@@ -17,9 +18,9 @@ import static com.klanting.signclick.economy.parties.ElectionTools.setupElection
 import static org.bukkit.Bukkit.getServer;
 
 public class CountryManager {
-    private static final Map<String, Country> countries = new HashMap<String, Country>();
+    private static Map<String, Country> countries = new HashMap<String, Country>();
 
-    private static final Map<UUID, Country> playerToCountryMap = new HashMap<UUID, Country>();
+    private static Map<UUID, Country> playerToCountryMap = new HashMap<UUID, Country>();
 
     public static Country getCountry(String countryName){
         /*
@@ -140,27 +141,33 @@ public class CountryManager {
     }
 
     public static void saveData(){
-        countries.values().forEach(Country::save);
+        Utils.writeSave("countries", countries);
+
+
+        //countries.values().forEach(Country::save);
 
         /*
         * Save mapping from user to company
         * TODO remove this and load from countries restore
         * */
-        for (Map.Entry<UUID, Country> entry : playerToCountryMap.entrySet()){
-            SignClick.getPlugin().getConfig().set("country." + entry.getKey().toString(), entry.getValue().getName());
-        }
+
+        Utils.writeSave("playerToCountryMap", playerToCountryMap);
 
         /*
         * save results
         * */
-        SignClick.getPlugin().getConfig().options().copyDefaults(true);
-        SignClick.getPlugin().saveConfig();
 
         getServer().getConsoleSender().sendMessage(Color.GREEN + "SignClick save banking completed!");
     }
 
     public static void restoreData(){
-        if (!SignClick.getPlugin().getConfig().contains("bank")){
+
+        countries = Utils.readSave("countries", new TypeToken<HashMap<String, Country>>(){}.getType(), new HashMap<>());
+
+        playerToCountryMap = Utils.readSave("playerToCountryMap", new TypeToken<Map<UUID, Country>>(){}.getType(), new HashMap<>());
+
+
+        if (!SignClick.getPlugin().getConfig().contains("bank") || true){
             return;
         }
 
@@ -340,13 +347,7 @@ public class CountryManager {
 
         });
 
-        ConfigurationSection userCountrySection = SignClick.getPlugin().getConfig().getConfigurationSection("country");
 
-        userCountrySection.getKeys(true).forEach(key ->{
-            String countryName = String.valueOf(SignClick.getPlugin().getPlugin().getConfig().get("country." + key));
-
-            playerToCountryMap.put(UUID.fromString(key), countries.get(countryName));
-        });
     }
 
     public static List<Country> getCountries(){

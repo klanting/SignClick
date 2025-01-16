@@ -10,6 +10,7 @@ import com.klanting.signclick.economy.companyUpgrades.*;
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.economy.contractRequests.ContractRequest;
 import com.klanting.signclick.economy.contractRequests.ContractRequestCTC;
+import com.klanting.signclick.utils.JsonTools;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -17,7 +18,9 @@ import org.bukkit.entity.Player;
 import java.lang.reflect.Field;
 import java.text.DecimalFormat;
 import java.util.*;
+import java.util.List;
 import java.util.Map.Entry;
+import java.util.function.BiFunction;
 
 public class Company {
 
@@ -171,34 +174,35 @@ public class Company {
 
     public JsonObject toJson(JsonSerializationContext context){
 
-        JsonObject jsonObject = new JsonObject();
+        BiFunction<String, JsonObject, JsonObject> method = (fieldName, jsonObject) -> {
+            switch (fieldName){
+            case "country":
+                if (country != null){
+                    jsonObject.addProperty(fieldName, country.getName());
+                }
+            }
+            return jsonObject;
+        };
+
+        HashMap<String, BiFunction<String, JsonObject, JsonObject>> map = new HashMap<>();
+        map.put("country", method);
+
         Field[] fields = this.getClass().getDeclaredFields();
+        Map<String, Object> fieldMap = new HashMap<>();
 
         for (Field field : fields) {
             try{
                 String fieldName = field.getName();
                 Object fieldValue = field.get(this);
 
-                if (softLink.contains(fieldName)){
-
-                    switch (fieldName){
-                        case "country":
-                            if (country != null){
-                                jsonObject.addProperty(fieldName, country.getName());
-                            }
-
-                    }
-                    continue;
-                }
-                jsonObject.add(fieldName, context.serialize(fieldValue));
+                fieldMap.put(fieldName, fieldValue);
 
             }catch (IllegalAccessException ignored){
-
             }
 
         }
 
-        return jsonObject;
+        return JsonTools.toJson(fieldMap, map, context);
     }
 
     public Company(String n, String StockName){

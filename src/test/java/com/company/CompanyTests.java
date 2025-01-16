@@ -64,6 +64,64 @@ class CompanyTests {
     }
 
     @Test
+    void companyCreateDuplicate(){
+        companyCreate();
+
+        PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
+
+        /*
+         * Verify that the company is not overridden by uniquely identifying the object
+         * */
+        Market.getBusiness("TCI").addBal(10.0);
+        assertEquals(10.0, Market.getBusiness("TCI").getValue());
+
+        /*
+        * Create duplicate company
+        * */
+        boolean succes = Market.addBusiness("TestCaseInc", "TCI", Market.getAccount(testPlayer));
+        assertFalse(succes);
+
+        assertEquals(10.0, Market.getBusiness("TCI").getValue());
+    }
+
+    @Test
+    void companyDuplicateAfterReload(){
+        companyCreate();
+
+        /*
+        * Verify that the company is not overridden by uniquely identifying the object
+        * */
+        Market.getBusiness("TCI").addBal(10.0);
+        assertEquals(10.0, Market.getBusiness("TCI").getValue());
+
+        /*
+        * Restart server
+        * */
+        plugin.onDisable();
+        CountryManager.clear();
+        Market.clear();
+        plugin = TestTools.setupPlugin(server);
+
+        PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
+
+
+        /*
+         * Create duplicate company
+         * */
+        boolean succes = Market.addBusiness("TestCaseInc", "TCI", Market.getAccount(testPlayer));
+        assertFalse(succes);
+        assertEquals(10.0, Market.getBusiness("TCI").getValue());
+
+        /*
+         * Create duplicate company with different Sname, but same namebus
+         * */
+        succes = Market.addBusiness("TestCaseInc", "TCI2", Market.getAccount(testPlayer));
+        assertFalse(succes);
+        assertEquals(10.0, Market.getBusiness("TCI").getValue());
+
+    }
+
+    @Test
     void companyAddMoney(){
         Player testPlayer = server.addPlayer();
 

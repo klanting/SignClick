@@ -11,7 +11,7 @@ import tools.TestTools;
 import versionCompatibility.VersionDetection;
 
 
-public class versionTests {
+public class VersionTests {
     private ServerMock server;
     private SignClick plugin;
     private PlayerMock testPlayer;

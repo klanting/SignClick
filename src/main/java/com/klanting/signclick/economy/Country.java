@@ -1,5 +1,9 @@
 package com.klanting.signclick.economy;
 
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonSerializationContext;
 import com.klanting.signclick.economy.decisions.Decision;
 import com.klanting.signclick.economy.decisions.DecisionPolicy;
 import com.klanting.signclick.economy.parties.Election;
@@ -9,6 +13,7 @@ import com.klanting.signclick.SignClick;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 
+import java.lang.reflect.Field;
 import java.text.DecimalFormat;
 import java.util.*;
 
@@ -17,7 +22,7 @@ public class Country {
     /*
     * Name of the country
     * */
-    private final String name;
+    private String name;
 
     /*
     * balance of the country its bank account
@@ -64,6 +69,70 @@ public class Country {
         aboardMilitary = false;
 
         policies = Arrays.asList(new PolicyEconomics(2), new PolicyMarket(2), new PolicyMilitary(2), new PolicyTourist(2), new PolicyTaxation(2));
+    }
+
+    public Country(JsonObject jsonObject, JsonDeserializationContext context){
+        /*
+         * Load/create company from json file
+         * */
+
+        Field[] fields = this.getClass().getDeclaredFields();
+
+        for (Field field : fields) {
+
+            try{
+                String fieldName = field.getName();
+
+                JsonElement element = jsonObject.get(fieldName);
+
+                if (element == null){
+                    field.set(this, null);
+                    continue;
+                }
+
+                Object o;
+
+                if (field.getType() == String.class){
+                    o = element.getAsString();
+                }else if (field.getType() == Integer.class){
+                    o = element.getAsInt();
+                }else if (field.getType() == Double.class){
+                    o = element.getAsDouble();
+                }else{
+                    o = context.deserialize(element, field.getGenericType());
+                }
+
+                field.set(this, o);
+
+
+            }catch (IllegalAccessException ignored){
+
+            }
+
+        }
+
+    }
+
+    public JsonObject toJson(JsonSerializationContext context){
+
+        JsonObject jsonObject = new JsonObject();
+        Field[] fields = this.getClass().getDeclaredFields();
+
+        for (Field field : fields) {
+            try{
+                String fieldName = field.getName();
+
+                Object fieldValue = field.get(this);
+
+                jsonObject.add(fieldName, context.serialize(fieldValue));
+
+            }catch (IllegalAccessException ignored){
+
+            }
+
+        }
+
+        return jsonObject;
     }
 
     public Country(){
@@ -278,6 +347,7 @@ public class Country {
     }
 
     public void save(){
+
 
         SignClick.getPlugin().getConfig().createSection("election");
         SignClick.getPlugin().getConfig().createSection("forbid_party."+name);

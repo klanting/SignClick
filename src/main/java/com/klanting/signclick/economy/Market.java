@@ -26,9 +26,6 @@ public class Market {
     public static final Double fee = 0.05;
     public static final Double flux = 1.15;
 
-    private static final ArrayList<String> names = new ArrayList<String>();
-
-
     public static ArrayList<Contract> contractCompToComp = new ArrayList<>();
 
     public static ArrayList<Contract> contractCompToPlayer = new ArrayList<>();
@@ -46,7 +43,6 @@ public class Market {
         accounts.clear();
         company.clear();
 
-        names.clear();
         contractCompToComp.clear();
         contractCompToPlayer.clear();
         contractServerToComp.clear();
@@ -125,21 +121,33 @@ public class Market {
         return company.get(Sname);
     }
 
-    public static Boolean addBusiness(String namebus, String Sname, Account acc){
-        if (names.contains(namebus)){
+    public static Boolean addBusiness(String namebus, String StockName, Account acc){
+
+        /*
+        * Check StockName already in use
+        * */
+        if (company.containsKey(StockName)){
             return false;
         }
 
-        names.add(namebus);
-        Company comp = new Company(namebus, Sname, acc);
-        company.put(Sname, comp);
+        /*
+         * Check name already in use
+         * */
+        for (Company c: company.values()){
+            if (c.getName().equals(namebus)){
+                return false;
+            }
+        }
+
+        Company comp = new Company(namebus, StockName, acc);
+        company.put(StockName, comp);
 
         comp.marketShares = 0;
 
         comp.totalShares = 1000000;
 
         comp.shareBase = 0.0;
-        changeBase(Sname);
+        changeBase(StockName);
 
         comp.checkSupport();
         comp.calculateCountry();

@@ -33,9 +33,6 @@ public class SignClick extends JavaPlugin{
     @Override
     public void onEnable() {
 
-        VersionDetection vd = VersionDetection.getInstance();
-
-
         plugin = this;
 
         if (!setupEconomy() ) {
