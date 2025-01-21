@@ -10,14 +10,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b3aa4a96-499c-4e97-84b9-6312c5389c7a" name="Changes" comment="test: Increase Code Coverage">
+    <list default="true" id="b3aa4a96-499c-4e97-84b9-6312c5389c7a" name="Changes" comment="refactor: made Auction.java a singleton">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CompanyAuctionMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CompanyAuctionMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/SignClick.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/SignClick.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/calculate/WeeklyAuction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/calculate/WeeklyAuction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/BasicCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/BasicCommands.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/companyPatent/Auction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/companyPatent/Auction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/events/MenuEvents.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/events/MenuEvents.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/companyPatent/PatentUpgrade.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/companyPatent/PatentUpgrade.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/storage/GsonTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/storage/GsonTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -182,6 +179,7 @@
     "Gradle.CountryTests.getTopCountries.executor": "Run",
     "Gradle.Download Sources.executor": "Run",
     "Gradle.GsonTests.saveLoadAccount.executor": "Run",
+    "Gradle.GsonTests.saveLoadAuction.executor": "Run",
     "Gradle.GsonTests.saveLoadCompanies.executor": "Run",
     "Gradle.GsonTests.saveLoadCompany.executor": "Run",
     "Gradle.GsonTests.saveLoadCountries.executor": "Run",
@@ -311,30 +309,6 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="CountryMenuTests.countryChangePolicy" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value=":test" />
-            <option value="--tests" />
-            <option value="&quot;com.country.CountryMenuTests.countryChangePolicy&quot;" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>true</RunAsTest>
-      <method v="2" />
-    </configuration>
     <configuration name="CountryTests.countrySaveLoadAdvanced" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -349,6 +323,30 @@
             <option value=":test" />
             <option value="--tests" />
             <option value="&quot;com.country.CountryTests.countrySaveLoadAdvanced&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="GsonTests.saveLoadAuction" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;com.storage.GsonTests.saveLoadAuction&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -387,16 +385,16 @@
       <item itemvalue="Gradle.CountryCTests.countryBaltop" />
       <item itemvalue="Gradle.CountryCTests.countryElection" />
       <item itemvalue="Gradle.CountryCTests.countryHandleLawEnforcement" />
-      <item itemvalue="Gradle.CountryMenuTests.countryChangePolicy" />
       <item itemvalue="Gradle.CountryTests.countrySaveLoadAdvanced" />
+      <item itemvalue="Gradle.GsonTests.saveLoadAuction" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.GsonTests.saveLoadAuction" />
         <item itemvalue="Gradle.CountryTests.countrySaveLoadAdvanced" />
         <item itemvalue="Gradle.CountryCTests.countryElection" />
         <item itemvalue="Gradle.CountryCTests.countryHandleLawEnforcement" />
         <item itemvalue="Gradle.CountryCTests.countryBaltop" />
-        <item itemvalue="Gradle.CountryMenuTests.countryChangePolicy" />
       </list>
     </recent_temporary>
   </component>
@@ -488,15 +486,7 @@
       <workItem from="1737058615087" duration="2962000" />
       <workItem from="1737064067109" duration="4030000" />
       <workItem from="1737124099143" duration="78000" />
-      <workItem from="1737457633987" duration="10923000" />
-    </task>
-    <task id="LOCAL-00028" summary="improved company save and restore">
-      <option name="closed" value="true" />
-      <created>1729890007055</created>
-      <option name="number" value="00028" />
-      <option name="presentableId" value="LOCAL-00028" />
-      <option name="project" value="LOCAL" />
-      <updated>1729890007055</updated>
+      <workItem from="1737457633987" duration="11935000" />
     </task>
     <task id="LOCAL-00029" summary="part cleanup company commands code">
       <option name="closed" value="true" />
@@ -882,7 +872,15 @@
       <option name="project" value="LOCAL" />
       <updated>1737468877326</updated>
     </task>
-    <option name="localTasksCounter" value="77" />
+    <task id="LOCAL-00077" summary="refactor: made Auction.java a singleton">
+      <option name="closed" value="true" />
+      <created>1737470042987</created>
+      <option name="number" value="00077" />
+      <option name="presentableId" value="LOCAL-00077" />
+      <option name="project" value="LOCAL" />
+      <updated>1737470042987</updated>
+    </task>
+    <option name="localTasksCounter" value="78" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -904,7 +902,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="See if this helps me read the message forgot change" />
     <MESSAGE value="Check if this fixes anything" />
     <MESSAGE value="I believe I found the issue opentest4j has errors with line seperation" />
     <MESSAGE value="see if locale setting fix the issue, because it appears to be a decimal format issue" />
@@ -929,7 +926,8 @@
     <MESSAGE value="Move Serializers away from Utils.java file" />
     <MESSAGE value="use SelectionMenu to reduce duplicated logic" />
     <MESSAGE value="test: Increase Code Coverage" />
-    <option name="LAST_COMMIT_MESSAGE" value="test: Increase Code Coverage" />
+    <MESSAGE value="refactor: made Auction.java a singleton" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactor: made Auction.java a singleton" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -965,7 +963,7 @@
     <SUITE FILE_PATH="coverage/SignClick$CompanyTests_companyGetCompanies.ic" NAME="CompanyTests.companyGetCompanies Coverage Results" MODIFIED="1732313388635" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/SignClick$CompanyCTests_companyTabCompleteStaff.ic" NAME="CompanyCTests.companyTabCompleteStaff Coverage Results" MODIFIED="1737064478618" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/SignClick$CompanyCTests_companyGive.ic" NAME="CompanyCTests.companyGive Coverage Results" MODIFIED="1726042791871" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/SignClick$TestAll.ic" NAME="TestAll Coverage Results" MODIFIED="1737469970595" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/SignClick$TestAll.ic" NAME="TestAll Coverage Results" MODIFIED="1737470996815" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/SignClick$CountryTests_countrySaveLoadAdvanced.ic" NAME="CountryTests.countrySaveLoadAdvanced Coverage Results" MODIFIED="1726940586011" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/SignClick$CompanyTests_companySaveLoad.ic" NAME="CompanyTests.companySaveLoad Coverage Results" MODIFIED="1727021115277" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>

@@ -2,6 +2,7 @@ package com.klanting.signclick.economy.companyPatent;
 
 import com.klanting.signclick.calculate.WeeklyAuction;
 import com.klanting.signclick.SignClick;
+import com.klanting.signclick.utils.Utils;
 import org.bukkit.Material;
 
 import java.util.*;
@@ -16,6 +17,10 @@ public class Auction {
         }
 
         return instance;
+    }
+
+    public static void clear(){
+        instance = null;
     }
 
     public ArrayList<PatentUpgrade> toBuy = new ArrayList<>();

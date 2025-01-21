@@ -7,6 +7,8 @@ import com.klanting.signclick.economy.Account;
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.economy.Company;
 import com.klanting.signclick.economy.Country;
+import com.klanting.signclick.economy.companyPatent.Auction;
+import com.klanting.signclick.economy.companyPatent.PatentUpgrade;
 import com.klanting.signclick.utils.Utils;
 import org.bukkit.entity.Player;
 import org.junit.jupiter.api.AfterEach;
@@ -40,6 +42,7 @@ public class GsonTests {
     @AfterEach
     public void tearDown() {
         MockBukkit.unmock();
+        Auction.clear();
     }
 
     @Test
@@ -114,6 +117,26 @@ public class GsonTests {
         assertTrue(country.isOwner(testPlayer));
         assertEquals(1, country.getMembers().size());
         assertEquals(testPlayer2.getUniqueId(), country.getMembers().get(0));
+
+    }
+
+    @Test
+    void saveLoadAuction(){
+        Auction auction = Auction.getInstance();
+        auction.init();
+
+        auction.setBit(0, 100, "A");
+
+        assertEquals(100, auction.getBit(0));
+        PatentUpgrade up = auction.toBuy.get(0);
+
+        Utils.writeSave("auction", auction);
+
+        auction = Utils.readSave("auction", new TypeToken<Auction>(){}.getType(), new Auction());
+
+        assertEquals(100, auction.getBit(0));
+
+        assertEquals(up, auction.toBuy.get(0));
 
     }
 }

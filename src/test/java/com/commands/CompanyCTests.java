@@ -684,7 +684,7 @@ class CompanyCTests {
         assertEquals(2, Market.contractPlayerToComp.get(0).getWeeks());
         assertEquals("I am cold", Market.contractPlayerToComp.get(0).getReason());
 
-        server.getScheduler().performTicks(60*60*24*7*20+1);
+        server.getScheduler().performTicks(60*60*24*7*20L+2);
 
         /*
          * Check valid transaction, with 1 week less
