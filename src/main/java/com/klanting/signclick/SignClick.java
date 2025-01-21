@@ -60,7 +60,7 @@ public class SignClick extends JavaPlugin{
         WeeklyPay.check();
         WeeklyComp.check();
 
-        Auction.getInstance().Restore();
+        Auction.Restore();
         Auction.getInstance().check();
 
         getServer().getPluginManager().registerEvents(new SignEvents(), this);
@@ -92,7 +92,7 @@ public class SignClick extends JavaPlugin{
         WeeklyPay.save();
         CountryManager.saveData();
         Market.SaveData();
-        Auction.getInstance().Save();
+        Auction.Save();
         WeeklyComp.Save();
 
         getServer().getConsoleSender().sendMessage(ChatColor.RED + "SignClick is disabled!");

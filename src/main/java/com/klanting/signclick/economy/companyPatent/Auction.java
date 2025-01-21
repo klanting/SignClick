@@ -1,8 +1,14 @@
 package com.klanting.signclick.economy.companyPatent;
 
+import com.google.common.reflect.TypeToken;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonSerializationContext;
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.economy.Company;
 import com.klanting.signclick.economy.Market;
+import com.klanting.signclick.economy.contracts.ContractSTC;
+import com.klanting.signclick.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 
@@ -24,10 +30,10 @@ public class Auction {
         instance = null;
     }
 
-    public ArrayList<PatentUpgrade> toBuy = new ArrayList<>();
+    public final ArrayList<PatentUpgrade> toBuy;
 
-    private final Map<Integer, Integer> bits = new HashMap<>();
-    public Map<Integer, String> bitsOwner = new HashMap<>();
+    private final Map<Integer, Integer> bits;
+    public final Map<Integer, String> bitsOwner;
 
     public int getBit(int index){
         return bits.getOrDefault(index, 0);
@@ -39,7 +45,33 @@ public class Auction {
     }
 
     public Auction(){
+        /*
+        * Only allow this outside the getInstance for test purposes
+        * */
+        bits = new HashMap<>();
+        toBuy = new ArrayList<>();
+        bitsOwner = new HashMap<>();
+
         init();
+    }
+
+    public Auction(JsonObject jsonObject, JsonDeserializationContext context){
+        toBuy = context.deserialize(jsonObject.get("toBuy"), new TypeToken<ArrayList<PatentUpgrade>>(){}.getType());
+        bits = context.deserialize(jsonObject.get("bits"), new TypeToken<Map<Integer, Integer>>(){}.getType());
+        bitsOwner = context.deserialize(jsonObject.get("bitsOwner"), new TypeToken<Map<Integer, String>>(){}.getType());
+
+        start_time = jsonObject.get("waitTime").getAsLong();
+    }
+
+    public JsonObject toJson(JsonSerializationContext context){
+        JsonObject jsonObject = new JsonObject();
+
+        jsonObject.add("toBuy", context.serialize(toBuy));
+        jsonObject.add("bits", context.serialize(bits));
+        jsonObject.add("bitsOwner", context.serialize(bitsOwner));
+        jsonObject.add("waitTime", context.serialize(time_end-(System.currentTimeMillis()/1000)));
+
+        return jsonObject;
     }
 
 
@@ -81,82 +113,12 @@ public class Auction {
         }
     }
 
-    public void Save(){
-
-        for (int i = 0; i< toBuy.size(); i++){
-            PatentUpgrade up = toBuy.get(i);
-            up.saveAuction(i);
-        }
-
-        String path = "Auction.bit.";
-        String path2 = "Auction.bit_owner.";
-        for (int i = 0; i< toBuy.size(); i++){
-            PatentUpgrade up = toBuy.get(i);
-            up.saveAuction(i);
-            SignClick.getPlugin().getConfig().set(path+i, bits.get(i));
-            String name = bitsOwner.get(i);
-            if (name == null){
-                name = "null";
-            }
-            SignClick.getPlugin().getConfig().set(path2+i, name);
-        }
-
-        //do later
-        SignClick.getPlugin().getConfig().set("Auction.to_wait", time_end-(System.currentTimeMillis()/1000));
+    public static void Save(){
+        Utils.writeSave("auction", instance);
     }
 
-    public void Restore(){
-
-        if (SignClick.getPlugin().getConfig().contains("Auction.to_wait")){
-            int v = (int) SignClick.getPlugin().getConfig().get("Auction.to_wait");
-            start_time = v;
-        }
-
-        String path = "Auction.patent_up";
-        if (SignClick.getPlugin().getConfig().contains(path)){
-            Integer counter = 0;
-            while(SignClick.getPlugin().getConfig().contains(path+"."+counter)){
-                int id = (Integer) SignClick.getPlugin().getConfig().get(path+"."+counter+".id");
-                int level = (Integer) SignClick.getPlugin().getConfig().get(path+"."+counter+".level");
-                String name = (String) SignClick.getPlugin().getConfig().get(path+"."+counter+".name");
-
-                PatentUpgrade up = null;
-                if (id == 4){
-                    Material texture_item = Material.valueOf((String) SignClick.getPlugin().getConfig().get(path+"."+counter+".applied_item"));
-                    up = new PatentUpgradeCustom(name,texture_item);
-                }else if (id == 0){
-                    up = new PatentUpgradeJumper();
-                }else if (id == 1){
-                    up = new PatentUpgradeEvade();
-                }else if (id == 2){
-                    up = new PatentUpgradeRefill();
-                }else if (id == 3){
-                    up = new PatentUpgradeCunning();
-                }
-                up.level = level;
-                toBuy.add(up);
-
-                counter++;
-            }
-        }
-
-        if (SignClick.getPlugin().getConfig().contains("Auction.bit") && SignClick.getPlugin().getConfig().get("Auction.bit") != null) {
-            SignClick.getPlugin().getConfig().getConfigurationSection("Auction.bit").getKeys(false).forEach(index -> {
-                int bet = (int) SignClick.getPlugin().getConfig().get("Auction.bit."+index);
-                bits.put(Integer.valueOf(index), bet);
-            });
-        }
-
-        if (SignClick.getPlugin().getConfig().contains("Auction.bit_owner") && SignClick.getPlugin().getConfig().get("Auction.bit_owner") != null) {
-            SignClick.getPlugin().getConfig().getConfigurationSection("Auction.bit_owner").getKeys(false).forEach(index -> {
-                String bet_owner = (String) SignClick.getPlugin().getConfig().get("Auction.bit_owner."+index);
-                if (Objects.equals(bet_owner, "null")){
-                    bet_owner = null;
-                }
-                bitsOwner.put(Integer.valueOf(index), bet_owner);
-            });
-        }
-
+    public static void Restore(){
+        instance = Utils.readSave("auction", new TypeToken<Auction>(){}.getType(), new Auction());
     }
 
     public long start_time = 0;

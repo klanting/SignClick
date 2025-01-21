@@ -15,7 +15,6 @@ public class JsonTools {
         JsonObject jsonObject = new JsonObject();
 
         for (String fieldName : fieldMap.keySet()) {
-            getServer().getConsoleSender().sendMessage(ChatColor.YELLOW +fieldName);
             Object fieldValue = fieldMap.get(fieldName);
 
             if (softLink.containsKey(fieldName)){

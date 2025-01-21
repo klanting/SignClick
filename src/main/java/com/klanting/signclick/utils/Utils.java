@@ -4,12 +4,9 @@ import com.google.gson.*;
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.economy.Company;
 import com.klanting.signclick.economy.Country;
+import com.klanting.signclick.economy.companyPatent.Auction;
 import com.klanting.signclick.economy.parties.Election;
-import com.klanting.signclick.utils.Serializers.CompanySerializer;
-import com.klanting.signclick.utils.Serializers.ElectionSerializer;
-import com.klanting.signclick.utils.Serializers.LocationSerializer;
-import com.klanting.signclick.utils.Serializers.UUIDDeserializer;
-import com.klanting.signclick.utils.Serializers.CountrySerializer;
+import com.klanting.signclick.utils.Serializers.*;
 import org.bukkit.Location;
 import org.bukkit.block.Sign;
 import org.bukkit.event.block.SignChangeEvent;
@@ -45,6 +42,7 @@ public class Utils {
         builder.registerTypeAdapter(Country.class, new CountrySerializer());
         builder.registerTypeAdapter(Location.class, new LocationSerializer());
         builder.registerTypeAdapter(Election.class, new ElectionSerializer());
+        builder.registerTypeAdapter(Auction.class, new AuctionSerializer());
         Gson gson = builder.create();
 
         File file = new File(SignClick.getPlugin().getDataFolder()+"/"+name+".json");
@@ -75,6 +73,7 @@ public class Utils {
         builder.registerTypeAdapter(Location.class, new LocationSerializer());
         builder.registerTypeAdapter(UUID.class, new UUIDDeserializer());
         builder.registerTypeAdapter(Election.class, new ElectionSerializer());
+        builder.registerTypeAdapter(Auction.class, new AuctionSerializer());
         Gson gson = builder.create();
 
         File file = new File(SignClick.getPlugin().getDataFolder()+"/"+name+".json");
