@@ -10,18 +10,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b3aa4a96-499c-4e97-84b9-6312c5389c7a" name="Changes" comment="use SelectionMenu to reduce duplicated logic">
+    <list default="true" id="b3aa4a96-499c-4e97-84b9-6312c5389c7a" name="Changes" comment="test: Increase Code Coverage">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CompanyAuctionMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CompanyAuctionMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/CountryCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/CountryCommands.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/decisions/Decision.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/decisions/Decision.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/decisions/DecisionAboardMilitary.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/decisions/DecisionAboardMilitary.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/decisions/DecisionBanParty.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/decisions/DecisionBanParty.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/decisions/DecisionCoup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/decisions/DecisionCoup.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/decisions/DecisionForbidParty.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/decisions/DecisionForbidParty.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/decisions/DecisionPolicy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/decisions/DecisionPolicy.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/commands/CountryCTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/commands/CountryCTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/country/CountryMenuTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/country/CountryMenuTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/SignClick.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/SignClick.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/calculate/WeeklyAuction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/calculate/WeeklyAuction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/BasicCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/BasicCommands.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/companyPatent/Auction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/companyPatent/Auction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/events/MenuEvents.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/events/MenuEvents.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -492,15 +488,7 @@
       <workItem from="1737058615087" duration="2962000" />
       <workItem from="1737064067109" duration="4030000" />
       <workItem from="1737124099143" duration="78000" />
-      <workItem from="1737457633987" duration="9713000" />
-    </task>
-    <task id="LOCAL-00027" summary="Improved the company to json">
-      <option name="closed" value="true" />
-      <created>1729874218250</created>
-      <option name="number" value="00027" />
-      <option name="presentableId" value="LOCAL-00027" />
-      <option name="project" value="LOCAL" />
-      <updated>1729874218250</updated>
+      <workItem from="1737457633987" duration="10923000" />
     </task>
     <task id="LOCAL-00028" summary="improved company save and restore">
       <option name="closed" value="true" />
@@ -886,7 +874,15 @@
       <option name="project" value="LOCAL" />
       <updated>1737466052226</updated>
     </task>
-    <option name="localTasksCounter" value="76" />
+    <task id="LOCAL-00076" summary="test: Increase Code Coverage">
+      <option name="closed" value="true" />
+      <created>1737468877326</created>
+      <option name="number" value="00076" />
+      <option name="presentableId" value="LOCAL-00076" />
+      <option name="project" value="LOCAL" />
+      <updated>1737468877326</updated>
+    </task>
+    <option name="localTasksCounter" value="77" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -908,7 +904,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="See if this helps me read the message" />
     <MESSAGE value="See if this helps me read the message forgot change" />
     <MESSAGE value="Check if this fixes anything" />
     <MESSAGE value="I believe I found the issue opentest4j has errors with line seperation" />
@@ -933,7 +928,8 @@
     <MESSAGE value="Cleanup toJson Method" />
     <MESSAGE value="Move Serializers away from Utils.java file" />
     <MESSAGE value="use SelectionMenu to reduce duplicated logic" />
-    <option name="LAST_COMMIT_MESSAGE" value="use SelectionMenu to reduce duplicated logic" />
+    <MESSAGE value="test: Increase Code Coverage" />
+    <option name="LAST_COMMIT_MESSAGE" value="test: Increase Code Coverage" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -969,7 +965,7 @@
     <SUITE FILE_PATH="coverage/SignClick$CompanyTests_companyGetCompanies.ic" NAME="CompanyTests.companyGetCompanies Coverage Results" MODIFIED="1732313388635" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/SignClick$CompanyCTests_companyTabCompleteStaff.ic" NAME="CompanyCTests.companyTabCompleteStaff Coverage Results" MODIFIED="1737064478618" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/SignClick$CompanyCTests_companyGive.ic" NAME="CompanyCTests.companyGive Coverage Results" MODIFIED="1726042791871" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/SignClick$TestAll.ic" NAME="TestAll Coverage Results" MODIFIED="1737468690463" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/SignClick$TestAll.ic" NAME="TestAll Coverage Results" MODIFIED="1737469970595" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/SignClick$CountryTests_countrySaveLoadAdvanced.ic" NAME="CountryTests.countrySaveLoadAdvanced Coverage Results" MODIFIED="1726940586011" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/SignClick$CompanyTests_companySaveLoad.ic" NAME="CompanyTests.companySaveLoad Coverage Results" MODIFIED="1727021115277" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>

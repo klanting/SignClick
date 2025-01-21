@@ -7,18 +7,33 @@ import org.bukkit.Material;
 import java.util.*;
 
 public class Auction {
-    public static ArrayList<PatentUpgrade> toBuy = new ArrayList<>();
 
-    private static final Map<Integer, Integer> bits = new HashMap<Integer, Integer>();
-    public static Map<Integer, String> bitsOwner = new HashMap<Integer, String>();
+    private static Auction instance = null;
 
-    public static int getBit(int index){
+    public static Auction getInstance(){
+        if (instance == null){
+            instance = new Auction();
+        }
+
+        return instance;
+    }
+
+    public ArrayList<PatentUpgrade> toBuy = new ArrayList<>();
+
+    private final Map<Integer, Integer> bits = new HashMap<>();
+    public Map<Integer, String> bitsOwner = new HashMap<>();
+
+    public int getBit(int index){
         return bits.getOrDefault(index, 0);
     }
 
-    public static void setBit(int index, int value, String comp_name){
+    public void setBit(int index, int value, String comp_name){
         bits.put(index, value);
         bitsOwner.put(index, comp_name);
+    }
+
+    public Auction(){
+
     }
 
 
@@ -48,7 +63,7 @@ public class Auction {
         return up;
     }
 
-    public static void init(){
+    public void init(){
         toBuy.clear();
         for(int i=0; i<5; i++){
             PatentUpgrade p = getRandom();
@@ -60,7 +75,7 @@ public class Auction {
         }
     }
 
-    public static void Save(){
+    public void Save(){
 
         for (int i = 0; i< toBuy.size(); i++){
             PatentUpgrade up = toBuy.get(i);
@@ -84,7 +99,7 @@ public class Auction {
         SignClick.getPlugin().getConfig().set("Auction.to_wait", WeeklyAuction.time_end-(System.currentTimeMillis()/1000));
     }
 
-    public static void Restore(){
+    public void Restore(){
 
         if (SignClick.getPlugin().getConfig().contains("Auction.to_wait")){
             int v = (int) SignClick.getPlugin().getConfig().get("Auction.to_wait");
@@ -103,23 +118,23 @@ public class Auction {
                     Material texture_item = Material.valueOf((String) SignClick.getPlugin().getConfig().get(path+"."+counter+".applied_item"));
                     PatentUpgrade up = new PatentUpgradeCustom(name,texture_item);
                     up.level = level;
-                    Auction.toBuy.add(up);
+                    toBuy.add(up);
                 }else if (id == 0){
                     PatentUpgrade up = new PatentUpgradeJumper();
                     up.level = level;
-                    Auction.toBuy.add(up);
+                    toBuy.add(up);
                 }else if (id == 1){
                     PatentUpgrade up = new PatentUpgradeEvade();
                     up.level = level;
-                    Auction.toBuy.add(up);
+                    toBuy.add(up);
                 }else if (id == 2){
                     PatentUpgrade up = new PatentUpgradeRefill();
                     up.level = level;
-                    Auction.toBuy.add(up);
+                    toBuy.add(up);
                 }else if (id == 3){
                     PatentUpgrade up = new PatentUpgradeCunning();
                     up.level = level;
-                    Auction.toBuy.add(up);
+                    toBuy.add(up);
                 }
 
                 counter++;

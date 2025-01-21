@@ -15,15 +15,15 @@ public class WeeklyAuction {
 
             public void run() {
                 for (int i=0; i<5; i++){
-                    if (Auction.bitsOwner.get(i) == null){
+                    if (Auction.getInstance().bitsOwner.get(i) == null){
                         continue;
                     }
 
-                    Company comp = Market.getBusiness(Auction.bitsOwner.get(i));
-                    comp.patentUpgrades.add(Auction.toBuy.get(i));
+                    Company comp = Market.getBusiness(Auction.getInstance().bitsOwner.get(i));
+                    comp.patentUpgrades.add(Auction.getInstance().toBuy.get(i));
                 }
 
-                Auction.init();
+                Auction.getInstance().init();
                 time_end = System.currentTimeMillis()/(60*60*24*7*20);
 
             }

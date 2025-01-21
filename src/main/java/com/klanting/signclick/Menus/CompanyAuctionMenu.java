@@ -22,14 +22,14 @@ public class CompanyAuctionMenu extends SelectionMenu {
     }
 
     public void init(){
-        for (int i = 0; i<Auction.toBuy.size(); i++){
-            PatentUpgrade up = Auction.toBuy.get(i);
+        for (int i = 0; i<Auction.getInstance().toBuy.size(); i++){
+            PatentUpgrade up = Auction.getInstance().toBuy.get(i);
             ItemStack upgradeItem = new ItemStack(up.material, 1);
             ItemMeta m = upgradeItem.getItemMeta();
             List<String> lores = new ArrayList<>();
             DecimalFormat df = new DecimalFormat("###,###,###");
-            lores.add("§7Current Bet: "+df.format(Auction.getBit(i)));
-            String comp = Auction.bitsOwner.get(i);
+            lores.add("§7Current Bet: "+df.format(Auction.getInstance().getBit(i)));
+            String comp = Auction.getInstance().bitsOwner.get(i);
             if (comp == null){
                 comp = "None";
             }

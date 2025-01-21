@@ -155,11 +155,11 @@ public class MenuEvents implements Listener {
             int location = event.getSlot();
 
             int add_price = 100000;
-            if (Auction.bitsOwner.get(location) == null){
+            if (Auction.getInstance().bitsOwner.get(location) == null){
                 add_price = 0;
             }
 
-            Auction.setBit(location, Auction.getBit(location)+add_price, old_screen.comp.getStockName());
+            Auction.getInstance().setBit(location, Auction.getInstance().getBit(location)+add_price, old_screen.comp.getStockName());
             //old_screen.comp.patent_upgrades.add(Auction.to_buy.get(location));
             old_screen.init();
         }
