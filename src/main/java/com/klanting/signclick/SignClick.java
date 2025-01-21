@@ -59,8 +59,9 @@ public class SignClick extends JavaPlugin{
         DynmapCheck.Hide();
         WeeklyPay.check();
         WeeklyComp.check();
-        WeeklyAuction.check();
+
         Auction.getInstance().Restore();
+        Auction.getInstance().check();
 
         getServer().getPluginManager().registerEvents(new SignEvents(), this);
         getServer().getPluginManager().registerEvents(new DynmapEvents(), this);

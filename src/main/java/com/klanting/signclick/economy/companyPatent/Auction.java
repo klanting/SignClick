@@ -1,8 +1,9 @@
 package com.klanting.signclick.economy.companyPatent;
 
-import com.klanting.signclick.calculate.WeeklyAuction;
 import com.klanting.signclick.SignClick;
-import com.klanting.signclick.utils.Utils;
+import com.klanting.signclick.economy.Company;
+import com.klanting.signclick.economy.Market;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 
 import java.util.*;
@@ -38,7 +39,7 @@ public class Auction {
     }
 
     public Auction(){
-
+        init();
     }
 
 
@@ -68,7 +69,7 @@ public class Auction {
         return up;
     }
 
-    public void init(){
+    private void init(){
         toBuy.clear();
         for(int i=0; i<5; i++){
             PatentUpgrade p = getRandom();
@@ -101,14 +102,14 @@ public class Auction {
         }
 
         //do later
-        SignClick.getPlugin().getConfig().set("Auction.to_wait", WeeklyAuction.time_end-(System.currentTimeMillis()/1000));
+        SignClick.getPlugin().getConfig().set("Auction.to_wait", time_end-(System.currentTimeMillis()/1000));
     }
 
     public void Restore(){
 
         if (SignClick.getPlugin().getConfig().contains("Auction.to_wait")){
             int v = (int) SignClick.getPlugin().getConfig().get("Auction.to_wait");
-            WeeklyAuction.start_time = v;
+            start_time = v;
         }
 
         String path = "Auction.patent_up";
@@ -119,28 +120,21 @@ public class Auction {
                 int level = (Integer) SignClick.getPlugin().getConfig().get(path+"."+counter+".level");
                 String name = (String) SignClick.getPlugin().getConfig().get(path+"."+counter+".name");
 
+                PatentUpgrade up = null;
                 if (id == 4){
                     Material texture_item = Material.valueOf((String) SignClick.getPlugin().getConfig().get(path+"."+counter+".applied_item"));
-                    PatentUpgrade up = new PatentUpgradeCustom(name,texture_item);
-                    up.level = level;
-                    toBuy.add(up);
+                    up = new PatentUpgradeCustom(name,texture_item);
                 }else if (id == 0){
-                    PatentUpgrade up = new PatentUpgradeJumper();
-                    up.level = level;
-                    toBuy.add(up);
+                    up = new PatentUpgradeJumper();
                 }else if (id == 1){
-                    PatentUpgrade up = new PatentUpgradeEvade();
-                    up.level = level;
-                    toBuy.add(up);
+                    up = new PatentUpgradeEvade();
                 }else if (id == 2){
-                    PatentUpgrade up = new PatentUpgradeRefill();
-                    up.level = level;
-                    toBuy.add(up);
+                    up = new PatentUpgradeRefill();
                 }else if (id == 3){
-                    PatentUpgrade up = new PatentUpgradeCunning();
-                    up.level = level;
-                    toBuy.add(up);
+                    up = new PatentUpgradeCunning();
                 }
+                up.level = level;
+                toBuy.add(up);
 
                 counter++;
             }
@@ -163,6 +157,29 @@ public class Auction {
             });
         }
 
+    }
+
+    public long start_time = 0;
+    public long time_end;
+    public void check(){
+        time_end = start_time+(System.currentTimeMillis()/1000)+(60*60*24*7);
+        Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(SignClick.getPlugin(), new Runnable() {
+
+            public void run() {
+                for (int i=0; i<5; i++){
+                    if (bitsOwner.get(i) == null){
+                        continue;
+                    }
+
+                    Company comp = Market.getBusiness(bitsOwner.get(i));
+                    comp.patentUpgrades.add(toBuy.get(i));
+                }
+
+                init();
+                time_end = (System.currentTimeMillis()/1000)+(60*60*24*7);
+
+            }
+        },start_time,60*60*24*7*20);
 
     }
 }

@@ -123,7 +123,6 @@ public class GsonTests {
     @Test
     void saveLoadAuction(){
         Auction auction = Auction.getInstance();
-        auction.init();
 
         auction.setBit(0, 100, "A");
 
