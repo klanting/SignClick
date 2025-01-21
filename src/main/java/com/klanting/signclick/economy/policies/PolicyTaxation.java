@@ -6,7 +6,7 @@ import java.util.Arrays;
 
 public class PolicyTaxation extends Policy{
     public PolicyTaxation(Integer level) {
-        super(4, level);
+        super(4, level, "Taxation Policy");
         material = Material.GOLD_BLOCK;
 
         bonus.add(Arrays.asList(-5000.0, -2000.0, 0.0, 2000.0, 5000.0)); //b0
@@ -22,7 +22,7 @@ public class PolicyTaxation extends Policy{
         require.add(Arrays.asList(0, 0, 0, 5000000, 10000000));
         require.add(Arrays.asList(10, 10, 0, 5, 5));
 
-        titles = Arrays.asList("Bankcruptcy", "High Taxer", "Normal", "Supporter", "The Hero");
+        titles = Arrays.asList("Bankruptcy", "High Taxer", "Normal", "Supporter", "The Hero");
 
         description.add(Arrays.asList("§75k/week tax (bank)", "§72k/week tax (bank)", "", "§72k/week income (bank)", "§75k/week income (bank)"));
         description.add(Arrays.asList("§75k/week tax (transport)", "§72k/week tax (transport)", "", "§72k/week income (transport)", "§75k/week income (transport)"));

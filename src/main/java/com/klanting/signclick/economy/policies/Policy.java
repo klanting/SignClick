@@ -25,6 +25,12 @@ public class Policy {
     private Integer id;
     private Integer level;
 
+    public String getName() {
+        return name;
+    }
+
+    final private String name;
+
     public Double getBonus(Integer index){
         return bonus.get(index).get(level);
     }
@@ -38,7 +44,8 @@ public class Policy {
     }
 
 
-    Policy(Integer id, Integer level){
+    Policy(Integer id, Integer level, String name){
+        this.name = name;
         this.id = id;
         this.level = level;
     }

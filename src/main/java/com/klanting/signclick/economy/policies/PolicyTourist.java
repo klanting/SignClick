@@ -6,7 +6,7 @@ import java.util.Arrays;
 
 public class PolicyTourist extends Policy{
     public PolicyTourist(Integer level) {
-        super(3, level);
+        super(3, level, "Tourism Policy");
 
         material = Material.OAK_BOAT;
 

@@ -12,8 +12,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 
-public class CompanyPatentDesignerUpgrade implements InventoryHolder {
-    private Inventory menu;
+public class CompanyPatentDesignerUpgrade extends SelectionMenu {
 
     public Company comp;
 
@@ -22,7 +21,7 @@ public class CompanyPatentDesignerUpgrade implements InventoryHolder {
     public ArrayList<PatentUpgrade> pat_list = new ArrayList<>();
 
     public CompanyPatentDesignerUpgrade(Patent patent, Company comp){
-        menu = Bukkit.createInventory(this, 54, "Patent Designer Upgrade");
+        super(54, "Patent Designer Upgrade");
         this.comp = comp;
         this.patent = patent;
         init();
@@ -48,14 +47,9 @@ public class CompanyPatentDesignerUpgrade implements InventoryHolder {
                 ItemMeta m = item.getItemMeta();
                 m.setDisplayName(patent_up.name+" "+patent_up.level);
                 item.setItemMeta(m);
-                menu.setItem(counter, item);
+                getInventory().setItem(counter, item);
                 counter++;
             }
         }
-    }
-
-    @Override
-    public Inventory getInventory() {
-        return menu;
     }
 }

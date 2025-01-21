@@ -8,8 +8,7 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-public class CompanyPatentIDMenu implements InventoryHolder {
-    private Inventory menu;
+public class CompanyPatentIDMenu extends SelectionMenu {
 
     public Company comp;
 
@@ -17,13 +16,13 @@ public class CompanyPatentIDMenu implements InventoryHolder {
 
 
     public CompanyPatentIDMenu(Company comp, Boolean designer){
-        menu = Bukkit.createInventory(this, 27, "Company Patent Selector");
+        super(27, "Company Patent Selector");
         this.comp = comp;
         this.designer = designer;
         init();
     }
 
-    private void init(){
+    public void init(){
         int size = comp.upgrades.get(1).getBonus();
         for (int i=0; i<size; i++){
 
@@ -43,12 +42,8 @@ public class CompanyPatentIDMenu implements InventoryHolder {
 
             }
 
-            menu.setItem(menu.firstEmpty(), parent);
+            getInventory().setItem(getInventory().firstEmpty(), parent);
 
         }
-    }
-    @Override
-    public Inventory getInventory() {
-        return menu;
     }
 }

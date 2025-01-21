@@ -14,20 +14,26 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class CountryPolicy implements InventoryHolder {
-    private Inventory menu;
+public class CountryPolicy extends SelectionMenu {
+
+    private final UUID uuid;
 
     public CountryPolicy(UUID uuid){
-        menu = Bukkit.createInventory(this, 54, "Country Policy");
-        init(uuid);
+        super(54, "Country Policy");
+        this.uuid = uuid;
+        init();
     }
 
-    public void init(UUID uuid){
+    public void init(){
         int start_index = 11;
         Country country = CountryManager.getCountry(uuid);
         for (Policy p: country.getPolicies()){
+            ItemStack item = new ItemStack(p.getMaterial());
+            ItemMeta meta = item.getItemMeta();
+            meta.setDisplayName("§6"+p.getName());
+            item.setItemMeta(meta);
 
-            menu.setItem(start_index-1, new ItemStack(p.getMaterial()));
+            getInventory().setItem(start_index-1, item);
             for (int i=0; i<5; i++){
 
                 ItemStack color;
@@ -39,9 +45,16 @@ public class CountryPolicy implements InventoryHolder {
 
                 ItemMeta m = color.getItemMeta();
 
+                int visual_pct = 51;
+                if (i == 0 || i == 4){
+                    visual_pct = 70;
+                }
+
                 m.setDisplayName("§6"+p.getTitle(i));
 
                 List<String> lore_list = new ArrayList<>();
+                lore_list.add("§9"+visual_pct+"% Approval needed");
+
                 for (List<String> s: p.getDescription()){
                     String d = s.get(i);
                     if (d != ""){
@@ -52,7 +65,7 @@ public class CountryPolicy implements InventoryHolder {
                 m.setLore(lore_list);
                 color.setItemMeta(m);
 
-                menu.setItem(start_index+i, color);
+                getInventory().setItem(start_index+i, color);
 
             }
 
@@ -62,8 +75,4 @@ public class CountryPolicy implements InventoryHolder {
 
     }
 
-    @Override
-    public Inventory getInventory() {
-        return menu;
-    }
 }

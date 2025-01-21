@@ -105,6 +105,9 @@ public class CompanyMenuTests {
     }
 
     void printInventory(InventoryView inv){
+        /*
+        * Menu testing debug tool
+        * */
         for (int i=0; i<inv.countSlots(); i++){
             if (inv.getItem(i) == null){
                 continue;

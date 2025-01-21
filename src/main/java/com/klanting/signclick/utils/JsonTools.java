@@ -1,22 +1,21 @@
 package com.klanting.signclick.utils;
 
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
-import com.klanting.signclick.economy.CountryManager;
+import org.bukkit.ChatColor;
 
-import java.lang.reflect.Field;
-import java.util.List;
 import java.util.Map;
 import java.util.function.BiFunction;
 
+import static org.bukkit.Bukkit.getServer;
+
 public class JsonTools {
-    public static <T> JsonObject toJson(Map<String, Object> fieldMap, Map<String, BiFunction<String, JsonObject, JsonObject>> softLink,
-                                        JsonSerializationContext context){
+    public static JsonObject toJson(Map<String, Object> fieldMap, Map<String, BiFunction<String, JsonObject, JsonObject>> softLink,
+                                    JsonSerializationContext context){
         JsonObject jsonObject = new JsonObject();
 
         for (String fieldName : fieldMap.keySet()) {
+            getServer().getConsoleSender().sendMessage(ChatColor.YELLOW +fieldName);
             Object fieldValue = fieldMap.get(fieldName);
 
             if (softLink.containsKey(fieldName)){

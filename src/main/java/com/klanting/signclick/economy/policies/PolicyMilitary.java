@@ -6,7 +6,7 @@ import java.util.Arrays;
 
 public class PolicyMilitary extends Policy{
     public PolicyMilitary(Integer level) {
-        super(2, level);
+        super(2, level, "Military Policy");
 
         material = Material.IRON_SWORD;
 

@@ -2,8 +2,10 @@ package com.klanting.signclick.utils.Serializers;
 
 import com.google.gson.*;
 import com.klanting.signclick.economy.Country;
+import com.klanting.signclick.economy.CountryManager;
 
 import java.lang.reflect.Type;
+import java.util.UUID;
 
 import static com.klanting.signclick.economy.parties.ElectionTools.setupElectionDeadline;
 
@@ -26,6 +28,13 @@ public class CountrySerializer implements JsonSerializer<Country>, JsonDeseriali
             setupElectionDeadline(country, country.getCountryElection().getToWait()*20L);
         }
 
+        for (UUID uuid: country.getOwners()){
+            CountryManager.addPlayerToCountryMap(uuid, country);
+        }
+
+        for (UUID uuid: country.getMembers()){
+            CountryManager.addPlayerToCountryMap(uuid, country);
+        }
 
         return country;
     }

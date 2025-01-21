@@ -8,6 +8,7 @@ import com.klanting.signclick.economy.Country;
 
 import com.klanting.signclick.economy.CountryManager;
 import com.klanting.signclick.SignClick;
+import com.klanting.signclick.economy.Market;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -471,6 +472,53 @@ class CountryCTests {
         testPlayer.assertNoMoreSaid();
 
         assertEquals(0.2, country.getTaxRate());
+
+    }
+
+    @Test
+    void countryInfo() {
+        /*
+         * Retrieve the country information
+         * */
+        PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
+        CountryManager.create("empire1", testPlayer);
+
+        testPlayer.nextMessage();
+
+        boolean result = server.execute("country", testPlayer, "info").hasSucceeded();
+        assertTrue(result);
+        testPlayer.assertSaid("§bBank: §7empire1\n" +
+                "§bbalance: §70\n" +
+                "§bowners: §7[Player0]\n" +
+                "§bmembers: §7[]\n" +
+                "§blaw enforcement: §7[]\n" +
+                "§btaxrate: §70.0\n" +
+                "§bstability: §770\n" +
+                "§bspawn: §7No spawn has been set use '/country setspawn' to set a country spawn location\n" +
+                "§bparties: §7[Government]");
+        testPlayer.assertNoMoreSaid();
+
+        /*
+         * Restart Server, check persistence
+         * */
+        plugin.onDisable();
+        CountryManager.clear();
+        Market.clear();
+        plugin = TestTools.setupPlugin(server);
+
+        result = server.execute("country", testPlayer, "info").hasSucceeded();
+        assertTrue(result);
+
+        testPlayer.assertSaid("§bBank: §7empire1\n" +
+                "§bbalance: §70\n" +
+                "§bowners: §7[Player0]\n" +
+                "§bmembers: §7[]\n" +
+                "§blaw enforcement: §7[]\n" +
+                "§btaxrate: §70.0\n" +
+                "§bstability: §770\n" +
+                "§bspawn: §7No spawn has been set use '/country setspawn' to set a country spawn location\n"+
+                "§bparties: §7[Government]");
+        testPlayer.assertNoMoreSaid();
 
     }
 

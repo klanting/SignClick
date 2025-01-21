@@ -10,9 +10,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 
-public class CompanyPatentCrafting implements InventoryHolder {
-
-    private Inventory menu;
+public class CompanyPatentCrafting extends SelectionMenu {
 
     private ArrayList<Integer> indexes = new ArrayList<>();
 
@@ -21,13 +19,8 @@ public class CompanyPatentCrafting implements InventoryHolder {
     public Patent patent;
 
     public CompanyPatentCrafting(Company comp, Patent patent){
-        menu = Bukkit.createInventory(this, 27, "Company Upgrade Menu");
-        ItemStack gear_item = new ItemStack(patent.item, 1);
-        ItemMeta m = gear_item.getItemMeta();
-        m.setDisplayName("§6"+comp.getStockName() +":"+patent.getName()+":"+comp.patent.indexOf(patent));
-        gear_item.setItemMeta(m);
+        super(27, "Company Upgrade Menu");
 
-        menu.setItem(13, gear_item);
         this.comp = comp;
         this.patent = patent;
         indexes.add(3);
@@ -38,10 +31,24 @@ public class CompanyPatentCrafting implements InventoryHolder {
         indexes.add(21);
         indexes.add(22);
         indexes.add(23);
+
+        init();
+    }
+
+    @Override
+    public void init() {
+
+        ItemStack gear_item = new ItemStack(patent.item, 1);
+        ItemMeta m = gear_item.getItemMeta();
+        m.setDisplayName("§6"+comp.getStockName() +":"+patent.getName()+":"+comp.patent.indexOf(patent));
+        gear_item.setItemMeta(m);
+
+        getInventory().setItem(13, gear_item);
+
         int counter = 0;
         for (PatentUpgrade up: patent.upgrades){
             ItemStack item = new ItemStack(up.material, 1);
-            menu.setItem(indexes.get(counter), item);
+            getInventory().setItem(indexes.get(counter), item);
             counter++;
         }
 
@@ -50,13 +57,6 @@ public class CompanyPatentCrafting implements InventoryHolder {
         m = item.getItemMeta();
         m.setDisplayName("§6Get Patent Sheet");
         item.setItemMeta(m);
-        menu.setItem(8, item);
-
-
-    }
-
-    @Override
-    public Inventory getInventory() {
-        return menu;
+        getInventory().setItem(8, item);
     }
 }

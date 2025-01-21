@@ -9,36 +9,30 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.UUID;
 
-public class CompanyPatentSelectorMenu implements InventoryHolder {
-    private Inventory menu;
+public class CompanyPatentSelectorMenu extends SelectionMenu {
 
     public Company comp;
 
-    public CompanyPatentSelectorMenu(UUID uuid, Company comp){
-        menu = Bukkit.createInventory(this, 27, "Company Patent Selector");
+    public CompanyPatentSelectorMenu(Company comp){
+        super(27, "Company Patent Selector");
         this.comp = comp;
         init();
     }
 
-    private void init(){
+    public void init(){
         ItemStack item;
         item = new ItemStack(Material.NETHERITE_HELMET,1);
-        menu.setItem(10, item);
+        getInventory().setItem(10, item);
 
         item = new ItemStack(Material.NETHERITE_CHESTPLATE,1);
-        menu.setItem(12, item);
+        getInventory().setItem(12, item);
 
         item = new ItemStack(Material.NETHERITE_LEGGINGS,1);
-        menu.setItem(14, item);
+        getInventory().setItem(14, item);
 
         item = new ItemStack(Material.NETHERITE_BOOTS,1);
-        menu.setItem(16, item);
+        getInventory().setItem(16, item);
 
 
-    }
-
-    @Override
-    public Inventory getInventory() {
-        return menu;
     }
 }

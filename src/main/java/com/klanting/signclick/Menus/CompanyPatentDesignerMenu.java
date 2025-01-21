@@ -10,15 +10,14 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-public class CompanyPatentDesignerMenu implements InventoryHolder {
-    private Inventory menu;
+public class CompanyPatentDesignerMenu extends SelectionMenu {
 
     public Company comp;
 
     public Patent patent;
 
     public CompanyPatentDesignerMenu(Patent patent, Company comp){
-        menu = Bukkit.createInventory(this, 27, "Company Patent Designer");
+        super(27, "Company Patent Designer");
         this.comp = comp;
         this.patent = patent;
         init();
@@ -28,7 +27,7 @@ public class CompanyPatentDesignerMenu implements InventoryHolder {
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(patent.getName());
         item.setItemMeta(meta);
-        menu.setItem(4, item);
+        getInventory().setItem(4, item);
         int upgrades = comp.upgrades.get(2).getBonus();
         for (int i=0; i<upgrades; i++){
 
@@ -51,18 +50,13 @@ public class CompanyPatentDesignerMenu implements InventoryHolder {
 
 
 
-            menu.setItem(18+i, upgrade);
+            getInventory().setItem(18+i, upgrade);
         }
 
         ItemStack save_button = new ItemStack(Material.LIME_WOOL, 1);
         ItemMeta m = save_button.getItemMeta();
         m.setDisplayName("§aSave");
         save_button.setItemMeta(m);
-        menu.setItem(8, save_button);
-    }
-
-    @Override
-    public Inventory getInventory() {
-        return menu;
+        getInventory().setItem(8, save_button);
     }
 }

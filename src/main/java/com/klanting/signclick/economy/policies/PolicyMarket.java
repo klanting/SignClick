@@ -7,7 +7,7 @@ import java.util.Arrays;
 public class PolicyMarket extends Policy{
 
     public PolicyMarket(Integer level){
-        super(1, level);
+        super(1, level, "Market Policy");
 
         material = Material.EMERALD;
 

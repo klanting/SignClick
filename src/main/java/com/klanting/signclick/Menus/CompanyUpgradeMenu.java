@@ -14,12 +14,12 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class CompanyUpgradeMenu implements InventoryHolder {
-    private Inventory menu;
+public class CompanyUpgradeMenu extends SelectionMenu {
+
     public Company comp;
 
     public CompanyUpgradeMenu(UUID uuid, Company company){
-        menu = Bukkit.createInventory(this, 27, "Company Upgrade Menu");
+        super(27, "Company Upgrade Menu");
         comp = company;
         if (!comp.isOwner(uuid)){
             return;
@@ -49,13 +49,8 @@ public class CompanyUpgradeMenu implements InventoryHolder {
 
             m.setLore(l);
             value.setItemMeta(m);
-            menu.setItem(counter, value);
+            getInventory().setItem(counter, value);
             counter ++;
         }
-    }
-
-    @Override
-    public Inventory getInventory() {
-        return menu;
     }
 }

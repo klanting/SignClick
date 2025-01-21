@@ -1,5 +1,6 @@
 package com.klanting.signclick.events;
 
+import com.klanting.signclick.SignClick;
 import com.klanting.signclick.economy.*;
 import com.klanting.signclick.economy.companyPatent.Auction;
 import com.klanting.signclick.economy.companyPatent.Patent;
@@ -20,6 +21,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
+
+import static org.bukkit.Bukkit.getServer;
 
 public class MenuEvents implements Listener {
     @EventHandler
@@ -90,7 +93,7 @@ public class MenuEvents implements Listener {
 
             if (old_screen.designer){
                 if (option.equalsIgnoreCase("§6Empty Patent")){
-                    CompanyPatentSelectorMenu new_screen = new CompanyPatentSelectorMenu(player.getUniqueId(), old_screen.comp);
+                    CompanyPatentSelectorMenu new_screen = new CompanyPatentSelectorMenu(old_screen.comp);
                     player.openInventory(new_screen.getInventory());
                 }else{
                     CompanyPatentDesignerMenu new_screen = new CompanyPatentDesignerMenu(old_screen.comp.patent.get(event.getSlot()), old_screen.comp);
@@ -210,9 +213,11 @@ public class MenuEvents implements Listener {
             }
 
             Country country = CountryManager.getCountry(player);
+
             country.setPolicies(row-1, level);
 
-            old_screen.init(player.getUniqueId());
+            old_screen.init();
+            player.sendMessage("§bPolicy change Decision has been passed on");
         }
 
         if (event.getClickedInventory().getHolder() instanceof CountryElectionMenu){

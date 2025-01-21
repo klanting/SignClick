@@ -8,12 +8,12 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-public class CompanyTypeSelect implements InventoryHolder {
-    private Inventory menu;
+public class CompanyTypeSelect extends SelectionMenu {
+
     public Company comp;
 
     public CompanyTypeSelect(Company company){
-        menu = Bukkit.createInventory(this, 9, "Company Type Select");
+        super(9, "Company Type Select");
         comp = company;
 
         init();
@@ -26,41 +26,37 @@ public class CompanyTypeSelect implements InventoryHolder {
         m = value.getItemMeta();
         m.setDisplayName("§6bank");
         value.setItemMeta(m);
-        menu.setItem(menu.firstEmpty(), value);
+        getInventory().setItem(getInventory().firstEmpty(), value);
 
         value = new ItemStack(Material.MINECART, 1);
         m = value.getItemMeta();
         m.setDisplayName("§6transport");
         value.setItemMeta(m);
-        menu.setItem(menu.firstEmpty(), value);
+        getInventory().setItem(getInventory().firstEmpty(), value);
 
         value = new ItemStack(Material.IRON_CHESTPLATE, 1);
         m = value.getItemMeta();
         m.setDisplayName("§6product");
         value.setItemMeta(m);
-        menu.setItem(menu.firstEmpty(), value);
+        getInventory().setItem(getInventory().firstEmpty(), value);
 
         value = new ItemStack(Material.QUARTZ_BLOCK, 1);
         m = value.getItemMeta();
         m.setDisplayName("§6real estate");
         value.setItemMeta(m);
-        menu.setItem(menu.firstEmpty(), value);
+        getInventory().setItem(getInventory().firstEmpty(), value);
 
         value = new ItemStack(Material.BOW, 1);
         m = value.getItemMeta();
         m.setDisplayName("§6military");
         value.setItemMeta(m);
-        menu.setItem(menu.firstEmpty(), value);
+        getInventory().setItem(getInventory().firstEmpty(), value);
 
         value = new ItemStack(Material.BRICKS, 1);
         m = value.getItemMeta();
         m.setDisplayName("§6building");
         value.setItemMeta(m);
-        menu.setItem(menu.firstEmpty(), value);
+        getInventory().setItem(getInventory().firstEmpty(), value);
     }
 
-    @Override
-    public Inventory getInventory() {
-        return menu;
-    }
 }

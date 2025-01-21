@@ -6,7 +6,7 @@ import java.util.Arrays;
 
 public class PolicyEconomics extends Policy{
     public PolicyEconomics(Integer level){
-        super(0, level);
+        super(0, level, "Economical Policy");
 
         material = Material.GOLD_INGOT;
 

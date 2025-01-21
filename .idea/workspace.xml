@@ -11,19 +11,37 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b3aa4a96-499c-4e97-84b9-6312c5389c7a" name="Changes" comment="Move Serializers away from Utils.java file">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/SelectionMenu.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/country/CountryMenuTests.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CompanyAuctionMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CompanyAuctionMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CompanyOwnerMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CompanyOwnerMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CompanyPatentCrafting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CompanyPatentCrafting.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CompanyPatentDesignerMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CompanyPatentDesignerMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CompanyPatentDesignerUpgrade.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CompanyPatentDesignerUpgrade.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CompanyPatentIDMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CompanyPatentIDMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CompanyPatentSelectorMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CompanyPatentSelectorMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CompanySelector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CompanySelector.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CompanyTypeSelect.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CompanyTypeSelect.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CompanyUpgradeMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CompanyUpgradeMenu.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CountryMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CountryMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/CompanyCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/CompanyCommands.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/CountryCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/commands/CountryCommands.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CountryPolicy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/Menus/CountryPolicy.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/Country.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/Country.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/CountryManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/CountryManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/companyPatent/Patent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/companyPatent/Patent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/companyPatent/PatentUpgrade.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/companyPatent/PatentUpgrade.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/companyPatent/PatentUpgradeCustom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/companyPatent/PatentUpgradeCustom.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/parties/Party.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/parties/Party.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/decisions/DecisionPolicy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/decisions/DecisionPolicy.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/policies/Policy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/policies/Policy.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/commands/CompanyCTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/commands/CompanyCTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/policies/PolicyEconomics.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/policies/PolicyEconomics.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/policies/PolicyMarket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/policies/PolicyMarket.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/policies/PolicyMilitary.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/policies/PolicyMilitary.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/policies/PolicyTaxation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/policies/PolicyTaxation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/policies/PolicyTourist.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/economy/policies/PolicyTourist.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/events/MenuEvents.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/events/MenuEvents.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/utils/JsonTools.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/utils/JsonTools.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/utils/Serializers/CountrySerializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/klanting/signclick/utils/Serializers/CountrySerializer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/com/commands/CountryCTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/commands/CountryCTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/company/CompanyMenuTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/company/CompanyMenuTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/country/CountryTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/country/CountryTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/country/PartyTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/country/PartyTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -138,6 +156,7 @@
     "Gradle.CountryCTests.countryDonateNegative.executor": "Run",
     "Gradle.CountryCTests.countryDonateNotEnoughMoney.executor": "Run",
     "Gradle.CountryCTests.countryDonateSuc6.executor": "Run",
+    "Gradle.CountryCTests.countryInfo.executor": "Run",
     "Gradle.CountryCTests.countryInvite.executor": "Run",
     "Gradle.CountryCTests.countryKick.executor": "Run",
     "Gradle.CountryCTests.countryPay.executor": "Run",
@@ -152,6 +171,8 @@
     "Gradle.CountryCTests.createCountryFailedDuplicatedName.executor": "Run",
     "Gradle.CountryCTests.createCountryFailedPerms.executor": "Run",
     "Gradle.CountryCTests.executor": "Run",
+    "Gradle.CountryMenuTests.countryOpenMenu.executor": "Run",
+    "Gradle.CountryMenuTests.countryOpenPolicy.executor": "Run",
     "Gradle.CountryTests (1).executor": "Run",
     "Gradle.CountryTests.CountryCreate (1).executor": "Run",
     "Gradle.CountryTests.CountryCreate.executor": "Coverage",
@@ -196,7 +217,7 @@
     "Gradle.PolicyTests.setPolicy.executor": "Coverage",
     "Gradle.SignTpTests.doSignTp.executor": "Run",
     "Gradle.SignTpTests.unsetSignTp.executor": "Coverage",
-    "Gradle.TestAll.executor": "Coverage",
+    "Gradle.TestAll.executor": "Run",
     "Gradle.WeeklyPayCTests.makeWeeklyPay.executor": "Run",
     "Gradle.WeeklyPayCTests.makeWeeklyPayNotEnoughMoney.executor": "Run",
     "Gradle.WeeklyPayCTests.weeklyPaySaveRestore.executor": "Run",
@@ -238,7 +259,7 @@
     </key>
   </component>
   <component name="RunManager" selected="Gradle.TestAll">
-    <configuration name="CountryCTests.countryPay" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="CountryCTests.countryInfo" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -251,7 +272,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;com.commands.CountryCTests.countryPay&quot;" />
+            <option value="&quot;com.commands.CountryCTests.countryInfo&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -262,7 +283,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="CountryCTests.countryPayNegative" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="PartyTests.createParty" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -275,7 +296,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;com.commands.CountryCTests.countryPayNegative&quot;" />
+            <option value="&quot;com.country.PartyTests.createParty&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -286,7 +307,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="CountryCTests.countryPaySelf" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="PartyTests.electionParty" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -299,7 +320,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;com.commands.CountryCTests.countryPaySelf&quot;" />
+            <option value="&quot;com.country.PartyTests.electionParty&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -310,7 +331,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="CountryCTests.countrySetColorIncorrect" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="PartyTests.getRulingParty" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -323,7 +344,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;com.commands.CountryCTests.countrySetColorIncorrect&quot;" />
+            <option value="&quot;com.country.PartyTests.getRulingParty&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -334,7 +355,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="CountryCTests.countryTax" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="PartyTests.partyMembership" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -347,7 +368,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;com.commands.CountryCTests.countryTax&quot;" />
+            <option value="&quot;com.country.PartyTests.partyMembership&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -383,19 +404,19 @@
     </configuration>
     <list>
       <item itemvalue="Gradle.TestAll" />
-      <item itemvalue="Gradle.CountryCTests.countryPay" />
-      <item itemvalue="Gradle.CountryCTests.countryPayNegative" />
-      <item itemvalue="Gradle.CountryCTests.countryPaySelf" />
-      <item itemvalue="Gradle.CountryCTests.countrySetColorIncorrect" />
-      <item itemvalue="Gradle.CountryCTests.countryTax" />
+      <item itemvalue="Gradle.CountryCTests.countryInfo" />
+      <item itemvalue="Gradle.PartyTests.createParty" />
+      <item itemvalue="Gradle.PartyTests.electionParty" />
+      <item itemvalue="Gradle.PartyTests.getRulingParty" />
+      <item itemvalue="Gradle.PartyTests.partyMembership" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.CountryCTests.countryTax" />
-        <item itemvalue="Gradle.CountryCTests.countryPayNegative" />
-        <item itemvalue="Gradle.CountryCTests.countryPaySelf" />
-        <item itemvalue="Gradle.CountryCTests.countryPay" />
-        <item itemvalue="Gradle.CountryCTests.countrySetColorIncorrect" />
+        <item itemvalue="Gradle.PartyTests.electionParty" />
+        <item itemvalue="Gradle.PartyTests.partyMembership" />
+        <item itemvalue="Gradle.PartyTests.getRulingParty" />
+        <item itemvalue="Gradle.PartyTests.createParty" />
+        <item itemvalue="Gradle.CountryCTests.countryInfo" />
       </list>
     </recent_temporary>
   </component>
@@ -486,6 +507,8 @@
       <workItem from="1736799461145" duration="5921000" />
       <workItem from="1737058615087" duration="2962000" />
       <workItem from="1737064067109" duration="4030000" />
+      <workItem from="1737124099143" duration="78000" />
+      <workItem from="1737457633987" duration="6731000" />
     </task>
     <task id="LOCAL-00026" summary="made start of companies being serialized into json">
       <option name="closed" value="true" />
@@ -962,7 +985,7 @@
     <SUITE FILE_PATH="coverage/SignClick$CompanyTests_companyGetCompanies.ic" NAME="CompanyTests.companyGetCompanies Coverage Results" MODIFIED="1732313388635" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/SignClick$CompanyCTests_companyTabCompleteStaff.ic" NAME="CompanyCTests.companyTabCompleteStaff Coverage Results" MODIFIED="1737064478618" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/SignClick$CompanyCTests_companyGive.ic" NAME="CompanyCTests.companyGive Coverage Results" MODIFIED="1726042791871" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/SignClick$TestAll.ic" NAME="TestAll Coverage Results" MODIFIED="1737067829887" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/SignClick$TestAll.ic" NAME="TestAll Coverage Results" MODIFIED="1737465748134" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/SignClick$CountryTests_countrySaveLoadAdvanced.ic" NAME="CountryTests.countrySaveLoadAdvanced Coverage Results" MODIFIED="1726940586011" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/SignClick$CompanyTests_companySaveLoad.ic" NAME="CompanyTests.companySaveLoad Coverage Results" MODIFIED="1727021115277" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>

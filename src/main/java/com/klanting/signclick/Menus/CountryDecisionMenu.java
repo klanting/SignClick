@@ -13,12 +13,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class CountryDecisionMenu implements InventoryHolder {
-    private Inventory menu;
+public class CountryDecisionMenu extends SelectionMenu {
     private UUID uuid;
 
     public CountryDecisionMenu(UUID uuid){
-        menu = Bukkit.createInventory(this, 27, "Country Decision Menu");
+        super(27, "Country Decision Menu");
         this.uuid = uuid;
         init();
     }
@@ -33,7 +32,7 @@ public class CountryDecisionMenu implements InventoryHolder {
         lores.add("§7REQUIRES 40 stability");
         m.setLore(lores);
         value.setItemMeta(m);
-        menu.setItem(12, value);
+        getInventory().setItem(12, value);
 
         value = new ItemStack(Material.IRON_BARS, 1);
         m = value.getItemMeta();
@@ -51,7 +50,7 @@ public class CountryDecisionMenu implements InventoryHolder {
 
         m.setDisplayName(name);
         value.setItemMeta(m);
-        menu.setItem(13, value);
+        getInventory().setItem(13, value);
 
         value = new ItemStack(Material.IRON_SWORD, 1);
         m = value.getItemMeta();
@@ -62,11 +61,7 @@ public class CountryDecisionMenu implements InventoryHolder {
         }
         m.setDisplayName(name);
         value.setItemMeta(m);
-        menu.setItem(14, value);
+        getInventory().setItem(14, value);
     }
 
-    @Override
-    public Inventory getInventory() {
-        return menu;
-    }
 }

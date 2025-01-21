@@ -13,12 +13,11 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class CountryMenu implements InventoryHolder {
-    private Inventory menu;
-    private UUID uuid;
+public class CountryMenu extends SelectionMenu {
+    private final UUID uuid;
 
     public CountryMenu(UUID uuid){
-        menu = Bukkit.createInventory(this, 54, "Country Menu");
+        super(54, "Country Menu");
         this.uuid = uuid;
         init();
     }
@@ -39,24 +38,20 @@ public class CountryMenu implements InventoryHolder {
         l.add("§6Stability: §9"+ df.format(country.getStability()));
         m.setLore(l);
         value.setItemMeta(m);
-        menu.setItem(13, value);
+        getInventory().setItem(13, value);
 
         
         value = new ItemStack(Material.ANVIL, 1);
         m = value.getItemMeta();
         m.setDisplayName("§6Policy");
         value.setItemMeta(m);
-        menu.setItem(22, value);
+        getInventory().setItem(22, value);
 
         value = new ItemStack(Material.PAPER, 1);
         m = value.getItemMeta();
         m.setDisplayName("§6Decisions");
         value.setItemMeta(m);
-        menu.setItem(21, value);
+        getInventory().setItem(21, value);
     }
 
-    @Override
-    public Inventory getInventory() {
-        return menu;
-    }
 }

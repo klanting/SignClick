@@ -17,17 +17,12 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 
-
-
-
-public class PartyDecisionVote implements InventoryHolder {
-
-    private Inventory menu;
+public class PartyDecisionVote extends SelectionMenu {
 
     public Party p;
 
     public PartyDecisionVote(Party p){
-        menu = Bukkit.createInventory(this, 27, "Party Vote");
+        super(27, "Party Vote");
         this.p = p;
         init();
     }
@@ -49,12 +44,7 @@ public class PartyDecisionVote implements InventoryHolder {
             m.setLore(lores);
             m.setDisplayName(d.name);
             d_item.setItemMeta(m);
-            menu.setItem(menu.firstEmpty(), d_item);
+            getInventory().setItem(getInventory().firstEmpty(), d_item);
         }
-    }
-
-    @Override
-    public Inventory getInventory() {
-        return menu;
     }
 }

@@ -3,6 +3,9 @@ package com.klanting.signclick.economy.decisions;
 import com.klanting.signclick.economy.Country;
 import com.klanting.signclick.economy.CountryManager;
 import com.klanting.signclick.SignClick;
+import org.bukkit.ChatColor;
+
+import static org.bukkit.Bukkit.getServer;
 
 public class DecisionPolicy extends Decision{
 

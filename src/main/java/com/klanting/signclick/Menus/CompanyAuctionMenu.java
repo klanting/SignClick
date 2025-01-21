@@ -13,15 +13,13 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CompanyAuctionMenu implements InventoryHolder {
-
-    private Inventory menu;
+public class CompanyAuctionMenu extends SelectionMenu {
 
     public Company comp;
 
     public CompanyAuctionMenu(Company comp){
+        super(9, "Patent Upgrade Auction");
         this.comp = comp;
-        menu = Bukkit.createInventory(this, 9, "Patent Upgrade Auction");
         init();
 
     }
@@ -42,12 +40,7 @@ public class CompanyAuctionMenu implements InventoryHolder {
             m.setDisplayName(up.name+" "+up.level);
             m.setLore(lores);
             upgradeItem.setItemMeta(m);
-            menu.setItem(i, upgradeItem);
+            getInventory().setItem(i, upgradeItem);
         }
-    }
-
-    @Override
-    public Inventory getInventory() {
-        return menu;
     }
 }

@@ -8,11 +8,10 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-public class CountryElectionMenu implements InventoryHolder {
-    private Inventory menu;
+public class CountryElectionMenu extends SelectionMenu {
     public Election e;
     public CountryElectionMenu(Election e){
-        menu = Bukkit.createInventory(this, 27, "Country Vote");
+        super(27, "Country Vote");
         this.e = e;
         init();
     }
@@ -24,12 +23,8 @@ public class CountryElectionMenu implements InventoryHolder {
             ItemMeta m = click.getItemMeta();
             m.setDisplayName("§6"+name);
             click.setItemMeta(m);
-            menu.setItem(menu.firstEmpty(), click);
+            getInventory().setItem(getInventory().firstEmpty(), click);
         }
     }
 
-    @Override
-    public Inventory getInventory() {
-        return menu;
-    }
 }

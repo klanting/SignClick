@@ -12,12 +12,11 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.UUID;
 
-public class CountryPartyBan implements InventoryHolder {
-    private Inventory menu;
+public class CountryPartyBan extends SelectionMenu {
     private UUID uuid;
 
     public CountryPartyBan(UUID uuid){
-        menu = Bukkit.createInventory(this, 27, "Country Decision Menu");
+        super(27, "Country Decision Menu");
         this.uuid = uuid;
         init();
     }
@@ -33,12 +32,8 @@ public class CountryPartyBan implements InventoryHolder {
             m = value.getItemMeta();
             m.setDisplayName("§6"+name);
             value.setItemMeta(m);
-            menu.setItem(menu.firstEmpty(), value);
+            getInventory().setItem(getInventory().firstEmpty(), value);
         }
     }
 
-    @Override
-    public Inventory getInventory() {
-        return menu;
-    }
 }

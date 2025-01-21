@@ -53,11 +53,13 @@ class PartyTests {
         * Create a party
         * */
         Country country = CountryManager.getCountry("empire1");
-        assertNull(country.getParty(testPlayer.getUniqueId()));
+        assertEquals("Government",country.getParty(testPlayer.getUniqueId()).name);
 
-        country.createParty("TestParty", testPlayer.getUniqueId());
+        PlayerMock testPlayer2 = server.addPlayer();
 
-        Party p = country.getParty(testPlayer.getUniqueId());
+        country.createParty("TestParty", testPlayer2.getUniqueId());
+
+        Party p = country.getParty(testPlayer2.getUniqueId());
         /*
         * check party exists
         * */
@@ -87,17 +89,20 @@ class PartyTests {
         * */
         Country country = CountryManager.getCountry("empire1");
         Party p = country.getRuling();
-        assertNull(p);
+        assertNotNull(p);
+        assertEquals("Government", p.name);
 
-        country.createParty("TestParty", testPlayer.getUniqueId());
+        PlayerMock testPlayer2 = server.addPlayer();
+
+        country.createParty("TestParty", testPlayer2.getUniqueId());
 
         /*
-         * the ruling party is 'TestParty'
+         * the ruling party is 'Government'
          * */
 
         p = country.getRuling();
         assertNotNull(p);
-        assertEquals("TestParty", p.name);
+        assertEquals("Government", p.name);
     }
 
     @Test
@@ -195,7 +200,7 @@ class PartyTests {
         Election election = country.getCountryElection();
         assertNotNull(election);
 
-        assertEquals("TestParty", country.getRuling().name);
+        assertEquals("Government", country.getRuling().name);
 
         /*
         * vote on the party

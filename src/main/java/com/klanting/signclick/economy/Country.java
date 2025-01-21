@@ -70,6 +70,10 @@ public class Country {
         aboardMilitary = false;
 
         policies = Arrays.asList(new PolicyEconomics(2), new PolicyMarket(2), new PolicyMilitary(2), new PolicyTourist(2), new PolicyTaxation(2));
+
+        Party party = new Party("Government", name, player.getUniqueId());
+        parties.add(party);
+        party.PCT = 1.0;
     }
 
     public Country(JsonObject jsonObject, JsonDeserializationContext context){
@@ -432,7 +436,7 @@ public class Country {
 
         if (id == 0 || id == 3){
             int gov_cap = getPolicyRequire(id, 0, level);
-            if (gov_cap > getBalance()){
+            if (gov_cap > getBalance() && (level == 0 || level == 4)){
                 return false;
             }
         }
@@ -571,6 +575,11 @@ public class Country {
             spawnString = "No spawn has been set use '/country setspawn' to set a country spawn location";
         }
 
+        List<String> pa_list = new ArrayList<>();
+        for (Party p: parties){
+            pa_list.add(p.name);
+        }
+
 
         DecimalFormat df = new DecimalFormat("###,###,###");
         player.sendMessage("§bBank: §7"+name+"\n" +
@@ -580,7 +589,8 @@ public class Country {
                 "§blaw enforcement: §7"+l_list+"\n" +
                 "§btaxrate: §7"+ taxRate*100+"\n" +
                 "§bstability: §7"+ df.format(getStability())+"\n" +
-                "§bspawn: §7"+ spawnString);
+                "§bspawn: §7"+ spawnString+"\n"+
+                "§bparties: §7"+ pa_list);
 
     }
 

@@ -531,7 +531,7 @@ class CountryTests {
          * check policies correctly stored
          * */
 
-        assertEquals(1, country.getParties().size());
+        assertEquals(2, country.getParties().size());
         assertNotNull(country.getParty(testPlayer.getUniqueId()));
         assertNotNull(country.getParty("AAA"));
 

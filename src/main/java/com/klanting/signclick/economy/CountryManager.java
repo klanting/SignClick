@@ -6,6 +6,7 @@ import com.klanting.signclick.economy.parties.Election;
 import com.klanting.signclick.economy.parties.Party;
 import com.klanting.signclick.economy.policies.*;
 import com.klanting.signclick.SignClick;
+import com.klanting.signclick.utils.Serializers.CountrySerializer;
 import com.klanting.signclick.utils.Utils;
 import org.bukkit.ChatColor;
 import org.bukkit.*;
@@ -20,7 +21,11 @@ import static org.bukkit.Bukkit.getServer;
 public class CountryManager {
     private static Map<String, Country> countries = new HashMap<>();
 
-    private static Map<UUID, Country> playerToCountryMap = new HashMap<>();
+    public static void addPlayerToCountryMap(UUID uuid, Country country) {
+        CountryManager.playerToCountryMap.put(uuid, country);
+    }
+
+    private static final Map<UUID, Country> playerToCountryMap = new HashMap<>();
 
     public static Country getCountry(String countryName){
         /*
@@ -143,16 +148,6 @@ public class CountryManager {
     public static void saveData(){
         Utils.writeSave("countries", countries);
 
-
-        //countries.values().forEach(Country::save);
-
-        /*
-        * Save mapping from user to company
-        * TODO remove this and load from countries restore
-        * */
-
-        Utils.writeSave("playerToCountryMap", playerToCountryMap);
-
         /*
         * save results
         * */
@@ -163,8 +158,6 @@ public class CountryManager {
     public static void restoreData(){
 
         countries = Utils.readSave("countries", new TypeToken<HashMap<String, Country>>(){}.getType(), new HashMap<>());
-        playerToCountryMap = Utils.readSave("playerToCountryMap", new TypeToken<Map<UUID, Country>>(){}.getType(), new HashMap<>());
-
 
     }
 
