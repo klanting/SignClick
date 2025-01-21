@@ -13,6 +13,7 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.InventoryView;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -519,6 +520,90 @@ class CountryCTests {
                 "§bspawn: §7No spawn has been set use '/country setspawn' to set a country spawn location\n"+
                 "§bparties: §7[Government]");
         testPlayer.assertNoMoreSaid();
+
+    }
+
+    @Test
+    void countryBaltop(){
+        PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
+        PlayerMock testPlayer2 = TestTools.addPermsPlayer(server, plugin);
+        CountryManager.create("empire1", testPlayer);
+        CountryManager.create("empire2", testPlayer2);
+
+        testPlayer.nextMessage();
+        testPlayer2.nextMessage();
+
+        boolean result = server.execute("country", testPlayer, "baltop").hasSucceeded();
+        assertTrue(result);
+
+        testPlayer.assertSaid("""
+                §bBaltop:§0
+                §b1.§3 empire1: §70
+                §b2.§3 empire2: §70""");
+        testPlayer.assertNoMoreSaid();
+    }
+
+    @Test
+    void countryHandleLawEnforcement(){
+        PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
+        PlayerMock testPlayer2 = TestTools.addPermsPlayer(server, plugin);
+        Country country = CountryManager.create("empire1", testPlayer);
+        country.addMember(testPlayer2);
+
+        testPlayer.nextMessage();
+        assertEquals(0, country.getLawEnforcement().size());
+
+        boolean result = server.execute("country", testPlayer, "add_enforcement", testPlayer2.getName()).hasSucceeded();
+        assertTrue(result);
+
+        testPlayer.assertSaid("§byou succesfully assigned an law enforcement agent");
+        testPlayer.assertNoMoreSaid();
+
+        assertEquals(1, country.getLawEnforcement().size());
+        assertEquals(testPlayer2.getUniqueId(), country.getLawEnforcement().get(0));
+
+        result = server.execute("country", testPlayer, "remove_enforcement", testPlayer2.getName()).hasSucceeded();
+        assertTrue(result);
+
+        testPlayer.assertSaid("§byou succesfully resigned an law enforcement agent");
+        testPlayer.assertNoMoreSaid();
+        assertEquals(0, country.getLawEnforcement().size());
+    }
+
+    @Test
+    void countryElection(){
+        PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
+        PlayerMock testPlayer2 = TestTools.addPermsPlayer(server, plugin);
+        Country country = CountryManager.create("empire1", testPlayer);
+        country.addMember(testPlayer2);
+        country.createParty("testParty", testPlayer2.getUniqueId());
+        assertNull(country.getCountryElection());
+
+        testPlayer.nextMessage();
+        assertEquals("Government", country.getRuling().name);
+
+        /*
+        * Start elections
+        * */
+        boolean result = server.execute("country", testPlayer, "election").hasSucceeded();
+        assertTrue(result);
+        assertNotNull(country.getCountryElection());
+        testPlayer.assertSaid("§belections started");
+        testPlayer.assertNoMoreSaid();
+
+        /*
+        * Start voting
+        * */
+        result = server.execute("country", testPlayer, "vote").hasSucceeded();
+        assertTrue(result);
+
+        InventoryView electionView = testPlayer.getOpenInventory();
+        testPlayer.simulateInventoryClick(electionView, 1);
+
+        server.getScheduler().performTicks(60*20*60*24*7+1);
+
+        assertEquals("testParty", country.getRuling().name);
+        assertNull(country.getCountryElection());
 
     }
 

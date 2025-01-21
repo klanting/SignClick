@@ -24,12 +24,4 @@ public class DecisionPolicy extends Decision{
         country.setPoliciesReal(policy_id, old_level, level);
     }
 
-    public void Save(Integer index){
-        super.Save(index);
-        String path = "decision." + s+"."+index+".";
-        SignClick.getPlugin().getConfig().set(path+"policy_id", policy_id);
-        SignClick.getPlugin().getConfig().set(path+"old_level", old_level);
-        SignClick.getPlugin().getConfig().set(path+"level", level);
-    }
-
 }

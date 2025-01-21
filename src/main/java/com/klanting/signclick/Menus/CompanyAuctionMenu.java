@@ -3,9 +3,6 @@ package com.klanting.signclick.Menus;
 import com.klanting.signclick.economy.Company;
 import com.klanting.signclick.economy.companyPatent.Auction;
 import com.klanting.signclick.economy.companyPatent.PatentUpgrade;
-import org.bukkit.Bukkit;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 

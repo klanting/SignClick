@@ -18,10 +18,4 @@ public class DecisionAboardMilitary extends Decision{
             country.addStability(-2.0);
         }
     }
-
-    public void Save(Integer index){
-        super.Save(index);
-        String path = "decision." + s+"."+index+".";
-        SignClick.getPlugin().getConfig().set(path+"b", b);
-    }
 }

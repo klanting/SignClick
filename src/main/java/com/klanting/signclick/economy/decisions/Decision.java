@@ -24,9 +24,7 @@ public class Decision {
         this.s = s;
     }
 
-    public void DoEffect(){
-
-    }
+    public void DoEffect(){}
 
     public double getApproved(){
         double total = 0;
@@ -72,32 +70,5 @@ public class Decision {
         if (getDisapproved() > (1.0-needed)){
             country.removeDecision(this);
         }
-    }
-
-    public void Save(Integer index){
-        String path = "decision." + s+"."+index+".";
-
-        SignClick.getPlugin().getConfig().set(path+"name", name);
-        SignClick.getPlugin().getConfig().set(path+"needed", needed);
-        SignClick.getPlugin().getConfig().set(path+"id", id);
-
-        List<Integer> approved_index = new ArrayList<>();
-
-        for (Party p: approved){
-            Country country = CountryManager.getCountry(s);
-            int val = country.getParties().indexOf(p);
-            approved_index.add(val);
-        }
-
-        SignClick.getPlugin().getConfig().set(path+"approved_index", approved_index);
-
-        List<Integer> disapproved_index = new ArrayList<>();
-        for (Party p: disapproved){
-            Country country = CountryManager.getCountry(s);
-            int val = country.getParties().indexOf(p);
-            disapproved_index.add(val);
-        }
-
-        SignClick.getPlugin().getConfig().set(path+"disapproved_index", disapproved_index);
     }
 }

@@ -174,19 +174,24 @@ public class CountryCommands implements CommandExecutor, TabCompleter {
                     player.sendMessage("§bYou are not in a country or your designated country does not exist");
                 }
             }else if (commando.equals("baltop")){
-                StringBuilder line = new StringBuilder("§bBaltop: ");
+                String line = "§bBaltop:§0";
                 int index = 1;
 
                 for (Country country : CountryManager.getTop()){
                     if (index <= 10){
                         int amount = country.getBalance();
                         DecimalFormat df = new DecimalFormat("###,###,###");
-                        line.append("\n").append("§b"+index+".§3 ").append(country.getName()).append(": §7").append(df.format(amount));
+                        line += "\n";
+                        line += "§b"+index+".§3 ";
+                        line += country.getName();
+                        line += ": §7";
+                        line += df.format(amount);
+
                         index += 1;
                     }
 
                 }
-                player.sendMessage(String.valueOf(line));
+                player.sendMessage(line);
 
             }else if (commando.equals("tax")){
                 int amount;
@@ -342,6 +347,12 @@ public class CountryCommands implements CommandExecutor, TabCompleter {
                 }
 
                 Player target = Bukkit.getPlayer(player_name);
+
+                if (!country.getMembers().contains(target.getUniqueId())){
+                    player.sendMessage("§bOnly country members can be law enforcement");
+                    return true;
+                }
+
                 if (target != null){
                     country.addLawEnforcement(target);
                     player.sendMessage("§byou succesfully assigned an law enforcement agent");

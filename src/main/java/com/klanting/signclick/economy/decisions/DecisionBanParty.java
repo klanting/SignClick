@@ -17,11 +17,4 @@ public class DecisionBanParty extends Decision{
         country.removeParty(p);
 
     }
-
-    public void Save(Integer index){
-        super.Save(index);
-        String path = "decision." + s+"."+index+".";
-        Country country = CountryManager.getCountry(s);
-        SignClick.getPlugin().getConfig().set(path+"p", country.getParties().indexOf(p));
-    }
 }

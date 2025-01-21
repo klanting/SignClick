@@ -37,11 +37,5 @@ public class DecisionCoup extends Decision{
             d.checkApprove();
         }
     }
-
-    public void Save(Integer index){
-        super.Save(index);
-        String path = "decision." + s+"."+index+".";
-        SignClick.getPlugin().getConfig().set(path+"party_name", party_name);
-    }
 }
 

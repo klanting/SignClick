@@ -15,10 +15,4 @@ public class DecisionForbidParty extends Decision{
         Country country = CountryManager.getCountry(s);
         country.setForbidParty(b);
     }
-
-    public void Save(Integer index){
-        super.Save(index);
-        String path = "decision." + s+"."+index+".";
-        SignClick.getPlugin().getConfig().set(path+"b", b);
-    }
 }

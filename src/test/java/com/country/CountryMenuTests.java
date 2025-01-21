@@ -46,6 +46,8 @@ public class CountryMenuTests {
         inventoryMenu = testPlayer.getOpenInventory();
         assertNotNull(inventoryMenu);
 
+        testPlayer.nextMessage();
+
     }
 
     @AfterEach
@@ -129,9 +131,47 @@ public class CountryMenuTests {
         InventoryView policyMenu = openMenu(inventoryMenu, 22);
         assertNotNull(policyMenu);
 
-        printInventory(policyMenu);
-
         assertPolicy(policyMenu, new int[]{2, 2, 2, 2, 2});
 
+        testPlayer.simulateInventoryClick(policyMenu, 14);
+
+        testPlayer.assertSaid("§bPolicy change Decision has been passed on");
+        testPlayer.assertNoMoreSaid();
+    }
+
+    @Test
+    void countryChangePolicy(){
+        countryOpenPolicy();
+
+        boolean suc6 = server.execute("party", testPlayer, "vote").hasSucceeded();
+        assertTrue(suc6);
+
+        InventoryView voteMenu = testPlayer.getOpenInventory();
+        assertNotNull(voteMenu);
+
+        assertEquals("§6Policy §9Normal§6 to §9Invester", voteMenu.getItem((0)).getItemMeta().getDisplayName());
+        assertEquals(Arrays.asList(
+                "§7current approved: 0,00%",
+                "§7current disapproved: 0,00%",
+                "§7needed approved: 50,00%"), voteMenu.getItem((0)).getItemMeta().getLore());
+
+        assertEquals(Material.PAPER, voteMenu.getItem(0).getType());
+        testPlayer.simulateInventoryClick(voteMenu,  0);
+
+        InventoryView voteMenuChoice = testPlayer.getOpenInventory();
+        assertNotNull(voteMenuChoice);
+
+        assertEquals(Material.LIME_WOOL, voteMenuChoice.getItem(11).getType());
+        assertEquals(Material.RED_WOOL, voteMenuChoice.getItem(15).getType());
+
+        testPlayer.simulateInventoryClick(voteMenuChoice, 11);
+
+        /*
+        * Check policy changed
+        * */
+        InventoryView policyMenu = openMenu(inventoryMenu, 22);
+        assertNotNull(policyMenu);
+
+        assertPolicy(policyMenu, new int[]{3, 2, 2, 2, 2});
     }
 }
