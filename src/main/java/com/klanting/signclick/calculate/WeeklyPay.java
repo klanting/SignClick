@@ -16,7 +16,7 @@ public class WeeklyPay {
 
 
     public static void check(){
-        Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(SignClick.getPlugin(), new Runnable() {
+        Bukkit.getServer().getScheduler().runTaskTimer(SignClick.getPlugin(), new Runnable() {
             public void run() {
                 payments.keySet().forEach(n ->{
 

@@ -50,7 +50,7 @@ public class Company {
     public double securityFunds = 0.0;
     public double spendable = 0.0;
     public Boolean openTrade = false;
-    public double lastValue = 40000000.0;
+    public double lastValue = 0.0;
 
     public double getShareBase() {
         return shareBase;
@@ -583,11 +583,16 @@ public class Company {
 
 
     public double stockCompareGet(){
+
+        if (lastValue == 0){
+            return 0.0;
+        }
+
         return ((getValue()/ lastValue)-1)*100;
 
     }
     public double stockCompare(){
-        double diff = ((getValue()/ lastValue)-1)*100;
+        double diff = stockCompareGet();
         lastValue = getValue();
         return diff;
     }

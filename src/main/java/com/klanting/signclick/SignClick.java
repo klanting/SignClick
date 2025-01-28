@@ -1,13 +1,17 @@
 package com.klanting.signclick;
 
 
+import com.google.common.reflect.TypeToken;
 import com.klanting.signclick.calculate.*;
 import com.klanting.signclick.commands.CompanyCommands;
+import com.klanting.signclick.configs.DefaultConfig;
 import com.klanting.signclick.economy.companyPatent.Auction;
 import com.klanting.signclick.economy.CountryManager;
 import com.klanting.signclick.economy.Market;
 import com.klanting.signclick.commands.*;
+import com.klanting.signclick.economy.contracts.ContractCTC;
 import com.klanting.signclick.events.*;
+import com.klanting.signclick.utils.Utils;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -17,9 +21,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.dynmap.DynmapAPI;
 import versionCompatibility.VersionDetection;
 
-import java.util.Locale;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 
 public class SignClick extends JavaPlugin{
@@ -35,6 +37,8 @@ public class SignClick extends JavaPlugin{
 
         plugin = this;
 
+        DefaultConfig.makeDefaultConfig();
+
         if (!setupEconomy() ) {
             getServer().getConsoleSender().sendMessage(ChatColor.RED + "Economy failed!");
             getServer().getPluginManager().disablePlugin(this);
@@ -44,9 +48,7 @@ public class SignClick extends JavaPlugin{
             getServer().getPluginManager().disablePlugin(this);
             return;}
 
-        if (this.getConfig().contains("data")){
-            this.RestoreDoors();
-        }
+        this.RestoreDoors();
 
         CountryManager.restoreData();
 
@@ -85,9 +87,7 @@ public class SignClick extends JavaPlugin{
     @Override
     public void onDisable() {
         getConfig().options().copyDefaults(false);
-        if (!SignIncome.owner.isEmpty()){
-            this.SaveDoors();
-        }
+        this.SaveDoors();
 
         WeeklyPay.save();
         CountryManager.saveData();
@@ -149,24 +149,17 @@ public class SignClick extends JavaPlugin{
 
         return true;
 
-
-        //DynmapAPI dynmap = (DynmapAPI) Bukkit.getServer().getPluginManager().getPlugin("Dynmap");
     }
 
     public void SaveDoors(){
-        for (Map.Entry<Location, UUID> entry : SignIncome.owner.entrySet()){
-            this.getConfig().set("data." + entry.getValue().toString(), entry.getKey());
-        }
+        Utils.writeSave("incomeDoors", SignIncome.owner);
 
 
     }
     public void RestoreDoors(){
-        this.getConfig().getConfigurationSection("data").getKeys(true).forEach(key ->{
-            Location location = ((Location) this.getConfig().get("data." + key));
-            UUID content = UUID.fromString(key);
 
-            SignIncome.owner.put(location, content);
-        });
+        SignIncome.owner = Utils.readSave("incomeDoors",
+                new TypeToken<HashMap<Location, UUID>>(){}.getType(), new HashMap<>());
 
     }
 

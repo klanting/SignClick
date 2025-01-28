@@ -32,7 +32,9 @@ public class CompanyHandlerCreate extends CompanyHandler{
             discount_pct = (1.0- country.getPolicyBonus(1, 4));
         }
 
-        CommandAssert.assertTrue(SignClick.getEconomy().has(player, 40000000.0*discount_pct),
+        double creationCost = 40000000.0*discount_pct;
+
+        CommandAssert.assertTrue(SignClick.getEconomy().has(player, creationCost),
                 "§bmaking a company costs §c40 million (or discount policy)");
 
         if (firstEnter){
@@ -49,9 +51,10 @@ public class CompanyHandlerCreate extends CompanyHandler{
 
         player.sendMessage("§byou succesfully found "+company_name+" good luck CEO "+player.getName());
 
-        SignClick.getEconomy().withdrawPlayer(player, 40000000.0*discount_pct);
+        SignClick.getEconomy().withdrawPlayer(player, creationCost);
         Company comp = Market.getBusiness(stock_name);
-        comp.addBal(40000000.0*discount_pct);
+        comp.addBal(creationCost);
+        comp.lastValue = creationCost;
 
         return false;
     }

@@ -22,12 +22,6 @@ public class PatentUpgrade {
         this.level = level;
     }
 
-    public void saveAuction(Integer index){
-        String path = "Auction.patent_up."+index+".";
-        SignClick.getPlugin().getConfig().set(path+"id", id);
-        SignClick.getPlugin().getConfig().set(path+"level", level);
-    }
-
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof PatentUpgrade up)){

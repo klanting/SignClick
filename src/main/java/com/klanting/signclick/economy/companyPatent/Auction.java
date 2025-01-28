@@ -125,7 +125,7 @@ public class Auction {
     public long time_end;
     public void check(){
         time_end = start_time+(System.currentTimeMillis()/1000)+(60*60*24*7);
-        Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(SignClick.getPlugin(), new Runnable() {
+        Bukkit.getServer().getScheduler().runTaskTimer(SignClick.getPlugin(), new Runnable() {
 
             public void run() {
                 for (int i=0; i<5; i++){

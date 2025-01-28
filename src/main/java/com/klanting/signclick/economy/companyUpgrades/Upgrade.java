@@ -45,7 +45,4 @@ public class Upgrade {
         return upgradeCostPoints.getOrDefault(level, -1);
     }
 
-    public void save(Company company){
-        SignClick.getPlugin().getConfig().set("company."+company.getStockName() +".upgrade."+id, level);
-    }
 }

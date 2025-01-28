@@ -143,35 +143,6 @@ public class Country {
     }
 
 
-    public Country(String name, int balance,
-                   List<UUID> owners, List<UUID> members,
-                   List<UUID> lawEnforcement,
-                   List<Policy> policies, List<Party> parties,
-                   List<Decision> decisions, Election countryElection,
-                   ChatColor memberColor, Location spawnLocation,
-                   double taxRate, double stability,
-                   boolean forbidParty, boolean aboardMilitary){
-        /*
-         * File loading constructor
-         * */
-        this.name = name;
-        this.balance = balance;
-        this.owners = owners;
-        this.members = members;
-        this.lawEnforcement = lawEnforcement;
-        this.policies = policies;
-        this.parties = parties;
-        this.decisions = decisions;
-        this.countryElection = countryElection;
-        this.memberColor = memberColor;
-        this.spawnLocation = spawnLocation;
-        this.taxRate = taxRate;
-        this.stability = stability;
-        this.forbidParty = forbidParty;
-        this.aboardMilitary = aboardMilitary;
-
-    }
-
     public String getName() {
         /*
         * getter to retrieve the name of a country

@@ -3,7 +3,8 @@
 plugins {
 
     `java-gradle-plugin`;
-    id("jacoco")
+    id("jacoco");
+    id("info.solidsoft.pitest") version "1.9.11";
 }
 
 jacoco {
@@ -75,4 +76,3 @@ tasks.jacocoTestReport {
         csv.required.set(false)
     }
 }
-

@@ -1,6 +1,5 @@
 package com.klanting.signclick.economy;
 
-import com.github.javaparser.utils.Pair;
 import com.google.common.reflect.TypeToken;
 import com.klanting.signclick.calculate.SignStock;
 import com.klanting.signclick.SignClick;
@@ -9,7 +8,6 @@ import com.klanting.signclick.utils.Utils;
 import org.bukkit.*;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
-import org.checkerframework.checker.units.qual.A;
 
 import java.text.DecimalFormat;
 import java.util.*;
@@ -23,8 +21,8 @@ public class Market {
     private static Map<UUID, Account> accounts = new HashMap<UUID, Account>();
     private static Map<String, Company> company = new HashMap<String, Company>();
 
-    public static final Double fee = 0.05;
-    public static final Double flux = 1.15;
+    public static final Double fee = SignClick.getPlugin().getConfig().getDouble("fee");
+    public static final Double flux = SignClick.getPlugin().getConfig().getDouble("flux");
 
     public static ArrayList<Contract> contractCompToComp = new ArrayList<>();
 
@@ -34,7 +32,7 @@ public class Market {
 
     public static ArrayList<ContractSTC> contractServerToComp = new ArrayList<>();
 
-    public static ArrayList<Location> stock_signs = new ArrayList<Location>();
+    public static ArrayList<Location> stockSigns = new ArrayList<>();
 
     public static void clear(){
         /*
@@ -47,7 +45,7 @@ public class Market {
         contractCompToPlayer.clear();
         contractServerToComp.clear();
         contractPlayerToComp.clear();
-        stock_signs.clear();
+        stockSigns.clear();
     }
 
     public static Double getBuyPrice(String Sname, Integer amount){
@@ -298,12 +296,7 @@ public class Market {
 
         Utils.writeSave("contractPlayerToComp", contractPlayerToComp);
 
-        List<Location> Signs = new ArrayList<>();
-        for (Location l: stock_signs){
-            Signs.add(l);
-        }
-
-        SignClick.getPlugin().getConfig().set("sign", Signs);
+        Utils.writeSave("stockSigns", stockSigns);
 
         getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "SignClick save Market completed!");
 
@@ -316,12 +309,7 @@ public class Market {
 
         company = Utils.readSave("companies", new TypeToken<HashMap<String, Company>>(){}.getType(), new HashMap<>());
 
-        if (SignClick.getPlugin().getConfig().contains("sign") && !SignClick.getPlugin().getConfig().get("sign").equals("[]")){
-
-            for (Location s :  (List<Location>) SignClick.getPlugin().getConfig().get("sign")) {
-                stock_signs.add(s);
-            }
-        }
+        stockSigns = Utils.readSave("stockSigns", new TypeToken<ArrayList<Location>>(){}.getType(), new ArrayList<>());
 
         contractCompToComp = Utils.readSave("contractCompToComp",
                 new TypeToken<ArrayList<ContractCTC>>(){}.getType(), new ArrayList<>());
@@ -490,7 +478,7 @@ public class Market {
     }
 
     public static void runStockCompare(){
-        for (Location o: stock_signs){
+        for (Location o: stockSigns){
             Sign s = (Sign) o.getBlock().getState();
             SignStock.update(s);
         }
