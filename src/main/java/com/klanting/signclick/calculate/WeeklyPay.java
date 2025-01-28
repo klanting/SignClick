@@ -1,9 +1,12 @@
 package com.klanting.signclick.calculate;
 
+import com.google.common.reflect.TypeToken;
 import com.klanting.signclick.economy.Country;
 import com.klanting.signclick.economy.CountryManager;
 import com.klanting.signclick.SignClick;
+import com.klanting.signclick.utils.Utils;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
@@ -12,7 +15,7 @@ import java.util.logging.Level;
 
 public class WeeklyPay {
     public static Map<UUID, Map<String, Integer>> payments = new HashMap<UUID, Map<String, Integer>>();
-    public static Map<UUID, List<String>> offcheck = new HashMap<UUID, List<String>>();
+    public static Map<UUID, List<String>> offcheck = new HashMap<>();
 
 
     public static void check(){
@@ -149,7 +152,7 @@ public class WeeklyPay {
     public static List<String> receivers(Player player){
         if (payments.containsKey(player.getUniqueId())){
             Map<String, Integer> map = payments.get(player.getUniqueId());
-            return new ArrayList<String>(map.keySet());
+            return new ArrayList<>(map.keySet());
         }
         return null;
     }
@@ -174,25 +177,13 @@ public class WeeklyPay {
     }
 
     public static void save(){
-        for(UUID uuid : payments.keySet()) {
-            SignClick.getPlugin().getConfig().set("weekly."+uuid, payments.get(uuid));
-        }
-        SignClick.getPlugin().getConfig().options().copyDefaults(true);
-        SignClick.getPlugin().saveConfig();
+        Utils.writeSave("weeklyPayments", payments);
     }
 
     public static void restore(){
-        if (SignClick.getPlugin().getConfig().contains("weekly")){
-            SignClick.getPlugin().getConfig().get("weekly");
-                SignClick.getPlugin().getConfig().getConfigurationSection("weekly").getKeys(false).forEach(key -> {
-                    Map<String, Integer> map = new HashMap<>();
 
-                    SignClick.getPlugin().getConfig().getConfigurationSection("weekly."+key).getKeys(false).forEach(key2 -> {
-                    map.put(key2, (Integer) SignClick.getPlugin().getConfig().get("weekly."+key+"."+key2));
-                    });
-                    payments.put(UUID.fromString(key), map);
-                });
+        payments = Utils.readSave("weeklyPayments",
+                new TypeToken<HashMap<UUID, Map<String, Integer>>>(){}.getType(), new HashMap<>());
 
-        }
     }
 }

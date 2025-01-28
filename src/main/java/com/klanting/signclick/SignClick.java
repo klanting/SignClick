@@ -52,9 +52,7 @@ public class SignClick extends JavaPlugin{
 
         CountryManager.restoreData();
 
-        if (this.getConfig().contains("weekly")){
-            WeeklyPay.restore();
-        }
+        WeeklyPay.restore();
 
         Market.restoreData();
 
@@ -86,8 +84,7 @@ public class SignClick extends JavaPlugin{
 
     @Override
     public void onDisable() {
-        getConfig().options().copyDefaults(false);
-        this.SaveDoors();
+        SaveDoors();
 
         WeeklyPay.save();
         CountryManager.saveData();
@@ -96,7 +93,7 @@ public class SignClick extends JavaPlugin{
         WeeklyComp.Save();
 
         getServer().getConsoleSender().sendMessage(ChatColor.RED + "SignClick is disabled!");
-        this.saveConfig();
+        saveConfig();
         Bukkit.getScheduler().cancelTasks(SignClick.getPlugin());
 
     }

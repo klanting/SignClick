@@ -12,5 +12,6 @@ public class DefaultConfig {
         config.addDefault("flux", 1.15);
 
         config.options().copyDefaults(true);
+        SignClick.getPlugin().saveConfig();
     }
 }

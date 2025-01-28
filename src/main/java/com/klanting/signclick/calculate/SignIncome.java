@@ -1,6 +1,7 @@
 package com.klanting.signclick.calculate;
 
 import com.klanting.signclick.SignClick;
+import com.klanting.signclick.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -129,8 +130,9 @@ public class SignIncome {
     public static void Set(SignChangeEvent sign, Player player){
         if (getAttachedBlock(sign.getBlock()).getRelative(BlockFace.DOWN).getState().getData().toString().contains("DOOR")){
             if (!owner.containsKey(getAttachedBlock(sign.getBlock()).getRelative(BlockFace.DOWN).getLocation())){
-                sign.setLine(0, "§b[sign_in]");
-                sign.setLine(2, player.getName());
+
+                Utils.setSign(sign, new String[]{"§b[sign_in]", "", player.getName(), ""});
+
                 owner.put(getAttachedBlock(sign.getBlock()).getRelative(BlockFace.DOWN).getLocation(), player.getUniqueId());
             }else {
                 player.sendMessage("§bThis door is already locked");

@@ -300,8 +300,7 @@ public class Market {
 
         getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "SignClick save Market completed!");
 
-        SignClick.getPlugin().getConfig().options().copyDefaults(true);
-        SignClick.getPlugin().saveConfig();
+
     }
 
     public static void restoreData(){
