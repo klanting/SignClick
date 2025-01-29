@@ -49,16 +49,13 @@ public class CompanyHandlerCreate extends CompanyHandler{
         }
 
         stock_name = stock_name.toUpperCase();
-        Boolean succes = Market.addCompany(company_name, stock_name, Market.getAccount(player));
+        Boolean succes = Market.addCompany(company_name, stock_name, Market.getAccount(player), creationCost);
 
         CommandAssert.assertTrue(succes, "§bcompany create failed: name/stockName already in use");
 
         player.sendMessage("§byou succesfully found "+company_name+" good luck CEO "+player.getName());
 
         SignClick.getEconomy().withdrawPlayer(player, creationCost);
-        Company comp = Market.getCompany(stock_name);
-        comp.addBal(creationCost);
-        comp.setLastValue(creationCost);
 
         return false;
     }

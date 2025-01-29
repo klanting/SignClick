@@ -750,7 +750,7 @@ class CompanyCTests {
         testPlayer.assertNoMoreSaid();
 
         Company comp = Market.getCompany("TCI");
-        assertTrue(comp.openTrade);
+        assertTrue(comp.getCOM().isOpenTrade());
         assertEquals(0, comp.getMarketShares());
 
     }
@@ -775,7 +775,7 @@ class CompanyCTests {
         testPlayer.assertNoMoreSaid();
 
         Company comp = Market.getCompany("TCI");
-        assertTrue(comp.openTrade);
+        assertTrue(comp.getCOM().isOpenTrade());
         assertEquals(1000001, comp.getTotalShares());
 
 

@@ -84,7 +84,7 @@ public class Market {
 
     public static Boolean buy(String Sname, Integer amount, Account acc){
         Company comp = getCompany(Sname);
-        if (comp.getMarketShares() >= amount || comp.openTrade){
+        if (comp.getMarketShares() >= amount || comp.getCOM().isOpenTrade()){
             int market_am = comp.getMarketShares();
             comp.setMarketShares(market_am-amount);
 
@@ -115,6 +115,10 @@ public class Market {
     }
 
     public static Boolean addCompany(String namebus, String StockName, Account acc){
+        return Market.addCompany(namebus,StockName,acc, 0);
+    }
+
+    public static Boolean addCompany(String namebus, String StockName, Account acc, double creationCost){
 
         /*
         * Check StockName already in use
@@ -132,13 +136,12 @@ public class Market {
             }
         }
 
-        Company comp = new Company(namebus, StockName, acc);
+        Company comp = new Company(namebus, StockName, acc, creationCost);
         companies.put(StockName, comp);
 
         comp.changeBase();
 
         comp.checkSupport();
-        comp.calculateCountry();
 
         return true;
     }
@@ -262,7 +265,7 @@ public class Market {
             DecimalFormat df2 = new DecimalFormat("0.00");
             int i2 = i + 1;
 
-            if (Market.getCompany(b).openTrade){
+            if (Market.getCompany(b).getCOM().isOpenTrade()){
                 marketList.add("§b"+i2+". §9"+b+": §7" +"inf"+" ("+"inf"+"%)");
             }else{
                 marketList.add("§b"+i2+". §9"+b+": §7" +df.format(v)+" ("+df2.format((v/comp.getTotalShares().doubleValue()*100.0))+"%)");
@@ -533,7 +536,7 @@ public class Market {
 
             }
 
-            if (!comp.openTrade){
+            if (!comp.getCOM().isOpenTrade()){
                 double value = country.getPolicyBonus(1, 0);
                 total += (int) value;
                 if (value > 0.0){

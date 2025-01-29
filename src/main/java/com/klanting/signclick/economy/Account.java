@@ -59,7 +59,7 @@ public class Account {
 
         int share_amount = shares.getOrDefault(Sname, 0);
         shares.put(Sname, share_amount+amount);
-        if (Market.getCompany(Sname).openTrade){
+        if (Market.getCompany(Sname).getCOM().isOpenTrade()){
             Company comp = Market.getCompany(Sname);
             comp.setTotalShares(comp.getTotalShares()+amount);
         }

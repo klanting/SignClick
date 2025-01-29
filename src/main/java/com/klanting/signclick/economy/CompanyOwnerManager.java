@@ -1,5 +1,6 @@
 package com.klanting.signclick.economy;
 
+import com.klanting.signclick.SignClick;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -7,6 +8,52 @@ import java.text.DecimalFormat;
 import java.util.*;
 
 public class CompanyOwnerManager {
+    /*
+    * CompanyOwnerManager will manage the ownership and share control of the company
+    * */
+
+    private ArrayList<UUID> owners = new ArrayList<>();
+
+    private final Map<UUID, UUID> support = new HashMap<>();
+
+    private final Map<UUID, Integer> shareHolders = new HashMap<>();
+
+
+    private boolean openTrade = false;
+
+    private Integer marketShares = 0;
+
+    private Integer totalShares = SignClick.getPlugin().getConfig().getInt("companyStartShares");
+
+    public boolean isOpenTrade() {
+        return openTrade;
+    }
+
+    public void setOpenTrade(boolean openTrade) {
+        this.openTrade = openTrade;
+    }
+
+
+    public Integer getTotalShares() {
+        return totalShares;
+    }
+
+    public void setTotalShares(Integer totalShares) {
+        this.totalShares = totalShares;
+    }
+
+    public Integer getMarketShares() {
+        return marketShares;
+    }
+
+    public void setMarketShares(Integer marketShares) {
+        this.marketShares = marketShares;
+    }
+
+    public ArrayList<UUID> getOwners() {
+        return owners;
+    }
+
     public void addSupport(UUID key, UUID target) {
         support.put(key, target);
     }
@@ -15,22 +62,12 @@ public class CompanyOwnerManager {
         return support.getOrDefault(target, null);
     }
 
-    private Map<UUID, UUID> support = new HashMap<>();
-
     public Map<UUID, Integer> getShareHolders() {
         return shareHolders;
     }
 
-    private Map<UUID, Integer> shareHolders = new HashMap<>();
 
-    private ArrayList<UUID> owners = new ArrayList<>();
-
-    public ArrayList<UUID> getOwners() {
-        return owners;
-    }
-
-
-    public CompanyOwnerManager(UUID owner, Integer totalShares){
+    public CompanyOwnerManager(UUID owner){
         support.put(owner, owner);
         shareHolders.put(owner, totalShares);
     }
@@ -58,7 +95,7 @@ public class CompanyOwnerManager {
         owners.add(uuid);
     }
 
-    public void checkSupport(Integer totalShares){
+    public void checkOwnerSupport(){
         double neutral = 0.0;
 
         Map<UUID, Integer> s_dict = new HashMap<>();
@@ -123,7 +160,7 @@ public class CompanyOwnerManager {
         }
     }
 
-    public void getShareTop(Player player, Integer totalShares, Integer marketShares, boolean openTrade){
+    public void getShareTop(Player player){
 
         ArrayList<Map.Entry<UUID, Integer>> entries = new ArrayList<>(shareHolders.entrySet());
 

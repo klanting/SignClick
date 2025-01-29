@@ -21,15 +21,12 @@ import java.text.DecimalFormat;
 import java.util.*;
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.function.BiFunction;
 import java.util.function.Function;
 
 public class Company{
 
     private String name;
     private String stockName;
-
-    public Boolean openTrade = false;
 
 
     public boolean hasPendingContractRequest() {
@@ -85,12 +82,12 @@ public class Company{
 
     private CompanyOwnerManager companyOwnerManager;
 
-    public Company(String n, String StockName, Account creater){
+    public Company(String n, String StockName, Account creater, double creationCost){
         super();
         name = n;
         stockName = StockName;
 
-        companyOwnerManager = new CompanyOwnerManager(creater.getUuid(), totalShares);
+        companyOwnerManager = new CompanyOwnerManager(creater.getUuid());
 
         creater.receivePrivate(stockName, getTotalShares());
 
@@ -100,15 +97,16 @@ public class Company{
         upgrades.add(new UpgradeCraftLimit(0));
         upgrades.add(new UpgradeInvestReturnTime(0));
         type = "other";
+
+        lastValue = creationCost;
+        addBal(creationCost);
     }
 
 
 
     public void setMarketShares(Integer marketShares) {
-        this.marketShares = marketShares;
+        getCOM().setMarketShares(marketShares);
     }
-
-    protected Integer marketShares = 0;
 
     public double getShareBalance() {
         return shareBalance;
@@ -122,27 +120,12 @@ public class Company{
         return spendable;
     }
 
-    public double getLastValue() {
-        return lastValue;
-    }
-
-    public void setSpendable(double spendable) {
-        this.spendable = spendable;
-    }
-
-
     public Integer getTotalShares() {
-        return totalShares;
+        return getCOM().getTotalShares();
     }
 
     public void setTotalShares(Integer totalShares) {
-        this.totalShares = totalShares;
-    }
-
-    protected Integer totalShares = SignClick.getPlugin().getConfig().getInt("companyStartShares");
-
-    public void setLastValue(double lastValue) {
-        this.lastValue = lastValue;
+        getCOM().setTotalShares(totalShares);
     }
 
     public double getValue(){
@@ -191,7 +174,7 @@ public class Company{
     }
 
     public double stockCompareGet(){
-        if (getLastValue() == 0){
+        if (lastValue == 0){
             return 0.0;
         }
 
@@ -205,7 +188,7 @@ public class Company{
     }
 
     public Integer getMarketShares() {
-        return marketShares;
+        return getCOM().getMarketShares();
     }
 
     private static final List<String> softLink = new ArrayList<>(List.of("country"));
@@ -252,7 +235,6 @@ public class Company{
                 }
 
                 field.set(this, o);
-
 
             }catch (IllegalAccessException ignored){
 
@@ -328,19 +310,20 @@ public class Company{
     }
 
     public void supportUpdate(Account holder, UUID uuid){
-        companyOwnerManager.addSupport(holder.getUuid(), uuid);
-        companyOwnerManager.checkSupport(totalShares);
-        calculateCountry();
+        getCOM().addSupport(holder.getUuid(), uuid);
+        checkSupport();
+
     }
 
     public void checkSupport(){
-        companyOwnerManager.checkSupport(totalShares);
+        getCOM().checkOwnerSupport();
+        calculateCountry();
 
     }
 
 
     public void getShareTop(Player player){
-        companyOwnerManager.getShareTop(player, totalShares, marketShares, openTrade);
+        getCOM().getShareTop(player);
     }
 
 
@@ -353,8 +336,9 @@ public class Company{
         }
 
         double value_one = (getValue()/getTotalShares().doubleValue())*(0.01- modifier1-modifier2);
-        removeBal(value_one*(getTotalShares()-marketShares));
-        for (Entry<UUID, Integer> entry : companyOwnerManager.getShareHolders().entrySet()){
+        removeBal(value_one*(getTotalShares()-getMarketShares()));
+
+        for (Entry<UUID, Integer> entry : getCOM().getShareHolders().entrySet()){
             UUID holder = entry.getKey();
             OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(holder);
             int shares = entry.getValue();
@@ -370,12 +354,12 @@ public class Company{
         DecimalFormat df = new DecimalFormat("###,###,###");
         ArrayList<String> name_array = new ArrayList<>();
         ArrayList<String> owner_array = new ArrayList<>();
-        for(Entry<UUID, Integer> entry : companyOwnerManager.getShareHolders().entrySet()){
+        for(Entry<UUID, Integer> entry : getCOM().getShareHolders().entrySet()){
             UUID uuid = entry.getKey();
             name_array.add(Bukkit.getOfflinePlayer(uuid).getName());
         }
 
-        ArrayList<UUID> owners = companyOwnerManager.getOwners();
+        ArrayList<UUID> owners = getCOM().getOwners();
         for (int i = 0; i < owners.size(); i++) {
             owner_array.add(Bukkit.getOfflinePlayer(owners.get(i)).getName());
         }
@@ -480,7 +464,7 @@ public class Company{
             pct += country.getPolicyBonus(2, 11);
         }
 
-        setSpendable(getValue()*pct);
+        spendable = getValue()*pct;
     }
 
     public void resetPatentCrafted(){
@@ -529,7 +513,7 @@ public class Company{
         Integer highest = -1;
         String linked_name = null;
 
-        for (Entry<UUID, Integer> entry : companyOwnerManager.getShareHolders().entrySet()){
+        for (Entry<UUID, Integer> entry : getCOM().getShareHolders().entrySet()){
 
             if (CountryManager.getCountry(entry.getKey()) == null){
                 continue;
