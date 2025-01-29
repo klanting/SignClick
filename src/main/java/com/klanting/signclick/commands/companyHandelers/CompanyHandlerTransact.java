@@ -25,7 +25,7 @@ public class CompanyHandlerTransact extends CompanyHandler{
 
         double amount = Double.parseDouble(args[3]);
 
-        CommandAssert.assertTrue(Market.getBusiness(stock_name).isOwner(player.getUniqueId()), "§byou must be a CEO of this com.company");
+        CommandAssert.assertTrue(Market.getCompany(stock_name).isOwner(player.getUniqueId()), "§byou must be a CEO of this com.company");
 
         if (firstEnter){
             player.sendMessage("§bplease re-enter the command to confirm");
@@ -33,8 +33,8 @@ public class CompanyHandlerTransact extends CompanyHandler{
         }
 
         //still need refresh weekly the 20 % cap
-        if (Market.getBusiness(stock_name).removeBal(amount)){
-            Company comp_target = Market.getBusiness(target_stock_name);
+        if (Market.getCompany(stock_name).removeBal(amount)){
+            Company comp_target = Market.getCompany(target_stock_name);
             comp_target.addBal(amount);
             player.sendMessage("§bsuccesfully paid §f"+target_stock_name+" "+amount);
             comp_target.sendOwner("§bsuccesfully received §f"+amount+" §bfrom §f"+stock_name);

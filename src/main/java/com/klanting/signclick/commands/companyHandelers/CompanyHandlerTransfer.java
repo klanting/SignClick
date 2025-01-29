@@ -42,8 +42,8 @@ public class CompanyHandlerTransfer extends CompanyHandler{
         Account target = Market.getAccount(player_offline.getUniqueId());
         boolean suc6 = Market.getAccount(player).transfer(stock_name, amount, target, player);
         if (suc6){
-            Market.getBusiness(stock_name).changeShareHolder(target, amount);
-            Market.getBusiness(stock_name).changeShareHolder(Market.getAccount(player), -amount);
+            Market.getCompany(stock_name).changeShareHolder(target, amount);
+            Market.getCompany(stock_name).changeShareHolder(Market.getAccount(player), -amount);
         }
 
         return false;

@@ -1,6 +1,5 @@
 package com.klanting.signclick.events;
 
-import com.klanting.signclick.SignClick;
 import com.klanting.signclick.economy.*;
 import com.klanting.signclick.economy.companyPatent.Auction;
 import com.klanting.signclick.economy.companyPatent.Patent;
@@ -22,8 +21,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 
-import static org.bukkit.Bukkit.getServer;
-
 public class MenuEvents implements Listener {
     @EventHandler
     public static void OnClick(InventoryClickEvent event){
@@ -37,7 +34,7 @@ public class MenuEvents implements Listener {
             Player player = (Player) event.getWhoClicked();
             event.setCancelled(true);
 
-            Company company = Market.getBusiness(event.getCurrentItem().getItemMeta().getDisplayName());
+            Company company = Market.getCompany(event.getCurrentItem().getItemMeta().getDisplayName());
             CompanyOwnerMenu screen = new CompanyOwnerMenu(player.getUniqueId(), company);
 
             player.openInventory(screen.getInventory());

@@ -24,7 +24,7 @@ public class ContractSendCTC extends CompanyHandler {
 
         CommandAssert.assertTrue(Market.hasBusiness(stock_name), "§bbusiness name is invalid");
 
-        CommandAssert.assertTrue(Market.getBusiness(stock_name).isOwner(player.getUniqueId()), "§byou must be CEO to send that request");
+        CommandAssert.assertTrue(Market.getCompany(stock_name).isOwner(player.getUniqueId()), "§byou must be CEO to send that request");
 
         String target_stock_name = args[2].toUpperCase();
         target_stock_name = target_stock_name.toUpperCase();
@@ -42,8 +42,8 @@ public class ContractSendCTC extends CompanyHandler {
             return true;
         }
 
-        if (!Market.getBusiness(target_stock_name).hasPendingContractRequest()){
-            Market.getBusiness(stock_name).sendOfferCompContract(target_stock_name, amount, weeks, reason);
+        if (!Market.getCompany(target_stock_name).hasPendingContractRequest()){
+            Market.getCompany(stock_name).sendOfferCompContract(target_stock_name, amount, weeks, reason);
         }else{
             player.sendMessage("§ccompany still has another offer pending, try again in 2 minutes");
         }

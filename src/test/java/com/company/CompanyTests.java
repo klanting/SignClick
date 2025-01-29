@@ -13,10 +13,6 @@ import org.junit.jupiter.api.Test;
 
 import tools.TestTools;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -53,11 +49,11 @@ class CompanyTests {
         SignClick.getEconomy().depositPlayer(testPlayer, 40000000);
         assertTrue(SignClick.getEconomy().has(testPlayer, 40000000));
 
-        Boolean succes = Market.addBusiness("TestCaseInc", "TCI", Market.getAccount(testPlayer));
+        Boolean succes = Market.addCompany("TestCaseInc", "TCI", Market.getAccount(testPlayer));
         assertTrue(succes);
         SignClick.getEconomy().withdrawPlayer(testPlayer, 40000000);
 
-        Company comp = Market.getBusiness("TCI");
+        Company comp = Market.getCompany("TCI");
         assertEquals(0, comp.getValue());
         assertEquals(1000000, Market.getAccount(testPlayer).shares.get("TCI"));
 
@@ -72,16 +68,16 @@ class CompanyTests {
         /*
          * Verify that the company is not overridden by uniquely identifying the object
          * */
-        Market.getBusiness("TCI").addBal(10.0);
-        assertEquals(10.0, Market.getBusiness("TCI").getValue());
+        Market.getCompany("TCI").addBal(10.0);
+        assertEquals(10.0, Market.getCompany("TCI").getValue());
 
         /*
         * Create duplicate company
         * */
-        boolean succes = Market.addBusiness("TestCaseInc", "TCI", Market.getAccount(testPlayer));
+        boolean succes = Market.addCompany("TestCaseInc", "TCI", Market.getAccount(testPlayer));
         assertFalse(succes);
 
-        assertEquals(10.0, Market.getBusiness("TCI").getValue());
+        assertEquals(10.0, Market.getCompany("TCI").getValue());
     }
 
     @Test
@@ -91,8 +87,8 @@ class CompanyTests {
         /*
         * Verify that the company is not overridden by uniquely identifying the object
         * */
-        Market.getBusiness("TCI").addBal(10.0);
-        assertEquals(10.0, Market.getBusiness("TCI").getValue());
+        Market.getCompany("TCI").addBal(10.0);
+        assertEquals(10.0, Market.getCompany("TCI").getValue());
 
         /*
         * Restart server
@@ -108,16 +104,16 @@ class CompanyTests {
         /*
          * Create duplicate company
          * */
-        boolean succes = Market.addBusiness("TestCaseInc", "TCI", Market.getAccount(testPlayer));
+        boolean succes = Market.addCompany("TestCaseInc", "TCI", Market.getAccount(testPlayer));
         assertFalse(succes);
-        assertEquals(10.0, Market.getBusiness("TCI").getValue());
+        assertEquals(10.0, Market.getCompany("TCI").getValue());
 
         /*
          * Create duplicate company with different Sname, but same namebus
          * */
-        succes = Market.addBusiness("TestCaseInc", "TCI2", Market.getAccount(testPlayer));
+        succes = Market.addCompany("TestCaseInc", "TCI2", Market.getAccount(testPlayer));
         assertFalse(succes);
-        assertEquals(10.0, Market.getBusiness("TCI").getValue());
+        assertEquals(10.0, Market.getCompany("TCI").getValue());
 
     }
 
@@ -125,11 +121,11 @@ class CompanyTests {
     void companyAddMoney(){
         Player testPlayer = server.addPlayer();
 
-        Boolean succes = Market.addBusiness("TestCaseInc", "TCI", Market.getAccount(testPlayer));
+        Boolean succes = Market.addCompany("TestCaseInc", "TCI", Market.getAccount(testPlayer));
         assertTrue(succes);
 
 
-        Company comp = Market.getBusiness("TCI");
+        Company comp = Market.getCompany("TCI");
         comp.addBal(100.0);
 
         assertEquals(100.0, comp.getBal());
@@ -140,10 +136,10 @@ class CompanyTests {
     void companySaveLoad(){
         Player testPlayer = server.addPlayer();
 
-        Boolean succes = Market.addBusiness("TestCaseInc", "TCI", Market.getAccount(testPlayer));
+        Boolean succes = Market.addCompany("TestCaseInc", "TCI", Market.getAccount(testPlayer));
         assertTrue(succes);
 
-        Company comp = Market.getBusiness("TCI");
+        Company comp = Market.getCompany("TCI");
         comp.addBal(1000.0);
 
         plugin.onDisable();
@@ -151,7 +147,7 @@ class CompanyTests {
         Market.clear();
         plugin = TestTools.setupPlugin(server);
 
-        comp = Market.getBusiness("TCI");
+        comp = Market.getCompany("TCI");
         assertNotNull(comp);
         assertEquals(1000.0, comp.getBal());
 
@@ -161,10 +157,10 @@ class CompanyTests {
     void companyRunTicks(){
         Player testPlayer = server.addPlayer();
 
-        Boolean succes = Market.addBusiness("TestCaseInc", "TCI", Market.getAccount(testPlayer));
+        Boolean succes = Market.addCompany("TestCaseInc", "TCI", Market.getAccount(testPlayer));
         assertTrue(succes);
 
-        Company comp = Market.getBusiness("TCI");
+        Company comp = Market.getCompany("TCI");
         comp.addBal(1000.0);
 
         server.getScheduler().performTicks(60*60*24*7*20+1);
@@ -175,10 +171,10 @@ class CompanyTests {
     void companyContractServerToCompany(){
         PlayerMock testPlayer = server.addPlayer();
 
-        boolean succes = Market.addBusiness("TestCaseInc", "TCI", Market.getAccount(testPlayer));
+        boolean succes = Market.addCompany("TestCaseInc", "TCI", Market.getAccount(testPlayer));
         assertTrue(succes);
 
-        Company comp = Market.getBusiness("TCI");
+        Company comp = Market.getCompany("TCI");
         comp.addBal(1000000000.0);
         comp.doUpgrade(0);
 
@@ -207,13 +203,13 @@ class CompanyTests {
     void companyGetCompanies(){
         PlayerMock testPlayer = server.addPlayer();
 
-        boolean suc6 = Market.addBusiness("TestCaseInc", "TCI", Market.getAccount(testPlayer));
+        boolean suc6 = Market.addCompany("TestCaseInc", "TCI", Market.getAccount(testPlayer));
         assertTrue(suc6);
 
-        suc6 = Market.addBusiness("TestCaseInc2", "TCI2", Market.getAccount(testPlayer));
+        suc6 = Market.addCompany("TestCaseInc2", "TCI2", Market.getAccount(testPlayer));
         assertTrue(suc6);
 
-        suc6 = Market.addBusiness("TestCaseInc3", "TCI3", Market.getAccount(testPlayer));
+        suc6 = Market.addCompany("TestCaseInc3", "TCI3", Market.getAccount(testPlayer));
         assertTrue(suc6);
 
         assertEquals(3, Market.getBusinesses().size());

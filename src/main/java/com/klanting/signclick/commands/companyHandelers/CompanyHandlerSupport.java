@@ -8,8 +8,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
-import java.text.DecimalFormat;
-
 public class CompanyHandlerSupport extends CompanyHandler{
     @Override
     public Boolean handleCommand(Player player, String[] args, Boolean firstEnter) throws CommandException {
@@ -32,7 +30,7 @@ public class CompanyHandlerSupport extends CompanyHandler{
 
         if (player_name.equals("neutral")){
             Account acc = Market.getAccount(player);
-            Market.getBusiness(stock_name).supportUpdate(acc, null);
+            Market.getCompany(stock_name).supportUpdate(acc, null);
             player.sendMessage("§bsupport changed to §e"+player_name);
             return false;
         }
@@ -40,7 +38,7 @@ public class CompanyHandlerSupport extends CompanyHandler{
         CommandAssert.assertTrue(player_offline != null, "§bplayer doesn't exist");
 
         Account acc = Market.getAccount(player);
-        Market.getBusiness(stock_name).supportUpdate(acc, player_offline.getUniqueId());
+        Market.getCompany(stock_name).supportUpdate(acc, player_offline.getUniqueId());
         player.sendMessage("§bsupport changed to §f"+player_name);
         return false;
     }

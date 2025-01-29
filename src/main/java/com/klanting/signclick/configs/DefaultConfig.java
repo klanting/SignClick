@@ -9,9 +9,10 @@ public class DefaultConfig {
         FileConfiguration config = SignClick.getPlugin().getConfig();
 
         config.addDefault("fee", 0.05);
-        config.addDefault("flux", 1.10);
-        config.addDefault("companyCreateCost", 40_000_000.0);
+        config.addDefault("flux", 1.01);
+        config.addDefault("companyCreateCost", 4_000.0);
         config.addDefault("companyConfirmation", false);
+        config.addDefault("companyStartShares", 1000);
 
         config.options().copyDefaults(true);
         SignClick.getPlugin().saveConfig();
@@ -27,6 +28,7 @@ public class DefaultConfig {
         config.addDefault("flux", 1.15);
         config.addDefault("companyCreateCost", 40_000_000.0);
         config.addDefault("companyConfirmation", true);
+        config.addDefault("companyStartShares", 1000_000);
 
         config.options().copyDefaults(true);
         SignClick.getPlugin().saveConfig();

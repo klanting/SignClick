@@ -19,7 +19,7 @@ public class CompanyHandlerSpendable extends CompanyHandler{
         CommandAssert.assertTrue(Market.hasBusiness(stock_name), "§bbusiness name is invalid");
 
         DecimalFormat df = new DecimalFormat("###,###,##0.00");
-        player.sendMessage("§b spendable money: "+df.format(Market.getBusiness(stock_name).getSpendable()));
+        player.sendMessage("§b spendable money: "+df.format(Market.getCompany(stock_name).getSpendable()));
         return false;
     }
 

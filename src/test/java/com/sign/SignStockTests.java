@@ -47,8 +47,8 @@ public class SignStockTests {
 
     @Test
     public void setSignStock(){
-        Market.addBusiness("TCI", "TCI", Market.getAccount(testPlayer));
-        Company comp = Market.getBusiness("TCI");
+        Market.addCompany("TCI", "TCI", Market.getAccount(testPlayer));
+        Company comp = Market.getCompany("TCI");
         comp.addBal(100000.0);
         comp.lastValue = 100000.0;
 

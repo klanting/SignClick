@@ -39,7 +39,7 @@ public class AuctionTests {
 
         PlayerMock testPlayer = server.addPlayer();
 
-        Market.addBusiness("A", "A", Market.getAccount(testPlayer));
+        Market.addCompany("A", "A", Market.getAccount(testPlayer));
         auction.setBit(0, 100, "A");
         assertEquals(100, auction.getBit(0));
 

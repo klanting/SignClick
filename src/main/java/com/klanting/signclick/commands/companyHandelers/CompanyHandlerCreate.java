@@ -8,12 +8,7 @@ import com.klanting.signclick.economy.Country;
 import com.klanting.signclick.economy.CountryManager;
 import com.klanting.signclick.economy.Market;
 import com.klanting.signclick.utils.PreciseNumberFormatter;
-import org.bukkit.Server;
 import org.bukkit.entity.Player;
-
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.util.Locale;
 
 public class CompanyHandlerCreate extends CompanyHandler{
     /*
@@ -54,14 +49,14 @@ public class CompanyHandlerCreate extends CompanyHandler{
         }
 
         stock_name = stock_name.toUpperCase();
-        Boolean succes = Market.addBusiness(company_name, stock_name, Market.getAccount(player));
+        Boolean succes = Market.addCompany(company_name, stock_name, Market.getAccount(player));
 
         CommandAssert.assertTrue(succes, "§bcompany create failed: name/stockName already in use");
 
         player.sendMessage("§byou succesfully found "+company_name+" good luck CEO "+player.getName());
 
         SignClick.getEconomy().withdrawPlayer(player, creationCost);
-        Company comp = Market.getBusiness(stock_name);
+        Company comp = Market.getCompany(stock_name);
         comp.addBal(creationCost);
         comp.lastValue = creationCost;
 

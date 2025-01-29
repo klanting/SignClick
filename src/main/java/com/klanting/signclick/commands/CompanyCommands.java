@@ -6,14 +6,10 @@ import com.klanting.signclick.commands.companyHandelers.contractHandlers.*;
 import com.klanting.signclick.commands.exceptions.CommandException;
 import com.klanting.signclick.economy.Market;
 import com.klanting.signclick.economy.Company;
-import com.klanting.signclick.economy.Account;
 
 import com.klanting.signclick.economy.companyPatent.PatentUpgradeCustom;
-import com.klanting.signclick.Menus.CompanySelector;
 import com.klanting.signclick.SignClick;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -25,7 +21,7 @@ import org.jetbrains.annotations.Nullable;
 import java.text.DecimalFormat;
 import java.util.*;
 
-import static com.klanting.signclick.economy.Market.getBusiness;
+import static com.klanting.signclick.economy.Market.getCompany;
 
 
 public class CompanyCommands implements CommandExecutor, TabCompleter {
@@ -132,7 +128,7 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
             }
 
             DecimalFormat df = new DecimalFormat("###,###,##0.00");
-            Company comp = getBusiness(stock_name);
+            Company comp = getCompany(stock_name);
             player.sendMessage("§b books money: "+df.format(comp.getShareBalance()));
         }
 
@@ -226,7 +222,7 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
                 return true;
             }
 
-            Company comp = getBusiness(stock_name);
+            Company comp = getCompany(stock_name);
             comp.patentUpgrades.add(new PatentUpgradeCustom(args[2], item));
         }
 

@@ -19,7 +19,7 @@ public class Market {
     * Stores which account corresponds to which UUID (player)
     * */
     private static Map<UUID, Account> accounts = new HashMap<UUID, Account>();
-    private static Map<String, Company> company = new HashMap<String, Company>();
+    private static Map<String, Company> companies = new HashMap<String, Company>();
 
     public static final Double fee = SignClick.getPlugin().getConfig().getDouble("fee");
     public static final Double flux = SignClick.getPlugin().getConfig().getDouble("flux");
@@ -39,7 +39,7 @@ public class Market {
         * Clear all static information
         * */
         accounts.clear();
-        company.clear();
+        companies.clear();
 
         contractCompToComp.clear();
         contractCompToPlayer.clear();
@@ -49,7 +49,7 @@ public class Market {
     }
 
     public static Double getBuyPrice(String Sname, Integer amount){
-        Company comp = Market.getBusiness(Sname);
+        Company comp = Market.getCompany(Sname);
 
         double market_pct = (comp.getMarketShares().doubleValue()/(comp.getTotalShares().doubleValue()+Math.min(comp.getMarketShares(), 0)));
         double a = (1.0 - market_pct) * 25.0 - 10.0;
@@ -58,14 +58,14 @@ public class Market {
         double b = (1.0 - market_pct) * 25.0 - 10.0;
 
 
-        double base = comp.getShareBase();
-        double v = base * ((Math.pow(flux, b)) - (Math.pow(flux, a))) /Math.log(flux)/(b-a);
+        double base = comp.getCompanyValue().getShareBase();
+        double v = base * calculateFluxChange(a, b);
         return v*amount;
     }
 
     public static  Double getSellPrice(String Sname, Integer amount){
 
-        String countryName = Market.getBusiness(Sname).getCountry();
+        String countryName = Market.getCompany(Sname).getCountry();
         Country country = CountryManager.getCountry(countryName);
         if (country == null){
             country = new CountryNull();
@@ -83,7 +83,7 @@ public class Market {
 
 
     public static Boolean buy(String Sname, Integer amount, Account acc){
-        Company comp = getBusiness(Sname);
+        Company comp = getCompany(Sname);
         if (comp.getMarketShares() >= amount || comp.openTrade){
             int market_am = comp.getMarketShares();
             comp.marketShares = market_am-amount;
@@ -96,7 +96,7 @@ public class Market {
     }
 
     public static Boolean sell(String Sname, Integer amount, Account acc){
-        Company comp = company.get(Sname);
+        Company comp = companies.get(Sname);
 
         int market_am = comp.getMarketShares();
         comp.marketShares = market_am+amount;
@@ -107,44 +107,40 @@ public class Market {
     }
 
     public static void changeBase(String Sname){
-        Company comp = company.get(Sname);
-        double a = -10.0;
-        double b = 15.0;
-        double v = (comp.getBal()/comp.getTotalShares()) / (((Math.pow(flux, b)) - (Math.pow(flux, a))) /Math.log(flux)/(b-a));
-
-        comp.shareBase = v;
+        Company comp = companies.get(Sname);
+        double newShareBase = (comp.getBal()/comp.getTotalShares()) / calculateFluxChange(-10, 15);;
+        comp.getCompanyValue().setShareBase(newShareBase);
     }
 
-    public static Company getBusiness(String Sname){
-        return company.get(Sname);
+    public static double calculateFluxChange(double a, double b){
+        return (Math.pow(flux, b) - Math.pow(flux, a))/Math.log(flux)/(b-a);
     }
 
-    public static Boolean addBusiness(String namebus, String StockName, Account acc){
+    public static Company getCompany(String Sname){
+        return companies.get(Sname);
+    }
+
+    public static Boolean addCompany(String namebus, String StockName, Account acc){
 
         /*
         * Check StockName already in use
         * */
-        if (company.containsKey(StockName)){
+        if (companies.containsKey(StockName)){
             return false;
         }
 
         /*
          * Check name already in use
          * */
-        for (Company c: company.values()){
+        for (Company c: companies.values()){
             if (c.getName().equals(namebus)){
                 return false;
             }
         }
 
         Company comp = new Company(namebus, StockName, acc);
-        company.put(StockName, comp);
+        companies.put(StockName, comp);
 
-        comp.marketShares = 0;
-
-        comp.totalShares = 1000000;
-
-        comp.shareBase = 0.0;
         changeBase(StockName);
 
         comp.checkSupport();
@@ -154,12 +150,12 @@ public class Market {
     }
 
     public static Boolean hasBusiness(String Sname){
-        return company.containsKey(Sname);
+        return companies.containsKey(Sname);
     }
 
     public static ArrayList<Company> getBusinessByOwner(UUID uuid){
         ArrayList<Company> outputs = new ArrayList<Company>();
-        for(Map.Entry<String, Company> entry : company.entrySet()){
+        for(Map.Entry<String, Company> entry : companies.entrySet()){
             if (entry.getValue().isOwner(uuid)){
                 outputs.add(entry.getValue());
             }
@@ -172,7 +168,7 @@ public class Market {
         * Make a ranking of the top companies by value
         * */
 
-        ArrayList<Map.Entry<String, Company>> entries = new ArrayList<>(company.entrySet());
+        ArrayList<Map.Entry<String, Company>> entries = new ArrayList<>(companies.entrySet());
 
         entries.sort(Comparator.comparing(item -> -item.getValue().getValue()));
 
@@ -229,7 +225,7 @@ public class Market {
 
     public static void resetSpendable(){
 
-        for(Map.Entry<String, Company> entry : company.entrySet()){
+        for(Map.Entry<String, Company> entry : companies.entrySet()){
             Company comp = entry.getValue();
             comp.resetSpendable();
         }
@@ -238,7 +234,7 @@ public class Market {
 
     public static void resetPatentCrafted(){
 
-        for(Map.Entry<String, Company> entry : company.entrySet()){
+        for(Map.Entry<String, Company> entry : companies.entrySet()){
             Company comp = entry.getValue();
             comp.resetPatentCrafted();
         }
@@ -247,7 +243,7 @@ public class Market {
 
     public static void runDividends(){
 
-        for(Map.Entry<String, Company> entry : company.entrySet()){
+        for(Map.Entry<String, Company> entry : companies.entrySet()){
             Company comp = entry.getValue();
             comp.dividend();
         }
@@ -256,7 +252,7 @@ public class Market {
 
     public static void marketAvailable(Player player){
 
-        ArrayList<Map.Entry<String, Company>> entries = new ArrayList<>(company.entrySet());
+        ArrayList<Map.Entry<String, Company>> entries = new ArrayList<>(companies.entrySet());
 
         entries.sort(Comparator.comparing(item -> -item.getValue().getMarketShares()));
 
@@ -266,13 +262,13 @@ public class Market {
 
         for (int i=0; i<entries.size(); i++){
             String b = entries.get(i).getKey();
-            Company comp = Market.getBusiness(b);
+            Company comp = Market.getCompany(b);
             double v = entries.get(i).getValue().getMarketShares();
             DecimalFormat df = new DecimalFormat("###,###,###");
             DecimalFormat df2 = new DecimalFormat("0.00");
             int i2 = i + 1;
 
-            if (Market.getBusiness(b).openTrade){
+            if (Market.getCompany(b).openTrade){
                 marketList.add("§b"+i2+". §9"+b+": §7" +"inf"+" ("+"inf"+"%)");
             }else{
                 marketList.add("§b"+i2+". §9"+b+": §7" +df.format(v)+" ("+df2.format((v/comp.getTotalShares().doubleValue()*100.0))+"%)");
@@ -286,7 +282,7 @@ public class Market {
     public static void SaveData(){
         Utils.writeSave("accounts", accounts);
 
-        Utils.writeSave("companies", company);
+        Utils.writeSave("companies", companies);
 
         Utils.writeSave("contractCompToComp", contractCompToComp);
 
@@ -306,7 +302,7 @@ public class Market {
     public static void restoreData(){
         accounts = Utils.readSave("accounts", new TypeToken<HashMap<UUID, Account>>(){}.getType(), new HashMap<>());
 
-        company = Utils.readSave("companies", new TypeToken<HashMap<String, Company>>(){}.getType(), new HashMap<>());
+        companies = Utils.readSave("companies", new TypeToken<HashMap<String, Company>>(){}.getType(), new HashMap<>());
 
         stockSigns = Utils.readSave("stockSigns", new TypeToken<ArrayList<Location>>(){}.getType(), new ArrayList<>());
 
@@ -327,7 +323,6 @@ public class Market {
     }
 
     public static void runContracts(){
-        // still crashes
         ArrayList<Contract> new_ctc = new ArrayList<>();
         for (Contract c: contractCompToComp){
             boolean keep = c.runContract();
@@ -377,12 +372,12 @@ public class Market {
     }
 
     public static void setContractComptoComp(String from, String to, double amount, int weeks, String reason){
-        contractCompToComp.add(new ContractCTC(Market.getBusiness(from), Market.getBusiness(to), amount, weeks, reason));
+        contractCompToComp.add(new ContractCTC(Market.getCompany(from), Market.getCompany(to), amount, weeks, reason));
 
     }
 
     public static void setContractComptoPlayer(String from, String toUUID, double amount, int weeks, String reason){
-        Contract contract = new ContractCTP(Market.getBusiness(from), UUID.fromString(toUUID),
+        Contract contract = new ContractCTP(Market.getCompany(from), UUID.fromString(toUUID),
                 amount, weeks, reason);
 
         contractCompToPlayer.add(contract);
@@ -391,18 +386,18 @@ public class Market {
 
     public static void setContractPlayertoComp(String fromUUID, String to, double amount, int weeks, String reason){
         contractPlayerToComp.add(new ContractPTC(UUID.fromString(fromUUID),
-                Market.getBusiness(to), amount, weeks, reason));
+                Market.getCompany(to), amount, weeks, reason));
 
     }
 
     public static void setContractServertoComp(String to, double amount, int weeks, String reason, int delay){
-        contractServerToComp.add(new ContractSTC(Market.getBusiness(to), amount, weeks, reason, delay));
+        contractServerToComp.add(new ContractSTC(Market.getCompany(to), amount, weeks, reason, delay));
 
     }
 
     public static List<String> getBusinesses(){
         List<String> autoCompletes = new ArrayList<>();
-        for (Company comp : company.values()){
+        for (Company comp : companies.values()){
             autoCompletes.add(comp.getStockName());
         }
         return autoCompletes;
@@ -414,9 +409,9 @@ public class Market {
 
         for (Contract c : contractCompToComp) {
 
-            Company from = Market.getBusiness(c.from());
+            Company from = Market.getCompany(c.from());
             double amount = c.getAmount();
-            Company to = Market.getBusiness(c.to());
+            Company to = Market.getCompany(c.to());
             int weeks = c.getWeeks();
             if (to.getStockName().equals(stock_name)){
                 income.add("§aContract: from " + from.getStockName() + "(C) to " + to.getStockName() + "(C) amount: " + amount
@@ -431,7 +426,7 @@ public class Market {
         }
 
         for (Contract c : contractCompToPlayer) {
-            Company from = Market.getBusiness(c.toString());
+            Company from = Market.getCompany(c.toString());
             double amount = c.getAmount();
             Account to = Market.getAccount(Bukkit.getServer().getPlayer(c.to()));
             int weeks = c.getWeeks();
@@ -446,7 +441,7 @@ public class Market {
         for (Contract c : contractPlayerToComp) {
             Account from = Market.getAccount(UUID.fromString(c.from()));
             double amount = c.getAmount();
-            Company to = Market.getBusiness(c.to());
+            Company to = Market.getCompany(c.to());
             int weeks = c.getWeeks();
 
             if (to.getStockName().equals(stock_name)){
@@ -457,7 +452,7 @@ public class Market {
         }
 
         for (ContractSTC c : contractServerToComp) {
-            Company to = Market.getBusiness(c.to());
+            Company to = Market.getCompany(c.to());
 
             if (to.getStockName().equals(stock_name)){
                 income.add("§aContract: from SERVER (S) to " + to.getStockName() + "(C) amount: " + c.getAmount()
@@ -482,13 +477,13 @@ public class Market {
             SignStock.update(s);
         }
 
-        for (Company comp: company.values()){
+        for (Company comp: companies.values()){
             comp.stockCompare();
         }
     }
 
     public static void runWeeklyCompanySalary(){
-        for (Company comp : company.values()){
+        for (Company comp : companies.values()){
 
             String countryName = comp.getCountry();
             Country country = CountryManager.getCountry(countryName);

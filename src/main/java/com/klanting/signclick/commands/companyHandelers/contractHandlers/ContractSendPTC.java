@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
-import static com.klanting.signclick.economy.Market.getBusiness;
+import static com.klanting.signclick.economy.Market.getCompany;
 
 public class ContractSendPTC extends CompanyHandler {
 
@@ -32,7 +32,7 @@ public class ContractSendPTC extends CompanyHandler {
 
         CommandAssert.assertTrue(Market.hasBusiness(stock_name), "§bbusiness name is invalid");
 
-        CommandAssert.assertTrue(getBusiness(stock_name).isOwner(player.getUniqueId()),
+        CommandAssert.assertTrue(getCompany(stock_name).isOwner(player.getUniqueId()),
                 "§byou must be CEO to send that request");
 
         UUID target_uuid = null;

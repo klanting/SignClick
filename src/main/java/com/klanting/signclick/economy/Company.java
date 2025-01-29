@@ -52,14 +52,15 @@ public class Company {
     public Boolean openTrade = false;
     public double lastValue = 0.0;
 
-    public double getShareBase() {
-        return shareBase;
+    public CompanyValue getCompanyValue() {
+        return companyValue;
     }
 
-    public double shareBase = 0.0;
+    private final CompanyValue companyValue = new CompanyValue();
 
-    public Map<UUID, UUID> support = new HashMap<UUID, UUID>();
-    public Map<UUID, Integer> shareHolders = new HashMap<UUID, Integer>();
+
+    public Map<UUID, UUID> support = new HashMap<>();
+    public Map<UUID, Integer> shareHolders = new HashMap<>();
 
     public boolean hasPendingContractRequest() {
         return pendingContractRequest != null;
@@ -87,7 +88,7 @@ public class Company {
     public Country country;
     public String type;
 
-    public Integer totalShares = 1000000;
+    public Integer totalShares = SignClick.getPlugin().getConfig().getInt("companyStartShares");
 
     public Integer marketShares = 0;
 
@@ -107,8 +108,8 @@ public class Company {
         stockName = StockName;
 
         support.put(creater.getUuid(), creater.getUuid());
-        shareHolders.put(creater.getUuid(), 1000000);
-        creater.receivePrivate(stockName, 1000000);
+        shareHolders.put(creater.getUuid(), totalShares);
+        creater.receivePrivate(stockName, totalShares);
 
         upgrades.add(new UpgradeExtraPoints(0));
         upgrades.add(new UpgradePatentSlot(0));
@@ -492,12 +493,12 @@ public class Company {
     }
 
     public void sendOfferCompContract(String stock_name, double amount, int weeks, String reason){
-        Market.getBusiness(stock_name).receiveOfferCompContract(stockName, amount, weeks, reason);
+        Market.getCompany(stock_name).receiveOfferCompContract(stockName, amount, weeks, reason);
     }
 
     public void receiveOfferCompContract(String stock_name, double amount, int weeks, String reason){
 
-        pendingContractRequest = new ContractRequestCTC(this, Market.getBusiness(stock_name), amount, weeks, reason);
+        pendingContractRequest = new ContractRequestCTC(this, Market.getCompany(stock_name), amount, weeks, reason);
 
         Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(SignClick.getPlugin(), new Runnable() {
             public void run() {

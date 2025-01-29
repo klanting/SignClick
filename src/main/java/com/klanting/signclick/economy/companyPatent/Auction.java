@@ -7,10 +7,8 @@ import com.google.gson.JsonSerializationContext;
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.economy.Company;
 import com.klanting.signclick.economy.Market;
-import com.klanting.signclick.economy.contracts.ContractSTC;
 import com.klanting.signclick.utils.Utils;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 
 import java.util.*;
 
@@ -133,7 +131,7 @@ public class Auction {
                         continue;
                     }
 
-                    Company comp = Market.getBusiness(bitsOwner.get(i));
+                    Company comp = Market.getCompany(bitsOwner.get(i));
                     comp.patentUpgrades.add(toBuy.get(i));
                 }
 

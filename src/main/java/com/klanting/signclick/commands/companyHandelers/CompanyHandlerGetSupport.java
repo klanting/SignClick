@@ -29,7 +29,7 @@ public class CompanyHandlerGetSupport extends CompanyHandler{
 
         CommandAssert.assertTrue(Market.hasBusiness(stock_name), "§bbusiness name is invalid");
 
-        UUID result = Market.getBusiness(stock_name).support.getOrDefault(target_uuid, null);
+        UUID result = Market.getCompany(stock_name).support.getOrDefault(target_uuid, null);
         String name;
 
         if (result == null){

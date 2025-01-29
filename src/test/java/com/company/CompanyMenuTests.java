@@ -38,7 +38,7 @@ public class CompanyMenuTests {
 
         testPlayer = TestTools.addPermsPlayer(server, plugin);
 
-        boolean suc6 = Market.addBusiness("TestCaseInc", "TCI", Market.getAccount(testPlayer));
+        boolean suc6 = Market.addCompany("TestCaseInc", "TCI", Market.getAccount(testPlayer));
         assertTrue(suc6);
 
         suc6 = server.execute("company", testPlayer, "menu").hasSucceeded();
@@ -61,7 +61,7 @@ public class CompanyMenuTests {
         ItemStack companyOption = inventoryMenu.getItem(slot);
         assertNotNull(companyOption);
         String companyName = companyOption.getItemMeta().getDisplayName();
-        return Market.getBusiness(companyName);
+        return Market.getCompany(companyName);
     }
 
     private InventoryView openMenu(int slot){
@@ -345,7 +345,7 @@ public class CompanyMenuTests {
         Market.clear();
         plugin = TestTools.setupPlugin(server);
 
-        comp = Market.getBusiness("TCI");
+        comp = Market.getCompany("TCI");
         assertEquals(1, comp.patentUpgrades.size());
 
     }

@@ -53,14 +53,14 @@ public class Account {
         }
 
         removeBal(v);
-        Market.getBusiness(Sname).addBooks(v);
+        Market.getCompany(Sname).addBooks(v);
 
         Market.changeBase(Sname);
 
         int share_amount = shares.getOrDefault(Sname, 0);
         shares.put(Sname, share_amount+amount);
-        if (Market.getBusiness(Sname).openTrade){
-            Company comp = Market.getBusiness(Sname);
+        if (Market.getCompany(Sname).openTrade){
+            Company comp = Market.getCompany(Sname);
             comp.totalShares = comp.totalShares+amount;
         }
         player.sendMessage("§bbuy: §aaccepted");
@@ -69,7 +69,7 @@ public class Account {
     public void sellShare(String Sname, Integer amount, Player player){
         double v = Market.getSellPrice(Sname, amount);
 
-        String countryName = Market.getBusiness(Sname).getCountry();
+        String countryName = Market.getCompany(Sname).getCountry();
 
         double sub_fee = Market.getFee();
         Country country = CountryManager.getCountry(countryName);
@@ -86,7 +86,7 @@ public class Account {
             if (playerCountry != null){
                 playerCountry.deposit((int) to_gov);
             }else{
-                Market.getBusiness(Sname).addBooks(to_gov);
+                Market.getCompany(Sname).addBooks(to_gov);
             }
         }else{
             to_gov = v/(1.0-sub_fee);
@@ -98,7 +98,7 @@ public class Account {
         if (share_amount >= amount){
             if (Market.sell(Sname, amount, this)){
                 addBal(v);
-                Market.getBusiness(Sname).removeBooks(v+to_gov);
+                Market.getCompany(Sname).removeBooks(v+to_gov);
                 Market.changeBase(Sname);
 
                 shares.put(Sname, share_amount-amount);
@@ -112,7 +112,7 @@ public class Account {
     }
 
     void set_support(String Sname, UUID value){
-        Market.getBusiness(Sname).supportUpdate(this, value);
+        Market.getCompany(Sname).supportUpdate(this, value);
 
     }
 
@@ -163,7 +163,7 @@ public class Account {
             String b = entry.getKey();
             int s = entry.getValue();
 
-            Company comp = Market.getBusiness(b);
+            Company comp = Market.getCompany(b);
 
             double v = (comp.getValue()/(comp.getTotalShares().doubleValue()))*s;
 
@@ -202,7 +202,7 @@ public class Account {
             DecimalFormat df2 = new DecimalFormat("0.00");
             int i2 = i + 1;
             total += v;
-            Company comp = Market.getBusiness(b);
+            Company comp = Market.getCompany(b);
             player.sendMessage("§b"+i2+". §3"+b+": §7" +df.format(v)+" ("+df2.format((shares.get(b).doubleValue()/comp.getTotalShares().doubleValue()*100.0))+"%)\n");
         }
         DecimalFormat df = new DecimalFormat("###,###,###");

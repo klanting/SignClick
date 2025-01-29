@@ -5,14 +5,9 @@ import com.klanting.signclick.commands.exceptions.CommandAssert;
 import com.klanting.signclick.commands.exceptions.CommandException;
 import com.klanting.signclick.economy.Account;
 import com.klanting.signclick.economy.Market;
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import java.text.DecimalFormat;
-import java.util.UUID;
-
-import static com.klanting.signclick.economy.Market.getBusiness;
 
 public class ContractSignPTC extends CompanyHandler {
 

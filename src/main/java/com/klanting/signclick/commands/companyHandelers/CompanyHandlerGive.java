@@ -7,7 +7,6 @@ import com.klanting.signclick.economy.Market;
 import org.bukkit.entity.Player;
 
 import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 
 public class CompanyHandlerGive extends CompanyHandler{
     @Override
@@ -32,11 +31,11 @@ public class CompanyHandlerGive extends CompanyHandler{
 
         player.sendMessage("§byou succesfully gave §f"+df.format(amount)+"§b to §f"+stock_name);
 
-        Market.getBusiness(stock_name).addBal(amount);
+        Market.getCompany(stock_name).addBal(amount);
 
         SignClick.getEconomy().withdrawPlayer(player, amount);
 
-        Market.getBusiness(stock_name).sendOwner("§byour business §f"+stock_name+" §b received §f"+amount+" §b from §f"+player.getName());
+        Market.getCompany(stock_name).sendOwner("§byour business §f"+stock_name+" §b received §f"+amount+" §b from §f"+player.getName());
 
         return false;
     }

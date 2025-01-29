@@ -20,27 +20,27 @@ public class CompanyHandlerOpenTrade extends CompanyHandler{
         CommandAssert.assertTrue(Market.hasBusiness(stock_name), "§bbusiness name is invalid");
 
         if (args.length < 3){
-            player.sendMessage("§bopen trade is "+ Market.getBusiness(stock_name).openTrade);
+            player.sendMessage("§bopen trade is "+ Market.getCompany(stock_name).openTrade);
             return false;
         }
 
-        CommandAssert.assertTrue(Market.getBusiness(stock_name).isOwner(player.getUniqueId()), "§byou must be a CEO of this com.company");
+        CommandAssert.assertTrue(Market.getCompany(stock_name).isOwner(player.getUniqueId()), "§byou must be a CEO of this com.company");
 
         boolean to_open = Objects.equals(args[2], "TRUE");
-        Market.getBusiness(stock_name).openTrade = to_open;
+        Market.getCompany(stock_name).openTrade = to_open;
 
         if (!to_open){
-            Market.getBusiness(stock_name).marketShares = 0;
+            Market.getCompany(stock_name).marketShares = 0;
         }else{
 
-            Company comp = Market.getBusiness(stock_name);
+            Company comp = Market.getCompany(stock_name);
 
             comp.totalShares = comp.getTotalShares()-comp.getMarketShares();
 
             comp.marketShares = 0;
         }
 
-        player.sendMessage("§bopen trade set to "+ Market.getBusiness(stock_name).openTrade);
+        player.sendMessage("§bopen trade set to "+ Market.getCompany(stock_name).openTrade);
 
         return false;
     }

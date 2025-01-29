@@ -13,7 +13,7 @@ public class CompanyHandlerInfo extends CompanyHandler{
 
         String stock_name = args[1].toUpperCase();
         if (Market.hasBusiness(stock_name)){
-            Market.getBusiness(stock_name).info(player);;
+            Market.getCompany(stock_name).info(player);;
         }else{
             player.sendMessage("§bplease enter a valid company stockname");
         }

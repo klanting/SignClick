@@ -128,7 +128,7 @@ public class SignTP {
         int amount = Integer.parseInt(sign.getLine(3));
 
         if (SignClick.getEconomy().getBalance(player) >= amount) {
-            Company comp = Market.getBusiness(sign.getLine(2));
+            Company comp = Market.getCompany(sign.getLine(2));
 
             Country country = CountryManager.getCountry(player);
             double d = country.getPolicyBonus(3, 0);

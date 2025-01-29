@@ -44,7 +44,7 @@ class CompanyCTests {
 
         testPlayer = TestTools.addPermsPlayer(server, plugin);
 
-        boolean suc6 = Market.addBusiness("TestCaseInc", "TCI", Market.getAccount(testPlayer));
+        boolean suc6 = Market.addCompany("TestCaseInc", "TCI", Market.getAccount(testPlayer));
         assertTrue(suc6);
 
     }
@@ -77,7 +77,7 @@ class CompanyCTests {
 
     @Test
     void companyPay(){
-        Company company = Market.getBusiness("TCI");
+        Company company = Market.getCompany("TCI");
         PlayerMock testPlayer2 = TestTools.addPermsPlayer(server, plugin);
         assertNotNull(company);
         company.addBal(100000.0);
@@ -189,7 +189,7 @@ class CompanyCTests {
 
         SignClick.getEconomy().depositPlayer(testPlayer, 1000);
 
-        Company comp = Market.getBusiness("TCI");
+        Company comp = Market.getCompany("TCI");
         assertEquals(0, comp.getValue());
 
         boolean suc6 = server.execute("company", testPlayer, "give", "TCI", "1000").hasSucceeded();
@@ -218,7 +218,7 @@ class CompanyCTests {
     @Test
     void companySellBuyShares(){
         companyGive();
-        Company comp = Market.getBusiness("TCI");
+        Company comp = Market.getCompany("TCI");
 
         assertEquals(1000000, Market.getAccount(testPlayer.getUniqueId()).shares.get("TCI"));
 
@@ -368,8 +368,8 @@ class CompanyCTests {
          * Test when 2 company exists
          * */
 
-        Market.addBusiness("otherComp", "TCI2", Market.getAccount(testPlayer.getUniqueId()));
-        Market.getBusiness("TCI2").addBal(100.0);
+        Market.addCompany("otherComp", "TCI2", Market.getAccount(testPlayer.getUniqueId()));
+        Market.getCompany("TCI2").addBal(100.0);
 
         suc6 = server.execute("company", testPlayer, "baltop").hasSucceeded();
         assertTrue(suc6);
@@ -388,15 +388,15 @@ class CompanyCTests {
 
         PlayerMock testPlayer2 = TestTools.addPermsPlayer(server, plugin);
 
-        boolean suc6 = Market.addBusiness("TestCaseInc2",
+        boolean suc6 = Market.addCompany("TestCaseInc2",
                 "TCI2", Market.getAccount(testPlayer2.getUniqueId()));
         assertTrue(suc6);
 
 
-        Market.getBusiness("TCI").country = c;
-        Market.getBusiness("TCI2").country = c;
+        Market.getCompany("TCI").country = c;
+        Market.getCompany("TCI2").country = c;
 
-        Market.getBusiness("TCI2").addBal(200000.0);
+        Market.getCompany("TCI2").addBal(200000.0);
 
         suc6 = server.execute("company", testPlayer, "send_contract_ctc",
                 "TCI", "TCI2", "100", "2", "I am cold").hasSucceeded();
@@ -494,9 +494,9 @@ class CompanyCTests {
 
         PlayerMock testPlayer2 = TestTools.addPermsPlayer(server, plugin);
 
-        Market.getBusiness("TCI").country = c;
+        Market.getCompany("TCI").country = c;
 
-        Market.getBusiness("TCI").addBal(200000.0);
+        Market.getCompany("TCI").addBal(200000.0);
 
         boolean suc6 = server.execute("company", testPlayer2, "send_contract_ctp",
                 "TCI", "100", "2", "I am cold").hasSucceeded();
@@ -604,9 +604,9 @@ class CompanyCTests {
 
         PlayerMock testPlayer2 = TestTools.addPermsPlayer(server, plugin);
 
-        Market.getBusiness("TCI").country = c;
+        Market.getCompany("TCI").country = c;
 
-        Market.getBusiness("TCI").addBal(200000.0);
+        Market.getCompany("TCI").addBal(200000.0);
 
         /*
         * send ptc contract
@@ -725,7 +725,7 @@ class CompanyCTests {
         testPlayer.assertSaid("§bopen trade set to true");
         testPlayer.assertNoMoreSaid();
 
-        Company comp = Market.getBusiness("TCI");
+        Company comp = Market.getCompany("TCI");
         assertTrue(comp.openTrade);
         assertEquals(0, comp.marketShares);
 
@@ -750,7 +750,7 @@ class CompanyCTests {
         testPlayer.assertSaid("§bbuy: §aaccepted");
         testPlayer.assertNoMoreSaid();
 
-        Company comp = Market.getBusiness("TCI");
+        Company comp = Market.getCompany("TCI");
         assertTrue(comp.openTrade);
         assertEquals(1000001, comp.totalShares);
 
@@ -762,9 +762,9 @@ class CompanyCTests {
     @Test
     void companyTransact(){
         PlayerMock testPlayer2 = TestTools.addPermsPlayer(server, plugin);
-        Market.addBusiness("TCI2", "TCI2", Market.getAccount(testPlayer2));
+        Market.addCompany("TCI2", "TCI2", Market.getAccount(testPlayer2));
 
-        Market.getBusiness("TCI").addBal(100000.0);
+        Market.getCompany("TCI").addBal(100000.0);
 
         boolean suc6 = server.execute("company", testPlayer, "transact",
                 "TCI", "TCI2", "100").hasSucceeded();
@@ -783,14 +783,14 @@ class CompanyCTests {
         testPlayer2.assertSaid("§bsuccesfully received §f100.0 §bfrom §fTCI");
         testPlayer2.assertNoMoreSaid();
 
-        assertEquals(100.0, Market.getBusiness("TCI2").getBal());
-        assertEquals(100000.0-100, Market.getBusiness("TCI").getBal());
+        assertEquals(100.0, Market.getCompany("TCI2").getBal());
+        assertEquals(100000.0-100, Market.getCompany("TCI").getBal());
 
     }
 
     @Test
     void companyGetSpendable(){
-        Market.getBusiness("TCI").addBal(1000.0);
+        Market.getCompany("TCI").addBal(1000.0);
 
         boolean suc6 = server.execute("company", testPlayer, "spendable",
                 "TCI").hasSucceeded();
@@ -802,7 +802,7 @@ class CompanyCTests {
 
     @Test
     void companyGetBuyPriceAfterReload(){
-        Market.getBusiness("TCI").addBal(1000.0);
+        Market.getCompany("TCI").addBal(1000.0);
 
         boolean suc6 = server.execute("company", testPlayer, "get_buy_price",
                 "TCI").hasSucceeded();
@@ -832,7 +832,7 @@ class CompanyCTests {
     void companySupport(){
         PlayerMock testPlayer2 = server.addPlayer();
 
-        Company comp = Market.getBusiness("TCI");
+        Company comp = Market.getCompany("TCI");
 
         /*
         * Check that testPlayer is the owner
@@ -859,7 +859,7 @@ class CompanyCTests {
     void companySupportNeutral(){
         PlayerMock testPlayer2 = server.addPlayer();
 
-        Company comp = Market.getBusiness("TCI");
+        Company comp = Market.getCompany("TCI");
 
         /*
          * Check that testPlayer is the owner
@@ -911,7 +911,7 @@ class CompanyCTests {
     void companySupportNeutral2(){
         PlayerMock testPlayer2 = server.addPlayer();
 
-        Company comp = Market.getBusiness("TCI");
+        Company comp = Market.getCompany("TCI");
 
         /*
          * Check that testPlayer is the owner
@@ -996,7 +996,7 @@ class CompanyCTests {
         /*
         * Test Autocomplete providing company names
         * */
-        Market.addBusiness("TestCaseInc2", "TCI2", Market.getAccount(testPlayer));
+        Market.addCompany("TestCaseInc2", "TCI2", Market.getAccount(testPlayer));
 
         for (String item: CompanyCommands.whitelist){
             List<String> receivedAutoCompletes =  server.getCommandTabComplete(testPlayer, "company "+item+" ");

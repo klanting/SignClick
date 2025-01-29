@@ -21,7 +21,7 @@ public class CompanyHandlerPay extends CompanyHandler{
         double amount = Double.parseDouble(args[3]);
         OfflinePlayer player_offline = Bukkit.getOfflinePlayer(player_name);
 
-        CommandAssert.assertTrue(Market.getBusiness(stock_name).isOwner(player.getUniqueId()),
+        CommandAssert.assertTrue(Market.getCompany(stock_name).isOwner(player.getUniqueId()),
                 "§byou must be a CEO of this company");
 
         CommandAssert.assertTrue(!player.getName().equals(player_name),
@@ -33,7 +33,7 @@ public class CompanyHandlerPay extends CompanyHandler{
             return true;
         }
 
-        if (Market.getBusiness(stock_name).removeBal(amount)){
+        if (Market.getCompany(stock_name).removeBal(amount)){
             SignClick.getEconomy().depositPlayer(player_offline, amount);
             player.sendMessage("§bsuccesfully paid §f"+player_name+" "+amount);
             Player target = Bukkit.getPlayer(player_offline.getUniqueId());

@@ -4,6 +4,7 @@ import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
 import com.klanting.signclick.SignClick;
+import com.klanting.signclick.economy.Company;
 import com.klanting.signclick.economy.CountryManager;
 import com.klanting.signclick.economy.Market;
 import org.junit.jupiter.api.AfterEach;
@@ -11,7 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import tools.TestTools;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class CompanyConfigTests {
     private ServerMock server;
@@ -28,7 +29,7 @@ public class CompanyConfigTests {
 
         testPlayer = TestTools.addPermsPlayer(server, plugin);
 
-        boolean suc6 = Market.addBusiness("TestCaseInc", "TCI", Market.getAccount(testPlayer));
+        boolean suc6 = Market.addCompany("TestCaseInc", "TCI", Market.getAccount(testPlayer));
         assertTrue(suc6);
 
     }
@@ -74,5 +75,27 @@ public class CompanyConfigTests {
 
         testPlayer.assertSaid("§byou succesfully found TESTINGCOMP good luck CEO Player0");
         testPlayer.assertNoMoreSaid();
+    }
+
+    @Test
+    void companyCreateLessShares(){
+
+        plugin.getConfig().set("companyConfirmation", false);
+        plugin.getConfig().set("companyStartShares", 1000);
+
+        /*
+         * Check that we can create a company cheaper
+         * */
+
+        SignClick.getEconomy().depositPlayer(testPlayer, 40_000_000);
+        boolean suc6 = server.execute("company", testPlayer, "create", "TESTINGCOMP", "COMP").hasSucceeded();
+        assertTrue(suc6);
+
+        testPlayer.assertSaid("§byou succesfully found TESTINGCOMP good luck CEO Player0");
+        testPlayer.assertNoMoreSaid();
+
+        Company comp = Market.getCompany("COMP");
+        assertEquals(1000, comp.totalShares);
+        assertEquals(1000, Market.getAccount(testPlayer).shares.get("COMP"));
     }
 }

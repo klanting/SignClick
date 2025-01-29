@@ -13,7 +13,7 @@ public class CompanyHandlerSharetop extends CompanyHandler{
         String stock_name = args[1].toUpperCase();
 
         if (Market.hasBusiness(stock_name)){
-            Market.getBusiness(stock_name).getShareTop(player);
+            Market.getCompany(stock_name).getShareTop(player);
         }else{
             player.sendMessage("§bplease enter a valid company stockname");
         }
