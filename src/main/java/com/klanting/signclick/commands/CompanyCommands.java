@@ -84,8 +84,15 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
 
             if (handlerTranslation.containsKey(commando)){
                 CompanyHandler ch = handlerTranslation.get(commando);
-                boolean setConfirm = ch.handleCommand(player, args,
-                        !confirm.getOrDefault(player, "").equals(commando));
+
+                /*
+                * Check whether command is entered for the first time, so that the command needs to be repeated
+                * if command confirmation is enabled
+                * */
+                boolean firstEnter = !confirm.getOrDefault(player, "").equals(commando);
+                firstEnter = firstEnter && SignClick.getPlugin().getConfig().getBoolean("companyConfirmation");
+
+                boolean setConfirm = ch.handleCommand(player, args, firstEnter);
 
                 if (setConfirm){
                     confirm.put(player, commando);

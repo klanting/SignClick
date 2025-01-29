@@ -7,7 +7,13 @@ import com.klanting.signclick.economy.Company;
 import com.klanting.signclick.economy.Country;
 import com.klanting.signclick.economy.CountryManager;
 import com.klanting.signclick.economy.Market;
+import com.klanting.signclick.utils.PreciseNumberFormatter;
+import org.bukkit.Server;
 import org.bukkit.entity.Player;
+
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 public class CompanyHandlerCreate extends CompanyHandler{
     /*
@@ -32,14 +38,17 @@ public class CompanyHandlerCreate extends CompanyHandler{
             discount_pct = (1.0- country.getPolicyBonus(1, 4));
         }
 
-        double creationCost = 40000000.0*discount_pct;
+        double baseCreationCost = SignClick.getPlugin().getConfig().getDouble("companyCreateCost");
+        double creationCost = baseCreationCost*discount_pct;
+
+        String formattedCost = PreciseNumberFormatter.format(creationCost);
 
         CommandAssert.assertTrue(SignClick.getEconomy().has(player, creationCost),
-                "§bmaking a company costs §c40 million (or discount policy)");
+                "§bmaking a company costs §c"+formattedCost);
 
         if (firstEnter){
             player.sendMessage("§bplease re-enter your command to confirm that you want to start a company" +
-                    " and want to auto-transfer §640 million §bto your business from your account"+
+                    " and want to auto-transfer §6"+formattedCost+" §bto your business from your account"+
                     " If you agree, enter: §c/company create "+company_name+" "+stock_name);
             return true;
         }

@@ -12,7 +12,7 @@ import java.util.Random;
 
 public class DynmapCheck {
     public static void Hide(){
-        Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(SignClick.getPlugin(), new Runnable() {
+        Bukkit.getServer().getScheduler().runTaskTimer(SignClick.getPlugin(), new Runnable() {
             public void run() {
                 for (Player player: Bukkit.getOnlinePlayers()){
                     if (!SignClick.getDynmap().getPlayerVisbility(player)){

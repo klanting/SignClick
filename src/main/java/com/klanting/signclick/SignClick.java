@@ -16,6 +16,7 @@ import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.dynmap.DynmapAPI;
@@ -37,7 +38,7 @@ public class SignClick extends JavaPlugin{
 
         plugin = this;
 
-        DefaultConfig.makeDefaultConfig();
+        DefaultConfig.makeDefaultConfigHard();
 
         if (!setupEconomy() ) {
             getServer().getConsoleSender().sendMessage(ChatColor.RED + "Economy failed!");
@@ -69,6 +70,7 @@ public class SignClick extends JavaPlugin{
         getServer().getPluginManager().registerEvents(new BusEvents(), this);
         getServer().getPluginManager().registerEvents(new MenuEvents(), this);
         getServer().getPluginManager().registerEvents(new PatentEvents(), this);
+
         getCommand("signclickpos").setExecutor(new SignCommands());
         getCommand("signclick").setExecutor(new BasicCommands());
         getCommand("weeklypay").setExecutor(new BasicCommands());
@@ -77,6 +79,7 @@ public class SignClick extends JavaPlugin{
         getCommand("country").setExecutor(new CountryCommands());
         getCommand("company").setExecutor(new CompanyCommands());
         getCommand("party").setExecutor(new PartyCommands());
+
         getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "SignClick is enabled!");
 
 
@@ -136,7 +139,6 @@ public class SignClick extends JavaPlugin{
             return false;
         }
         RegisteredServiceProvider<DynmapAPI> rsp = getServer().getServicesManager().getRegistration(DynmapAPI.class);
-        //dynmap = (DynmapAPI) Bukkit.getServer().getPluginManager().getPlugin("dynmap");
 
         if (rsp != null){
             dynmap = rsp.getProvider();
@@ -172,4 +174,5 @@ public class SignClick extends JavaPlugin{
     public static SignClick getPlugin() {
         return plugin;
     }
+
 }
