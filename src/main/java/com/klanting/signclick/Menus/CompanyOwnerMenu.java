@@ -30,9 +30,9 @@ public class CompanyOwnerMenu extends SelectionMenu {
         ItemMeta m = value.getItemMeta();
         DecimalFormat df = new DecimalFormat("###,###,###");
         ArrayList<String> l = new ArrayList<>();
-        l.add("§6Value: §9"+ df.format(comp.getCompanyValue().getValue()));
+        l.add("§6Value: §9"+ df.format(comp.getValue()));
         l.add("§6Spendable: §9"+ df.format(comp.getSpendable()));
-        l.add("§6Points: §9"+ df.format(comp.getCompanyValue().getSecurityFunds()));
+        l.add("§6Points: §9"+ df.format(comp.getSecurityFunds()));
         l.add("§6Type: §9"+ comp.type);
 
         m.setDisplayName("§6Balance");

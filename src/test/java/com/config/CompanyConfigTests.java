@@ -95,7 +95,7 @@ public class CompanyConfigTests {
         testPlayer.assertNoMoreSaid();
 
         Company comp = Market.getCompany("COMP");
-        assertEquals(1000, comp.getCompanyValue().getTotalShares());
+        assertEquals(1000, comp.getTotalShares());
         assertEquals(1000, Market.getAccount(testPlayer).shares.get("COMP"));
     }
 }

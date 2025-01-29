@@ -33,7 +33,7 @@ public class CompanyHandlerTransact extends CompanyHandler{
         }
 
         //still need refresh weekly the 20 % cap
-        if (Market.getCompany(stock_name).getCompanyValue().removeBal(amount)){
+        if (Market.getCompany(stock_name).removeBal(amount)){
             Company comp_target = Market.getCompany(target_stock_name);
             comp_target.addBal(amount);
             player.sendMessage("§bsuccesfully paid §f"+target_stock_name+" "+amount);

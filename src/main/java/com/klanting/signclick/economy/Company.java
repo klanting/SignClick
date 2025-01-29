@@ -11,6 +11,7 @@ import com.klanting.signclick.SignClick;
 import com.klanting.signclick.economy.contractRequests.ContractRequest;
 import com.klanting.signclick.economy.contractRequests.ContractRequestCTC;
 import com.klanting.signclick.utils.JsonTools;
+import com.klanting.signclick.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -22,7 +23,7 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.function.BiFunction;
 
-public class Company {
+public class Company extends Stock{
 
     private String name;
     private String stockName;
@@ -43,11 +44,6 @@ public class Company {
     public Boolean openTrade = false;
 
 
-    private CompanyStock companyValue;
-
-    public CompanyStock getCompanyValue() {
-        return companyValue;
-    }
 
     public Map<UUID, UUID> support = new HashMap<>();
     public Map<UUID, Integer> shareHolders = new HashMap<>();
@@ -86,14 +82,13 @@ public class Company {
 
 
     public Company(String n, String StockName, Account creater){
+        super();
         name = n;
         stockName = StockName;
 
-        companyValue = new CompanyStock(stockName);
-
         support.put(creater.getUuid(), creater.getUuid());
-        shareHolders.put(creater.getUuid(), companyValue.getTotalShares());
-        creater.receivePrivate(stockName, companyValue.getTotalShares());
+        shareHolders.put(creater.getUuid(), getTotalShares());
+        creater.receivePrivate(stockName, getTotalShares());
 
         upgrades.add(new UpgradeExtraPoints(0));
         upgrades.add(new UpgradePatentSlot(0));
@@ -111,7 +106,7 @@ public class Company {
         * Load/create company from json file
         * */
 
-        Field[] fields = this.getClass().getDeclaredFields();
+        Field[] fields = Utils.getAllFields(this.getClass());
 
         for (Field field : fields) {
 
@@ -172,14 +167,13 @@ public class Company {
         HashMap<String, BiFunction<String, JsonObject, JsonObject>> map = new HashMap<>();
         map.put("country", method);
 
-        Field[] fields = this.getClass().getDeclaredFields();
+        Field[] fields = Utils.getAllFields(this.getClass());
         Map<String, Object> fieldMap = new HashMap<>();
 
         for (Field field : fields) {
             try{
                 String fieldName = field.getName();
                 Object fieldValue = field.get(this);
-
                 fieldMap.put(fieldName, fieldValue);
 
             }catch (IllegalAccessException ignored){
@@ -194,9 +188,7 @@ public class Company {
         name = n;
         stockName = StockName;
 
-        companyValue = new CompanyStock(stockName);
-
-        companyValue.setLastValue(getValue());
+        setLastValue(getValue());
 
         upgrades.add(new UpgradeExtraPoints(0));
         upgrades.add(new UpgradePatentSlot(0));
@@ -206,14 +198,40 @@ public class Company {
 
     }
 
-    public Double getValue(){
+    @Override
+    public boolean addBal(double amount){
         //TODO replace
-        return companyValue.getValue();
-    }
 
-    public Boolean addBal(Double amount){
-        //TODO replace
-        return companyValue.addBal(amount);
+        double modifier = 0.0;
+        if (country != null){
+            modifier += country.getPolicyBonus(0, 3);
+        }
+
+        double modifier2 = 0.0;
+        double sub_pct = 1.0;
+        if (country != null){
+            if (country.getStability() < 30){
+                sub_pct -= 0.20;
+            }
+            if (country.getStability() < 50){
+                sub_pct -= 0.10;
+            }
+            if (country.getStability() > 80){
+                sub_pct += 0.10;
+            }
+            modifier2 += country.getPolicyBonus(0, 2);
+        }
+
+        double modifier3 = (sub_pct+(double) upgrades.get(0).getBonus()/100.0);
+
+        boolean suc6 = super.addBal(amount);
+
+        if (amount > 0){
+            spendable += (0.2+ modifier)*amount;
+        }
+        securityFunds += (0.01*amount)*modifier3*(1.0+ modifier2);
+
+        return suc6;
     }
 
     public void changeShareHolder(Account holder, Integer amount){
@@ -265,13 +283,13 @@ public class Company {
 
         }
 
-        neutral = neutral/companyValue.getTotalShares().doubleValue();
+        neutral = neutral/getTotalShares().doubleValue();
         ArrayList<UUID> new_owners = new ArrayList<UUID>();
         for(Entry<UUID, Integer> entry : s_dict.entrySet()){
             UUID k = entry.getKey();
             double v = entry.getValue();
 
-            v = v/companyValue.getTotalShares().doubleValue();
+            v = v/getTotalShares().doubleValue();
 
             if (v >= 0.45){
                 new_owners.add(k);
@@ -335,13 +353,13 @@ public class Company {
         DecimalFormat df2 = new DecimalFormat("0.00");
         for (int i = 0; i < values.size(); i++) {
             player.sendMessage("§9"+Bukkit.getOfflinePlayer(order.get(i)).getName()+": §f"+df.format(values.get(i))+
-                    " ("+df2.format(values.get(i)/companyValue.getTotalShares().doubleValue()*100.0)+"%)");
+                    " ("+df2.format(values.get(i)/getTotalShares().doubleValue()*100.0)+"%)");
         }
 
         if (openTrade){
             player.sendMessage("§eMarket: §f"+"inf"+" ("+"inf"+"%)");
         }else{
-            player.sendMessage("§eMarket: §f"+df.format(marketShares)+" ("+df2.format(marketShares/companyValue.getTotalShares().doubleValue()*100.0)+"%)");
+            player.sendMessage("§eMarket: §f"+df.format(marketShares)+" ("+df2.format(marketShares/getTotalShares().doubleValue()*100.0)+"%)");
         }
 
         order.clear();
@@ -358,8 +376,8 @@ public class Company {
         }
 
 
-        double value_one = (getValue()/companyValue.getTotalShares().doubleValue())*(0.01- modifier1-modifier2);
-        companyValue.removeBal(value_one*(companyValue.getTotalShares()-marketShares));
+        double value_one = (getValue()/getTotalShares().doubleValue())*(0.01- modifier1-modifier2);
+        removeBal(value_one*(getTotalShares()-marketShares));
         for (Entry<UUID, Integer> entry : shareHolders.entrySet()){
             UUID holder = entry.getKey();
             OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(holder);
@@ -389,7 +407,7 @@ public class Company {
                 "§bStockname: §7"+ stockName +"\n" +
                 "§bCEO: §7"+owner_array+"\n" +
                 "§bbal: §7"+df.format(getValue())+"\n" +
-                "§bshares: §7"+df.format(companyValue.getTotalShares())+"\n" +
+                "§bshares: §7"+df.format(getTotalShares())+"\n" +
                 "§bshareholders: §7"+ name_array);
 
         name_array.clear();
@@ -439,7 +457,6 @@ public class Company {
     }
 
 
-    //correct
     public void acceptOfferPlayerContract(){
         if (playerNamePending == null){
             return;
@@ -453,8 +470,6 @@ public class Company {
         playerReason = "no_reason";
 
     }
-
-
 
     //correct
     public void receiveOfferPlayerContract(String playerUUID, double amount, int weeks, String reason){
@@ -479,13 +494,7 @@ public class Company {
 
 
 
-    public double getSpendable(){
-        //TODO replace
-        return companyValue.getSpendable();
-    }
-
     public void resetSpendable(){
-        //TODO move
         double base = 0.2;
 
         if (country == null || country.getStability() < 50){
@@ -504,7 +513,7 @@ public class Company {
             pct += country.getPolicyBonus(2, 11);
         }
 
-        companyValue.setSpendable(getValue()*pct);
+        setSpendable(getValue()*pct);
     }
 
     public void resetPatentCrafted(){
@@ -514,23 +523,23 @@ public class Company {
 
     public double stockCompareGet(){
 
-        if (companyValue.getLastValue() == 0){
+        if (getLastValue() == 0){
             return 0.0;
         }
 
-        return ((getValue()/ companyValue.getLastValue())-1)*100;
+        return ((getValue()/ getLastValue())-1)*100;
 
     }
     public double stockCompare(){
         double diff = stockCompareGet();
-        companyValue.setLastValue(getValue());
+        setLastValue(getValue());
         return diff;
     }
 
     public void doUpgrade(Integer id){
         Upgrade u = upgrades.get(id);
-        if (u.canUpgrade((int) (companyValue.getBal()+ companyValue.getShareBalance()),
-                (int) companyValue.getSecurityFunds())){
+        if (u.canUpgrade((int) (getBal()+ getShareBalance()),
+                (int) getSecurityFunds())){
             double base = 1.0;
 
             double modifier = 0.0;
@@ -546,9 +555,9 @@ public class Company {
                 modifier2 += country.getPolicyBonus(3, 2);
             }
 
-            companyValue.setSecurityFunds(companyValue.getSecurityFunds() - u.getUpgradeCostPoints()*(base-modifier));
+            setSecurityFunds(getSecurityFunds() - u.getUpgradeCostPoints()*(base-modifier));
             int cost = (int) ((double) u.getUpgradeCost()*(base-modifier));
-            companyValue.removeBal(cost);
+            removeBal(cost);
             u.DoUpgrade();
 
             int pct = upgrades.get(4).getBonus()+(int) (modifier2*100.0);

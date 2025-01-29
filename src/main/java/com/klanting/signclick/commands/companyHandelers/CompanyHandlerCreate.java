@@ -58,7 +58,7 @@ public class CompanyHandlerCreate extends CompanyHandler{
         SignClick.getEconomy().withdrawPlayer(player, creationCost);
         Company comp = Market.getCompany(stock_name);
         comp.addBal(creationCost);
-        comp.getCompanyValue().setLastValue(creationCost);
+        comp.setLastValue(creationCost);
 
         return false;
     }

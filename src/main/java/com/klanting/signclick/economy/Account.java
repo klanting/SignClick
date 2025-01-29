@@ -54,15 +54,14 @@ public class Account {
 
         removeBal(v);
 
-        CompanyStock companyStock = Market.getCompany(Sname).getCompanyValue();
-        companyStock.addBooks(v);
-        companyStock.changeBase();
+        Market.getCompany(Sname).addBooks(v);
+        Market.getCompany(Sname).changeBase();
 
         int share_amount = shares.getOrDefault(Sname, 0);
         shares.put(Sname, share_amount+amount);
         if (Market.getCompany(Sname).openTrade){
             Company comp = Market.getCompany(Sname);
-            comp.getCompanyValue().setTotalShares(comp.getCompanyValue().getTotalShares()+amount);
+            comp.setTotalShares(comp.getTotalShares()+amount);
         }
         player.sendMessage("§bbuy: §aaccepted");
     }
@@ -89,7 +88,7 @@ public class Account {
         if (playerCountry != null){
             playerCountry.deposit((int) to_gov);
         }else{
-            Market.getCompany(Sname).getCompanyValue().addBooks(to_gov);
+            Market.getCompany(Sname).addBooks(to_gov);
         }
 
 
@@ -103,9 +102,8 @@ public class Account {
         if (Market.sell(Sname, amount, this)){
             addBal(v);
 
-            CompanyStock companyStock = Market.getCompany(Sname).getCompanyValue();
-            companyStock.removeBooks(v+to_gov);
-            companyStock.changeBase();
+            Market.getCompany(Sname).removeBooks(v+to_gov);
+            Market.getCompany(Sname).changeBase();
 
             shares.put(Sname, share_amount-amount);
             player.sendMessage("§bsell: §aaccepted");
@@ -160,8 +158,7 @@ public class Account {
             int s = entry.getValue();
 
             Company comp = Market.getCompany(b);
-            CompanyStock companyStock = comp.getCompanyValue();
-            double v = (companyStock.getValue()/(companyStock.getTotalShares().doubleValue()))*s;
+            double v = (comp.getValue()/(comp.getTotalShares().doubleValue()))*s;
 
             if (order.size() > 0){
                 boolean found = false;
@@ -199,7 +196,7 @@ public class Account {
             int i2 = i + 1;
             total += v;
             Company comp = Market.getCompany(b);
-            player.sendMessage("§b"+i2+". §3"+b+": §7" +df.format(v)+" ("+df2.format((shares.get(b).doubleValue()/comp.getCompanyValue().getTotalShares().doubleValue()*100.0))+"%)\n");
+            player.sendMessage("§b"+i2+". §3"+b+": §7" +df.format(v)+" ("+df2.format((shares.get(b).doubleValue()/comp.getTotalShares().doubleValue()*100.0))+"%)\n");
         }
         DecimalFormat df = new DecimalFormat("###,###,###");
         player.sendMessage("§9Total value: §e" +df.format(total));

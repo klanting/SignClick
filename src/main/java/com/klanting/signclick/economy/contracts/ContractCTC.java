@@ -25,7 +25,7 @@ public class ContractCTC extends Contract {
         /*
         * In case we are unable to retrieve the money from the company account
         * */
-        if (!from.getCompanyValue().removeBal(amount)) {
+        if (!from.removeBal(amount)) {
             return true;
         }
 

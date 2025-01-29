@@ -1,23 +1,26 @@
 package com.klanting.signclick.economy;
 
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.klanting.signclick.SignClick;
 
-public class CompanyStock {
+import java.lang.reflect.Field;
+
+public class Stock {
     /*
     * This class represents the economic information of a company
     * */
 
-    private final String stockName;
-
     /*
     * Represents the share base value
     * */
-    private double shareBase = 0.0;
+    protected double shareBase = 0.0;
 
     /*
     * Represents the amount of money in the company back account
     * */
-    private double bal = 0.0;
+    protected double bal = 0.0;
 
     public double getShareBalance() {
         return shareBalance;
@@ -43,11 +46,11 @@ public class CompanyStock {
         this.spendable = spendable;
     }
 
-    private double shareBalance = 0.0;
+    protected double shareBalance = 0.0;
 
-    private double securityFunds = 0.0;
+    protected double securityFunds = 0.0;
 
-    private double spendable = 0.0;
+    protected double spendable = 0.0;
 
     public Integer getTotalShares() {
         return totalShares;
@@ -57,7 +60,7 @@ public class CompanyStock {
         this.totalShares = totalShares;
     }
 
-    private Integer totalShares = SignClick.getPlugin().getConfig().getInt("companyStartShares");
+    protected Integer totalShares = SignClick.getPlugin().getConfig().getInt("companyStartShares");
 
     public void setLastValue(double lastValue) {
         this.lastValue = lastValue;
@@ -67,10 +70,10 @@ public class CompanyStock {
         return getBal() + getShareBalance();
     }
 
-    private double lastValue = 0.0;
+    protected double lastValue = 0.0;
 
-    public CompanyStock(String stockName){
-        this.stockName = stockName;
+    public Stock(){
+
     }
 
     public double getShareBase() {
@@ -83,38 +86,9 @@ public class CompanyStock {
 
     public boolean addBal(double amount) {
 
-        Company comp = Market.getCompany(stockName);
-        Country country = comp.country;
-
-        double modifier = 0.0;
-        if (country != null){
-            modifier += country.getPolicyBonus(0, 3);
-        }
-
-        double modifier2 = 0.0;
-        double sub_pct = 1.0;
-        if (country != null){
-            if (country.getStability() < 30){
-                sub_pct -= 0.20;
-            }
-            if (country.getStability() < 50){
-                sub_pct -= 0.10;
-            }
-            if (country.getStability() > 80){
-                sub_pct += 0.10;
-            }
-            modifier2 += country.getPolicyBonus(0, 2);
-        }
-
-        double modifier3 = (sub_pct+(double) comp.upgrades.get(0).getBonus()/100.0);
-
         this.bal += amount;
         changeBase();
 
-        if (amount > 0){
-            spendable += (0.2+ modifier)*amount;
-        }
-        securityFunds += (0.01*amount)*modifier3*(1.0+ modifier2);
         return true;
     }
 

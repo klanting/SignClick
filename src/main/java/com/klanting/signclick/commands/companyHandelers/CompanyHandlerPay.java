@@ -33,7 +33,7 @@ public class CompanyHandlerPay extends CompanyHandler{
             return true;
         }
 
-        if (Market.getCompany(stock_name).getCompanyValue().removeBal(amount)){
+        if (Market.getCompany(stock_name).removeBal(amount)){
             SignClick.getEconomy().depositPlayer(player_offline, amount);
             player.sendMessage("§bsuccesfully paid §f"+player_name+" "+amount);
             Player target = Bukkit.getPlayer(player_offline.getUniqueId());
