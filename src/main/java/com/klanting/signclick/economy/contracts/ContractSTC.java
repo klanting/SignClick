@@ -39,7 +39,7 @@ public class ContractSTC  extends Contract{
         weeks -= 1;
         to.addBalNoPoint(amount);
 
-        to.sendOwner("§aContract: from SERVER (S) to " + to.getStockName() + "(C) amount: " + amount);
+        to.getCOM().sendOwner("§aContract: from SERVER (S) to " + to.getStockName() + "(C) amount: " + amount);
         return weeks > 0;
     }
 

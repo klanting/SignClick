@@ -24,7 +24,7 @@ public class ContractSendCTC extends CompanyHandler {
 
         CommandAssert.assertTrue(Market.hasBusiness(stock_name), "§bbusiness name is invalid");
 
-        CommandAssert.assertTrue(Market.getCompany(stock_name).isOwner(player.getUniqueId()), "§byou must be CEO to send that request");
+        CommandAssert.assertTrue(Market.getCompany(stock_name).getCOM().isOwner(player.getUniqueId()), "§byou must be CEO to send that request");
 
         String target_stock_name = args[2].toUpperCase();
         target_stock_name = target_stock_name.toUpperCase();

@@ -7,6 +7,7 @@ import com.klanting.signclick.economy.Account;
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.economy.Company;
 import com.klanting.signclick.economy.Country;
+import com.klanting.signclick.economy.Market;
 import com.klanting.signclick.economy.companyPatent.Auction;
 import com.klanting.signclick.economy.companyPatent.PatentUpgrade;
 import com.klanting.signclick.utils.Utils;
@@ -70,8 +71,8 @@ public class GsonTests {
     @Test
     void saveLoadCompanies(){
         Map<String, Company> accountsPreSave = new HashMap<>();
-        accountsPreSave.put("A", new Company("AA", "A"));
-        accountsPreSave.get("A").shareHolders.put(testPlayer.getUniqueId(), 10);
+        accountsPreSave.put("A", new Company("AA", "A", Market.getAccount(testPlayer)));
+        accountsPreSave.get("A").getCOM().getShareHolders().put(testPlayer.getUniqueId(), 10);
         accountsPreSave.get("A").setTotalShares(100);
 
         Utils.writeSave("companies", accountsPreSave);
@@ -81,17 +82,17 @@ public class GsonTests {
 
         Company comp = companies.values().iterator().next();
 
-        comp.testAddOwner(testPlayer.getUniqueId());
+        comp.getCOM().testAddOwner(testPlayer.getUniqueId());
 
         assertEquals("A", comp.getStockName());
         assertEquals("AA", comp.getName());
         assertEquals(0, comp.getBal());
-        assertEquals(1, comp.getOwners().size());
-        assertEquals(testPlayer.getUniqueId(), comp.getOwners().get(0));
+        assertEquals(1, comp.getCOM().getOwners().size());
+        assertEquals(testPlayer.getUniqueId(), comp.getCOM().getOwners().get(0));
         assertEquals(5, comp.upgrades.size());
         assertEquals(100, comp.getTotalShares());
 
-        assertEquals(testPlayer.getUniqueId(), comp.shareHolders.keySet().stream().iterator().next());
+        assertEquals(testPlayer.getUniqueId(), comp.getCOM().getShareHolders().keySet().stream().iterator().next());
     }
 
     @Test

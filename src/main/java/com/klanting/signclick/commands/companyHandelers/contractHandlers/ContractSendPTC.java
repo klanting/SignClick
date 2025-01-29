@@ -32,7 +32,7 @@ public class ContractSendPTC extends CompanyHandler {
 
         CommandAssert.assertTrue(Market.hasBusiness(stock_name), "§bbusiness name is invalid");
 
-        CommandAssert.assertTrue(getCompany(stock_name).isOwner(player.getUniqueId()),
+        CommandAssert.assertTrue(getCompany(stock_name).getCOM().isOwner(player.getUniqueId()),
                 "§byou must be CEO to send that request");
 
         UUID target_uuid = null;

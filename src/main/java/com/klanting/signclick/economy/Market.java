@@ -86,9 +86,9 @@ public class Market {
         Company comp = getCompany(Sname);
         if (comp.getMarketShares() >= amount || comp.openTrade){
             int market_am = comp.getMarketShares();
-            comp.marketShares = market_am-amount;
+            comp.setMarketShares(market_am-amount);
 
-            comp.changeShareHolder(acc, amount);
+            comp.getCOM().changeShareHolder(acc, amount);
 
             return true;
         }
@@ -99,9 +99,9 @@ public class Market {
         Company comp = companies.get(Sname);
 
         int market_am = comp.getMarketShares();
-        comp.marketShares = market_am+amount;
+        comp.setMarketShares(market_am+amount);
 
-        comp.changeShareHolder(acc, -amount);
+        comp.getCOM().changeShareHolder(acc, -amount);
 
         return true;
     }
@@ -150,7 +150,7 @@ public class Market {
     public static ArrayList<Company> getBusinessByOwner(UUID uuid){
         ArrayList<Company> outputs = new ArrayList<Company>();
         for(Map.Entry<String, Company> entry : companies.entrySet()){
-            if (entry.getValue().isOwner(uuid)){
+            if (entry.getValue().getCOM().isOwner(uuid)){
                 outputs.add(entry.getValue());
             }
         }

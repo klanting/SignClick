@@ -138,6 +138,30 @@ class CompanyCTests {
     }
 
     @Test
+    void companyShareTop2(){
+        Company comp = Market.getCompany("TCI");
+
+        PlayerMock testPlayer2 = server.addPlayer();
+
+        comp.getCOM().changeShareHolder(Market.getAccount(testPlayer2), 100);
+        comp.getCOM().changeShareHolder(Market.getAccount(testPlayer), -100);
+
+
+
+        boolean suc6 = server.execute("company", testPlayer, "sharetop", "TCI").hasSucceeded();
+        assertTrue(suc6);
+
+        /*
+         * Check correctly received sharetop
+         * */
+        testPlayer.assertSaid("§bsharetop:");
+        testPlayer.assertSaid("§9Player0: §f999.900 (99,99%)");
+        testPlayer.assertSaid("§9Player1: §f100 (0,01%)");
+        testPlayer.assertSaid("§eMarket: §f0 (0,00%)");
+        testPlayer.assertNoMoreSaid();
+    }
+
+    @Test
     void companyShareTopInvalidCompany(){
 
         boolean suc6 = server.execute("company", testPlayer, "sharetop", "TCIS").hasSucceeded();
@@ -727,7 +751,7 @@ class CompanyCTests {
 
         Company comp = Market.getCompany("TCI");
         assertTrue(comp.openTrade);
-        assertEquals(0, comp.marketShares);
+        assertEquals(0, comp.getMarketShares());
 
     }
 
@@ -755,7 +779,7 @@ class CompanyCTests {
         assertEquals(1000001, comp.getTotalShares());
 
 
-        assertEquals(-1, comp.marketShares);
+        assertEquals(-1, comp.getMarketShares());
 
     }
 
@@ -837,8 +861,8 @@ class CompanyCTests {
         /*
         * Check that testPlayer is the owner
         * */
-        assertEquals(1, comp.getOwners().size());
-        assertEquals(testPlayer.getUniqueId(), comp.getOwners().get(0));
+        assertEquals(1, comp.getCOM().getOwners().size());
+        assertEquals(testPlayer.getUniqueId(), comp.getCOM().getOwners().get(0));
 
         boolean suc6 = server.execute("company", testPlayer, "support",
                 "TCI", testPlayer2.getName()).hasSucceeded();
@@ -850,8 +874,8 @@ class CompanyCTests {
         /*
          * Check that testPlayer2 is the owner
          * */
-        assertEquals(1, comp.getOwners().size());
-        assertEquals(testPlayer2.getUniqueId(), comp.getOwners().get(0));
+        assertEquals(1, comp.getCOM().getOwners().size());
+        assertEquals(testPlayer2.getUniqueId(), comp.getCOM().getOwners().get(0));
 
     }
 
@@ -864,8 +888,8 @@ class CompanyCTests {
         /*
          * Check that testPlayer is the owner
          * */
-        assertEquals(1, comp.getOwners().size());
-        assertEquals(testPlayer.getUniqueId(), comp.getOwners().get(0));
+        assertEquals(1, comp.getCOM().getOwners().size());
+        assertEquals(testPlayer.getUniqueId(), comp.getCOM().getOwners().get(0));
 
         Market.getAccount(testPlayer).sellShare("TCI", 5, testPlayer);
         Market.getAccount(testPlayer2).buyShare("TCI", 5, testPlayer2);
@@ -902,8 +926,8 @@ class CompanyCTests {
         /*
          * Check that testPlayer2 is the owner
          * */
-        assertEquals(1, comp.getOwners().size());
-        assertEquals(testPlayer2.getUniqueId(), comp.getOwners().get(0));
+        assertEquals(1, comp.getCOM().getOwners().size());
+        assertEquals(testPlayer2.getUniqueId(), comp.getCOM().getOwners().get(0));
 
     }
 
@@ -916,8 +940,8 @@ class CompanyCTests {
         /*
          * Check that testPlayer is the owner
          * */
-        assertEquals(1, comp.getOwners().size());
-        assertEquals(testPlayer.getUniqueId(), comp.getOwners().get(0));
+        assertEquals(1, comp.getCOM().getOwners().size());
+        assertEquals(testPlayer.getUniqueId(), comp.getCOM().getOwners().get(0));
 
         Market.getAccount(testPlayer).sellShare("TCI", 900000, testPlayer);
         Market.getAccount(testPlayer2).buyShare("TCI", 900000, testPlayer2);
@@ -937,8 +961,8 @@ class CompanyCTests {
         /*
          * Check that testPlayer is the owner, because testPlayer2 its support is neutral
          * */
-        assertEquals(1, comp.getOwners().size());
-        assertEquals(testPlayer.getUniqueId(), comp.getOwners().get(0));
+        assertEquals(1, comp.getCOM().getOwners().size());
+        assertEquals(testPlayer.getUniqueId(), comp.getCOM().getOwners().get(0));
 
     }
 

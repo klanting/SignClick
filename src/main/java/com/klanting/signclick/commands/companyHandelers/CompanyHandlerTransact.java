@@ -25,7 +25,7 @@ public class CompanyHandlerTransact extends CompanyHandler{
 
         double amount = Double.parseDouble(args[3]);
 
-        CommandAssert.assertTrue(Market.getCompany(stock_name).isOwner(player.getUniqueId()), "§byou must be a CEO of this com.company");
+        CommandAssert.assertTrue(Market.getCompany(stock_name).getCOM().isOwner(player.getUniqueId()), "§byou must be a CEO of this com.company");
 
         if (firstEnter){
             player.sendMessage("§bplease re-enter the command to confirm");
@@ -37,7 +37,7 @@ public class CompanyHandlerTransact extends CompanyHandler{
             Company comp_target = Market.getCompany(target_stock_name);
             comp_target.addBal(amount);
             player.sendMessage("§bsuccesfully paid §f"+target_stock_name+" "+amount);
-            comp_target.sendOwner("§bsuccesfully received §f"+amount+" §bfrom §f"+stock_name);
+            comp_target.getCOM().sendOwner("§bsuccesfully received §f"+amount+" §bfrom §f"+stock_name);
 
         }else{
             player.sendMessage("§bbusiness does not have enough money, or you reached your monthly spending limit\ndo §c/company spendable "+

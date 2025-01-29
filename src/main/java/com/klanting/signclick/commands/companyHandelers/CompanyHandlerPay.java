@@ -21,7 +21,7 @@ public class CompanyHandlerPay extends CompanyHandler{
         double amount = Double.parseDouble(args[3]);
         OfflinePlayer player_offline = Bukkit.getOfflinePlayer(player_name);
 
-        CommandAssert.assertTrue(Market.getCompany(stock_name).isOwner(player.getUniqueId()),
+        CommandAssert.assertTrue(Market.getCompany(stock_name).getCOM().isOwner(player.getUniqueId()),
                 "§byou must be a CEO of this company");
 
         CommandAssert.assertTrue(!player.getName().equals(player_name),

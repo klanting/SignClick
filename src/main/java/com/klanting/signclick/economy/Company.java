@@ -22,31 +22,15 @@ import java.util.*;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.function.BiFunction;
+import java.util.function.Function;
 
-public class Company extends Stock{
+public class Company{
 
     private String name;
     private String stockName;
 
-    private ArrayList<UUID> owners = new ArrayList<>();
-
-    public ArrayList<UUID> getOwners() {
-        return owners;
-    }
-
-    public void testAddOwner(UUID uuid){
-        /*
-        * Test method to inject an owner
-        * */
-        owners.add(uuid);
-    }
-
     public Boolean openTrade = false;
 
-
-
-    public Map<UUID, UUID> support = new HashMap<>();
-    public Map<UUID, Integer> shareHolders = new HashMap<>();
 
     public boolean hasPendingContractRequest() {
         return pendingContractRequest != null;
@@ -74,20 +58,40 @@ public class Company extends Stock{
     public Country country;
     public String type;
 
-    public Integer marketShares = 0;
+    /*
+     * Represents the share base value
+     * */
+    private double shareBase = 0.0;
 
-    public Integer getMarketShares() {
-        return marketShares;
+    /*
+     * Represents the amount of money in the company back account
+     * */
+    private double bal = 0.0;
+
+    private double shareBalance = 0.0;
+
+    private double securityFunds = 0.0;
+
+    private double spendable = 0.0;
+
+    private double lastValue = 0.0;
+
+    public CompanyOwnerManager getCOM() {
+        /*
+        * Short for Get(ter) CompanyOwnerManager
+        * */
+        return companyOwnerManager;
     }
 
+    private CompanyOwnerManager companyOwnerManager;
 
     public Company(String n, String StockName, Account creater){
         super();
         name = n;
         stockName = StockName;
 
-        support.put(creater.getUuid(), creater.getUuid());
-        shareHolders.put(creater.getUuid(), getTotalShares());
+        companyOwnerManager = new CompanyOwnerManager(creater.getUuid(), totalShares);
+
         creater.receivePrivate(stockName, getTotalShares());
 
         upgrades.add(new UpgradeExtraPoints(0));
@@ -96,6 +100,112 @@ public class Company extends Stock{
         upgrades.add(new UpgradeCraftLimit(0));
         upgrades.add(new UpgradeInvestReturnTime(0));
         type = "other";
+    }
+
+
+
+    public void setMarketShares(Integer marketShares) {
+        this.marketShares = marketShares;
+    }
+
+    protected Integer marketShares = 0;
+
+    public double getShareBalance() {
+        return shareBalance;
+    }
+
+    public double getSecurityFunds() {
+        return securityFunds;
+    }
+
+    public double getSpendable() {
+        return spendable;
+    }
+
+    public double getLastValue() {
+        return lastValue;
+    }
+
+    public void setSpendable(double spendable) {
+        this.spendable = spendable;
+    }
+
+
+    public Integer getTotalShares() {
+        return totalShares;
+    }
+
+    public void setTotalShares(Integer totalShares) {
+        this.totalShares = totalShares;
+    }
+
+    protected Integer totalShares = SignClick.getPlugin().getConfig().getInt("companyStartShares");
+
+    public void setLastValue(double lastValue) {
+        this.lastValue = lastValue;
+    }
+
+    public double getValue(){
+        return getBal() + getShareBalance();
+    }
+
+
+
+    public double getShareBase() {
+        return shareBase;
+    }
+
+    public double getBal() {
+        return bal;
+    }
+
+
+    public boolean removeBal(double amount){
+        if ((getBal()+ shareBalance >= amount) & (spendable >= amount)){
+            this.bal -= amount;
+            spendable -= amount;
+            changeBase();
+            return true;
+        }
+        return false;
+    }
+
+    public boolean addBalNoPoint(double bal) {
+        this.bal += bal;
+        changeBase();
+        return true;
+    }
+
+    void addBooks(Double amount){
+        shareBalance += amount;
+        spendable += (0.2*amount);
+    }
+
+    void removeBooks(Double amount){
+        shareBalance -= amount;
+        spendable -= amount;
+    }
+
+    public void changeBase(){
+        shareBase = (getBal()/getTotalShares()) / Market.calculateFluxChange(-10, 15);
+    }
+
+    public double stockCompareGet(){
+        if (getLastValue() == 0){
+            return 0.0;
+        }
+
+        return ((getValue()/ lastValue)-1)*100;
+
+    }
+    public double stockCompare(){
+        double diff = stockCompareGet();
+        lastValue = getValue();
+        return diff;
+    }
+
+    public Integer getMarketShares() {
+        return marketShares;
     }
 
     private static final List<String> softLink = new ArrayList<>(List.of("country"));
@@ -154,17 +264,14 @@ public class Company extends Stock{
 
     public JsonObject toJson(JsonSerializationContext context){
 
-        BiFunction<String, JsonObject, JsonObject> method = (fieldName, jsonObject) -> {
-            switch (fieldName){
-            case "country":
-                if (country != null){
-                    jsonObject.addProperty(fieldName, country.getName());
-                }
+        Function<JsonObject, JsonObject> method = (jsonObject) -> {
+            if (country != null){
+                jsonObject.addProperty("country", country.getName());
             }
             return jsonObject;
         };
 
-        HashMap<String, BiFunction<String, JsonObject, JsonObject>> map = new HashMap<>();
+        HashMap<String, Function<JsonObject, JsonObject>> map = new HashMap<>();
         map.put("country", method);
 
         Field[] fields = Utils.getAllFields(this.getClass());
@@ -184,23 +291,8 @@ public class Company extends Stock{
         return JsonTools.toJson(fieldMap, map, context);
     }
 
-    public Company(String n, String StockName){
-        name = n;
-        stockName = StockName;
 
-        setLastValue(getValue());
-
-        upgrades.add(new UpgradeExtraPoints(0));
-        upgrades.add(new UpgradePatentSlot(0));
-        upgrades.add(new UpgradePatentUpgradeSlot(0));
-        upgrades.add(new UpgradeCraftLimit(0));
-        upgrades.add(new UpgradeInvestReturnTime(0));
-
-    }
-
-    @Override
     public boolean addBal(double amount){
-        //TODO replace
 
         double modifier = 0.0;
         if (country != null){
@@ -224,146 +316,31 @@ public class Company extends Stock{
 
         double modifier3 = (sub_pct+(double) upgrades.get(0).getBonus()/100.0);
 
-        boolean suc6 = super.addBal(amount);
+        bal += amount;
+        changeBase();
 
         if (amount > 0){
             spendable += (0.2+ modifier)*amount;
         }
         securityFunds += (0.01*amount)*modifier3*(1.0+ modifier2);
 
-        return suc6;
-    }
-
-    public void changeShareHolder(Account holder, Integer amount){
-        if (shareHolders.getOrDefault(holder.getUuid(), null) != null){
-            Integer am = shareHolders.get(holder.getUuid());
-            shareHolders.put(holder.getUuid(), am+amount);
-
-        }else {
-            shareHolders.put(holder.getUuid(), amount);
-            support.put(holder.getUuid(), null);
-        }
-
-        if (shareHolders.getOrDefault(holder.getUuid(), 0) == 0){
-            shareHolders.remove(holder.getUuid());
-            support.remove(holder.getUuid());
-        }
+        return true;
     }
 
     public void supportUpdate(Account holder, UUID uuid){
-        support.put(holder.getUuid(), uuid);
-        checkSupport();
+        companyOwnerManager.addSupport(holder.getUuid(), uuid);
+        companyOwnerManager.checkSupport(totalShares);
         calculateCountry();
     }
 
     public void checkSupport(){
-        double neutral = 0.0;
-
-        Map<UUID, Integer> s_dict = new HashMap<UUID, Integer>();
-
-        int highest = 0;
-        UUID highest_uuid = null;
-
-        for(Entry<UUID, UUID> entry : support.entrySet()){
-            UUID k = entry.getKey();
-            UUID v = entry.getValue();
-
-            Integer impact = shareHolders.getOrDefault(k, 0);
-            if (v == null){
-                neutral +=impact;
-            }else{
-                Integer bef = s_dict.getOrDefault(v, 0);
-                s_dict.put(v, bef+impact);
-
-                if (bef+impact > highest){
-                    highest = bef+impact;
-                    highest_uuid = v;
-                }
-            }
-
-        }
-
-        neutral = neutral/getTotalShares().doubleValue();
-        ArrayList<UUID> new_owners = new ArrayList<UUID>();
-        for(Entry<UUID, Integer> entry : s_dict.entrySet()){
-            UUID k = entry.getKey();
-            double v = entry.getValue();
-
-            v = v/getTotalShares().doubleValue();
-
-            if (v >= 0.45){
-                new_owners.add(k);
-            }else if ((owners.contains(k)) & (v+neutral >= 0.5)){
-                new_owners.add(k);
-            }
-        }
-        if (new_owners.size() != 0){
-            owners = new_owners;
-        }else if (highest_uuid != null){
-            new_owners.add(highest_uuid);
-            owners = new_owners;
-        }
-
+        companyOwnerManager.checkSupport(totalShares);
 
     }
 
-    public Boolean isOwner(UUID uuid){
-        return owners.contains(uuid);
-    }
 
     public void getShareTop(Player player){
-        ArrayList<UUID> order = new ArrayList<UUID>();
-        ArrayList<Integer> values = new ArrayList<Integer>();
-
-        for(Entry<UUID, Integer> entry : shareHolders.entrySet()){
-            UUID s = entry.getKey();
-            int v = entry.getValue();
-
-            if (!order.isEmpty()){
-
-                boolean found = false;
-
-                for (int i = 0; i < values.size(); i++) {
-                    int o = values.get(i);
-                    if (v > o){
-                        order.add(i, s);
-                        values.add(i, v);
-                        found = true;
-                        break;
-
-                    }
-                }
-
-                if (!found){
-                    order.add(s);
-                    values.add(v);
-                }
-
-
-            }else{
-                order.add(s);
-                values.add(v);
-            }
-
-        }
-
-        player.sendMessage("§bsharetop:");
-
-        DecimalFormat df = new DecimalFormat("###,###,###");
-        DecimalFormat df2 = new DecimalFormat("0.00");
-        for (int i = 0; i < values.size(); i++) {
-            player.sendMessage("§9"+Bukkit.getOfflinePlayer(order.get(i)).getName()+": §f"+df.format(values.get(i))+
-                    " ("+df2.format(values.get(i)/getTotalShares().doubleValue()*100.0)+"%)");
-        }
-
-        if (openTrade){
-            player.sendMessage("§eMarket: §f"+"inf"+" ("+"inf"+"%)");
-        }else{
-            player.sendMessage("§eMarket: §f"+df.format(marketShares)+" ("+df2.format(marketShares/getTotalShares().doubleValue()*100.0)+"%)");
-        }
-
-        order.clear();
-        values.clear();
+        companyOwnerManager.getShareTop(player, totalShares, marketShares, openTrade);
     }
 
 
@@ -375,10 +352,9 @@ public class Company extends Stock{
             modifier2 = country.getPolicyBonus(1, 1);
         }
 
-
         double value_one = (getValue()/getTotalShares().doubleValue())*(0.01- modifier1-modifier2);
         removeBal(value_one*(getTotalShares()-marketShares));
-        for (Entry<UUID, Integer> entry : shareHolders.entrySet()){
+        for (Entry<UUID, Integer> entry : companyOwnerManager.getShareHolders().entrySet()){
             UUID holder = entry.getKey();
             OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(holder);
             int shares = entry.getValue();
@@ -392,13 +368,14 @@ public class Company extends Stock{
 
     public void info(Player player){
         DecimalFormat df = new DecimalFormat("###,###,###");
-        ArrayList<String> name_array = new ArrayList<String>();
-        ArrayList<String> owner_array = new ArrayList<String>();
-        for(Entry<UUID, Integer> entry : shareHolders.entrySet()){
+        ArrayList<String> name_array = new ArrayList<>();
+        ArrayList<String> owner_array = new ArrayList<>();
+        for(Entry<UUID, Integer> entry : companyOwnerManager.getShareHolders().entrySet()){
             UUID uuid = entry.getKey();
             name_array.add(Bukkit.getOfflinePlayer(uuid).getName());
         }
 
+        ArrayList<UUID> owners = companyOwnerManager.getOwners();
         for (int i = 0; i < owners.size(); i++) {
             owner_array.add(Bukkit.getOfflinePlayer(owners.get(i)).getName());
         }
@@ -413,16 +390,6 @@ public class Company extends Stock{
         name_array.clear();
         owner_array.clear();
 
-    }
-
-    public void sendOwner(String message){
-        for (int i = 0; i < owners.size(); i++){
-            Player p = Bukkit.getPlayer(owners.get(i));
-            if (p != null){
-                p.sendMessage(message);
-            }
-
-        }
     }
 
     public void acceptOfferCompContract(){
@@ -452,7 +419,7 @@ public class Company extends Stock{
             }
         }, 20*120L);
 
-        sendOwner("§b your company §7"+ stockName +"§b got a contract from §7" + stock_name
+        getCOM().sendOwner("§b your company §7"+ stockName +"§b got a contract from §7" + stock_name
                 + "§b they will ask you §7"+amount+"§b for §7"+weeks+"§b weeks, do §c/company sign_contract_ctc "+ stockName);
     }
 
@@ -488,7 +455,7 @@ public class Company extends Stock{
             }
         }, 20*120L);
 
-        sendOwner("§b your company §7"+ stockName +"§b got a contract from §7" + Bukkit.getOfflinePlayer(UUID.fromString(playerUUID)).getName()
+        getCOM().sendOwner("§b your company §7"+ stockName +"§b got a contract from §7" + Bukkit.getOfflinePlayer(UUID.fromString(playerUUID)).getName()
                 + "§b he/she will ask you §7"+amount+"§b for §7"+weeks+"§b weeks, do §c/company sign_contract_ctp "+ stockName);
     }
 
@@ -521,25 +488,10 @@ public class Company extends Stock{
     }
 
 
-    public double stockCompareGet(){
-
-        if (getLastValue() == 0){
-            return 0.0;
-        }
-
-        return ((getValue()/ getLastValue())-1)*100;
-
-    }
-    public double stockCompare(){
-        double diff = stockCompareGet();
-        setLastValue(getValue());
-        return diff;
-    }
-
     public void doUpgrade(Integer id){
         Upgrade u = upgrades.get(id);
         if (u.canUpgrade((int) (getBal()+ getShareBalance()),
-                (int) getSecurityFunds())){
+                (int) securityFunds)){
             double base = 1.0;
 
             double modifier = 0.0;
@@ -555,7 +507,7 @@ public class Company extends Stock{
                 modifier2 += country.getPolicyBonus(3, 2);
             }
 
-            setSecurityFunds(getSecurityFunds() - u.getUpgradeCostPoints()*(base-modifier));
+            securityFunds -= u.getUpgradeCostPoints()*(base-modifier);
             int cost = (int) ((double) u.getUpgradeCost()*(base-modifier));
             removeBal(cost);
             u.DoUpgrade();
@@ -572,12 +524,12 @@ public class Company extends Stock{
     }
 
     public void calculateCountry(){
-        HashMap<String, Integer> country_top = new HashMap<String, Integer>();
+        HashMap<String, Integer> country_top = new HashMap<>();
 
         Integer highest = -1;
         String linked_name = null;
 
-        for (Entry<UUID, Integer> entry : shareHolders.entrySet()){
+        for (Entry<UUID, Integer> entry : companyOwnerManager.getShareHolders().entrySet()){
 
             if (CountryManager.getCountry(entry.getKey()) == null){
                 continue;

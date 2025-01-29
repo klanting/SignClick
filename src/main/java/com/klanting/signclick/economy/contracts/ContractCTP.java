@@ -39,7 +39,7 @@ public class ContractCTP  extends Contract{
         toAccount.addBal(amount);
 
         OfflinePlayer player = Bukkit.getServer().getOfflinePlayer(to);
-        from.sendOwner("§cContract: from " + from.getStockName() + "(C) to " + player.getName() + "(P) amount: " + amount);
+        from.getCOM().sendOwner("§cContract: from " + from.getStockName() + "(C) to " + player.getName() + "(P) amount: " + amount);
         if (player.getPlayer() != null){
             player.getPlayer().sendMessage("§aContract: from " + from.getStockName() + "(C) to " + player.getName() + "(P) amount: " + amount);
         }

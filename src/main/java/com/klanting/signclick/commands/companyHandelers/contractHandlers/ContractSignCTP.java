@@ -23,13 +23,13 @@ public class ContractSignCTP extends CompanyHandler {
 
         CommandAssert.assertTrue(Market.hasBusiness(stock_name), "§bbusiness name is invalid");
 
-        CommandAssert.assertTrue(Market.getCompany(stock_name).isOwner(player.getUniqueId()), "§byou must be CEO to sign that request");
+        CommandAssert.assertTrue(Market.getCompany(stock_name).getCOM().isOwner(player.getUniqueId()), "§byou must be CEO to sign that request");
 
         Company comp = Market.getCompany(stock_name);
 
         CommandAssert.assertTrue(comp.getSpendable() >= comp.playerAmountPending, "§bcan't sign contract because lack of weekly spendable funds");
 
-        CommandAssert.assertTrue(!comp.isOwner(UUID.fromString(comp.playerNamePending)) || !player.getUniqueId().equals(UUID.fromString(comp.playerNamePending)),
+        CommandAssert.assertTrue(!comp.getCOM().isOwner(UUID.fromString(comp.playerNamePending)) || !player.getUniqueId().equals(UUID.fromString(comp.playerNamePending)),
                 "§byou can't' make a contract with yourself");
 
         if (firstEnter){

@@ -32,7 +32,7 @@ public class ContractPTC extends Contract{
         weeks -= 1;
         to.addBal(amount);
 
-        to.sendOwner("§aContract: from " + fromAcc.getName() + "(P) to " + to.getStockName() + "(C) amount: " + amount);
+        to.getCOM().sendOwner("§aContract: from " + fromAcc.getName() + "(P) to " + to.getStockName() + "(C) amount: " + amount);
         if (fromAcc.getPlayer() != null){
             fromAcc.getPlayer().sendMessage("§cContract: from " + fromAcc.getName() + "(P) to " + to.getStockName() + "(C) amount: " + amount);
         }

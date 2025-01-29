@@ -21,7 +21,7 @@ public class CompanyUpgradeMenu extends SelectionMenu {
     public CompanyUpgradeMenu(UUID uuid, Company company){
         super(27, "Company Upgrade Menu");
         comp = company;
-        if (!comp.isOwner(uuid)){
+        if (!comp.getCOM().isOwner(uuid)){
             return;
         }
 

@@ -35,7 +35,7 @@ public class CompanyHandlerGive extends CompanyHandler{
 
         SignClick.getEconomy().withdrawPlayer(player, amount);
 
-        Market.getCompany(stock_name).sendOwner("§byour business §f"+stock_name+" §b received §f"+amount+" §b from §f"+player.getName());
+        Market.getCompany(stock_name).getCOM().sendOwner("§byour business §f"+stock_name+" §b received §f"+amount+" §b from §f"+player.getName());
 
         return false;
     }

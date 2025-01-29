@@ -32,8 +32,8 @@ public class ContractCTC extends Contract {
         weeks -= 1;
         to.addBal(amount);
 
-        from.sendOwner("§cContract: from " + from.getStockName() + "(C) to " + to.getStockName() + "(C) amount: " + amount);
-        to.sendOwner("§aContract: from " + from.getStockName() + "(C) to " + to.getStockName() + "(C) amount: " + amount);
+        from.getCOM().sendOwner("§cContract: from " + from.getStockName() + "(C) to " + to.getStockName() + "(C) amount: " + amount);
+        to.getCOM().sendOwner("§aContract: from " + from.getStockName() + "(C) to " + to.getStockName() + "(C) amount: " + amount);
         return weeks > 0;
 
 
