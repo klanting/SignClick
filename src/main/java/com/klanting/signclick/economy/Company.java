@@ -40,8 +40,6 @@ public class Company {
         owners.add(uuid);
     }
 
-    private double bal = 0.0;
-
     public double getShareBalance() {
         return shareBalance;
     }
@@ -56,7 +54,7 @@ public class Company {
         return companyValue;
     }
 
-    private final CompanyValue companyValue = new CompanyValue();
+    private CompanyValue companyValue =  new CompanyValue();
 
 
     public Map<UUID, UUID> support = new HashMap<>();
@@ -106,6 +104,8 @@ public class Company {
     public Company(String n, String StockName, Account creater){
         name = n;
         stockName = StockName;
+
+        companyValue = new CompanyValue();
 
         support.put(creater.getUuid(), creater.getUuid());
         shareHolders.put(creater.getUuid(), totalShares);
@@ -211,6 +211,8 @@ public class Company {
         stockName = StockName;
         lastValue = getValue();
 
+        companyValue = new CompanyValue();
+
         upgrades.add(new UpgradeExtraPoints(0));
         upgrades.add(new UpgradePatentSlot(0));
         upgrades.add(new UpgradePatentUpgradeSlot(0));
@@ -220,15 +222,16 @@ public class Company {
     }
 
     public Double getBal(){
-        return bal;
+        return companyValue.getBal();
     }
 
     public Double getValue(){
-        return bal+ shareBalance;
+        return companyValue.getBal() + shareBalance;
     }
 
     public Boolean addBal(Double amount){
-        bal += amount;
+        companyValue.addBal(amount);
+
         Market.changeBase(stockName);
 
         double modifier = 0.0;
@@ -263,15 +266,15 @@ public class Company {
     }
 
     public Boolean addBalNoPoint(Double amount){
-        bal += amount;
+        companyValue.addBalNoPoint(amount);
         Market.changeBase(stockName);
 
         return true;
     }
 
     public Boolean removeBal(Double amount){
-        if ((bal+ shareBalance >= amount) & (spendable >= amount)){
-            bal -= amount;
+        if ((companyValue.getBal()+ shareBalance >= amount) & (spendable >= amount)){
+            companyValue.removeBal(amount);
             spendable -= amount;
             Market.changeBase(stockName);
             return true;
@@ -600,7 +603,7 @@ public class Company {
 
     public void doUpgrade(Integer id){
         Upgrade u = upgrades.get(id);
-        if (u.canUpgrade((int) (bal+ shareBalance), (int) securityFunds)){
+        if (u.canUpgrade((int) (companyValue.getBal()+ shareBalance), (int) securityFunds)){
             double base = 1.0;
 
             double modifier = 0.0;
@@ -618,7 +621,7 @@ public class Company {
 
             securityFunds -= u.getUpgradeCostPoints()*(base-modifier);
             int cost = (int) ((double) u.getUpgradeCost()*(base-modifier));
-            bal -= cost;
+            companyValue.removeBal(cost);
             u.DoUpgrade();
 
             int pct = upgrades.get(4).getBonus()+(int) (modifier2*100.0);

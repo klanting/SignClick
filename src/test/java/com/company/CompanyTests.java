@@ -141,6 +141,7 @@ class CompanyTests {
 
         Company comp = Market.getCompany("TCI");
         comp.addBal(1000.0);
+        assertEquals(1000.0, comp.getBal());
 
         plugin.onDisable();
         CountryManager.clear();
@@ -149,6 +150,7 @@ class CompanyTests {
 
         comp = Market.getCompany("TCI");
         assertNotNull(comp);
+
         assertEquals(1000.0, comp.getBal());
 
     }
