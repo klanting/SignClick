@@ -43,7 +43,7 @@ public class Company {
     public Boolean openTrade = false;
 
 
-    private CompanyStock companyValue =  new CompanyStock();
+    private CompanyStock companyValue;
 
     public CompanyStock getCompanyValue() {
         return companyValue;
@@ -89,7 +89,7 @@ public class Company {
         name = n;
         stockName = StockName;
 
-        companyValue = new CompanyStock();
+        companyValue = new CompanyStock(stockName);
 
         support.put(creater.getUuid(), creater.getUuid());
         shareHolders.put(creater.getUuid(), companyValue.getTotalShares());
@@ -193,9 +193,10 @@ public class Company {
     public Company(String n, String StockName){
         name = n;
         stockName = StockName;
-        companyValue.setLastValue(getValue());
 
-        companyValue = new CompanyStock();
+        companyValue = new CompanyStock(stockName);
+
+        companyValue.setLastValue(getValue());
 
         upgrades.add(new UpgradeExtraPoints(0));
         upgrades.add(new UpgradePatentSlot(0));
@@ -206,34 +207,13 @@ public class Company {
     }
 
     public Double getValue(){
+        //TODO replace
         return companyValue.getValue();
     }
 
     public Boolean addBal(Double amount){
-
-        double modifier = 0.0;
-        if (country != null){
-            modifier += country.getPolicyBonus(0, 3);
-        }
-
-        double modifier2 = 0.0;
-        double sub_pct = 1.0;
-        if (country != null){
-            if (country.getStability() < 30){
-                sub_pct -= 0.20;
-            }
-            if (country.getStability() < 50){
-                sub_pct -= 0.10;
-            }
-            if (country.getStability() > 80){
-                sub_pct += 0.10;
-            }
-            modifier2 += country.getPolicyBonus(0, 2);
-        }
-
-        double modifier3 = (sub_pct+(double) upgrades.get(0).getBonus()/100.0);
-
-        return companyValue.addBal(amount, modifier, modifier2, modifier3);
+        //TODO replace
+        return companyValue.addBal(amount);
     }
 
     public void changeShareHolder(Account holder, Integer amount){
@@ -370,7 +350,6 @@ public class Company {
 
 
     void dividend(){
-
         double modifier1 = 0.0;
         double modifier2 = 0.0;
         if (country != null){
@@ -501,10 +480,12 @@ public class Company {
 
 
     public double getSpendable(){
+        //TODO replace
         return companyValue.getSpendable();
     }
 
     public void resetSpendable(){
+        //TODO move
         double base = 0.2;
 
         if (country == null || country.getStability() < 50){

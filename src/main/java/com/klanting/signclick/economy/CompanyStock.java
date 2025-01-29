@@ -7,6 +7,8 @@ public class CompanyStock {
     * This class represents the economic information of a company
     * */
 
+    private final String stockName;
+
     /*
     * Represents the share base value
     * */
@@ -67,8 +69,8 @@ public class CompanyStock {
 
     private double lastValue = 0.0;
 
-    public CompanyStock(){
-
+    public CompanyStock(String stockName){
+        this.stockName = stockName;
     }
 
     public double getShareBase() {
@@ -79,7 +81,33 @@ public class CompanyStock {
         return bal;
     }
 
-    public boolean addBal(double amount, double modifier, double modifier2, double modifier3) {
+    public boolean addBal(double amount) {
+
+        Company comp = Market.getCompany(stockName);
+        Country country = comp.country;
+
+        double modifier = 0.0;
+        if (country != null){
+            modifier += country.getPolicyBonus(0, 3);
+        }
+
+        double modifier2 = 0.0;
+        double sub_pct = 1.0;
+        if (country != null){
+            if (country.getStability() < 30){
+                sub_pct -= 0.20;
+            }
+            if (country.getStability() < 50){
+                sub_pct -= 0.10;
+            }
+            if (country.getStability() > 80){
+                sub_pct += 0.10;
+            }
+            modifier2 += country.getPolicyBonus(0, 2);
+        }
+
+        double modifier3 = (sub_pct+(double) comp.upgrades.get(0).getBonus()/100.0);
+
         this.bal += amount;
         changeBase();
 
