@@ -35,7 +35,7 @@ public class CompanyHandlerOpenTrade extends CompanyHandler{
 
             Company comp = Market.getCompany(stock_name);
 
-            comp.totalShares = comp.getTotalShares()-comp.getMarketShares();
+            comp.getCompanyValue().setTotalShares(comp.getCompanyValue().getTotalShares()-comp.getMarketShares());
 
             comp.marketShares = 0;
         }

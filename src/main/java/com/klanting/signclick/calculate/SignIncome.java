@@ -67,7 +67,7 @@ public class SignIncome {
                         doorCooldown.add(door);
 
 
-                        Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(SignClick.getPlugin(), new Runnable() {
+                        Bukkit.getServer().getScheduler().runTaskLater(SignClick.getPlugin(), new Runnable() {
                             public void run() {
                                 door.setOpen(old);
                                 DoorState.setBlockData(door);

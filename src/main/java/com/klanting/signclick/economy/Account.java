@@ -53,15 +53,16 @@ public class Account {
         }
 
         removeBal(v);
-        Market.getCompany(Sname).addBooks(v);
 
-        Market.changeBase(Sname);
+        CompanyStock companyStock = Market.getCompany(Sname).getCompanyValue();
+        companyStock.addBooks(v);
+        companyStock.changeBase();
 
         int share_amount = shares.getOrDefault(Sname, 0);
         shares.put(Sname, share_amount+amount);
         if (Market.getCompany(Sname).openTrade){
             Company comp = Market.getCompany(Sname);
-            comp.totalShares = comp.totalShares+amount;
+            comp.getCompanyValue().setTotalShares(comp.getCompanyValue().getTotalShares()+amount);
         }
         player.sendMessage("§bbuy: §aaccepted");
     }
@@ -75,45 +76,40 @@ public class Account {
         Country country = CountryManager.getCountry(countryName);
 
         double to_gov;
-        //TODO fix this later
-        if (country != null){
-            if (country.getStability() < 50){
-                sub_fee += 0.01;
-            }
+        if (country == null){
+            country = new CountryNull();
+        }
 
-            to_gov = v/(1.0-(sub_fee- country.getPolicyBonus(0, 0))*(Market.getFee()- country.getPolicyBonus(0, 0)- country.getPolicyBonus(1, 1)));
-            Country playerCountry = CountryManager.getCountry(player);
-            if (playerCountry != null){
-                playerCountry.deposit((int) to_gov);
-            }else{
-                Market.getCompany(Sname).addBooks(to_gov);
-            }
+        if (country.getStability() < 50){
+            sub_fee += 0.01;
+        }
+
+        to_gov = v/(1.0-(sub_fee- country.getPolicyBonus(0, 0))*(Market.getFee()- country.getPolicyBonus(0, 0)- country.getPolicyBonus(1, 1)));
+        Country playerCountry = CountryManager.getCountry(player);
+        if (playerCountry != null){
+            playerCountry.deposit((int) to_gov);
         }else{
-            to_gov = v/(1.0-sub_fee);
+            Market.getCompany(Sname).getCompanyValue().addBooks(to_gov);
         }
 
 
 
         int share_amount = shares.getOrDefault(Sname, 0);
-        if (share_amount >= amount){
-            if (Market.sell(Sname, amount, this)){
-                addBal(v);
-                Market.getCompany(Sname).removeBooks(v+to_gov);
-                Market.changeBase(Sname);
-
-                shares.put(Sname, share_amount-amount);
-                player.sendMessage("§bsell: §aaccepted");
-            }
-
-        }
-        else{
+        if (share_amount < amount){
             player.sendMessage("§bsell: §cdenied (not enough shares)");
+            return;
         }
-    }
 
-    void set_support(String Sname, UUID value){
-        Market.getCompany(Sname).supportUpdate(this, value);
+        if (Market.sell(Sname, amount, this)){
+            addBal(v);
 
+            CompanyStock companyStock = Market.getCompany(Sname).getCompanyValue();
+            companyStock.removeBooks(v+to_gov);
+            companyStock.changeBase();
+
+            shares.put(Sname, share_amount-amount);
+            player.sendMessage("§bsell: §aaccepted");
+        }
     }
 
     public Boolean transfer(String Sname, Integer amount, Account target, Player player){
@@ -164,8 +160,8 @@ public class Account {
             int s = entry.getValue();
 
             Company comp = Market.getCompany(b);
-
-            double v = (comp.getValue()/(comp.getTotalShares().doubleValue()))*s;
+            CompanyStock companyStock = comp.getCompanyValue();
+            double v = (companyStock.getValue()/(companyStock.getTotalShares().doubleValue()))*s;
 
             if (order.size() > 0){
                 boolean found = false;
@@ -203,7 +199,7 @@ public class Account {
             int i2 = i + 1;
             total += v;
             Company comp = Market.getCompany(b);
-            player.sendMessage("§b"+i2+". §3"+b+": §7" +df.format(v)+" ("+df2.format((shares.get(b).doubleValue()/comp.getTotalShares().doubleValue()*100.0))+"%)\n");
+            player.sendMessage("§b"+i2+". §3"+b+": §7" +df.format(v)+" ("+df2.format((shares.get(b).doubleValue()/comp.getCompanyValue().getTotalShares().doubleValue()*100.0))+"%)\n");
         }
         DecimalFormat df = new DecimalFormat("###,###,###");
         player.sendMessage("§9Total value: §e" +df.format(total));
@@ -232,7 +228,7 @@ public class Account {
         compWeeksPending = weeks;
         compReason = reason;
 
-        Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(SignClick.getPlugin(), new Runnable() {
+        Bukkit.getServer().getScheduler().runTaskLater(SignClick.getPlugin(), new Runnable() {
             public void run() {
                 compNamePending = null;
                 compAmountPending = 0.0;

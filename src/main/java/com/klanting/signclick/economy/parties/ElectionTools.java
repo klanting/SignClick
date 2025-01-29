@@ -11,7 +11,7 @@ import java.util.UUID;
 
 public class ElectionTools {
     public static void setupElectionDeadline(Country country, long time){
-        Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(SignClick.getPlugin(), new Runnable() {
+        Bukkit.getServer().getScheduler().runTaskLater(SignClick.getPlugin(), new Runnable() {
             public void run() {
                 Election election = country.getCountryElection();
                 country.setCountryElection(null);

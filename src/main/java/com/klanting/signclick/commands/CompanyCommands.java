@@ -129,7 +129,7 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
 
             DecimalFormat df = new DecimalFormat("###,###,##0.00");
             Company comp = getCompany(stock_name);
-            player.sendMessage("§b books money: "+df.format(comp.getShareBalance()));
+            player.sendMessage("§b books money: "+df.format(comp.getCompanyValue().getShareBalance()));
         }
 
         if (commando.equals("get_buy_price")){

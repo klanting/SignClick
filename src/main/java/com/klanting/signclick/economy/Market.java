@@ -51,10 +51,10 @@ public class Market {
     public static Double getBuyPrice(String Sname, Integer amount){
         Company comp = Market.getCompany(Sname);
 
-        double market_pct = (comp.getMarketShares().doubleValue()/(comp.getTotalShares().doubleValue()+Math.min(comp.getMarketShares(), 0)));
+        double market_pct = (comp.getMarketShares().doubleValue()/(comp.getCompanyValue().getTotalShares().doubleValue()+Math.min(comp.getMarketShares(), 0)));
         double a = (1.0 - market_pct) * 25.0 - 10.0;
 
-        market_pct = ((comp.getMarketShares().doubleValue()-amount.doubleValue())/(comp.getTotalShares().doubleValue()+Math.min(comp.getMarketShares(), 0)));
+        market_pct = ((comp.getMarketShares().doubleValue()-amount.doubleValue())/(comp.getCompanyValue().getTotalShares().doubleValue()+Math.min(comp.getMarketShares(), 0)));
         double b = (1.0 - market_pct) * 25.0 - 10.0;
 
 
@@ -106,12 +106,6 @@ public class Market {
         return true;
     }
 
-    public static void changeBase(String Sname){
-        Company comp = companies.get(Sname);
-        double newShareBase = (comp.getBal()/comp.getTotalShares()) / calculateFluxChange(-10, 15);;
-        comp.getCompanyValue().setShareBase(newShareBase);
-    }
-
     public static double calculateFluxChange(double a, double b){
         return (Math.pow(flux, b) - Math.pow(flux, a))/Math.log(flux)/(b-a);
     }
@@ -141,7 +135,7 @@ public class Market {
         Company comp = new Company(namebus, StockName, acc);
         companies.put(StockName, comp);
 
-        changeBase(StockName);
+        comp.getCompanyValue().changeBase();
 
         comp.checkSupport();
         comp.calculateCountry();
@@ -170,11 +164,11 @@ public class Market {
 
         ArrayList<Map.Entry<String, Company>> entries = new ArrayList<>(companies.entrySet());
 
-        entries.sort(Comparator.comparing(item -> -item.getValue().getValue()));
+        entries.sort(Comparator.comparing(item -> -item.getValue().getCompanyValue().getValue()));
 
         for (int i=0; i<entries.size(); i++){
             String b = entries.get(i).getKey();
-            Double v = entries.get(i).getValue().getValue();
+            Double v = entries.get(i).getValue().getCompanyValue().getValue();
             DecimalFormat df = new DecimalFormat("###,###,###");
             int i2 = i + 1;
             player.sendMessage("§b"+i2+". §3"+b+": §7" +df.format(v)+"\n");
@@ -271,7 +265,7 @@ public class Market {
             if (Market.getCompany(b).openTrade){
                 marketList.add("§b"+i2+". §9"+b+": §7" +"inf"+" ("+"inf"+"%)");
             }else{
-                marketList.add("§b"+i2+". §9"+b+": §7" +df.format(v)+" ("+df2.format((v/comp.getTotalShares().doubleValue()*100.0))+"%)");
+                marketList.add("§b"+i2+". §9"+b+": §7" +df.format(v)+" ("+df2.format((v/comp.getCompanyValue().getTotalShares().doubleValue()*100.0))+"%)");
             }
 
         }
@@ -545,7 +539,7 @@ public class Market {
                 if (value > 0.0){
                     comp.addBal(value);
                 }else{
-                    comp.removeBal(value*-1);
+                    comp.getCompanyValue().removeBal(value*-1);
                 }
             }
 

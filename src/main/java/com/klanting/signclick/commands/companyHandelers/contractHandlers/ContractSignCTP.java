@@ -27,7 +27,7 @@ public class ContractSignCTP extends CompanyHandler {
 
         Company comp = Market.getCompany(stock_name);
 
-        CommandAssert.assertTrue(comp.spendable >= comp.playerAmountPending, "§bcan't sign contract because lack of weekly spendable funds");
+        CommandAssert.assertTrue(comp.getSpendable() >= comp.playerAmountPending, "§bcan't sign contract because lack of weekly spendable funds");
 
         CommandAssert.assertTrue(!comp.isOwner(UUID.fromString(comp.playerNamePending)) || !player.getUniqueId().equals(UUID.fromString(comp.playerNamePending)),
                 "§byou can't' make a contract with yourself");
