@@ -1,12 +1,10 @@
 package com.klanting.signclick.calculate;
 
-import be.seeseemelk.mockbukkit.block.data.TrapDoorMock;
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.utils.Utils;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.block.BlockState;
 import org.bukkit.block.Sign;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.Directional;
@@ -33,16 +31,14 @@ public class SignIncome {
             Block block = getAttachedBlock(sign.getBlock());
             if (block.getState().getData().toString().contains("DOOR")){
 
-                Door door;
 
                 Block realBlock;
                 if (block.getRelative(BlockFace.DOWN).getState().getData().toString().contains("DOOR")){
-                    door = (Door) block.getRelative(BlockFace.DOWN).getBlockData();
                     realBlock = block.getRelative(BlockFace.DOWN);
                 }else{
-                    door = (Door) block.getBlockData();
                     realBlock = block;
                 }
+                Door door = (Door) realBlock.getBlockData();
 
                 if (!doorCooldown.contains(door)){
 
@@ -194,20 +190,18 @@ public class SignIncome {
     }
 
 
-    public static Boolean OpenDoor(PlayerInteractEvent event){
+    public static Boolean cancelOpenDoor(PlayerInteractEvent event){
 
-        if ((owner.containsKey(event.getClickedBlock().getLocation()))||(owner.containsKey(event.getClickedBlock().getRelative(BlockFace.DOWN).getLocation()))) {
-            Player player = event.getPlayer();
-            if (owner.get(event.getClickedBlock().getLocation()) == player.getUniqueId()) {
-                return false;
-            } else {
-                return true;
-            }
-
-        }else{
+        if (!owner.containsKey(event.getClickedBlock().getLocation()) && !owner.containsKey(event.getClickedBlock().getRelative(BlockFace.DOWN).getLocation())) {
             return false;
         }
 
+        Player player = event.getPlayer();
+        if (owner.get(event.getClickedBlock().getLocation()) == player.getUniqueId()) {
+            return false;
+        } else {
+            return true;
+        }
 
     }
 

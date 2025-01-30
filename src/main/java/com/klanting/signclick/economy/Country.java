@@ -288,6 +288,9 @@ public class Country {
         if (owners.contains(uuid)){
             return false;
         }
+
+        CountryManager.joinCountry(this, uuid);
+
         owners.add(uuid);
         return true;
 

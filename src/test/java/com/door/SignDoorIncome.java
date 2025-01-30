@@ -115,11 +115,16 @@ public class SignDoorIncome {
         );
         server.getPluginManager().callEvent(interactEvent);
 
+        /*
+        * Check door opened
+        * */
         assertTrue(door.isOpen());
         assertEquals(0, SignClick.getEconomy().getBalance(testPlayer2));
 
+        /*
+        * Check door automatically closed
+        * */
         server.getScheduler().performTicks(5*20L+1);
-
         assertFalse(door.isOpen());
     }
 

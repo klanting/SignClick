@@ -67,6 +67,12 @@ public class PartyCommands implements CommandExecutor, TabCompleter {
 
         if (commando.equals("add")){
             Country country = CountryManager.getCountry(player);
+
+            if (args.length < 2){
+                player.sendMessage("§bplease enter /party add <username>");
+                return true;
+            }
+
             String player_name = args[1];
 
             Player target_player = Bukkit.getPlayer(player_name);
@@ -98,11 +104,17 @@ public class PartyCommands implements CommandExecutor, TabCompleter {
 
         if (commando.equals("kick")){
             Country country = CountryManager.getCountry(player);
+
+            if (args.length < 2){
+                player.sendMessage("§bplease enter /party kick <username>");
+                return true;
+            }
+
             String player_name = args[1];
 
             UUID uuid = null;
             for (OfflinePlayer of: Bukkit.getServer().getOfflinePlayers()){
-                if (of.getName() == player_name){
+                if (of.getName().equals(player_name)){
                     uuid = of.getUniqueId();
                     break;
                 }
@@ -130,6 +142,12 @@ public class PartyCommands implements CommandExecutor, TabCompleter {
 
         if (commando.equals("promote")){
             Country country = CountryManager.getCountry(player);
+
+            if (args.length < 2){
+                player.sendMessage("§bplease enter /party promote <username>");
+                return true;
+            }
+
             String player_name = args[1];
             Player target_player = Bukkit.getPlayer(player_name);
 
@@ -149,6 +167,12 @@ public class PartyCommands implements CommandExecutor, TabCompleter {
 
         if (commando.equals("demote")){
             Country country = CountryManager.getCountry(player);
+
+            if (args.length < 2){
+                player.sendMessage("§bplease enter /party demote <username>");
+                return true;
+            }
+
             String player_name = args[1];
             Player target_player = Bukkit.getPlayer(player_name);
 
@@ -246,7 +270,6 @@ public class PartyCommands implements CommandExecutor, TabCompleter {
         if (!(sender instanceof Player)) {
             sender.sendMessage("Only players allowed");
             return null; }
-        Player player = (Player) sender;
 
         if (command.getName().equalsIgnoreCase("party")) {
             List<String> autoCompletes = new ArrayList<>();

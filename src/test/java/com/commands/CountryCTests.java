@@ -22,6 +22,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import tools.TestTools;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 class CountryCTests {
 
@@ -47,7 +50,6 @@ class CountryCTests {
 
     @Test
     void createCountry(){
-
         PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
 
         boolean result = server.execute("country", testPlayer, "create", "empire1", testPlayer.getName()).hasSucceeded();
@@ -57,8 +59,6 @@ class CountryCTests {
 
         testPlayer.assertSaid("§bcountry has been succesfully created");
         testPlayer.assertNoMoreSaid();
-
-
     }
 
     @Test
@@ -208,6 +208,42 @@ class CountryCTests {
         testPlayer2.assertNoMoreSaid();
 
         assertEquals("empire1", CountryManager.getCountry(testPlayer2).getName());
+
+    }
+
+    @Test
+    void countryInviteToLate() {
+        PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
+        PlayerMock testPlayer2 = TestTools.addPermsPlayer(server, plugin);
+
+        /*
+         * create country
+         * */
+        boolean result = server.execute("country", testPlayer, "create", "empire1", testPlayer.getName()).hasSucceeded();
+        assertTrue(result);
+        testPlayer.nextMessage();
+        testPlayer.assertNoMoreSaid();
+
+        result = server.execute("country", testPlayer, "invite", testPlayer2.getName()).hasSucceeded();
+        assertTrue(result);
+
+        testPlayer.assertSaid("§bthe invite to join the country has been send to Player1");
+        testPlayer.assertNoMoreSaid();
+
+        testPlayer2.assertSaid("§byou have an invite for §8empire1 §byou have 120s for accepting by \n" +
+                "§c/country accept");
+        testPlayer2.assertNoMoreSaid();
+
+        server.getScheduler().performTicks(120*20L+1);
+
+        /*
+         * Accept invite to late
+         * */
+
+        result = server.execute("country", testPlayer2, "accept").hasSucceeded();
+        assertTrue(result);
+        testPlayer2.assertSaid("§bNo pending invites");
+        testPlayer2.assertNoMoreSaid();
 
     }
 
@@ -605,6 +641,205 @@ class CountryCTests {
         assertEquals("testParty", country.getRuling().name);
         assertNull(country.getCountryElection());
 
+    }
+
+    @Test
+    void leaveCountry(){
+        createCountry();
+
+        PlayerMock testPlayer2 = TestTools.addPermsPlayer(server, plugin);
+        Country country = CountryManager.getCountry("empire1");
+        country.addMember(testPlayer2);
+
+        boolean result = server.execute("country", testPlayer2, "leave").hasSucceeded();
+        assertTrue(result);
+
+        testPlayer2.assertSaid("§bcountry succesfully left");
+        testPlayer2.assertNoMoreSaid();
+
+        assertEquals(0, country.getMembers().size());
+    }
+
+    @Test
+    void promoteCountry(){
+        /*
+        * Check the country promote (staff only)
+        * */
+        createCountry();
+
+        PlayerMock testPlayer2 = TestTools.addPermsPlayer(server, plugin);
+        Country country = CountryManager.getCountry("empire1");
+        country.addMember(testPlayer2);
+
+        assertEquals(1, country.getMembers().size());
+        assertFalse(country.isOwner(testPlayer2));
+
+        boolean result = server.execute("country", testPlayer2, "promote", testPlayer2.getName()).hasSucceeded();
+        assertTrue(result);
+
+        assertEquals(0, country.getMembers().size());
+        assertTrue(country.isOwner(testPlayer2));
+    }
+
+    @Test
+    void promoteCountryFailed(){
+        /*
+         * Check the country promote (staff only) would fail when no username provided
+         * */
+        createCountry();
+
+        PlayerMock testPlayer2 = TestTools.addPermsPlayer(server, plugin);
+        Country country = CountryManager.getCountry("empire1");
+        country.addMember(testPlayer2);
+
+        boolean result = server.execute("country", testPlayer2, "promote").hasSucceeded();
+        assertTrue(result);
+
+        testPlayer2.assertSaid("§bPlease enter /country promote <username>");
+        testPlayer2.assertNoMoreSaid();
+    }
+
+    @Test
+    void demoteCountry(){
+        /*
+         * Check the country demote (staff only)
+         * */
+        createCountry();
+
+        PlayerMock testPlayer2 = TestTools.addPermsPlayer(server, plugin);
+        Country country = CountryManager.getCountry("empire1");
+        country.addOwner(testPlayer2);
+
+        assertEquals(0, country.getMembers().size());
+        assertTrue(country.isOwner(testPlayer2));
+
+        boolean result = server.execute("country", testPlayer2, "demote", testPlayer2.getName()).hasSucceeded();
+        assertTrue(result);
+
+        assertEquals(1, country.getMembers().size());
+        assertFalse(country.isOwner(testPlayer2));
+    }
+
+    @Test
+    void demoteCountryFailed(){
+        /*
+         * Check the country demote (staff only) would fail when no username provided
+         * */
+        createCountry();
+
+        PlayerMock testPlayer2 = TestTools.addPermsPlayer(server, plugin);
+        Country country = CountryManager.getCountry("empire1");
+        country.addMember(testPlayer2);
+
+        boolean result = server.execute("country", testPlayer2, "demote").hasSucceeded();
+        assertTrue(result);
+
+        testPlayer2.assertSaid("§bPlease enter /country demote <username>");
+        testPlayer2.assertNoMoreSaid();
+    }
+
+    @Test
+    void removeCountry(){
+        /*
+        * remove a country (staff only) from the system
+        * */
+        createCountry();
+        PlayerMock testPlayer2 = TestTools.addPermsPlayer(server, plugin);
+        Country country = CountryManager.getCountry("empire1");
+        assertNotNull(country);
+
+        boolean result = server.execute("country", testPlayer2, "remove", "empire1").hasSucceeded();
+        assertTrue(result);
+
+        country = CountryManager.getCountry("empire1");
+        assertNull(country);
+    }
+
+    @Test
+    void setOwnerCountry(){
+        /*
+        * set a player as owner (staff only)
+        * */
+        createCountry();
+        PlayerMock testPlayer2 = TestTools.addPermsPlayer(server, plugin);
+        PlayerMock testPlayer3 = TestTools.addPermsPlayer(server, plugin);
+
+        Country country = CountryManager.getCountry("empire1");
+        assertFalse(country.isOwner(testPlayer3));
+
+        boolean result = server.execute("country", testPlayer2, "setowner", "empire1", testPlayer3.getName()).hasSucceeded();
+        assertTrue(result);
+
+        assertTrue(country.isOwner(testPlayer3));
+
+        testPlayer3.assertSaid("§bYou are added as owner");
+        testPlayer3.assertNoMoreSaid();
+
+        testPlayer2.assertSaid("§bOwner has been set");
+        testPlayer2.assertNoMoreSaid();
+    }
+
+    @Test
+    void addMemberCountry(){
+        /*
+         * Check the country add Member (staff only)
+         * */
+        createCountry();
+
+        PlayerMock testPlayer2 = TestTools.addPermsPlayer(server, plugin);
+        Country country = CountryManager.getCountry("empire1");
+
+        assertEquals(0, country.getMembers().size());
+
+        boolean result = server.execute("country", testPlayer2, "addmember", "empire1", testPlayer2.getName()).hasSucceeded();
+        assertTrue(result);
+
+        assertEquals(1, country.getMembers().size());
+    }
+
+    @Test
+    void removeMemberCountry(){
+        /*
+         * Check the country remove Member (staff only)
+         * */
+        createCountry();
+
+        PlayerMock testPlayer2 = TestTools.addPermsPlayer(server, plugin);
+        Country country = CountryManager.getCountry("empire1");
+        country.addMember(testPlayer2);
+
+        assertEquals(1, country.getMembers().size());
+
+        boolean result = server.execute("country", testPlayer2, "removemember", "empire1", testPlayer2.getName()).hasSucceeded();
+        assertTrue(result);
+
+        assertEquals(0, country.getMembers().size());
+    }
+
+    @Test
+    void countryTabComplete(){
+        PlayerMock testPlayer2 = server.addPlayer();
+        List<String> receivedAutoCompletes =  server.getCommandTabComplete(testPlayer2, "country ");
+
+        List<String> autoCompletes = new ArrayList<>();
+        autoCompletes.add("bal");
+        autoCompletes.add("pay");
+        autoCompletes.add("donate");
+        autoCompletes.add("tax");
+        autoCompletes.add("accept");
+        autoCompletes.add("invite");
+        autoCompletes.add("info");
+        autoCompletes.add("leave");
+        autoCompletes.add("kick");
+        autoCompletes.add("spawn");
+        autoCompletes.add("setspawn");
+        autoCompletes.add("add_enforcement");
+        autoCompletes.add("remove_enforcement");
+        autoCompletes.add("menu");
+        autoCompletes.add("election");
+        autoCompletes.add("vote");
+
+        assertEquals(autoCompletes, receivedAutoCompletes);
     }
 
 }

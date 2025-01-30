@@ -78,7 +78,7 @@ public class SignEvents implements Listener {
     public static void OnDoorOpen(PlayerInteractEvent event){
         if(event.getClickedBlock() != null){
             if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                event.setCancelled(SignIncome.OpenDoor(event));
+                event.setCancelled(SignIncome.cancelOpenDoor(event));
             }
         }
 
