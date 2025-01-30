@@ -1,11 +1,9 @@
 package com.klanting.signclick.calculate;
 
+import be.seeseemelk.mockbukkit.block.data.TrapDoorMock;
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.utils.Utils;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
@@ -21,6 +19,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 import java.util.*;
 
+import static org.bukkit.Bukkit.getServer;
+
 public class SignIncome {
     private static ArrayList<Door> doorCooldown = new ArrayList<Door>();
     public static Map<Location, UUID> owner = new HashMap<>();
@@ -34,21 +34,21 @@ public class SignIncome {
             if (block.getState().getData().toString().contains("DOOR")){
 
                 Door door;
-                BlockState DoorState;
 
+                Block realBlock;
                 if (block.getRelative(BlockFace.DOWN).getState().getData().toString().contains("DOOR")){
                     door = (Door) block.getRelative(BlockFace.DOWN).getBlockData();
-                    DoorState = block.getRelative(BlockFace.DOWN).getState();
+                    realBlock = block.getRelative(BlockFace.DOWN);
                 }else{
                     door = (Door) block.getBlockData();
-                    DoorState = block.getState();
+                    realBlock = block;
                 }
 
                 if (!doorCooldown.contains(door)){
 
                     if (SignClick.getEconomy().getBalance(player) >= amount) {
                         try {
-                            Player target = Bukkit.getServer().getPlayer(receiver);
+                            Player target = getServer().getPlayer(receiver);
                             SignClick.getEconomy().depositPlayer(target, amount);
 
                         } catch (Exception e) {
@@ -62,16 +62,15 @@ public class SignIncome {
                         SignClick.getEconomy().withdrawPlayer(player, amount);
                         Boolean old = door.isOpen();
                         door.setOpen(!old);
-                        DoorState.setBlockData(door);
-                        DoorState.update();
+
+                        realBlock.setBlockData(door);
                         doorCooldown.add(door);
 
 
-                        Bukkit.getServer().getScheduler().runTaskLater(SignClick.getPlugin(), new Runnable() {
+                        getServer().getScheduler().runTaskLater(SignClick.getPlugin(), new Runnable() {
                             public void run() {
                                 door.setOpen(old);
-                                DoorState.setBlockData(door);
-                                DoorState.update();
+                                realBlock.setBlockData(door);
                                 doorCooldown.remove(door);
 
                             }
@@ -131,7 +130,14 @@ public class SignIncome {
         if (getAttachedBlock(sign.getBlock()).getRelative(BlockFace.DOWN).getState().getData().toString().contains("DOOR")){
             if (!owner.containsKey(getAttachedBlock(sign.getBlock()).getRelative(BlockFace.DOWN).getLocation())){
 
-                Utils.setSign(sign, new String[]{"§b[sign_in]", "", player.getName(), ""});
+                try {
+                    Integer.parseInt(sign.getLine(1));
+                }catch (NumberFormatException nfe){
+                    player.sendMessage("§bThe 2nd line needs a price");
+                    return;
+                }
+
+                Utils.setSign(sign, new String[]{"§b[sign_in]", sign.getLine(1), player.getName(), ""});
 
                 owner.put(getAttachedBlock(sign.getBlock()).getRelative(BlockFace.DOWN).getLocation(), player.getUniqueId());
             }else {
