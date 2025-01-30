@@ -20,14 +20,13 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.text.DecimalFormat;
 import java.util.*;
 
 import static com.klanting.signclick.economy.parties.ElectionTools.setupElectionDeadline;
 
 
 public class CountryCommands implements CommandExecutor, TabCompleter {
-    private static final Map<String, String> countryInvites = new HashMap<String, String>();
+    public static final Map<String, String> countryInvites = new HashMap<String, String>();
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -54,6 +53,15 @@ public class CountryCommands implements CommandExecutor, TabCompleter {
         handlerTranslation.put("donate", new CountryHandlerDonate());
         handlerTranslation.put("baltop", new CountryHandlerBaltop());
         handlerTranslation.put("tax", new CountryHandlerTax());
+        handlerTranslation.put("invite", new CountryHandlerInvite());
+        handlerTranslation.put("accept", new CountryHandlerAccept());
+        handlerTranslation.put("kick", new CountryHandlerKick());
+        handlerTranslation.put("info", new CountryHandlerInfo());
+        handlerTranslation.put("leave", new CountryHandlerLeave());
+        handlerTranslation.put("setspawn", new CountryHandlerSetSpawn());
+        handlerTranslation.put("spawn", new CountryHandlerSpawn());
+        handlerTranslation.put("add_enforcement", new CountryHandlerAddEnforcement());
+        handlerTranslation.put("remove_enforcement", new CountryHandlerRemoveEnforcement());
 
         try{
             if (handlerTranslation.containsKey(commando)){
@@ -66,182 +74,7 @@ public class CountryCommands implements CommandExecutor, TabCompleter {
             return true;
         }
 
-        if (commando.equals("invite")){
-            Country country = CountryManager.getCountry(player);
-            if (country.isOwner(player)){
-
-                String username;
-                try{
-                    username = args[1];
-                }catch (Exception e){
-                    player.sendMessage("§bplease enter /country invite <username>");
-                    return true;
-                }
-
-                countryInvites.put(username, country.getName());
-                boolean inviteSend = false;
-                for (Player p: Bukkit.getOnlinePlayers()){
-                    if (p.getName().equals(username)){
-                        inviteSend = true;
-                        p.sendMessage("§byou have an invite for §8"+country.getName()+ " §byou have 120s for accepting by \n" +
-                                "§c/country accept");
-
-
-                        Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(SignClick.getPlugin(), new Runnable() {
-                            public void run() {
-                                countryInvites.remove(username);
-                            }
-                        }, 20*120L);
-                    }
-                }
-                if (inviteSend){
-                    player.sendMessage("§bthe invite to join the country has been send to "+username);
-                }else{
-                    player.sendMessage("§bthe invite was unable to arrive at the player");
-                }
-
-            }else{
-                player.sendMessage("§byou are not allowed to do this");
-            }
-        }else if (commando.equals("accept")){
-            if (countryInvites.containsKey(player.getName())){
-                String countryName = countryInvites.get(player.getName());
-                Country country = CountryManager.getCountry(countryName);
-                country.addMember(player);
-                player.sendMessage("§byou succesfully joint this country");
-                player.setPlayerListName(country.getColor()+player.getName());
-            }else{
-                player.sendMessage("§bNo pending invites");
-            }
-        }else if (commando.equals("kick")){
-            Country country = CountryManager.getCountry(player);
-            if (country != null && country.isOwner(player)){
-                Player target;
-                try{
-                    target = Bukkit.getServer().getPlayer(args[1]);
-                }catch (Exception e){
-                    player.sendMessage("§bplease enter /country kick <> player");
-                    return true;
-                }
-
-                country.removeMember(target);
-                player.sendMessage("§btarget has been kicked from your country");
-            }else{
-                player.sendMessage("§byou are not allowed to kick members");
-            }
-
-        }else if (commando.equals("info")){
-            Country country;
-            if (args.length == 2){
-                String name = args[1];
-                country = CountryManager.getCountry(name);
-            }else{
-                country = CountryManager.getCountry(player);
-
-            }
-
-            if (country == null){
-                player.sendMessage("§bprovided country is invalid, or the player did not specify a country name, while also not being inside one");
-                return true;
-            }
-
-            country.info(player);
-        }else if (commando.equals("leave")){
-            Country country = CountryManager.getCountry(player);
-
-            if (country.isOwner(player)){
-                country.removeOwner(player);
-            }else{
-                country.removeMember(player);
-            }
-            player.sendMessage("§bcountry succesfully left");
-        }else if (commando.equals("setspawn")) {
-            Country country = CountryManager.getCountry(player);
-
-            if (country.isOwner(player)) {
-                country.setSpawn(player.getLocation());
-                player.sendMessage("§bspawn succesfully relocated");
-            }
-
-        }else if (commando.equals("spawn")){
-            Country country;
-            if ((player.hasPermission("signclick.staff")) && (args.length == 2)){
-                String countryName = args[1];
-                country = CountryManager.getCountry(countryName);
-            }else{
-                country = CountryManager.getCountry(player);
-            }
-
-            if (country != null){
-                Location loc = country.getSpawn();
-                if (loc != null){
-                    player.teleport(loc);
-                    player.sendMessage("§bteleported to country spawn");
-                }else{
-                    player.sendMessage("§bno country spawn has been set, owners can set it by entering /country setspawn");
-                }
-
-            }else{
-                player.sendMessage("§byou are not in a country");
-            }
-
-        }else if (commando.equals("add_enforcement")){
-            if (args.length < 2){
-                player.sendMessage("§bplease enter /country add_enforcement <player>");
-                return true;
-            }
-            String player_name = args[1];
-
-            Country country = CountryManager.getCountry(player);
-            if (!country.isOwner(player)){
-                player.sendMessage("§byou are not country owner");
-                return true;
-            }
-
-            Player target = Bukkit.getPlayer(player_name);
-
-            if (!country.getMembers().contains(target.getUniqueId())){
-                player.sendMessage("§bOnly country members can be law enforcement");
-                return true;
-            }
-
-            if (target != null){
-                country.addLawEnforcement(target);
-                player.sendMessage("§byou succesfully assigned an law enforcement agent");
-            }else{
-                player.sendMessage("§bassigning failed");
-                return true;
-            }
-
-        }else if (commando.equals("remove_enforcement")){
-            if (args.length < 2){
-                player.sendMessage("§bplease enter /country remove_enforcement <player>");
-                return true;
-            }
-            String player_name = args[1];
-
-            Country country = CountryManager.getCountry(player);
-            if (!country.isOwner(player)){
-                player.sendMessage("§byou are not country owner");
-                return true;
-            }
-
-            Player target = Bukkit.getPlayer(player_name);
-            if (target != null){
-                country.removeLawEnforcement(target);
-                player.sendMessage("§byou succesfully resigned an law enforcement agent");
-            }else{
-                for (OfflinePlayer op: Bukkit.getOfflinePlayers()){
-                    if (op.getName().equals(player_name)){
-                        country.removeLawEnforcement(op);
-                        break;
-                    }
-                }
-                player.sendMessage("§byou succesfully resigned an law enforcement agent");
-            }
-
-
-        }else if (commando.equals("menu")) {
+        if (commando.equals("menu")) {
             Country country = CountryManager.getCountry(player);
 
             if (!country.isOwner(player)){
