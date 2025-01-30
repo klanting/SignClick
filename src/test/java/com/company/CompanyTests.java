@@ -3,6 +3,7 @@ import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
 import com.klanting.signclick.economy.Company;
+import com.klanting.signclick.economy.Country;
 import com.klanting.signclick.economy.CountryManager;
 import com.klanting.signclick.economy.Market;
 import com.klanting.signclick.SignClick;
@@ -218,6 +219,28 @@ class CompanyTests {
         assertEquals("TCI", Market.getBusinesses().get(0));
         assertEquals("TCI3", Market.getBusinesses().get(1));
         assertEquals("TCI2", Market.getBusinesses().get(2));
+    }
+
+    @Test
+    void companyCalculateCountry(){
+        PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
+        PlayerMock testPlayer2 = TestTools.addPermsPlayer(server, plugin);
+
+        CountryManager.create("empire1", testPlayer);
+        CountryManager.create("empire2", testPlayer2);
+
+        boolean suc6 = Market.addCompany("TestCaseInc", "TCI", Market.getAccount(testPlayer));
+        assertTrue(suc6);
+
+        Company company = Market.getCompany("TCI");
+        company.calculateCountry();
+        assertEquals("empire1", company.getCountry());
+
+        company.getCOM().changeShareHolder(Market.getAccount(testPlayer), -900000);
+        company.getCOM().changeShareHolder(Market.getAccount(testPlayer2), 900000);
+        company.calculateCountry();
+
+        assertEquals("empire2", company.getCountry());
     }
 
 

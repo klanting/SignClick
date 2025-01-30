@@ -33,7 +33,7 @@ public class CountryHandlerInvite extends CountryHandler{
         p.sendMessage("§byou have an invite for §8"+country.getName()+ " §byou have 120s for accepting by \n" +
                 "§c/country accept");
 
-        Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(SignClick.getPlugin(), new Runnable() {
+        Bukkit.getServer().getScheduler().runTaskLater(SignClick.getPlugin(), new Runnable() {
             public void run() {
                 CountryCommands.countryInvites.remove(username);
             }

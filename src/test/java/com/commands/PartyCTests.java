@@ -12,6 +12,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import tools.TestTools;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PartyCTests {
@@ -158,5 +161,24 @@ public class PartyCTests {
         assertEquals(0, party.members.size());
         assertEquals(1, party.owners.size());
 
+    }
+
+    @Test
+    void partyTabComplete(){
+        PlayerMock testPlayer2 = server.addPlayer();
+        List<String> receivedAutoCompletes =  server.getCommandTabComplete(testPlayer2, "party ");
+
+        List<String> autoCompletes = new ArrayList<>();
+        autoCompletes.add("create");
+        autoCompletes.add("add");
+        autoCompletes.add("kick");
+        autoCompletes.add("promote");
+        autoCompletes.add("demote");
+        autoCompletes.add("leave");
+        autoCompletes.add("info");
+        autoCompletes.add("vote");
+        autoCompletes.add("coup");
+
+        assertEquals(autoCompletes, receivedAutoCompletes);
     }
 }
