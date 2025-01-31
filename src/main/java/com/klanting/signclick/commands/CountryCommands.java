@@ -1,6 +1,7 @@
 package com.klanting.signclick.commands;
 
 import com.klanting.signclick.commands.countryHandlers.*;
+import com.klanting.signclick.commands.countryHandlers.staffHandler.*;
 import com.klanting.signclick.commands.exceptions.CommandException;
 import com.klanting.signclick.economy.Country;
 import com.klanting.signclick.economy.CountryManager;
@@ -62,6 +63,21 @@ public class CountryCommands implements CommandExecutor, TabCompleter {
         handlerTranslation.put("spawn", new CountryHandlerSpawn());
         handlerTranslation.put("add_enforcement", new CountryHandlerAddEnforcement());
         handlerTranslation.put("remove_enforcement", new CountryHandlerRemoveEnforcement());
+        handlerTranslation.put("menu", new CountryHandlerMenu());
+        handlerTranslation.put("election", new CountryHandlerElection());
+        handlerTranslation.put("vote", new CountryHandlerVote());
+
+        /*
+        * Staff only commands
+        * */
+        handlerTranslation.put("setowner", new CountryHandlerSetOwner());
+        handlerTranslation.put("removeowner", new CountryHandlerRemoveOwner());
+        handlerTranslation.put("color", new CountryHandlerColor());
+        handlerTranslation.put("promote", new CountryHandlerPromote());
+        handlerTranslation.put("demote", new CountryHandlerDemote());
+        handlerTranslation.put("remove", new CountryHandlerRemove());
+        handlerTranslation.put("addmember", new CountryHandlerAddMember());
+        handlerTranslation.put("removemember", new CountryHandlerRemoveMember());
 
         try{
             if (handlerTranslation.containsKey(commando)){
@@ -71,209 +87,7 @@ public class CountryCommands implements CommandExecutor, TabCompleter {
             }
         }catch (CommandException e){
             player.sendMessage(e.getMessage());
-            return true;
         }
-
-        if (commando.equals("menu")) {
-            Country country = CountryManager.getCountry(player);
-
-            if (!country.isOwner(player)){
-                player.sendMessage("§bplayer is not the owner");
-                return true;
-            }
-
-            CountryMenu screen = new CountryMenu(player.getUniqueId());
-            player.openInventory(screen.getInventory());
-
-        }else if (commando.equals("election")) {
-            Country country = CountryManager.getCountry(player);
-
-            if (!country.isOwner(player)){
-                player.sendMessage("§bplayer is not the owner");
-                return true;
-            }
-
-            if (country.getCountryElection() != null){
-                player.sendMessage("§bcountry is already in an election phase");
-                return true;
-            }
-
-            long system_end = System.currentTimeMillis()/1000 + 60*60*24*7;
-            country.addStability(15.0);
-            player.sendMessage("§belections started");
-
-            country.setCountryElection(new Election(country.getName(), system_end));
-
-            long time = 60*20*60*24*7L;
-            setupElectionDeadline(country, time);
-
-        }
-
-        else if (commando.equals("vote")) {
-            Country country = CountryManager.getCountry(player);
-            if (country.getCountryElection() == null){
-                player.sendMessage("§bcountry is not in an election phase");
-                return true;
-            }
-
-            Election e = country.getCountryElection();
-            if (e.alreadyVoted.contains(player.getUniqueId())){
-                player.sendMessage("§byou can`t vote twice");
-                return true;
-            }
-
-            CountryElectionMenu screen = new CountryElectionMenu(e);
-            player.openInventory(screen.getInventory());
-
-        }
-
-        if (player.hasPermission("signclick.staff")){
-            if (commando.equals("setowner")){
-
-                if (args.length < 3){
-                    player.sendMessage("§bPlease enter /country setowner <country> <username>");
-                    return true;
-                }
-
-                Player p = Bukkit.getPlayer(args[2]);
-                assert p != null;
-
-                Country country = CountryManager.getCountry(args[1]);
-                boolean suc6 = country.addOwner(p);
-
-                if (suc6){
-                    p.sendMessage("§bYou are added as owner");
-                }else{
-                    p.sendMessage("§bYou are already an owner");
-                }
-
-                player.sendMessage("§bOwner has been set");
-
-            }else if (commando.equals("removeowner")){
-
-                if (args.length < 3){
-                    player.sendMessage("§bPlease enter /country removeowner <country> <username>");
-                    return true;
-                }
-
-                Player p = Bukkit.getPlayer(args[2]);
-                assert p != null;
-                Country country = CountryManager.getCountry(args[1]);
-                country.removeOwner(p);
-                player.sendMessage("§bowner has been set");
-            }else if (commando.equals("color")){
-                Country country = CountryManager.getCountry(args[1]);
-                if (country == null){
-                    player.sendMessage("§bThe country "+args[1]+" does not exists");
-                    return true;
-                }
-
-                try {
-                    country.setColor(ChatColor.valueOf(args[2]));
-                    player.sendMessage("§bColor has been changed to "+args[2].toUpperCase());
-                }catch (IllegalArgumentException e){
-                    player.sendMessage("§bColor "+args[2].toUpperCase()+" is not a valid color");
-                }
-
-            }else if (commando.equals("promote")){
-
-                if (args.length < 2){
-                    player.sendMessage("§bPlease enter /country promote <username>");
-                    return true;
-                }
-
-                try{
-                    Player p = Bukkit.getPlayer(args[1]);
-
-                    Country country = CountryManager.getCountry(p);
-                    country.removeMember(p);
-                    boolean suc6 = country.addOwner(p);
-                    if (suc6){
-                        p.sendMessage("you are promoted to owner");
-                    }else{
-                        p.sendMessage("you are already owner, and so cannot be promoted");
-                    }
-
-                }catch (Exception e){
-                    for (OfflinePlayer target : Bukkit.getOfflinePlayers()) {
-                        if (target.getName().equalsIgnoreCase(args[1])) {
-                            Country country = CountryManager.getCountry(target);
-                            country.removeMember(target);
-                            country.addOwner(target);
-                        }
-
-                    }
-
-                }
-
-            }else if (commando.equals("demote")){
-
-                if (args.length < 2){
-                    player.sendMessage("§bPlease enter /country demote <username>");
-                    return true;
-                }
-
-                try{
-                    Player p = Bukkit.getPlayer(args[1]);
-                    Country country = CountryManager.getCountry(p);
-                    country.removeOwner(p);
-                    country.addMember(p);
-                }catch (Exception e){
-                    for (OfflinePlayer target : Bukkit.getOfflinePlayers()) {
-                        if (target.getName().equalsIgnoreCase(args[1])) {
-                            Country country = CountryManager.getCountry(target);
-                            country.removeOwner(target);
-                            country.addMember(target);
-                        }
-
-                    }
-
-                }
-            }else if (commando.equals("remove")) {
-
-                if (args.length < 2){
-                    player.sendMessage("§bPlease enter /country remove <country>");
-                    return true;
-                }
-
-                String name = args[1];
-                Country country = CountryManager.getCountry(name);
-                CountryManager.delete(country.getName(), player);
-
-            }else if (commando.equals("addmember")) {
-
-                if (args.length < 3){
-                    player.sendMessage("§bPlease enter /country addmember <country> <username>");
-                    return true;
-                }
-
-                Country country = CountryManager.getCountry(args[1]);
-
-                Player addedPlayer = Bukkit.getPlayer(args[2]);
-                country.addMember(addedPlayer);
-                player.sendMessage("§bplayer succesfully joint this country");
-
-                addedPlayer.setPlayerListName(country.getColor()+player.getName());
-
-            }else if (commando.equals("removemember")) {
-
-                if (args.length < 3){
-                    player.sendMessage("§bPlease enter /country removemember <country> <username>");
-                    return true;
-                }
-
-                Country country = CountryManager.getCountry(args[1]);
-
-                Player removedPlayer = Objects.requireNonNull(Bukkit.getPlayer(args[2]));
-
-                country.removeMember(removedPlayer);
-                player.sendMessage("§bplayer succesfully left this country");
-                removedPlayer.setPlayerListName(ChatColor.WHITE+player.getName());
-
-            }
-
-        }
-
 
         return true;
     }
@@ -322,19 +136,12 @@ public class CountryCommands implements CommandExecutor, TabCompleter {
                 if (args[0].equals("donate") || args[0].equals("bal") || args[0].equals("info")){
                     return CountryManager.getCountriesString();
                 }else if (player.hasPermission("signclick.staff")){
-                    if (args[0].equals("setowner")){
-                        return CountryManager.getCountriesString();
-                    }else if (args[0].equals("removeowner")){
-                        return CountryManager.getCountriesString();
-                    }else if (args[0].equals("color")){
-                        return CountryManager.getCountriesString();
-                    }else if (args[0].equals("spawn")){
-                        return CountryManager.getCountriesString();
-                    }else if (args[0].equals("remove")){
-                        return CountryManager.getCountriesString();
-                    }else if (args[0].equals("addmember")){
-                        return CountryManager.getCountriesString();
-                    }else if (args[0].equals("removemember")){
+
+                    Set<String> completeCountries = Set.of(
+                            "setowner", "removeowner", "color",
+                            "spawn", "remove", "addmember", "removemember");
+
+                    if (completeCountries.contains(args[0])){
                         return CountryManager.getCountriesString();
                     }
 

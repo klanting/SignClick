@@ -840,6 +840,25 @@ class CountryCTests {
         autoCompletes.add("vote");
 
         assertEquals(autoCompletes, receivedAutoCompletes);
+
+        /*
+        * test staff autocomplete
+        * */
+        PlayerMock testPlayer3 = TestTools.addPermsPlayer(server, plugin);
+
+        autoCompletes.add(0, "create");
+        autoCompletes.add(1, "setowner");
+        autoCompletes.add(2, "removeowner");
+        autoCompletes.add(3, "color");
+        autoCompletes.add(4, "promote");
+        autoCompletes.add(5, "demote");
+        autoCompletes.add(6, "remove");
+        autoCompletes.add(7, "addmember");
+        autoCompletes.add(8, "removemember");
+
+        receivedAutoCompletes =  server.getCommandTabComplete(testPlayer3, "country ");
+
+        assertEquals(autoCompletes, receivedAutoCompletes);
     }
 
 }

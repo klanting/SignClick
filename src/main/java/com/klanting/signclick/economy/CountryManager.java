@@ -53,7 +53,7 @@ public class CountryManager {
     }
 
     public static Country create(String countryName, Player player, OfflinePlayer targetPlayer){
-        if (!player.hasPermission("signclick.staff")){
+        if (!player.hasPermission("signclick.staff") && !player.hasPermission("signclick.create")){
             player.sendMessage("§bplayer does not have permission to create a country");
             return null;
         }

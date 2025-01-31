@@ -260,7 +260,6 @@ public class PartyCommands implements CommandExecutor, TabCompleter {
             country.addDecision(d);
         }
 
-
         return true;
     }
 
