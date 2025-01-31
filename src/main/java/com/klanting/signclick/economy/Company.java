@@ -159,12 +159,12 @@ public class Company{
         return true;
     }
 
-    void addBooks(Double amount){
+    void addShareBal(Double amount){
         shareBalance += amount;
         spendable += (0.2*amount);
     }
 
-    void removeBooks(Double amount){
+    void removeShareBal(Double amount){
         shareBalance -= amount;
         spendable -= amount;
     }

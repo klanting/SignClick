@@ -164,6 +164,25 @@ public class PartyCTests {
     }
 
     @Test
+    void infoParty(){
+        addParty();
+
+        Country country = CountryManager.getCountry("empire1");
+        Party party = country.getParties().get(1);
+
+        boolean result = server.execute("party", testPlayer3, "info", party.name).hasSucceeded();
+        assertTrue(result);
+
+        testPlayer3.assertSaid("""
+                §bName: §7AAA
+                §bVotes: 0,00%
+                Owners: [Player0]
+                Members: [Player1]""");
+        testPlayer3.assertNoMoreSaid();
+
+    }
+
+    @Test
     void partyTabComplete(){
         PlayerMock testPlayer2 = server.addPlayer();
         List<String> receivedAutoCompletes =  server.getCommandTabComplete(testPlayer2, "party ");

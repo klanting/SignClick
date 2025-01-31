@@ -54,7 +54,7 @@ public class Account {
 
         removeBal(v);
 
-        Market.getCompany(Sname).addBooks(v);
+        Market.getCompany(Sname).addShareBal(v);
         Market.getCompany(Sname).changeBase();
 
         int share_amount = shares.getOrDefault(Sname, 0);
@@ -88,7 +88,7 @@ public class Account {
         if (playerCountry != null){
             playerCountry.deposit((int) to_gov);
         }else{
-            Market.getCompany(Sname).addBooks(to_gov);
+            Market.getCompany(Sname).addShareBal(to_gov);
         }
 
 
@@ -102,7 +102,7 @@ public class Account {
         if (Market.sell(Sname, amount, this)){
             addBal(v);
 
-            Market.getCompany(Sname).removeBooks(v+to_gov);
+            Market.getCompany(Sname).removeShareBal(v+to_gov);
             Market.getCompany(Sname).changeBase();
 
             shares.put(Sname, share_amount-amount);

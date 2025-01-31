@@ -70,10 +70,11 @@ public class Party {
         }
 
         DecimalFormat df = new DecimalFormat("##0.00");
+
         player.sendMessage("§bName: §7"+name+"\n"
                               +"§bVotes: "+df.format(PCT*100.0)+"%\n"
-                              +"§bOwners: "+o_list+"\n"
-                              +"§bMembers: "+m_list+"\n");
+                              +"Owners: "+o_list+"\n"
+                              +"Members: "+m_list);
 
     }
 }

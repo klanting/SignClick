@@ -28,7 +28,7 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
     public static Map<Player, String> confirm = new HashMap<>();
 
     public static final List<String> whitelist = Arrays.asList("info", "sharetop", "give", "buy", "sell", "pay", "spendable",
-            "support", "transfer", "get_support", "send_contract_ctc", "sign_contract_ctc", "books", "send_contract_ctp",
+            "support", "transfer", "get_support", "send_contract_ctc", "sign_contract_ctc", "sharebal", "send_contract_ctp",
             "sign_contract_ctp", "send_contract_ptc", "get_buy_price", "get_sell_price", "get_contracts",
             "add_custom", "open_trade", "transact");
 
@@ -75,6 +75,10 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
         handlerTranslation.put("sign_contract_ctp", new ContractSignCTP());
         handlerTranslation.put("send_contract_ptc", new ContractSendPTC());
         handlerTranslation.put("sign_contract_ptc", new ContractSignPTC());
+        handlerTranslation.put("get_buy_price", new CompanyHandlerGetBuyPrice());
+        handlerTranslation.put("get_sell_price", new CompanyHandlerGetSellPrice());
+        handlerTranslation.put("sharebal", new CompanyHandlerShareBal());
+        handlerTranslation.put("get_contracts", new CompanyHandlerGetContracts());
 
         try{
 
@@ -102,97 +106,6 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
             player.sendMessage(e.getMessage());
             confirm.put(player, "");
             return true;
-        }
-
-        if (commando.equals("books")){
-            confirm.put(player, "");
-            if (args.length < 2){
-                player.sendMessage("§bplease enter /company books <owncompany>");
-                confirm.put(player, "");
-                return true;
-            }
-
-            String stock_name = args[1].toUpperCase();
-            stock_name = stock_name.toUpperCase();
-
-            if (!Market.hasBusiness(stock_name)){
-                player.sendMessage("§bbusiness name is invalid");
-                confirm.put(player, "");
-                return true;
-            }
-
-            if (!player.hasPermission("signclick.staff")){
-                player.sendMessage("§byou must be staff");
-                confirm.put(player, "");
-                return true;
-            }
-
-            DecimalFormat df = new DecimalFormat("###,###,##0.00");
-            Company comp = getCompany(stock_name);
-            player.sendMessage("§b books money: "+df.format(comp.getShareBalance()));
-        }
-
-        if (commando.equals("get_buy_price")){
-            confirm.put(player, "");
-            int amount = 1;
-            if (args.length < 2){
-                player.sendMessage("§bplease enter /company get_buy_price <com.company> [amount]");
-                return true;
-            }else if (args.length == 3){
-                amount = Integer.parseInt(args[2]);
-            }
-
-            String stock_name = args[1].toUpperCase();
-            stock_name = stock_name.toUpperCase();
-
-            if (!Market.hasBusiness(stock_name)){
-                player.sendMessage("§bbusiness name is invalid");
-                confirm.put(player, "");
-                return true;
-            }
-            DecimalFormat df = new DecimalFormat("###,###,##0.00");
-            player.sendMessage("§f"+amount+"§b share(s) costs §f"+ df.format(Market.getBuyPrice(stock_name, amount)));
-        }
-
-        if (commando.equals("get_sell_price")){
-            confirm.put(player, "");
-            int amount = 1;
-            if (args.length < 2){
-                player.sendMessage("§bplease enter /company get_sell_price <com.company> [amount]");
-                return true;
-            }else if (args.length == 3){
-                amount = Integer.parseInt(args[2]);
-            }
-
-            String stock_name = args[1].toUpperCase();
-            stock_name = stock_name.toUpperCase();
-
-            if (!Market.hasBusiness(stock_name)){
-                player.sendMessage("§bbusiness name is invalid");
-                confirm.put(player, "");
-                return true;
-            }
-            DecimalFormat df = new DecimalFormat("###,###,##0.00");
-            player.sendMessage("§f"+amount+"§b share(s) costs §f"+ df.format(Market.getSellPrice(stock_name, amount)));
-        }
-
-        if (commando.equals("get_contracts")){
-            confirm.put(player, "");
-            if (args.length < 2){
-                player.sendMessage("§bplease enter /company get_contracts <com.company>");
-                return true;
-            }
-
-            String stock_name = args[1].toUpperCase();
-            stock_name = stock_name.toUpperCase();
-
-            if (!Market.hasBusiness(stock_name)){
-                player.sendMessage("§bbusiness name is invalid");
-                confirm.put(player, "");
-                return true;
-            }
-
-            Market.getContracts(stock_name, player);
         }
 
         if (commando.equals("add_custom")){
@@ -244,7 +157,7 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
         List<String> autoCompletes = new ArrayList<>();
         if (args.length == 1) {
             if (player.hasPermission("signclick.staff")){
-                autoCompletes.add("books");
+                autoCompletes.add("sharebal");
                 autoCompletes.add("add_custom");
             }
             autoCompletes.add("create");

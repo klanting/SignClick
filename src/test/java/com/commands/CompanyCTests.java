@@ -908,7 +908,67 @@ class CompanyCTests {
     }
 
     @Test
+    void companyShareBalance(){
+        /*
+        * Check company shareBalance value
+        * */
+
+        Company comp = Market.getCompany("TCI");
+        Market.getAccount(testPlayer).sellShare("TCI", 1000, testPlayer);
+
+        comp.addBal(1000);
+        SignClick.getEconomy().depositPlayer(testPlayer, 10000);
+        Market.getAccount(testPlayer).buyShare("TCI", 1000, testPlayer);
+
+        testPlayer.nextMessage();
+        testPlayer.nextMessage();
+
+        System.out.println(comp.getShareBalance());
+
+        /*
+         * Check that testPlayer is the owner
+         * */
+        assertEquals(1, comp.getCOM().getOwners().size());
+
+        boolean suc6 = server.execute("company", testPlayer, "sharebal",
+                "TCI", testPlayer.getName()).hasSucceeded();
+        assertTrue(suc6);
+
+        testPlayer.assertSaid("§b shareBal money: 3,60");
+        testPlayer.assertNoMoreSaid();
+
+    }
+
+    @Test
+    void companyGetContracts(){
+        PlayerMock testPlayer2 = server.addPlayer();
+
+        Market.addCompany("TCI2", "TCI2", Market.getAccount(testPlayer2));
+
+        Market.setContractComptoComp("TCI", "TCI2", 1, 1, "a");
+        Market.setContractServertoComp("TCI", 2, 2, "b", 1);
+        Market.setContractComptoPlayer("TCI", testPlayer2.getUniqueId().toString(), 3, 3, "c");
+        Market.setContractPlayertoComp(testPlayer2.getUniqueId().toString(), "TCI", 4, 4, "d");
+
+        boolean suc6 = server.execute("company", testPlayer, "get_contracts",
+                "TCI").hasSucceeded();
+        assertTrue(suc6);
+
+        testPlayer.assertSaid("""
+                §aincome:§0
+                §aContract: from Player1(P) to TCI(C) amount: 4.0 for 4 weeks, reason: d§0
+                §aContract: from SERVER(S) to TCI(C) amount: 2.0 for 2 weeks, reason: b delay: 1§0
+                §coutgoing:§0
+                §cContract: from TCI(C) to TCI2(C) amount: 1.0 for 1 weeks, reason: a§0
+                §cContract: from TCI(C) to Player1(P) amount: 3.0 for 3 weeks, reason: c""");
+
+        testPlayer.assertNoMoreSaid();
+
+    }
+
+    @Test
     void companySupportNeutral(){
+
         PlayerMock testPlayer2 = server.addPlayer();
 
         Company comp = Market.getCompany("TCI");
@@ -1061,7 +1121,7 @@ class CompanyCTests {
         List<String> receivedAutoCompletes =  server.getCommandTabComplete(testPlayer, "company ");
 
         List<String> autoCompletes = new ArrayList<>();
-        autoCompletes.add("books");
+        autoCompletes.add("sharebal");
         autoCompletes.add("add_custom");
         autoCompletes.add("create");
         autoCompletes.add("info");

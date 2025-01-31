@@ -183,9 +183,11 @@ class CompanyTests {
 
         Market.getContracts("TCI", testPlayer);
 
-        testPlayer.assertSaid("§aincome:");
-        testPlayer.assertSaid("§aContract: from SERVER (S) to TCI(C) amount: 200000.0 for 10 weeks, reason: Upgrade[0] 1 delay: 0");
-        testPlayer.assertSaid("§coutgoing:");
+        testPlayer.assertSaid("""
+                §aincome:§0
+                §aContract: from SERVER(S) to TCI(C) amount: 200000.0 for 10 weeks, reason: Upgrade[0] 1 delay: 0§0
+                §coutgoing:""");
+
         testPlayer.assertNoMoreSaid();
 
         plugin.onDisable();
@@ -195,9 +197,10 @@ class CompanyTests {
 
         Market.getContracts("TCI", testPlayer);
 
-        testPlayer.assertSaid("§aincome:");
-        testPlayer.assertSaid("§aContract: from SERVER (S) to TCI(C) amount: 200000.0 for 10 weeks, reason: Upgrade[0] 1 delay: 0");
-        testPlayer.assertSaid("§coutgoing:");
+        testPlayer.assertSaid("""
+                §aincome:§0
+                §aContract: from SERVER(S) to TCI(C) amount: 200000.0 for 10 weeks, reason: Upgrade[0] 1 delay: 0§0
+                §coutgoing:""");
         testPlayer.assertNoMoreSaid();
 
     }

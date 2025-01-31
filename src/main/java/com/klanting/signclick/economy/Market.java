@@ -423,7 +423,7 @@ public class Market {
         }
 
         for (Contract c : contractCompToPlayer) {
-            Company from = Market.getCompany(c.toString());
+            Company from = Market.getCompany(c.from());
             double amount = c.getAmount();
             Account to = Market.getAccount(Bukkit.getServer().getPlayer(c.to()));
             int weeks = c.getWeeks();
@@ -436,7 +436,7 @@ public class Market {
         }
 
         for (Contract c : contractPlayerToComp) {
-            Account from = Market.getAccount(UUID.fromString(c.from()));
+            Account from = Market.getAccount(Bukkit.getOfflinePlayer(c.from()).getUniqueId());
             double amount = c.getAmount();
             Company to = Market.getCompany(c.to());
             int weeks = c.getWeeks();
@@ -452,20 +452,20 @@ public class Market {
             Company to = Market.getCompany(c.to());
 
             if (to.getStockName().equals(stock_name)){
-                income.add("§aContract: from SERVER (S) to " + to.getStockName() + "(C) amount: " + c.getAmount()
+
+                income.add("§aContract: from SERVER(S) to " + to.getStockName() + "(C) amount: " + c.getAmount()
                         + " for "+c.getWeeks()+" weeks, " + "reason: "+c.getReason() + " delay: "+c.getDelay());
             }
         }
 
-        p.sendMessage("§aincome:");
-        for (String s : income){
-            p.sendMessage(s);
-        }
+        List<String> result = new ArrayList<>();
+        result.add("§aincome:");
+        result.addAll(income);
+        result.add("§coutgoing:");
+        result.addAll(outcome);
 
-        p.sendMessage("§coutgoing:");
-        for (String s : outcome){
-            p.sendMessage(s);
-        }
+        p.sendMessage(String.join("§0\n", result));
+
     }
 
     public static void runStockCompare(){

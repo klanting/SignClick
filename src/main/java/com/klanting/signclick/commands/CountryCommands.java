@@ -2,6 +2,7 @@ package com.klanting.signclick.commands;
 
 import com.klanting.signclick.commands.countryHandlers.*;
 import com.klanting.signclick.commands.countryHandlers.staffHandler.*;
+import com.klanting.signclick.commands.exceptions.CommandAssert;
 import com.klanting.signclick.commands.exceptions.CommandException;
 import com.klanting.signclick.economy.Country;
 import com.klanting.signclick.economy.CountryManager;
