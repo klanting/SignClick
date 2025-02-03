@@ -4,13 +4,15 @@ import com.klanting.signclick.economy.Company;
 import com.klanting.signclick.SignClick;
 import org.bukkit.Material;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Upgrade {
-    public Map<Integer, Integer> bonus = new HashMap<Integer, Integer>();
-    public Map<Integer, Integer> upgradeCost = new HashMap<Integer, Integer>();
-    public Map<Integer, Integer> upgradeCostPoints = new HashMap<Integer, Integer>();
+    public List<Integer> bonus = new ArrayList<>();
+    public List<Integer> upgradeCost = new ArrayList<>();
+    public List<Integer> upgradeCostPoints = new ArrayList<>();
 
     public String name;
     public Material material;
@@ -23,14 +25,15 @@ public class Upgrade {
     }
 
     public Boolean canUpgrade(Integer balance, Integer points){
-        if (upgradeCost.get(level) == -1 || upgradeCostPoints.get(level) == -1){
+        if (level >= 5){
             return false;
         }
+
         return upgradeCost.get(level) <= balance && upgradeCostPoints.get(level) <= points;
     }
 
     public Integer getBonus(){
-        return bonus.getOrDefault(level, -1);
+        return bonus.get(level);
     }
 
     public void DoUpgrade(){
@@ -38,11 +41,11 @@ public class Upgrade {
     }
 
     public Integer getUpgradeCost(){
-        return upgradeCost.getOrDefault(level, -1);
+        return upgradeCost.get(level);
     }
 
     public Integer getUpgradeCostPoints(){
-        return upgradeCostPoints.getOrDefault(level, -1);
+        return upgradeCostPoints.get(level);
     }
 
 }

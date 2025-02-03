@@ -3,18 +3,25 @@ package com.klanting.signclick.economy.companyPatent;
 import com.klanting.signclick.SignClick;
 import org.bukkit.Material;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class PatentUpgrade {
     public Material material;
     public Integer level;
-    public Map<Integer, Double> bonus = new HashMap<Integer, Double>();
+
+    public List<Double> bonus = new ArrayList<>();
     public Integer id;
     public String name;
 
     public Double getBonus() {
-        return bonus.getOrDefault(level, 0.0);
+        if (level-1 < 0 || level-1 >= bonus.size()){
+            return 0.0;
+        }
+
+        return bonus.get(level-1);
     }
 
     PatentUpgrade(Integer id, Integer level){
