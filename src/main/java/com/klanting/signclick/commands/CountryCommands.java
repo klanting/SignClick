@@ -37,8 +37,9 @@ public class CountryCommands implements CommandExecutor, TabCompleter {
         String commando = args[0];
 
         HashMap<String, CountryHandler> handlerTranslation = new HashMap<>();
-        handlerTranslation.put("bal", new CountryHandlerBal());
+
         handlerTranslation.put("create", new CountryHandlerCreate());
+        handlerTranslation.put("bal", new CountryHandlerBal());
         handlerTranslation.put("pay", new CountryHandlerPay());
         handlerTranslation.put("donate", new CountryHandlerDonate());
         handlerTranslation.put("baltop", new CountryHandlerBaltop());
