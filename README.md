@@ -13,4 +13,4 @@ Allowing players to create countries, vote and decide policies.
 Players are able to create companies, buy and sell stocks and so on.
 
 ## Install
-Downaload the plugin at [Spigot-SignClick](https://www.spigotmc.org/resources/signclick.122376/)
+Download the plugin at [Spigot-SignClick](https://www.spigotmc.org/resources/signclick.122376/)
