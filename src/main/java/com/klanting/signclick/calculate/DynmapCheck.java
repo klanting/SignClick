@@ -12,36 +12,37 @@ import java.util.Random;
 
 public class DynmapCheck {
     public static void Hide(){
+        long delay = SignClick.getPlugin().getConfig().getLong("dynmapTaxPeriod");
+        int amount = SignClick.getPlugin().getConfig().getInt("dynmapTaxAmount");
+
         Bukkit.getServer().getScheduler().runTaskTimer(SignClick.getPlugin(), new Runnable() {
             public void run() {
                 for (Player player: Bukkit.getOnlinePlayers()){
-                    if (!SignClick.getDynmap().getPlayerVisbility(player)){
-                        int amount = 1000;
-                        if (SignClick.getEconomy().getBalance(player) >= amount) {
-                            SignClick.getEconomy().withdrawPlayer(player, amount);
-                            Country country = CountryManager.getCountry(player);
-                            if (country != null){
-                                country.deposit(amount);
-                            }else{
-                                List<Country> list = CountryManager.getCountries();
-                                if (list.size() == 0){
-                                    continue;
-                                }
-                                Random rand = new Random();
-                                list.get(rand.nextInt(list.size())).deposit(amount);
-                            }
+                    if (SignClick.getDynmap().getPlayerVisbility(player)){
+                        continue;
+                    }
 
+                    if (SignClick.getEconomy().getBalance(player) < amount) {
+                        SignClick.getDynmap().setPlayerVisiblity(player, true);
+                        player.sendMessage("§cYou couldn't pay the money, so now you are visible on the dynmap");
+                        continue;
+                    }
 
-
-                        }else{
-                            SignClick.getDynmap().setPlayerVisiblity(player, true);
-                            player.sendMessage("§c you couldn't pay the money, so now you are visible on the dynmap");
+                    SignClick.getEconomy().withdrawPlayer(player, amount);
+                    Country country = CountryManager.getCountry(player);
+                    if (country != null){
+                        country.deposit(amount);
+                    }else{
+                        List<Country> list = CountryManager.getCountries();
+                        if (list.isEmpty()){
+                            continue;
                         }
-
+                        Random rand = new Random();
+                        list.get(rand.nextInt(list.size())).deposit(amount);
                     }
                 }
 
-            }},60*10*20,60*10*20);
+            }},delay*20,delay*20);
 
 
     }

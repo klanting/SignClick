@@ -20,8 +20,10 @@ import java.util.*;
 import static org.bukkit.Bukkit.getServer;
 
 public class SignIncome {
-    private static ArrayList<Door> doorCooldown = new ArrayList<Door>();
+    private static final ArrayList<Door> doorCooldown = new ArrayList<Door>();
     public static Map<Location, UUID> owner = new HashMap<>();
+
+    private static final long signIncomeOpenTime = SignClick.getPlugin().getConfig().getLong("signIncomeOpenTime");
 
     public static void Open(Sign sign, Player player){
         if (isWallSign(sign.getType())){
@@ -70,7 +72,7 @@ public class SignIncome {
                                 doorCooldown.remove(door);
 
                             }
-                        }, 20*5L);
+                        }, 20L*signIncomeOpenTime);
                     }else{
                         player.sendMessage("§bYou have not enough money");
                     }

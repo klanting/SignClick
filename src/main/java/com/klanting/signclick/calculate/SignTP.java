@@ -92,7 +92,7 @@ public class SignTP {
             int amount = (int)results;
             String amount_string = Integer.toString(amount);
 
-            String cords = String.valueOf(x)+" "+String.valueOf(y)+" "+String.valueOf(z);
+            String cords = x+" "+y+" "+z;
             String bus = sign.getLine(1);
             if (bus == null){
                 player.sendMessage("§bplease enter company name on 2nd line");

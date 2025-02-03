@@ -162,7 +162,7 @@ public class CountryManager {
     }
 
     public static List<Country> getCountries(){
-        return (List<Country>) countries.values();
+        return countries.values().stream().toList();
     }
 
     public static List<String> getCountriesString(){

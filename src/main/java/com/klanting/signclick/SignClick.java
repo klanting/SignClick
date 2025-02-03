@@ -31,7 +31,7 @@ public class SignClick extends JavaPlugin{
     * Store the plugin instance as static to easily locate it
     * */
     private static SignClick plugin;
-
+    public static boolean dynmapSupport;
 
     @Override
     public void onEnable() {
@@ -44,10 +44,11 @@ public class SignClick extends JavaPlugin{
             getServer().getConsoleSender().sendMessage(ChatColor.RED + "Economy failed!");
             getServer().getPluginManager().disablePlugin(this);
             return;}
-        if (!setupDynmap() ) {
-            getServer().getConsoleSender().sendMessage(ChatColor.RED + "Dynmap failed!");
-            getServer().getPluginManager().disablePlugin(this);
-            return;}
+
+        dynmapSupport = setupDynmap();
+        if (!dynmapSupport) {
+            getServer().getConsoleSender().sendMessage(ChatColor.RED + "Dynmap Not Supported failed!");
+        }
 
         this.RestoreDoors();
 
@@ -57,7 +58,10 @@ public class SignClick extends JavaPlugin{
 
         Market.restoreData();
 
-        DynmapCheck.Hide();
+        if (dynmapSupport && plugin.getConfig().getBoolean("dynmapTax")){
+            DynmapCheck.Hide();
+        }
+
         WeeklyPay.check();
         WeeklyComp.check();
 

@@ -24,8 +24,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
-import static com.klanting.signclick.economy.parties.ElectionTools.setupElectionDeadline;
-
 
 public class CountryCommands implements CommandExecutor, TabCompleter {
     public static final Map<String, String> countryInvites = new HashMap<String, String>();

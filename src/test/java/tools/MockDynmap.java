@@ -1,12 +1,18 @@
 package tools;
 
 import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.dynmap.DynmapAPI;
 import org.dynmap.markers.MarkerAPI;
 
+import java.util.HashMap;
+
 public class MockDynmap implements DynmapAPI {
+
+    private HashMap<OfflinePlayer, Boolean> visible = new HashMap<>();
+
     @Override
     public int triggerRenderOfVolume(Location location, Location location1) {
         return 0;
@@ -14,12 +20,12 @@ public class MockDynmap implements DynmapAPI {
 
     @Override
     public void setPlayerVisiblity(Player player, boolean b) {
-
+        visible.put(player, b);
     }
 
     @Override
     public boolean getPlayerVisbility(Player player) {
-        return true;
+        return visible.getOrDefault(player, true);
     }
 
     @Override

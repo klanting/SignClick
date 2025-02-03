@@ -42,5 +42,5 @@ signclick.use:
     children:
       signclick.use: true
 
-depend: [Vault, dynmap]
-softdepend: []
+depend: [Vault]
+softdepend: [dynmap]

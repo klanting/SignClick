@@ -17,6 +17,9 @@ public class SignStock {
     /*
     * SignStock is a tool to track the stock value of a company on a sign
     * */
+
+    private static final double signStockCost = SignClick.getPlugin().getConfig().getDouble("signStockCost");
+
     public static void set(SignChangeEvent sign, Player player){
         String Sname = sign.getLine(1);
         Sname = Sname.toUpperCase();
@@ -28,8 +31,8 @@ public class SignStock {
             Utils.setSign(sign, new String[]{"§b[stock]", Sname,
                     df.format(Market.getCompany(Sname).stockCompareGet()), ""});
 
-            Market.getCompany(Sname).addBal(100000.0);
-            SignClick.getEconomy().withdrawPlayer(player, 100000);
+            Market.getCompany(Sname).addBal(signStockCost);
+            SignClick.getEconomy().withdrawPlayer(player, signStockCost);
             player.sendMessage("§bStock sign is created and you have been charged 100k for making this sign");
         }else{
             player.sendMessage("§bNot a valid company");
@@ -55,8 +58,6 @@ public class SignStock {
             sign.setLine(3, color+"$"+df2.format(Market.getCompany(stock_name).getValue()));
             sign.update();
         }
-
-
 
     }
 
