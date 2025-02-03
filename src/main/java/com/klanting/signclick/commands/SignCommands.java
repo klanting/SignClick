@@ -2,7 +2,6 @@ package com.klanting.signclick.commands;
 
 import com.klanting.signclick.SignClick;
 import org.bukkit.NamespacedKey;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

@@ -9,7 +9,6 @@ import com.klanting.signclick.economy.decisions.DecisionPolicy;
 import com.klanting.signclick.economy.parties.Election;
 import com.klanting.signclick.economy.parties.Party;
 import com.klanting.signclick.economy.policies.*;
-import com.klanting.signclick.SignClick;
 import com.klanting.signclick.utils.JsonTools;
 import org.bukkit.*;
 import org.bukkit.entity.Player;

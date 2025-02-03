@@ -1,7 +1,5 @@
 package com.klanting.signclick.economy.companyPatent;
 
-import com.klanting.signclick.economy.Company;
-import com.klanting.signclick.SignClick;
 import org.bukkit.Material;
 
 public class PatentUpgradeCustom extends PatentUpgrade{

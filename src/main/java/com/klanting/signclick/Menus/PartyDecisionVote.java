@@ -9,10 +9,7 @@ import com.klanting.signclick.economy.CountryManager;
 import com.klanting.signclick.economy.decisions.Decision;
 import com.klanting.signclick.economy.parties.Party;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 

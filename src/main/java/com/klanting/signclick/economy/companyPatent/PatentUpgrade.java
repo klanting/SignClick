@@ -1,12 +1,8 @@
 package com.klanting.signclick.economy.companyPatent;
 
-import com.klanting.signclick.SignClick;
 import org.bukkit.Material;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class PatentUpgrade {
     public Material material;

@@ -1,13 +1,8 @@
 package com.klanting.signclick.Menus;
 
 import com.klanting.signclick.economy.Company;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
-
-import java.util.UUID;
 
 public class CompanyPatentSelectorMenu extends SelectionMenu {
 

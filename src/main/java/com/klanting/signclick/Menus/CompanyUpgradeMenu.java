@@ -4,9 +4,6 @@ import com.klanting.signclick.economy.Country;
 import com.klanting.signclick.economy.Company;
 import com.klanting.signclick.economy.companyUpgrades.Upgrade;
 import com.klanting.signclick.economy.CountryManager;
-import org.bukkit.Bukkit;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
