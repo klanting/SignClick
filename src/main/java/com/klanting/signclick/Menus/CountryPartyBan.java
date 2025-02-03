@@ -16,7 +16,7 @@ public class CountryPartyBan extends SelectionMenu {
     private UUID uuid;
 
     public CountryPartyBan(UUID uuid){
-        super(27, "Country Decision Menu");
+        super(27, "Country Decision Menu", true);
         this.uuid = uuid;
         init();
     }

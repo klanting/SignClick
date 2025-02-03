@@ -30,6 +30,9 @@ repositories {
 }
 
 dependencies {
+
+    compileOnly("org.apache.commons:commons-lang3:3.14.0")
+
     compileOnly("io.papermc.paper:paper-api:1.18.2-R0.1-SNAPSHOT");
     compileOnly("com.github.MilkBowl:VaultAPI:1.7");
     compileOnly("us.dynmap:dynmap-api:3.1-beta-2");

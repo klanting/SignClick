@@ -17,7 +17,7 @@ public class CompanySelector extends SelectionMenu {
     final private UUID uuid;
 
     public CompanySelector(UUID uuid){
-        super(54, "Company Selector");
+        super(54, "Company Selector", false);
         this.uuid = uuid;
         init();
     }

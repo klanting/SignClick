@@ -1,5 +1,6 @@
 package com.klanting.signclick.events;
 
+import com.klanting.signclick.SignClick;
 import com.klanting.signclick.economy.*;
 import com.klanting.signclick.economy.companyPatent.Auction;
 import com.klanting.signclick.economy.companyPatent.Patent;
@@ -19,9 +20,30 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
+import java.util.*;
+
+import static org.bukkit.Bukkit.getServer;
 
 public class MenuEvents implements Listener {
+
+    private static final HashMap<Player, Stack<SelectionMenu>> menuStack = new HashMap<>();
+
+    private static void storeStack(Player player, SelectionMenu sm){
+        Stack<SelectionMenu> playerStack = menuStack.getOrDefault(player, new Stack<>());
+        playerStack.push(sm);
+        menuStack.put(player, playerStack);
+    }
+
+    private static void loadStack(Player player){
+        Stack<SelectionMenu> playerStack = menuStack.getOrDefault(player, new Stack<>());
+        SelectionMenu sm = playerStack.pop();
+        player.openInventory(sm.getInventory());
+    }
+
+    private static void clearStack(Player player){
+        menuStack.put(player, new Stack<>());
+    }
+
     @EventHandler
     public static void OnClick(InventoryClickEvent event){
 
@@ -29,16 +51,23 @@ public class MenuEvents implements Listener {
             return;
         }
 
-        if (event.getClickedInventory().getHolder() instanceof CompanySelector){
+        if (event.getCurrentItem().getType().equals(Material.BARRIER)){
+            Player player = (Player) event.getWhoClicked();
+            loadStack(player);
+            return;
+        }
 
+
+        if (event.getClickedInventory().getHolder() instanceof CompanySelector){
             Player player = (Player) event.getWhoClicked();
             event.setCancelled(true);
+
+            clearStack(player);
 
             Company company = Market.getCompany(event.getCurrentItem().getItemMeta().getDisplayName());
             CompanyOwnerMenu screen = new CompanyOwnerMenu(player.getUniqueId(), company);
 
             player.openInventory(screen.getInventory());
-            return;
         }
 
         if (event.getClickedInventory().getHolder() instanceof CompanyOwnerMenu){
@@ -76,11 +105,15 @@ public class MenuEvents implements Listener {
 
         if (event.getClickedInventory().getHolder() instanceof CompanyUpgradeMenu){
             CompanyUpgradeMenu screen = (CompanyUpgradeMenu) event.getClickedInventory().getHolder();
-            Player player = (Player) event.getWhoClicked();
             event.setCancelled(true);
             int id = event.getSlot()-11;
-            screen.comp.doUpgrade(id);
+            boolean suc6 = screen.comp.doUpgrade(id);
             screen.init();
+
+            Player player = (Player) event.getWhoClicked();
+            if (!suc6){
+                player.sendMessage("§bNot enough Money or Points to do the upgrade");
+            }
         }
         if (event.getClickedInventory().getHolder() instanceof CompanyPatentIDMenu){
             Player player = (Player) event.getWhoClicked();
@@ -147,17 +180,39 @@ public class MenuEvents implements Listener {
         }
 
         if (event.getClickedInventory().getHolder() instanceof CompanyAuctionMenu){
+            Player player = (Player) event.getWhoClicked();
             event.setCancelled(true);
             CompanyAuctionMenu old_screen = (CompanyAuctionMenu) event.getClickedInventory().getHolder();
             int location = event.getSlot();
 
-            int add_price = 100000;
+            int add_price = SignClick.getPlugin().getConfig().getInt("auctionBitIncrease");
             if (Auction.getInstance().bitsOwner.get(location) == null){
                 add_price = 0;
             }
 
-            Auction.getInstance().setBit(location, Auction.getInstance().getBit(location)+add_price, old_screen.comp.getStockName());
-            //old_screen.comp.patent_upgrades.add(Auction.to_buy.get(location));
+            int currentBit = Auction.getInstance().getBit(location)+add_price;
+            double compValue = old_screen.comp.getValue();
+
+            /*
+            * Subtract other bits of the max allowed bit
+            * */
+            for (Map.Entry<Integer, String> entry :Auction.getInstance().bitsOwner.entrySet()){
+                if (!Objects.equals(entry.getValue(), old_screen.comp.getStockName())){
+                    continue;
+                }
+                if (entry.getKey() == location){
+                    continue;
+                }
+
+                compValue -= Auction.getInstance().getBit(entry.getKey());
+            }
+
+            if (compValue < currentBit){
+                player.sendMessage("§bCompany is not valued enough to place the current Bit");
+                return;
+            }
+
+            Auction.getInstance().setBit(location, currentBit, old_screen.comp.getStockName());
             old_screen.init();
         }
 
@@ -192,8 +247,6 @@ public class MenuEvents implements Listener {
                 }else{
                     player.sendMessage(ChatColor.RED+"Craft limit Reached");
                 }
-
-
             }
         }
 
@@ -344,8 +397,6 @@ public class MenuEvents implements Listener {
             country.addDecision(d);
 
             player.closeInventory();
-
-
         }
 
         if (event.getClickedInventory().getHolder() instanceof CompanyTypeSelect){
@@ -357,7 +408,17 @@ public class MenuEvents implements Listener {
             player.closeInventory();
         }
 
+        Player player = (Player) event.getWhoClicked();
+        /*
+        * Store the last inventory when inventory menu changes
+        * */
+        if (player.getOpenInventory().getTopInventory() == null){
+            return;
+        }
 
+        if (!event.getClickedInventory().getHolder().equals(player.getOpenInventory().getTopInventory().getHolder())){
+            storeStack(player, (SelectionMenu) event.getClickedInventory().getHolder());
+        }
 
 
     }

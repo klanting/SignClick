@@ -16,7 +16,7 @@ public class CompanyOwnerMenu extends SelectionMenu {
     public Company comp;
 
     public CompanyOwnerMenu(UUID uuid, Company company){
-        super(54, "Company Menu");
+        super(54, "Company Menu", true);
         comp = company;
 
         if(!comp.getCOM().isOwner(uuid)){

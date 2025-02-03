@@ -1,6 +1,7 @@
 package com.klanting.signclick.utils;
 
-import com.github.javaparser.utils.Pair;
+
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -11,13 +12,14 @@ public class PreciseNumberFormatter {
         DecimalFormat df = new DecimalFormat("#.##");
 
         List<Pair<Double, String>> nameMapping = new ArrayList<>();
-        nameMapping.add(new Pair<>(1000000000.0, "billion"));
-        nameMapping.add(new Pair<>(1000000.0, "million"));
-        nameMapping.add(new Pair<>(1000.0, "thousand"));
+
+        nameMapping.add(Pair.of(1000000000.0, "billion"));
+        nameMapping.add(Pair.of(1000000.0, "million"));
+        nameMapping.add(Pair.of(1000.0, "thousand"));
 
         for (Pair<Double, String> p: nameMapping){
-            if (value >= p.a){
-                return df.format(value/p.a) +" " + p.b;
+            if (value >= p.getLeft()){
+                return df.format(value/p.getLeft()) +" " + p.getRight();
             }
         }
         return String.valueOf(value);

@@ -16,7 +16,7 @@ public class CompanyPatentIDMenu extends SelectionMenu {
 
 
     public CompanyPatentIDMenu(Company comp, Boolean designer){
-        super(27, "Company Patent Selector");
+        super(27, "Company Patent Selector", true);
         this.comp = comp;
         this.designer = designer;
         init();

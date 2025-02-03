@@ -13,7 +13,7 @@ public class CompanyTypeSelect extends SelectionMenu {
     public Company comp;
 
     public CompanyTypeSelect(Company company){
-        super(9, "Company Type Select");
+        super(9, "Company Type Select", true);
         comp = company;
 
         init();

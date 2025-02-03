@@ -41,10 +41,20 @@ public class Upgrade {
     }
 
     public Integer getUpgradeCost(){
+
+        if (level >= upgradeCost.size()){
+            return -1;
+        }
+
         return upgradeCost.get(level);
     }
 
     public Integer getUpgradeCostPoints(){
+
+        if (level >= upgradeCostPoints.size()){
+            return -1;
+        }
+
         return upgradeCostPoints.get(level);
     }
 

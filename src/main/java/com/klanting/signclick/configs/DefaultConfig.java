@@ -75,6 +75,9 @@ public class DefaultConfig {
         section.getConfigurationSection("patentUpgradeSlot").addDefault("upgradeCostPoints",
                 List.of(1000, 2000, 3000, 6000, 10000));
 
+        config.addDefault("auctionBitIncrease", 1000);
+        config.addDefault("auctionStartPrice", 1000);
+
         config.options().copyDefaults(true);
         SignClick.getPlugin().saveConfig();
 
@@ -138,6 +141,8 @@ public class DefaultConfig {
         section.getConfigurationSection("patentUpgradeSlot").addDefault("upgradeCostPoints",
                 List.of(100000, 200000, 300000, 600000, 1000000));
 
+        config.addDefault("auctionBitIncrease", 100000);
+        config.addDefault("auctionStartPrice", 100000);
 
         config.options().copyDefaults(true);
         SignClick.getPlugin().saveConfig();

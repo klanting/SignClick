@@ -15,7 +15,7 @@ public class PartyDecisionChoice extends SelectionMenu {
     public Decision d;
 
     public PartyDecisionChoice(Party p, Decision d){
-        super(27, "Party Choice");
+        super(27, "Party Choice", true);
         this.p = p;
         this.d = d;
         init();

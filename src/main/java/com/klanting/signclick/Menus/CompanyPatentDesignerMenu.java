@@ -17,7 +17,7 @@ public class CompanyPatentDesignerMenu extends SelectionMenu {
     public Patent patent;
 
     public CompanyPatentDesignerMenu(Patent patent, Company comp){
-        super(27, "Company Patent Designer");
+        super(27, "Company Patent Designer", true, 17);
         this.comp = comp;
         this.patent = patent;
         init();

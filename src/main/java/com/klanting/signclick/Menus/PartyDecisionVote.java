@@ -22,7 +22,7 @@ public class PartyDecisionVote extends SelectionMenu {
     public Party p;
 
     public PartyDecisionVote(Party p){
-        super(27, "Party Vote");
+        super(27, "Party Vote", true);
         this.p = p;
         init();
     }

@@ -19,7 +19,7 @@ public class CountryPolicy extends SelectionMenu {
     private final UUID uuid;
 
     public CountryPolicy(UUID uuid){
-        super(54, "Country Policy");
+        super(54, "Country Policy", true);
         this.uuid = uuid;
         init();
     }

@@ -11,7 +11,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 public class CountryElectionMenu extends SelectionMenu {
     public Election e;
     public CountryElectionMenu(Election e){
-        super(27, "Country Vote");
+        super(27, "Country Vote", true);
         this.e = e;
         init();
     }

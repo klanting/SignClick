@@ -101,11 +101,14 @@ public class Auction {
 
     private void init(){
         toBuy.clear();
+
+        int defaultPrice = SignClick.getPlugin().getConfig().getInt("auctionStartPrice");
+
         for(int i=0; i<5; i++){
             PatentUpgrade p = getRandom();
             toBuy.add(p);
 
-            bits.put(i, 100000*p.level);
+            bits.put(i, defaultPrice*p.level);
             bitsOwner.put(i, null);
 
         }

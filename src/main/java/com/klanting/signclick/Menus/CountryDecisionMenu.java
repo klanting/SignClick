@@ -17,7 +17,7 @@ public class CountryDecisionMenu extends SelectionMenu {
     private UUID uuid;
 
     public CountryDecisionMenu(UUID uuid){
-        super(27, "Country Decision Menu");
+        super(27, "Country Decision Menu", true);
         this.uuid = uuid;
         init();
     }

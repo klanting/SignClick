@@ -19,7 +19,7 @@ public class CompanyPatentCrafting extends SelectionMenu {
     public Patent patent;
 
     public CompanyPatentCrafting(Company comp, Patent patent){
-        super(27, "Company Upgrade Menu");
+        super(27, "Company Upgrade Menu", true);
 
         this.comp = comp;
         this.patent = patent;

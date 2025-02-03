@@ -19,7 +19,7 @@ public class CompanyUpgradeMenu extends SelectionMenu {
     public Company comp;
 
     public CompanyUpgradeMenu(UUID uuid, Company company){
-        super(27, "Company Upgrade Menu");
+        super(27, "Company Upgrade Menu", true);
         comp = company;
         if (!comp.getCOM().isOwner(uuid)){
             return;
@@ -37,13 +37,17 @@ public class CompanyUpgradeMenu extends SelectionMenu {
             ArrayList<String> l = new ArrayList<>();
             DecimalFormat df = new DecimalFormat("###,###,###");
             Country country = CountryManager.getCountry(comp.getCountry());
+
+            double modifier = 0;
             if (country != null){
-                if (up.getUpgradeCost() != -1){
-                    l.add("§6Cost: §8"+ df.format((double) up.getUpgradeCost()*(1.0- country.getPolicyBonus(1, 3))));
-                }
-                if (up.getUpgradeCostPoints() != -1){
-                    l.add("§6Points: §8"+ df.format((double) up.getUpgradeCostPoints()*(1.0- country.getPolicyBonus(1, 3))));
-                }
+                modifier = country.getPolicyBonus(1, 3);
+            }
+
+            if (up.getUpgradeCost() != -1){
+                l.add("§6Cost: §8"+ df.format((double) up.getUpgradeCost()*(1.0- modifier)));
+            }
+            if (up.getUpgradeCostPoints() != -1){
+                l.add("§6Points: §8"+ df.format((double) up.getUpgradeCostPoints()*(1.0- modifier)));
             }
 
 

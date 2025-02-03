@@ -35,8 +35,6 @@ public class VersionTests {
     @Test
     public void testVersionDetection(){
         VersionDetection vd = VersionDetection.getInstance();
-
-        System.out.print(vd.getVersion());
     }
 
 }

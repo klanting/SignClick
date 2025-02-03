@@ -923,8 +923,6 @@ class CompanyCTests {
         testPlayer.nextMessage();
         testPlayer.nextMessage();
 
-        System.out.println(comp.getShareBalance());
-
         /*
          * Check that testPlayer is the owner
          * */

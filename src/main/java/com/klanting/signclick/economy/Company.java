@@ -472,39 +472,43 @@ public class Company{
     }
 
 
-    public void doUpgrade(Integer id){
+    public boolean doUpgrade(Integer id){
         Upgrade u = upgrades.get(id);
-        if (u.canUpgrade((int) (getBal()+ getShareBalance()),
+        if (!u.canUpgrade((int) (getBal()+ getShareBalance()),
                 (int) securityFunds)){
-            double base = 1.0;
-
-            double modifier = 0.0;
-            double modifier2 = 0.0;
-            if (country != null){
-                if (country.getStability() < 30){
-                    base += 0.05;
-                }
-                if (country.getStability() < 50){
-                    base += 0.15;
-                }
-                modifier += country.getPolicyBonus(1, 3);
-                modifier2 += country.getPolicyBonus(3, 2);
-            }
-
-            securityFunds -= u.getUpgradeCostPoints()*(base-modifier);
-            int cost = (int) ((double) u.getUpgradeCost()*(base-modifier));
-            removeBal(cost);
-            u.DoUpgrade();
-
-            int pct = upgrades.get(4).getBonus()+(int) (modifier2*100.0);
-            double weeks = (10.0-(10.0*pct/100.0));
-            double weekly_back = cost/weeks;
-            Market.setContractServertoComp(this.stockName, weekly_back, (int) Math.floor(weeks), "Upgrade["+u.id+"] "+u.level, 0);
-            if (Math.floor(weeks) < weeks){
-                Market.setContractServertoComp(this.stockName, cost - (weekly_back*Math.floor(weeks)), 1, "Upgrade["+u.id+"] "+u.level, (int) Math.floor(weeks));
-            }
+            return false;
 
         }
+
+        double base = 1.0;
+
+        double modifier = 0.0;
+        double modifier2 = 0.0;
+        if (country != null){
+            if (country.getStability() < 30){
+                base += 0.05;
+            }
+            if (country.getStability() < 50){
+                base += 0.15;
+            }
+            modifier += country.getPolicyBonus(1, 3);
+            modifier2 += country.getPolicyBonus(3, 2);
+        }
+
+        securityFunds -= u.getUpgradeCostPoints()*(base-modifier);
+        int cost = (int) ((double) u.getUpgradeCost()*(base-modifier));
+        removeBal(cost);
+        u.DoUpgrade();
+
+        int pct = upgrades.get(4).getBonus()+(int) (modifier2*100.0);
+        double weeks = (10.0-(10.0*pct/100.0));
+        double weekly_back = cost/weeks;
+        Market.setContractServertoComp(this.stockName, weekly_back, (int) Math.floor(weeks), "Upgrade["+u.id+"] "+u.level, 0);
+        if (Math.floor(weeks) < weeks){
+            Market.setContractServertoComp(this.stockName, cost - (weekly_back*Math.floor(weeks)), 1, "Upgrade["+u.id+"] "+u.level, (int) Math.floor(weeks));
+        }
+
+        return true;
     }
 
     public void calculateCountry(){

@@ -21,7 +21,7 @@ public class CompanyPatentDesignerUpgrade extends SelectionMenu {
     public ArrayList<PatentUpgrade> pat_list = new ArrayList<>();
 
     public CompanyPatentDesignerUpgrade(Patent patent, Company comp){
-        super(54, "Patent Designer Upgrade");
+        super(54, "Patent Designer Upgrade", true);
         this.comp = comp;
         this.patent = patent;
         init();

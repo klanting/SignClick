@@ -15,7 +15,7 @@ public class CompanyAuctionMenu extends SelectionMenu {
     public Company comp;
 
     public CompanyAuctionMenu(Company comp){
-        super(9, "Patent Upgrade Auction");
+        super(9, "Patent Upgrade Auction", true);
         this.comp = comp;
         init();
 
