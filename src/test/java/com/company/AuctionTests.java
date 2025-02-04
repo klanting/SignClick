@@ -9,6 +9,7 @@ import com.klanting.signclick.economy.companyPatent.Auction;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import tools.ExpandedServerMock;
 import tools.TestTools;
 
 import static org.gradle.internal.impldep.org.junit.Assert.assertEquals;
@@ -21,7 +22,7 @@ public class AuctionTests {
     @BeforeEach
     public void setUp() {
 
-        server = MockBukkit.mock();
+        server = MockBukkit.mock(new ExpandedServerMock());
 
         plugin = TestTools.setupPlugin(server);
     }
@@ -43,7 +44,6 @@ public class AuctionTests {
         auction.setBit(0, 100, "A");
         assertEquals(100, auction.getBit(0));
 
-        auction.check();
         server.getScheduler().performTicks(60*60*24*7*20L+1);
         assertNotEquals(100, auction.getBit(0));
 

@@ -11,8 +11,8 @@ import com.klanting.signclick.economy.companyPatent.Auction;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import tools.ExpandedServerMock;
 import tools.TestTools;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CompanyConfigTests {
@@ -24,7 +24,7 @@ public class CompanyConfigTests {
     @BeforeEach
     public void setUp() {
 
-        server = MockBukkit.mock();
+        server = MockBukkit.mock(new ExpandedServerMock());
 
         plugin = TestTools.setupPlugin(server);
 
@@ -107,6 +107,8 @@ public class CompanyConfigTests {
         plugin.getConfig().set("companyStartShares", 1000);
         plugin.getConfig().set("auctionCycle", 360);
 
+        plugin = TestTools.reboot(server);
+
         Auction auction = Auction.getInstance();
 
         PlayerMock testPlayer = server.addPlayer();
@@ -115,7 +117,6 @@ public class CompanyConfigTests {
         auction.setBit(0, 100, "A");
         assertEquals(100, auction.getBit(0));
 
-        auction.check();
         /*
         * First bet
         * */
@@ -138,17 +139,17 @@ public class CompanyConfigTests {
          * */
 
         server.getScheduler().performTicks(180*20L+1);
-
+        assertEquals(100, auction.getBit(0));
         /*
          * Save Data
          * */
 
-        plugin.onDisable();
-        CountryManager.clear();
-        Auction.clear();
-        plugin = TestTools.setupPlugin(server);
+        plugin = TestTools.reboot(server);
+        auction = Auction.getInstance();
+        assertEquals(100, auction.getBit(0));
+
 
         server.getScheduler().performTicks(180*20L+1);
-        //assertNotEquals(100, auction.getBit(0));
+        assertNotEquals(100, auction.getBit(0));
     }
 }

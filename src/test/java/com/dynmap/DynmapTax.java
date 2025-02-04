@@ -10,6 +10,7 @@ import com.klanting.signclick.economy.Market;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import tools.ExpandedServerMock;
 import tools.TestTools;
 
 import static groovy.test.GroovyTestCase.assertEquals;
@@ -22,7 +23,7 @@ public class DynmapTax {
     @BeforeEach
     public void setUp() {
 
-        server = MockBukkit.mock();
+        server = MockBukkit.mock(new ExpandedServerMock());
 
         plugin = TestTools.setupPlugin(server);
 

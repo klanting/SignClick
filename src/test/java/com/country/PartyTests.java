@@ -14,6 +14,7 @@ import org.bukkit.entity.Player;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import tools.ExpandedServerMock;
 import tools.TestTools;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -30,7 +31,7 @@ class PartyTests {
     @BeforeEach
     public void setUp() {
 
-        server = MockBukkit.mock();
+        server = MockBukkit.mock(new ExpandedServerMock());
 
         plugin = TestTools.setupPlugin(server);
 
@@ -211,10 +212,7 @@ class PartyTests {
         /*
          * Restart Server, check persistence
          * */
-        plugin.onDisable();
-        CountryManager.clear();
-        Market.clear();
-        plugin = TestTools.setupPlugin(server);
+        plugin = TestTools.reboot(server);
 
         country = CountryManager.getCountry("empire1");
         election = country.getCountryElection();

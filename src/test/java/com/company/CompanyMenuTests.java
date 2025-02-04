@@ -13,6 +13,7 @@ import org.bukkit.Material;
 import org.bukkit.inventory.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import tools.ExpandedServerMock;
 import tools.TestTools;
 
 
@@ -32,7 +33,7 @@ public class CompanyMenuTests {
     @BeforeEach
     public void setUp() {
 
-        server = MockBukkit.mock();
+        server = MockBukkit.mock(new ExpandedServerMock());
 
         plugin = TestTools.setupPlugin(server);
 
@@ -340,10 +341,7 @@ public class CompanyMenuTests {
         up.level = 1;
         comp.patentUpgrades.add(up);
 
-        plugin.onDisable();
-        CountryManager.clear();
-        Market.clear();
-        plugin = TestTools.setupPlugin(server);
+        plugin = TestTools.reboot(server);
 
         comp = Market.getCompany("TCI");
         assertEquals(1, comp.patentUpgrades.size());

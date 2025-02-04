@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import tools.ExpandedServerMock;
 import tools.TestTools;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -26,7 +27,7 @@ class PolicyTests {
     @BeforeEach
     public void setUp() {
 
-        server = MockBukkit.mock();
+        server = MockBukkit.mock(new ExpandedServerMock());
 
         plugin = TestTools.setupPlugin(server);
 
@@ -86,9 +87,7 @@ class PolicyTests {
     void policySaveAndRestore(){
         policyMakeDecision();
 
-        plugin.onDisable();
-        CountryManager.clear();
-        plugin = TestTools.setupPlugin(server);
+        plugin = TestTools.reboot(server);
 
         Country country = CountryManager.getCountry("empire1");
         assertEquals(3, country.getDecisions().size());

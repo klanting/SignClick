@@ -17,6 +17,7 @@ import org.bukkit.event.block.SignChangeEvent;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import tools.ExpandedServerMock;
 import tools.TestTools;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -29,7 +30,7 @@ public class SignStockTests {
     @BeforeEach
     public void setUp() {
 
-        server = MockBukkit.mock();
+        server = MockBukkit.mock(new ExpandedServerMock());
 
         plugin = TestTools.setupPlugin(server);
 
@@ -132,10 +133,7 @@ public class SignStockTests {
         /*
          * Restart Server, check persistence
          * */
-        plugin.onDisable();
-        CountryManager.clear();
-        Market.clear();
-        plugin = TestTools.setupPlugin(server);
+        plugin = TestTools.reboot(server);
 
         assertEquals(1, Market.stockSigns.size());
 

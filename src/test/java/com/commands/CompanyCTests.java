@@ -9,10 +9,12 @@ import com.klanting.signclick.economy.Country;
 import com.klanting.signclick.economy.CountryManager;
 import com.klanting.signclick.economy.Market;
 import com.klanting.signclick.SignClick;
+import com.klanting.signclick.utils.Utils;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import tools.ExpandedServerMock;
 import tools.TestTools;
 
 
@@ -38,7 +40,7 @@ class CompanyCTests {
     @BeforeEach
     public void setUp() {
 
-        server = MockBukkit.mock();
+        server = MockBukkit.mock(new ExpandedServerMock());
 
         plugin = TestTools.setupPlugin(server);
 
@@ -477,10 +479,7 @@ class CompanyCTests {
         /*
         * Restart Server, check persistence
         * */
-        plugin.onDisable();
-        CountryManager.clear();
-        Market.clear();
-        plugin = TestTools.setupPlugin(server);
+        plugin = TestTools.reboot(server);
 
         /*
          * Check 1 comp to comp exists
@@ -587,10 +586,7 @@ class CompanyCTests {
         /*
          * Restart Server, check persistence
          * */
-        plugin.onDisable();
-        CountryManager.clear();
-        Market.clear();
-        plugin = TestTools.setupPlugin(server);
+        plugin = TestTools.reboot(server);
 
         /*
          * Check 1 comp to player exists
@@ -689,10 +685,7 @@ class CompanyCTests {
         /*
          * Restart Server, check persistence
          * */
-        plugin.onDisable();
-        CountryManager.clear();
-        Market.clear();
-        plugin = TestTools.setupPlugin(server);
+        plugin = TestTools.reboot(server);
 
         /*
          * Check 1 comp to player exists
@@ -838,10 +831,7 @@ class CompanyCTests {
         /*
          * Restart Server, check persistence
          * */
-        plugin.onDisable();
-        CountryManager.clear();
-        Market.clear();
-        plugin = TestTools.setupPlugin(server);
+        plugin = TestTools.reboot(server);
 
 
         suc6 = server.execute("company", testPlayer, "get_buy_price",
@@ -866,10 +856,7 @@ class CompanyCTests {
         /*
          * Restart Server, check persistence
          * */
-        plugin.onDisable();
-        CountryManager.clear();
-        Market.clear();
-        plugin = TestTools.setupPlugin(server);
+        plugin = TestTools.reboot(server);
 
 
         suc6 = server.execute("company", testPlayer, "get_sell_price",

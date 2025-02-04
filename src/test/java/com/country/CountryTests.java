@@ -12,6 +12,7 @@ import org.bukkit.Location;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import tools.ExpandedServerMock;
 import tools.TestTools;
 
 import java.util.List;
@@ -29,7 +30,7 @@ class CountryTests {
     public void setUp()
     {
 
-        server = MockBukkit.mock();
+        server = MockBukkit.mock(new ExpandedServerMock());
 
         plugin = TestTools.setupPlugin(server);
     }
@@ -471,9 +472,7 @@ class CountryTests {
          * Save Data
          * */
 
-        plugin.onDisable();
-        CountryManager.clear();
-        plugin = TestTools.setupPlugin(server);
+        plugin = TestTools.reboot(server);
 
         /*
          * Check that country is loaded again

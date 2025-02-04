@@ -5,6 +5,7 @@ plugins {
     `java-gradle-plugin`;
     id("jacoco");
     id("info.solidsoft.pitest") version "1.9.11";
+    kotlin("jvm") version "1.9.22"
 }
 
 jacoco {
@@ -55,6 +56,8 @@ dependencies {
     implementation("com.github.MilkBowl:VaultAPI:1.7");
     implementation("us.dynmap:dynmap-api:3.1-beta-2");
     implementation("org.javatuples:javatuples:1.2");
+    implementation(kotlin("stdlib-jdk8"))
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 }
 
 java {

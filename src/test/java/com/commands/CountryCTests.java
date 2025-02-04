@@ -20,6 +20,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import tools.ExpandedServerMock;
 import tools.TestTools;
 
 import java.util.ArrayList;
@@ -35,7 +36,7 @@ class CountryCTests {
     @BeforeEach
     public void setUp() {
 
-        server = MockBukkit.mock();
+        server = MockBukkit.mock(new ExpandedServerMock());
 
         plugin = TestTools.setupPlugin(server);
 
@@ -538,10 +539,7 @@ class CountryCTests {
         /*
          * Restart Server, check persistence
          * */
-        plugin.onDisable();
-        CountryManager.clear();
-        Market.clear();
-        plugin = TestTools.setupPlugin(server);
+        plugin = TestTools.reboot(server);
 
         result = server.execute("country", testPlayer, "info").hasSucceeded();
         assertTrue(result);

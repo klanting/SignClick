@@ -9,9 +9,10 @@ import com.klanting.signclick.economy.Company;
 import com.klanting.signclick.economy.Market;
 import com.klanting.signclick.utils.Utils;
 import org.bukkit.Bukkit;
-import org.bukkit.scheduler.BukkitTask;
 
 import java.util.*;
+
+import static org.bukkit.Bukkit.getServer;
 
 public class Auction {
 
@@ -33,6 +34,8 @@ public class Auction {
 
     private final Map<Integer, Integer> bits;
     public final Map<Integer, String> bitsOwner;
+
+    private final long auctionCycle = SignClick.getPlugin().getConfig().getLong("auctionCycle");
 
     public int getBit(int index){
         return bits.getOrDefault(index, 0);
@@ -59,7 +62,7 @@ public class Auction {
         bits = context.deserialize(jsonObject.get("bits"), new TypeToken<Map<Integer, Integer>>(){}.getType());
         bitsOwner = context.deserialize(jsonObject.get("bitsOwner"), new TypeToken<Map<Integer, String>>(){}.getType());
 
-        start_time = jsonObject.get("waitTime").getAsLong();
+        start_time = jsonObject.get("waitTime").getAsLong() % (auctionCycle*20L);
     }
 
     public JsonObject toJson(JsonSerializationContext context){
@@ -68,7 +71,8 @@ public class Auction {
         jsonObject.add("toBuy", context.serialize(toBuy));
         jsonObject.add("bits", context.serialize(bits));
         jsonObject.add("bitsOwner", context.serialize(bitsOwner));
-        jsonObject.add("waitTime", context.serialize(time_end-(System.currentTimeMillis()/1000)));
+        jsonObject.add("waitTime", context.serialize(time_end-getServer().getCurrentTick()));
+
 
         return jsonObject;
     }
@@ -106,9 +110,9 @@ public class Auction {
         int defaultPrice = SignClick.getPlugin().getConfig().getInt("auctionStartPrice");
 
         for(int i=0; i<5; i++){
+
             PatentUpgrade p = getRandom();
             toBuy.add(p);
-
             bits.put(i, defaultPrice*p.level);
             bitsOwner.put(i, null);
 
@@ -126,9 +130,8 @@ public class Auction {
     public long start_time = 0;
     public long time_end;
     public void check(){
-        long auctionCycle = SignClick.getPlugin().getConfig().getLong("auctionCycle");
+        time_end = getServer().getCurrentTick()+auctionCycle*20L;
 
-        time_end = start_time+(System.currentTimeMillis()/1000)+auctionCycle;
         Bukkit.getServer().getScheduler().runTaskTimer(SignClick.getPlugin(), new Runnable() {
 
             public void run() {
@@ -140,9 +143,8 @@ public class Auction {
                     Company comp = Market.getCompany(bitsOwner.get(i));
                     comp.patentUpgrades.add(toBuy.get(i));
                 }
-
                 init();
-                time_end = (System.currentTimeMillis()/1000)+auctionCycle;
+                time_end = getServer().getCurrentTick()+auctionCycle*20L;
 
             }
         },start_time,auctionCycle*20L);

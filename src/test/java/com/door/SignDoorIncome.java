@@ -22,6 +22,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import tools.DoorMock;
+import tools.ExpandedServerMock;
 import tools.TestTools;
 
 import static org.gradle.internal.impldep.org.junit.Assert.assertFalse;
@@ -36,7 +37,7 @@ public class SignDoorIncome {
     @BeforeEach
     public void setUp() {
 
-        server = MockBukkit.mock();
+        server = MockBukkit.mock(new ExpandedServerMock());
 
         plugin = TestTools.setupPlugin(server);
 

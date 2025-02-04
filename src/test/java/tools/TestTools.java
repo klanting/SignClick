@@ -5,6 +5,10 @@ import be.seeseemelk.mockbukkit.ServerMock;
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
 import be.seeseemelk.mockbukkit.plugin.PluginManagerMock;
 import com.klanting.signclick.SignClick;
+import com.klanting.signclick.calculate.WeeklyPay;
+import com.klanting.signclick.economy.CountryManager;
+import com.klanting.signclick.economy.Market;
+import com.klanting.signclick.economy.companyPatent.Auction;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Material;
 import org.bukkit.inventory.*;
@@ -73,6 +77,16 @@ public class TestTools {
         }
 
         return null;
+    }
+
+    public static SignClick reboot(ServerMock serverMock) {
+        Plugin plugin = serverMock.getPluginCommand("SignClick").getPlugin();
+        plugin.onDisable();
+        CountryManager.clear();
+        Auction.clear();
+        Market.clear();
+        WeeklyPay.payments.clear();
+        return TestTools.setupPlugin(serverMock);
     }
 
 }

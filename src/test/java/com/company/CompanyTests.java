@@ -11,6 +11,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import tools.ExpandedServerMock;
 import tools.TestTools;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -26,7 +27,7 @@ class CompanyTests {
     @BeforeEach
     public void setUp() {
 
-        server = MockBukkit.mock();
+        server = MockBukkit.mock(new ExpandedServerMock());
 
         plugin = TestTools.setupPlugin(server);
     }
@@ -93,10 +94,7 @@ class CompanyTests {
         /*
         * Restart server
         * */
-        plugin.onDisable();
-        CountryManager.clear();
-        Market.clear();
-        plugin = TestTools.setupPlugin(server);
+        plugin = TestTools.reboot(server);
 
         PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
 
@@ -143,10 +141,7 @@ class CompanyTests {
         comp.addBal(1000.0);
         assertEquals(1000.0, comp.getBal());
 
-        plugin.onDisable();
-        CountryManager.clear();
-        Market.clear();
-        plugin = TestTools.setupPlugin(server);
+        plugin = TestTools.reboot(server);
 
         comp = Market.getCompany("TCI");
         assertNotNull(comp);
@@ -189,10 +184,7 @@ class CompanyTests {
 
         testPlayer.assertNoMoreSaid();
 
-        plugin.onDisable();
-        CountryManager.clear();
-        Market.clear();
-        plugin = TestTools.setupPlugin(server);
+        plugin = TestTools.reboot(server);
 
         Market.getContracts("TCI", testPlayer);
 

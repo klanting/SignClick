@@ -17,7 +17,7 @@ public class VersionDetection {
 
         String name = Bukkit.getServer().getClass().getPackage().getName();
 
-        if (name.equals("be.seeseemelk.mockbukkit")){
+        if (name.equals("be.seeseemelk.mockbukkit") || name.equals("tools")){
             version = "v1_18_R2";
             return;
         }

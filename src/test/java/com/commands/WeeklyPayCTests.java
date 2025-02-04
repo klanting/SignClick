@@ -10,6 +10,7 @@ import com.klanting.signclick.SignClick;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import tools.ExpandedServerMock;
 import tools.TestTools;
 
 import static org.gradle.internal.impldep.org.junit.Assert.assertEquals;
@@ -24,7 +25,7 @@ public class WeeklyPayCTests {
     @BeforeEach
     public void setUp() {
 
-        server = MockBukkit.mock();
+        server = MockBukkit.mock(new ExpandedServerMock());
 
         plugin = TestTools.setupPlugin(server);
 
@@ -152,9 +153,7 @@ public class WeeklyPayCTests {
         assertTrue(suc6);
 
         assertEquals(1, WeeklyPay.payments.size());
-        plugin.onDisable();
-        WeeklyPay.payments.clear();
-        plugin = TestTools.setupPlugin(server);
+        plugin = TestTools.reboot(server);
 
         assertEquals(1, WeeklyPay.payments.size());
 
