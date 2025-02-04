@@ -9,6 +9,7 @@ import com.klanting.signclick.economy.Company;
 import com.klanting.signclick.economy.Market;
 import com.klanting.signclick.utils.Utils;
 import org.bukkit.Bukkit;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.util.*;
 
@@ -125,7 +126,9 @@ public class Auction {
     public long start_time = 0;
     public long time_end;
     public void check(){
-        time_end = start_time+(System.currentTimeMillis()/1000)+(60*60*24*7);
+        long auctionCycle = SignClick.getPlugin().getConfig().getLong("auctionCycle");
+
+        time_end = start_time+(System.currentTimeMillis()/1000)+auctionCycle;
         Bukkit.getServer().getScheduler().runTaskTimer(SignClick.getPlugin(), new Runnable() {
 
             public void run() {
@@ -139,10 +142,10 @@ public class Auction {
                 }
 
                 init();
-                time_end = (System.currentTimeMillis()/1000)+(60*60*24*7);
+                time_end = (System.currentTimeMillis()/1000)+auctionCycle;
 
             }
-        },start_time,60*60*24*7*20);
+        },start_time,auctionCycle*20L);
 
     }
 }

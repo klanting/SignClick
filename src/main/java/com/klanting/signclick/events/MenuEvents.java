@@ -208,7 +208,7 @@ public class MenuEvents implements Listener {
             }
 
             if (compValue < currentBit){
-                player.sendMessage("§bCompany is not valued enough to place the current Bit");
+                player.sendMessage("§bCompany is not valued enough to place the current Bet");
                 return;
             }
 

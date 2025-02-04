@@ -7,6 +7,7 @@ import com.klanting.signclick.SignClick;
 import com.klanting.signclick.economy.Company;
 import com.klanting.signclick.economy.CountryManager;
 import com.klanting.signclick.economy.Market;
+import com.klanting.signclick.economy.companyPatent.Auction;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -97,5 +98,57 @@ public class CompanyConfigTests {
         Company comp = Market.getCompany("COMP");
         assertEquals(1000, comp.getTotalShares());
         assertEquals(1000, Market.getAccount(testPlayer).shares.get("COMP"));
+    }
+
+    @Test
+    void auctionUpdate(){
+
+        plugin.getConfig().set("companyConfirmation", false);
+        plugin.getConfig().set("companyStartShares", 1000);
+        plugin.getConfig().set("auctionCycle", 360);
+
+        Auction auction = Auction.getInstance();
+
+        PlayerMock testPlayer = server.addPlayer();
+
+        Market.addCompany("A", "A", Market.getAccount(testPlayer));
+        auction.setBit(0, 100, "A");
+        assertEquals(100, auction.getBit(0));
+
+        auction.check();
+        /*
+        * First bet
+        * */
+        server.getScheduler().performTicks(360*20L+1);
+        assertNotEquals(100, auction.getBit(0));
+
+        auction.setBit(0, 100, "A");
+        assertEquals(100, auction.getBit(0));
+
+        /*
+         * Second bet
+         * */
+        server.getScheduler().performTicks(360*20L+1);
+        assertNotEquals(100, auction.getBit(0));
+
+        auction.setBit(0, 100, "A");
+        assertEquals(100, auction.getBit(0));
+        /*
+         * Third bet
+         * */
+
+        server.getScheduler().performTicks(180*20L+1);
+
+        /*
+         * Save Data
+         * */
+
+        plugin.onDisable();
+        CountryManager.clear();
+        Auction.clear();
+        plugin = TestTools.setupPlugin(server);
+
+        server.getScheduler().performTicks(180*20L+1);
+        //assertNotEquals(100, auction.getBit(0));
     }
 }

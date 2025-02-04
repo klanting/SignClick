@@ -78,6 +78,8 @@ public class DefaultConfig {
         config.addDefault("auctionBitIncrease", 1000);
         config.addDefault("auctionStartPrice", 1000);
 
+        config.addDefault("auctionCycle", 60*60L);
+
         config.options().copyDefaults(true);
         SignClick.getPlugin().saveConfig();
 
@@ -143,6 +145,8 @@ public class DefaultConfig {
 
         config.addDefault("auctionBitIncrease", 100000);
         config.addDefault("auctionStartPrice", 100000);
+
+        config.addDefault("auctionCycle", 60*60*24*7L);
 
         config.options().copyDefaults(true);
         SignClick.getPlugin().saveConfig();
