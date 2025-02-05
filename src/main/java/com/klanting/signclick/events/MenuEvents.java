@@ -22,8 +22,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.*;
 
-import static org.bukkit.Bukkit.getServer;
-
 public class MenuEvents implements Listener {
 
     private static final HashMap<Player, Stack<SelectionMenu>> menuStack = new HashMap<>();
@@ -219,7 +217,7 @@ public class MenuEvents implements Listener {
         if (event.getClickedInventory().getHolder() instanceof CompanyPatentDesignerUpgrade){
             event.setCancelled(true);
             CompanyPatentDesignerUpgrade old_screen = (CompanyPatentDesignerUpgrade) event.getClickedInventory().getHolder();
-            PatentUpgrade pat_up = old_screen.pat_list.get(event.getSlot());
+            PatentUpgrade pat_up = old_screen.patentUpgradeList.get(event.getSlot());
             Patent pat = old_screen.patent;
             pat.upgrades.add(pat_up);
 

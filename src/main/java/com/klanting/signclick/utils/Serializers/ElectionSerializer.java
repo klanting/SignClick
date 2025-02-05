@@ -7,6 +7,8 @@ import com.klanting.signclick.economy.parties.Election;
 import java.lang.reflect.Type;
 import java.util.*;
 
+import static org.bukkit.Bukkit.getServer;
+
 public class ElectionSerializer implements JsonSerializer<Election>, JsonDeserializer<Election> {
     /*
      * Serialize Election to Gson
@@ -29,7 +31,7 @@ public class ElectionSerializer implements JsonSerializer<Election>, JsonDeseria
         List<UUID> alreadyVoted = context.deserialize(obj.get("voted"),
                 new TypeToken<ArrayList<UUID>>(){}.getType());
 
-        return new Election(obj.get("name").getAsString(), time+(System.currentTimeMillis()/1000), voteDict, alreadyVoted);
+        return new Election(obj.get("name").getAsString(), time+getServer().getCurrentTick(), voteDict, alreadyVoted);
     }
 
 }

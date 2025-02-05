@@ -195,7 +195,7 @@ class PartyTests {
         * */
         country.createParty("TestParty2", testPlayer2.getUniqueId());
 
-        long system_end = System.currentTimeMillis()/1000 + 60*60*24*7;
+        long system_end = server.getCurrentTick() + 60*60*24*7*20L;
         country.setCountryElection(new Election(country.getName(), system_end));
 
         Election election = country.getCountryElection();

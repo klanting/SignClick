@@ -31,8 +31,8 @@ public class PartyDecisionVote extends SelectionMenu {
                 continue;
             }
 
-            ItemStack d_item = new ItemStack(Material.PAPER, 1);
-            ItemMeta m = d_item.getItemMeta();
+            ItemStack decisionItem = new ItemStack(Material.PAPER, 1);
+            ItemMeta m = decisionItem.getItemMeta();
             List<String> lores = new ArrayList<>();
             DecimalFormat df = new DecimalFormat("##0.00");
             lores.add("§7current approved: "+df.format(d.getApproved())+"%");
@@ -40,8 +40,8 @@ public class PartyDecisionVote extends SelectionMenu {
             lores.add("§7needed approved: "+df.format(d.needed*100)+"%");
             m.setLore(lores);
             m.setDisplayName(d.name);
-            d_item.setItemMeta(m);
-            getInventory().setItem(getInventory().firstEmpty(), d_item);
+            decisionItem.setItemMeta(m);
+            getInventory().setItem(getInventory().firstEmpty(), decisionItem);
         }
     }
 }

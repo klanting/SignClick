@@ -9,6 +9,8 @@ import com.klanting.signclick.SignClick;
 
 import java.util.*;
 
+import static org.bukkit.Bukkit.getServer;
+
 public class Election {
 
     public Map<String, Integer> voteDict =  new HashMap<String, Integer>();
@@ -26,6 +28,7 @@ public class Election {
         }
 
         this.s = s;
+
         this.timeEnded = timeEnded;
     }
 
@@ -54,13 +57,13 @@ public class Election {
 
         jsonObject.add("vote_dict", context.serialize(voteDict));
         jsonObject.add("voted", context.serialize(f_list));
-        jsonObject.add("to_wait", new JsonPrimitive(timeEnded -System.currentTimeMillis()/1000));
+        jsonObject.add("to_wait", new JsonPrimitive(timeEnded -getServer().getCurrentTick()));
         jsonObject.add("name", new JsonPrimitive(s));
 
         return jsonObject;
     }
 
     public long getToWait(){
-        return timeEnded-System.currentTimeMillis()/1000;
+        return timeEnded-getServer().getCurrentTick();
     }
 }

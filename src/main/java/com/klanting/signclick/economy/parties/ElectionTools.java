@@ -10,7 +10,8 @@ import java.util.List;
 import java.util.UUID;
 
 public class ElectionTools {
-    public static void setupElectionDeadline(Country country, long time){
+    public static void setupElectionDeadline(Country country){
+        long time = country.getCountryElection().getToWait();
         Bukkit.getServer().getScheduler().runTaskLater(SignClick.getPlugin(), new Runnable() {
             public void run() {
                 Election election = country.getCountryElection();

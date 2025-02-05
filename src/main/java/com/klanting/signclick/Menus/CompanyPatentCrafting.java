@@ -37,12 +37,12 @@ public class CompanyPatentCrafting extends SelectionMenu {
     @Override
     public void init() {
 
-        ItemStack gear_item = new ItemStack(patent.item, 1);
-        ItemMeta m = gear_item.getItemMeta();
+        ItemStack gearItem = new ItemStack(patent.item, 1);
+        ItemMeta m = gearItem.getItemMeta();
         m.setDisplayName("§6"+comp.getStockName() +":"+patent.getName()+":"+comp.patent.indexOf(patent));
-        gear_item.setItemMeta(m);
+        gearItem.setItemMeta(m);
 
-        getInventory().setItem(13, gear_item);
+        getInventory().setItem(13, gearItem);
 
         int counter = 0;
         for (PatentUpgrade up: patent.upgrades){

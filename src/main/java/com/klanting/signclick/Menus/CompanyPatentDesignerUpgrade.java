@@ -15,7 +15,7 @@ public class CompanyPatentDesignerUpgrade extends SelectionMenu {
 
     public Patent patent;
 
-    public ArrayList<PatentUpgrade> pat_list = new ArrayList<>();
+    public ArrayList<PatentUpgrade> patentUpgradeList = new ArrayList<>();
 
     public CompanyPatentDesignerUpgrade(Patent patent, Company comp){
         super(54, "Patent Designer Upgrade", true);
@@ -38,7 +38,7 @@ public class CompanyPatentDesignerUpgrade extends SelectionMenu {
             }
 
             if (!patent.upgrades.contains(patent_up)){
-                pat_list.add(patent_up);
+                patentUpgradeList.add(patent_up);
 
                 ItemStack item = new ItemStack(patent_up.material, 1);
                 ItemMeta m = item.getItemMeta();

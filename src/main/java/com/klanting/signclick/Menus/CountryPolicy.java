@@ -22,7 +22,7 @@ public class CountryPolicy extends SelectionMenu {
     }
 
     public void init(){
-        int start_index = 11;
+        int startIndex = 11;
         Country country = CountryManager.getCountry(uuid);
         for (Policy p: country.getPolicies()){
             ItemStack item = new ItemStack(p.getMaterial());
@@ -30,7 +30,7 @@ public class CountryPolicy extends SelectionMenu {
             meta.setDisplayName("§6"+p.getName());
             item.setItemMeta(meta);
 
-            getInventory().setItem(start_index-1, item);
+            getInventory().setItem(startIndex-1, item);
             for (int i=0; i<5; i++){
 
                 ItemStack color;
@@ -62,11 +62,11 @@ public class CountryPolicy extends SelectionMenu {
                 m.setLore(lore_list);
                 color.setItemMeta(m);
 
-                getInventory().setItem(start_index+i, color);
+                getInventory().setItem(startIndex+i, color);
 
             }
 
-            start_index += 9;
+            startIndex += 9;
         }
 
 

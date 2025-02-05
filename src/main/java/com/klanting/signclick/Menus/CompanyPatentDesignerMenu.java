@@ -30,11 +30,11 @@ public class CompanyPatentDesignerMenu extends SelectionMenu {
 
             ItemStack upgrade;
             if (patent.upgrades.size() > i){
-                PatentUpgrade pat_up = patent.upgrades.get(i);
-                upgrade = new ItemStack(pat_up.material, 1);
+                PatentUpgrade patentUpgrade = patent.upgrades.get(i);
+                upgrade = new ItemStack(patentUpgrade.material, 1);
 
                 ItemMeta m = upgrade.getItemMeta();
-                m.setDisplayName(pat_up.name + " "+pat_up.level);
+                m.setDisplayName(patentUpgrade.name + " "+patentUpgrade.level);
                 upgrade.setItemMeta(m);
 
             }else{

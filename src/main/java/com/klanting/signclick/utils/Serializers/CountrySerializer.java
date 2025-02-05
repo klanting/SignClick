@@ -25,7 +25,7 @@ public class CountrySerializer implements JsonSerializer<Country>, JsonDeseriali
         Country country = new Country(obj, context);
 
         if (country.getCountryElection() != null){
-            setupElectionDeadline(country, country.getCountryElection().getToWait()*20L);
+            setupElectionDeadline(country);
         }
 
         for (UUID uuid: country.getOwners()){

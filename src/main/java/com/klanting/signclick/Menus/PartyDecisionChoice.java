@@ -25,11 +25,11 @@ public class PartyDecisionChoice extends SelectionMenu {
         approve.setItemMeta(m);
         getInventory().setItem(11, approve);
 
-        ItemStack dis_approve = new ItemStack(Material.RED_WOOL);
-        m = dis_approve.getItemMeta();
+        ItemStack disApprove = new ItemStack(Material.RED_WOOL);
+        m = disApprove.getItemMeta();
         m.setDisplayName("§cContra");
-        dis_approve.setItemMeta(m);
-        getInventory().setItem(15, dis_approve);
+        disApprove.setItemMeta(m);
+        getInventory().setItem(15, disApprove);
 
     }
 }
