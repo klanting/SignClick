@@ -56,14 +56,69 @@ public class CompanyHandlerGuide extends CompanyHandler{
                 """);
 
         /*
+         * Company Shares
+         * */
+        pages.add("""
+                §9Company Shares
+                §0With the command '§9/company buy <stockname> <amount>§0', you can buy shares of the company.
+                With the command '§9/company sell <stockname> <amount>§0', you can sell shares of the company.
+                """);
+
+        pages.add("""
+                If you don't like the manual commands, you can use
+                '§9/company market§0' to buy/sell shares using the UI.
+                """);
+
+        /*
+         * Company menu
+         * */
+        pages.add("""
+                §9Company management
+                §0Buying and Selling shares is good, but making your company successful is better.
+                Companies have many ways to acquire income. Check out
+                '§9/company menu§0' to discover some company options.
+                """);
+
+        /*
+         * Company Payments
+         * */
+        pages.add("""
+                §9Company Payments
+                §0'§9/company give <stockname> <amount>§0' Lets a player give money to a company, while
+                '§9/company pay <stockname> <player> <amount>§0' gives money to a player from the company account.
+                """);
+
+        /*
+        * Company Patent
+        * */
+        pages.add("""
+                §9Company Patents
+                §0Your company is special. But Why?
+                Maybe it is the great goods you produce?
+                You can make special armor that has never been seen before.
+                """);
+
+        pages.add("""
+                §0A company patent is in this case a unique product, only the company can produce.
+                A patent exists of a piece of gear combined with patent upgrades.
+                patent upgrades can be acquired by an auction.
+                """);
+        pages.add("""
+                §0The company who ends with the highest bid will after some time receive this patent upgrade.
+                
+                A patent includes patent upgrades that give special abilities/bonuses.
+                """);
+
+        /*
          * Outro Page
          * */
         pages.add("""
                   §9The End
+                  
                   §0The world is in your hands now, my dear visionary.
                   Good Luck §6""" + player.getName() + """
-                  
-                  §0May fortune and success find you!!!""");
+                  §0!
+                  May fortune and success find you!!!""");
 
         meta.setPages(pages);
 
