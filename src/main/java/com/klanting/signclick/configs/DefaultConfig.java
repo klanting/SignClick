@@ -82,6 +82,8 @@ public class DefaultConfig {
 
         config.addDefault("electionTime", 60*60*24L);
 
+        config.addDefault("stockBuySellAmount", List.of(10, 100, 200));
+
         config.options().copyDefaults(true);
         SignClick.getPlugin().saveConfig();
 
@@ -151,6 +153,8 @@ public class DefaultConfig {
         config.addDefault("auctionCycle", 60*60*24*7L);
 
         config.addDefault("electionTime", 60*60*24*7L);
+
+        config.addDefault("stockBuySellAmount", List.of(100, 10000, 100000));
 
         config.options().copyDefaults(true);
         SignClick.getPlugin().saveConfig();

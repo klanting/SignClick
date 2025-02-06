@@ -1,9 +1,8 @@
 package com.klanting.signclick.Menus;
 
-import com.klanting.signclick.economy.Account;
+import com.klanting.signclick.SignClick;
 import com.klanting.signclick.economy.Company;
-import com.klanting.signclick.economy.Market;
-import org.apache.commons.lang3.tuple.Pair;
+import com.klanting.signclick.utils.Utils;
 import org.apache.commons.lang3.tuple.Triple;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -15,20 +14,14 @@ import java.util.*;
 public class CompanyMarketMenu extends SelectionMenu{
 
     public UUID uuid;
-    public List<Company> companies = new ArrayList<>();
+    public Company currentCompany;
 
-    public int currentIndex;
 
-    public CompanyMarketMenu(UUID uuid){
-        super(45, "Company Market", false);
+    public CompanyMarketMenu(UUID uuid, Company company){
+        super(45, "Company Market", true);
         this.uuid = uuid;
-        this.companies = Market.getTopMarketAvailable();
-        this.currentIndex = 0;
+        this.currentCompany = company;
         init();
-    }
-
-    public void changePtr(int amount){
-        currentIndex += amount;
     }
 
     @Override
@@ -36,36 +29,17 @@ public class CompanyMarketMenu extends SelectionMenu{
         /*
         * Check if no companies available
         * */
+        ItemStack backButton = getInventory().getItem(44);
         getInventory().clear();
-        if (companies.isEmpty()){
-
-            ItemStack gearItem = new ItemStack(Material.BARRIER, 1);
-            ItemMeta m = gearItem.getItemMeta();
-            m.setDisplayName("§cNo Companies available on the market");
-            gearItem.setItemMeta(m);
-
-            getInventory().setItem(22, gearItem);
-
-            return;
-        }
+        getInventory().setItem(44, backButton);
 
         /*
         * Set item symbol of company type in the center
         * */
 
-        Map<String, Material> materialMap = new HashMap<>();
-        materialMap.put("bank", Material.GOLD_INGOT);
-        materialMap.put("transport", Material.MINECART);
-        materialMap.put("product", Material.IRON_CHESTPLATE);
-        materialMap.put("real estate", Material.QUARTZ_BLOCK);
-        materialMap.put("military", Material.BOW);
-        materialMap.put("building", Material.BRICKS);
-        materialMap.put("other", Material.SUNFLOWER);
-
-        Company currentCompany = companies.get(currentIndex);
         double pct = currentCompany.stockCompareGet();
 
-        ItemStack gearItem = new ItemStack(materialMap.get(currentCompany.type), 1);
+        ItemStack gearItem = new ItemStack(Utils.getCompanyTypeMaterial(currentCompany.type), 1);
         ItemMeta m = gearItem.getItemMeta();
 
         List<String> lores = new ArrayList<>();
@@ -77,6 +51,7 @@ public class CompanyMarketMenu extends SelectionMenu{
         lores.add("§7Patent Upgrades: "+currentCompany.upgrades.size());
 
         lores.add("§7Owned Shares: "+df2.format(currentCompany.getCOM().getShareHolders().getOrDefault(uuid, 0)));
+        lores.add("§7Market Shares: "+df2.format(currentCompany.getCOM().getMarketShares())+"/"+df2.format(currentCompany.getCOM().getTotalShares()));
         m.setLore(lores);
 
         m.setDisplayName("§6"+currentCompany.getStockName()+"-"+currentCompany.getName());
@@ -85,45 +60,24 @@ public class CompanyMarketMenu extends SelectionMenu{
         getInventory().setItem(22, gearItem);
 
         /*
-        * Make Back button and Forward Button
-        * */
-
-        if (currentIndex > 0){
-            ItemStack backItem = new ItemStack(Material.ARROW, 1);
-            m = backItem.getItemMeta();
-
-            m.setDisplayName("Back");
-            backItem.setItemMeta(m);
-
-            getInventory().setItem(2*9, backItem);
-        }
-
-        if (currentIndex < companies.size()-1){
-            ItemStack backItem = new ItemStack(Material.ARROW, 1);
-            m = backItem.getItemMeta();
-
-            m.setDisplayName("Next");
-            backItem.setItemMeta(m);
-
-            getInventory().setItem(2*9+8, backItem);
-        }
-
-        /*
         * set the Pricing
         * */
 
         List<Triple<Integer, Integer, Material>> buySellButtons = new ArrayList<>();
 
+        List<Integer> buySellAmount = SignClick.getPlugin().getConfig().getIntegerList("stockBuySellAmount");
+        assert buySellAmount.size() == 3;
+
         buySellButtons.add(Triple.of(1, 11, Material.LIME_DYE));
-        buySellButtons.add(Triple.of(10, 12, Material.EMERALD));
-        buySellButtons.add(Triple.of(1000, 13, Material.LIME_STAINED_GLASS_PANE));
-        buySellButtons.add(Triple.of(10000, 14, Material.LIME_STAINED_GLASS));
+        buySellButtons.add(Triple.of(buySellAmount.get(0), 12, Material.EMERALD));
+        buySellButtons.add(Triple.of(buySellAmount.get(1), 13, Material.LIME_STAINED_GLASS_PANE));
+        buySellButtons.add(Triple.of(buySellAmount.get(2), 14, Material.LIME_STAINED_GLASS));
         buySellButtons.add(Triple.of(currentCompany.getMarketShares(), 15, Material.LIME_CONCRETE));
 
         buySellButtons.add(Triple.of(-1, 29, Material.RED_DYE));
-        buySellButtons.add(Triple.of(-10, 30, Material.REDSTONE));
-        buySellButtons.add(Triple.of(-1000, 31, Material.RED_STAINED_GLASS_PANE));
-        buySellButtons.add(Triple.of(-10000, 32, Material.RED_STAINED_GLASS));
+        buySellButtons.add(Triple.of(-buySellAmount.get(0), 30, Material.REDSTONE));
+        buySellButtons.add(Triple.of(-buySellAmount.get(1), 31, Material.RED_STAINED_GLASS_PANE));
+        buySellButtons.add(Triple.of(-buySellAmount.get(2), 32, Material.RED_STAINED_GLASS));
         buySellButtons.add(Triple.of(-currentCompany.getCOM().getShareHolders().getOrDefault(uuid, 0),
                 33, Material.RED_CONCRETE));
 
@@ -134,12 +88,30 @@ public class CompanyMarketMenu extends SelectionMenu{
             int amount = tup.getLeft();
 
             if (amount > 0){
-                m.setDisplayName("§a"+"BUY: "+tup.getLeft()+" Share");
-            } else if (amount == 0) {
-                m.setDisplayName("§fDOES NOTHING");
-            } else{
-                m.setDisplayName("§c"+"SELL: "+-tup.getLeft()+" Share");
+                amount = Math.min(amount, currentCompany.getMarketShares());
             }
+
+            if (amount < 0){
+                amount = Math.max(amount, -currentCompany.getCOM().getShareHolders().getOrDefault(uuid, 0));
+            }
+
+            String message;
+            if (amount > 0){
+                message = "§a"+"BUY: "+amount+" Shares";
+            } else if (amount == 0) {
+                message = "§fDOES NOTHING";
+            } else{
+                message = "§c"+"SELL: "+-amount+" Shares";
+            }
+
+            if (Math.abs(amount) == 1){
+                /*
+                * removes the last 's' of shares
+                * */
+                message = message.substring(0, message.length()-1);
+            }
+
+            m.setDisplayName(message);
 
             button.setItemMeta(m);
 

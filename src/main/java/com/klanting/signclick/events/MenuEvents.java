@@ -55,31 +55,36 @@ public class MenuEvents implements Listener {
             return;
         }
 
-        if (event.getClickedInventory().getHolder() instanceof CompanyMarketMenu currentScreen){
+        if (event.getClickedInventory().getHolder() instanceof CompanyMarketSelector currentScreen){
             Player player = (Player) event.getWhoClicked();
             event.setCancelled(true);
 
             clearStack(player);
-            Company currentCompany = currentScreen.companies.get(currentScreen.currentIndex);
+
+            CompanyMarketMenu screen = new CompanyMarketMenu(player.getUniqueId(), Market.getTopMarketAvailable().get(event.getSlot()));
+
+            player.openInventory(screen.getInventory());
+
+        }
+
+        if (event.getClickedInventory().getHolder() instanceof CompanyMarketMenu currentScreen){
+            Player player = (Player) event.getWhoClicked();
+            event.setCancelled(true);
+
+            Company currentCompany = currentScreen.currentCompany;
 
             Account acc = Market.getAccount(player);
 
             if (event.getCurrentItem().getItemMeta().getDisplayName().contains("BUY")){
                 int amount = Integer.parseInt(event.getCurrentItem().getItemMeta().getDisplayName().split(" ")[1]);
-                acc.buyShare(currentCompany.getName(), amount, player);
+                amount = Math.min(amount, currentCompany.getMarketShares());
+                acc.buyShare(currentCompany.getStockName(), amount, player);
             }
 
             if (event.getCurrentItem().getItemMeta().getDisplayName().contains("SELL")){
                 int amount = Integer.parseInt(event.getCurrentItem().getItemMeta().getDisplayName().split(" ")[1]);
-                acc.sellShare(currentCompany.getName(), amount, player);
-            }
-
-            if (event.getCurrentItem().getItemMeta().getDisplayName().contains("Next")){
-                currentScreen.changePtr(1);
-            }
-
-            if (event.getCurrentItem().getItemMeta().getDisplayName().contains("Back")){
-                currentScreen.changePtr(-1);
+                amount = Math.min(amount, currentCompany.getCOM().getShareHolders().getOrDefault(player.getUniqueId(), 0));
+                acc.sellShare(currentCompany.getStockName(), amount, player);
             }
 
             currentScreen.init();

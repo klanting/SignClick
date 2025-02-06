@@ -19,6 +19,7 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.dynmap.DynmapAPI;
 
+import java.lang.reflect.Field;
 import java.util.*;
 
 
@@ -99,6 +100,12 @@ public class SignClick extends JavaPlugin{
         getServer().getConsoleSender().sendMessage(ChatColor.RED + "SignClick is disabled!");
         saveConfig();
         Bukkit.getScheduler().cancelTasks(SignClick.getPlugin());
+
+        try {
+            Field gsonInstance = Class.forName("com.google.gson.Gson").getDeclaredField("DEFAULT_INSTANCE");
+            gsonInstance.setAccessible(true);
+            gsonInstance.set(null, null); // Force clear Gson instance
+        } catch (Exception ignored) {}
 
     }
 

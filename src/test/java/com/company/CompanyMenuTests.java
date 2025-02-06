@@ -105,18 +105,6 @@ public class CompanyMenuTests {
         return testPlayer.getOpenInventory();
     }
 
-    void printInventory(InventoryView inv){
-        /*
-        * Menu testing debug tool
-        * */
-        for (int i=0; i<inv.countSlots(); i++){
-            if (inv.getItem(i) == null){
-                continue;
-            }
-            System.out.print(i+": "+inv.getItem(i).getType().toString()+"\n");
-        }
-    }
-
     @Test
     void changeCompanyType(){
         Company comp = getCompany(0);

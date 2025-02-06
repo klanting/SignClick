@@ -8,6 +8,7 @@ import com.klanting.signclick.economy.companyPatent.Auction;
 import com.klanting.signclick.economy.parties.Election;
 import com.klanting.signclick.utils.Serializers.*;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Sign;
 import org.bukkit.event.block.SignChangeEvent;
 
@@ -125,5 +126,18 @@ public class Utils {
             clazz = clazz.getSuperclass(); // Move to the superclass
         }
         return fields.toArray(new Field[0]);
+    }
+
+    public static Material getCompanyTypeMaterial(String type){
+        Map<String, Material> materialMap = new HashMap<>();
+        materialMap.put("bank", Material.GOLD_INGOT);
+        materialMap.put("transport", Material.MINECART);
+        materialMap.put("product", Material.IRON_CHESTPLATE);
+        materialMap.put("real estate", Material.QUARTZ_BLOCK);
+        materialMap.put("military", Material.BOW);
+        materialMap.put("building", Material.BRICKS);
+        materialMap.put("other", Material.SUNFLOWER);
+
+        return materialMap.get(type);
     }
 }

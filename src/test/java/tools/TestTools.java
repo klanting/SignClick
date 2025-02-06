@@ -89,4 +89,27 @@ public class TestTools {
         return TestTools.setupPlugin(serverMock);
     }
 
+    public static void printInventory(InventoryView inv){
+        /*
+         * Menu testing debug tool
+         * */
+        for (int i=0; i<inv.countSlots(); i++){
+            if (inv.getItem(i) == null){
+                continue;
+            }
+            System.out.print(i+": "+inv.getItem(i).getType().toString()+"\n");
+        }
+    }
+
+    public static void assertItem(ItemStack item, Material expectedMaterial, String expectedName){
+        assertItem(item, expectedMaterial, expectedName, null);
+    }
+
+    public static void assertItem(ItemStack item, Material expectedMaterial, String expectedName,
+                                  List<String> expectedLore){
+        assertEquals(expectedMaterial, item.getType());
+        assertEquals(expectedName, item.getItemMeta().getDisplayName());
+        assertEquals(expectedLore, item.getItemMeta().getLore());
+    }
+
 }
