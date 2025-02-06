@@ -64,7 +64,7 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
         handlerTranslation.put("get_support", new CompanyHandlerGetSupport());
         handlerTranslation.put("support", new CompanyHandlerSupport());
         handlerTranslation.put("open_trade", new CompanyHandlerOpenTrade());
-        handlerTranslation.put("market_dep", new CompanyHandlerMarketDep());
+        handlerTranslation.put("markettop", new CompanyHandlerMarketTop());
         handlerTranslation.put("market", new CompanyHandlerMarket());
         handlerTranslation.put("menu", new CompanyHandlerMenu());
         handlerTranslation.put("portfolio", new CompanyHandlerPortfolio());
@@ -79,6 +79,8 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
         handlerTranslation.put("get_sell_price", new CompanyHandlerGetSellPrice());
         handlerTranslation.put("sharebal", new CompanyHandlerShareBal());
         handlerTranslation.put("get_contracts", new CompanyHandlerGetContracts());
+
+        handlerTranslation.put("guide", new CompanyHandlerGuide());
 
         try{
 
@@ -173,8 +175,9 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
             autoCompletes.add("transfer");
             autoCompletes.add("transact");
             autoCompletes.add("portfolio");
-            autoCompletes.add("market_dep");
+            autoCompletes.add("markettop");
             autoCompletes.add("market");
+            autoCompletes.add("guide");
             autoCompletes.add("get_support");
             autoCompletes.add("send_contract_ctc");
             autoCompletes.add("sign_contract_ctc");

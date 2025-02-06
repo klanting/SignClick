@@ -94,6 +94,7 @@ public class PatentEvents implements Listener {
 
     }
 
+    @EventHandler
     public static void OnPlayerXp(PlayerExpChangeEvent event){
         Player player = event.getPlayer();
 

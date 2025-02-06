@@ -1045,7 +1045,7 @@ class CompanyCTests {
 
         testPlayer.assertSaid("§bsell: §aaccepted");
 
-        boolean suc6 = server.execute("company", testPlayer, "market_dep").hasSucceeded();
+        boolean suc6 = server.execute("company", testPlayer, "markettop").hasSucceeded();
         assertTrue(suc6);
 
         testPlayer.assertSaid("§eMarket:\n§b1. §9TCI: §7900.000 (90,00%)");
@@ -1072,8 +1072,9 @@ class CompanyCTests {
         autoCompletes.add("transfer");
         autoCompletes.add("transact");
         autoCompletes.add("portfolio");
-        autoCompletes.add("market_dep");
+        autoCompletes.add("markettop");
         autoCompletes.add("market");
+        autoCompletes.add("guide");
         autoCompletes.add("get_support");
         autoCompletes.add("send_contract_ctc");
         autoCompletes.add("sign_contract_ctc");
@@ -1122,8 +1123,9 @@ class CompanyCTests {
         autoCompletes.add("transfer");
         autoCompletes.add("transact");
         autoCompletes.add("portfolio");
-        autoCompletes.add("market_dep");
+        autoCompletes.add("markettop");
         autoCompletes.add("market");
+        autoCompletes.add("guide");
         autoCompletes.add("get_support");
         autoCompletes.add("send_contract_ctc");
         autoCompletes.add("sign_contract_ctc");
