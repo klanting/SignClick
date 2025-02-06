@@ -55,6 +55,38 @@ public class MenuEvents implements Listener {
             return;
         }
 
+        if (event.getClickedInventory().getHolder() instanceof CompanyMarketMenu currentScreen){
+            Player player = (Player) event.getWhoClicked();
+            event.setCancelled(true);
+
+            clearStack(player);
+            Company currentCompany = currentScreen.companies.get(currentScreen.currentIndex);
+
+            Account acc = Market.getAccount(player);
+
+            if (event.getCurrentItem().getItemMeta().getDisplayName().contains("BUY")){
+                int amount = Integer.parseInt(event.getCurrentItem().getItemMeta().getDisplayName().split(" ")[1]);
+                acc.buyShare(currentCompany.getName(), amount, player);
+            }
+
+            if (event.getCurrentItem().getItemMeta().getDisplayName().contains("SELL")){
+                int amount = Integer.parseInt(event.getCurrentItem().getItemMeta().getDisplayName().split(" ")[1]);
+                acc.sellShare(currentCompany.getName(), amount, player);
+            }
+
+            if (event.getCurrentItem().getItemMeta().getDisplayName().contains("Next")){
+                currentScreen.changePtr(1);
+            }
+
+            if (event.getCurrentItem().getItemMeta().getDisplayName().contains("Back")){
+                currentScreen.changePtr(-1);
+            }
+
+            currentScreen.init();
+
+
+        }
+
 
         if (event.getClickedInventory().getHolder() instanceof CompanySelector){
             Player player = (Player) event.getWhoClicked();
@@ -404,6 +436,10 @@ public class MenuEvents implements Listener {
             String name = event.getCurrentItem().getItemMeta().getDisplayName();
             old_screen.comp.type = name.substring(2);
             player.closeInventory();
+        }
+
+        if (!(event.getClickedInventory().getHolder() instanceof SelectionMenu)){
+            return;
         }
 
         Player player = (Player) event.getWhoClicked();

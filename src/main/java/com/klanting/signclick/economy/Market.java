@@ -249,18 +249,18 @@ public class Market {
 
     public static void marketAvailable(Player player){
 
-        ArrayList<Map.Entry<String, Company>> entries = new ArrayList<>(companies.entrySet());
+        ArrayList<Company> entries = getTopMarketAvailable();
 
-        entries.sort(Comparator.comparing(item -> -item.getValue().getMarketShares()));
+        entries.sort(Comparator.comparing(item -> -item.getMarketShares()));
 
         ArrayList<String> marketList = new ArrayList<>();
 
         marketList.add("§eMarket:");
 
         for (int i=0; i<entries.size(); i++){
-            String b = entries.get(i).getKey();
+            String b = entries.get(i).getStockName();
             Company comp = Market.getCompany(b);
-            double v = entries.get(i).getValue().getMarketShares();
+            double v = entries.get(i).getMarketShares();
             DecimalFormat df = new DecimalFormat("###,###,###");
             DecimalFormat df2 = new DecimalFormat("0.00");
             int i2 = i + 1;
@@ -274,6 +274,15 @@ public class Market {
         }
 
         player.sendMessage(String.join("\n", marketList));
+    }
+
+    public static ArrayList<Company> getTopMarketAvailable(){
+        ArrayList<Company> entries = new ArrayList<>(companies.values());
+
+        entries.sort(Comparator.comparing(item -> -item.getMarketShares()));
+
+        return entries;
+
     }
 
     public static void SaveData(){
