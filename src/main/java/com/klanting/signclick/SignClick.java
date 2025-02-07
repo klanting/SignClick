@@ -89,6 +89,13 @@ public class SignClick extends JavaPlugin{
 
     @Override
     public void onDisable() {
+
+        try {
+            Field gsonInstance = Class.forName("com.google.gson.Gson").getDeclaredField("DEFAULT_INSTANCE");
+            gsonInstance.setAccessible(true);
+            gsonInstance.set(null, null); // Force clear Gson instance
+        } catch (Exception ignored) {}
+
         SaveDoors();
 
         WeeklyPay.save();
@@ -100,13 +107,6 @@ public class SignClick extends JavaPlugin{
         getServer().getConsoleSender().sendMessage(ChatColor.RED + "SignClick is disabled!");
         saveConfig();
         Bukkit.getScheduler().cancelTasks(SignClick.getPlugin());
-
-        try {
-            Field gsonInstance = Class.forName("com.google.gson.Gson").getDeclaredField("DEFAULT_INSTANCE");
-            gsonInstance.setAccessible(true);
-            gsonInstance.set(null, null); // Force clear Gson instance
-        } catch (Exception ignored) {}
-
     }
 
 

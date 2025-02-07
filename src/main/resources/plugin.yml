@@ -1,8 +1,8 @@
 name: SignClick
-version: 1.2.0
+version: 1.0.0
 author: klanting
 main: com.klanting.signclick.SignClick
-api-version: 1.16
+api-version: 1.18
 commands:
   signclick:
     description: all info about the signclick plugin
@@ -29,5 +29,18 @@ commands:
     description: use the party commands.
     usage: /<command>
 
-depend: [Vault, dynmap]
-softdepend: [SpigotTester]
+localization:
+  default: en_US
+  supported: [en_US]
+
+signclick.use:
+  description: Allows using the main feature of the plugin.
+  default: true
+  signclick.staff:
+    description: Allows access to staff features.
+    default: op
+    children:
+      signclick.use: true
+
+depend: [Vault]
+softdepend: [dynmap]
