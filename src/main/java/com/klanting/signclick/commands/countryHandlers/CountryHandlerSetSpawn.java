@@ -11,6 +11,7 @@ public class CountryHandlerSetSpawn extends CountryHandler{
     public void handleCommand(Player player, String[] args) throws CommandException {
         Country country = CountryManager.getCountry(player);
 
+        CommandAssert.assertTrue(country != null, "§bYou need to be in a country to do this");
         CommandAssert.assertTrue(country.isOwner(player), "§bYou don't have the permissions to set the spawn");
 
         country.setSpawn(player.getLocation());

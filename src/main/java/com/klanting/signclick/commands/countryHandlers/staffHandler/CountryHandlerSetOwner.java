@@ -16,6 +16,7 @@ public class CountryHandlerSetOwner extends CountryStaffHandler{
         assert p != null;
 
         Country country = CountryManager.getCountry(args[1]);
+        CommandAssert.assertTrue(country != null, "§bThe country "+args[1]+" does not exists");
         boolean suc6 = country.addOwner(p);
 
         if (suc6){

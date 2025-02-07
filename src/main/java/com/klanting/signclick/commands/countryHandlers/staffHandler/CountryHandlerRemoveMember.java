@@ -16,6 +16,7 @@ public class CountryHandlerRemoveMember extends CountryStaffHandler{
         CommandAssert.assertTrue(args.length >= 3, "§bPlease enter /country removemember <country> <username>");
 
         Country country = CountryManager.getCountry(args[1]);
+        CommandAssert.assertTrue(country != null, "§bThe country "+args[1]+" does not exists");
 
         Player removedPlayer = Objects.requireNonNull(Bukkit.getPlayer(args[2]));
 

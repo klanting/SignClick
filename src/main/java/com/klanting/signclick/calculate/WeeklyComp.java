@@ -10,9 +10,11 @@ import org.bukkit.Bukkit;
 
 public class WeeklyComp {
     public static long systemEnd = 60*60*24*7*20L;
+    public static long checkCycle = 60*60*24*7*20L;
     public static void check(){
+
         systemEnd = Utils.readSave("weeklyComp",
-                new TypeToken<Long>(){}.getType(), 60*60*24*7*20L);
+                new TypeToken<Long>(){}.getType(), checkCycle);
 
         Bukkit.getServer().getScheduler().runTaskTimer(SignClick.getPlugin(), new Runnable() {
 
@@ -27,9 +29,9 @@ public class WeeklyComp {
                 CountryManager.runStability();
 
             }
-        }, systemEnd,60*60*24*7*20);
+        }, systemEnd,checkCycle);
 
-        systemEnd = (System.currentTimeMillis()/1000) % 60*60*24*7*20;
+        systemEnd = (System.currentTimeMillis()/1000) % checkCycle;
 
     }
 

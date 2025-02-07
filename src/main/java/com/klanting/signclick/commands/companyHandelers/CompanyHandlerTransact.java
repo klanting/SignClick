@@ -1,5 +1,6 @@
 package com.klanting.signclick.commands.companyHandelers;
 
+import com.klanting.signclick.commands.CommandTools;
 import com.klanting.signclick.commands.exceptions.CommandAssert;
 import com.klanting.signclick.commands.exceptions.CommandException;
 import com.klanting.signclick.economy.Company;
@@ -10,7 +11,7 @@ public class CompanyHandlerTransact extends CompanyHandler{
     @Override
     public Boolean handleCommand(Player player, String[] args, Boolean firstEnter) throws CommandException {
 
-        CommandAssert.assertTrue(args.length >= 4, "§bplease enter /company transact <company> <target_company> <amount>");
+        CommandAssert.assertTrue(args.length >= 4, "§bplease enter /company transact <stockname> <target_company> <amount>");
 
 
         String stock_name = args[1].toUpperCase();
@@ -23,7 +24,7 @@ public class CompanyHandlerTransact extends CompanyHandler{
 
         CommandAssert.assertTrue(Market.hasBusiness(target_stock_name), "§bbusiness name is invalid");
 
-        double amount = Double.parseDouble(args[3]);
+        double amount = CommandTools.parseDouble(args[3], "§bPlease enter a valid double as amount");
 
         CommandAssert.assertTrue(Market.getCompany(stock_name).getCOM().isOwner(player.getUniqueId()), "§byou must be a CEO of this com.company");
 

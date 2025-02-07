@@ -45,6 +45,11 @@ public class PartyCommands implements CommandExecutor, TabCompleter {
 
             Country country = CountryManager.getCountry(player);
 
+            if (country == null){
+                player.sendMessage("§bYou need to be in a country");
+                return true;
+            }
+
             if (country.isForbidParty()){
                 player.sendMessage("§bcountry forbids create party");
                 return true;
@@ -67,6 +72,11 @@ public class PartyCommands implements CommandExecutor, TabCompleter {
 
         if (commando.equals("add")){
             Country country = CountryManager.getCountry(player);
+
+            if (country == null){
+                player.sendMessage("§bYou need to be in a country");
+                return true;
+            }
 
             if (args.length < 2){
                 player.sendMessage("§bplease enter /party add <username>");
@@ -104,6 +114,11 @@ public class PartyCommands implements CommandExecutor, TabCompleter {
 
         if (commando.equals("kick")){
             Country country = CountryManager.getCountry(player);
+
+            if (country == null){
+                player.sendMessage("§bYou need to be in a country");
+                return true;
+            }
 
             if (args.length < 2){
                 player.sendMessage("§bplease enter /party kick <username>");
@@ -143,6 +158,11 @@ public class PartyCommands implements CommandExecutor, TabCompleter {
         if (commando.equals("promote")){
             Country country = CountryManager.getCountry(player);
 
+            if (country == null){
+                player.sendMessage("§bYou need to be in a country");
+                return true;
+            }
+
             if (args.length < 2){
                 player.sendMessage("§bplease enter /party promote <username>");
                 return true;
@@ -168,6 +188,11 @@ public class PartyCommands implements CommandExecutor, TabCompleter {
         if (commando.equals("demote")){
             Country country = CountryManager.getCountry(player);
 
+            if (country == null){
+                player.sendMessage("§bYou need to be in a country");
+                return true;
+            }
+
             if (args.length < 2){
                 player.sendMessage("§bplease enter /party demote <username>");
                 return true;
@@ -192,6 +217,12 @@ public class PartyCommands implements CommandExecutor, TabCompleter {
 
         if (commando.equals("leave")){
             Country country = CountryManager.getCountry(player);
+
+            if (country == null){
+                player.sendMessage("§bYou need to be in a country");
+                return true;
+            }
+
             Party p = country.getParty(player.getUniqueId());
             if (p == null){
                 player.sendMessage("§byou must be in a party");
@@ -205,12 +236,24 @@ public class PartyCommands implements CommandExecutor, TabCompleter {
             Party p;
             Country country = CountryManager.getCountry(player);
             if (args.length == 2){
+                if (country == null){
+                    player.sendMessage("§bYou need to be in a country");
+                    return true;
+                }
                 p = country.getParty(args[1]);
 
             }else if (args.length >= 3){
                 country = CountryManager.getCountry(args[1]);
+                if (country == null){
+                    player.sendMessage("§bYou need to be in a country");
+                    return true;
+                }
                 p = country.getParty(args[2]);
             }else{
+                if (country == null){
+                    player.sendMessage("§bYou need to be in a country");
+                    return true;
+                }
                 p = country.getParty(player.getUniqueId());
             }
 
@@ -223,6 +266,12 @@ public class PartyCommands implements CommandExecutor, TabCompleter {
 
         if (commando.equals("vote")){
             Country country = CountryManager.getCountry(player);
+
+            if (country == null){
+                player.sendMessage("§bYou need to be in a country");
+                return true;
+            }
+
             Party p = country.getParty(player.getUniqueId());
             if (p == null){
                 player.sendMessage("§byou must be in a party");
@@ -239,6 +288,12 @@ public class PartyCommands implements CommandExecutor, TabCompleter {
 
         if (commando.equals("coup")){
             Country country = CountryManager.getCountry(player);
+
+            if (country == null){
+                player.sendMessage("§bYou need to be in a country");
+                return true;
+            }
+
             Party p = country.getParty(player.getUniqueId());
             if (p == null){
                 player.sendMessage("§byou must be in a party");
@@ -283,6 +338,8 @@ public class PartyCommands implements CommandExecutor, TabCompleter {
                 autoCompletes.add("info");
                 autoCompletes.add("vote");
                 autoCompletes.add("coup");
+            }else{
+                return null;
             }
 
             return autoCompletes;

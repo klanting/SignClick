@@ -105,23 +105,23 @@ permissions:
             description: Allows the player to get the price to buy a given amount of shares
           signclick.company.get_sell_price:
             description: Allows the player to get the earnings of selling a given amount of shares
-          signclick.company.sharebal:
-            default: false
-            description: Allows the player to see how much of its value depends on shares bought, instead of balance
           signclick.company.guide:
             description: Allows the player to receive a guide about the plugin
-
 
       #Country management
       signclick.country:
         description: Allows the player country commands
         default: true
+      signclick.company.sharebal: true
+
+  signclick.company.sharebal:
+    default: false
+    description: Allows the player to see how much of its value depends on shares bought, instead of balance
 
   signclick.staff:
     default: op
     children:
       signclick.*: true
-
 
 depend: [Vault]
 softdepend: [dynmap]

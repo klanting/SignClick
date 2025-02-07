@@ -12,6 +12,7 @@ public class CountryHandlerMenu extends CountryHandler{
     public void handleCommand(Player player, String[] args) throws CommandException {
         Country country = CountryManager.getCountry(player);
 
+        CommandAssert.assertTrue(country != null, "§bYou need to be in a country to do this");
         CommandAssert.assertTrue(country.isOwner(player), "§bplayer is not the owner");
 
         CountryMenu screen = new CountryMenu(player.getUniqueId());

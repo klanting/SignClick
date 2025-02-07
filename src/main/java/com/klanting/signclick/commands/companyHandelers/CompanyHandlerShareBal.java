@@ -22,9 +22,6 @@ public class CompanyHandlerShareBal extends CompanyHandler{
 
         CommandAssert.assertTrue(Market.hasBusiness(stock_name), "§bbusiness name is invalid");
 
-
-        CommandAssert.assertTrue(player.hasPermission("signclick.staff"), "§byou must be staff");
-
         DecimalFormat df = new DecimalFormat("###,###,##0.00");
         Company comp = getCompany(stock_name);
         player.sendMessage("§b shareBal money: "+df.format(comp.getShareBalance()));

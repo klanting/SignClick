@@ -1,6 +1,7 @@
 package com.klanting.signclick.commands.companyHandelers;
 
 import com.klanting.signclick.SignClick;
+import com.klanting.signclick.commands.CommandTools;
 import com.klanting.signclick.commands.exceptions.CommandAssert;
 import com.klanting.signclick.commands.exceptions.CommandException;
 import com.klanting.signclick.economy.Market;
@@ -11,14 +12,15 @@ import org.bukkit.entity.Player;
 public class CompanyHandlerPay extends CompanyHandler{
     @Override
     public Boolean handleCommand(Player player, String[] args, Boolean firstEnter) throws CommandException {
-        CommandAssert.assertTrue(args.length >= 4, "§bplease enter /company pay <company> <playername> <amount>");
+        CommandAssert.assertTrue(args.length >= 4, "§bplease enter /company pay <stockname> <playername> <amount>");
 
         String stock_name = args[1].toUpperCase();
         stock_name = stock_name.toUpperCase();
         CommandAssert.assertTrue(Market.hasBusiness(stock_name), "§bbusiness name is invalid");
 
         String player_name = args[2];
-        double amount = Double.parseDouble(args[3]);
+
+        double amount = CommandTools.parseDouble(args[3], "§bPlease enter a valid double as amount");
         OfflinePlayer player_offline = Bukkit.getOfflinePlayer(player_name);
 
         CommandAssert.assertTrue(Market.getCompany(stock_name).getCOM().isOwner(player.getUniqueId()),

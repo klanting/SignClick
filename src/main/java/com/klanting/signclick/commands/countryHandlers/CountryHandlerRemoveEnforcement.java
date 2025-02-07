@@ -18,6 +18,7 @@ public class CountryHandlerRemoveEnforcement extends CountryHandler{
 
         Country country = CountryManager.getCountry(player);
 
+        CommandAssert.assertTrue(country != null, "§bYou need to be in a country to do this");
         CommandAssert.assertTrue(country.isOwner(player), "§byou are not country owner");
 
         Player target = Bukkit.getPlayer(player_name);

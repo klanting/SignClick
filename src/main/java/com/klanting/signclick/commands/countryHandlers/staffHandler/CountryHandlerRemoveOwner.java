@@ -15,6 +15,7 @@ public class CountryHandlerRemoveOwner extends CountryStaffHandler{
         Player p = Bukkit.getPlayer(args[2]);
         assert p != null;
         Country country = CountryManager.getCountry(args[1]);
+        CommandAssert.assertTrue(country != null, "§bThe country "+args[1]+" does not exists");
         country.removeOwner(p);
         player.sendMessage("§bowner has been set");
     }

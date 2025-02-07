@@ -116,7 +116,7 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
         if (commando.equals("add_custom")){
             confirm.put(player, "");
             if (args.length < 4){
-                player.sendMessage("§bplease enter /company add_custom <Company> <Texture> <Item>");
+                player.sendMessage("§bplease enter /company add_custom <stockname> <Texture> <Item>");
                 return true;
             }
 

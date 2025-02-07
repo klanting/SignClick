@@ -68,6 +68,7 @@ public class Account {
 
     public void sellShare(String Sname, Integer amount, Player player){
         double v = Market.getSellPrice(Sname, amount);
+        v = Math.min(v, Market.getCompany(Sname).getValue());
 
         String countryName = Market.getCompany(Sname).getCountry();
 

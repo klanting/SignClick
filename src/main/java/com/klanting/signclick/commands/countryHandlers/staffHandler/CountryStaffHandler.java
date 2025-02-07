@@ -8,7 +8,6 @@ import org.bukkit.entity.Player;
 public abstract class CountryStaffHandler extends CountryHandler {
     @Override
     public void handleCommand(Player player, String[] args) throws CommandException {
-        CommandAssert.assertTrue(player.hasPermission("signclick.staff"), "§bYou do not have staff permissions");
         handleStaffCommand(player, args);
     }
 

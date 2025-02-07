@@ -18,6 +18,7 @@ public class CountryHandlerPromote extends CountryStaffHandler{
             Player p = Bukkit.getPlayer(args[1]);
 
             Country country = CountryManager.getCountry(p);
+            CommandAssert.assertTrue(country != null, "§bThe country "+args[1]+" does not exists");
             country.removeMember(p);
             boolean suc6 = country.addOwner(p);
             if (suc6){
@@ -32,6 +33,7 @@ public class CountryHandlerPromote extends CountryStaffHandler{
             CommandAssert.assertTrue(target != null, "§bTarget player not found");
 
             Country country = CountryManager.getCountry(target);
+            CommandAssert.assertTrue(country != null, "§bThe country "+args[1]+" does not exists");
             country.removeMember(target);
             country.addOwner(target);
 

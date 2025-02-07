@@ -1,6 +1,8 @@
 package com.klanting.signclick.commands.countryHandlers;
 
+import com.klanting.signclick.commands.exceptions.CommandAssert;
 import com.klanting.signclick.commands.exceptions.CommandException;
+import com.klanting.signclick.economy.Country;
 import com.klanting.signclick.economy.CountryManager;
 import org.bukkit.entity.Player;
 
@@ -11,12 +13,17 @@ public class CountryHandlerBal extends CountryHandler{
     public void handleCommand(Player player, String[] args) throws CommandException {
         DecimalFormat df = new DecimalFormat("###,###,###");
 
-        double balance;
+        Country country;
         if (args.length == 2){
-            balance = CountryManager.getCountry(args[1]).getBalance();
+            country = CountryManager.getCountry(args[1]);
         }else{
-            balance = CountryManager.getCountry(player).getBalance();
+            country = CountryManager.getCountry(player);
         }
+
+        CommandAssert.assertTrue(country != null, "§bYou need to have a valid country, either provide one or join one");
+
+        double balance = country.getBalance();
+
         player.sendMessage("§bsaldo: "+df.format(balance));
     }
 }

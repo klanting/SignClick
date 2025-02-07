@@ -11,7 +11,7 @@ public class CompanyHandlerGetBuyPrice extends CompanyHandler{
     @Override
     public Boolean handleCommand(Player player, String[] args, Boolean firstEnter) throws CommandException {
 
-        CommandAssert.assertTrue(args.length >= 2, "§bplease enter /company get_buy_price <company> [amount]");
+        CommandAssert.assertTrue(args.length >= 2, "§bplease enter /company get_buy_price <stockname> [amount]");
 
         int amount = 1;
 

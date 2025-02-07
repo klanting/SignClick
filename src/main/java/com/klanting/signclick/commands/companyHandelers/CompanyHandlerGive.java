@@ -1,6 +1,7 @@
 package com.klanting.signclick.commands.companyHandelers;
 
 import com.klanting.signclick.SignClick;
+import com.klanting.signclick.commands.CommandTools;
 import com.klanting.signclick.commands.exceptions.CommandAssert;
 import com.klanting.signclick.commands.exceptions.CommandException;
 import com.klanting.signclick.economy.Market;
@@ -15,7 +16,8 @@ public class CompanyHandlerGive extends CompanyHandler{
 
         String stock_name = args[1].toUpperCase();
         stock_name = stock_name.toUpperCase();
-        double amount = Double.parseDouble(args[2]);
+
+        double amount = CommandTools.parseDouble(args[2], "§bPlease enter a valid double as amount");
 
         CommandAssert.assertTrue(Market.hasBusiness(stock_name), "§bplease enter a valid company stockname");
 

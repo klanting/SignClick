@@ -1,5 +1,6 @@
 package com.klanting.signclick.commands.companyHandelers.contractHandlers;
 
+import com.klanting.signclick.commands.CommandTools;
 import com.klanting.signclick.commands.companyHandelers.CompanyHandler;
 import com.klanting.signclick.commands.exceptions.CommandAssert;
 import com.klanting.signclick.commands.exceptions.CommandException;
@@ -31,8 +32,9 @@ public class ContractSendCTC extends CompanyHandler {
 
         CommandAssert.assertTrue(Market.hasBusiness(target_stock_name), "§bbusiness name is invalid");
 
-        double amount = Double.parseDouble(args[3]);
-        int weeks = Integer.parseInt(args[4]);
+
+        double amount = CommandTools.parseDouble(args[3], "§bPlease enter a valid double as amount");
+        int weeks = CommandTools.parseInteger(args[4], "§bPlease enter a valid integer as weeks");
 
         if (firstEnter){
             player.sendMessage("§bplease re-enter your command to confirm\nthat you want to send a contract request to §f" +target_stock_name

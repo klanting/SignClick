@@ -14,7 +14,7 @@ public class CompanyHandlerGetSupport extends CompanyHandler{
     public Boolean handleCommand(Player player, String[] args, Boolean firstEnter) throws CommandException {
         UUID target_uuid = null;
 
-        CommandAssert.assertTrue(args.length >= 2, "§bplease enter /company get_support <company> [player_name]");
+        CommandAssert.assertTrue(args.length >= 2, "§bplease enter /company get_support <stockname> [player_name]");
 
         if(args.length < 3){
             target_uuid = player.getUniqueId();

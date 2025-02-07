@@ -12,7 +12,7 @@ public class CompanyHandlerOpenTrade extends CompanyHandler{
     @Override
     public Boolean handleCommand(Player player, String[] args, Boolean firstEnter) throws CommandException {
 
-        CommandAssert.assertTrue(args.length >= 2, "§bplease enter /company open_trade <Company> [TRUE/FALSE]");
+        CommandAssert.assertTrue(args.length >= 2, "§bplease enter /company open_trade <stockname> [TRUE/FALSE]");
 
         String stock_name = args[1].toUpperCase();
         stock_name = stock_name.toUpperCase();

@@ -18,6 +18,7 @@ public class CountryHandlerTax extends CountryHandler{
         }
 
         Country country = CountryManager.getCountry(player);
+        CommandAssert.assertTrue(country != null, "§bYou need to be in a country to do this");
 
         CommandAssert.assertTrue(country.isOwner(player), "§byou are not allowed to do this");
 

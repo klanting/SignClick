@@ -14,6 +14,8 @@ public class CountryHandlerInvite extends CountryHandler{
     public void handleCommand(Player player, String[] args) throws CommandException {
         Country country = CountryManager.getCountry(player);
 
+        CommandAssert.assertTrue(country != null, "§bYou need to be in a country to send an invite");
+
         CommandAssert.assertTrue(country.isOwner(player), "§byou are not allowed to do this");
 
         String username;

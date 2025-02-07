@@ -1,5 +1,6 @@
 package com.klanting.signclick.commands.companyHandelers;
 
+import com.klanting.signclick.commands.CommandTools;
 import com.klanting.signclick.commands.exceptions.CommandAssert;
 import com.klanting.signclick.commands.exceptions.CommandException;
 import com.klanting.signclick.economy.Account;
@@ -11,11 +12,11 @@ import java.text.DecimalFormat;
 public class CompanyHandlerBuy extends CompanyHandler{
     @Override
     public Boolean handleCommand(Player player, String[] args, Boolean firstEnter) throws CommandException {
-        CommandAssert.assertTrue(args.length >= 2, "§bplease enter /company buy <stockname> <amount>");
+        CommandAssert.assertTrue(args.length >= 3, "§bplease enter /company buy <stockname> <amount>");
 
         String stock_name = args[1].toUpperCase();
         stock_name = stock_name.toUpperCase();
-        int amount = Integer.parseInt(args[2]);
+        int amount = CommandTools.parseInteger(args[2], "§bPlease enter a valid integer as amount");
 
         CommandAssert.assertTrue(Market.hasBusiness(stock_name), "§bplease enter a valid company stockname");
 

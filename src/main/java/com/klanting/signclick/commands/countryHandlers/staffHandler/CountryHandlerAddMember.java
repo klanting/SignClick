@@ -14,6 +14,7 @@ public class CountryHandlerAddMember extends CountryStaffHandler{
         CommandAssert.assertTrue(args.length >= 3, "§bPlease enter /country addmember <country> <username>");
 
         Country country = CountryManager.getCountry(args[1]);
+        CommandAssert.assertTrue(country != null, "§bThe country "+args[1]+" does not exists");
 
         Player addedPlayer = Bukkit.getPlayer(args[2]);
         country.addMember(addedPlayer);

@@ -14,6 +14,7 @@ public class CountryHandlerRemove extends CountryStaffHandler{
 
         String name = args[1];
         Country country = CountryManager.getCountry(name);
+        CommandAssert.assertTrue(country != null, "§bThe country "+args[1]+" does not exists");
         CountryManager.delete(country.getName(), player);
     }
 }

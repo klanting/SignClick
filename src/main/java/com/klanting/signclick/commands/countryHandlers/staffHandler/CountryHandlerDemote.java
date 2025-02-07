@@ -17,6 +17,7 @@ public class CountryHandlerDemote extends CountryStaffHandler{
         try{
             Player p = Bukkit.getPlayer(args[1]);
             Country country = CountryManager.getCountry(p);
+            CommandAssert.assertTrue(country != null, "§bThe country "+args[1]+" does not exists");
             country.removeOwner(p);
             country.addMember(p);
         }catch (Exception e){
@@ -26,6 +27,7 @@ public class CountryHandlerDemote extends CountryStaffHandler{
             CommandAssert.assertTrue(target != null, "§bTarget player not found");
 
             Country country = CountryManager.getCountry(target);
+            CommandAssert.assertTrue(country != null, "§bThe country "+args[1]+" does not exists");
             country.removeOwner(target);
             country.addMember(target);
 
