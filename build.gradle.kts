@@ -58,6 +58,8 @@ dependencies {
     implementation("org.javatuples:javatuples:1.2");
     implementation(kotlin("stdlib-jdk8"))
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+
+    testImplementation("org.yaml:snakeyaml:2.0")
 }
 
 java {

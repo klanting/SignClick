@@ -9,9 +9,12 @@ import com.klanting.signclick.economy.Country;
 import com.klanting.signclick.economy.CountryManager;
 import com.klanting.signclick.economy.Market;
 import com.klanting.signclick.SignClick;
+import com.klanting.signclick.utils.BookParser;
 import com.klanting.signclick.utils.Utils;
+import org.bukkit.Material;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BookMeta;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import tools.ExpandedServerMock;
@@ -1051,6 +1054,21 @@ class CompanyCTests {
         testPlayer.assertSaid("§eMarket:\n§b1. §9TCI: §7900.000 (90,00%)");
         testPlayer.assertNoMoreSaid();
 
+    }
+
+    @Test
+    void companyGuide(){
+        assertNull(testPlayer.getInventory().getItem(0));
+        boolean suc6 = server.execute("company", testPlayer, "guide").hasSucceeded();
+        assertTrue(suc6);
+
+        assertNotNull(testPlayer.getInventory().getItem(0));
+        ItemStack book = testPlayer.getInventory().getItem(0);
+        assertEquals(Material.WRITTEN_BOOK, book.getType());
+        BookMeta bookMeta = (BookMeta) book.getItemMeta();
+
+        List<String> pages = BookParser.getPages("companyGuide.book", testPlayer);
+        assertEquals(pages, bookMeta.getPages());
     }
 
     @Test

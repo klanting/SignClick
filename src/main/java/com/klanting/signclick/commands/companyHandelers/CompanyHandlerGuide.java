@@ -1,6 +1,5 @@
 package com.klanting.signclick.commands.companyHandelers;
 
-import com.klanting.signclick.SignClick;
 import com.klanting.signclick.commands.exceptions.CommandAssert;
 import com.klanting.signclick.commands.exceptions.CommandException;
 import com.klanting.signclick.utils.BookParser;
@@ -9,7 +8,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CompanyHandlerGuide extends CompanyHandler{

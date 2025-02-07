@@ -3,6 +3,7 @@ package com.klanting.signclick.commands;
 import com.klanting.signclick.commands.companyHandelers.*;
 
 import com.klanting.signclick.commands.companyHandelers.contractHandlers.*;
+import com.klanting.signclick.commands.exceptions.CommandAssert;
 import com.klanting.signclick.commands.exceptions.CommandException;
 import com.klanting.signclick.economy.Market;
 import com.klanting.signclick.economy.Company;
@@ -83,8 +84,10 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
         handlerTranslation.put("guide", new CompanyHandlerGuide());
 
         try{
-
             if (handlerTranslation.containsKey(commando)){
+                CommandAssert.assertPerms(player, "company."+commando,
+                        "§bYou do not have the permissions to execute this command");
+
                 CompanyHandler ch = handlerTranslation.get(commando);
 
                 /*
