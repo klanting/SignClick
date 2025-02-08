@@ -23,17 +23,6 @@ public class Utils {
     * Basic utils used everywhere
     * */
 
-    public static List<UUID> toUUIDList(List<String> stringList){
-        /*
-        * Convert a list of UUIDs as String type to a list of UUIDs
-        * */
-        List<UUID> UUIDList = new ArrayList<>();
-        for (String s: stringList){
-            UUIDList.add(UUID.fromString(s));
-        }
-        return UUIDList;
-    }
-
     public static <T> void writeSave(String name, T value){
         /*
         * Save object inside a json file

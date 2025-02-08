@@ -62,6 +62,7 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
         handlerTranslation.put("pay", new CompanyHandlerPay());
         handlerTranslation.put("spendable", new CompanyHandlerSpendable());
         handlerTranslation.put("transfer", new CompanyHandlerTransfer());
+
         handlerTranslation.put("get_support", new CompanyHandlerGetSupport());
         handlerTranslation.put("support", new CompanyHandlerSupport());
         handlerTranslation.put("open_trade", new CompanyHandlerOpenTrade());
@@ -70,17 +71,19 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
         handlerTranslation.put("menu", new CompanyHandlerMenu());
         handlerTranslation.put("portfolio", new CompanyHandlerPortfolio());
         handlerTranslation.put("transact", new CompanyHandlerTransact());
+
+        handlerTranslation.put("get_buy_price", new CompanyHandlerGetBuyPrice());
+        handlerTranslation.put("get_sell_price", new CompanyHandlerGetSellPrice());
+
         handlerTranslation.put("send_contract_ctc", new ContractSendCTC());
         handlerTranslation.put("sign_contract_ctc", new ContractSignCTC());
         handlerTranslation.put("send_contract_ctp", new ContractSendCTP());
         handlerTranslation.put("sign_contract_ctp", new ContractSignCTP());
         handlerTranslation.put("send_contract_ptc", new ContractSendPTC());
         handlerTranslation.put("sign_contract_ptc", new ContractSignPTC());
-        handlerTranslation.put("get_buy_price", new CompanyHandlerGetBuyPrice());
-        handlerTranslation.put("get_sell_price", new CompanyHandlerGetSellPrice());
-        handlerTranslation.put("sharebal", new CompanyHandlerShareBal());
         handlerTranslation.put("get_contracts", new CompanyHandlerGetContracts());
 
+        handlerTranslation.put("sharebal", new CompanyHandlerShareBal());
         handlerTranslation.put("guide", new CompanyHandlerGuide());
 
         try{
@@ -161,10 +164,10 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
 
         List<String> autoCompletes = new ArrayList<>();
         if (args.length == 1) {
-            if (player.hasPermission("signclick.staff")){
-                autoCompletes.add("sharebal");
-                autoCompletes.add("add_custom");
-            }
+
+            autoCompletes.add("sharebal");
+            autoCompletes.add("add_custom");
+
             autoCompletes.add("create");
             autoCompletes.add("info");
             autoCompletes.add("sharetop");
@@ -193,7 +196,14 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
             autoCompletes.add("get_contracts");
             autoCompletes.add("open_trade");
 
-            return autoCompletes;
+            List<String> newAutoCompletes = new ArrayList<>();
+            for (String category: autoCompletes){
+                if (player.hasPermission("signclick.company."+category)){
+                    newAutoCompletes.add(category);
+                }
+            }
+
+            return newAutoCompletes;
         }else if (args.length == 2){
             if (whitelist.contains(args[0])){
                 return Market.getBusinesses();

@@ -1,14 +1,11 @@
-package com.klanting.signclick.Menus;
+package com.klanting.signclick.menus;
 
 import com.klanting.signclick.economy.Company;
 import com.klanting.signclick.economy.Market;
 import com.klanting.signclick.utils.Utils;
-import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 public class CompanyMarketSelector extends SelectionMenu{

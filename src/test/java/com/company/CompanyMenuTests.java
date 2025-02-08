@@ -7,7 +7,7 @@ import com.klanting.signclick.economy.companyPatent.PatentUpgrade;
 import com.klanting.signclick.economy.companyPatent.PatentUpgradeJumper;
 import com.klanting.signclick.economy.CountryManager;
 import com.klanting.signclick.economy.Market;
-import com.klanting.signclick.Menus.CompanyAuctionMenu;
+import com.klanting.signclick.menus.CompanyAuctionMenu;
 import com.klanting.signclick.SignClick;
 import org.bukkit.Material;
 import org.bukkit.inventory.*;
@@ -203,14 +203,14 @@ public class CompanyMenuTests {
         InventoryView auctionMenu = testPlayer.getOpenInventory();
         assertNotNull(auctionMenu);
 
-        ItemStack betItem = auctionMenu.getItem(0);
-        assertEquals("§7Bet by: None", betItem.getItemMeta().getLore().get(1));
+        ItemStack bidItem = auctionMenu.getItem(0);
+        assertEquals("§7Bid by: None", bidItem.getItemMeta().getLore().get(1));
         /*
-        * bet on first
+        * Bid on first
         * */
         testPlayer.simulateInventoryClick(auctionMenu, 0);
-        betItem = auctionMenu.getItem(0);
-        assertEquals("§7Bet by: TCI", betItem.getItemMeta().getLore().get(1));
+        bidItem = auctionMenu.getItem(0);
+        assertEquals("§7Bid by: TCI", bidItem.getItemMeta().getLore().get(1));
 
         assertEquals(0, comp.patentUpgrades.size());
         testPlayer.closeInventory();
@@ -225,9 +225,9 @@ public class CompanyMenuTests {
         testPlayer.openInventory(new_screen.getInventory());
 
         auctionMenu = testPlayer.getOpenInventory();
-        betItem = auctionMenu.getItem(0);
+        bidItem = auctionMenu.getItem(0);
 
-        assertEquals("§7Bet by: None", betItem.getItemMeta().getLore().get(1));
+        assertEquals("§7Bid by: None", bidItem.getItemMeta().getLore().get(1));
         assertEquals(1, comp.patentUpgrades.size());
     }
 

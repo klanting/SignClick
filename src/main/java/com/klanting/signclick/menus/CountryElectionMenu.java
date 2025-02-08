@@ -1,4 +1,4 @@
-package com.klanting.signclick.Menus;
+package com.klanting.signclick.menus;
 
 import com.klanting.signclick.economy.parties.Election;
 import org.bukkit.Material;

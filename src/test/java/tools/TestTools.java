@@ -48,8 +48,9 @@ public class TestTools {
     }
 
     public static PlayerMock addPermsPlayer(ServerMock server, SignClick plugin){
+        ExpandedServerMock server2 = (ExpandedServerMock) server;
 
-        PlayerMock testPlayer = server.addPlayer();
+        PlayerMock testPlayer = server2.addPlayer(true);
         testPlayer.addAttachment(plugin, "signclick.staff", true);
         return testPlayer;
     }

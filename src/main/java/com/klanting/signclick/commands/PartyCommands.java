@@ -5,7 +5,7 @@ import com.klanting.signclick.economy.CountryManager;
 import com.klanting.signclick.economy.decisions.Decision;
 import com.klanting.signclick.economy.decisions.DecisionCoup;
 import com.klanting.signclick.economy.parties.Party;
-import com.klanting.signclick.Menus.PartyDecisionVote;
+import com.klanting.signclick.menus.PartyDecisionVote;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;

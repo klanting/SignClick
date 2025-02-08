@@ -118,7 +118,7 @@ public class CompanyConfigTests {
         assertEquals(100, auction.getBit(0));
 
         /*
-        * First bet
+        * First Bid
         * */
         server.getScheduler().performTicks(360*20L+1);
         assertNotEquals(100, auction.getBit(0));
@@ -127,7 +127,7 @@ public class CompanyConfigTests {
         assertEquals(100, auction.getBit(0));
 
         /*
-         * Second bet
+         * Second Bid
          * */
         server.getScheduler().performTicks(360*20L+1);
         assertNotEquals(100, auction.getBit(0));
@@ -135,7 +135,7 @@ public class CompanyConfigTests {
         auction.setBit(0, 100, "A");
         assertEquals(100, auction.getBit(0));
         /*
-         * Third bet
+         * Third Bid
          * */
 
         server.getScheduler().performTicks(180*20L+1);

@@ -10,7 +10,7 @@ import com.klanting.signclick.economy.decisions.DecisionAboardMilitary;
 import com.klanting.signclick.economy.decisions.DecisionBanParty;
 import com.klanting.signclick.economy.decisions.DecisionForbidParty;
 import com.klanting.signclick.economy.parties.Party;
-import com.klanting.signclick.Menus.*;
+import com.klanting.signclick.menus.*;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -243,7 +243,7 @@ public class MenuEvents implements Listener {
             }
 
             if (compValue < currentBit){
-                player.sendMessage("§bCompany is not valued enough to place the current Bet");
+                player.sendMessage("§bCompany is not valued enough to place the current Bid");
                 return;
             }
 

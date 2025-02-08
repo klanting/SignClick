@@ -1,4 +1,4 @@
-package com.klanting.signclick.Menus;
+package com.klanting.signclick.menus;
 
 import com.klanting.signclick.economy.Company;
 import com.klanting.signclick.economy.companyPatent.Auction;
@@ -28,12 +28,12 @@ public class CompanyAuctionMenu extends SelectionMenu {
             ItemMeta m = upgradeItem.getItemMeta();
             List<String> lores = new ArrayList<>();
             DecimalFormat df = new DecimalFormat("###,###,###");
-            lores.add("§7Current Bet: "+df.format(Auction.getInstance().getBit(i)));
+            lores.add("§7Current Bid: "+df.format(Auction.getInstance().getBit(i)));
             String comp = Auction.getInstance().bitsOwner.get(i);
             if (comp == null){
                 comp = "None";
             }
-            lores.add("§7Bet by: "+ comp);
+            lores.add("§7Bid by: "+ comp);
             m.setDisplayName(up.name+" "+up.level);
             m.setLore(lores);
             upgradeItem.setItemMeta(m);

@@ -7,9 +7,11 @@ import com.klanting.signclick.SignClick;
 import com.klanting.signclick.utils.Utils;
 import org.bukkit.Bukkit;
 
+import static org.bukkit.Bukkit.getServer;
+
 
 public class WeeklyComp {
-    public static long systemEnd = 60*60*24*7*20L;
+    public static long systemEnd;
     public static long checkCycle = 60*60*24*7*20L;
     public static void check(){
 
@@ -31,12 +33,12 @@ public class WeeklyComp {
             }
         }, systemEnd,checkCycle);
 
-        systemEnd = (System.currentTimeMillis()/1000) % checkCycle;
+        systemEnd = getServer().getCurrentTick() + checkCycle;
 
     }
 
     public static void Save(){
-        Utils.writeSave("weeklyComp", systemEnd);
+        Utils.writeSave("weeklyComp", systemEnd-getServer().getCurrentTick());
     }
 
 }

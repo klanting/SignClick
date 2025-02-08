@@ -1,4 +1,4 @@
-package com.klanting.signclick.Menus;
+package com.klanting.signclick.menus;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;

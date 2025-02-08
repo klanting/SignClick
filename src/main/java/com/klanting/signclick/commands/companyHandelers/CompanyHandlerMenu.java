@@ -1,6 +1,6 @@
 package com.klanting.signclick.commands.companyHandelers;
 
-import com.klanting.signclick.Menus.CompanySelector;
+import com.klanting.signclick.menus.CompanySelector;
 import com.klanting.signclick.commands.exceptions.CommandException;
 import org.bukkit.entity.Player;
 

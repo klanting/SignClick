@@ -22,6 +22,10 @@ public class ExpandedServerMock extends ServerMock {
 
     @Override
     public @NotNull PlayerMock addPlayer(){
+        return addPlayer(false);
+    }
+
+    public @NotNull PlayerMock addPlayer(boolean op){
         PlayerMock pm = super.addPlayer();
 
         Plugin plugin = super.getPluginManager().getPlugin("SignClick");
@@ -30,14 +34,13 @@ public class ExpandedServerMock extends ServerMock {
         InputStream in = SignClick.getPlugin().getResource("plugin.yml");
         Yaml yaml = new Yaml();
         Map<String, Object> data = yaml.load(in);
-        Map<String, Map<String, Object>> permissions = (Map<String, Map<String, Object>>) data.get("permissions");
 
+        Map<String, Map<String, Object>> permissions = (Map<String, Map<String, Object>>) data.get("permissions");
         List<String> defaultPermsList = new ArrayList<>();
-        loadPerms(defaultPermsList, permissions, false);
+        loadPerms(defaultPermsList, permissions, op);
         for (String perm: defaultPermsList){
             pm.addAttachment(plugin, perm, true);
         }
-
 
         return pm;
     }
@@ -51,11 +54,8 @@ public class ExpandedServerMock extends ServerMock {
 
             Map<String, Object> param = entry.getValue();
             boolean store = isDefault;
-
             if (param.containsKey("default")){
-                if (param.get("default").equals("op") || param.get("default").equals("false")){
-                    store = false;
-                }else{
+                if (!param.get("default").equals("op") && !param.get("default").toString().equals("false")){
                     store = true;
                 }
 

@@ -1,6 +1,6 @@
 package com.klanting.signclick.commands.countryHandlers;
 
-import com.klanting.signclick.Menus.CountryElectionMenu;
+import com.klanting.signclick.menus.CountryElectionMenu;
 import com.klanting.signclick.commands.exceptions.CommandAssert;
 import com.klanting.signclick.commands.exceptions.CommandException;
 import com.klanting.signclick.economy.Country;

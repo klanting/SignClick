@@ -36,7 +36,8 @@ public class SignTP {
             }
 
             SignClick.getEconomy().withdrawPlayer(player, amount);
-            player.teleport(new Location(player.getLocation().getWorld(), x, y, z));
+            player.teleport(new Location(player.getLocation().getWorld(), x, y, z,
+                    player.getLocation().getYaw(), player.getLocation().getPitch()));
 
 
             player.sendMessage("§bYou are now Teleported");

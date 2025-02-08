@@ -119,6 +119,9 @@ permissions:
   signclick.company.sharebal:
     default: false
     description: Allows the player to see how much of its value depends on shares bought, instead of balance
+  signclick.company.add_custom:
+    default: false
+    description: In Progress
 
   signclick.staff:
     default: op
