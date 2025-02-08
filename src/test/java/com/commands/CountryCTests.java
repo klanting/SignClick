@@ -9,11 +9,15 @@ import com.klanting.signclick.economy.Country;
 import com.klanting.signclick.economy.CountryManager;
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.economy.Market;
+import com.klanting.signclick.utils.BookParser;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.InventoryView;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BookMeta;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -815,6 +819,25 @@ class CountryCTests {
     }
 
     @Test
+    void removeOwnerCountry(){
+        /*
+         * Check the country remove Member (staff only)
+         * */
+        createCountry();
+
+        PlayerMock testPlayer2 = TestTools.addPermsPlayer(server, plugin);
+        Country country = CountryManager.getCountry("empire1");
+        country.addOwner(testPlayer2);
+
+        assertEquals(2, country.getOwners().size());
+
+        boolean result = server.execute("country", testPlayer2, "removeowner", "empire1", testPlayer2.getName()).hasSucceeded();
+        assertTrue(result);
+
+        assertEquals(1, country.getOwners().size());
+    }
+
+    @Test
     void countryTabComplete(){
         PlayerMock testPlayer2 = server.addPlayer();
         List<String> receivedAutoCompletes =  server.getCommandTabComplete(testPlayer2, "country ");
@@ -836,6 +859,7 @@ class CountryCTests {
         autoCompletes.add("menu");
         autoCompletes.add("election");
         autoCompletes.add("vote");
+        autoCompletes.add("guide");
 
         assertEquals(autoCompletes, receivedAutoCompletes);
 
@@ -857,6 +881,22 @@ class CountryCTests {
         receivedAutoCompletes =  server.getCommandTabComplete(testPlayer3, "country ");
 
         assertEquals(autoCompletes, receivedAutoCompletes);
+    }
+
+    @Test
+    void countryGuide(){
+        PlayerMock testPlayer = server.addPlayer();
+        assertNull(testPlayer.getInventory().getItem(0));
+        boolean suc6 = server.execute("country", testPlayer, "guide").hasSucceeded();
+        assertTrue(suc6);
+
+        assertNotNull(testPlayer.getInventory().getItem(0));
+        ItemStack book = testPlayer.getInventory().getItem(0);
+        assertEquals(Material.WRITTEN_BOOK, book.getType());
+        BookMeta bookMeta = (BookMeta) book.getItemMeta();
+
+        List<String> pages = BookParser.getPages("countryGuide.book", testPlayer);
+        assertEquals(pages, bookMeta.getPages());
     }
 
 }

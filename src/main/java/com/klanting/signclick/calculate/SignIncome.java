@@ -159,7 +159,7 @@ public class SignIncome {
             if(event.getBlock().getState() instanceof org.bukkit.block.Sign){
                 Sign sign = (Sign) event.getBlock().getState();
                 if (sign.getLine(0).equals("§b[sign_in]")){
-                    if ((sign.getLine(2).equals(event.getPlayer().getName())) || event.getPlayer().getName().equals("signclick.staff")){
+                    if ((sign.getLine(2).equals(event.getPlayer().getName())) || event.getPlayer().getName().equals("signclick.signin")){
 
                         Block door = getAttachedBlock(sign.getBlock());
                         try{

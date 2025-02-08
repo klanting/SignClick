@@ -56,6 +56,7 @@ public class CountryCommands implements CommandExecutor, TabCompleter {
         handlerTranslation.put("menu", new CountryHandlerMenu());
         handlerTranslation.put("election", new CountryHandlerElection());
         handlerTranslation.put("vote", new CountryHandlerVote());
+        handlerTranslation.put("guide", new CountryHandlerGuide());
 
         /*
         * Staff only commands
@@ -68,6 +69,7 @@ public class CountryCommands implements CommandExecutor, TabCompleter {
         handlerTranslation.put("remove", new CountryHandlerRemove());
         handlerTranslation.put("addmember", new CountryHandlerAddMember());
         handlerTranslation.put("removemember", new CountryHandlerRemoveMember());
+
 
         try{
             if (handlerTranslation.containsKey(commando)){
@@ -119,6 +121,7 @@ public class CountryCommands implements CommandExecutor, TabCompleter {
                 autoCompletes.add("menu");
                 autoCompletes.add("election");
                 autoCompletes.add("vote");
+                autoCompletes.add("guide");
 
                 return autoCompletes;
 

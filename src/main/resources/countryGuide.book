@@ -1,0 +1,33 @@
+§9SignClick Country Guide
+§0Hello You!
+Are you ready to tackle the political world?
+No? hmmm... That might be a problem.
+But Your in luck, for just 5 min of your time, I will learn you how to work with the SignClick country system.
+---
+§9Country Creation
+§0With the command '§9/country create <name> <owner>§0', you can create a country and assign the owner.
+A country will influence all players part of this country in both good and bad ways.
+---
+§9Country management
+§0With the command '§9/company menu§0', you can open the management menu.
+Using this you can navigate to several categories.
+---
+§9Country Policies
+§0As a country leader (leading party), you can set new country policies. These policies will not
+be activated till the needed percentage of the party influence votes for the decision.
+---
+Each policy has advantages/bonuses and disadvantages/penalties. Some have requirements to activate.
+And depending on the policy, you might need a certain % of approval. We have 5 policy themes.
+---
+§9Country Decisions
+§0Using the country decisions menu, the owner can set some decisions (needs approval from majority too).
+You can propose to 'ban party: remove party', 'forbid party: avoid new party creation',...
+---
+..., 'abort military payment: don't pay weekly salary to military type companies'.
+---
+§9The End
+
+§0The world is in your hands now, my great leader.
+Good Luck §6{player}§0!
+
+May power and authority find you!!!

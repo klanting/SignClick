@@ -113,6 +113,8 @@ permissions:
         description: Allows the player country commands
         default: true
       signclick.company.sharebal: true
+      signclick.signin:
+        description: Allows the player to open any sign income door
 
   signclick.company.sharebal:
     default: false
