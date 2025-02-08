@@ -2,6 +2,7 @@ package com.klanting.signclick.menus;
 
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.economy.Company;
+import com.klanting.signclick.economy.Market;
 import com.klanting.signclick.utils.Utils;
 import org.apache.commons.lang3.tuple.Triple;
 import org.bukkit.Material;
@@ -94,14 +95,17 @@ public class CompanyMarketMenu extends SelectionMenu{
             if (amount < 0){
                 amount = Math.max(amount, -currentCompany.getCOM().getShareHolders().getOrDefault(uuid, 0));
             }
+            List<String> buttonLore = new ArrayList<>();
 
             String message;
             if (amount > 0){
                 message = "§a"+"BUY: "+amount+" Shares";
+                buttonLore.add("§7BUY PRICE: §8"+ df.format(Market.getBuyPrice(currentCompany.getStockName(), amount)));
             } else if (amount == 0) {
                 message = "§fDOES NOTHING";
             } else{
                 message = "§c"+"SELL: "+-amount+" Shares";
+                buttonLore.add("§7SELL PRICE: §8"+ df.format(Market.getSellPrice(currentCompany.getStockName(),- amount)));
             }
 
             if (Math.abs(amount) == 1){
@@ -112,6 +116,7 @@ public class CompanyMarketMenu extends SelectionMenu{
             }
 
             m.setDisplayName(message);
+            m.setLore(buttonLore);
 
             button.setItemMeta(m);
 
