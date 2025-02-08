@@ -164,7 +164,6 @@ public class SignClick extends JavaPlugin{
 
     }
     public void RestoreDoors(){
-
         SignIncome.owner = Utils.readSave("incomeDoors",
                 new TypeToken<HashMap<Location, UUID>>(){}.getType(), new HashMap<>());
 

@@ -15,6 +15,7 @@ import com.klanting.signclick.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Field;
 import java.text.DecimalFormat;
@@ -82,7 +83,7 @@ public class Company{
 
     private CompanyOwnerManager companyOwnerManager;
 
-    public Company(String n, String StockName, Account creater, double creationCost){
+    public Company(@NotNull String n, String StockName, Account creater, double creationCost){
         super();
         name = n;
         stockName = StockName;
@@ -241,7 +242,6 @@ public class Company{
             }
 
         }
-
     }
 
     public JsonObject toJson(JsonSerializationContext context){

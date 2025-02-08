@@ -237,6 +237,23 @@ class CompanyTests {
         assertEquals("empire2", company.getCountry());
     }
 
+    @Test
+    void companyBalanceLargeValue(){
+        /*
+        * Check that the balance keeps working fine for large values
+        * */
+        PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
+
+        boolean suc6 = Market.addCompany("TestCaseInc", "TCI", Market.getAccount(testPlayer));
+        assertTrue(suc6);
+
+        Company company = Market.getCompany("TCI");
+        company.addBal(Math.pow(2, 65));
+        assertTrue(company.getBal() > 0);
+        assertTrue(company.getSecurityFunds() > 0);
+        assertTrue(company.getSpendable() > 0);
+    }
+
 
 }
 

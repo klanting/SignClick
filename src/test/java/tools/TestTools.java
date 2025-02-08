@@ -81,14 +81,19 @@ public class TestTools {
     }
 
     public static SignClick reboot(ServerMock serverMock) {
+        disable(serverMock);
+        return TestTools.setupPlugin(serverMock);
+    }
+
+    public static void disable(ServerMock serverMock) {
         Plugin plugin = serverMock.getPluginCommand("SignClick").getPlugin();
         plugin.onDisable();
         CountryManager.clear();
         Auction.clear();
         Market.clear();
         WeeklyPay.payments.clear();
-        return TestTools.setupPlugin(serverMock);
     }
+
 
     public static void printInventory(InventoryView inv){
         /*
