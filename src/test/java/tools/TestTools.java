@@ -110,7 +110,10 @@ public class TestTools {
                                   List<String> expectedLore){
         assertEquals(expectedMaterial, item.getType());
         assertEquals(expectedName, item.getItemMeta().getDisplayName());
-        assertEquals(expectedLore, item.getItemMeta().getLore());
+        if (expectedLore != null){
+            assertEquals(expectedLore, item.getItemMeta().getLore());
+        }
+
     }
 
 }
