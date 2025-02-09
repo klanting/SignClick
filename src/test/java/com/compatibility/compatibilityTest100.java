@@ -48,10 +48,11 @@ public class compatibilityTest100 {
 
         Path targetDir = Paths.get(plugin.getDataFolder().getAbsolutePath());
 
-        Path mockDataFolder = Paths.get(System.getProperty("user.dir")+"\\src\\test\\resources\\v100");
+
+        Path mockDataFolder = Paths.get("src","test", "resources", "v100");
 
         try {
-            List<Path> files = Files.list(mockDataFolder).toList();
+            List<Path> files = Files.list(Path.of(mockDataFolder.toFile().getAbsolutePath())).toList();
 
             for (Path file: files){
                 Files.copy(file, targetDir.resolve(file.getFileName()), StandardCopyOption.REPLACE_EXISTING);
