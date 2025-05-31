@@ -29,14 +29,14 @@ public class Country {
     * */
     private int balance;
 
-    private List<UUID> owners = new ArrayList<>();
-    private List<UUID> members = new ArrayList<>();
+    private final List<UUID> owners = new ArrayList<>();
+    private final List<UUID> members = new ArrayList<>();
 
-    private List<UUID> lawEnforcement = new ArrayList<>();
+    private final List<UUID> lawEnforcement = new ArrayList<>();
 
     private List<Policy> policies = new ArrayList<>();
-    private List<Party> parties = new ArrayList<>();
-    private List<Decision> decisions = new ArrayList<>();
+    private final List<Party> parties = new ArrayList<>();
+    private final List<Decision> decisions = new ArrayList<>();
 
     private Election countryElection;
 
