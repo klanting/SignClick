@@ -1,8 +1,8 @@
 package com.klanting.signclick.events;
 
-import com.klanting.signclick.calculate.SignIncome;
-import com.klanting.signclick.calculate.SignStock;
-import com.klanting.signclick.calculate.SignTP;
+import com.klanting.signclick.routines.SignIncome;
+import com.klanting.signclick.routines.SignStock;
+import com.klanting.signclick.routines.SignTP;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

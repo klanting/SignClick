@@ -48,4 +48,16 @@ public class ContractCTC extends Contract {
     public String to() {
         return to.getStockName();
     }
+
+    @Override
+    public String getContractStatus(boolean isIncome){
+        String prefix = "§c";
+        if (isIncome){
+            prefix = "§a";
+        }
+
+        return prefix + "Contract: from " + from.getStockName() +
+                "(C) to " + to.getStockName() + "(C) amount: " + amount
+                + " for "+weeks+" weeks, " + "reason: "+ getReason();
+    }
 }

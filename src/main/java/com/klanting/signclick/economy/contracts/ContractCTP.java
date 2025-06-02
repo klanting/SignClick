@@ -57,4 +57,16 @@ public class ContractCTP  extends Contract{
         OfflinePlayer player = Bukkit.getServer().getOfflinePlayer(to);
         return player.getName();
     }
+
+
+    @Override
+    public String getContractStatus(boolean isIncome){
+        String prefix = "§c";
+        if (isIncome){
+            prefix = "§a";
+        }
+
+        return prefix + "Contract: from " + from.getStockName() + "(C) to " + to() + "(P) amount: " + amount
+                + " for "+weeks+" weeks, "+ "reason: "+ getReason();
+    }
 }

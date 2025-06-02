@@ -29,4 +29,9 @@ abstract public class Contract {
 
     abstract public String from();
     abstract public String to();
+
+    /*
+    * Method to get a string representation showing the contract information
+    * */
+    abstract public String getContractStatus(boolean isIncome);
 }

@@ -1,6 +1,6 @@
 package com.klanting.signclick.events;
 
-import com.klanting.signclick.calculate.WeeklyPay;
+import com.klanting.signclick.routines.WeeklyPay;
 import com.klanting.signclick.economy.Country;
 import com.klanting.signclick.economy.CountryManager;
 import org.bukkit.entity.Player;

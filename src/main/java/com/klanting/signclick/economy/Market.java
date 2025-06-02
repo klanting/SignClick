@@ -1,7 +1,7 @@
 package com.klanting.signclick.economy;
 
 import com.google.common.reflect.TypeToken;
-import com.klanting.signclick.calculate.SignStock;
+import com.klanting.signclick.routines.SignStock;
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.economy.contracts.*;
 import com.klanting.signclick.utils.Utils;
@@ -409,50 +409,38 @@ public class Market {
         return autoCompletes;
     }
 
-    public static void getContracts(String stock_name, Player p){
+    public static void getContracts(String stockName, Player p){
         ArrayList<String> income = new ArrayList<>();
         ArrayList<String> outcome = new ArrayList<>();
 
         for (Contract c : contractCompToComp) {
 
             Company from = Market.getCompany(c.from());
-            double amount = c.getAmount();
             Company to = Market.getCompany(c.to());
-            int weeks = c.getWeeks();
-            if (to.getStockName().equals(stock_name)){
-                income.add("§aContract: from " + from.getStockName() + "(C) to " + to.getStockName() + "(C) amount: " + amount
-                        + " for "+weeks+" weeks, " + "reason: "+c.getReason());
+            if (to.getStockName().equals(stockName)){
+                income.add(c.getContractStatus(true));
             }
 
-            if (from.getStockName().equals(stock_name)){
-                outcome.add("§cContract: from " + from.getStockName() + "(C) to " + to.getStockName() + "(C) amount: " + amount
-                        + " for "+weeks+" weeks, "+ "reason: "+c.getReason());
+            if (from.getStockName().equals(stockName)){
+                outcome.add(c.getContractStatus(false));
             }
 
         }
 
         for (Contract c : contractCompToPlayer) {
             Company from = Market.getCompany(c.from());
-            double amount = c.getAmount();
-            Account to = Market.getAccount(Bukkit.getServer().getPlayer(c.to()));
-            int weeks = c.getWeeks();
 
-            if (from.getStockName().equals(stock_name)){
-                outcome.add("§cContract: from " + from.getStockName() + "(C) to " + to.getName() + "(P) amount: " + amount
-                        + " for "+weeks+" weeks, "+ "reason: "+c.getReason());
+            if (from.getStockName().equals(stockName)){
+                outcome.add(c.getContractStatus(false));
             }
 
         }
 
         for (Contract c : contractPlayerToComp) {
-            Account from = Market.getAccount(Bukkit.getOfflinePlayer(c.from()).getUniqueId());
-            double amount = c.getAmount();
             Company to = Market.getCompany(c.to());
-            int weeks = c.getWeeks();
 
-            if (to.getStockName().equals(stock_name)){
-                income.add("§aContract: from " + from.getName() + "(P) to " + to.getStockName() + "(C) amount: " + amount
-                        + " for "+weeks+" weeks, "+ "reason: "+c.getReason());
+            if (to.getStockName().equals(stockName)){
+                income.add(c.getContractStatus(true));
             }
 
         }
@@ -460,10 +448,9 @@ public class Market {
         for (ContractSTC c : contractServerToComp) {
             Company to = Market.getCompany(c.to());
 
-            if (to.getStockName().equals(stock_name)){
+            if (to.getStockName().equals(stockName)){
 
-                income.add("§aContract: from SERVER(S) to " + to.getStockName() + "(C) amount: " + c.getAmount()
-                        + " for "+c.getWeeks()+" weeks, " + "reason: "+c.getReason() + " delay: "+c.getDelay());
+                income.add(c.getContractStatus(true));
             }
         }
 

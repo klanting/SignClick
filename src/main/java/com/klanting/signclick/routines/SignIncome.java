@@ -1,4 +1,4 @@
-package com.klanting.signclick.calculate;
+package com.klanting.signclick.routines;
 
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.utils.Utils;

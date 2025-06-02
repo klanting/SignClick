@@ -1,4 +1,4 @@
-package com.klanting.signclick.calculate;
+package com.klanting.signclick.routines;
 
 import com.google.common.reflect.TypeToken;
 import com.klanting.signclick.economy.Country;

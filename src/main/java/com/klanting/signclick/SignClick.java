@@ -2,7 +2,7 @@ package com.klanting.signclick;
 
 
 import com.google.common.reflect.TypeToken;
-import com.klanting.signclick.calculate.*;
+import com.klanting.signclick.routines.*;
 import com.klanting.signclick.commands.CompanyCommands;
 import com.klanting.signclick.configs.DefaultConfig;
 import com.klanting.signclick.economy.companyPatent.Auction;

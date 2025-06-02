@@ -3,7 +3,7 @@ package com.commands;
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
-import com.klanting.signclick.calculate.WeeklyPay;
+import com.klanting.signclick.routines.WeeklyPay;
 import com.klanting.signclick.economy.CountryManager;
 import com.klanting.signclick.economy.Market;
 import com.klanting.signclick.SignClick;

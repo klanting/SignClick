@@ -52,4 +52,15 @@ public class ContractSTC  extends Contract{
     public String to() {
         return to.getStockName();
     }
+
+    @Override
+    public String getContractStatus(boolean isIncome){
+        String prefix = "§c";
+        if (isIncome){
+            prefix = "§a";
+        }
+
+        return prefix + "Contract: from SERVER(S) to " + to.getStockName() + "(C) amount: " + amount
+                + " for "+weeks+" weeks, " + "reason: "+getReason() + " delay: "+ getDelay();
+    }
 }

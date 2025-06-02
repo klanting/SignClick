@@ -12,12 +12,12 @@ public class CompanyHandlerGetContracts extends CompanyHandler {
 
         CommandAssert.assertTrue(args.length >= 2, "§bplease enter /company get_contracts <stockname>");
 
-        String stock_name = args[1].toUpperCase();
-        stock_name = stock_name.toUpperCase();
+        String stockName = args[1].toUpperCase();
+        stockName = stockName.toUpperCase();
 
-        CommandAssert.assertTrue(Market.hasBusiness(stock_name), "§bbusiness name is invalid");
+        CommandAssert.assertTrue(Market.hasBusiness(stockName), "§bbusiness name is invalid");
 
-        Market.getContracts(stock_name, player);
+        Market.getContracts(stockName, player);
 
         return false;
     }

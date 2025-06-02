@@ -5,7 +5,7 @@ import be.seeseemelk.mockbukkit.ServerMock;
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
 import be.seeseemelk.mockbukkit.plugin.PluginManagerMock;
 import com.klanting.signclick.SignClick;
-import com.klanting.signclick.calculate.WeeklyPay;
+import com.klanting.signclick.routines.WeeklyPay;
 import com.klanting.signclick.economy.CountryManager;
 import com.klanting.signclick.economy.Market;
 import com.klanting.signclick.economy.companyPatent.Auction;
@@ -14,7 +14,6 @@ import org.bukkit.Material;
 import org.bukkit.inventory.*;
 import org.bukkit.plugin.Plugin;
 import org.dynmap.DynmapAPI;
-import org.gradle.internal.impldep.org.testng.ITest;
 
 import java.util.*;
 
