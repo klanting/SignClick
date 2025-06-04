@@ -11,6 +11,10 @@ import com.klanting.signclick.economy.decisions.DecisionBanParty;
 import com.klanting.signclick.economy.decisions.DecisionForbidParty;
 import com.klanting.signclick.economy.parties.Party;
 import com.klanting.signclick.menus.*;
+import com.klanting.signclick.menus.company.*;
+import com.klanting.signclick.menus.country.*;
+import com.klanting.signclick.menus.party.DecisionChoice;
+import com.klanting.signclick.menus.party.DecisionVote;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -55,19 +59,19 @@ public class MenuEvents implements Listener {
             return;
         }
 
-        if (event.getClickedInventory().getHolder() instanceof CompanyMarketSelector currentScreen){
+        if (event.getClickedInventory().getHolder() instanceof MarketSelector currentScreen){
             Player player = (Player) event.getWhoClicked();
             event.setCancelled(true);
 
             clearStack(player);
 
-            CompanyMarketMenu screen = new CompanyMarketMenu(player.getUniqueId(), Market.getTopMarketAvailable().get(event.getSlot()));
+            MarketMenu screen = new MarketMenu(player.getUniqueId(), Market.getTopMarketAvailable().get(event.getSlot()));
 
             player.openInventory(screen.getInventory());
 
         }
 
-        if (event.getClickedInventory().getHolder() instanceof CompanyMarketMenu currentScreen){
+        if (event.getClickedInventory().getHolder() instanceof MarketMenu currentScreen){
             Player player = (Player) event.getWhoClicked();
             event.setCancelled(true);
 
@@ -93,25 +97,25 @@ public class MenuEvents implements Listener {
         }
 
 
-        if (event.getClickedInventory().getHolder() instanceof CompanySelector){
+        if (event.getClickedInventory().getHolder() instanceof Selector){
             Player player = (Player) event.getWhoClicked();
             event.setCancelled(true);
 
             clearStack(player);
 
             Company company = Market.getCompany(event.getCurrentItem().getItemMeta().getDisplayName().substring(2));
-            CompanyOwnerMenu screen = new CompanyOwnerMenu(player.getUniqueId(), company);
+            OwnerMenu screen = new OwnerMenu(player.getUniqueId(), company);
 
             player.openInventory(screen.getInventory());
         }
 
-        if (event.getClickedInventory().getHolder() instanceof CompanyOwnerMenu){
+        if (event.getClickedInventory().getHolder() instanceof OwnerMenu){
             Player player = (Player) event.getWhoClicked();
             event.setCancelled(true);
             String option = event.getCurrentItem().getItemMeta().getDisplayName();
-            CompanyOwnerMenu old_screen = (CompanyOwnerMenu) event.getClickedInventory().getHolder();
+            OwnerMenu old_screen = (OwnerMenu) event.getClickedInventory().getHolder();
             if (option.equalsIgnoreCase("§6Upgrades")){
-                CompanyUpgradeMenu new_screen = new CompanyUpgradeMenu(player.getUniqueId(), old_screen.comp);
+                UpgradeMenu new_screen = new UpgradeMenu(player.getUniqueId(), old_screen.comp);
                 player.openInventory(new_screen.getInventory());
             }else if(option.equalsIgnoreCase("§6Patent")){
 
@@ -120,26 +124,26 @@ public class MenuEvents implements Listener {
                     player.sendMessage("§bcan`t access patent auction with country stability under 30");
                     return;
                 }
-                CompanyPatentIDMenu new_screen = new CompanyPatentIDMenu(old_screen.comp, true);
+                PatentIDMenu new_screen = new PatentIDMenu(old_screen.comp, true);
                 player.openInventory(new_screen.getInventory());
 
             }else if(option.equalsIgnoreCase("§6Auction")){
-                CompanyAuctionMenu new_screen = new CompanyAuctionMenu(old_screen.comp);
+                AuctionMenu new_screen = new AuctionMenu(old_screen.comp);
                 player.openInventory(new_screen.getInventory());
 
             }else if(option.equalsIgnoreCase("§6Recipes")){
-                CompanyPatentIDMenu new_screen = new CompanyPatentIDMenu(old_screen.comp, false);
+                PatentIDMenu new_screen = new PatentIDMenu(old_screen.comp, false);
                 player.openInventory(new_screen.getInventory());
 
             }else if(option.equalsIgnoreCase("§6Type")){
-                CompanyTypeSelect new_screen = new CompanyTypeSelect(old_screen.comp);
+                TypeSelect new_screen = new TypeSelect(old_screen.comp);
                 player.openInventory(new_screen.getInventory());
 
             }
         }
 
-        if (event.getClickedInventory().getHolder() instanceof CompanyUpgradeMenu){
-            CompanyUpgradeMenu screen = (CompanyUpgradeMenu) event.getClickedInventory().getHolder();
+        if (event.getClickedInventory().getHolder() instanceof UpgradeMenu){
+            UpgradeMenu screen = (UpgradeMenu) event.getClickedInventory().getHolder();
             event.setCancelled(true);
             int id = event.getSlot()-11;
             boolean suc6 = screen.comp.doUpgrade(id);
@@ -150,45 +154,45 @@ public class MenuEvents implements Listener {
                 player.sendMessage("§bNot enough Money or Points to do the upgrade");
             }
         }
-        if (event.getClickedInventory().getHolder() instanceof CompanyPatentIDMenu){
+        if (event.getClickedInventory().getHolder() instanceof PatentIDMenu){
             Player player = (Player) event.getWhoClicked();
             event.setCancelled(true);
             String option = event.getCurrentItem().getItemMeta().getDisplayName();
-            CompanyPatentIDMenu old_screen = (CompanyPatentIDMenu) event.getClickedInventory().getHolder();
+            PatentIDMenu old_screen = (PatentIDMenu) event.getClickedInventory().getHolder();
 
             if (old_screen.designer){
                 if (option.equalsIgnoreCase("§6Empty Patent")){
-                    CompanyPatentSelectorMenu new_screen = new CompanyPatentSelectorMenu(old_screen.comp);
+                    PatentSelectorMenu new_screen = new PatentSelectorMenu(old_screen.comp);
                     player.openInventory(new_screen.getInventory());
                 }else{
-                    CompanyPatentDesignerMenu new_screen = new CompanyPatentDesignerMenu(old_screen.comp.patent.get(event.getSlot()), old_screen.comp);
+                    PatentDesignerMenu new_screen = new PatentDesignerMenu(old_screen.comp.patent.get(event.getSlot()), old_screen.comp);
                     player.openInventory(new_screen.getInventory());
                 }
             }else{
                 if (!option.equalsIgnoreCase("§6Empty Patent")){
-                    CompanyPatentCrafting new_screen = new CompanyPatentCrafting(old_screen.comp, old_screen.comp.patent.get(event.getSlot()));
+                    PatentCrafting new_screen = new PatentCrafting(old_screen.comp, old_screen.comp.patent.get(event.getSlot()));
                     player.openInventory(new_screen.getInventory());
                 }
             }
 
         }
 
-        if (event.getClickedInventory().getHolder() instanceof CompanyPatentSelectorMenu){
+        if (event.getClickedInventory().getHolder() instanceof PatentSelectorMenu){
             Player player = (Player) event.getWhoClicked();
             event.setCancelled(true);
             ItemStack item = event.getCurrentItem();
 
-            CompanyPatentSelectorMenu old_screen = (CompanyPatentSelectorMenu) event.getClickedInventory().getHolder();
+            PatentSelectorMenu old_screen = (PatentSelectorMenu) event.getClickedInventory().getHolder();
             Patent pat = new Patent("Nameless", item.getType(), new ArrayList<PatentUpgrade>());
-            CompanyPatentDesignerMenu new_screen = new CompanyPatentDesignerMenu(pat, old_screen.comp);
+            PatentDesignerMenu new_screen = new PatentDesignerMenu(pat, old_screen.comp);
             player.openInventory(new_screen.getInventory());
         }
 
-        if (event.getClickedInventory().getHolder() instanceof CompanyPatentDesignerMenu){
+        if (event.getClickedInventory().getHolder() instanceof PatentDesignerMenu){
             Player player = (Player) event.getWhoClicked();
             event.setCancelled(true);
 
-            CompanyPatentDesignerMenu old_screen = (CompanyPatentDesignerMenu) event.getClickedInventory().getHolder();
+            PatentDesignerMenu old_screen = (PatentDesignerMenu) event.getClickedInventory().getHolder();
             Patent pat = old_screen.patent;
 
             String option = event.getCurrentItem().getItemMeta().getDisplayName();
@@ -198,7 +202,7 @@ public class MenuEvents implements Listener {
                     old_screen.patent.createCraft(old_screen.comp);
                 }
 
-                CompanyPatentIDMenu new_screen = new CompanyPatentIDMenu(old_screen.comp, true);
+                PatentIDMenu new_screen = new PatentIDMenu(old_screen.comp, true);
                 player.openInventory(new_screen.getInventory());
                 return;
             }
@@ -209,15 +213,15 @@ public class MenuEvents implements Listener {
             }
 
             if (event.getCurrentItem().getType().equals(Material.LIGHT_GRAY_DYE)){
-                CompanyPatentDesignerUpgrade new_screen = new CompanyPatentDesignerUpgrade(pat, old_screen.comp);
+                PatentDesignerUpgrade new_screen = new PatentDesignerUpgrade(pat, old_screen.comp);
                 player.openInventory(new_screen.getInventory());
             }
         }
 
-        if (event.getClickedInventory().getHolder() instanceof CompanyAuctionMenu){
+        if (event.getClickedInventory().getHolder() instanceof AuctionMenu){
             Player player = (Player) event.getWhoClicked();
             event.setCancelled(true);
-            CompanyAuctionMenu old_screen = (CompanyAuctionMenu) event.getClickedInventory().getHolder();
+            AuctionMenu old_screen = (AuctionMenu) event.getClickedInventory().getHolder();
             int location = event.getSlot();
 
             int add_price = SignClick.getPlugin().getConfig().getInt("auctionBitIncrease");
@@ -251,21 +255,21 @@ public class MenuEvents implements Listener {
             old_screen.init();
         }
 
-        if (event.getClickedInventory().getHolder() instanceof CompanyPatentDesignerUpgrade){
+        if (event.getClickedInventory().getHolder() instanceof PatentDesignerUpgrade){
             event.setCancelled(true);
-            CompanyPatentDesignerUpgrade old_screen = (CompanyPatentDesignerUpgrade) event.getClickedInventory().getHolder();
+            PatentDesignerUpgrade old_screen = (PatentDesignerUpgrade) event.getClickedInventory().getHolder();
             PatentUpgrade pat_up = old_screen.patentUpgradeList.get(event.getSlot());
             Patent pat = old_screen.patent;
             pat.upgrades.add(pat_up);
 
             Player player = (Player) event.getWhoClicked();
-            CompanyPatentDesignerMenu new_screen = new CompanyPatentDesignerMenu(pat, old_screen.comp);
+            PatentDesignerMenu new_screen = new PatentDesignerMenu(pat, old_screen.comp);
             player.openInventory(new_screen.getInventory());
         }
 
-        if (event.getClickedInventory().getHolder() instanceof CompanyPatentCrafting){
+        if (event.getClickedInventory().getHolder() instanceof PatentCrafting){
             event.setCancelled(true);
-            CompanyPatentCrafting old_screen = (CompanyPatentCrafting) event.getClickedInventory().getHolder();
+            PatentCrafting old_screen = (PatentCrafting) event.getClickedInventory().getHolder();
             String option = event.getCurrentItem().getItemMeta().getDisplayName();
             if (option.equalsIgnoreCase("§6Get Patent Sheet")){
                 Player player = (Player) event.getWhoClicked();
@@ -285,9 +289,9 @@ public class MenuEvents implements Listener {
             }
         }
 
-        if (event.getClickedInventory().getHolder() instanceof CountryPolicy){
+        if (event.getClickedInventory().getHolder() instanceof Policy){
             event.setCancelled(true);
-            CountryPolicy old_screen = (CountryPolicy) event.getClickedInventory().getHolder();
+            Policy old_screen = (Policy) event.getClickedInventory().getHolder();
             Player player = (Player) event.getWhoClicked();
 
             int slot = event.getSlot();
@@ -305,12 +309,12 @@ public class MenuEvents implements Listener {
             player.sendMessage("§bPolicy change Decision has been passed on");
         }
 
-        if (event.getClickedInventory().getHolder() instanceof CountryElectionMenu){
+        if (event.getClickedInventory().getHolder() instanceof ElectionMenu){
             ItemStack item = event.getCurrentItem();
             ItemMeta m = item.getItemMeta();
             String party = m.getDisplayName().substring(2);
 
-            CountryElectionMenu old_screen = (CountryElectionMenu) event.getClickedInventory().getHolder();
+            ElectionMenu old_screen = (ElectionMenu) event.getClickedInventory().getHolder();
             old_screen.e.vote(party, event.getWhoClicked().getUniqueId());
 
             event.setCancelled(true);
@@ -318,47 +322,47 @@ public class MenuEvents implements Listener {
             player.closeInventory();
         }
 
-        if (event.getClickedInventory().getHolder() instanceof PartyDecisionVote){
+        if (event.getClickedInventory().getHolder() instanceof DecisionVote){
             event.setCancelled(true);
             Player player = (Player) event.getWhoClicked();
             int slot = event.getSlot();
 
-            PartyDecisionVote old_screen = (PartyDecisionVote) event.getClickedInventory().getHolder();
+            DecisionVote old_screen = (DecisionVote) event.getClickedInventory().getHolder();
             String countryName = old_screen.p.country;
             Country country = CountryManager.getCountry(countryName);
             Decision d = country.getDecisions().get(slot);
 
-            PartyDecisionChoice new_screen = new PartyDecisionChoice(old_screen.p, d);
+            DecisionChoice new_screen = new DecisionChoice(old_screen.p, d);
             player.openInventory(new_screen.getInventory());
 
         }
 
-        if (event.getClickedInventory().getHolder() instanceof PartyDecisionChoice){
+        if (event.getClickedInventory().getHolder() instanceof DecisionChoice){
             event.setCancelled(true);
             Player player = (Player) event.getWhoClicked();
             int slot = event.getSlot();
 
-            PartyDecisionChoice old_screen = (PartyDecisionChoice) event.getClickedInventory().getHolder();
+            DecisionChoice old_screen = (DecisionChoice) event.getClickedInventory().getHolder();
             old_screen.d.vote(old_screen.p, slot == 11);
 
             player.closeInventory();
 
         }
 
-        if (event.getClickedInventory().getHolder() instanceof CountryMenu){
+        if (event.getClickedInventory().getHolder() instanceof Menu){
             Player player = (Player) event.getWhoClicked();
             event.setCancelled(true);
             String option = event.getCurrentItem().getItemMeta().getDisplayName();
             if (option.equalsIgnoreCase("§6Policy")){
-                CountryPolicy screen = new CountryPolicy(player.getUniqueId());
+                Policy screen = new Policy(player.getUniqueId());
                 player.openInventory(screen.getInventory());
             }else if (option.equalsIgnoreCase("§6Decisions")){
-                CountryDecisionMenu screen = new CountryDecisionMenu(player.getUniqueId());
+                DecisionMenu screen = new DecisionMenu(player.getUniqueId());
                 player.openInventory(screen.getInventory());
             }
         }
 
-        if (event.getClickedInventory().getHolder() instanceof CountryDecisionMenu){
+        if (event.getClickedInventory().getHolder() instanceof DecisionMenu){
             Player player = (Player) event.getWhoClicked();
             event.setCancelled(true);
             String option = event.getCurrentItem().getItemMeta().getDisplayName();
@@ -369,7 +373,7 @@ public class MenuEvents implements Listener {
                     player.sendMessage("§b you can`t ban parties during elections");
                     return;
                 }
-                CountryPartyBan screen = new CountryPartyBan(player.getUniqueId());
+                PartyBan screen = new PartyBan(player.getUniqueId());
                 player.openInventory(screen.getInventory());
             }else if (option.equalsIgnoreCase("§6Forbid party") || option.equalsIgnoreCase("§6Allow party")){
                 String name;
@@ -410,7 +414,7 @@ public class MenuEvents implements Listener {
 
         }
 
-        if (event.getClickedInventory().getHolder() instanceof CountryPartyBan){
+        if (event.getClickedInventory().getHolder() instanceof PartyBan){
             Player player = (Player) event.getWhoClicked();
             event.setCancelled(true);
             int slot = event.getSlot();
@@ -434,10 +438,10 @@ public class MenuEvents implements Listener {
             player.closeInventory();
         }
 
-        if (event.getClickedInventory().getHolder() instanceof CompanyTypeSelect){
+        if (event.getClickedInventory().getHolder() instanceof TypeSelect){
             event.setCancelled(true);
             Player player = (Player) event.getWhoClicked();
-            CompanyTypeSelect old_screen = (CompanyTypeSelect) event.getClickedInventory().getHolder();
+            TypeSelect old_screen = (TypeSelect) event.getClickedInventory().getHolder();
             String name = event.getCurrentItem().getItemMeta().getDisplayName();
             old_screen.comp.type = name.substring(2);
             player.closeInventory();

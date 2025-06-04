@@ -1,6 +1,7 @@
-package com.klanting.signclick.menus;
+package com.klanting.signclick.menus.company;
 
 import com.klanting.signclick.economy.Company;
+import com.klanting.signclick.menus.SelectionMenu;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -9,10 +10,10 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class CompanyOwnerMenu extends SelectionMenu {
+public class OwnerMenu extends SelectionMenu {
     public Company comp;
 
-    public CompanyOwnerMenu(UUID uuid, Company company){
+    public OwnerMenu(UUID uuid, Company company){
         super(54, "Company Menu", true);
         comp = company;
 

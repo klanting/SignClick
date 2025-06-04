@@ -1,7 +1,8 @@
-package com.klanting.signclick.menus;
+package com.klanting.signclick.menus.country;
 
 import com.klanting.signclick.economy.Country;
 import com.klanting.signclick.economy.CountryManager;
+import com.klanting.signclick.menus.SelectionMenu;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -10,10 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class CountryDecisionMenu extends SelectionMenu {
+public class DecisionMenu extends SelectionMenu {
     private UUID uuid;
 
-    public CountryDecisionMenu(UUID uuid){
+    public DecisionMenu(UUID uuid){
         super(27, "Country Decision Menu", true);
         this.uuid = uuid;
         init();

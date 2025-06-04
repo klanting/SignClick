@@ -1,6 +1,6 @@
 package com.klanting.signclick.commands.countryHandlers;
 
-import com.klanting.signclick.menus.CountryElectionMenu;
+import com.klanting.signclick.menus.country.ElectionMenu;
 import com.klanting.signclick.commands.exceptions.CommandAssert;
 import com.klanting.signclick.commands.exceptions.CommandException;
 import com.klanting.signclick.economy.Country;
@@ -17,7 +17,7 @@ public class CountryHandlerVote extends CountryHandler{
         Election e = country.getCountryElection();
         CommandAssert.assertTrue(!e.alreadyVoted.contains(player.getUniqueId()), "§byou can`t vote twice");
 
-        CountryElectionMenu screen = new CountryElectionMenu(e);
+        ElectionMenu screen = new ElectionMenu(e);
         player.openInventory(screen.getInventory());
     }
 }

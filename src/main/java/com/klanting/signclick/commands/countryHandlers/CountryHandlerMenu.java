@@ -1,6 +1,6 @@
 package com.klanting.signclick.commands.countryHandlers;
 
-import com.klanting.signclick.menus.CountryMenu;
+import com.klanting.signclick.menus.country.Menu;
 import com.klanting.signclick.commands.exceptions.CommandAssert;
 import com.klanting.signclick.commands.exceptions.CommandException;
 import com.klanting.signclick.economy.Country;
@@ -15,7 +15,7 @@ public class CountryHandlerMenu extends CountryHandler{
         CommandAssert.assertTrue(country != null, "§bYou need to be in a country to do this");
         CommandAssert.assertTrue(country.isOwner(player), "§bplayer is not the owner");
 
-        CountryMenu screen = new CountryMenu(player.getUniqueId());
+        Menu screen = new Menu(player.getUniqueId());
         player.openInventory(screen.getInventory());
     }
 }

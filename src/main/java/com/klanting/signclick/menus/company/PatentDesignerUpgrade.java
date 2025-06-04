@@ -1,15 +1,16 @@
-package com.klanting.signclick.menus;
+package com.klanting.signclick.menus.company;
 
 import com.klanting.signclick.economy.Company;
 import com.klanting.signclick.economy.companyPatent.Patent;
 import com.klanting.signclick.economy.companyPatent.PatentUpgrade;
 import com.klanting.signclick.economy.companyPatent.PatentUpgradeCustom;
+import com.klanting.signclick.menus.SelectionMenu;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 
-public class CompanyPatentDesignerUpgrade extends SelectionMenu {
+public class PatentDesignerUpgrade extends SelectionMenu {
 
     public Company comp;
 
@@ -17,7 +18,7 @@ public class CompanyPatentDesignerUpgrade extends SelectionMenu {
 
     public ArrayList<PatentUpgrade> patentUpgradeList = new ArrayList<>();
 
-    public CompanyPatentDesignerUpgrade(Patent patent, Company comp){
+    public PatentDesignerUpgrade(Patent patent, Company comp){
         super(54, "Patent Designer Upgrade", true);
         this.comp = comp;
         this.patent = patent;

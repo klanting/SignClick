@@ -1,17 +1,18 @@
-package com.klanting.signclick.menus;
+package com.klanting.signclick.menus.company;
 
 import com.klanting.signclick.economy.Company;
 import com.klanting.signclick.economy.Market;
+import com.klanting.signclick.menus.SelectionMenu;
 import com.klanting.signclick.utils.Utils;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.UUID;
 
-public class CompanyMarketSelector extends SelectionMenu{
+public class MarketSelector extends SelectionMenu {
     public UUID uuid;
 
-    public CompanyMarketSelector(UUID uuid){
+    public MarketSelector(UUID uuid){
         super(54, "Company Market Selector", false);
         this.uuid = uuid;
         init();

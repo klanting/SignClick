@@ -1,8 +1,9 @@
-package com.klanting.signclick.menus;
+package com.klanting.signclick.menus.company;
 
 import com.klanting.signclick.economy.Company;
 import com.klanting.signclick.economy.companyPatent.Auction;
 import com.klanting.signclick.economy.companyPatent.PatentUpgrade;
+import com.klanting.signclick.menus.SelectionMenu;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -10,11 +11,11 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CompanyAuctionMenu extends SelectionMenu {
+public class AuctionMenu extends SelectionMenu {
 
     public Company comp;
 
-    public CompanyAuctionMenu(Company comp){
+    public AuctionMenu(Company comp){
         super(9, "Patent Upgrade Auction", true);
         this.comp = comp;
         init();

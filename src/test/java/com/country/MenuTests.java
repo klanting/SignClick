@@ -22,7 +22,7 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class CountryMenuTests {
+public class MenuTests {
     private ServerMock server;
     private SignClick plugin;
 

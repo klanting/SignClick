@@ -1,8 +1,8 @@
-package com.klanting.signclick.menus;
+package com.klanting.signclick.menus.country;
 
 import com.klanting.signclick.economy.Country;
 import com.klanting.signclick.economy.CountryManager;
-import com.klanting.signclick.economy.policies.Policy;
+import com.klanting.signclick.menus.SelectionMenu;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -11,11 +11,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class CountryPolicy extends SelectionMenu {
+public class Policy extends SelectionMenu {
 
     private final UUID uuid;
 
-    public CountryPolicy(UUID uuid){
+    public Policy(UUID uuid){
         super(54, "Country Policy", true);
         this.uuid = uuid;
         init();
@@ -24,7 +24,7 @@ public class CountryPolicy extends SelectionMenu {
     public void init(){
         int startIndex = 11;
         Country country = CountryManager.getCountry(uuid);
-        for (Policy p: country.getPolicies()){
+        for (com.klanting.signclick.economy.policies.Policy p: country.getPolicies()){
             ItemStack item = new ItemStack(p.getMaterial());
             ItemMeta meta = item.getItemMeta();
             meta.setDisplayName("§6"+p.getName());

@@ -18,4 +18,8 @@ abstract class LoggableSubject {
             pluginLog.update(action, message, issuer);
         }
     }
+
+    public List<PluginLogs> getLogObservers(){
+        return logObservers;
+    }
 }

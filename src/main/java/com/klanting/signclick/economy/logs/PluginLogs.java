@@ -13,9 +13,19 @@ abstract public class PluginLogs {
     *
     * This class follows the observer design pattern
     * */
+    private final String title;
+
+    public PluginLogs(String title){
+        this.title = title;
+    }
+
+    public String getTitle() {
+        return title;
+    }
 
     public abstract void update(String action, String message, UUID issuer);
     public abstract List<Pair<LocalDateTime, String>> getLogs();
+
 
 
 }

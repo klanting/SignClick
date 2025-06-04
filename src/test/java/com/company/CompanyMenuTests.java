@@ -7,7 +7,7 @@ import com.klanting.signclick.economy.companyPatent.PatentUpgrade;
 import com.klanting.signclick.economy.companyPatent.PatentUpgradeJumper;
 import com.klanting.signclick.economy.CountryManager;
 import com.klanting.signclick.economy.Market;
-import com.klanting.signclick.menus.CompanyAuctionMenu;
+import com.klanting.signclick.menus.company.AuctionMenu;
 import com.klanting.signclick.SignClick;
 import org.bukkit.Material;
 import org.bukkit.inventory.*;
@@ -221,7 +221,7 @@ public class CompanyMenuTests {
         int i = 60*60*24*7*20+1;
         server.getScheduler().performTicks(i);
 
-        CompanyAuctionMenu new_screen = new CompanyAuctionMenu(comp);
+        AuctionMenu new_screen = new AuctionMenu(comp);
         testPlayer.openInventory(new_screen.getInventory());
 
         auctionMenu = testPlayer.getOpenInventory();

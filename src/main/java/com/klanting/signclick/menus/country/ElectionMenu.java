@@ -1,13 +1,14 @@
-package com.klanting.signclick.menus;
+package com.klanting.signclick.menus.country;
 
 import com.klanting.signclick.economy.parties.Election;
+import com.klanting.signclick.menus.SelectionMenu;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-public class CountryElectionMenu extends SelectionMenu {
+public class ElectionMenu extends SelectionMenu {
     public Election e;
-    public CountryElectionMenu(Election e){
+    public ElectionMenu(Election e){
         super(27, "Country Vote", true);
         this.e = e;
         init();

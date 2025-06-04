@@ -1,15 +1,16 @@
-package com.klanting.signclick.menus;
+package com.klanting.signclick.menus.company;
 
 import com.klanting.signclick.economy.Company;
+import com.klanting.signclick.menus.SelectionMenu;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-public class CompanyTypeSelect extends SelectionMenu {
+public class TypeSelect extends SelectionMenu {
 
     public Company comp;
 
-    public CompanyTypeSelect(Company company){
+    public TypeSelect(Company company){
         super(9, "Company Type Select", true);
         comp = company;
 

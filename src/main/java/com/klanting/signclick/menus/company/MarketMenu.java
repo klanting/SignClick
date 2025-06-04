@@ -1,8 +1,9 @@
-package com.klanting.signclick.menus;
+package com.klanting.signclick.menus.company;
 
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.economy.Company;
 import com.klanting.signclick.economy.Market;
+import com.klanting.signclick.menus.SelectionMenu;
 import com.klanting.signclick.utils.Utils;
 import org.apache.commons.lang3.tuple.Triple;
 import org.bukkit.Material;
@@ -12,13 +13,13 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.text.DecimalFormat;
 import java.util.*;
 
-public class CompanyMarketMenu extends SelectionMenu{
+public class MarketMenu extends SelectionMenu {
 
     public UUID uuid;
     public Company currentCompany;
 
 
-    public CompanyMarketMenu(UUID uuid, Company company){
+    public MarketMenu(UUID uuid, Company company){
         super(45, "Company Market", true);
         this.uuid = uuid;
         this.currentCompany = company;

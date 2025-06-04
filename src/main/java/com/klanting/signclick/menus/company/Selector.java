@@ -1,8 +1,7 @@
-package com.klanting.signclick.menus;
+package com.klanting.signclick.menus.company;
 
 import com.klanting.signclick.economy.Company;
-import com.klanting.signclick.economy.companyPatent.Auction;
-import org.bukkit.Material;
+import com.klanting.signclick.menus.SelectionMenu;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -15,11 +14,11 @@ import java.util.UUID;
 
 import static com.klanting.signclick.utils.Utils.getCompanyTypeMaterial;
 
-public class CompanySelector extends SelectionMenu {
+public class Selector extends SelectionMenu {
 
     final private UUID uuid;
 
-    public CompanySelector(UUID uuid){
+    public Selector(UUID uuid){
         super(54, "Company Selector", false);
         this.uuid = uuid;
         init();

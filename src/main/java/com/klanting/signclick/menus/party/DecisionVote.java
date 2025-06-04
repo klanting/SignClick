@@ -1,4 +1,4 @@
-package com.klanting.signclick.menus;
+package com.klanting.signclick.menus.party;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -9,16 +9,17 @@ import com.klanting.signclick.economy.CountryManager;
 import com.klanting.signclick.economy.decisions.Decision;
 import com.klanting.signclick.economy.parties.Party;
 
+import com.klanting.signclick.menus.SelectionMenu;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 
-public class PartyDecisionVote extends SelectionMenu {
+public class DecisionVote extends SelectionMenu {
 
     public Party p;
 
-    public PartyDecisionVote(Party p){
+    public DecisionVote(Party p){
         super(27, "Party Vote", true);
         this.p = p;
         init();

@@ -1,9 +1,10 @@
-package com.klanting.signclick.menus;
+package com.klanting.signclick.menus.company;
 
 import com.klanting.signclick.economy.Country;
 import com.klanting.signclick.economy.Company;
 import com.klanting.signclick.economy.companyUpgrades.Upgrade;
 import com.klanting.signclick.economy.CountryManager;
+import com.klanting.signclick.menus.SelectionMenu;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -11,11 +12,11 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class CompanyUpgradeMenu extends SelectionMenu {
+public class UpgradeMenu extends SelectionMenu {
 
     public Company comp;
 
-    public CompanyUpgradeMenu(UUID uuid, Company company){
+    public UpgradeMenu(UUID uuid, Company company){
         super(27, "Company Upgrade Menu", true);
         comp = company;
         if (!comp.getCOM().isOwner(uuid)){

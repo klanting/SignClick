@@ -1,18 +1,19 @@
-package com.klanting.signclick.menus;
+package com.klanting.signclick.menus.company;
 
 import com.klanting.signclick.economy.Company;
+import com.klanting.signclick.menus.SelectionMenu;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-public class CompanyPatentIDMenu extends SelectionMenu {
+public class PatentIDMenu extends SelectionMenu {
 
     public Company comp;
 
     public Boolean designer;
 
 
-    public CompanyPatentIDMenu(Company comp, Boolean designer){
+    public PatentIDMenu(Company comp, Boolean designer){
         super(27, "Company Patent Selector", true);
         this.comp = comp;
         this.designer = designer;

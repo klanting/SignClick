@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class CompanyMarketMenuTests {
+public class MarketMenuTests {
     private ServerMock server;
     private SignClick plugin;
 

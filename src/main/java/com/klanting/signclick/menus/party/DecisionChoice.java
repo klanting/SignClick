@@ -1,17 +1,18 @@
-package com.klanting.signclick.menus;
+package com.klanting.signclick.menus.party;
 
 import com.klanting.signclick.economy.decisions.Decision;
 import com.klanting.signclick.economy.parties.Party;
+import com.klanting.signclick.menus.SelectionMenu;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-public class PartyDecisionChoice extends SelectionMenu {
+public class DecisionChoice extends SelectionMenu {
 
     public Party p;
     public Decision d;
 
-    public PartyDecisionChoice(Party p, Decision d){
+    public DecisionChoice(Party p, Decision d){
         super(27, "Party Choice", true);
         this.p = p;
         this.d = d;

@@ -13,6 +13,10 @@ public class ContractLogs extends PluginLogs {
 
     private final List<Pair<LocalDateTime, String>> contractUpdates = new ArrayList<>();
 
+    public ContractLogs(){
+        super("Contract Logs");
+    }
+
     @Override
     public void update(String action, String message, UUID issuer) {
         if (!action.equals("contractPayment")){

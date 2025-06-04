@@ -5,7 +5,7 @@ import com.klanting.signclick.economy.CountryManager;
 import com.klanting.signclick.economy.decisions.Decision;
 import com.klanting.signclick.economy.decisions.DecisionCoup;
 import com.klanting.signclick.economy.parties.Party;
-import com.klanting.signclick.menus.PartyDecisionVote;
+import com.klanting.signclick.menus.party.DecisionVote;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -282,7 +282,7 @@ public class PartyCommands implements CommandExecutor, TabCompleter {
                 return true;
             }
 
-            PartyDecisionVote screen = new PartyDecisionVote(p);
+            DecisionVote screen = new DecisionVote(p);
             player.openInventory(screen.getInventory());
         }
 
