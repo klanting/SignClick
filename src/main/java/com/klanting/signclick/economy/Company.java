@@ -10,6 +10,7 @@ import com.klanting.signclick.economy.companyUpgrades.*;
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.economy.contractRequests.ContractRequest;
 import com.klanting.signclick.economy.contractRequests.ContractRequestCTC;
+import com.klanting.signclick.economy.logs.ContractLogs;
 import com.klanting.signclick.utils.JsonTools;
 import com.klanting.signclick.utils.Utils;
 import org.bukkit.Bukkit;
@@ -24,7 +25,7 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.function.Function;
 
-public class Company{
+public class Company extends LoggableSubject{
 
     private String name;
     private String stockName;
@@ -89,6 +90,8 @@ public class Company{
         stockName = StockName;
 
         companyOwnerManager = new CompanyOwnerManager(creater.getUuid());
+
+        addObserver(new ContractLogs());
 
         creater.receivePrivate(stockName, getTotalShares());
 

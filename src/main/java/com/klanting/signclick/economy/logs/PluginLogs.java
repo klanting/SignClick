@@ -1,5 +1,9 @@
 package com.klanting.signclick.economy.logs;
 
+import org.apache.commons.lang3.tuple.Pair;
+
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 abstract public class PluginLogs {
@@ -10,7 +14,8 @@ abstract public class PluginLogs {
     * This class follows the observer design pattern
     * */
 
-    abstract void update(String action, String message, UUID issuer);
+    public abstract void update(String action, String message, UUID issuer);
+    public abstract List<Pair<LocalDateTime, String>> getLogs();
 
 
 }
