@@ -1,7 +1,6 @@
 package versionCompatibility;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
+import com.klanting.signclick.SignClick;
 
 public class VersionDetection {
     /*
@@ -11,19 +10,10 @@ public class VersionDetection {
 
     private static VersionDetection instance = null;
 
-    private String version = null;
+    private final String version;
 
     private VersionDetection(){
-
-        String name = Bukkit.getServer().getClass().getPackage().getName();
-
-        if (name.equals("be.seeseemelk.mockbukkit") || name.equals("tools")){
-            version = "v1_18_R2";
-            return;
-        }
-
-        version = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
-
+        version = SignClick.getPlugin().getDescription().getVersion();
     }
 
     public static VersionDetection getInstance(){

@@ -36,6 +36,11 @@ public class VersionTests {
     @Test
     public void testVersionDetection(){
         VersionDetection vd = VersionDetection.getInstance();
+
+        /*
+        * Check right plugin version stored
+        * */
+        assert vd.getVersion().equals(SignClick.getPlugin().getDescription().getVersion());
     }
 
 }

@@ -84,6 +84,11 @@ public class DefaultConfig {
 
         config.addDefault("stockBuySellAmount", List.of(10, 100, 200));
 
+        /*
+        * Configure the current version of the plugin storage
+        * */
+        config.addDefault("version", SignClick.getPlugin().getDescription().getVersion());
+
         config.options().copyDefaults(true);
         SignClick.getPlugin().saveConfig();
 
