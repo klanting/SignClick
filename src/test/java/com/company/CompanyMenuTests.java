@@ -61,7 +61,7 @@ public class CompanyMenuTests {
     private Company getCompany(int slot){
         ItemStack companyOption = inventoryMenu.getItem(slot);
         assertNotNull(companyOption);
-        String companyName = companyOption.getItemMeta().getDisplayName();
+        String companyName = companyOption.getItemMeta().getDisplayName().substring(2);
         return Market.getCompany(companyName);
     }
 

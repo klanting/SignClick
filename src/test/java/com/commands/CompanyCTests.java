@@ -124,7 +124,7 @@ class CompanyCTests {
         * Check first item is a company
         * */
         String companyName = companyOption.getItemMeta().getDisplayName();
-        assertEquals("TCI", companyName);
+        assertEquals("§bTCI", companyName);
     }
 
     @Test
