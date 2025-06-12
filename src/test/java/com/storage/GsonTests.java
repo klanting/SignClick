@@ -93,6 +93,8 @@ public class GsonTests {
         assertEquals(5, comp.upgrades.size());
         assertEquals(100, comp.getTotalShares());
 
+        assertEquals(2, comp.getLogObservers().size());
+
         assertEquals(testPlayer.getUniqueId(), comp.getCOM().getShareHolders().keySet().stream().iterator().next());
     }
 

@@ -1,24 +1,26 @@
 package com.klanting.signclick.economy;
 
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonSerializationContext;
+import com.google.gson.*;
 import com.klanting.signclick.economy.companyPatent.Patent;
 import com.klanting.signclick.economy.companyPatent.PatentUpgrade;
 import com.klanting.signclick.economy.companyUpgrades.*;
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.economy.contractRequests.ContractRequest;
 import com.klanting.signclick.economy.contractRequests.ContractRequestCTC;
-import com.klanting.signclick.economy.logs.ContractLogs;
+import com.klanting.signclick.economy.logs.ContractChange;
+import com.klanting.signclick.economy.logs.ContractPayment;
 import com.klanting.signclick.utils.JsonTools;
 import com.klanting.signclick.utils.Utils;
+import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+
 import org.jetbrains.annotations.NotNull;
 
+import java.io.Console;
 import java.lang.reflect.Field;
+import java.lang.reflect.Type;
 import java.text.DecimalFormat;
 import java.util.*;
 import java.util.List;
@@ -91,7 +93,8 @@ public class Company extends LoggableSubject{
 
         companyOwnerManager = new CompanyOwnerManager(creater.getUuid());
 
-        addObserver(new ContractLogs());
+        addObserver(new ContractChange());
+        addObserver(new ContractPayment());
 
         creater.receivePrivate(stockName, getTotalShares());
 
@@ -260,13 +263,13 @@ public class Company extends LoggableSubject{
         map.put("country", method);
 
         Field[] fields = Utils.getAllFields(this.getClass());
-        Map<String, Object> fieldMap = new HashMap<>();
+        Map<String, Pair<Type, Object>> fieldMap = new HashMap<>();
 
         for (Field field : fields) {
             try{
                 String fieldName = field.getName();
                 Object fieldValue = field.get(this);
-                fieldMap.put(fieldName, fieldValue);
+                fieldMap.put(fieldName, Pair.of(field.getGenericType(), fieldValue));
 
             }catch (IllegalAccessException ignored){
             }

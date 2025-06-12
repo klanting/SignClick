@@ -10,10 +10,12 @@ import com.klanting.signclick.economy.parties.Election;
 import com.klanting.signclick.economy.parties.Party;
 import com.klanting.signclick.economy.policies.*;
 import com.klanting.signclick.utils.JsonTools;
+import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Type;
 import java.text.DecimalFormat;
 import java.util.*;
 
@@ -120,14 +122,14 @@ public class Country {
     public JsonObject toJson(JsonSerializationContext context){
 
         Field[] fields = this.getClass().getDeclaredFields();
-        Map<String, Object> fieldMap = new HashMap<>();
+        Map<String, Pair<Type, Object>> fieldMap = new HashMap<>();
 
         for (Field field : fields) {
             try{
                 String fieldName = field.getName();
                 Object fieldValue = field.get(this);
 
-                fieldMap.put(fieldName, fieldValue);
+                fieldMap.put(fieldName, Pair.of(field.getGenericType(), fieldValue));
 
             }catch (IllegalAccessException ignored){
             }

@@ -378,7 +378,19 @@ public class Market {
     }
 
     public static void setContractComptoComp(String from, String to, double amount, int weeks, String reason){
-        contractCompToComp.add(new ContractCTC(Market.getCompany(from), Market.getCompany(to), amount, weeks, reason));
+        ContractCTC ctc = new ContractCTC(Market.getCompany(from), Market.getCompany(to), amount, weeks, reason);
+        contractCompToComp.add(ctc);
+
+        DecimalFormat df = new DecimalFormat("###,###,###");
+
+        Market.getCompany(from).update("contractChange",
+                "Contract Signed " +
+                        "\nfrom: "+ from + " (C)" +
+                        "\nto: "+ to + " (C)"+
+                        "\namount: "+ df.format(amount) +
+                        "\nweeks: "+ weeks +
+                        "\nreason: "+ reason
+                , null);
 
     }
 

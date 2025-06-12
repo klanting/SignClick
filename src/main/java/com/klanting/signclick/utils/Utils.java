@@ -1,10 +1,14 @@
 package com.klanting.signclick.utils;
 
 import com.google.gson.*;
+import com.google.gson.typeadapters.RuntimeTypeAdapterFactory;
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.economy.Company;
 import com.klanting.signclick.economy.Country;
 import com.klanting.signclick.economy.companyPatent.Auction;
+import com.klanting.signclick.economy.logs.ContractChange;
+import com.klanting.signclick.economy.logs.ContractPayment;
+import com.klanting.signclick.economy.logs.PluginLogs;
 import com.klanting.signclick.economy.parties.Election;
 import com.klanting.signclick.utils.Serializers.*;
 import org.bukkit.Location;
@@ -15,6 +19,7 @@ import org.bukkit.event.block.SignChangeEvent;
 import java.io.*;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
+import java.time.LocalDateTime;
 import java.util.*;
 
 
@@ -22,6 +27,11 @@ public class Utils {
     /*
     * Basic utils used everywhere
     * */
+
+    static RuntimeTypeAdapterFactory<PluginLogs> pluginLogTypes =
+            RuntimeTypeAdapterFactory.of(PluginLogs.class, "type")
+                    .registerSubtype(ContractChange.class, "ContractChange")
+                    .registerSubtype(ContractPayment.class, "ContractPayment");
 
     public static <T> void writeSave(String name, T value){
         /*
@@ -34,6 +44,8 @@ public class Utils {
         builder.registerTypeAdapter(Location.class, new LocationSerializer());
         builder.registerTypeAdapter(Election.class, new ElectionSerializer());
         builder.registerTypeAdapter(Auction.class, new AuctionSerializer());
+        builder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer());
+        builder.registerTypeAdapterFactory(pluginLogTypes);
         Gson gson = builder.create();
 
         File file = new File(SignClick.getPlugin().getDataFolder()+"/"+name+".json");
@@ -58,6 +70,7 @@ public class Utils {
         * Read object from a json file
         * */
 
+
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Company.class, new CompanySerializer());
         builder.registerTypeAdapter(Country.class, new CountrySerializer());
@@ -65,6 +78,8 @@ public class Utils {
         builder.registerTypeAdapter(UUID.class, new UUIDDeserializer());
         builder.registerTypeAdapter(Election.class, new ElectionSerializer());
         builder.registerTypeAdapter(Auction.class, new AuctionSerializer());
+        builder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer());
+        builder.registerTypeAdapterFactory(pluginLogTypes);
         Gson gson = builder.create();
 
         File file = new File(SignClick.getPlugin().getDataFolder()+"/"+name+".json");

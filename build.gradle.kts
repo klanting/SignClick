@@ -47,7 +47,8 @@ dependencies {
 
     compileOnly("org.spigotmc:spigot-api:1.21.4-R0.1-SNAPSHOT");
 
-    implementation("com.google.code.gson:gson:2.10.1");
+    implementation("com.google.code.gson:gson:2.13.1");
+    implementation("org.danilopianini:gson-extras:0.2.1");
 
     testImplementation("org.mockito:mockito-core:5.2.0")
     implementation("org.junit.jupiter:junit-jupiter:5.11.3");

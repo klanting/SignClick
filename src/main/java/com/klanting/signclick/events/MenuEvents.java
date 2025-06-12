@@ -12,6 +12,8 @@ import com.klanting.signclick.economy.decisions.DecisionForbidParty;
 import com.klanting.signclick.economy.parties.Party;
 import com.klanting.signclick.menus.*;
 import com.klanting.signclick.menus.company.*;
+import com.klanting.signclick.menus.company.logs.LogList;
+import com.klanting.signclick.menus.company.logs.LogMessages;
 import com.klanting.signclick.menus.country.*;
 import com.klanting.signclick.menus.party.DecisionChoice;
 import com.klanting.signclick.menus.party.DecisionVote;
@@ -139,7 +141,25 @@ public class MenuEvents implements Listener {
                 TypeSelect new_screen = new TypeSelect(old_screen.comp);
                 player.openInventory(new_screen.getInventory());
 
+            }else if(option.equalsIgnoreCase("§6Logs")){
+                LogList new_screen = new LogList(old_screen.comp);
+                player.openInventory(new_screen.getInventory());
+
             }
+        }
+
+        if (event.getClickedInventory().getHolder() instanceof LogList){
+            Player player = (Player) event.getWhoClicked();
+            event.setCancelled(true);
+            LogList old_screen = (LogList) event.getClickedInventory().getHolder();
+
+            LogMessages new_screen = new LogMessages(old_screen.comp, old_screen.comp.getLogObservers().get(event.getSlot()));
+            player.openInventory(new_screen.getInventory());
+        }
+
+        if (event.getClickedInventory().getHolder() instanceof LogMessages){
+            event.setCancelled(true);
+            return;
         }
 
         if (event.getClickedInventory().getHolder() instanceof UpgradeMenu){

@@ -62,6 +62,12 @@ public class OwnerMenu extends SelectionMenu {
         value.setItemMeta(m);
         getInventory().setItem(30, value);
 
+        value = new ItemStack(Material.PAPER, 1);
+        m = value.getItemMeta();
+        m.setDisplayName("§6Logs");
+        value.setItemMeta(m);
+        getInventory().setItem(31, value);
+
         if (comp.type.equals("other")){
             value = new ItemStack(Material.SUNFLOWER, 1);
             m = value.getItemMeta();
