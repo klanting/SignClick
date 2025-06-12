@@ -1,12 +1,6 @@
 package com.klanting.signclick.economy.contracts;
 
-import com.klanting.signclick.economy.Account;
 import com.klanting.signclick.economy.Company;
-import com.klanting.signclick.economy.Market;
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
-
-import java.util.UUID;
 
 public class ContractSTC  extends Contract{
 
