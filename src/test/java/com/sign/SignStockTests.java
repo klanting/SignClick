@@ -48,7 +48,7 @@ public class SignStockTests {
 
     @Test
     public void setSignStock(){
-        Market.addCompany("TCI", "TCI", Market.getAccount(testPlayer), 100000.0);
+        Market.addCompany("TCI", "TCI", Market.getAccount(testPlayer), 100000.0, "other");
 
 
         World world = server.addSimpleWorld("world");

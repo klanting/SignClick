@@ -68,13 +68,5 @@ public class OwnerMenu extends SelectionMenu {
         value.setItemMeta(m);
         getInventory().setItem(31, value);
 
-        if (comp.type.equals("other")){
-            value = new ItemStack(Material.SUNFLOWER, 1);
-            m = value.getItemMeta();
-            m.setDisplayName("§6Type");
-            value.setItemMeta(m);
-            getInventory().setItem(8, value);
-        }
-
     }
 }

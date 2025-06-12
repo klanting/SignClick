@@ -78,8 +78,6 @@ public class CompanyMenuTests {
         /*
          * Verify correct content
          * */
-        assertEquals("§6Type", companyMenu.getItem(8).getItemMeta().getDisplayName());
-        assertEquals(Material.SUNFLOWER, companyMenu.getItem(8).getType());
 
         assertEquals("§6Balance", companyMenu.getItem(13).getItemMeta().getDisplayName());
         assertEquals(Material.GOLD_BLOCK, companyMenu.getItem(13).getType());
@@ -107,14 +105,16 @@ public class CompanyMenuTests {
 
     @Test
     void changeCompanyType(){
-        Company comp = getCompany(0);
-        InventoryView companyMenu = openMenu(0);
+
+        plugin.getConfig().set("companyConfirmation", false);
+
+        SignClick.getEconomy().depositPlayer(testPlayer, 40000000);
+        boolean suc6 = server.execute("company", testPlayer, "create", "TESTINGCOMP", "COMP").hasSucceeded();
+        assertTrue(suc6);
 
         /*
-        * Click type selector
+        * open type menu
         * */
-        testPlayer.simulateInventoryClick(companyMenu, 8);
-
         InventoryView typeMenu = testPlayer.getOpenInventory();
         assertNotNull(typeMenu);
 
@@ -136,12 +136,15 @@ public class CompanyMenuTests {
         assertEquals("§6building", typeMenu.getItem(5).getItemMeta().getDisplayName());
         assertEquals(Material.BRICKS, typeMenu.getItem(5).getType());
 
+        assertEquals("§6other", typeMenu.getItem(6).getItemMeta().getDisplayName());
+        assertEquals(Material.SUNFLOWER, typeMenu.getItem(6).getType());
+
         testPlayer.simulateInventoryClick(typeMenu, 2);
 
         /*
         * Check that company is now a 'product' company
         * */
-        assertEquals("product", comp.type);
+        assertEquals("product", Market.getCompany("COMP").type);
     }
 
     @Test
@@ -241,6 +244,7 @@ public class CompanyMenuTests {
         PatentUpgrade up = new PatentUpgradeJumper();
         up.level = 1;
         comp.patentUpgrades.add(up);
+        assertNotNull(comp);
 
         /*
         * open company menu

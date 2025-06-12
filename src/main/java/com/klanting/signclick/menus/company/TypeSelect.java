@@ -1,19 +1,20 @@
 package com.klanting.signclick.menus.company;
 
+import com.klanting.signclick.commands.companyHandelers.CompanyHandlerCreate;
 import com.klanting.signclick.economy.Company;
 import com.klanting.signclick.menus.SelectionMenu;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public class TypeSelect extends SelectionMenu {
 
-    public Company comp;
+    public CompanyHandlerCreate.companyCreationDetails details;
 
-    public TypeSelect(Company company){
-        super(9, "Company Type Select", true);
-        comp = company;
-
+    public TypeSelect(CompanyHandlerCreate.companyCreationDetails details){
+        super(9, "Company Type Select", false);
+        this.details = details;
         init();
     }
 
@@ -53,6 +54,12 @@ public class TypeSelect extends SelectionMenu {
         value = new ItemStack(Material.BRICKS, 1);
         m = value.getItemMeta();
         m.setDisplayName("§6building");
+        value.setItemMeta(m);
+        getInventory().setItem(getInventory().firstEmpty(), value);
+
+        value = new ItemStack(Material.SUNFLOWER, 1);
+        m = value.getItemMeta();
+        m.setDisplayName("§6other");
         value.setItemMeta(m);
         getInventory().setItem(getInventory().firstEmpty(), value);
     }

@@ -73,6 +73,7 @@ class CompanyCTests {
 
         suc6 = server.execute("company", testPlayer, "create", "TESTINGCOMP", "COMP").hasSucceeded();
         assertTrue(suc6);
+        testPlayer.simulateInventoryClick(6);
 
         testPlayer.assertSaid("§byou succesfully found TESTINGCOMP good luck CEO Player0");
         testPlayer.assertNoMoreSaid();
@@ -1157,6 +1158,27 @@ class CompanyCTests {
         autoCompletes.add("open_trade");
 
         assertEquals(autoCompletes, receivedAutoCompletes);
+    }
+
+    @Test
+    void companyNotCreated(){
+        /*
+        * Test that the company is not created if the user closes the type menu
+        * */
+
+        SignClick.getEconomy().depositPlayer(testPlayer, 40000000);
+        boolean suc6 = server.execute("company", testPlayer, "create", "TESTINGCOMP", "COMP").hasSucceeded();
+        assertTrue(suc6);
+
+        testPlayer.assertSaid("§bplease re-enter your command to confirm that you want to start a company and want to auto-transfer §640 million §bto your business from your account If you agree, enter: §c/company create TESTINGCOMP COMP");
+        testPlayer.assertNoMoreSaid();
+
+        suc6 = server.execute("company", testPlayer, "create", "TESTINGCOMP", "COMP").hasSucceeded();
+        assertTrue(suc6);
+        testPlayer.closeInventory();
+
+        assertNull(Market.getCompany("COMP"));
+        assertEquals(40000000, SignClick.getEconomy().getBalance(testPlayer));
     }
 
 

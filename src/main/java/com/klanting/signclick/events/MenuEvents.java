@@ -1,6 +1,8 @@
 package com.klanting.signclick.events;
 
 import com.klanting.signclick.SignClick;
+import com.klanting.signclick.commands.companyHandelers.CompanyHandlerCreate;
+import com.klanting.signclick.commands.exceptions.CommandException;
 import com.klanting.signclick.economy.*;
 import com.klanting.signclick.economy.companyPatent.Auction;
 import com.klanting.signclick.economy.companyPatent.Patent;
@@ -135,10 +137,6 @@ public class MenuEvents implements Listener {
 
             }else if(option.equalsIgnoreCase("§6Recipes")){
                 PatentIDMenu new_screen = new PatentIDMenu(old_screen.comp, false);
-                player.openInventory(new_screen.getInventory());
-
-            }else if(option.equalsIgnoreCase("§6Type")){
-                TypeSelect new_screen = new TypeSelect(old_screen.comp);
                 player.openInventory(new_screen.getInventory());
 
             }else if(option.equalsIgnoreCase("§6Logs")){
@@ -463,8 +461,22 @@ public class MenuEvents implements Listener {
             Player player = (Player) event.getWhoClicked();
             TypeSelect old_screen = (TypeSelect) event.getClickedInventory().getHolder();
             String name = event.getCurrentItem().getItemMeta().getDisplayName();
-            old_screen.comp.type = name.substring(2);
+
+            old_screen.details = new CompanyHandlerCreate.companyCreationDetails(
+                    old_screen.details.companyName(),
+                    old_screen.details.stockName(),
+                    old_screen.details.player(),
+                    old_screen.details.creationCost(),
+                    name.substring(2)
+            );
             player.closeInventory();
+
+            try{
+                CompanyHandlerCreate.createCompany(old_screen.details);
+            }catch (CommandException e){
+                player.sendMessage(e.getMessage());
+            }
+
         }
 
         if (!(event.getClickedInventory().getHolder() instanceof SelectionMenu)){

@@ -115,10 +115,14 @@ public class Market {
     }
 
     public static Boolean addCompany(String namebus, String StockName, Account acc){
-        return Market.addCompany(namebus,StockName,acc, 0);
+        return Market.addCompany(namebus,StockName,acc, 0, "other");
     }
 
     public static Boolean addCompany(String namebus, String StockName, Account acc, double creationCost){
+        return Market.addCompany(namebus,StockName,acc, creationCost, "other");
+    }
+
+    public static Boolean addCompany(String namebus, String StockName, Account acc, double creationCost, String type){
 
         /*
         * Check StockName already in use
@@ -136,7 +140,7 @@ public class Market {
             }
         }
 
-        Company comp = new Company(namebus, StockName, acc, creationCost);
+        Company comp = new Company(namebus, StockName, acc, creationCost, type);
         companies.put(StockName, comp);
 
         comp.changeBase();

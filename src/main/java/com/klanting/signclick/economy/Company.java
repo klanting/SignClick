@@ -88,7 +88,7 @@ public class Company extends LoggableSubject{
 
     private CompanyOwnerManager companyOwnerManager;
 
-    public Company(@NotNull String n, String StockName, Account creater, double creationCost){
+    public Company(@NotNull String n, String StockName, Account creater, double creationCost, String type){
         super();
         name = n;
         stockName = StockName;
@@ -107,7 +107,7 @@ public class Company extends LoggableSubject{
         upgrades.add(new UpgradePatentUpgradeSlot(0));
         upgrades.add(new UpgradeCraftLimit(0));
         upgrades.add(new UpgradeInvestReturnTime(0));
-        type = "other";
+        this.type = type;
 
         lastValue = creationCost;
         addBal(creationCost);

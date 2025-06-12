@@ -55,6 +55,7 @@ public class CompanyConfigTests {
         SignClick.getEconomy().depositPlayer(testPlayer, 40000000);
         boolean suc6 = server.execute("company", testPlayer, "create", "TESTINGCOMP", "COMP").hasSucceeded();
         assertTrue(suc6);
+        testPlayer.simulateInventoryClick(6);
 
         testPlayer.assertSaid("§byou succesfully found TESTINGCOMP good luck CEO Player0");
         testPlayer.assertNoMoreSaid();
@@ -73,6 +74,7 @@ public class CompanyConfigTests {
         SignClick.getEconomy().depositPlayer(testPlayer, 30_000_000);
         boolean suc6 = server.execute("company", testPlayer, "create", "TESTINGCOMP", "COMP").hasSucceeded();
         assertTrue(suc6);
+        testPlayer.simulateInventoryClick(6);
 
         testPlayer.assertSaid("§byou succesfully found TESTINGCOMP good luck CEO Player0");
         testPlayer.assertNoMoreSaid();
@@ -91,6 +93,7 @@ public class CompanyConfigTests {
         SignClick.getEconomy().depositPlayer(testPlayer, 40_000_000);
         boolean suc6 = server.execute("company", testPlayer, "create", "TESTINGCOMP", "COMP").hasSucceeded();
         assertTrue(suc6);
+        testPlayer.simulateInventoryClick(6);
 
         testPlayer.assertSaid("§byou succesfully found TESTINGCOMP good luck CEO Player0");
         testPlayer.assertNoMoreSaid();
