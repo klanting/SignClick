@@ -43,6 +43,8 @@ public class MenuEvents implements Listener {
     private static void loadStack(Player player){
         Stack<SelectionMenu> playerStack = menuStack.getOrDefault(player, new Stack<>());
         SelectionMenu sm = playerStack.pop();
+        sm.getInventory().clear();
+        sm.init();
         player.openInventory(sm.getInventory());
     }
 
