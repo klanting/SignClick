@@ -2,6 +2,8 @@ package com.klanting.signclick;
 
 
 import com.google.common.reflect.TypeToken;
+import com.klanting.signclick.migrations.Migration;
+import com.klanting.signclick.migrations.MigrationManager;
 import com.klanting.signclick.routines.*;
 import com.klanting.signclick.commands.CompanyCommands;
 import com.klanting.signclick.configs.DefaultConfig;
@@ -38,6 +40,7 @@ public class SignClick extends JavaPlugin{
         plugin = this;
 
         DefaultConfig.makeDefaultConfigHard();
+        MigrationManager.Migrate();
 
         if (!setupEconomy() ) {
             getServer().getConsoleSender().sendMessage(ChatColor.RED + "Economy failed!");

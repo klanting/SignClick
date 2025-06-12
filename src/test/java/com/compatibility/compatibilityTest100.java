@@ -64,6 +64,13 @@ public class compatibilityTest100 {
         }
 
         TestTools.setupPlugin(server);
+
+        assertNotNull(Market.getCompany("AA"));
+
+        /*
+        * Check that the observers that were added in v1.0.1 are now added
+        * */
+        assertEquals(4, Market.getCompany("AA").getLogObservers().size());
     }
 
 }

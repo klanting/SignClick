@@ -65,7 +65,6 @@ public class TestDataGenerator {
                     Path relativePath = virtualDataFolder.toPath().relativize(source);
                     Path destination = realOutputFolder.toPath().resolve(relativePath);
 
-                    System.out.println("Child: " + source + " | Is Directory? " + destination);
 
                     try {
                         Files.copy(source, destination);

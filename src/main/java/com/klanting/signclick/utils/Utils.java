@@ -34,6 +34,19 @@ public class Utils {
                     .registerSubtype(ShareholderChange.class, "ShareholderChange")
             ;
 
+    public static <T> String serialize(T value, Type token){
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(Company.class, new CompanySerializer());
+        builder.registerTypeAdapter(Country.class, new CountrySerializer());
+        builder.registerTypeAdapter(Location.class, new LocationSerializer());
+        builder.registerTypeAdapter(Election.class, new ElectionSerializer());
+        builder.registerTypeAdapter(Auction.class, new AuctionSerializer());
+        builder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer());
+        builder.registerTypeAdapterFactory(pluginLogTypes);
+        Gson gson = builder.create();
+        return gson.toJson(value, token);
+    }
+
 
     public static <T> void writeSave(String name, T value){
         /*
@@ -95,6 +108,7 @@ public class Utils {
             file.getParentFile().mkdir();
             file.createNewFile();
             Reader reader = new FileReader(file);
+
 
             T value = gson.fromJson(reader, token);
 
