@@ -1,0 +1,150 @@
+fee: 0.05
+flux: 1.15
+companyCreateCost: 4.0E7
+companyConfirmation: true
+companyStartShares: 1000000
+dynmapTax: true
+dynmapTaxPeriod: 600
+dynmapTaxAmount: 1000
+signIncomeOpenTime: 5
+signStockCost: 100000.0
+discordLink: https://discord.gg/gTUsNBVQNg
+dynmapLink: http://klanting.ga:8880/
+patentUpgradeBonusCunning:
+- 0.2
+- 0.4
+- 0.6
+- 0.8
+- 1.0
+- 1.2
+patentUpgradeBonusEvade:
+- 0.2
+- 0.4
+- 0.6
+- 0.8
+- 1.0
+- 1.2
+patentUpgradeBonusJumper:
+- 0.5
+- 1.0
+- 1.5
+- 2.0
+- 2.5
+- 3.0
+patentUpgradeBonusRefill:
+- 0.5
+- 1.0
+- 1.5
+- 2.0
+- 2.5
+- 3.0
+auctionBitIncrease: 100000
+auctionStartPrice: 100000
+auctionCycle: 604800
+electionTime: 604800
+stockBuySellAmount:
+- 100
+- 10000
+- 100000
+version: 1.0.0
+upgrades:
+  craftLimit:
+    bonus:
+    - 5
+    - 10
+    - 20
+    - 40
+    - 80
+    - 100
+    upgradeCost:
+    - 4000000
+    - 8000000
+    - 12000000
+    - 16000000
+    - 20000000
+    upgradeCostPoints:
+    - 100000
+    - 200000
+    - 300000
+    - 400000
+    - 500000
+  extraPoints:
+    bonus:
+    - 0
+    - 5
+    - 10
+    - 15
+    - 20
+    - 25
+    upgradeCost:
+    - 2000000
+    - 4000000
+    - 6000000
+    - 8000000
+    - 10000000
+    upgradeCostPoints:
+    - 50000
+    - 100000
+    - 200000
+    - 500000
+    - 1000000
+  investReturnTime:
+    bonus:
+    - 0
+    - 5
+    - 10
+    - 15
+    - 20
+    - 25
+    upgradeCost:
+    - 4000000
+    - 8000000
+    - 12000000
+    - 16000000
+    - 20000000
+    upgradeCostPoints:
+    - 100000
+    - 400000
+    - 600000
+    - 800000
+    - 1000000
+  patentSlot:
+    bonus:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 20
+    upgradeCost:
+    - 5000000
+    - 10000000
+    - 20000000
+    - 40000000
+    - 60000000
+    upgradeCostPoints:
+    - 100000
+    - 300000
+    - 500000
+    - 1000000
+    - 4000000
+  patentUpgradeSlot:
+    bonus:
+    - 3
+    - 4
+    - 5
+    - 6
+    - 7
+    - 8
+    upgradeCost:
+    - 4000000
+    - 8000000
+    - 12000000
+    - 16000000
+    - 20000000
+    upgradeCostPoints:
+    - 100000
+    - 200000
+    - 300000
+    - 600000
+    - 1000000
