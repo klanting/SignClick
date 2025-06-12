@@ -6,6 +6,7 @@ import com.klanting.signclick.economy.Market;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
+import java.text.DecimalFormat;
 import java.util.UUID;
 
 public class ContractPTC extends Contract{
@@ -32,9 +33,13 @@ public class ContractPTC extends Contract{
         weeks -= 1;
         to.addBal(amount);
 
-        to.getCOM().sendOwner("§aContract: from " + fromAcc.getName() + "(P) to " + to.getStockName() + "(C) amount: " + amount);
+        String message = "Contract: from " + fromAcc.getName() + "(P) to " + to.getStockName() + "(C) amount: " + amount;
+
+        to.update("Contract Payment", "§a"+message, null);
+
+        to.getCOM().sendOwner("§a"+message);
         if (fromAcc.getPlayer() != null){
-            fromAcc.getPlayer().sendMessage("§cContract: from " + fromAcc.getName() + "(P) to " + to.getStockName() + "(C) amount: " + amount);
+            fromAcc.getPlayer().sendMessage("§c"+message);
         }
 
         return weeks > 0;

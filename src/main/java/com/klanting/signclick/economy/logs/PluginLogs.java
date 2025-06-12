@@ -1,6 +1,6 @@
 package com.klanting.signclick.economy.logs;
 
-import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.MutableTriple;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -24,7 +24,7 @@ abstract public class PluginLogs {
     }
 
     public abstract void update(String action, String message, UUID issuer);
-    public abstract List<ImmutablePair<LocalDateTime, String>> getLogs();
+    public abstract List<MutableTriple<LocalDateTime, String, String>> getLogs();
 
 
 

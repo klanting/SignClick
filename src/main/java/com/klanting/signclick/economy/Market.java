@@ -381,16 +381,8 @@ public class Market {
         ContractCTC ctc = new ContractCTC(Market.getCompany(from), Market.getCompany(to), amount, weeks, reason);
         contractCompToComp.add(ctc);
 
-        DecimalFormat df = new DecimalFormat("###,###,###");
-
-        Market.getCompany(from).update("contractChange",
-                "Contract Signed " +
-                        "\nfrom: "+ from + " (C)" +
-                        "\nto: "+ to + " (C)"+
-                        "\namount: "+ df.format(amount) +
-                        "\nweeks: "+ weeks +
-                        "\nreason: "+ reason
-                , null);
+        Market.getCompany(from).update("Contract Signed", ctc.getContractStatus(false), null);
+        Market.getCompany(to).update("Contract Signed", ctc.getContractStatus(true), null);
 
     }
 
@@ -400,16 +392,27 @@ public class Market {
 
         contractCompToPlayer.add(contract);
 
+        Market.getCompany(from).update("Contract Signed", contract.getContractStatus(false), null);
+
     }
 
     public static void setContractPlayertoComp(String fromUUID, String to, double amount, int weeks, String reason){
-        contractPlayerToComp.add(new ContractPTC(UUID.fromString(fromUUID),
-                Market.getCompany(to), amount, weeks, reason));
+
+        Contract contract = new ContractPTC(UUID.fromString(fromUUID),
+                Market.getCompany(to), amount, weeks, reason);
+
+        contractPlayerToComp.add(contract);
+
+        Market.getCompany(to).update("Contract Signed", contract.getContractStatus(true), null);
 
     }
 
     public static void setContractServertoComp(String to, double amount, int weeks, String reason, int delay){
-        contractServerToComp.add(new ContractSTC(Market.getCompany(to), amount, weeks, reason, delay));
+        ContractSTC contract = new ContractSTC(Market.getCompany(to), amount, weeks, reason, delay);
+
+        contractServerToComp.add(contract);
+
+        Market.getCompany(to).update("Contract Signed", contract.getContractStatus(true), null);
 
     }
 

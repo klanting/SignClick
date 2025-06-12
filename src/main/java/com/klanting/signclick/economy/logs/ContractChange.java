@@ -1,6 +1,7 @@
 package com.klanting.signclick.economy.logs;
 
-import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.MutablePair;
+import org.apache.commons.lang3.tuple.MutableTriple;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -11,7 +12,7 @@ import java.util.UUID;
 
 public class ContractChange extends PluginLogs {
 
-    public final List<ImmutablePair<LocalDateTime, String>> contractUpdates = new ArrayList<>();
+    public final List<MutableTriple<LocalDateTime, String, String>> contractUpdates = new ArrayList<>();
 
     public ContractChange(){
         super("Contract Change Logs");
@@ -19,18 +20,18 @@ public class ContractChange extends PluginLogs {
 
     @Override
     public void update(String action, String message, UUID issuer) {
-        if (!action.equals("contractChange")){
+        if (!action.equals("Contract Signed")){
             return;
         }
 
         Instant now = Instant.now();
         LocalDateTime ldt = LocalDateTime.ofInstant(now, ZoneId.systemDefault());
 
-        contractUpdates.add(ImmutablePair.of(ldt, message));
+        contractUpdates.add(MutableTriple.of(ldt, action, message));
     }
 
     @Override
-    public List<ImmutablePair<LocalDateTime, String>> getLogs() {
+    public List<MutableTriple<LocalDateTime, String, String>> getLogs() {
         return contractUpdates;
     }
 

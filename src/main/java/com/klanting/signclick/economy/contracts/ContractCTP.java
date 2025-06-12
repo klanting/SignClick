@@ -7,6 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
+import java.text.DecimalFormat;
 import java.util.UUID;
 
 public class ContractCTP  extends Contract{
@@ -39,9 +40,14 @@ public class ContractCTP  extends Contract{
         toAccount.addBal(amount);
 
         OfflinePlayer player = Bukkit.getServer().getOfflinePlayer(to);
-        from.getCOM().sendOwner("§cContract: from " + from.getStockName() + "(C) to " + player.getName() + "(P) amount: " + amount);
+
+        String message = "Contract: from " + from.getStockName() + "(C) to " + player.getName() + "(P) amount: " + amount;
+
+        from.update("Contract Payment", "§c"+message, null);
+
+        from.getCOM().sendOwner("§c"+message);
         if (player.getPlayer() != null){
-            player.getPlayer().sendMessage("§aContract: from " + from.getStockName() + "(C) to " + player.getName() + "(P) amount: " + amount);
+            player.getPlayer().sendMessage("§a"+message);
         }
 
         return weeks > 0;
