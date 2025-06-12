@@ -65,10 +65,10 @@ public class MarketMenuTests {
         * Check that the menu selector is displaying properly
         * */
         ItemStack firstComp = inventoryMenu.getItem(0);
-        TestTools.assertItem(firstComp, Material.SUNFLOWER, "TCI");
+        TestTools.assertItem(firstComp, Material.SUNFLOWER, "§bTCI");
 
         ItemStack secondComp = inventoryMenu.getItem(1);
-        TestTools.assertItem(secondComp, Material.GOLD_INGOT, "TCI2");
+        TestTools.assertItem(secondComp, Material.GOLD_INGOT, "§bTCI2");
     }
 
     @Test
