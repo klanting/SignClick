@@ -1,10 +1,11 @@
-
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
 plugins {
 
     `java-gradle-plugin`;
     id("jacoco");
     id("info.solidsoft.pitest") version "1.9.11";
+    id("com.github.johnrengelman.shadow") version "8.1.1";
     kotlin("jvm") version "1.9.22"
 }
 
@@ -83,5 +84,22 @@ tasks.jacocoTestReport {
         xml.required.set(true)
         html.required.set(true)
         csv.required.set(false)
+    }
+}
+
+
+tasks {
+    shadowJar {
+        archiveClassifier.set("")
+        isZip64 = true
+
+        dependencies {
+            include(dependency("org.danilopianini:gson-extras"))
+        }
+
+    }
+
+    build {
+        dependsOn(shadowJar)
     }
 }
