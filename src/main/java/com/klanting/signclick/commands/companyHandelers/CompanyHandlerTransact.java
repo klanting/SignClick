@@ -7,6 +7,8 @@ import com.klanting.signclick.economy.Company;
 import com.klanting.signclick.economy.Market;
 import org.bukkit.entity.Player;
 
+import java.text.DecimalFormat;
+
 public class CompanyHandlerTransact extends CompanyHandler{
     @Override
     public Boolean handleCommand(Player player, String[] args, Boolean firstEnter) throws CommandException {
@@ -39,6 +41,14 @@ public class CompanyHandlerTransact extends CompanyHandler{
             comp_target.addBal(amount);
             player.sendMessage("§bsuccesfully paid §f"+target_stock_name+" "+amount);
             comp_target.getCOM().sendOwner("§bsuccesfully received §f"+amount+" §bfrom §f"+stock_name);
+
+            DecimalFormat df = new DecimalFormat("###,###,###");
+
+            Market.getCompany(stock_name).update("Balance removed",
+                    "§cCompany paid "+ df.format(amount) + " to " + target_stock_name, player.getUniqueId());
+
+            Market.getCompany(target_stock_name).update("Balance added",
+                    "§aCompany"+ stock_name + " paid "+ df.format(amount), player.getUniqueId());
 
         }else{
             player.sendMessage("§bbusiness does not have enough money, or you reached your monthly spending limit\ndo §c/company spendable "+

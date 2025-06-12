@@ -14,12 +14,12 @@ public class CompanyHandlerGive extends CompanyHandler{
     public Boolean handleCommand(Player player, String[] args, Boolean firstEnter) throws CommandException {
         CommandAssert.assertTrue(args.length >= 3, "§bplease enter /company give <stockname> <amount>");
 
-        String stock_name = args[1].toUpperCase();
-        stock_name = stock_name.toUpperCase();
+        String stockName = args[1].toUpperCase();
+        stockName = stockName.toUpperCase();
 
         double amount = CommandTools.parseDouble(args[2], "§bPlease enter a valid double as amount");
 
-        CommandAssert.assertTrue(Market.hasBusiness(stock_name), "§bplease enter a valid company stockname");
+        CommandAssert.assertTrue(Market.hasBusiness(stockName), "§bplease enter a valid company stockname");
 
         CommandAssert.assertTrue(SignClick.getEconomy().has(player, amount), "§byou do not have enough money");
 
@@ -27,17 +27,20 @@ public class CompanyHandlerGive extends CompanyHandler{
 
         if (firstEnter){
             player.sendMessage("§bplease re-enter your command to confirm\nthat you want to give §f" +df.format(amount)+
-                    "§b to §f"+ stock_name+"\n§c/company give "+stock_name+" "+amount);
+                    "§b to §f"+ stockName+"\n§c/company give "+stockName+" "+amount);
             return true;
         }
 
-        player.sendMessage("§byou succesfully gave §f"+df.format(amount)+"§b to §f"+stock_name);
+        player.sendMessage("§byou succesfully gave §f"+df.format(amount)+"§b to §f"+stockName);
 
-        Market.getCompany(stock_name).addBal(amount);
+        Market.getCompany(stockName).addBal(amount);
 
         SignClick.getEconomy().withdrawPlayer(player, amount);
 
-        Market.getCompany(stock_name).getCOM().sendOwner("§byour business §f"+stock_name+" §b received §f"+amount+" §b from §f"+player.getName());
+        Market.getCompany(stockName).update("Balance added",
+                "§aPlayer paid "+ df.format(amount) + " to " + stockName, player.getUniqueId());
+
+        Market.getCompany(stockName).getCOM().sendOwner("§byour business §f"+stockName+" §b received §f"+amount+" §b from §f"+player.getName());
 
         return false;
     }

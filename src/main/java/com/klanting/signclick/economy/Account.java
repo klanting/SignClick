@@ -63,6 +63,12 @@ public class Account {
             Company comp = Market.getCompany(Sname);
             comp.setTotalShares(comp.getTotalShares()+amount);
         }
+
+        DecimalFormat df = new DecimalFormat("###,###,###");
+        Market.getCompany(Sname).update("Shares bought",
+                "§aPlayer bought " + amount + " shares for " + df.format(v),
+                player.getUniqueId());
+
         player.sendMessage("§bbuy: §aaccepted");
     }
 
@@ -107,6 +113,12 @@ public class Account {
             Market.getCompany(Sname).changeBase();
 
             shares.put(Sname, share_amount-amount);
+
+            DecimalFormat df = new DecimalFormat("###,###,###");
+            Market.getCompany(Sname).update("Shares sold",
+                    "§cPlayer sold " + amount + " shares for " + df.format(v),
+                    player.getUniqueId());
+
             player.sendMessage("§bsell: §aaccepted");
         }
     }

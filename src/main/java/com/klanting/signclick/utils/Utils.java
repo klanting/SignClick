@@ -6,9 +6,7 @@ import com.klanting.signclick.SignClick;
 import com.klanting.signclick.economy.Company;
 import com.klanting.signclick.economy.Country;
 import com.klanting.signclick.economy.companyPatent.Auction;
-import com.klanting.signclick.economy.logs.ContractChange;
-import com.klanting.signclick.economy.logs.ContractPayment;
-import com.klanting.signclick.economy.logs.PluginLogs;
+import com.klanting.signclick.economy.logs.*;
 import com.klanting.signclick.economy.parties.Election;
 import com.klanting.signclick.utils.Serializers.*;
 import org.bukkit.Location;
@@ -31,7 +29,11 @@ public class Utils {
     static RuntimeTypeAdapterFactory<PluginLogs> pluginLogTypes =
             RuntimeTypeAdapterFactory.of(PluginLogs.class, "type")
                     .registerSubtype(ContractChange.class, "ContractChange")
-                    .registerSubtype(ContractPayment.class, "ContractPayment");
+                    .registerSubtype(ContractPayment.class, "ContractPayment")
+                    .registerSubtype(MoneyTransfer.class, "MoneyTransfer")
+                    .registerSubtype(ShareholderChange.class, "ShareholderChange")
+            ;
+
 
     public static <T> void writeSave(String name, T value){
         /*
