@@ -12,6 +12,11 @@ public class DefaultConfig {
 
         FileConfiguration config = SignClick.getPlugin().getConfig();
 
+        /*
+         * Configure the current version of the plugin storage
+         * */
+        config.addDefault("version", SignClick.getPlugin().getDescription().getVersion());
+
         config.addDefault("fee", 0.05);
 
         config.addDefault("flux", 1.01);
@@ -83,11 +88,6 @@ public class DefaultConfig {
         config.addDefault("electionTime", 60*60*24L);
 
         config.addDefault("stockBuySellAmount", List.of(10, 100, 200));
-
-        /*
-        * Configure the current version of the plugin storage
-        * */
-        config.addDefault("version", SignClick.getPlugin().getDescription().getVersion());
 
         config.options().copyDefaults(true);
         SignClick.getPlugin().saveConfig();
