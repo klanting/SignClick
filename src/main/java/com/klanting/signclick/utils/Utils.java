@@ -53,6 +53,11 @@ public class Utils {
         try {
             file.getParentFile().mkdir();
             file.createNewFile();
+
+            if (gson.toJson(value).toString().isEmpty()){
+                return;
+            }
+
             Writer writer = new FileWriter(file, false);
             gson.toJson(value, writer);
 
