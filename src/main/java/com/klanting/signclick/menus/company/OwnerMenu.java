@@ -41,30 +41,49 @@ public class OwnerMenu extends SelectionMenu {
         value = new ItemStack(Material.EMERALD, 1);
         m = value.getItemMeta();
         m.setDisplayName("§6Upgrades");
+        l = new ArrayList<>();
+        l.add("§7Allows you to upgrade your company");
+        m.setLore(l);
         value.setItemMeta(m);
         getInventory().setItem(22, value);
 
         value = new ItemStack(Material.NETHERITE_HELMET, 1);
         m = value.getItemMeta();
         m.setDisplayName("§6Patent");
+        l = new ArrayList<>();
+        l.add("§7Allows you to create Gear with");
+        l.add("§7custom properties");
+        l.add("§7Combine Patent paper and gear item in");
+        l.add("§7the crafting table to get started");
+        m.setLore(l);
         value.setItemMeta(m);
         getInventory().setItem(21, value);
 
         value = new ItemStack(Material.GOLD_NUGGET, 1);
         m = value.getItemMeta();
         m.setDisplayName("§6Auction");
+        l = new ArrayList<>();
+        l.add("§7Auction for patent upgrades");
+        l.add("§7that can be applied to Gear");
+        m.setLore(l);
         value.setItemMeta(m);
         getInventory().setItem(23, value);
 
         value = new ItemStack(Material.CRAFTING_TABLE, 1);
         m = value.getItemMeta();
         m.setDisplayName("§6Recipes");
+        l = new ArrayList<>();
+        l.add("§7See the gear patent recipes");
+        m.setLore(l);
         value.setItemMeta(m);
         getInventory().setItem(30, value);
 
         value = new ItemStack(Material.PAPER, 1);
         m = value.getItemMeta();
         m.setDisplayName("§6Logs");
+        l = new ArrayList<>();
+        l.add("§7See the logs of your company");
+        m.setLore(l);
         value.setItemMeta(m);
         getInventory().setItem(31, value);
 
