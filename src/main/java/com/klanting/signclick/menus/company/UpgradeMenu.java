@@ -5,6 +5,7 @@ import com.klanting.signclick.economy.Company;
 import com.klanting.signclick.economy.companyUpgrades.Upgrade;
 import com.klanting.signclick.economy.CountryManager;
 import com.klanting.signclick.menus.SelectionMenu;
+import com.klanting.signclick.utils.ItemFactory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -29,9 +30,6 @@ public class UpgradeMenu extends SelectionMenu {
      public void init(){
         int counter = 11;
         for (Upgrade up: comp.upgrades){
-            ItemStack value = new ItemStack(up.material, 1);
-            ItemMeta m = value.getItemMeta();
-            m.setDisplayName("§6"+up.name +" Lvl. §c"+ up.level);
             ArrayList<String> l = new ArrayList<>();
             DecimalFormat df = new DecimalFormat("###,###,###");
             Country country = CountryManager.getCountry(comp.getCountry());
@@ -48,9 +46,8 @@ public class UpgradeMenu extends SelectionMenu {
                 l.add("§6Points: §8"+ df.format((double) up.getUpgradeCostPoints()*(1.0- modifier)));
             }
 
+            ItemStack value = ItemFactory.create(up.material, "§6"+up.name +" Lvl. §c"+ up.level, l);
 
-            m.setLore(l);
-            value.setItemMeta(m);
             getInventory().setItem(counter, value);
             counter ++;
         }

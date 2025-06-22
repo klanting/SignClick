@@ -2,6 +2,7 @@ package com.klanting.signclick.menus.company;
 
 import com.klanting.signclick.economy.Company;
 import com.klanting.signclick.menus.SelectionMenu;
+import com.klanting.signclick.utils.ItemFactory;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -17,74 +18,66 @@ public class OwnerMenu extends SelectionMenu {
         super(54, "Company Menu: "+ company.getStockName(), true);
         comp = company;
 
-        if(!comp.getCOM().isOwner(uuid)){
-            return;
-        }
+        assert comp.getCOM().isOwner(uuid);
         init();
     }
 
     public void init(){
-        ItemStack value = new ItemStack(Material.GOLD_BLOCK, 1);
-        ItemMeta m = value.getItemMeta();
+
+        /*
+        * balance block
+        * */
         DecimalFormat df = new DecimalFormat("###,###,###");
         ArrayList<String> l = new ArrayList<>();
         l.add("§6Value: §9"+ df.format(comp.getValue()));
         l.add("§6Spendable: §9"+ df.format(comp.getSpendable()));
         l.add("§6Points: §9"+ df.format(comp.getSecurityFunds()));
         l.add("§6Type: §9"+ comp.type);
-
-        m.setDisplayName("§6Balance");
-        m.setLore(l);
-        value.setItemMeta(m);
+        ItemStack value = ItemFactory.create(Material.GOLD_BLOCK, "§6Balance", l);
         getInventory().setItem(13, value);
 
-        value = new ItemStack(Material.EMERALD, 1);
-        m = value.getItemMeta();
-        m.setDisplayName("§6Upgrades");
+        /*
+        * Upgrades
+        * */
         l = new ArrayList<>();
         l.add("§7Allows you to upgrade your company");
-        m.setLore(l);
-        value.setItemMeta(m);
+        value = ItemFactory.create(Material.EMERALD, "§6Upgrades", l);
         getInventory().setItem(22, value);
 
-        value = new ItemStack(Material.NETHERITE_HELMET, 1);
-        m = value.getItemMeta();
-        m.setDisplayName("§6Patent");
+        /*
+        * patent
+        * */
         l = new ArrayList<>();
         l.add("§7Allows you to create Gear with");
         l.add("§7custom properties");
         l.add("§7Combine Patent paper and gear item in");
         l.add("§7the crafting table to get started");
-        m.setLore(l);
-        value.setItemMeta(m);
+        value = ItemFactory.create(Material.NETHERITE_HELMET, "§6Patent", l);
         getInventory().setItem(21, value);
 
-        value = new ItemStack(Material.GOLD_NUGGET, 1);
-        m = value.getItemMeta();
-        m.setDisplayName("§6Auction");
+        /*
+        * Auction
+        * */
         l = new ArrayList<>();
         l.add("§7Auction for patent upgrades");
         l.add("§7that can be applied to Gear");
-        m.setLore(l);
-        value.setItemMeta(m);
+        value = ItemFactory.create(Material.GOLD_NUGGET, "§6Auction", l);
         getInventory().setItem(23, value);
 
-        value = new ItemStack(Material.CRAFTING_TABLE, 1);
-        m = value.getItemMeta();
-        m.setDisplayName("§6Recipes");
+        /*
+        * Recipes
+        * */
         l = new ArrayList<>();
         l.add("§7See the gear patent recipes");
-        m.setLore(l);
-        value.setItemMeta(m);
+        value = ItemFactory.create(Material.CRAFTING_TABLE, "§6Recipes", l);
         getInventory().setItem(30, value);
 
-        value = new ItemStack(Material.PAPER, 1);
-        m = value.getItemMeta();
-        m.setDisplayName("§6Logs");
+        /*
+         * Logs
+         * */
         l = new ArrayList<>();
         l.add("§7See the logs of your company");
-        m.setLore(l);
-        value.setItemMeta(m);
+        value = ItemFactory.create(Material.PAPER, "§6Logs", l);
         getInventory().setItem(31, value);
 
     }

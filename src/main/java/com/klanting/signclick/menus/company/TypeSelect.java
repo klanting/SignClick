@@ -1,12 +1,11 @@
 package com.klanting.signclick.menus.company;
 
 import com.klanting.signclick.commands.companyHandelers.CompanyHandlerCreate;
-import com.klanting.signclick.economy.Company;
 import com.klanting.signclick.menus.SelectionMenu;
+import com.klanting.signclick.utils.ItemFactory;
+
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 public class TypeSelect extends SelectionMenu {
 
@@ -20,47 +19,26 @@ public class TypeSelect extends SelectionMenu {
 
     public void init(){
         ItemStack value;
-        ItemMeta m;
-        value = new ItemStack(Material.GOLD_INGOT, 1);
-        m = value.getItemMeta();
-        m.setDisplayName("§6bank");
-        value.setItemMeta(m);
+
+        value = ItemFactory.create(Material.GOLD_INGOT, "§6bank");
         getInventory().setItem(getInventory().firstEmpty(), value);
 
-        value = new ItemStack(Material.MINECART, 1);
-        m = value.getItemMeta();
-        m.setDisplayName("§6transport");
-        value.setItemMeta(m);
+        value = ItemFactory.create(Material.MINECART, "§6transport");
         getInventory().setItem(getInventory().firstEmpty(), value);
 
-        value = new ItemStack(Material.IRON_CHESTPLATE, 1);
-        m = value.getItemMeta();
-        m.setDisplayName("§6product");
-        value.setItemMeta(m);
+        value = ItemFactory.create(Material.IRON_CHESTPLATE, "§6product");
         getInventory().setItem(getInventory().firstEmpty(), value);
 
-        value = new ItemStack(Material.QUARTZ_BLOCK, 1);
-        m = value.getItemMeta();
-        m.setDisplayName("§6real estate");
-        value.setItemMeta(m);
+        value = ItemFactory.create(Material.QUARTZ_BLOCK, "§6real estate");
         getInventory().setItem(getInventory().firstEmpty(), value);
 
-        value = new ItemStack(Material.BOW, 1);
-        m = value.getItemMeta();
-        m.setDisplayName("§6military");
-        value.setItemMeta(m);
+        value = ItemFactory.create(Material.BOW, "§6military");
         getInventory().setItem(getInventory().firstEmpty(), value);
 
-        value = new ItemStack(Material.BRICKS, 1);
-        m = value.getItemMeta();
-        m.setDisplayName("§6building");
-        value.setItemMeta(m);
+        value = ItemFactory.create(Material.BRICKS, "§6building");
         getInventory().setItem(getInventory().firstEmpty(), value);
 
-        value = new ItemStack(Material.SUNFLOWER, 1);
-        m = value.getItemMeta();
-        m.setDisplayName("§6other");
-        value.setItemMeta(m);
+        value = ItemFactory.create(Material.SUNFLOWER, "§6other");
         getInventory().setItem(getInventory().firstEmpty(), value);
     }
 

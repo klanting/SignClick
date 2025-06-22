@@ -3,6 +3,7 @@ package com.klanting.signclick.menus.country;
 import com.klanting.signclick.economy.Country;
 import com.klanting.signclick.economy.CountryManager;
 import com.klanting.signclick.menus.SelectionMenu;
+import com.klanting.signclick.utils.ItemFactory;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -22,18 +23,11 @@ public class DecisionMenu extends SelectionMenu {
 
     public void init(){
         ItemStack value;
-        ItemMeta m;
-        value = new ItemStack(Material.RED_BANNER, 1);
-        m = value.getItemMeta();
-        m.setDisplayName("§6Ban party");
+
         List<String> lores = new ArrayList<>();
         lores.add("§7REQUIRES 40 stability");
-        m.setLore(lores);
-        value.setItemMeta(m);
+        value = ItemFactory.create(Material.RED_BANNER, "§6Ban party", lores);
         getInventory().setItem(12, value);
-
-        value = new ItemStack(Material.IRON_BARS, 1);
-        m = value.getItemMeta();
 
         String name = "§6Forbid party";
         Country country = CountryManager.getCountry(uuid);
@@ -44,21 +38,15 @@ public class DecisionMenu extends SelectionMenu {
 
         lores = new ArrayList<>();
         lores.add("§7REQUIRES 30 stability");
-        m.setLore(lores);
-
-        m.setDisplayName(name);
-        value.setItemMeta(m);
+        value = ItemFactory.create(Material.IRON_BARS, name, lores);
         getInventory().setItem(13, value);
 
-        value = new ItemStack(Material.IRON_SWORD, 1);
-        m = value.getItemMeta();
         name = "§6Abort military payments";
 
         if (country.isAboardMilitary()){
             name = "§6Allow military payments";
         }
-        m.setDisplayName(name);
-        value.setItemMeta(m);
+        value = ItemFactory.create(Material.IRON_SWORD, name);
         getInventory().setItem(14, value);
     }
 

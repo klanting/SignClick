@@ -4,6 +4,7 @@ import com.klanting.signclick.economy.Company;
 import com.klanting.signclick.economy.companyPatent.Patent;
 import com.klanting.signclick.economy.companyPatent.PatentUpgrade;
 import com.klanting.signclick.menus.SelectionMenu;
+import com.klanting.signclick.utils.ItemFactory;
 import org.bukkit.Material;
 import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -37,11 +38,8 @@ public class PatentCrafting extends SelectionMenu {
 
     @Override
     public void init() {
-
-        ItemStack gearItem = new ItemStack(patent.item, 1);
-        ItemMeta m = gearItem.getItemMeta();
-        m.setDisplayName("§6"+comp.getStockName() +":"+patent.getName()+":"+comp.patent.indexOf(patent));
-        gearItem.setItemMeta(m);
+        ItemStack gearItem = ItemFactory.create(patent.item,
+                "§6"+comp.getStockName() +":"+patent.getName()+":"+comp.patent.indexOf(patent));
 
         getInventory().setItem(13, gearItem);
 
@@ -52,11 +50,8 @@ public class PatentCrafting extends SelectionMenu {
             counter++;
         }
 
-        ItemStack item = new ItemStack(Material.PAPER, 1);
+        ItemStack item = ItemFactory.create(Material.PAPER, "§6Get Patent Sheet");
 
-        m = item.getItemMeta();
-        m.setDisplayName("§6Get Patent Sheet");
-        item.setItemMeta(m);
         getInventory().setItem(8, item);
     }
 }

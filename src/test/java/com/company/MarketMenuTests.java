@@ -219,6 +219,7 @@ public class MarketMenuTests {
          * */
         assertEquals(Material.ARROW, testPlayer.getOpenInventory().getItem(45).getType());
         assertEquals(Material.RED_DYE, testPlayer.getOpenInventory().getItem(47).getType());
+        assertEquals("§cNo Next Page", testPlayer.getOpenInventory().getItem(47).getItemMeta().getDisplayName());
 
         /*
         * Check has 1 item

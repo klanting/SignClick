@@ -1,14 +1,11 @@
 package com.klanting.signclick.menus;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
+import com.klanting.signclick.utils.ItemFactory;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.bukkit.Bukkit.getServer;
 
 abstract public class PagingMenu extends SelectionMenu{
 
@@ -39,53 +36,32 @@ abstract public class PagingMenu extends SelectionMenu{
 
         int startPos = getInventory().getSize()-9;
 
-        ItemMeta itemMeta;
+        ItemStack prevPtr;
         if (page > 0){
-            ItemStack prevPage = new ItemStack(Material.ARROW);
-            itemMeta = prevPage.getItemMeta();
-            itemMeta.setDisplayName("§7Previous Page: "+ (page-1));
-            prevPage.setItemMeta(itemMeta);
-            getInventory().setItem(startPos, prevPage);
+            prevPtr = ItemFactory.create(Material.ARROW, "§7Previous Page: "+ (page-1));
         }else{
-            ItemStack grayGlass = new ItemStack(Material.RED_DYE, 1);
-            ItemMeta m = grayGlass.getItemMeta();
-            m.setDisplayName("§cNo Previous Page");
-            grayGlass.setItemMeta(m);
-            getInventory().setItem(startPos, grayGlass);
+            prevPtr = ItemFactory.create(Material.RED_DYE, "§cNo Previous Page");
         }
+        getInventory().setItem(startPos, prevPtr);
 
-
-        ItemStack searchWord = new ItemStack(Material.NAME_TAG);
-        itemMeta = searchWord.getItemMeta();
-        itemMeta.setDisplayName("§7Search");
-        searchWord.setItemMeta(itemMeta);
+        ItemStack searchWord = ItemFactory.create(Material.NAME_TAG, "§7Search");
         getInventory().setItem(startPos+1, searchWord);
 
         int usableSpace = getInventory().getSize()-9;
 
         int itemStartIndex = usableSpace*page;
 
+        ItemStack nextPtr;
         if (itemStartIndex + usableSpace < items.size()){
-            ItemStack nextPage = new ItemStack(Material.ARROW);
-            itemMeta = nextPage.getItemMeta();
-            itemMeta.setDisplayName("§7Next Page: "+ (page+1));
-            nextPage.setItemMeta(itemMeta);
-            getInventory().setItem(startPos+2, nextPage);
+            nextPtr = ItemFactory.create(Material.ARROW, "§7Next Page: "+ (page+1));
         }else{
-            ItemStack grayGlass = new ItemStack(Material.RED_DYE, 1);
-            ItemMeta m = grayGlass.getItemMeta();
-            m.setDisplayName("§cNo Next Page");
-            grayGlass.setItemMeta(m);
-            getInventory().setItem(startPos+2, grayGlass);
+            nextPtr = ItemFactory.create(Material.RED_DYE, "§cNo Next Page");
         }
+        getInventory().setItem(startPos+2, nextPtr);
 
         int endPos = backButton ? getInventory().getSize()-1: getInventory().getSize();
         for (int i=startPos+3; i<endPos; i++){
-            ItemStack grayGlass = new ItemStack(Material.LIGHT_GRAY_STAINED_GLASS_PANE, 1);
-            ItemMeta m = grayGlass.getItemMeta();
-            m.setDisplayName("§f");
-            grayGlass.setItemMeta(m);
-            getInventory().setItem(i, grayGlass);
+            getInventory().setItem(i, ItemFactory.createGray());
         }
 
         for (int i=0; i<Math.min(usableSpace, items.size()-usableSpace*page); i++){
