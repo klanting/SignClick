@@ -40,6 +40,8 @@ public class TypeSelect extends SelectionMenu {
 
         value = ItemFactory.create(Material.SUNFLOWER, "§6other");
         getInventory().setItem(getInventory().firstEmpty(), value);
+
+        super.init();
     }
 
 }

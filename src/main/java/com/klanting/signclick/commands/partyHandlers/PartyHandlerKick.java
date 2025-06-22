@@ -1,6 +1,5 @@
 package com.klanting.signclick.commands.partyHandlers;
 
-import com.klanting.signclick.commands.CommandTools;
 import com.klanting.signclick.commands.exceptions.CommandAssert;
 import com.klanting.signclick.commands.exceptions.CommandException;
 import com.klanting.signclick.economy.Country;

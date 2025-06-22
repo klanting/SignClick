@@ -80,5 +80,6 @@ public class OwnerMenu extends SelectionMenu {
         value = ItemFactory.create(Material.PAPER, "§6Logs", l);
         getInventory().setItem(31, value);
 
+        super.init();
     }
 }

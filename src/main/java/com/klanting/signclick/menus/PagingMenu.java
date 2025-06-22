@@ -80,7 +80,7 @@ abstract public class PagingMenu extends SelectionMenu{
             getInventory().setItem(getInventory().firstEmpty(), item);
         }
 
-        checkBackButton();
+        super.init();
     }
 
     public void changePage(int change){

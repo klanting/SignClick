@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
+import org.bukkit.inventory.ItemFactory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
@@ -38,10 +39,19 @@ abstract public class SelectionMenu implements InventoryHolder {
         }
     }
 
+    public void onOpen() {
+
+        while (menu.firstEmpty() != -1){
+            menu.setItem(menu.firstEmpty(), com.klanting.signclick.utils.ItemFactory.createGray());
+        }
+    }
+
     @Override
     public @NotNull Inventory getInventory() {
         return menu;
     }
 
-    abstract public void init();
+    public void init(){
+        checkBackButton();
+    }
 }

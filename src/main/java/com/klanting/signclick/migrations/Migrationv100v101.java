@@ -23,7 +23,7 @@ import org.bukkit.Location;
 public class Migrationv100v101 extends Migration{
 
     Migrationv100v101(){
-        super("v1.0.0", "v1.0.1");
+        super("1.0.0", "1.0.1");
     }
 
     @Override
@@ -65,6 +65,6 @@ public class Migrationv100v101 extends Migration{
             throw new RuntimeException(e.getMessage());
         }
 
-        SignClick.getPlugin().getConfig().set("version", "v1.0.1");
+        SignClick.getPlugin().getConfig().set("version", "1.0.1");
     }
 }

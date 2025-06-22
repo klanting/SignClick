@@ -43,5 +43,7 @@ public class PatentIDMenu extends SelectionMenu {
             getInventory().setItem(getInventory().firstEmpty(), parent);
 
         }
+
+        super.init();
     }
 }

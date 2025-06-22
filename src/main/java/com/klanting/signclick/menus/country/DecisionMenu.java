@@ -48,6 +48,8 @@ public class DecisionMenu extends SelectionMenu {
         }
         value = ItemFactory.create(Material.IRON_SWORD, name);
         getInventory().setItem(14, value);
+
+        super.init();
     }
 
 }

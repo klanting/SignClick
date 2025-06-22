@@ -40,5 +40,7 @@ public class AuctionMenu extends SelectionMenu {
             upgradeItem.setItemMeta(m);
             getInventory().setItem(i, upgradeItem);
         }
+
+        super.init();
     }
 }

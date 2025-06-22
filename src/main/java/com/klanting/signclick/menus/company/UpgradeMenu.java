@@ -27,7 +27,7 @@ public class UpgradeMenu extends SelectionMenu {
         init();
     }
 
-     public void init(){
+    public void init(){
         int counter = 11;
         for (Upgrade up: comp.upgrades){
             ArrayList<String> l = new ArrayList<>();
@@ -51,5 +51,7 @@ public class UpgradeMenu extends SelectionMenu {
             getInventory().setItem(counter, value);
             counter ++;
         }
+
+        super.init();
     }
 }

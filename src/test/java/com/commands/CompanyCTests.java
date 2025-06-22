@@ -119,7 +119,7 @@ class CompanyCTests {
         ItemStack companyOption2 = inventoryMenu.getItem(1);
 
         assertNotNull(companyOption);
-        assertNull(companyOption2);
+        assertEquals(Material.LIGHT_GRAY_STAINED_GLASS_PANE, companyOption2.getType());
 
         /*
         * Check first item is a company

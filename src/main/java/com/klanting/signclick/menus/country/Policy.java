@@ -69,7 +69,7 @@ public class Policy extends SelectionMenu {
             startIndex += 9;
         }
 
-
+        super.init();
     }
 
 }

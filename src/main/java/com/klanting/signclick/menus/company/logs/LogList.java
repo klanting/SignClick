@@ -26,5 +26,6 @@ public class LogList extends SelectionMenu {
             logItem.setItemMeta(m);
             getInventory().setItem(getInventory().firstEmpty(), logItem);
         }
+        super.init();
     }
 }

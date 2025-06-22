@@ -32,6 +32,8 @@ public class PartyBan extends SelectionMenu {
             value.setItemMeta(m);
             getInventory().setItem(getInventory().firstEmpty(), value);
         }
+
+        super.init();
     }
 
 }

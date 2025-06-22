@@ -147,6 +147,6 @@ public class MarketMenu extends SelectionMenu {
             getInventory().setItem(getInventory().firstEmpty(), grayGlass);
         }
 
-
+        super.init();
     }
 }

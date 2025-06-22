@@ -49,5 +49,7 @@ public class PatentDesignerUpgrade extends SelectionMenu {
                 counter++;
             }
         }
+
+        super.init();
     }
 }

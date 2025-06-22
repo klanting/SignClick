@@ -56,5 +56,7 @@ public class PatentDesignerMenu extends SelectionMenu {
         m.setDisplayName("§aSave");
         save_button.setItemMeta(m);
         getInventory().setItem(8, save_button);
+
+        super.init();
     }
 }

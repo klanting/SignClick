@@ -29,6 +29,7 @@ public class PatentSelectorMenu extends SelectionMenu {
         item = new ItemStack(Material.NETHERITE_BOOTS,1);
         getInventory().setItem(16, item);
 
-
+        super.init();
     }
+
 }

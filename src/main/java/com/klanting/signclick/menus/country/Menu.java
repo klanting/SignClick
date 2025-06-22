@@ -50,6 +50,8 @@ public class Menu extends SelectionMenu {
         m.setDisplayName("§6Decisions");
         value.setItemMeta(m);
         getInventory().setItem(21, value);
+
+        super.init();
     }
 
 }

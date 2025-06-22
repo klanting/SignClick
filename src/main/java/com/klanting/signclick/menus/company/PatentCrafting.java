@@ -53,5 +53,7 @@ public class PatentCrafting extends SelectionMenu {
         ItemStack item = ItemFactory.create(Material.PAPER, "§6Get Patent Sheet");
 
         getInventory().setItem(8, item);
+
+        super.init();
     }
 }

@@ -7,11 +7,7 @@ import com.klanting.signclick.economy.CountryManager;
 import com.klanting.signclick.economy.decisions.Decision;
 import com.klanting.signclick.economy.decisions.DecisionCoup;
 import com.klanting.signclick.economy.parties.Party;
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
-
-import java.util.UUID;
 
 public class PartyHandlerCoup extends PartyHandler {
     @Override
