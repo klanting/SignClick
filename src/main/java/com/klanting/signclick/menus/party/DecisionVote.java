@@ -9,13 +9,13 @@ import com.klanting.signclick.economy.CountryManager;
 import com.klanting.signclick.economy.decisions.Decision;
 import com.klanting.signclick.economy.parties.Party;
 
-import com.klanting.signclick.menus.SelectionMenu;
+import com.klanting.signclick.menus.PagingMenu;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 
-public class DecisionVote extends SelectionMenu {
+public class DecisionVote extends PagingMenu {
 
     public Party p;
 
@@ -27,6 +27,9 @@ public class DecisionVote extends SelectionMenu {
 
     public void init(){
         Country country = CountryManager.getCountry(p.country);
+
+        clearItems();
+
         for (Decision d: country.getDecisions()){
             if (d.hasVoted(p)){
                 continue;
@@ -42,7 +45,10 @@ public class DecisionVote extends SelectionMenu {
             m.setLore(lores);
             m.setDisplayName(d.name);
             decisionItem.setItemMeta(m);
-            getInventory().setItem(getInventory().firstEmpty(), decisionItem);
+
+            addItem(decisionItem);
         }
+
+        super.init();
     }
 }

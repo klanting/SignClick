@@ -94,7 +94,8 @@ public class MenuEvents implements Listener {
 
             clearStack(player);
 
-            MarketMenu screen = new MarketMenu(player.getUniqueId(), Market.getTopMarketAvailable().get(event.getSlot()));
+            String compName = event.getCurrentItem().getItemMeta().getDisplayName().substring(2);
+            MarketMenu screen = new MarketMenu(player.getUniqueId(), Market.getCompany(compName));
 
             player.openInventory(screen.getInventory());
 
@@ -367,14 +368,18 @@ public class MenuEvents implements Listener {
             player.closeInventory();
         }
 
-        if (event.getClickedInventory().getHolder() instanceof DecisionVote){
+        if (event.getClickedInventory().getHolder() instanceof DecisionVote currentScreen){
             event.setCancelled(true);
             Player player = (Player) event.getWhoClicked();
-            int slot = event.getSlot();
+
+            int usable = currentScreen.getInventory().getSize()-9;
+
+            int slot = event.getSlot() + usable*currentScreen.getPage();
 
             DecisionVote old_screen = (DecisionVote) event.getClickedInventory().getHolder();
             String countryName = old_screen.p.country;
             Country country = CountryManager.getCountry(countryName);
+
             Decision d = country.getDecisions().get(slot);
 
             DecisionChoice new_screen = new DecisionChoice(old_screen.p, d);

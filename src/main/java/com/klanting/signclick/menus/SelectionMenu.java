@@ -11,6 +11,9 @@ import org.jetbrains.annotations.NotNull;
 abstract public class SelectionMenu implements InventoryHolder {
     private final Inventory menu;
 
+    private final boolean backButton;
+    private final int backPosition;
+
     public SelectionMenu(int size, String title, boolean backButton){
         this(size, title, backButton, size-1);
     }
@@ -18,6 +21,14 @@ abstract public class SelectionMenu implements InventoryHolder {
     public SelectionMenu(int size, String title, boolean backButton, int backPosition){
         menu = Bukkit.createInventory(this, size, title);
 
+        this.backButton = backButton;
+        this.backPosition = backPosition;
+
+        checkBackButton();
+
+    }
+
+    public void checkBackButton(){
         if (backButton){
             ItemStack back = new ItemStack(Material.BARRIER);
             ItemMeta itemMeta = back.getItemMeta();
@@ -25,7 +36,6 @@ abstract public class SelectionMenu implements InventoryHolder {
             back.setItemMeta(itemMeta);
             menu.setItem(backPosition, back);
         }
-
     }
 
     @Override

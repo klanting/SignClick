@@ -27,6 +27,17 @@ public class MarketMenuTests {
     private PlayerMock testPlayer;
     private InventoryView inventoryMenu;
 
+    private void openMenu(){
+        /*
+        * open the market menu
+        * */
+        boolean suc6 = server.execute("company", testPlayer, "market").hasSucceeded();
+        assertTrue(suc6);
+
+        inventoryMenu = testPlayer.getOpenInventory();
+        assertNotNull(inventoryMenu);
+    }
+
     @BeforeEach
     public void setUp() {
 
@@ -43,11 +54,7 @@ public class MarketMenuTests {
         assertTrue(suc6);
         Market.getCompany("TCI2").type = "bank";
 
-        suc6 = server.execute("company", testPlayer, "market").hasSucceeded();
-        assertTrue(suc6);
-
-        inventoryMenu = testPlayer.getOpenInventory();
-        assertNotNull(inventoryMenu);
+        openMenu();
 
     }
 
@@ -172,5 +179,70 @@ public class MarketMenuTests {
         testPlayer.simulateInventoryClick(33);
         TestTools.assertItem(marketMenu.getItem(15), Material.LIME_CONCRETE, "§aBUY: 1000000 Shares");
         TestTools.assertItem(marketMenu.getItem(33), Material.RED_CONCRETE, "§fDOES NOTHING");
+    }
+
+    @Test
+    void marketMenuPaging(){
+        /*
+        * Test paging for market menu, when we have 55 companies
+        * */
+        testPlayer.closeInventory();
+
+        for (int i=3; i<47; i++){
+            boolean suc6 = Market.addCompany("TestCaseInc"+i, "TCI"+i, Market.getAccount(testPlayer));
+            assertTrue(suc6);
+        }
+
+        openMenu();
+
+        /*
+        * Check has next page but not previous page
+        * */
+        assertEquals(Material.RED_DYE, testPlayer.getOpenInventory().getItem(45).getType());
+        assertEquals(Material.ARROW, testPlayer.getOpenInventory().getItem(47).getType());
+
+        /*
+        * Check has item on each place 0 -44
+        * */
+        for (int i =0; i<45; i++){
+            assertNotNull(testPlayer.getOpenInventory().getItem(i));
+            assertNotEquals(Material.LIGHT_GRAY_STAINED_GLASS_PANE, testPlayer.getOpenInventory().getItem(i).getType());
+        }
+
+        /*
+        * Click next page
+        * */
+        testPlayer.simulateInventoryClick(47);
+
+        /*
+         * Check has previous page but not next page
+         * */
+        assertEquals(Material.ARROW, testPlayer.getOpenInventory().getItem(45).getType());
+        assertEquals(Material.RED_DYE, testPlayer.getOpenInventory().getItem(47).getType());
+
+        /*
+        * Check has 1 item
+        * */
+        assertEquals(Material.SUNFLOWER, testPlayer.getOpenInventory().getItem(0).getType());
+        assertNull(testPlayer.getOpenInventory().getItem(1));
+
+        /*
+        * Check after click go back to this page
+        * */
+        testPlayer.simulateInventoryClick(0);
+        testPlayer.simulateInventoryClick(44);
+
+        /*
+         * Check has previous page but not next page
+         * */
+        assertEquals(Material.ARROW, testPlayer.getOpenInventory().getItem(45).getType());
+        assertEquals(Material.RED_DYE, testPlayer.getOpenInventory().getItem(47).getType());
+
+        /*
+         * Check has 1 item
+         * */
+        assertEquals(Material.SUNFLOWER, testPlayer.getOpenInventory().getItem(0).getType());
+        assertNull(testPlayer.getOpenInventory().getItem(1));
+
     }
 }

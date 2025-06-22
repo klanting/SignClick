@@ -91,6 +91,8 @@ abstract public class PagingMenu extends SelectionMenu{
         for (int i=0; i<Math.min(usableSpace, items.size()-usableSpace*page); i++){
             getInventory().setItem(i, items.get(itemStartIndex+i));
         }
+
+        checkBackButton();
     }
 
     public int getPage(){

@@ -1,9 +1,8 @@
 package com.klanting.signclick.menus.company;
 
-import com.klanting.signclick.economy.Account;
 import com.klanting.signclick.economy.Company;
 import com.klanting.signclick.economy.Market;
-import com.klanting.signclick.menus.SelectionMenu;
+import com.klanting.signclick.menus.PagingMenu;
 import com.klanting.signclick.utils.Utils;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -13,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class MarketSelector extends SelectionMenu {
+public class MarketSelector extends PagingMenu {
     public UUID uuid;
 
     public MarketSelector(UUID uuid){
@@ -25,6 +24,8 @@ public class MarketSelector extends SelectionMenu {
     @Override
     public void init() {
         ItemStack item;
+
+        clearItems();
         for(Company c: Market.getTopMarketAvailable()){
 
             item = new ItemStack(Utils.getCompanyTypeMaterial(c.type),1);
@@ -41,7 +42,10 @@ public class MarketSelector extends SelectionMenu {
                     + " ("+df2.format((shares.doubleValue()/c.getTotalShares().doubleValue()*100.0))+"%)\n");
             m.setLore(lore);
             item.setItemMeta(m);
-            getInventory().setItem(getInventory().firstEmpty(), item);
+
+            addItem(item);
         }
+
+        super.init();
     }
 }

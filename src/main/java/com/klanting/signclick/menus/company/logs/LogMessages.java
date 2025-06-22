@@ -2,6 +2,7 @@ package com.klanting.signclick.menus.company.logs;
 
 import com.klanting.signclick.economy.Company;
 import com.klanting.signclick.economy.logs.PluginLogs;
+import com.klanting.signclick.menus.PagingMenu;
 import com.klanting.signclick.menus.SelectionMenu;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.MutablePair;
@@ -18,7 +19,7 @@ import java.util.List;
 
 import static org.bukkit.Bukkit.getServer;
 
-public class LogMessages extends SelectionMenu {
+public class LogMessages extends PagingMenu {
     public Company comp;
     private final PluginLogs pluginLog;
 
@@ -33,11 +34,11 @@ public class LogMessages extends SelectionMenu {
     public void init(){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
+        clearItems();
+
         for(MutableTriple<LocalDateTime, String, String> log : pluginLog.getLogs()){
             ItemStack logItem = new ItemStack(Material.PAPER, 1);
             ItemMeta m = logItem.getItemMeta();
-
-            getServer().getConsoleSender().sendMessage(ChatColor.RED + log.getRight());
 
             List<String> messages = new java.util.ArrayList<>(List.of(log.getRight().split(" ")));
             List<String> newMessages = new ArrayList<>();
@@ -69,7 +70,11 @@ public class LogMessages extends SelectionMenu {
             m.setLore(newMessages);
 
             logItem.setItemMeta(m);
-            getInventory().setItem(getInventory().firstEmpty(), logItem);
+
+            addItem(logItem);
+
         }
+
+        super.init();
     }
 }
