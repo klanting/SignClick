@@ -42,9 +42,6 @@ public class UpgradeMenu extends SelectionMenu {
             if (up.getUpgradeCost() != -1){
                 l.add("§6Cost: §8"+ df.format((double) up.getUpgradeCost()*(1.0- modifier)));
             }
-            if (up.getUpgradeCostPoints() != -1){
-                l.add("§6Points: §8"+ df.format((double) up.getUpgradeCostPoints()*(1.0- modifier)));
-            }
 
             ItemStack value = ItemFactory.create(up.material, "§6"+up.name +" Lvl. §c"+ up.level, l);
 

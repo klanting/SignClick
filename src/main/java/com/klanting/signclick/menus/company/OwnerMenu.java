@@ -30,7 +30,6 @@ public class OwnerMenu extends SelectionMenu {
         DecimalFormat df = new DecimalFormat("###,###,###");
         ArrayList<String> l = new ArrayList<>();
         l.add("§6Value: §9"+ df.format(comp.getValue()));
-        l.add("§6Points: §9"+ df.format(comp.getSecurityFunds()));
         l.add("§6Type: §9"+ comp.type);
         ItemStack value = ItemFactory.create(Material.GOLD_BLOCK, "§6Balance", l);
         getInventory().setItem(13, value);

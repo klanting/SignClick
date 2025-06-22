@@ -19,7 +19,6 @@ public class UpgradeExtraPoints extends Upgrade{
 
         bonus = section.getIntegerList("bonus");
         upgradeCost = section.getIntegerList("upgradeCost");
-        upgradeCostPoints = section.getIntegerList("upgradeCostPoints");
 
         name = "Extra Points";
         material = Material.GOLD_NUGGET;

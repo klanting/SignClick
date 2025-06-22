@@ -12,7 +12,6 @@ import java.util.Map;
 public class Upgrade {
     public List<Integer> bonus = new ArrayList<>();
     public List<Integer> upgradeCost = new ArrayList<>();
-    public List<Integer> upgradeCostPoints = new ArrayList<>();
 
     public String name;
     public Material material;
@@ -24,12 +23,12 @@ public class Upgrade {
         this.id = id;
     }
 
-    public Boolean canUpgrade(Integer balance, Integer points){
+    public Boolean canUpgrade(Integer balance){
         if (level >= 5){
             return false;
         }
 
-        return upgradeCost.get(level) <= balance && upgradeCostPoints.get(level) <= points;
+        return upgradeCost.get(level) <= balance;
     }
 
     public Integer getBonus(){
@@ -47,15 +46,6 @@ public class Upgrade {
         }
 
         return upgradeCost.get(level);
-    }
-
-    public Integer getUpgradeCostPoints(){
-
-        if (level >= upgradeCostPoints.size()){
-            return -1;
-        }
-
-        return upgradeCostPoints.get(level);
     }
 
 }

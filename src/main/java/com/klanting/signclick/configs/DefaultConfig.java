@@ -47,36 +47,26 @@ public class DefaultConfig {
                 List.of(5, 10, 20, 40, 80, 100));
         section.getConfigurationSection("craftLimit").addDefault("upgradeCost",
                 List.of(40000, 80000, 120000, 160000, 200000));
-        section.getConfigurationSection("craftLimit").addDefault("upgradeCostPoints",
-                List.of(1000, 2000, 3000, 4000, 5000));
 
         section.getConfigurationSection("extraPoints").addDefault("bonus",
                 List.of(0, 5, 10, 15, 20, 25));
         section.getConfigurationSection("extraPoints").addDefault("upgradeCost",
                 List.of(20000, 40000, 60000, 80000, 100000));
-        section.getConfigurationSection("extraPoints").addDefault("upgradeCostPoints",
-                List.of(500, 1000, 2000, 5000, 10000));
 
         section.getConfigurationSection("investReturnTime").addDefault("bonus",
                 List.of(0, 5, 10, 15, 20, 25));
         section.getConfigurationSection("investReturnTime").addDefault("upgradeCost",
                 List.of(40000, 80000, 120000, 160000, 200000));
-        section.getConfigurationSection("investReturnTime").addDefault("upgradeCostPoints",
-                List.of(1000, 4000, 6000, 8000, 10000));
 
         section.getConfigurationSection("patentSlot").addDefault("bonus",
                 List.of(1, 2, 3, 4, 5, 20));
         section.getConfigurationSection("patentSlot").addDefault("upgradeCost",
                 List.of(50000, 100000, 200000, 400000, 600000));
-        section.getConfigurationSection("patentSlot").addDefault("upgradeCostPoints",
-                List.of(1000, 3000, 5000, 10000, 40000));
 
         section.getConfigurationSection("patentUpgradeSlot").addDefault("bonus",
                 List.of(3, 4, 5, 6, 7, 8));
         section.getConfigurationSection("patentUpgradeSlot").addDefault("upgradeCost",
                 List.of(40000, 80000, 120000, 160000, 200000));
-        section.getConfigurationSection("patentUpgradeSlot").addDefault("upgradeCostPoints",
-                List.of(1000, 2000, 3000, 6000, 10000));
 
         config.addDefault("auctionBitIncrease", 1000);
         config.addDefault("auctionStartPrice", 1000);
@@ -119,36 +109,26 @@ public class DefaultConfig {
                 List.of(5, 10, 20, 40, 80, 100));
         section.getConfigurationSection("craftLimit").addDefault("upgradeCost",
                 List.of(4000000, 8000000, 12000000, 16000000, 20000000));
-        section.getConfigurationSection("craftLimit").addDefault("upgradeCostPoints",
-                List.of(100000, 200000, 300000, 400000, 500000));
 
         section.getConfigurationSection("extraPoints").addDefault("bonus",
                 List.of(0, 5, 10, 15, 20, 25));
         section.getConfigurationSection("extraPoints").addDefault("upgradeCost",
                 List.of(2000000, 4000000, 6000000, 8000000, 10000000));
-        section.getConfigurationSection("extraPoints").addDefault("upgradeCostPoints",
-                List.of(50000, 100000, 200000, 500000, 1000000));
 
         section.getConfigurationSection("investReturnTime").addDefault("bonus",
                 List.of(0, 5, 10, 15, 20, 25));
         section.getConfigurationSection("investReturnTime").addDefault("upgradeCost",
                 List.of(4000000, 8000000, 12000000, 16000000, 20000000));
-        section.getConfigurationSection("investReturnTime").addDefault("upgradeCostPoints",
-                List.of(100000, 400000, 600000, 800000, 1000000));
 
         section.getConfigurationSection("patentSlot").addDefault("bonus",
                 List.of(1, 2, 3, 4, 5, 20));
         section.getConfigurationSection("patentSlot").addDefault("upgradeCost",
                 List.of(5000000, 10000000, 20000000, 40000000, 60000000));
-        section.getConfigurationSection("patentSlot").addDefault("upgradeCostPoints",
-                List.of(100000, 300000, 500000, 1000000, 4000000));
 
         section.getConfigurationSection("patentUpgradeSlot").addDefault("bonus",
                 List.of(3, 4, 5, 6, 7, 8));
         section.getConfigurationSection("patentUpgradeSlot").addDefault("upgradeCost",
                 List.of(4000000, 8000000, 12000000, 16000000, 20000000));
-        section.getConfigurationSection("patentUpgradeSlot").addDefault("upgradeCostPoints",
-                List.of(100000, 200000, 300000, 600000, 1000000));
 
         config.addDefault("auctionBitIncrease", 100000);
         config.addDefault("auctionStartPrice", 100000);

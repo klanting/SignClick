@@ -17,7 +17,6 @@ public class UpgradeCraftLimit extends Upgrade{
 
         bonus = section.getIntegerList("bonus");
         upgradeCost = section.getIntegerList("upgradeCost");
-        upgradeCostPoints = section.getIntegerList("upgradeCostPoints");
 
         name = "Craft Limit";
         material = Material.CRAFTING_TABLE;

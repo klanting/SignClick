@@ -250,7 +250,6 @@ class CompanyTests {
         Company company = Market.getCompany("TCI");
         company.addBal(Math.pow(2, 65));
         assertTrue(company.getBal() > 0);
-        assertTrue(company.getSecurityFunds() > 0);
     }
 
 

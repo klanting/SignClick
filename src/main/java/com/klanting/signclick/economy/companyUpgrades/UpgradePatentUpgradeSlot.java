@@ -17,7 +17,6 @@ public class UpgradePatentUpgradeSlot extends Upgrade{
 
         bonus = section.getIntegerList("bonus");
         upgradeCost = section.getIntegerList("upgradeCost");
-        upgradeCostPoints = section.getIntegerList("upgradeCostPoints");
 
         name = "Patent Upgrade Slot";
         material = Material.ITEM_FRAME;

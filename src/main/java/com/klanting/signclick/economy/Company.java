@@ -73,8 +73,6 @@ public class Company extends LoggableSubject{
 
     private double shareBalance = 0.0;
 
-    private double securityFunds = 0.0;
-
     private double lastValue = 0.0;
 
     public CompanyOwnerManager getCOM() {
@@ -119,10 +117,6 @@ public class Company extends LoggableSubject{
 
     public double getShareBalance() {
         return shareBalance;
-    }
-
-    public double getSecurityFunds() {
-        return securityFunds;
     }
 
     public Integer getTotalShares() {
@@ -277,28 +271,8 @@ public class Company extends LoggableSubject{
 
 
     public boolean addBal(double amount){
-
-        double modifier2 = 0.0;
-        double sub_pct = 1.0;
-        if (country != null){
-            if (country.getStability() < 30){
-                sub_pct -= 0.20;
-            }
-            if (country.getStability() < 50){
-                sub_pct -= 0.10;
-            }
-            if (country.getStability() > 80){
-                sub_pct += 0.10;
-            }
-            modifier2 += country.getPolicyBonus(0, 2);
-        }
-
-        double modifier3 = (sub_pct+(double) upgrades.get(0).getBonus()/100.0);
-
         bal += amount;
         changeBase();
-
-        securityFunds += (0.01*amount)*modifier3*(1.0+ modifier2);
 
         return true;
     }
@@ -444,8 +418,7 @@ public class Company extends LoggableSubject{
 
     public boolean doUpgrade(Integer id){
         Upgrade u = upgrades.get(id);
-        if (!u.canUpgrade((int) (getBal()+ getShareBalance()),
-                (int) securityFunds)){
+        if (!u.canUpgrade((int) (getBal()+ getShareBalance()))){
             return false;
 
         }
@@ -465,7 +438,6 @@ public class Company extends LoggableSubject{
             modifier2 += country.getPolicyBonus(3, 2);
         }
 
-        securityFunds -= u.getUpgradeCostPoints()*(base-modifier);
         int cost = (int) ((double) u.getUpgradeCost()*(base-modifier));
         removeBal(cost);
         u.DoUpgrade();
