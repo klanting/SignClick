@@ -59,7 +59,7 @@ public class MenuEvents implements Listener {
             return;
         }
 
-        if (event.getCurrentItem().getType().equals(Material.BARRIER)){
+        if (event.getClickedInventory().getHolder() instanceof SelectionMenu && event.getCurrentItem().getType().equals(Material.BARRIER)){
             Player player = (Player) event.getWhoClicked();
             loadStack(player);
             return;
