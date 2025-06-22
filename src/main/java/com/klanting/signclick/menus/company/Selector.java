@@ -1,6 +1,7 @@
 package com.klanting.signclick.menus.company;
 
 import com.klanting.signclick.economy.Company;
+import com.klanting.signclick.menus.PagingMenu;
 import com.klanting.signclick.menus.SelectionMenu;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -14,7 +15,7 @@ import java.util.UUID;
 
 import static com.klanting.signclick.utils.Utils.getCompanyTypeMaterial;
 
-public class Selector extends SelectionMenu {
+public class Selector extends PagingMenu {
 
     final private UUID uuid;
 
@@ -29,7 +30,7 @@ public class Selector extends SelectionMenu {
         for(Company c: Market.getBusinessByOwner(uuid)){
             item = new ItemStack(getCompanyTypeMaterial(c.type),1);
             ItemMeta m = item.getItemMeta();
-            m.setDisplayName("§b"+c.getStockName());
+            m.setDisplayName("§6"+c.getName()+" ["+c.getStockName()+"]");
 
             List<String> lores = new ArrayList<>();
             DecimalFormat df = new DecimalFormat("###,###,###");
@@ -38,8 +39,12 @@ public class Selector extends SelectionMenu {
 
             m.setLore(lores);
             item.setItemMeta(m);
-            getInventory().setItem(getInventory().firstEmpty(), item);
+
+            clearItems();
+            addItem(item);
         }
+
+        super.init();
 
 
     }

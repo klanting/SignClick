@@ -109,7 +109,9 @@ public class MenuEvents implements Listener {
 
             clearStack(player);
 
-            Company company = Market.getCompany(event.getCurrentItem().getItemMeta().getDisplayName().substring(2));
+            int startPos = event.getCurrentItem().getItemMeta().getDisplayName().indexOf("[");
+            int endPos = event.getCurrentItem().getItemMeta().getDisplayName().length()-1;
+            Company company = Market.getCompany(event.getCurrentItem().getItemMeta().getDisplayName().substring(startPos+1, endPos));
             OwnerMenu screen = new OwnerMenu(player.getUniqueId(), company);
 
             player.openInventory(screen.getInventory());
