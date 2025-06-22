@@ -22,7 +22,6 @@ public class WeeklyComp {
 
             public void run() {
                 CountryManager.runLawSalary();
-                Market.resetSpendable();
                 Market.resetPatentCrafted();
                 Market.runDividends();
                 Market.runContracts();

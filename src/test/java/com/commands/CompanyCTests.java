@@ -810,18 +810,6 @@ class CompanyCTests {
     }
 
     @Test
-    void companyGetSpendable(){
-        Market.getCompany("TCI").addBal(1000.0);
-
-        boolean suc6 = server.execute("company", testPlayer, "spendable",
-                "TCI").hasSucceeded();
-        assertTrue(suc6);
-
-        testPlayer.assertSaid("§b spendable money: 200,00");
-        testPlayer.assertNoMoreSaid();
-    }
-
-    @Test
     void companyGetBuyPriceAfterReload(){
         Market.getCompany("TCI").addBal(1000.0);
 

@@ -60,7 +60,6 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
         handlerTranslation.put("buy", new CompanyHandlerBuy());
         handlerTranslation.put("sell", new CompanyHandlerSell());
         handlerTranslation.put("pay", new CompanyHandlerPay());
-        handlerTranslation.put("spendable", new CompanyHandlerSpendable());
         handlerTranslation.put("transfer", new CompanyHandlerTransfer());
 
         handlerTranslation.put("get_support", new CompanyHandlerGetSupport());

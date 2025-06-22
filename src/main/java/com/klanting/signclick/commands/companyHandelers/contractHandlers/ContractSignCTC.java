@@ -29,8 +29,6 @@ public class ContractSignCTC extends CompanyHandler {
 
         CommandAssert.assertTrue(cr != null, "§bno contract pending");
 
-        CommandAssert.assertTrue(comp.getSpendable() >= cr.getAmount(), "§bcan't sign contract because lack of weekly spendable funds");
-
         if (firstEnter){
 
             DecimalFormat df = new DecimalFormat("###,###,###");

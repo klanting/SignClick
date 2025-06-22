@@ -75,8 +75,6 @@ public class Company extends LoggableSubject{
 
     private double securityFunds = 0.0;
 
-    private double spendable = 0.0;
-
     private double lastValue = 0.0;
 
     public CompanyOwnerManager getCOM() {
@@ -127,10 +125,6 @@ public class Company extends LoggableSubject{
         return securityFunds;
     }
 
-    public double getSpendable() {
-        return spendable;
-    }
-
     public Integer getTotalShares() {
         return getCOM().getTotalShares();
     }
@@ -155,9 +149,9 @@ public class Company extends LoggableSubject{
 
 
     public boolean removeBal(double amount){
-        if ((getBal()+ shareBalance >= amount) & (spendable >= amount)){
+        if (getBal()+ shareBalance >= amount){
             this.bal -= amount;
-            spendable -= amount;
+
             changeBase();
             return true;
         }
@@ -172,12 +166,10 @@ public class Company extends LoggableSubject{
 
     void addShareBal(Double amount){
         shareBalance += amount;
-        spendable += (0.2*amount);
     }
 
     void removeShareBal(Double amount){
         shareBalance -= amount;
-        spendable -= amount;
     }
 
     public void changeBase(){
@@ -286,11 +278,6 @@ public class Company extends LoggableSubject{
 
     public boolean addBal(double amount){
 
-        double modifier = 0.0;
-        if (country != null){
-            modifier += country.getPolicyBonus(0, 3);
-        }
-
         double modifier2 = 0.0;
         double sub_pct = 1.0;
         if (country != null){
@@ -311,9 +298,6 @@ public class Company extends LoggableSubject{
         bal += amount;
         changeBase();
 
-        if (amount > 0){
-            spendable += (0.2+ modifier)*amount;
-        }
         securityFunds += (0.01*amount)*modifier3*(1.0+ modifier2);
 
         return true;
@@ -451,30 +435,6 @@ public class Company extends LoggableSubject{
 
         getCOM().sendOwner("§b your company §7"+ stockName +"§b got a contract from §7" + Bukkit.getOfflinePlayer(UUID.fromString(playerUUID)).getName()
                 + "§b he/she will ask you §7"+amount+"§b for §7"+weeks+"§b weeks, do §c/company sign_contract_ctp "+ stockName);
-    }
-
-
-
-    public void resetSpendable(){
-        double base = 0.2;
-
-        if (country == null || country.getStability() < 50){
-            base -= 0.03;
-        }
-
-        double modifier = 0.0;
-        if (country != null){
-            modifier = country.getPolicyBonus(0, 3);
-        }
-
-        double pct = (base+modifier);
-        if (type.equals("bank") && country != null){
-            pct += country.getPolicyBonus(0, 7);
-            pct += country.getPolicyBonus(1, 5);
-            pct += country.getPolicyBonus(2, 11);
-        }
-
-        spendable = getValue()*pct;
     }
 
     public void resetPatentCrafted(){

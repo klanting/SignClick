@@ -223,16 +223,6 @@ public class Market {
 
     }
 
-
-    public static void resetSpendable(){
-
-        for(Map.Entry<String, Company> entry : companies.entrySet()){
-            Company comp = entry.getValue();
-            comp.resetSpendable();
-        }
-
-    }
-
     public static void resetPatentCrafted(){
 
         for(Map.Entry<String, Company> entry : companies.entrySet()){
