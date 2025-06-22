@@ -75,6 +75,23 @@ public class MenuEvents implements Listener {
             boolean prevArrow = event.getCurrentItem().getItemMeta().getDisplayName().contains("Previous Page");
             boolean nextArrow = event.getCurrentItem().getItemMeta().getDisplayName().contains("Next Page");
 
+            boolean cancelSearch = event.getCurrentItem().getItemMeta().getDisplayName().contains("Cancel Search");
+            boolean doSearch = event.getCurrentItem().getItemMeta().getDisplayName().contains("Search");
+
+            if (cancelSearch){
+                currentScreen.setSearchKey("");
+                return;
+            }
+
+
+            if (doSearch){
+                Player player = (Player) event.getWhoClicked();
+                PagingSearchEvent.waitForMessage.put(player, currentScreen);
+                player.closeInventory();
+                player.sendMessage("§bEnter the search keyword");
+                return;
+            }
+
             if (prevArrow){
                 currentScreen.changePage(-1);
                 currentScreen.init();
@@ -372,9 +389,8 @@ public class MenuEvents implements Listener {
             event.setCancelled(true);
             Player player = (Player) event.getWhoClicked();
 
-            int usable = currentScreen.getInventory().getSize()-9;
-
-            int slot = event.getSlot() + usable*currentScreen.getPage();
+            int slot = currentScreen.getItemIndex(event.getCurrentItem());
+            assert slot != -1;
 
             DecisionVote old_screen = (DecisionVote) event.getClickedInventory().getHolder();
             String countryName = old_screen.p.country;

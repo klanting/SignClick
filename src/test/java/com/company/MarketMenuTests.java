@@ -8,6 +8,8 @@ import com.klanting.signclick.economy.Company;
 import com.klanting.signclick.economy.CountryManager;
 import com.klanting.signclick.economy.Market;
 import org.bukkit.Material;
+import org.bukkit.event.block.SignChangeEvent;
+import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.junit.jupiter.api.AfterEach;
@@ -15,6 +17,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import tools.ExpandedServerMock;
 import tools.TestTools;
+
+import java.util.concurrent.CountDownLatch;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -184,7 +188,7 @@ public class MarketMenuTests {
     @Test
     void marketMenuPaging(){
         /*
-        * Test paging for market menu, when we have 55 companies
+        * Test paging for market menu, when we have 46 companies
         * */
         testPlayer.closeInventory();
 
@@ -245,5 +249,62 @@ public class MarketMenuTests {
         assertEquals(Material.SUNFLOWER, testPlayer.getOpenInventory().getItem(0).getType());
         assertNull(testPlayer.getOpenInventory().getItem(1));
 
+    }
+
+    @Test
+    void marketMenuPagingSearch(){
+        /*
+         * Test paging search system
+         * */
+        testPlayer.closeInventory();
+
+        for (int i=3; i<47; i++){
+            boolean suc6 = Market.addCompany("TestCaseInc"+i, "TCI"+i, Market.getAccount(testPlayer));
+            assertTrue(suc6);
+        }
+
+        openMenu();
+
+        /*
+         * Check search available
+         * */
+        assertEquals(Material.NAME_TAG, testPlayer.getOpenInventory().getItem(46).getType());
+
+        /*
+         * Check has item on each place 0 -44
+         * */
+        for (int i =0; i<45; i++){
+            assertNotNull(testPlayer.getOpenInventory().getItem(i));
+            assertNotEquals(Material.LIGHT_GRAY_STAINED_GLASS_PANE, testPlayer.getOpenInventory().getItem(i).getType());
+        }
+
+        /*
+        * do search on number '3'
+        * */
+        testPlayer.simulateInventoryClick(46);
+        testPlayer.sendMessage("3");
+
+        PlayerChatEvent chatEvent = new PlayerChatEvent(testPlayer, "3");
+        server.getPluginManager().callEvent(chatEvent);
+
+        assertEquals(Material.RED_WOOL, testPlayer.getOpenInventory().getItem(46).getType());
+
+        /*
+        * Clear search keyword
+        * */
+        testPlayer.simulateInventoryClick(46);
+
+        /*
+         * Check search available again
+         * */
+        assertEquals(Material.NAME_TAG, testPlayer.getOpenInventory().getItem(46).getType());
+
+        /*
+         * Check has item on each place 0 -44
+         * */
+        for (int i =0; i<45; i++){
+            assertNotNull(testPlayer.getOpenInventory().getItem(i));
+            assertNotEquals(Material.LIGHT_GRAY_STAINED_GLASS_PANE, testPlayer.getOpenInventory().getItem(i).getType());
+        }
     }
 }

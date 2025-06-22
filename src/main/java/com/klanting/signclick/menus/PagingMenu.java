@@ -14,6 +14,8 @@ abstract public class PagingMenu extends SelectionMenu{
 
     private boolean backButton;
 
+    private String searchKey = "";
+
     public PagingMenu(int size, String title, boolean backButton) {
         this(size, title, backButton, size-1);
     }
@@ -44,8 +46,13 @@ abstract public class PagingMenu extends SelectionMenu{
         }
         getInventory().setItem(startPos, prevPtr);
 
-        ItemStack searchWord = ItemFactory.create(Material.NAME_TAG, "§7Search");
-        getInventory().setItem(startPos+1, searchWord);
+        ItemStack searchPtr;
+        if (searchKey.isEmpty()){
+            searchPtr = ItemFactory.create(Material.NAME_TAG, "§7Search");
+        }else{
+            searchPtr = ItemFactory.create(Material.RED_WOOL, "§7Cancel Search on "+searchKey);
+        }
+        getInventory().setItem(startPos+1, searchPtr);
 
         int usableSpace = getInventory().getSize()-9;
 
@@ -64,18 +71,28 @@ abstract public class PagingMenu extends SelectionMenu{
             getInventory().setItem(i, ItemFactory.createGray());
         }
 
-        for (int i=0; i<Math.min(usableSpace, items.size()-usableSpace*page); i++){
-            getInventory().setItem(i, items.get(itemStartIndex+i));
+        for (int i=0; i<items.size()-usableSpace*page && getInventory().firstEmpty() != -1; i++){
+            ItemStack item = items.get(itemStartIndex+i);
+            if (!item.getItemMeta().getDisplayName().contains(searchKey)){
+                continue;
+            }
+
+            getInventory().setItem(getInventory().firstEmpty(), item);
         }
 
         checkBackButton();
     }
 
-    public int getPage(){
-        return page;
-    }
-
     public void changePage(int change){
         page += change;
+    }
+
+    public int getItemIndex(ItemStack item){
+        return items.indexOf(item);
+    }
+
+    public void setSearchKey(String searchKey){
+        this.searchKey = searchKey;
+        init();
     }
 }
