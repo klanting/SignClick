@@ -73,7 +73,7 @@ abstract public class PagingMenu extends SelectionMenu{
 
         for (int i=0; i<items.size()-usableSpace*page && getInventory().firstEmpty() != -1; i++){
             ItemStack item = items.get(itemStartIndex+i);
-            if (!item.getItemMeta().getDisplayName().contains(searchKey)){
+            if (!item.getItemMeta().getDisplayName().toLowerCase().contains(searchKey.toLowerCase())){
                 continue;
             }
 

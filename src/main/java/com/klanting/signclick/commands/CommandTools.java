@@ -26,4 +26,12 @@ public class CommandTools {
         }
         return amount;
     }
+
+    public static String parseString(String input, String errorMessage) throws CommandException {
+        if (input.matches("^[a-zA-Z0-9_-]+$")){
+            return input;
+        }
+
+        throw new CommandException(errorMessage);
+    }
 }

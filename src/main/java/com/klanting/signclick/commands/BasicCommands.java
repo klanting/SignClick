@@ -29,12 +29,6 @@ public class BasicCommands implements CommandExecutor , TabCompleter {
             player.sendMessage("§bstart your own payment travel system in some simple steps.\n" +
                                   "step 1: go to your endpoint location en do /signclickpos\n" +
                                   "step 2: set your sign on another location with the first line: §6[signclick_tp]");
-        }else if (cmd.getName().equalsIgnoreCase("discord")){
-            String discordLink = SignClick.getPlugin().getConfig().getString("discordLink");
-            player.sendMessage(discordLink);
-        }else if (cmd.getName().equalsIgnoreCase("dynmap")){
-            String dynmapLink = SignClick.getPlugin().getConfig().getString("dynmapLink");
-            player.sendMessage(dynmapLink);
         }else if (cmd.getName().equalsIgnoreCase("weeklypay")){
             if (args.length >= 1){
                 if (args[0].equalsIgnoreCase("pay")){

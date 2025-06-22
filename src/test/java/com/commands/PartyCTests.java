@@ -59,7 +59,7 @@ public class PartyCTests {
         boolean result = server.execute("party", testPlayer2, "create", "AAA").hasSucceeded();
         assertTrue(result);
 
-        testPlayer2.assertSaid("§bparty created");
+        testPlayer2.assertSaid("§bParty created");
         testPlayer2.assertNoMoreSaid();
 
         assertEquals(2, country.getParties().size());
@@ -76,7 +76,7 @@ public class PartyCTests {
         boolean result = server.execute("party", testPlayer2, "add", testPlayer3.getName()).hasSucceeded();
         assertTrue(result);
 
-        testPlayer2.assertSaid("§bplayer added to the party");
+        testPlayer2.assertSaid("§bPlayer added to the party");
         testPlayer2.assertNoMoreSaid();
 
         assertEquals(1, country.getParties().get(1).members.size());
@@ -92,7 +92,7 @@ public class PartyCTests {
         boolean result = server.execute("party", testPlayer2, "kick", testPlayer3.getName()).hasSucceeded();
         assertTrue(result);
 
-        testPlayer2.assertSaid("§bplayer kicked to the party");
+        testPlayer2.assertSaid("§bPlayer kicked to the party");
         testPlayer2.assertNoMoreSaid();
 
         assertEquals(0, country.getParties().get(1).members.size());
@@ -111,7 +111,7 @@ public class PartyCTests {
         boolean result = server.execute("party", testPlayer2, "promote", testPlayer3.getName()).hasSucceeded();
         assertTrue(result);
 
-        testPlayer2.assertSaid("§bplayer is promoted");
+        testPlayer2.assertSaid("§bPlayer is promoted");
         testPlayer2.assertNoMoreSaid();
 
         assertEquals(0, party.members.size());
@@ -133,7 +133,7 @@ public class PartyCTests {
         boolean result = server.execute("party", testPlayer2, "demote", testPlayer3.getName()).hasSucceeded();
         assertTrue(result);
 
-        testPlayer2.assertSaid("§bplayer is demoted");
+        testPlayer2.assertSaid("§bPlayer is demoted");
         testPlayer2.assertNoMoreSaid();
 
         assertEquals(1, party.members.size());
@@ -156,7 +156,7 @@ public class PartyCTests {
         boolean result = server.execute("party", testPlayer3, "leave").hasSucceeded();
         assertTrue(result);
 
-        testPlayer3.assertSaid("§byou left the party");
+        testPlayer3.assertSaid("§bYou left the party");
         testPlayer3.assertNoMoreSaid();
 
         assertEquals(0, party.members.size());

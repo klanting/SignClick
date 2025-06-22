@@ -1,6 +1,7 @@
 package com.klanting.signclick.commands.companyHandelers;
 
 import com.klanting.signclick.SignClick;
+import com.klanting.signclick.commands.CommandTools;
 import com.klanting.signclick.commands.exceptions.CommandAssert;
 import com.klanting.signclick.commands.exceptions.CommandException;
 import com.klanting.signclick.economy.Account;
@@ -16,8 +17,8 @@ public class CompanyHandlerCreate extends CompanyHandler{
     * Handle commands for creating a company
     * */
 
-    public static record companyCreationDetails(String companyName, String stockName, Player player,
-                                                double creationCost, String companyType) {}
+    public record companyCreationDetails(String companyName, String stockName, Player player,
+                                         double creationCost, String companyType) {}
 
     @Override
     public Boolean handleCommand(Player player, String[] args, Boolean firstEnter) throws CommandException {
@@ -26,8 +27,9 @@ public class CompanyHandlerCreate extends CompanyHandler{
                 "§bplease enter /company create <name> <stockname>");
 
 
-        String company_name = args[1];
-        String stockName = args[2];
+
+        String companyName = CommandTools.parseString(args[1], "§bPlease use allowed characters for the Name");
+        String stockName = CommandTools.parseString(args[2], "§bPlease use allowed characters for the Stock name");
 
         CommandAssert.assertTrue(stockName.length() <= 4,
                 "§bstockname has a max length of 4");
@@ -49,13 +51,13 @@ public class CompanyHandlerCreate extends CompanyHandler{
         if (firstEnter){
             player.sendMessage("§bplease re-enter your command to confirm that you want to start a company" +
                     " and want to auto-transfer §6"+formattedCost+" §bto your business from your account"+
-                    " If you agree, enter: §c/company create "+company_name+" "+stockName);
+                    " If you agree, enter: §c/company create "+companyName+" "+stockName);
             return true;
         }
 
         stockName = stockName.toUpperCase();
 
-        TypeSelect new_screen = new TypeSelect(new companyCreationDetails(company_name, stockName, player,
+        TypeSelect new_screen = new TypeSelect(new companyCreationDetails(companyName, stockName, player,
                 creationCost, null));
         player.openInventory(new_screen.getInventory());
 
