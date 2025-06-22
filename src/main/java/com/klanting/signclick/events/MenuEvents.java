@@ -65,6 +65,29 @@ public class MenuEvents implements Listener {
             return;
         }
 
+        if (event.getClickedInventory().getHolder() instanceof PagingMenu currentScreen){
+            event.setCancelled(true);
+
+            if (event.getCurrentItem().getType().equals(Material.RED_DYE)){
+                return;
+            }
+
+            boolean prevArrow = event.getCurrentItem().getItemMeta().getDisplayName().contains("Previous Page");
+            boolean nextArrow = event.getCurrentItem().getItemMeta().getDisplayName().contains("Next Page");
+
+            if (prevArrow){
+                currentScreen.changePage(-1);
+                currentScreen.init();
+                return;
+            }
+
+            if (nextArrow){
+                currentScreen.changePage(1);
+                currentScreen.init();
+                return;
+            }
+        }
+
         if (event.getClickedInventory().getHolder() instanceof MarketSelector currentScreen){
             Player player = (Player) event.getWhoClicked();
             event.setCancelled(true);

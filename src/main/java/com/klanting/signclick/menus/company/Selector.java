@@ -27,6 +27,9 @@ public class Selector extends PagingMenu {
 
     public void init(){
         ItemStack item;
+
+        clearItems();
+
         for(Company c: Market.getBusinessByOwner(uuid)){
             item = new ItemStack(getCompanyTypeMaterial(c.type),1);
             ItemMeta m = item.getItemMeta();
@@ -40,7 +43,6 @@ public class Selector extends PagingMenu {
             m.setLore(lores);
             item.setItemMeta(m);
 
-            clearItems();
             addItem(item);
         }
 
