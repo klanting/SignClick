@@ -87,7 +87,7 @@ public class DefaultConfig {
 
         config.addDefault("stockBuySellAmount", List.of(10, 100, 200));
 
-        config.addDefault("autoSaveInterval", 300);
+        config.addDefault("autoSaveInterval", 1800);
 
         config.options().copyDefaults(true);
         SignClick.getPlugin().saveConfig();
@@ -158,6 +158,11 @@ public class DefaultConfig {
         config.addDefault("electionTime", 60*60*24*7L);
 
         config.addDefault("stockBuySellAmount", List.of(100, 10000, 100000));
+
+        /*
+        * Avoid AutoSave for testing
+        * */
+        config.addDefault("autoSaveInterval", 0);
 
         config.options().copyDefaults(true);
         SignClick.getPlugin().saveConfig();
