@@ -87,6 +87,8 @@ public class DefaultConfig {
 
         config.addDefault("stockBuySellAmount", List.of(10, 100, 200));
 
+        config.addDefault("autoSaveInterval", 300);
+
         config.options().copyDefaults(true);
         SignClick.getPlugin().saveConfig();
 

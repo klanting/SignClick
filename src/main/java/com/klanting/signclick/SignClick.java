@@ -64,6 +64,8 @@ public class SignClick extends JavaPlugin{
             DynmapCheck.Hide();
         }
 
+        AutoSave.start();
+
         WeeklyPay.check();
         WeeklyComp.check();
 
