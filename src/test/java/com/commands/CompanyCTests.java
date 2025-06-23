@@ -87,6 +87,7 @@ class CompanyCTests {
         PlayerMock testPlayer2 = TestTools.addPermsPlayer(server, plugin);
         assertNotNull(company);
         company.addBal(100000.0);
+        company.setSpendable(1000000000.0);
 
         boolean suc6 = server.execute("company", testPlayer, "pay",
                 "TCI", testPlayer2.getName(), "1000").hasSucceeded();
@@ -425,6 +426,7 @@ class CompanyCTests {
 
         Market.getCompany("TCI").country = c;
         Market.getCompany("TCI2").country = c;
+        Market.getCompany("TCI2").setSpendable(1000000000.0);
 
         Market.getCompany("TCI2").addBal(200000.0);
 
@@ -524,6 +526,7 @@ class CompanyCTests {
         Market.getCompany("TCI").country = c;
 
         Market.getCompany("TCI").addBal(200000.0);
+        Market.getCompany("TCI").setSpendable(1000000000.0);
 
         boolean suc6 = server.execute("company", testPlayer2, "send_contract_ctp",
                 "TCI", "100", "2", "I am cold").hasSucceeded();
@@ -786,6 +789,7 @@ class CompanyCTests {
         Market.addCompany("TCI2", "TCI2", Market.getAccount(testPlayer2));
 
         Market.getCompany("TCI").addBal(100000.0);
+        Market.getCompany("TCI").setSpendable(1000000000.0);
 
         boolean suc6 = server.execute("company", testPlayer, "transact",
                 "TCI", "TCI2", "100").hasSucceeded();

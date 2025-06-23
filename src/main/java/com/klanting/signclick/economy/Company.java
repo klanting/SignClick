@@ -73,6 +73,8 @@ public class Company extends LoggableSubject{
 
     private double shareBalance = 0.0;
 
+    private double spendable = 0.0;
+
     private double lastValue = 0.0;
 
     public CompanyOwnerManager getCOM() {
@@ -80,6 +82,14 @@ public class Company extends LoggableSubject{
         * Short for Get(ter) CompanyOwnerManager
         * */
         return companyOwnerManager;
+    }
+
+    public double getSpendable() {
+        return spendable;
+    }
+
+    public void setSpendable(double spendable){
+        this.spendable = spendable;
     }
 
     private CompanyOwnerManager companyOwnerManager;
@@ -141,10 +151,14 @@ public class Company extends LoggableSubject{
         return bal;
     }
 
-
     public boolean removeBal(double amount){
-        if (getBal()+ shareBalance >= amount){
+        return removeBal(amount, false);
+    }
+
+    public boolean removeBal(double amount, boolean skipSpendable){
+        if ((getBal()+ shareBalance >= amount) && (spendable >= amount || skipSpendable)){
             this.bal -= amount;
+            spendable -= amount;
 
             changeBase();
             return true;
@@ -304,7 +318,7 @@ public class Company extends LoggableSubject{
         }
 
         double value_one = (getValue()/getTotalShares().doubleValue())*(0.01- modifier1-modifier2);
-        removeBal(value_one*(getTotalShares()-getMarketShares()));
+        assert removeBal(value_one*(getTotalShares()-getMarketShares()), true);
 
         for (Entry<UUID, Integer> entry : getCOM().getShareHolders().entrySet()){
             UUID holder = entry.getKey();
