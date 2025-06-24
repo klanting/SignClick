@@ -6,13 +6,28 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Board {
+    /**
+    * Keep track of the board of a given company
+    * */
 
+    /*
+    * Stores how many seats are on the company board
+    * */
     private int boardSeats;
 
+    /*
+    * reference to company ownership information
+    * */
     private final CompanyOwnerManager companyOwnerManager;
 
+    /*
+    * Keep track of which board members are supported by a given shareholder
+    * */
     private final Map<UUID, List<UUID>> boardSupport = new HashMap<>();
 
+    /*
+    * Keep track for each Chief position, which board member supports which person
+    * */
     private final Map<String, Map<UUID, UUID>> chiefSupport = new HashMap<>();
 
     /*
@@ -21,6 +36,11 @@ public class Board {
     private final Map<String, UUID> currentChief = new HashMap<>();
 
     public void addBoardSupport(UUID shareHolder, UUID boardMember){
+        /*
+        * Add a person to be supported by the shareholder as board member.
+        * Each shareholder can choose who he/she wants to support as board member,
+        * and the board influence will be evenly spread among the people being supported
+        * */
         List<UUID> boardMembers = boardSupport.getOrDefault(shareHolder, new ArrayList<>());
         boardMembers.add(boardMember);
         boardSupport.put(shareHolder, boardMembers);
@@ -28,6 +48,9 @@ public class Board {
     }
 
     public void removeBoardSupport(UUID shareHolder, UUID boardMember){
+        /*
+        * Remove a person from being supported by the shareholder as board member.
+        * */
         List<UUID> boardMembers = boardSupport.getOrDefault(shareHolder, new ArrayList<>());
         boardMembers.remove(boardMember);
         boardSupport.put(shareHolder, boardMembers);
@@ -36,12 +59,17 @@ public class Board {
 
 
     public UUID getChief(String position){
+        /*
+        * Get the user in the provided chief position
+        * */
         return currentChief.get(position);
     }
 
 
     public Board(CompanyOwnerManager companyOwnerManager){
-
+        /*
+        * Create a company board
+        * */
         this.companyOwnerManager = companyOwnerManager;
 
         assert companyOwnerManager.getShareHolders().keySet().size() == 1;
@@ -68,7 +96,9 @@ public class Board {
     }
 
     public void boardChiefVote(UUID boardMember, String position, UUID chiefTarget){
-
+        /*
+        * As a board member, change who you vote for to have the given Chief position
+        * */
         assert List.of("CEO", "CTO", "CFO").contains(position);
 
         chiefSupport.get(position).put(boardMember, chiefTarget);
@@ -76,12 +106,20 @@ public class Board {
     }
 
     private void checkChiefVote(){
+        /*
+        * Check Board votes for each chief position
+        * */
         for (String position: List.of("CEO", "CTO", "CFO")){
             checkChiefVote(position);
         }
     }
 
     private void checkChiefVote(String position){
+        /*
+         * Check Board votes for the given chief position
+         * The person with the most votes becomes the new chief, but in case of a tied (between user and current chief),
+         * the current chief remains.
+         * */
         Map<UUID, Double> chiefRanking = new HashMap<>();
 
         /*
@@ -113,23 +151,35 @@ public class Board {
     }
 
     public void setBoardSeats(int seats){
+        /*
+        * Change the total amount of board seats that exists
+        * */
         boardSeats = seats;
     }
 
     public List<UUID> getBoardMembers(){
+        /*
+        * Get the board members best supported by the shareholders
+        * */
 
         /*
         * Make mapping board Member -> amount of shares support this board member has.
-        * This makes sure we can get the
         * */
         Map<UUID, Double> potentialBoardMemberMap = new HashMap<>();
 
         for (Map.Entry<UUID, List<UUID>> boardSupportEntry: boardSupport.entrySet()){
             for (UUID potentialBoardMember : boardSupportEntry.getValue()){
 
+                /*
+                * Check the influence of a shareholder
+                * */
                 double shareHolderWeight = ((double) companyOwnerManager.getShareHolders().
                         getOrDefault(boardSupportEntry.getKey(), 0))/boardSupportEntry.getValue().size();
 
+                /*
+                * Determine the shareholder impact and add this impact to the current votes for the given board
+                * members
+                * */
                 double newValue = potentialBoardMemberMap.getOrDefault(potentialBoardMember, 0.0)+shareHolderWeight;
                 potentialBoardMemberMap.put(potentialBoardMember, newValue);
             }
