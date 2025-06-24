@@ -2,12 +2,10 @@ package com.storage;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
+import be.seeseemelk.mockbukkit.entity.PlayerMock;
 import com.google.common.reflect.TypeToken;
-import com.klanting.signclick.economy.Account;
+import com.klanting.signclick.economy.*;
 import com.klanting.signclick.SignClick;
-import com.klanting.signclick.economy.Company;
-import com.klanting.signclick.economy.Country;
-import com.klanting.signclick.economy.Market;
 import com.klanting.signclick.economy.companyPatent.Auction;
 import com.klanting.signclick.economy.companyPatent.PatentUpgrade;
 import com.klanting.signclick.utils.Utils;
@@ -140,6 +138,53 @@ public class GsonTests {
         assertEquals(100, auction.getBit(0));
 
         assertEquals(up, auction.toBuy.get(0));
+
+    }
+
+    @Test
+    void saveLoadBoard(){
+
+        /*
+         * Create a default board
+         * */
+        PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
+
+        CompanyOwnerManager companyOwnerManager = new CompanyOwnerManager(testPlayer.getUniqueId());
+
+        Board board = new Board(companyOwnerManager);
+
+        assertEquals(testPlayer.getUniqueId(), board.getChief("CEO"));
+        assertEquals(1, board.getBoardMembers().size());
+
+        assertEquals(testPlayer.getUniqueId(), board.getBoardMembers().get(0));
+
+        Utils.writeSave("board", board);
+
+        board = Utils.readSave("board", new TypeToken<Board>(){}.getType(), new Board());
+        board.setCompanyOwnerManager(companyOwnerManager);
+
+        assertEquals(testPlayer.getUniqueId(), board.getChief("CEO"));
+        assertEquals(1, board.getBoardMembers().size());
+
+        assertEquals(testPlayer.getUniqueId(), board.getBoardMembers().get(0));
+
+    }
+
+    @Test
+    void saveLoadCompanyOwnerManager(){
+
+        /*
+         * Create a default board
+         * */
+        PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
+
+        CompanyOwnerManager companyOwnerManager = new CompanyOwnerManager(testPlayer.getUniqueId());
+
+        Utils.writeSave("companyOwnerManager", companyOwnerManager);
+
+        companyOwnerManager = Utils.readSave("companyOwnerManager", new TypeToken<CompanyOwnerManager>(){}.getType(), new CompanyOwnerManager());
+        companyOwnerManager.fixBoard();
+
 
     }
 }

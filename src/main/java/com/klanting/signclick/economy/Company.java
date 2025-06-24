@@ -211,7 +211,6 @@ public class Company extends LoggableSubject{
         * */
 
         Field[] fields = Utils.getAllFields(this.getClass());
-
         for (Field field : fields) {
 
             try{

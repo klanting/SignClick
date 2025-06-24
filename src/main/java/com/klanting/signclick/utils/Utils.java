@@ -4,6 +4,7 @@ import com.google.gson.*;
 import com.google.gson.typeadapters.RuntimeTypeAdapterFactory;
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.economy.Company;
+import com.klanting.signclick.economy.CompanyOwnerManager;
 import com.klanting.signclick.economy.Country;
 import com.klanting.signclick.economy.companyPatent.Auction;
 import com.klanting.signclick.economy.logs.*;
@@ -42,6 +43,7 @@ public class Utils {
         builder.registerTypeAdapter(Election.class, new ElectionSerializer());
         builder.registerTypeAdapter(Auction.class, new AuctionSerializer());
         builder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer());
+        builder.registerTypeAdapterFactory(new CompanyOwnerManagerAdapterFactory());
         builder.registerTypeAdapterFactory(pluginLogTypes);
         Gson gson = builder.create();
         return gson.toJson(value, token);
@@ -60,6 +62,7 @@ public class Utils {
         builder.registerTypeAdapter(Election.class, new ElectionSerializer());
         builder.registerTypeAdapter(Auction.class, new AuctionSerializer());
         builder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer());
+        builder.registerTypeAdapterFactory(new CompanyOwnerManagerAdapterFactory());
         builder.registerTypeAdapterFactory(pluginLogTypes);
         Gson gson = builder.create();
 
@@ -89,8 +92,6 @@ public class Utils {
         /*
         * Read object from a json file
         * */
-
-
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Company.class, new CompanySerializer());
         builder.registerTypeAdapter(Country.class, new CountrySerializer());
@@ -99,6 +100,7 @@ public class Utils {
         builder.registerTypeAdapter(Election.class, new ElectionSerializer());
         builder.registerTypeAdapter(Auction.class, new AuctionSerializer());
         builder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer());
+        builder.registerTypeAdapterFactory(new CompanyOwnerManagerAdapterFactory());
         builder.registerTypeAdapterFactory(pluginLogTypes);
         Gson gson = builder.create();
 
@@ -109,9 +111,7 @@ public class Utils {
             file.createNewFile();
             Reader reader = new FileReader(file);
 
-
             T value = gson.fromJson(reader, token);
-
             if (value == null){
                 value = defaultValue;
             }

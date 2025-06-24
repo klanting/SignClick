@@ -18,22 +18,22 @@ public class Board {
     /*
     * reference to company ownership information
     * */
-    private final CompanyOwnerManager companyOwnerManager;
+    private transient CompanyOwnerManager companyOwnerManager = null;
 
     /*
     * Keep track of which board members are supported by a given shareholder
     * */
-    private final Map<UUID, List<UUID>> boardSupport = new HashMap<>();
+    private Map<UUID, List<UUID>> boardSupport = new HashMap<>();
 
     /*
     * Keep track for each Chief position, which board member supports which person
     * */
-    private final Map<String, Map<UUID, UUID>> chiefSupport = new HashMap<>();
+    private Map<String, Map<UUID, UUID>> chiefSupport = new HashMap<>();
 
     /*
     * Store last chief position, to resolve support changes, when tied occurs
     * */
-    private final Map<String, UUID> currentChief = new HashMap<>();
+    private Map<String, UUID> currentChief = new HashMap<>();
 
     public void addBoardSupport(UUID shareHolder, UUID boardMember){
         /*
@@ -65,6 +65,16 @@ public class Board {
         return currentChief.get(position);
     }
 
+    public void setCompanyOwnerManager(CompanyOwnerManager companyOwnerManager){
+        /*
+        * Needed for gson add right reference
+        * */
+        this.companyOwnerManager = companyOwnerManager;
+    }
+
+    public Board() {
+    }
+
 
     public Board(CompanyOwnerManager companyOwnerManager){
         /*
@@ -72,8 +82,12 @@ public class Board {
         * */
         this.companyOwnerManager = companyOwnerManager;
 
-        assert companyOwnerManager.getShareHolders().keySet().size() == 1;
+        if (companyOwnerManager == null){
+            return;
+        }
 
+//        assert companyOwnerManager.getShareHolders().keySet().size() == 1;
+//
         boardSeats = 2;
 
         chiefSupport.put("CEO", new HashMap<>());

@@ -18,12 +18,20 @@ public class CompanyOwnerManager {
 
     private final Map<UUID, Integer> shareHolders = new HashMap<>();
 
+    public void fixBoard(){
+        if (board != null){
+            board.setCompanyOwnerManager(this);
+        }
+
+    }
 
     private boolean openTrade = false;
 
     private Integer marketShares = 0;
 
     private Integer totalShares = SignClick.getPlugin().getConfig().getInt("companyStartShares");
+
+    private Board board;
 
     public boolean isOpenTrade() {
         return openTrade;
@@ -66,10 +74,16 @@ public class CompanyOwnerManager {
         return shareHolders;
     }
 
+    public CompanyOwnerManager(){
+
+    }
+
 
     public CompanyOwnerManager(UUID owner){
         support.put(owner, owner);
         shareHolders.put(owner, totalShares);
+
+        board = new Board(this);
     }
 
     public void changeShareHolder(Account holder, Integer amount){

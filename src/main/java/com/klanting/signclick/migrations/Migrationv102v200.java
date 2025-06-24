@@ -1,0 +1,58 @@
+package com.klanting.signclick.migrations;
+
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.klanting.signclick.SignClick;
+import com.klanting.signclick.economy.Board;
+import com.klanting.signclick.economy.CompanyOwnerManager;
+import com.klanting.signclick.economy.logs.*;
+import com.klanting.signclick.utils.Utils;
+
+import java.io.*;
+
+import java.util.UUID;
+
+public class Migrationv102v200 extends Migration{
+    Migrationv102v200(){
+        super("1.0.2", "2.0.0");
+    }
+
+    @Override
+    public void migrate() {
+
+        File file = new File(SignClick.getPlugin().getDataFolder()+"/companies.json");
+        if (!file.exists()){
+            return;
+        }
+
+        try {
+
+            Reader reader = new FileReader(file);
+            JsonObject jsonObject = JsonParser.parseReader(reader).getAsJsonObject();
+            for (String companyName: jsonObject.keySet()){
+                JsonObject companyObject = jsonObject.get(companyName).getAsJsonObject();
+                /*
+                 * Add log observer field
+                 * */
+                String owner = companyObject.getAsJsonObject("companyOwnerManager").getAsJsonArray("owners").get(0).getAsString();
+                UUID ownerUUID = UUID.fromString(owner);
+                companyObject.getAsJsonObject("companyOwnerManager").add("board", JsonParser.parseString(
+                        Utils.serialize(new Board(new CompanyOwnerManager(ownerUUID)),
+                                new com.google.common.reflect.TypeToken<Board>(){}.getType())
+                ));
+
+                companyObject.add("$assertionsDisabled", JsonParser.parseString("true"));
+            }
+
+            Writer writer = new FileWriter(file, false);
+            writer.write(jsonObject.toString());
+            writer.flush();
+            writer.close();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+
+        SignClick.getPlugin().getConfig().set("version", "2.0.0");
+    }
+}

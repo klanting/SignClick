@@ -12,7 +12,8 @@ public class MigrationManager {
 
     private static final List<Migration> migrations = List.of(
             new Migrationv100v101(),
-            new Migrationv101v102()
+            new Migrationv101v102(),
+            new Migrationv102v200()
     );
 
     public static void Migrate(){
