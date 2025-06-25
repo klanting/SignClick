@@ -19,6 +19,7 @@ import com.klanting.signclick.menus.company.logs.LogMessages;
 import com.klanting.signclick.menus.country.*;
 import com.klanting.signclick.menus.party.DecisionChoice;
 import com.klanting.signclick.menus.party.DecisionVote;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -144,7 +145,7 @@ public class MenuEvents implements Listener {
         }
 
 
-        if (event.getClickedInventory().getHolder() instanceof Selector){
+        if (event.getClickedInventory().getHolder() instanceof Selector selector){
             Player player = (Player) event.getWhoClicked();
             event.setCancelled(true);
 
@@ -153,9 +154,50 @@ public class MenuEvents implements Listener {
             int startPos = event.getCurrentItem().getItemMeta().getDisplayName().indexOf("[");
             int endPos = event.getCurrentItem().getItemMeta().getDisplayName().length()-1;
             Company company = Market.getCompany(event.getCurrentItem().getItemMeta().getDisplayName().substring(startPos+1, endPos));
-            OwnerMenu screen = new OwnerMenu(player.getUniqueId(), company);
+
+            SelectionMenu screen;
+            switch (selector.getType()) {
+                default:
+                case "menu":
+                    screen = new OwnerMenu(player.getUniqueId(), company);
+                    break;
+                case "support":
+                    screen = new BoardMenu(company);
+                    break;
+            }
 
             player.openInventory(screen.getInventory());
+        }
+
+        if (event.getClickedInventory().getHolder() instanceof BoardMenu boardMenu){
+            Player player = (Player) event.getWhoClicked();
+            event.setCancelled(true);
+
+            String option = event.getCurrentItem().getItemMeta().getDisplayName();
+            if (option.contains("Assign Board")){
+                BoardSupportMenu screen = new BoardSupportMenu(player.getUniqueId(), boardMenu.comp);
+
+                player.openInventory(screen.getInventory());
+            }
+        }
+
+        if (event.getClickedInventory().getHolder() instanceof BoardSupportMenu boardSupportMenu){
+            Player player = (Player) event.getWhoClicked();
+            event.setCancelled(true);
+
+            Material option = event.getCurrentItem().getType();
+            if (option.equals(Material.WHITE_WOOL)){
+                AddSupportEvent.waitForMessage.put(player, boardSupportMenu);
+                player.closeInventory();
+                player.sendMessage("§bEnter the supported player its username");
+            }else{
+                String username = event.getCurrentItem().getItemMeta().getDisplayName().substring(2);
+                UUID uuid = Bukkit.getOfflinePlayer(username).getUniqueId();
+                boardSupportMenu.comp.getCOM().getBoard().removeBoardSupport(player.getUniqueId(), uuid);
+                boardSupportMenu.init();
+            }
+
+            return;
         }
 
         if (event.getClickedInventory().getHolder() instanceof OwnerMenu){

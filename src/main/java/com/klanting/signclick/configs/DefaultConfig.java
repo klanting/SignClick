@@ -15,7 +15,9 @@ public class DefaultConfig {
         /*
          * Configure the current version of the plugin storage
          * */
-        config.addDefault("version", SignClick.getPlugin().getDescription().getVersion());
+        if (config.saveToString().isEmpty()){
+            config.addDefault("version", SignClick.getPlugin().getDescription().getVersion());
+        }
 
         config.addDefault("fee", 0.05);
 

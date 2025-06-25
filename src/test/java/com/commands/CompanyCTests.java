@@ -12,6 +12,7 @@ import com.klanting.signclick.SignClick;
 import com.klanting.signclick.utils.BookParser;
 import com.klanting.signclick.utils.Utils;
 import org.bukkit.Material;
+import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
@@ -192,7 +193,9 @@ class CompanyCTests {
          * */
         testPlayer.assertSaid("§bName: §7TestCaseInc\n" +
                 "§bStockname: §7TCI\n" +
-                "§bCEO: §7[Player0]\n" +
+                "§bCEO: §7Player0\n" +
+                "§bCTO: §7NONE\n" +
+                "§bCFO: §7NONE\n" +
                 "§bbal: §70\n" +
                 "§bshares: §71.000.000\n" +
                 "§bshareholders: §7[Player0]");
@@ -872,21 +875,46 @@ class CompanyCTests {
         /*
         * Check that testPlayer is the owner
         * */
-        assertEquals(1, comp.getCOM().getOwners().size());
-        assertEquals(testPlayer.getUniqueId(), comp.getCOM().getOwners().get(0));
+        assertEquals(testPlayer.getUniqueId(), comp.getCOM().getBoard().getChief("CEO"));
 
         boolean suc6 = server.execute("company", testPlayer, "support",
                 "TCI", testPlayer2.getName()).hasSucceeded();
         assertTrue(suc6);
 
-        testPlayer.assertSaid("§bsupport changed to §fPlayer1");
-        testPlayer.assertNoMoreSaid();
+        /*
+        * Select first company
+        * */
+        testPlayer.simulateInventoryClick(0);
 
         /*
-         * Check that testPlayer2 is the owner
+        * Click assign board button
+        * */
+        assertEquals(Material.ITEM_FRAME, testPlayer.getOpenInventory().getItem(45).getType());
+        testPlayer.simulateInventoryClick(45);
+
+        /*
+        * Remove current player
+        * */
+        assertEquals(Material.PLAYER_HEAD, testPlayer.getOpenInventory().getItem(0).getType());
+        testPlayer.simulateInventoryClick(0);
+
+        /*
+        * Add new player
+        * */
+        assertEquals(Material.WHITE_WOOL, testPlayer.getOpenInventory().getItem(0).getType());
+        testPlayer.simulateInventoryClick(0);
+
+        PlayerChatEvent chatEvent = new PlayerChatEvent(testPlayer, testPlayer2.getName());
+        server.getPluginManager().callEvent(chatEvent);
+
+        assertEquals(testPlayer2.getName(),
+                testPlayer.getOpenInventory().getItem(0).getItemMeta().getDisplayName().substring(2));
+
+        /*
+         * Check that testPlayer2 is now board member
          * */
-        assertEquals(1, comp.getCOM().getOwners().size());
-        assertEquals(testPlayer2.getUniqueId(), comp.getCOM().getOwners().get(0));
+        assertEquals(1, comp.getCOM().getBoard().getBoardMembers().size());
+        assertEquals(testPlayer2.getUniqueId(), comp.getCOM().getBoard().getBoardMembers().get(0));
 
     }
 
@@ -909,7 +937,7 @@ class CompanyCTests {
         /*
          * Check that testPlayer is the owner
          * */
-        assertEquals(1, comp.getCOM().getOwners().size());
+        assertEquals(testPlayer.getUniqueId(), comp.getCOM().getBoard().getChief("CEO"));
 
         boolean suc6 = server.execute("company", testPlayer, "sharebal",
                 "TCI", testPlayer.getName()).hasSucceeded();
@@ -948,59 +976,6 @@ class CompanyCTests {
     }
 
     @Test
-    void companySupportNeutral(){
-
-        PlayerMock testPlayer2 = server.addPlayer();
-
-        Company comp = Market.getCompany("TCI");
-
-        /*
-         * Check that testPlayer is the owner
-         * */
-        assertEquals(1, comp.getCOM().getOwners().size());
-        assertEquals(testPlayer.getUniqueId(), comp.getCOM().getOwners().get(0));
-
-        Market.getAccount(testPlayer).sellShare("TCI", 5, testPlayer);
-        Market.getAccount(testPlayer2).buyShare("TCI", 5, testPlayer2);
-
-        testPlayer.assertSaid("§bsell: §aaccepted");
-        testPlayer.assertNoMoreSaid();
-
-        testPlayer2.assertSaid("§bbuy: §aaccepted");
-        testPlayer2.assertNoMoreSaid();
-
-        /*
-        *
-        * */
-        assertEquals(5, Market.getAccount(testPlayer2).shares.get("TCI"));
-        assertEquals(1000000-5, Market.getAccount(testPlayer).shares.get("TCI"));
-
-        boolean suc6 = server.execute("company", testPlayer, "support",
-                "TCI", "neutral").hasSucceeded();
-        assertTrue(suc6);
-
-        testPlayer.assertSaid("§bsupport changed to §eneutral");
-        testPlayer.assertNoMoreSaid();
-
-        /*
-        * When having minority of the support, but the remains is neutral support the person with the most support
-        * */
-        suc6 = server.execute("company", testPlayer2, "support",
-                "TCI", testPlayer2.getName()).hasSucceeded();
-        assertTrue(suc6);
-
-        testPlayer2.assertSaid("§bsupport changed to §fPlayer1");
-        testPlayer2.assertNoMoreSaid();
-
-        /*
-         * Check that testPlayer2 is the owner
-         * */
-        assertEquals(1, comp.getCOM().getOwners().size());
-        assertEquals(testPlayer2.getUniqueId(), comp.getCOM().getOwners().get(0));
-
-    }
-
-    @Test
     void companySupportNeutral2(){
         PlayerMock testPlayer2 = server.addPlayer();
 
@@ -1009,8 +984,7 @@ class CompanyCTests {
         /*
          * Check that testPlayer is the owner
          * */
-        assertEquals(1, comp.getCOM().getOwners().size());
-        assertEquals(testPlayer.getUniqueId(), comp.getCOM().getOwners().get(0));
+        assertEquals(testPlayer.getUniqueId(), comp.getCOM().getBoard().getChief("CEO"));
 
         Market.getAccount(testPlayer).sellShare("TCI", 900000, testPlayer);
         Market.getAccount(testPlayer2).buyShare("TCI", 900000, testPlayer2);
@@ -1030,8 +1004,7 @@ class CompanyCTests {
         /*
          * Check that testPlayer is the owner, because testPlayer2 its support is neutral
          * */
-        assertEquals(1, comp.getCOM().getOwners().size());
-        assertEquals(testPlayer.getUniqueId(), comp.getCOM().getOwners().get(0));
+        assertEquals(testPlayer.getUniqueId(), comp.getCOM().getBoard().getChief("CEO"));
 
     }
 

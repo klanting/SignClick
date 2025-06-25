@@ -8,7 +8,7 @@ public class CompanyHandlerMenu extends CompanyHandler{
     @Override
     public Boolean handleCommand(Player player, String[] args, Boolean firstEnter) throws CommandException {
 
-        Selector screen = new Selector(player.getUniqueId());
+        Selector screen = new Selector(player.getUniqueId(), "menu");
         player.openInventory(screen.getInventory());
 
         return false;

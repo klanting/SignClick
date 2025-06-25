@@ -18,8 +18,11 @@ public class MigrationManager {
 
     public static void Migrate(){
         String version = VersionDetection.getInstance().getVersion();
-        String currentVersion = SignClick.getPlugin().getConfig().getString("version", "1.0.0");
+        String currentVersion = SignClick.getPlugin().getConfig().getString("version");
 
+        if (currentVersion == null){
+            currentVersion = "1.0.0";
+        }
         if (currentVersion.equals(version)) {
             return;
         }

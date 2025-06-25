@@ -81,13 +81,9 @@ public class GsonTests {
 
         Company comp = companies.values().iterator().next();
 
-        comp.getCOM().testAddOwner(testPlayer.getUniqueId());
-
         assertEquals("A", comp.getStockName());
         assertEquals("AA", comp.getName());
         assertEquals(0, comp.getBal());
-        assertEquals(1, comp.getCOM().getOwners().size());
-        assertEquals(testPlayer.getUniqueId(), comp.getCOM().getOwners().get(0));
         assertEquals(5, comp.upgrades.size());
         assertEquals(100, comp.getTotalShares());
 

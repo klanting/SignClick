@@ -3,6 +3,7 @@ package com.klanting.signclick.menus.company;
 import com.klanting.signclick.economy.Company;
 import com.klanting.signclick.menus.PagingMenu;
 import com.klanting.signclick.menus.SelectionMenu;
+import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -19,9 +20,17 @@ public class Selector extends PagingMenu {
 
     final private UUID uuid;
 
-    public Selector(UUID uuid){
+    public String getType() {
+        return type;
+    }
+
+    final private String type;
+
+    public Selector(UUID uuid, String type){
         super(54, "Company Selector", false);
         this.uuid = uuid;
+        this.type = type;
+
         init();
     }
 

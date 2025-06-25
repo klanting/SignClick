@@ -28,7 +28,7 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
     public static Map<Player, String> confirm = new HashMap<>();
 
     public static final List<String> whitelist = Arrays.asList("info", "sharetop", "give", "buy", "sell", "pay", "spendable",
-            "support", "transfer", "get_support", "send_contract_ctc", "sign_contract_ctc", "sharebal", "send_contract_ctp",
+            "transfer", "get_support", "send_contract_ctc", "sign_contract_ctc", "sharebal", "send_contract_ctp",
             "sign_contract_ctp", "send_contract_ptc", "get_buy_price", "get_sell_price", "get_contracts",
             "add_custom", "open_trade", "transact");
 

@@ -12,8 +12,6 @@ public class CompanyOwnerManager {
     * CompanyOwnerManager will manage the ownership and share control of the company
     * */
 
-    private ArrayList<UUID> owners = new ArrayList<>();
-
     private final Map<UUID, UUID> support = new HashMap<>();
 
     private final Map<UUID, Integer> shareHolders = new HashMap<>();
@@ -32,6 +30,10 @@ public class CompanyOwnerManager {
     private Integer totalShares = SignClick.getPlugin().getConfig().getInt("companyStartShares");
 
     private Board board;
+
+    public Board getBoard(){
+        return board;
+    }
 
     public boolean isOpenTrade() {
         return openTrade;
@@ -56,10 +58,6 @@ public class CompanyOwnerManager {
 
     public void setMarketShares(Integer marketShares) {
         this.marketShares = marketShares;
-    }
-
-    public ArrayList<UUID> getOwners() {
-        return owners;
     }
 
     public void addSupport(UUID key, UUID target) {
@@ -102,75 +100,20 @@ public class CompanyOwnerManager {
         }
     }
 
-    public void testAddOwner(UUID uuid){
-        /*
-         * Test method to inject an owner
-         * */
-        owners.add(uuid);
-    }
-
     public void checkOwnerSupport(){
-        double neutral = 0.0;
-
-        Map<UUID, Integer> s_dict = new HashMap<>();
-
-        int highest = 0;
-        UUID highest_uuid = null;
-
-        for(Map.Entry<UUID, UUID> entry : support.entrySet()){
-            UUID k = entry.getKey();
-            UUID v = entry.getValue();
-
-            Integer impact = shareHolders.getOrDefault(k, 0);
-            if (v == null){
-                neutral +=impact;
-            }else{
-                Integer bef = s_dict.getOrDefault(v, 0);
-                s_dict.put(v, bef+impact);
-
-                if (bef+impact > highest){
-                    highest = bef+impact;
-                    highest_uuid = v;
-                }
-            }
-
-        }
-
-        neutral = neutral/totalShares.doubleValue();
-        ArrayList<UUID> new_owners = new ArrayList<UUID>();
-        for(Map.Entry<UUID, Integer> entry : s_dict.entrySet()){
-            UUID k = entry.getKey();
-            double v = entry.getValue();
-
-            v = v/totalShares.doubleValue();
-
-            if (v >= 0.45){
-                new_owners.add(k);
-            }else if ((owners.contains(k)) & (v+neutral >= 0.5)){
-                new_owners.add(k);
-            }
-        }
-        if (new_owners.size() != 0){
-            owners = new_owners;
-        }else if (highest_uuid != null){
-            new_owners.add(highest_uuid);
-            owners = new_owners;
-        }
+        getBoard().checkChiefVote();
 
 
     }
 
     public Boolean isOwner(UUID uuid){
-        return owners.contains(uuid);
+        return getBoard().getChief("CEO").equals(uuid);
     }
 
     public void sendOwner(String message){
-        for (int i = 0; i < owners.size(); i++){
-            Player p = Bukkit.getPlayer(owners.get(i));
-            if (p != null){
-                p.sendMessage(message);
-            }
-
+        Player p = Bukkit.getPlayer(getBoard().getChief("CEO"));
+        if (p != null){
+            p.sendMessage(message);
         }
     }
 

@@ -66,5 +66,8 @@ public class Migrationv100v101 extends Migration{
         }
 
         SignClick.getPlugin().getConfig().set("version", "1.0.1");
+
+        SignClick.getPlugin().getConfig().options().copyDefaults(true);
+        SignClick.getPlugin().saveConfig();
     }
 }

@@ -1,5 +1,6 @@
 package com.klanting.signclick.migrations;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.klanting.signclick.SignClick;
@@ -34,7 +35,16 @@ public class Migrationv102v200 extends Migration{
                 /*
                  * Add log observer field
                  * */
-                String owner = companyObject.getAsJsonObject("companyOwnerManager").getAsJsonArray("owners").get(0).getAsString();
+
+                String owner;
+
+                JsonArray owners = companyObject.getAsJsonObject("companyOwnerManager").getAsJsonArray("owners");
+                if (owners.isEmpty()){
+                    owner = companyObject.getAsJsonObject("companyOwnerManager").getAsJsonObject("shareHolders").keySet().iterator().next();
+                }else{
+                    owner = companyObject.getAsJsonObject("companyOwnerManager").getAsJsonArray("owners").get(0).getAsString();
+                }
+
                 UUID ownerUUID = UUID.fromString(owner);
                 companyObject.getAsJsonObject("companyOwnerManager").add("board", JsonParser.parseString(
                         Utils.serialize(new Board(new CompanyOwnerManager(ownerUUID)),
@@ -54,5 +64,8 @@ public class Migrationv102v200 extends Migration{
         }
 
         SignClick.getPlugin().getConfig().set("version", "2.0.0");
+
+        SignClick.getPlugin().getConfig().options().copyDefaults(true);
+        SignClick.getPlugin().saveConfig();
     }
 }

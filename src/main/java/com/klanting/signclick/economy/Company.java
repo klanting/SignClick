@@ -334,26 +334,25 @@ public class Company extends LoggableSubject{
     public void info(Player player){
         DecimalFormat df = new DecimalFormat("###,###,###");
         ArrayList<String> name_array = new ArrayList<>();
-        ArrayList<String> owner_array = new ArrayList<>();
         for(Entry<UUID, Integer> entry : getCOM().getShareHolders().entrySet()){
             UUID uuid = entry.getKey();
             name_array.add(Bukkit.getOfflinePlayer(uuid).getName());
         }
 
-        ArrayList<UUID> owners = getCOM().getOwners();
-        for (int i = 0; i < owners.size(); i++) {
-            owner_array.add(Bukkit.getOfflinePlayer(owners.get(i)).getName());
-        }
+        UUID CEO = getCOM().getBoard().getChief("CEO");
+        UUID CTO = getCOM().getBoard().getChief("CTO");
+        UUID CFO = getCOM().getBoard().getChief("CFO");
 
         player.sendMessage("§bName: §7"+name+"\n" +
                 "§bStockname: §7"+ stockName +"\n" +
-                "§bCEO: §7"+owner_array+"\n" +
+                "§bCEO: §7"+ (CEO != null ? Bukkit.getOfflinePlayer(CEO).getName(): "NONE") +"\n" +
+                "§bCTO: §7"+ (CTO != null ? Bukkit.getOfflinePlayer(CTO).getName(): "NONE") +"\n" +
+                "§bCFO: §7"+ (CFO != null ? Bukkit.getOfflinePlayer(CFO).getName(): "NONE") +"\n" +
                 "§bbal: §7"+df.format(getValue())+"\n" +
                 "§bshares: §7"+df.format(getTotalShares())+"\n" +
                 "§bshareholders: §7"+ name_array);
 
         name_array.clear();
-        owner_array.clear();
 
     }
 

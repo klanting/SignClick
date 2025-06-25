@@ -6,6 +6,10 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Board {
+    public int getBoardSeats() {
+        return boardSeats;
+    }
+
     /**
     * Keep track of the board of a given company
     * */
@@ -19,6 +23,10 @@ public class Board {
     * reference to company ownership information
     * */
     private transient CompanyOwnerManager companyOwnerManager = null;
+
+    public List<UUID> getBoardSupport(UUID shareholder) {
+        return boardSupport.getOrDefault(shareholder, new ArrayList<>());
+    }
 
     /*
     * Keep track of which board members are supported by a given shareholder
@@ -119,7 +127,7 @@ public class Board {
         checkChiefVote(position);
     }
 
-    private void checkChiefVote(){
+    public void checkChiefVote(){
         /*
         * Check Board votes for each chief position
         * */
@@ -172,37 +180,40 @@ public class Board {
     }
 
     public List<UUID> getBoardMembers(){
+        return getBoardMembersWeight().stream().map(Pair::getLeft).toList();
+    }
+
+    public List<Pair<UUID, Double>> getBoardMembersWeight(){
         /*
-        * Get the board members best supported by the shareholders
-        * */
+         * Get the board members best supported by the shareholders
+         * */
 
         /*
-        * Make mapping board Member -> amount of shares support this board member has.
-        * */
+         * Make mapping board Member -> amount of shares support this board member has.
+         * */
         Map<UUID, Double> potentialBoardMemberMap = new HashMap<>();
 
         for (Map.Entry<UUID, List<UUID>> boardSupportEntry: boardSupport.entrySet()){
             for (UUID potentialBoardMember : boardSupportEntry.getValue()){
 
                 /*
-                * Check the influence of a shareholder
-                * */
+                 * Check the influence of a shareholder
+                 * */
                 double shareHolderWeight = ((double) companyOwnerManager.getShareHolders().
                         getOrDefault(boardSupportEntry.getKey(), 0))/boardSupportEntry.getValue().size();
 
                 /*
-                * Determine the shareholder impact and add this impact to the current votes for the given board
-                * members
-                * */
+                 * Determine the shareholder impact and add this impact to the current votes for the given board
+                 * members
+                 * */
                 double newValue = potentialBoardMemberMap.getOrDefault(potentialBoardMember, 0.0)+shareHolderWeight;
                 potentialBoardMemberMap.put(potentialBoardMember, newValue);
             }
         }
 
         return potentialBoardMemberMap.entrySet().
-                stream().map(e -> Pair.of(e.getKey(), e.getValue())).
+                stream().map(e -> Pair.of(e.getKey(), e.getValue()/companyOwnerManager.getTotalShares())).
                 sorted(Comparator.comparingDouble((Pair<UUID, Double> p) -> p.getRight()).reversed()).
-                collect(Collectors.toList()).subList(0, Math.min(boardSeats, potentialBoardMemberMap.keySet().size())).
-                stream().map(Pair::getLeft).toList();
+                collect(Collectors.toList()).subList(0, Math.min(boardSeats, potentialBoardMemberMap.keySet().size()));
     }
 }
