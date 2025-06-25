@@ -154,10 +154,15 @@ public class Market {
         return companies.containsKey(Sname);
     }
 
-    public static ArrayList<Company> getBusinessByOwner(UUID uuid){
+    public static ArrayList<Company> getBusinessByDirector(UUID uuid){
         ArrayList<Company> outputs = new ArrayList<Company>();
         for(Map.Entry<String, Company> entry : companies.entrySet()){
-            if (entry.getValue().getCOM().isOwner(uuid)){
+            Board board = entry.getValue().getCOM().getBoard();
+            if (board.getBoardMembers().contains(uuid)
+                    || board.getChief("CEO").equals(uuid)
+                    || board.getChief("CTO").equals(uuid)
+                    || board.getChief("CFO").equals(uuid)
+            ){
                 outputs.add(entry.getValue());
             }
         }

@@ -218,7 +218,7 @@ public class MenuEvents implements Listener {
                 PatentIDMenu new_screen = new PatentIDMenu(old_screen.comp, true);
                 player.openInventory(new_screen.getInventory());
 
-            }else if(option.equalsIgnoreCase("§6Auction")){
+            }else if(option.equalsIgnoreCase("§6Patent Auction")){
                 AuctionMenu new_screen = new AuctionMenu(old_screen.comp);
                 player.openInventory(new_screen.getInventory());
 
@@ -230,7 +230,11 @@ public class MenuEvents implements Listener {
                 LogList new_screen = new LogList(old_screen.comp);
                 player.openInventory(new_screen.getInventory());
 
+            }else if(option.equalsIgnoreCase("§6Chief Positions")){
+                ChiefList new_screen = new ChiefList(player.getUniqueId(), old_screen.comp);
+                player.openInventory(new_screen.getInventory());
             }
+
         }
 
         if (event.getClickedInventory().getHolder() instanceof LogList){

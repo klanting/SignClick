@@ -36,12 +36,52 @@ public class OwnerMenu extends SelectionMenu {
         getInventory().setItem(13, value);
 
         /*
+         * Products
+         * */
+        l = new ArrayList<>();
+        l.add("§7List all the products");
+        value = ItemFactory.create(Material.JUKEBOX, "§6Products", l);
+        getInventory().setItem(21, value);
+
+        /*
         * Upgrades
         * */
         l = new ArrayList<>();
         l.add("§7Allows you to upgrade your company");
         value = ItemFactory.create(Material.EMERALD, "§6Upgrades", l);
         getInventory().setItem(22, value);
+
+        /*
+         * Chief Positions
+         * */
+        l = new ArrayList<>();
+        l.add("§7Company chief position information");
+        value = ItemFactory.create(Material.IRON_HELMET, "§6Chief Positions", l);
+        getInventory().setItem(23, value);
+
+        /*
+         * Machines list
+         * */
+        l = new ArrayList<>();
+        l.add("§7List of all company machines");
+        value = ItemFactory.create(Material.BLAST_FURNACE, "§6Machines List", l);
+        getInventory().setItem(30, value);
+
+        /*
+         * Employees List
+         * */
+        l = new ArrayList<>();
+        l.add("§7Information of all its employees");
+        value = ItemFactory.create(Material.SKELETON_SKULL, "§6Employees List", l);
+        getInventory().setItem(31, value);
+
+        /*
+         * Board Info
+         * */
+        l = new ArrayList<>();
+        l.add("§7Go to the board menu");
+        value = ItemFactory.create(Material.OAK_SIGN, "§6Board Info", l);
+        getInventory().setItem(32, value);
 
         /*
         * patent
@@ -52,7 +92,7 @@ public class OwnerMenu extends SelectionMenu {
         l.add("§7Combine Patent paper and gear item in");
         l.add("§7the crafting table to get started");
         value = ItemFactory.create(Material.NETHERITE_HELMET, "§6Patent", l);
-        getInventory().setItem(21, value);
+        getInventory().setItem(9, value);
 
         /*
         * Auction
@@ -60,8 +100,8 @@ public class OwnerMenu extends SelectionMenu {
         l = new ArrayList<>();
         l.add("§7Auction for patent upgrades");
         l.add("§7that can be applied to Gear");
-        value = ItemFactory.create(Material.GOLD_NUGGET, "§6Auction", l);
-        getInventory().setItem(23, value);
+        value = ItemFactory.create(Material.IRON_NUGGET, "§6Patent Auction", l);
+        getInventory().setItem(27, value);
 
         /*
         * Recipes
@@ -69,7 +109,7 @@ public class OwnerMenu extends SelectionMenu {
         l = new ArrayList<>();
         l.add("§7See the gear patent recipes");
         value = ItemFactory.create(Material.CRAFTING_TABLE, "§6Recipes", l);
-        getInventory().setItem(30, value);
+        getInventory().setItem(18, value);
 
         /*
          * Logs
@@ -77,7 +117,7 @@ public class OwnerMenu extends SelectionMenu {
         l = new ArrayList<>();
         l.add("§7See the logs of your company");
         value = ItemFactory.create(Material.PAPER, "§6Logs", l);
-        getInventory().setItem(31, value);
+        getInventory().setItem(45, value);
 
         super.init();
     }

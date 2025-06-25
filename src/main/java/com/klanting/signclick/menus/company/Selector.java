@@ -2,8 +2,6 @@ package com.klanting.signclick.menus.company;
 
 import com.klanting.signclick.economy.Company;
 import com.klanting.signclick.menus.PagingMenu;
-import com.klanting.signclick.menus.SelectionMenu;
-import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -39,7 +37,7 @@ public class Selector extends PagingMenu {
 
         clearItems();
 
-        for(Company c: Market.getBusinessByOwner(uuid)){
+        for(Company c: Market.getBusinessByDirector(uuid)){
             item = new ItemStack(getCompanyTypeMaterial(c.type),1);
             ItemMeta m = item.getItemMeta();
             m.setDisplayName("§6"+c.getName()+" ["+c.getStockName()+"]");

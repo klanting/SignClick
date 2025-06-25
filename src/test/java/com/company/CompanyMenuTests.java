@@ -86,14 +86,14 @@ public class CompanyMenuTests {
         assertEquals("§6Balance", companyMenu.getItem(13).getItemMeta().getDisplayName());
         assertEquals(Material.GOLD_BLOCK, companyMenu.getItem(13).getType());
 
-        assertEquals("§6Patent", companyMenu.getItem(21).getItemMeta().getDisplayName());
-        assertEquals(Material.NETHERITE_HELMET, companyMenu.getItem(21).getType());
+        assertEquals("§6Patent", companyMenu.getItem(9).getItemMeta().getDisplayName());
+        assertEquals(Material.NETHERITE_HELMET, companyMenu.getItem(9).getType());
 
         assertEquals("§6Upgrades", companyMenu.getItem(22).getItemMeta().getDisplayName());
         assertEquals(Material.EMERALD, companyMenu.getItem(22).getType());
 
-        assertEquals("§6Auction", companyMenu.getItem(23).getItemMeta().getDisplayName());
-        assertEquals(Material.GOLD_NUGGET, companyMenu.getItem(23).getType());
+        assertEquals("§6Patent Auction", companyMenu.getItem(27).getItemMeta().getDisplayName());
+        assertEquals(Material.IRON_NUGGET, companyMenu.getItem(27).getType());
 
         return companyMenu;
     }
@@ -205,7 +205,7 @@ public class CompanyMenuTests {
         /*
          * Click Auction menu button
          * */
-        testPlayer.simulateInventoryClick(companyMenu, 23);
+        testPlayer.simulateInventoryClick(companyMenu, 27);
 
         InventoryView auctionMenu = testPlayer.getOpenInventory();
         assertNotNull(auctionMenu);
@@ -255,7 +255,7 @@ public class CompanyMenuTests {
         * */
         InventoryView companyMenu = openMenu(0);
 
-        InventoryView patentSelector = openMenu(companyMenu, 21);
+        InventoryView patentSelector = openMenu(companyMenu, 9);
 
         InventoryView patentTypeSelector = openMenu(patentSelector, 0);
 
@@ -294,11 +294,9 @@ public class CompanyMenuTests {
         /*
         * Select menu
         * */
-
-
         InventoryView companyMenu = openMenu(0);
 
-        InventoryView patentCraftingSelector = openMenu(companyMenu, 30);
+        InventoryView patentCraftingSelector = openMenu(companyMenu, 18);
 
         assertEquals(Material.NETHERITE_HELMET, patentCraftingSelector.getItem(0).getType());
 
