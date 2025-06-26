@@ -1,9 +1,12 @@
 package com.klanting.signclick.economy;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.bukkit.ChatColor;
 
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static org.bukkit.Bukkit.getServer;
 
 public class Board {
     public int getBoardSeats() {
@@ -32,6 +35,10 @@ public class Board {
     * Keep track of which board members are supported by a given shareholder
     * */
     private Map<UUID, List<UUID>> boardSupport = new HashMap<>();
+
+    public UUID getChiefSupport(String position, UUID boardMember) {
+        return chiefSupport.get(position).get(boardMember);
+    }
 
     /*
     * Keep track for each Chief position, which board member supports which person
@@ -136,12 +143,10 @@ public class Board {
         }
     }
 
-    private void checkChiefVote(String position){
+    public List<Pair<UUID, Double>> chiefRanking(String position){
         /*
-         * Check Board votes for the given chief position
-         * The person with the most votes becomes the new chief, but in case of a tied (between user and current chief),
-         * the current chief remains.
-         * */
+        * Make a ranking for the chief position
+        * */
         Map<UUID, Double> chiefRanking = new HashMap<>();
 
         /*
@@ -153,21 +158,38 @@ public class Board {
 
         List<UUID> boardMembers = getBoardMembers();
 
-        for (UUID chiefVote: chiefSupport.get(position).values()){
-            if (!boardMembers.contains(chiefVote)){
+        for (Map.Entry<UUID, UUID> chiefVote: chiefSupport.get(position).entrySet()){
+            if (!boardMembers.contains(chiefVote.getKey())){
                 continue;
             }
-            chiefRanking.put(chiefVote, chiefRanking.getOrDefault(chiefVote, 0.0)+1.0);
+            chiefRanking.put(chiefVote.getValue(), chiefRanking.getOrDefault(chiefVote.getValue(), 0.0)+1.0);
         }
 
         if (chiefRanking.entrySet().isEmpty()){
+            return new ArrayList<>();
+        }
+
+        return chiefRanking.entrySet().stream().
+                map(e -> Pair.of(e.getKey(), e.getValue())).
+                sorted(Comparator.comparingDouble((Pair<UUID, Double> e) -> e.getRight()).reversed()).
+                collect(Collectors.toList());
+
+    }
+
+    private void checkChiefVote(String position){
+        /*
+         * Check Board votes for the given chief position
+         * The person with the most votes becomes the new chief, but in case of a tied (between user and current chief),
+         * the current chief remains.
+         * */
+        List<Pair<UUID, Double>> newChiefPairList = chiefRanking(position);
+        if (newChiefPairList.isEmpty()){
             return;
         }
 
-        UUID newChief = chiefRanking.entrySet().stream().
-                map(e -> Pair.of(e.getKey(), e.getValue())).
-                sorted(Comparator.comparingDouble((Pair<UUID, Double> e) -> e.getRight()).reversed()).
-                collect(Collectors.toList()).get(0).getKey();
+        Pair<UUID, Double> newChiefPair = newChiefPairList.get(0);
+
+        UUID newChief = newChiefPair.getKey();
 
         currentChief.put(position, newChief);
     }

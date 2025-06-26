@@ -19,6 +19,7 @@ import com.klanting.signclick.menus.company.logs.LogMessages;
 import com.klanting.signclick.menus.country.*;
 import com.klanting.signclick.menus.party.DecisionChoice;
 import com.klanting.signclick.menus.party.DecisionVote;
+import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -263,6 +264,35 @@ public class MenuEvents implements Listener {
                 player.sendMessage("§bNot enough Money or Points to do the upgrade");
             }
         }
+
+        if (event.getClickedInventory().getHolder() instanceof ChiefList chiefList){
+            Player player = (Player) event.getWhoClicked();
+            event.setCancelled(true);
+
+            if (event.getCurrentItem().getType().equals(Material.LIGHT_GRAY_STAINED_GLASS_PANE)){
+                return;
+            }
+
+            String option = event.getCurrentItem().getItemMeta().getDisplayName().substring(2, 5);
+
+            ChiefMenu newScreen = new ChiefMenu(player.getUniqueId(), chiefList.comp, option);
+            player.openInventory(newScreen.getInventory());
+        }
+
+        if (event.getClickedInventory().getHolder() instanceof ChiefMenu chiefMenu){
+            Player player = (Player) event.getWhoClicked();
+            event.setCancelled(true);
+
+            if(event.getSlot() == 24){
+                AddChiefSupportEvent.waitForMessage.put(player, chiefMenu);
+                player.closeInventory();
+                player.sendMessage("§bEnter the supported player its username");
+            }
+
+
+            return;
+        }
+
         if (event.getClickedInventory().getHolder() instanceof PatentIDMenu){
             Player player = (Player) event.getWhoClicked();
             event.setCancelled(true);

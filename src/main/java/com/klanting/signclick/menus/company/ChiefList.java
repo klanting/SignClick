@@ -22,7 +22,7 @@ public class ChiefList extends SelectionMenu {
         super(9, "Company Chief List", true);
         comp = company;
 
-        assert comp.getCOM().isOwner(uuid);
+        assert comp.getCOM().getBoard().getBoardMembers().contains(uuid);
 
         init();
     }
