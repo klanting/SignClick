@@ -34,6 +34,12 @@ public class Company extends LoggableSubject{
     private String name;
     private String stockName;
 
+    public Research getResearch() {
+        return research;
+    }
+
+    private Research research;
+
 
     public boolean hasPendingContractRequest() {
         return pendingContractRequest != null;
@@ -126,6 +132,9 @@ public class Company extends LoggableSubject{
         this.type = type;
 
         lastValue = creationCost;
+
+        research = new Research(type);
+
         addBal(creationCost);
     }
 

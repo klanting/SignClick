@@ -9,6 +9,10 @@ import java.util.List;
 
 abstract public class PagingMenu extends SelectionMenu{
 
+    public int getPage() {
+        return page;
+    }
+
     private int page = 0;
     private List<ItemStack> items = new ArrayList<>();
 

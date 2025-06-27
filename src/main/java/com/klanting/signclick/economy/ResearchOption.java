@@ -2,10 +2,13 @@ package com.klanting.signclick.economy;
 
 import com.klanting.signclick.SignClick;
 import org.apache.commons.lang3.tuple.Pair;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.*;
+
+import static org.bukkit.Bukkit.getServer;
 
 public class ResearchOption {
 
@@ -18,7 +21,7 @@ public class ResearchOption {
     private final Material material;
     private long progress;
 
-    private static final List<Pair<Double, Integer>> modifiers = new ArrayList<>();
+    public static final List<Pair<Double, Integer>> modifiers = new ArrayList<>();
 
     public static void initModifiers(){
         modifiers.add(Pair.of(0.0, 0));
@@ -29,7 +32,15 @@ public class ResearchOption {
         modifiers.add(Pair.of(2.0, 3000));
     }
 
+    public int getModifierIndex() {
+        return modifierIndex;
+    }
+
     private int modifierIndex;
+
+    public boolean isResearching(){
+        return modifierIndex != 0;
+    }
 
     private final String companyType;
 
@@ -81,5 +92,14 @@ public class ResearchOption {
         progress += change;
 
         return addProduct;
+    }
+
+    public long getRemainingTime(){
+
+        return (long) ((getCompleteTime()-progress)/modifiers.get(modifierIndex).getLeft());
+    }
+
+    public boolean isComplete(){
+        return getCompleteTime() <= progress;
     }
 }

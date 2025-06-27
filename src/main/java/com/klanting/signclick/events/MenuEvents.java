@@ -113,6 +113,10 @@ public class MenuEvents implements Listener {
 
             clearStack(player);
 
+            if (event.getCurrentItem().getType() == Material.LIGHT_GRAY_STAINED_GLASS_PANE){
+                return;
+            }
+
             String compName = event.getCurrentItem().getItemMeta().getDisplayName().substring(2);
             MarketMenu screen = new MarketMenu(player.getUniqueId(), Market.getCompany(compName));
 
@@ -151,6 +155,10 @@ public class MenuEvents implements Listener {
             event.setCancelled(true);
 
             clearStack(player);
+
+            if (event.getCurrentItem().getType() == Material.LIGHT_GRAY_STAINED_GLASS_PANE){
+                return;
+            }
 
             int startPos = event.getCurrentItem().getItemMeta().getDisplayName().indexOf("[");
             int endPos = event.getCurrentItem().getItemMeta().getDisplayName().length()-1;
@@ -237,11 +245,30 @@ public class MenuEvents implements Listener {
             }else if(option.equalsIgnoreCase("§6Board Info")){
                 BoardMenu new_screen = new BoardMenu(old_screen.comp);
                 player.openInventory(new_screen.getInventory());
+            }else if(option.equalsIgnoreCase("§6Research")){
+                ResearchMenu new_screen = new ResearchMenu(player.getUniqueId(), old_screen.comp);
+                player.openInventory(new_screen.getInventory());
             }
 
 
 
         }
+
+        if (event.getClickedInventory().getHolder() instanceof ResearchMenu researchMenu){
+            event.setCancelled(true);
+
+
+            int slot = event.getSlot() % 9;
+            if (!(slot >= 2 && slot <= 7)){
+                return;
+            }
+            int index = researchMenu.getPage()*5+(event.getSlot()/9);
+            researchMenu.comp.getResearch().getResearchOptions().get(index).setModifierIndex(slot-2);
+            researchMenu.init();
+
+            return;
+        }
+
 
         if (event.getClickedInventory().getHolder() instanceof LogList){
             Player player = (Player) event.getWhoClicked();

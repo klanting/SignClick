@@ -92,6 +92,13 @@ public class DefaultConfig {
         config.getConfigurationSection("products").getConfigurationSection("bank").getConfigurationSection("IRON_INGOT").
                 addDefault("productionTime", 100L);
 
+        config.getConfigurationSection("products").createSection("transport");
+        config.getConfigurationSection("products").createSection("product");
+        config.getConfigurationSection("products").createSection("real estate");
+        config.getConfigurationSection("products").createSection("military");
+        config.getConfigurationSection("products").createSection("building");
+        config.getConfigurationSection("products").createSection("other");
+
         config.options().copyDefaults(true);
         SignClick.getPlugin().saveConfig();
 
