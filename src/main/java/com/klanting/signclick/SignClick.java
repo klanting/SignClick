@@ -2,6 +2,7 @@ package com.klanting.signclick;
 
 
 import com.google.common.reflect.TypeToken;
+import com.klanting.signclick.economy.ResearchOption;
 import com.klanting.signclick.migrations.Migration;
 import com.klanting.signclick.migrations.MigrationManager;
 import com.klanting.signclick.recipes.MachineRecipe;
@@ -74,6 +75,8 @@ public class SignClick extends JavaPlugin{
         Auction.getInstance().check();
 
         MachineRecipe.create();
+
+        ResearchOption.initModifiers();
 
         getServer().getPluginManager().registerEvents(new SignEvents(), this);
         getServer().getPluginManager().registerEvents(new DynmapEvents(), this);

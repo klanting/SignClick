@@ -4,8 +4,14 @@ import com.klanting.signclick.economy.Company;
 import com.klanting.signclick.menus.SelectionMenu;
 import com.klanting.signclick.utils.ItemFactory;
 import org.bukkit.Material;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.potion.PotionData;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.potion.PotionType;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -118,6 +124,36 @@ public class OwnerMenu extends SelectionMenu {
         l.add("§7See the logs of your company");
         value = ItemFactory.create(Material.PAPER, "§6Logs", l);
         getInventory().setItem(45, value);
+
+        /*
+         * Craft Products
+         * */
+        l = new ArrayList<>();
+        l.add("§7Craft new products from the original products");
+        value = ItemFactory.create(Material.CRAFTING_TABLE, "§6Craft Products", l);
+        getInventory().setItem(39, value);
+
+        /*
+         * set finances
+         * */
+        l = new ArrayList<>();
+        l.add("§7Change finance constraints");
+        value = ItemFactory.create(Material.GOLD_INGOT, "§6Financials", l);
+        getInventory().setItem(40, value);
+
+        /*
+         * Research
+         * */
+        l = new ArrayList<>();
+        l.add("§7Discover new products");
+        value = ItemFactory.create(Material.POTION, "§6Research", l);
+
+        PotionMeta meta = (PotionMeta) value.getItemMeta();
+        meta.setBasePotionData(new PotionData(PotionType.NIGHT_VISION, false, false));
+        meta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
+        value.setItemMeta(meta);
+
+        getInventory().setItem(41, value);
 
         super.init();
     }

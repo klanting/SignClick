@@ -77,6 +77,16 @@ public class Company extends LoggableSubject{
 
     private double lastValue = 0.0;
 
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    private final List<Product> products = new ArrayList<>();
+
+    public void addProduct(Product product){
+        products.add(product);
+    }
+
     public CompanyOwnerManager getCOM() {
         /*
         * Short for Get(ter) CompanyOwnerManager

@@ -81,6 +81,17 @@ public class DefaultConfig {
 
         config.addDefault("autoSaveInterval", 1800);
 
+        config.createSection("products");
+        config.getConfigurationSection("products").createSection("bank");
+
+        config.getConfigurationSection("products").getConfigurationSection("bank").createSection("IRON_INGOT");
+        config.getConfigurationSection("products").getConfigurationSection("bank").getConfigurationSection("IRON_INGOT").
+                addDefault("researchTime", 1200L);
+        config.getConfigurationSection("products").getConfigurationSection("bank").getConfigurationSection("IRON_INGOT").
+                addDefault("productionCost", 100);
+        config.getConfigurationSection("products").getConfigurationSection("bank").getConfigurationSection("IRON_INGOT").
+                addDefault("productionTime", 100L);
+
         config.options().copyDefaults(true);
         SignClick.getPlugin().saveConfig();
 
