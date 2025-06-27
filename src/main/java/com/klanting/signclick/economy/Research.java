@@ -42,7 +42,8 @@ public class Research {
         lastChecked = now;
 
         for (Map.Entry<Material, ResearchOption> researchOption: researchOptions.entrySet()){
-            long realDelta = Math.min(Math.min(researchOption.getValue().canPayDelta(company.getBal()), delta),
+
+            long realDelta = Math.min(Math.min(researchOption.getValue().canPayDelta(Math.min(company.getBal(), company.getSpendable())), delta),
                     (long) (researchOption.getValue().getCompleteTime()*(1-researchOption.getValue().getProgress())));
             company.removeBal(researchOption.getValue().getCost(realDelta));
 
