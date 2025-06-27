@@ -234,7 +234,12 @@ public class MenuEvents implements Listener {
             }else if(option.equalsIgnoreCase("§6Chief Positions")){
                 ChiefList new_screen = new ChiefList(player.getUniqueId(), old_screen.comp);
                 player.openInventory(new_screen.getInventory());
+            }else if(option.equalsIgnoreCase("§6Board Info")){
+                BoardMenu new_screen = new BoardMenu(old_screen.comp);
+                player.openInventory(new_screen.getInventory());
             }
+
+
 
         }
 

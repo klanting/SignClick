@@ -4,6 +4,7 @@ package com.klanting.signclick;
 import com.google.common.reflect.TypeToken;
 import com.klanting.signclick.migrations.Migration;
 import com.klanting.signclick.migrations.MigrationManager;
+import com.klanting.signclick.recipes.MachineRecipe;
 import com.klanting.signclick.routines.*;
 import com.klanting.signclick.commands.CompanyCommands;
 import com.klanting.signclick.configs.DefaultConfig;
@@ -71,6 +72,8 @@ public class SignClick extends JavaPlugin{
 
         Auction.Restore();
         Auction.getInstance().check();
+
+        MachineRecipe.create();
 
         getServer().getPluginManager().registerEvents(new SignEvents(), this);
         getServer().getPluginManager().registerEvents(new DynmapEvents(), this);
