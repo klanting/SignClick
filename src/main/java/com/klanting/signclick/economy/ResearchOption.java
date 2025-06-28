@@ -66,8 +66,6 @@ public class ResearchOption {
     }
 
     public double getProgress(){
-        getServer().getConsoleSender().sendMessage(ChatColor.YELLOW + "SignClick: "+progress);
-
         return Math.min(
                 ((double) progress)/getCompleteTime(),
                 1.0

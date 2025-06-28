@@ -10,16 +10,25 @@ import com.klanting.signclick.economy.companyPatent.Auction;
 import com.klanting.signclick.economy.logs.*;
 import com.klanting.signclick.economy.parties.Election;
 import com.klanting.signclick.utils.Serializers.*;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Sign;
+import org.bukkit.entity.Player;
 import org.bukkit.event.block.SignChangeEvent;
+import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.event.inventory.PrepareItemCraftEvent;
+import org.bukkit.inventory.*;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.time.LocalDateTime;
 import java.util.*;
+
+import static org.bukkit.Bukkit.getServer;
 
 
 public class Utils {
@@ -165,4 +174,52 @@ public class Utils {
 
         return materialMap.get(type);
     }
+
+    public static ItemStack simulateCraft(ItemStack[] inputMatrix) {
+
+        for (@NotNull Iterator<Recipe> it = getServer().recipeIterator(); it.hasNext(); ) {
+            Recipe recipe = it.next();
+
+            if (recipe instanceof ShapelessRecipe shapelessRecipe){
+
+                List<ItemStack> array = Arrays.stream(inputMatrix).
+                        filter(Objects::nonNull).sorted(Comparator.comparing(s -> s.getType().name())).toList();
+
+                List<ItemStack> ingredients = shapelessRecipe.getIngredientList().stream().
+                        sorted(Comparator.comparing(s -> s.getType().name())).toList();
+                boolean b = ingredients.equals(array);
+
+                if (b){
+                    return shapelessRecipe.getResult();
+                }
+            }
+
+            if (recipe instanceof ShapedRecipe shapedRecipe){
+
+                String s = "";
+                for (String row: shapedRecipe.getShape()){
+                    s += row;
+                }
+                List<ItemStack> ingredients = new ArrayList<>();
+                for (char s2: s.toCharArray()){
+                    RecipeChoice rc = shapedRecipe.getChoiceMap().get(s2);
+                    if (rc == null){
+                        ingredients.add(null);
+                    }else{
+                        ingredients.add(rc.getItemStack());
+                    }
+                }
+
+                boolean b = Arrays.stream(inputMatrix).toList().equals(ingredients);
+
+                if (b){
+                    return shapedRecipe.getResult();
+                }
+            }
+
+        }
+
+        return null;
+    }
+
 }
