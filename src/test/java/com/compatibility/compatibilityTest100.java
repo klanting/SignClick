@@ -71,6 +71,7 @@ public class compatibilityTest100 {
         * Check that the observers that were added in v1.0.1 are now added
         * */
         assertEquals(4, Market.getCompany("AA").getLogObservers().size());
+        assertNotNull(Market.getCompany("AA").getResearch());
     }
 
 }

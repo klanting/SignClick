@@ -86,7 +86,7 @@ public class ResearchMenu extends PagingMenu {
                 l = new ArrayList<>();
                 String modifier = df.format(ResearchOption.modifiers.get(i).getLeft()*100);
                 l.add("§7Speed: "+modifier+"%");
-                l.add("§7Cost: "+df2.format(ResearchOption.modifiers.get(i).getRight())+"/h");
+                l.add("§7Cost: $"+df2.format(ResearchOption.modifiers.get(i).getRight())+"/h");
                 addItem(ItemFactory.create(mat,
                         "§7"+modifier+"%", l));
             }

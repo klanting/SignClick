@@ -16,6 +16,10 @@ public class Research {
 
     private final Map<Material, ResearchOption> researchOptions = new HashMap<>();
 
+    public void setLastChecked(long lastChecked) {
+        this.lastChecked = lastChecked;
+    }
+
     private long lastChecked;
 
     public Research(String companyType){

@@ -6,6 +6,7 @@ import com.google.gson.JsonParser;
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.economy.Board;
 import com.klanting.signclick.economy.CompanyOwnerManager;
+import com.klanting.signclick.economy.Research;
 import com.klanting.signclick.economy.logs.*;
 import com.klanting.signclick.utils.Utils;
 
@@ -32,8 +33,9 @@ public class Migrationv102v200 extends Migration{
             JsonObject jsonObject = JsonParser.parseReader(reader).getAsJsonObject();
             for (String companyName: jsonObject.keySet()){
                 JsonObject companyObject = jsonObject.get(companyName).getAsJsonObject();
+
                 /*
-                 * Add log observer field
+                 * Add board
                  * */
 
                 String owner;
@@ -52,6 +54,14 @@ public class Migrationv102v200 extends Migration{
                 ));
 
                 companyObject.add("$assertionsDisabled", JsonParser.parseString("true"));
+
+                /*
+                * add research
+                * */
+                companyObject.add("research", JsonParser.parseString(
+                        Utils.serialize(new Research(companyObject.get("type").getAsString()),
+                                new com.google.common.reflect.TypeToken<Research>(){}.getType()))
+                );
             }
 
             Writer writer = new FileWriter(file, false);

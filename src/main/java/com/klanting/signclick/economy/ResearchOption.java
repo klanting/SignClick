@@ -66,6 +66,8 @@ public class ResearchOption {
     }
 
     public double getProgress(){
+        getServer().getConsoleSender().sendMessage(ChatColor.YELLOW + "SignClick: "+progress);
+
         return Math.min(
                 ((double) progress)/getCompleteTime(),
                 1.0
@@ -81,6 +83,10 @@ public class ResearchOption {
     }
 
     public boolean checkProgress(long delta){
+
+        if (isComplete()){
+            return false;
+        }
 
         boolean addProduct = false;
 

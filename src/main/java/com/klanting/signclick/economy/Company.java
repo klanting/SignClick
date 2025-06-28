@@ -29,6 +29,8 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.function.Function;
 
+import static org.bukkit.Bukkit.getServer;
+
 public class Company extends LoggableSubject{
 
     private String name;
@@ -270,9 +272,24 @@ public class Company extends LoggableSubject{
             }
 
         }
+
+        /*
+         * set right research tick
+         * */
+        if (research != null){
+            research.setLastChecked(getServer().getCurrentTick());
+        }
     }
 
     public JsonObject toJson(JsonSerializationContext context){
+
+        /*
+        * Check Research
+        * */
+        if (research != null){
+            research.checkProgress(this);
+        }
+
 
         Function<JsonObject, JsonObject> method = (jsonObject) -> {
             if (country != null){
