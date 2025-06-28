@@ -9,6 +9,15 @@ public class Product {
     }
 
     private final Material material;
+
+    public int getPrice() {
+        return price;
+    }
+
+    public long getProductionTime() {
+        return productionTime;
+    }
+
     private final int price;
 
     private final long productionTime;

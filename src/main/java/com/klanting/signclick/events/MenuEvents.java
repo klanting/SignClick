@@ -253,6 +253,9 @@ public class MenuEvents implements Listener {
             }else if(option.equalsIgnoreCase("§6Craft Products")){
                 ProductCraftMenu new_screen = new ProductCraftMenu(player.getUniqueId(), old_screen.comp);
                 player.openInventory(new_screen.getInventory());
+            }else if(option.equalsIgnoreCase("§6Products")){
+                ProductList new_screen = new ProductList(old_screen.comp, s -> {return null;});
+                player.openInventory(new_screen.getInventory());
             }
 
         }
@@ -277,11 +280,20 @@ public class MenuEvents implements Listener {
                 Function<Product, Void> lambda = (prod) -> {
                     productCraftMenu.products[slot] = prod;
                     productCraftMenu.init();
-                    player.openInventory(productCraftMenu.getInventory());
+                    loadStack(player);
                     return null;};
 
                 ProductList new_screen = new ProductList(productCraftMenu.comp, lambda);
                 player.openInventory(new_screen.getInventory());
+            }else if(option.equals("§aSave Product")) {
+                Product product = productCraftMenu.getCrafted();
+
+                if (product != null){
+                    productCraftMenu.comp.addProduct(product);
+                    loadStack(player);
+                }
+                return;
+
             }else{
                 /*
                  * Only return if no slot selected

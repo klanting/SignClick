@@ -8,6 +8,7 @@ import com.klanting.signclick.utils.Utils;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -23,6 +24,28 @@ public class ProductCraftMenu extends SelectionMenu {
 
         assert comp.getCOM().isOwner(uuid);
         init();
+    }
+
+    public Product getCrafted(){
+        ItemStack recipe = Utils.simulateCraft(Arrays.stream(products).
+                map(p -> p != null ? new ItemStack(p.getMaterial()): null).toArray(ItemStack[]::new));
+
+        if (recipe == null){
+            return null;
+        }
+
+        long time = 0L;
+        int cost = 0;
+
+        for (Product product: products){
+            if (product == null){
+                continue;
+            }
+            time += product.getProductionTime();
+            cost += product.getPrice();
+        }
+
+        return new Product(recipe.getType(), cost/recipe.getAmount(), time/recipe.getAmount());
     }
 
     public void init(){
@@ -41,8 +64,12 @@ public class ProductCraftMenu extends SelectionMenu {
             if (products[counter] == null){
                 getInventory().setItem(i, ItemFactory.create(Material.LIGHT_GRAY_DYE, "§7Crafting Slot"));
             }else{
+                List<String> l = new ArrayList<>();
+                l.add("§7Production Time: "+products[counter].getProductionTime()+"s");
+                l.add("§7Cost: $"+products[counter].getPrice());
                 getInventory().setItem(i,
-                        ItemFactory.create(products[counter].getMaterial(), "§7"+products[counter].getMaterial().name()));
+                        ItemFactory.create(products[counter].getMaterial(),
+                                "§7"+products[counter].getMaterial().name(), l));
             }
 
             counter += 1;

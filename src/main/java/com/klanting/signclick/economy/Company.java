@@ -93,7 +93,10 @@ public class Company extends LoggableSubject{
     private List<Product> products = new ArrayList<>();
 
     public void addProduct(Product product){
-        products.add(product);
+        if (!products.stream().filter(p -> p.getMaterial() == product.getMaterial()).findFirst().isPresent()){
+            products.add(product);
+        }
+
     }
 
     public CompanyOwnerManager getCOM() {
