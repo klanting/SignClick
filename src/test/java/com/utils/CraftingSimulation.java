@@ -85,5 +85,24 @@ public class CraftingSimulation {
 
         craftedItem = Utils.simulateCraft(matrix);
         assertEquals(Material.DIRT, craftedItem.getType());
+
+        /*
+        * Custom recipe, like iron bars, with height independence
+        * */
+        something = (new ShapedRecipe(NamespacedKey.minecraft("touch3"), new ItemStack(Material.IRON_BARS)));
+        something.shape("XXX", "XXX");
+        something.setIngredient('X', Material.IRON_INGOT);
+        server.addRecipe(something);
+
+        matrix = new ItemStack[9];
+        matrix[0] = new ItemStack(Material.IRON_INGOT);
+        matrix[1] = new ItemStack(Material.IRON_INGOT);
+        matrix[2] = new ItemStack(Material.IRON_INGOT);
+        matrix[3] = new ItemStack(Material.IRON_INGOT);
+        matrix[4] = new ItemStack(Material.IRON_INGOT);
+        matrix[5] = new ItemStack(Material.IRON_INGOT);
+
+        craftedItem = Utils.simulateCraft(matrix);
+        assertEquals(Material.IRON_BARS, craftedItem.getType());
     }
 }

@@ -83,7 +83,7 @@ public class ResearchTests {
         * */
         assertEquals(Material.IRON_INGOT, research.getResearchOptions().get(0).getMaterial());
         assertEquals(0.5, research.getResearchOptions().get(0).getProgress());
-        assertEquals(Math.ceil(1000*(5.0/6)), Market.getCompany("TCI").getBal());
+        assertEquals(Math.ceil(1000*(5.0/6)), Math.ceil(Market.getCompany("TCI").getBal()));
 
         assertEquals(0, Market.getCompany("TCI").getProducts().size());
 
@@ -95,7 +95,7 @@ public class ResearchTests {
          * */
         assertEquals(Material.IRON_INGOT, research.getResearchOptions().get(0).getMaterial());
         assertEquals(1.0, research.getResearchOptions().get(0).getProgress());
-        assertEquals(668, Market.getCompany("TCI").getBal());
+        assertEquals(667, Math.ceil(Market.getCompany("TCI").getBal()));
         assertEquals(1, Market.getCompany("TCI").getProducts().size());
 
 

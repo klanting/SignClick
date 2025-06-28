@@ -31,6 +31,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.*;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
 public class MenuEvents implements Listener {
 
@@ -248,10 +250,59 @@ public class MenuEvents implements Listener {
             }else if(option.equalsIgnoreCase("§6Research")){
                 ResearchMenu new_screen = new ResearchMenu(player.getUniqueId(), old_screen.comp);
                 player.openInventory(new_screen.getInventory());
+            }else if(option.equalsIgnoreCase("§6Craft Products")){
+                ProductCraftMenu new_screen = new ProductCraftMenu(player.getUniqueId(), old_screen.comp);
+                player.openInventory(new_screen.getInventory());
             }
 
+        }
 
+        if (event.getClickedInventory().getHolder() instanceof ProductCraftMenu productCraftMenu){
+            Player player = (Player) event.getWhoClicked();
+            event.setCancelled(true);
 
+            String option = event.getCurrentItem().getItemMeta().getDisplayName();
+
+            if (option.equals("§7Crafting Slot") || (1 <= event.getSlot()/9 && event.getSlot()/9 <= 3) &&
+                    (event.getSlot()-1)%3 <= 2 && 0 <= (event.getSlot()-1)%3){
+
+                int slot = (event.getSlot()/9 -1)*3+((event.getSlot()-1)%3);
+
+                if (productCraftMenu.products[slot] != null){
+                    productCraftMenu.products[slot] = null;
+                    productCraftMenu.init();
+                    return;
+                }
+
+                Function<Product, Void> lambda = (prod) -> {
+                    productCraftMenu.products[slot] = prod;
+                    productCraftMenu.init();
+                    player.openInventory(productCraftMenu.getInventory());
+                    return null;};
+
+                ProductList new_screen = new ProductList(productCraftMenu.comp, lambda);
+                player.openInventory(new_screen.getInventory());
+            }else{
+                /*
+                 * Only return if no slot selected
+                 * */
+                return;
+            }
+
+        }
+
+        if (event.getClickedInventory().getHolder() instanceof ProductList productList){
+            event.setCancelled(true);
+            int item = event.getSlot();
+
+            if(event.getCurrentItem().getType().equals(Material.LIGHT_GRAY_STAINED_GLASS_PANE)){
+                return;
+            }
+
+            int index = (productList.getPage()*45+item);
+            productList.func.apply(productList.comp.getProducts().get(index));
+
+            return;
         }
 
         if (event.getClickedInventory().getHolder() instanceof ResearchMenu researchMenu){

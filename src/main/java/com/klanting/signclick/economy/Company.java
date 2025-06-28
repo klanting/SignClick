@@ -15,6 +15,7 @@ import com.klanting.signclick.utils.JsonTools;
 import com.klanting.signclick.utils.Utils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
@@ -89,7 +90,7 @@ public class Company extends LoggableSubject{
         return products;
     }
 
-    private final List<Product> products = new ArrayList<>();
+    private List<Product> products = new ArrayList<>();
 
     public void addProduct(Product product){
         products.add(product);
@@ -184,6 +185,7 @@ public class Company extends LoggableSubject{
             changeBase();
             return true;
         }
+
         return false;
     }
 

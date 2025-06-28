@@ -210,7 +210,18 @@ public class Utils {
                     }
                 }
 
-                boolean b = Arrays.stream(inputMatrix).toList().equals(ingredients);
+                int subsetIndex = Collections.indexOfSubList(Arrays.stream(inputMatrix).toList(), ingredients);
+                boolean b = subsetIndex != -1;
+                for (int i=0; i<subsetIndex;i++){
+                    if (Arrays.stream(inputMatrix).toList().get(i) != null){
+                        b = false;
+                    }
+                }
+                for (int i=subsetIndex+ingredients.size(); i<Arrays.stream(inputMatrix).toList().size();i++){
+                    if (Arrays.stream(inputMatrix).toList().get(i) != null){
+                        b = false;
+                    }
+                }
 
                 if (b){
                     return shapedRecipe.getResult();

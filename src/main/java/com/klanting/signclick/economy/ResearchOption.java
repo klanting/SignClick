@@ -42,7 +42,7 @@ public class ResearchOption {
         return modifierIndex != 0;
     }
 
-    private final String companyType;
+    public final String companyType;
 
     public ResearchOption(String companyType, Material material){
 
@@ -72,12 +72,12 @@ public class ResearchOption {
         );
     }
 
-    public int getCost(long delta){
-        return (int) ((modifiers.get(modifierIndex).getRight()*delta)/3600);
+    public double getCost(long delta){
+        return (modifiers.get(modifierIndex).getRight()*delta)/3600.0;
     }
 
     public long canPayDelta(double amount){
-        return (long) ((amount * 3600L) / modifiers.get(modifierIndex).getRight());
+        return (long) (Math.floor((amount * 3600.0) / modifiers.get(modifierIndex).getRight()));
     }
 
     public boolean checkProgress(long delta){
@@ -100,7 +100,7 @@ public class ResearchOption {
 
     public long getRemainingTime(){
 
-        return (long) ((getCompleteTime()-progress)/modifiers.get(modifierIndex).getLeft());
+        return Math.max((long) ((getCompleteTime()-progress)/modifiers.get(modifierIndex).getLeft()), 0);
     }
 
     public boolean isComplete(){
