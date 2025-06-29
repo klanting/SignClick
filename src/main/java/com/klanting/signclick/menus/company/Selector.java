@@ -11,6 +11,8 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
 import static com.klanting.signclick.utils.Utils.getCompanyTypeMaterial;
 
@@ -18,16 +20,12 @@ public class Selector extends PagingMenu {
 
     final private UUID uuid;
 
-    public String getType() {
-        return type;
-    }
+    public Function<Company, Void> funcType;
 
-    final private String type;
-
-    public Selector(UUID uuid, String type){
+    public Selector(UUID uuid, Function<Company, Void> funcType){
         super(54, "Company Selector", false);
         this.uuid = uuid;
-        this.type = type;
+        this.funcType = funcType;
 
         init();
     }

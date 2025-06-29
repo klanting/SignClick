@@ -95,5 +95,6 @@ public class ResearchMenu extends PagingMenu {
         }
 
         super.init();
+        onOpen();
     }
 }

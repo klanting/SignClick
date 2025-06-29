@@ -20,6 +20,7 @@ public class MachineRecipe {
     public static void create(){
 
         NamespacedKey key = new NamespacedKey(SignClick.getPlugin(), "signclick_company_machine");
+        NamespacedKey compKey = new NamespacedKey(SignClick.getPlugin(), "signclick_company_machine_company");
 
         List<String> l = new ArrayList<>();
         l.add("§7Use Machine to produce items as a company");
@@ -27,6 +28,7 @@ public class MachineRecipe {
 
         ItemMeta meta = machine.getItemMeta();
         meta.getPersistentDataContainer().set(key, PersistentDataType.BYTE, (byte) 1);
+        meta.getPersistentDataContainer().set(compKey, PersistentDataType.STRING, "");
         machine.setItemMeta(meta);
 
 

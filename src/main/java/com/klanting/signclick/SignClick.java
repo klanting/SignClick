@@ -89,6 +89,7 @@ public class SignClick extends JavaPlugin{
         getServer().getPluginManager().registerEvents(new OpenSelectionMenuEvent(), this);
         getServer().getPluginManager().registerEvents(new AddSupportEvent(), this);
         getServer().getPluginManager().registerEvents(new AddChiefSupportEvent(), this);
+        getServer().getPluginManager().registerEvents(new OpenFurnaceEvent(), this);
 
         getCommand("signclickpos").setExecutor(new SignCommands());
         getCommand("signclick").setExecutor(new BasicCommands());

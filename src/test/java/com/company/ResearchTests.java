@@ -68,7 +68,7 @@ public class ResearchTests {
         assertEquals(0.0, research.getResearchOptions().get(0).getProgress());
         assertEquals(1200L, research.getResearchOptions().get(0).getCompleteTime());
 
-        research.get(Material.IRON_INGOT).setModifierIndex(1);
+        research.getResearchOptions().get(0).setModifierIndex(1);
         Market.addCompany("TCI", "TCI", Market.getAccount(testPlayer), 1000);
         Market.getCompany("TCI").setSpendable(1000);
 

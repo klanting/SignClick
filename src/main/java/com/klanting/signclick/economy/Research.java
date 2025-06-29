@@ -1,10 +1,9 @@
 package com.klanting.signclick.economy;
 
 import com.klanting.signclick.SignClick;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.configuration.ConfigurationSection;
 
-import java.time.Duration;
 import java.util.*;
 
 import static org.bukkit.Bukkit.getServer;
@@ -12,10 +11,10 @@ import static org.bukkit.Bukkit.getServer;
 public class Research {
 
     public List<ResearchOption> getResearchOptions() {
-        return researchOptions.values().stream().toList();
+        return researchOptions;
     }
 
-    private final Map<Material, ResearchOption> researchOptions = new HashMap<>();
+    private final List<ResearchOption> researchOptions = new ArrayList<>();
 
     public void setLastChecked(long lastChecked) {
         this.lastChecked = lastChecked;
@@ -27,18 +26,18 @@ public class Research {
 
         lastChecked = getServer().getCurrentTick();
 
-        Set<String> researchItems = SignClick.getPlugin().getConfig().getConfigurationSection("products").
-                getConfigurationSection(companyType).getKeys(false);
+        ConfigurationSection productsSection = SignClick.getPlugin().getConfig().getConfigurationSection("products").
+                getConfigurationSection(companyType);
+
+        List<String> researchItems = new ArrayList<>(productsSection.getKeys(false).stream().toList());
+
+        researchItems.sort(Comparator.comparingInt(s -> productsSection.getConfigurationSection(s).getInt("index")));
 
         for (String researchItem: researchItems){
             Material m = Material.valueOf(researchItem);
-            researchOptions.put(m, new ResearchOption(companyType, m));
+            researchOptions.add(new ResearchOption(companyType, m));
         }
 
-    }
-
-    public ResearchOption get(Material material){
-        return researchOptions.get(material);
     }
 
     public void checkProgress(Company company){
@@ -47,17 +46,17 @@ public class Research {
 
         lastChecked = now;
 
-        for (Map.Entry<Material, ResearchOption> researchOption: researchOptions.entrySet()){
+        for (ResearchOption researchOption: researchOptions){
 
-            long realDelta = Math.min(Math.min(researchOption.getValue().canPayDelta(Math.min(company.getBal(), company.getSpendable())), delta),
-                    (long) (researchOption.getValue().getCompleteTime()*(1-researchOption.getValue().getProgress())));
+            long realDelta = Math.min(Math.min(researchOption.canPayDelta(Math.min(company.getBal(), company.getSpendable())), delta),
+                    (long) (researchOption.getCompleteTime()*(1-researchOption.getProgress())));
 
-            company.removeBal(researchOption.getValue().getCost(realDelta));
+            company.removeBal(researchOption.getCost(realDelta));
 
-            if (!researchOption.getValue().checkProgress(realDelta)){
+            if (!researchOption.checkProgress(realDelta)){
                 continue;
             }
-            company.addProduct(ProductFactory.create(researchOption.getKey(), researchOption.getValue().companyType));
+            company.addProduct(ProductFactory.create(researchOption.getMaterial(), researchOption.companyType));
         }
     }
 }

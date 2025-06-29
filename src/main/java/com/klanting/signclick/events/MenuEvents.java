@@ -16,6 +16,7 @@ import com.klanting.signclick.menus.*;
 import com.klanting.signclick.menus.company.*;
 import com.klanting.signclick.menus.company.logs.LogList;
 import com.klanting.signclick.menus.company.logs.LogMessages;
+import com.klanting.signclick.menus.company.machine.MachineMenu;
 import com.klanting.signclick.menus.country.*;
 import com.klanting.signclick.menus.party.DecisionChoice;
 import com.klanting.signclick.menus.party.DecisionVote;
@@ -151,6 +152,12 @@ public class MenuEvents implements Listener {
 
         }
 
+        if (event.getClickedInventory().getHolder() instanceof MachineMenu){
+            Player player = (Player) event.getWhoClicked();
+            event.setCancelled(true);
+            return;
+        }
+
 
         if (event.getClickedInventory().getHolder() instanceof Selector selector){
             Player player = (Player) event.getWhoClicked();
@@ -166,18 +173,7 @@ public class MenuEvents implements Listener {
             int endPos = event.getCurrentItem().getItemMeta().getDisplayName().length()-1;
             Company company = Market.getCompany(event.getCurrentItem().getItemMeta().getDisplayName().substring(startPos+1, endPos));
 
-            SelectionMenu screen;
-            switch (selector.getType()) {
-                default:
-                case "menu":
-                    screen = new OwnerMenu(player.getUniqueId(), company);
-                    break;
-                case "support":
-                    screen = new BoardMenu(company);
-                    break;
-            }
-
-            player.openInventory(screen.getInventory());
+            selector.funcType.apply(company);
         }
 
         if (event.getClickedInventory().getHolder() instanceof BoardMenu boardMenu){
