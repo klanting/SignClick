@@ -24,12 +24,17 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.block.Block;
+import org.bukkit.block.Furnace;
+import org.bukkit.block.TileState;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.util.*;
 import java.util.function.BiFunction;
@@ -38,6 +43,8 @@ import java.util.function.Function;
 public class MenuEvents implements Listener {
 
     private static final HashMap<Player, Stack<SelectionMenu>> menuStack = new HashMap<>();
+
+    public static final List<Furnace> furnaces = new ArrayList<>();
 
     private static void storeStack(Player player, SelectionMenu sm){
         Stack<SelectionMenu> playerStack = menuStack.getOrDefault(player, new Stack<>());
@@ -55,6 +62,34 @@ public class MenuEvents implements Listener {
 
     private static void clearStack(Player player){
         menuStack.put(player, new Stack<>());
+    }
+
+    public static void checkMachines(){
+        Bukkit.getScheduler().runTaskTimer(SignClick.getPlugin(), () -> {
+
+            for (Furnace furnace: furnaces){
+                Block block = furnace.getBlock();
+                if (!block.getWorld().isChunkLoaded(block.getX() >> 4, block.getZ() >> 4)) {continue;}
+
+                if (furnace.getInventory().getSmelting() == null){continue;}
+
+                furnace.setCookTime((short) (furnace.getCookTime()+1));
+
+                if (furnace.getCookTime() >= furnace.getCookTimeTotal()){
+                    ItemStack results = furnace.getInventory().getResult();
+                    if (results!= null){
+                        results.setAmount(results.getAmount() + 1);
+                    }else{
+                        results = new ItemStack(furnace.getInventory().getSmelting());
+                    }
+
+                    furnace.getInventory().setResult(results);
+                    furnace.setCookTime((short) (furnace.getCookTime()-furnace.getCookTimeTotal()));
+                }
+
+
+            }
+        }, 0L, 20L);
     }
 
     @EventHandler
@@ -152,10 +187,56 @@ public class MenuEvents implements Listener {
 
         }
 
-        if (event.getClickedInventory().getHolder() instanceof MachineMenu){
+        if (event.getClickedInventory().getHolder() instanceof MachineMenu machineMenu){
             Player player = (Player) event.getWhoClicked();
             event.setCancelled(true);
-            return;
+
+            String option = event.getCurrentItem().getItemMeta().getDisplayName();
+            if (option.equals("§7Product Slot")){
+
+                Function<Product, Void> lambda = (prod) -> {
+
+                    if (!(machineMenu.furnace.getBlock().getState() instanceof TileState tileState)){
+                        return null;
+                    }
+                    NamespacedKey productKey = new NamespacedKey(SignClick.getPlugin(), "signclick_company_machine_product");
+
+                    /*
+                    * set current item
+                    * */
+                    tileState.getPersistentDataContainer().set(productKey, PersistentDataType.STRING, prod.getMaterial().name());
+                    tileState.update();
+
+                    /*
+                    * Start furnace
+                    * */
+                    machineMenu.furnace.setCookTime((short) 0);
+                    machineMenu.furnace.setCookTimeTotal(prod.getProductionTime());
+                    machineMenu.furnace.getInventory().setSmelting(new ItemStack(prod.getMaterial()));
+                    machineMenu.furnace.update();
+                    furnaces.add(machineMenu.furnace);
+
+                    loadStack(player);
+                    return null;};
+
+                ProductList new_screen = new ProductList(machineMenu.comp, lambda);
+                player.openInventory(new_screen.getInventory());
+            }
+
+            if (event.getSlot() == 10){
+                if (!(machineMenu.furnace.getBlock().getState() instanceof TileState tileState)){
+                    return;
+                }
+                NamespacedKey productKey = new NamespacedKey(SignClick.getPlugin(), "signclick_company_machine_product");
+
+                /*
+                 * set current item
+                 * */
+                tileState.getPersistentDataContainer().set(productKey, PersistentDataType.STRING, "");
+                tileState.update();
+
+                machineMenu.init();
+            }
         }
 
 

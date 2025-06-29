@@ -34,7 +34,7 @@ public class ProductCraftMenu extends SelectionMenu {
             return null;
         }
 
-        long time = 0L;
+        int time = 0;
         int cost = 0;
 
         for (Product product: products){
@@ -56,7 +56,7 @@ public class ProductCraftMenu extends SelectionMenu {
         getInventory().clear();
 
         for (int i: List.of(0, 1, 2, 3, 4, 9, 13, 18, 22, 27, 31, 36, 37, 38, 39, 40)){
-            getInventory().setItem(i, ItemFactory.create(Material.YELLOW_STAINED_GLASS_PANE, ""));
+            getInventory().setItem(i, ItemFactory.create(Material.YELLOW_STAINED_GLASS_PANE, "§f"));
         }
 
         int counter = 0;
@@ -76,7 +76,7 @@ public class ProductCraftMenu extends SelectionMenu {
         }
 
         for (int i: List.of(15, 16, 17, 24, 26, 33, 34, 35)){
-            getInventory().setItem(i, ItemFactory.create(Material.LIGHT_BLUE_STAINED_GLASS_PANE, ""));
+            getInventory().setItem(i, ItemFactory.create(Material.LIGHT_BLUE_STAINED_GLASS_PANE, "§f"));
         }
 
         if (recipe != null){

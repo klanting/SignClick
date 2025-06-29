@@ -78,6 +78,7 @@ public class SignClick extends JavaPlugin{
         MachineRecipe.create();
 
         ResearchOption.initModifiers();
+        MenuEvents.checkMachines();
 
         getServer().getPluginManager().registerEvents(new SignEvents(), this);
         getServer().getPluginManager().registerEvents(new DynmapEvents(), this);

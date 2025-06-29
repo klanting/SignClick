@@ -10,6 +10,6 @@ public class ProductFactory {
         ConfigurationSection section = SignClick.getPlugin().getConfig().getConfigurationSection("products").
                 getConfigurationSection(companyType).getConfigurationSection(material.name());
 
-        return new Product(material, section.getInt("productionCost"), section.getLong("productionTime"));
+        return new Product(material, section.getInt("productionCost"), section.getInt("productionTime"));
     }
 }

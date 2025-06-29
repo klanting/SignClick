@@ -57,8 +57,10 @@ public class OpenFurnaceEvent implements Listener {
         Block block = furnace.getBlock();
 
         if (!(block.getState() instanceof TileState tileState)) return;
+
         NamespacedKey key = new NamespacedKey(SignClick.getPlugin(), "signclick_company_machine");
         NamespacedKey compKey = new NamespacedKey(SignClick.getPlugin(), "signclick_company_machine_company");
+        NamespacedKey productKey = new NamespacedKey(SignClick.getPlugin(), "signclick_company_machine_product");
 
         if (tileState.getPersistentDataContainer().has(key, PersistentDataType.BYTE)) {
             event.setCancelled(true);
@@ -69,9 +71,10 @@ public class OpenFurnaceEvent implements Listener {
                 Function<Company, Void> func = (comp) -> {
 
                     tileState.getPersistentDataContainer().set(compKey, PersistentDataType.STRING, comp.getStockName());
+                    tileState.getPersistentDataContainer().set(productKey, PersistentDataType.STRING, "");
                     tileState.update();
 
-                    InventoryHolder screen = new MachineMenu(event.getPlayer().getUniqueId(), comp);
+                    InventoryHolder screen = new MachineMenu(event.getPlayer().getUniqueId(), comp, furnace);
                     event.getPlayer().openInventory(screen.getInventory());
                     return null;
                 };
@@ -80,7 +83,8 @@ public class OpenFurnaceEvent implements Listener {
                 event.getPlayer().openInventory(screen.getInventory());
 
             }else{
-                InventoryHolder screen = new MachineMenu(event.getPlayer().getUniqueId(), Market.getCompany(companyName));
+                InventoryHolder screen = new MachineMenu(event.getPlayer().getUniqueId(), Market.getCompany(companyName),
+                        furnace);
                 event.getPlayer().openInventory(screen.getInventory());
             }
 

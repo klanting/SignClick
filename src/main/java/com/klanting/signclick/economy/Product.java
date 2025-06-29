@@ -14,15 +14,15 @@ public class Product {
         return price;
     }
 
-    public long getProductionTime() {
+    public int getProductionTime() {
         return productionTime;
     }
 
     private final int price;
 
-    private final long productionTime;
+    private final int productionTime;
 
-    public Product(Material material, int price, long productionTime){
+    public Product(Material material, int price, int productionTime){
         this.material = material;
         this.price = price;
         this.productionTime = productionTime;
