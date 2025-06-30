@@ -14,17 +14,14 @@ public class DoubleBlockMock extends BlockMock {
         super(material, location);
     }
 
-    public DoubleBlockMock(Material material){
-        super(material);
-    }
 
-    private BlockStateMock state;
+    private BlockStateMock state2;
     @Override public void setState(@NotNull BlockStateMock state) {
         Preconditions.checkNotNull(state, "The BlockState cannot be null");
-        this.state = state;
+        this.state2 = state;
     }
 
     @Override public @NotNull BlockState getState() {
-        return this.state!=null ? this.state: null;
+        return this.state2!=null ? this.state2: null;
     }
 }

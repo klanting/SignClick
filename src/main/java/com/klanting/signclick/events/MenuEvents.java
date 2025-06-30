@@ -20,6 +20,7 @@ import com.klanting.signclick.menus.company.machine.MachineMenu;
 import com.klanting.signclick.menus.country.*;
 import com.klanting.signclick.menus.party.DecisionChoice;
 import com.klanting.signclick.menus.party.DecisionVote;
+import com.klanting.signclick.utils.Utils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -40,11 +41,13 @@ import java.util.*;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
+import static org.bukkit.Bukkit.getServer;
+
 public class MenuEvents implements Listener {
 
     private static final HashMap<Player, Stack<SelectionMenu>> menuStack = new HashMap<>();
 
-    public static final List<Furnace> furnaces = new ArrayList<>();
+    public static final List<Machine> furnaces = new ArrayList<>();
 
     private static void storeStack(Player player, SelectionMenu sm){
         Stack<SelectionMenu> playerStack = menuStack.getOrDefault(player, new Stack<>());
@@ -67,26 +70,9 @@ public class MenuEvents implements Listener {
     public static void checkMachines(){
         Bukkit.getScheduler().runTaskTimer(SignClick.getPlugin(), () -> {
 
-            for (Furnace furnace: furnaces){
-                Block block = furnace.getBlock();
-                if (!block.getWorld().isChunkLoaded(block.getX() >> 4, block.getZ() >> 4)) {continue;}
+            for (Machine machine: furnaces){
 
-                if (furnace.getInventory().getSmelting() == null){continue;}
-
-                furnace.setCookTime((short) (furnace.getCookTime()+1));
-
-                if (furnace.getCookTime() >= furnace.getCookTimeTotal()){
-                    ItemStack results = furnace.getInventory().getResult();
-                    if (results!= null){
-                        results.setAmount(results.getAmount() + 1);
-                    }else{
-                        results = new ItemStack(furnace.getInventory().getSmelting());
-                    }
-
-                    furnace.getInventory().setResult(results);
-                    furnace.setCookTime((short) (furnace.getCookTime()-furnace.getCookTimeTotal()));
-                }
-
+                machine.productionUpdate();
 
             }
         }, 0L, 20L);
@@ -196,7 +182,7 @@ public class MenuEvents implements Listener {
 
                 Function<Product, Void> lambda = (prod) -> {
 
-                    if (!(machineMenu.furnace.getBlock().getState() instanceof TileState tileState)){
+                    if (!(machineMenu.machine.getBlock().getState() instanceof TileState tileState)) {
                         return null;
                     }
                     NamespacedKey productKey = new NamespacedKey(SignClick.getPlugin(), "signclick_company_machine_product");
@@ -210,11 +196,10 @@ public class MenuEvents implements Listener {
                     /*
                     * Start furnace
                     * */
-                    machineMenu.furnace.setCookTime((short) 0);
-                    machineMenu.furnace.setCookTimeTotal(prod.getProductionTime());
-                    machineMenu.furnace.getInventory().setSmelting(new ItemStack(prod.getMaterial()));
-                    machineMenu.furnace.update();
-                    furnaces.add(machineMenu.furnace);
+                    machineMenu.machine.clearProgress();
+                    machineMenu.machine.setProduct(prod);
+
+                    furnaces.add(machineMenu.machine);
 
                     loadStack(player);
                     return null;};
@@ -224,7 +209,7 @@ public class MenuEvents implements Listener {
             }
 
             if (event.getSlot() == 10){
-                if (!(machineMenu.furnace.getBlock().getState() instanceof TileState tileState)){
+                if (!(machineMenu.machine.getBlock().getState() instanceof TileState tileState)){
                     return;
                 }
                 NamespacedKey productKey = new NamespacedKey(SignClick.getPlugin(), "signclick_company_machine_product");
@@ -234,6 +219,8 @@ public class MenuEvents implements Listener {
                  * */
                 tileState.getPersistentDataContainer().set(productKey, PersistentDataType.STRING, "");
                 tileState.update();
+
+                furnaces.remove(machineMenu.machine);
 
                 machineMenu.init();
             }

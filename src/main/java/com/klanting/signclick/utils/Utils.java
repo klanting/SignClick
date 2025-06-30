@@ -14,7 +14,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.Furnace;
 import org.bukkit.block.Sign;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.inventory.InventoryType;
@@ -53,6 +56,7 @@ public class Utils {
         builder.registerTypeAdapter(Auction.class, new AuctionSerializer());
         builder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer());
         builder.registerTypeAdapterFactory(new CompanyOwnerManagerAdapterFactory());
+        builder.registerTypeAdapter(Block.class, new BlockSerializer());
         builder.registerTypeAdapterFactory(pluginLogTypes);
         Gson gson = builder.create();
         return gson.toJson(value, token);
@@ -72,6 +76,7 @@ public class Utils {
         builder.registerTypeAdapter(Auction.class, new AuctionSerializer());
         builder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer());
         builder.registerTypeAdapterFactory(new CompanyOwnerManagerAdapterFactory());
+        builder.registerTypeAdapter(Block.class, new BlockSerializer());
         builder.registerTypeAdapterFactory(pluginLogTypes);
         Gson gson = builder.create();
 
@@ -110,6 +115,7 @@ public class Utils {
         builder.registerTypeAdapter(Auction.class, new AuctionSerializer());
         builder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer());
         builder.registerTypeAdapterFactory(new CompanyOwnerManagerAdapterFactory());
+        builder.registerTypeAdapter(Block.class, new BlockSerializer());
         builder.registerTypeAdapterFactory(pluginLogTypes);
         Gson gson = builder.create();
 

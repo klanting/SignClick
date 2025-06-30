@@ -2,25 +2,29 @@ package com.klanting.signclick.menus.company.machine;
 
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.economy.Company;
+import com.klanting.signclick.economy.Machine;
 import com.klanting.signclick.menus.SelectionMenu;
 import com.klanting.signclick.utils.ItemFactory;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Furnace;
 import org.bukkit.block.TileState;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 public class MachineMenu extends SelectionMenu {
     public Company comp;
-    public Furnace furnace;
+    public Machine machine;
 
-    public MachineMenu(UUID uuid, Company company, Furnace furnace){
+    public MachineMenu(UUID uuid, Company company, Machine machine){
         super(45, "Company Machine: "+ company.getStockName(), false);
         comp = company;
-        this.furnace = furnace;
+        this.machine = machine;
 
         assert comp.getCOM().isOwner(uuid);
         init();
@@ -38,7 +42,16 @@ public class MachineMenu extends SelectionMenu {
             getInventory().setItem(i, ItemFactory.create(Material.LIGHT_BLUE_STAINED_GLASS_PANE, "§f"));
         }
 
-        getInventory().setItem(13, ItemFactory.create(Material.CLOCK, "§7Production"));
+        ItemStack result = machine.results;
+        if (result != null){
+            getInventory().setItem(34, result);
+        }
+
+        List<String> l = new ArrayList<>();
+        if (machine.hasProduct()){
+            l.add("§7Next Produced: "+(machine.getProductionTotal()-machine.getProductionProgress()));
+        }
+        getInventory().setItem(13, ItemFactory.create(Material.CLOCK, "§7Production", l));
 
         getInventory().setItem(27, ItemFactory.create(Material.HOPPER, "§7Allow Hopper"));
         getInventory().setItem(28, ItemFactory.create(Material.REDSTONE_TORCH, "§7Loop Production"));
@@ -47,7 +60,7 @@ public class MachineMenu extends SelectionMenu {
         NamespacedKey productKey = new NamespacedKey(SignClick.getPlugin(), "signclick_company_machine_product");
 
 
-        if (!(furnace.getBlock().getState() instanceof TileState tileState)) return;
+        if (!(machine.getBlock().getState() instanceof TileState tileState)) return;
         String material = tileState.getPersistentDataContainer().getOrDefault(productKey, PersistentDataType.STRING, "");
 
         if (material.isEmpty()){

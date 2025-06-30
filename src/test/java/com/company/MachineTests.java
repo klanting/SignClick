@@ -45,6 +45,7 @@ public class MachineTests {
 
         MockBukkit.unmock();
         Market.clear();
+        MenuEvents.furnaces.clear();
     }
 
     @Test
@@ -56,7 +57,7 @@ public class MachineTests {
         Market.addCompany("TCI", "TCI", Market.getAccount(testPlayer));
         Company comp = Market.getCompany("TCI");
         comp.setSpendable(2000);
-        comp.addProduct(new Product(Material.DIRT, 1, 1));
+        comp.addProduct(new Product(Material.DIRT, 1, 2));
 
         /*
         * Build the Machine
@@ -140,12 +141,21 @@ public class MachineTests {
         /*
         * Check production is working
         * */
-        assertEquals(0, furnaceState.getCookTime());
+        assertEquals(0, MenuEvents.furnaces.get(0).getProductionProgress());
 
-        server.getScheduler().performTicks(200);
-        assertEquals(new ItemStack(Material.DIRT, 10), furnaceState.getInventory().getResult());
+        server.getScheduler().performTicks(220);
+        assertEquals(1, MenuEvents.furnaces.get(0).getProductionProgress());
 
-        MenuEvents.furnaces.clear();
+        assertEquals(new ItemStack(Material.DIRT, 5), MenuEvents.furnaces.get(0).results);
 
+    }
+
+    @Test
+    void MachineProductionSaveLoad(){
+        basicMachineProduction();
+
+        plugin = TestTools.reboot(server);
+        assertEquals(1, Market.getCompany("TCI").machines.values().size());
+        assertEquals(1, MenuEvents.furnaces.size());
     }
 }

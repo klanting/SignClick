@@ -2,6 +2,7 @@ package com.klanting.signclick.events;
 
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.economy.Company;
+import com.klanting.signclick.economy.Machine;
 import com.klanting.signclick.economy.Market;
 import com.klanting.signclick.menus.company.BoardMenu;
 import com.klanting.signclick.menus.company.Selector;
@@ -56,6 +57,7 @@ public class OpenFurnaceEvent implements Listener {
         Furnace furnace = (Furnace) event.getInventory().getHolder();
         Block block = furnace.getBlock();
 
+
         if (!(block.getState() instanceof TileState tileState)) return;
 
         NamespacedKey key = new NamespacedKey(SignClick.getPlugin(), "signclick_company_machine");
@@ -74,7 +76,9 @@ public class OpenFurnaceEvent implements Listener {
                     tileState.getPersistentDataContainer().set(productKey, PersistentDataType.STRING, "");
                     tileState.update();
 
-                    InventoryHolder screen = new MachineMenu(event.getPlayer().getUniqueId(), comp, furnace);
+                    Machine machine = new Machine(block);
+                    comp.machines.put(block, machine);
+                    InventoryHolder screen = new MachineMenu(event.getPlayer().getUniqueId(), comp, machine);
                     event.getPlayer().openInventory(screen.getInventory());
                     return null;
                 };
@@ -84,7 +88,7 @@ public class OpenFurnaceEvent implements Listener {
 
             }else{
                 InventoryHolder screen = new MachineMenu(event.getPlayer().getUniqueId(), Market.getCompany(companyName),
-                        furnace);
+                        Market.getCompany(companyName).machines.get(block));
                 event.getPlayer().openInventory(screen.getInventory());
             }
 

@@ -1,0 +1,69 @@
+package com.klanting.signclick.economy;
+
+import org.bukkit.block.Block;
+import org.bukkit.inventory.ItemStack;
+
+public class Machine {
+
+    private boolean doLoop = true;
+
+    public ItemStack results;
+
+    private Product product;
+
+    public int getProductionProgress() {
+        return productionProgress;
+    }
+
+    public boolean hasProduct(){
+        return product != null;
+    }
+
+    public int getProductionTotal(){
+        return product.getProductionTime();
+    }
+
+    private int productionProgress;
+
+    public void clearProgress(){
+        productionProgress = 0;
+    }
+
+    public Block getBlock() {
+        return block;
+    }
+
+    private final Block block;
+
+    public Machine(Block block){
+        product = null;
+        productionProgress = 0;
+        this.block = block;
+    }
+
+    public void productionUpdate(){
+
+        if (!block.getWorld().isChunkLoaded(block.getX() >> 4, block.getZ() >> 4)) {return;}
+
+        if (product == null){
+            productionProgress = 0;
+            return;
+        }
+
+        productionProgress += 1;
+
+        if (productionProgress >= product.getProductionTime()){
+            productionProgress -= product.getProductionTime();
+
+            if (results!= null){
+                results.setAmount(results.getAmount() + 1);
+            }else{
+                results = new ItemStack(product.getMaterial());
+            }
+        }
+    }
+
+    public void setProduct(Product product){
+        this.product = product;
+    }
+}

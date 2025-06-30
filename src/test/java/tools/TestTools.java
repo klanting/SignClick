@@ -6,6 +6,7 @@ import be.seeseemelk.mockbukkit.block.state.BlockStateMock;
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
 import be.seeseemelk.mockbukkit.plugin.PluginManagerMock;
 import com.klanting.signclick.SignClick;
+import com.klanting.signclick.events.MenuEvents;
 import com.klanting.signclick.routines.WeeklyPay;
 import com.klanting.signclick.economy.CountryManager;
 import com.klanting.signclick.economy.Market;
@@ -94,6 +95,7 @@ public class TestTools {
         CountryManager.clear();
         Auction.clear();
         Market.clear();
+        MenuEvents.furnaces.clear();
         WeeklyPay.payments.clear();
     }
 

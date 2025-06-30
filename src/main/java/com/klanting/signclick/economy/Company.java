@@ -1,5 +1,6 @@
 package com.klanting.signclick.economy;
 
+import com.google.common.reflect.TypeToken;
 import com.google.gson.*;
 import com.klanting.signclick.economy.companyPatent.Patent;
 import com.klanting.signclick.economy.companyPatent.PatentUpgrade;
@@ -11,16 +12,20 @@ import com.klanting.signclick.economy.logs.ContractChange;
 import com.klanting.signclick.economy.logs.ContractPayment;
 import com.klanting.signclick.economy.logs.MoneyTransfer;
 import com.klanting.signclick.economy.logs.ShareholderChange;
+import com.klanting.signclick.events.MenuEvents;
 import com.klanting.signclick.utils.JsonTools;
 import com.klanting.signclick.utils.Utils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 import org.jetbrains.annotations.NotNull;
 
+import javax.crypto.Mac;
 import java.io.Console;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
@@ -54,6 +59,8 @@ public class Company extends LoggableSubject{
     }
 
     private ContractRequest pendingContractRequest = null;
+
+    public final HashMap<Block, Machine> machines = new HashMap<>();
 
 
     public String playerNamePending = null;
@@ -228,7 +235,7 @@ public class Company extends LoggableSubject{
         return getCOM().getMarketShares();
     }
 
-    private static final List<String> softLink = new ArrayList<>(List.of("country"));
+    private static final List<String> softLink = new ArrayList<>(List.of("country", "machines"));
 
 
     public Company(JsonObject jsonObject, JsonDeserializationContext context){
@@ -253,6 +260,23 @@ public class Company extends LoggableSubject{
                     switch (fieldName){
                         case "country":
                             field.set(this, CountryManager.getCountry(element.getAsString()));
+                            break;
+                        case "machines":
+                            Set<Entry<String, JsonElement>> entries = element.getAsJsonObject().entrySet();
+                            for(Entry<String, JsonElement> entry: entries){
+                                Location loc = context.deserialize(JsonParser.parseString(entry.getKey()), new TypeToken<Location>(){}.getType());
+                                Machine machine = context.deserialize(entry.getValue(), new TypeToken<Machine>(){}.getType());
+
+                                machines.put(loc.getBlock(), machine);
+                            }
+
+                            for (Machine machine: machines.values()){
+                                if (machine.hasProduct()){
+                                    MenuEvents.furnaces.add(machine);
+                                }
+                            }
+
+                            break;
                     }
 
                     continue;
@@ -303,8 +327,22 @@ public class Company extends LoggableSubject{
             return jsonObject;
         };
 
+        Function<JsonObject, JsonObject> method2 = (jsonObject) -> {
+            for (Map.Entry<Block, Machine> entry: machines.entrySet()){
+
+                JsonObject machinesJson = new JsonObject();
+                machinesJson.add(context.serialize(entry.getKey().getLocation()).toString(),
+                        context.serialize(entry.getValue())
+                        );
+
+                jsonObject.add("machines", machinesJson);
+            }
+            return jsonObject;
+        };
+
         HashMap<String, Function<JsonObject, JsonObject>> map = new HashMap<>();
         map.put("country", method);
+        map.put("machines", method2);
 
         Field[] fields = Utils.getAllFields(this.getClass());
         Map<String, Pair<Type, Object>> fieldMap = new HashMap<>();
