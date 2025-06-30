@@ -56,6 +56,7 @@ public class MachineTests {
         * */
         Market.addCompany("TCI", "TCI", Market.getAccount(testPlayer));
         Company comp = Market.getCompany("TCI");
+        comp.addBal(2000);
         comp.setSpendable(2000);
         comp.addProduct(new Product(Material.DIRT, 1, 2));
 
@@ -155,7 +156,16 @@ public class MachineTests {
         basicMachineProduction();
 
         plugin = TestTools.reboot(server);
+        MenuEvents.furnaces.get(0).getBlock().getLocation().setWorld(new WorldDoubleMock());
+
         assertEquals(1, Market.getCompany("TCI").machines.values().size());
         assertEquals(1, MenuEvents.furnaces.size());
+
+        assertEquals(1, MenuEvents.furnaces.get(0).getProductionProgress());
+        assertEquals(new ItemStack(Material.DIRT, 5), MenuEvents.furnaces.get(0).results);
+
+        server.getScheduler().performTicks(180);
+        assertEquals(0, MenuEvents.furnaces.get(0).getProductionProgress());
+        assertEquals(new ItemStack(Material.DIRT, 10), MenuEvents.furnaces.get(0).results);
     }
 }

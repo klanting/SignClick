@@ -7,9 +7,13 @@ public class Machine {
 
     private boolean doLoop = true;
 
+    private boolean frozen = false;
+
     public ItemStack results;
 
     private Product product;
+
+    private final String compName;
 
     public int getProductionProgress() {
         return productionProgress;
@@ -35,17 +39,18 @@ public class Machine {
 
     private final Block block;
 
-    public Machine(Block block){
+    public Machine(Block block, Company company){
         product = null;
         productionProgress = 0;
         this.block = block;
+        this.compName = company.getStockName();
     }
 
     public void productionUpdate(){
 
         if (!block.getWorld().isChunkLoaded(block.getX() >> 4, block.getZ() >> 4)) {return;}
 
-        if (product == null){
+        if (!hasProduct()){
             productionProgress = 0;
             return;
         }
@@ -53,6 +58,13 @@ public class Machine {
         productionProgress += 1;
 
         if (productionProgress >= product.getProductionTime()){
+
+            if (!Market.getCompany(compName).removeBal(product.getPrice())){
+                frozen = true;
+                return;
+            }
+            frozen = false;
+
             productionProgress -= product.getProductionTime();
 
             if (results!= null){

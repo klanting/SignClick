@@ -71,7 +71,6 @@ public class MenuEvents implements Listener {
         Bukkit.getScheduler().runTaskTimer(SignClick.getPlugin(), () -> {
 
             for (Machine machine: furnaces){
-
                 machine.productionUpdate();
 
             }

@@ -76,7 +76,7 @@ public class OpenFurnaceEvent implements Listener {
                     tileState.getPersistentDataContainer().set(productKey, PersistentDataType.STRING, "");
                     tileState.update();
 
-                    Machine machine = new Machine(block);
+                    Machine machine = new Machine(block, comp);
                     comp.machines.put(block, machine);
                     InventoryHolder screen = new MachineMenu(event.getPlayer().getUniqueId(), comp, machine);
                     event.getPlayer().openInventory(screen.getInventory());
