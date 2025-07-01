@@ -92,6 +92,7 @@ public class DefaultConfig {
         config.addDefault("electionTime", 60*60*24L);
 
         config.addDefault("stockBuySellAmount", List.of(10, 100, 200));
+        config.addDefault("spendableAmount", List.of(10, 100, 1000, 10000));
 
         config.addDefault("autoSaveInterval", 1800);
 
@@ -292,6 +293,7 @@ public class DefaultConfig {
         config.addDefault("electionTime", 60*60*24*7L);
 
         config.addDefault("stockBuySellAmount", List.of(100, 10000, 100000));
+        config.addDefault("spendableAmount", List.of(100, 10000, 100000, 1000000));
 
         /*
         * Avoid AutoSave for testing

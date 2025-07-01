@@ -321,8 +321,32 @@ public class MenuEvents implements Listener {
             }else if(option.equalsIgnoreCase("§6Machines List")){
                 MachineList new_screen = new MachineList(old_screen.comp, s -> {return null;});
                 player.openInventory(new_screen.getInventory());
+            }else if(option.equalsIgnoreCase("§6Financials")){
+                FinancialMenu new_screen = new FinancialMenu(player.getUniqueId(), old_screen.comp);
+                player.openInventory(new_screen.getInventory());
             }
 
+        }
+
+        if (event.getClickedInventory().getHolder() instanceof FinancialMenu financialMenu){
+            Player player = (Player) event.getWhoClicked();
+            event.setCancelled(true);
+
+            Company currentCompany = financialMenu.company;
+
+            Account acc = Market.getAccount(player);
+
+            if (event.getCurrentItem().getItemMeta().getDisplayName().contains("Increase")){
+                int amount = Integer.parseInt((event.getCurrentItem().getItemMeta().getDisplayName().split(" ")[1]).replace(".", ""));
+                currentCompany.setSpendable(currentCompany.getSpendable()+amount);
+            }
+
+            if (event.getCurrentItem().getItemMeta().getDisplayName().contains("Decrease")){
+                int amount = Integer.parseInt((event.getCurrentItem().getItemMeta().getDisplayName().split(" ")[1]).replace(".", ""));
+                currentCompany.setSpendable(Math.max(currentCompany.getSpendable()-amount, 0));
+            }
+
+            financialMenu.init();
         }
 
         if (event.getClickedInventory().getHolder() instanceof MachineList machineList){
