@@ -179,7 +179,7 @@ class CompanyTests {
 
         testPlayer.assertSaid("""
                 §aincome:§0
-                §aContract: from SERVER(S) to TCI(C) amount: 200000.0 for 10 weeks, reason: Upgrade[0] 1 delay: 0§0
+                §aContract: from SERVER(S) to TCI(C) amount: 500000.0 for 10 weeks, reason: Upgrade[0] 1 delay: 0§0
                 §coutgoing:""");
 
         testPlayer.assertNoMoreSaid();
@@ -190,7 +190,7 @@ class CompanyTests {
 
         testPlayer.assertSaid("""
                 §aincome:§0
-                §aContract: from SERVER(S) to TCI(C) amount: 200000.0 for 10 weeks, reason: Upgrade[0] 1 delay: 0§0
+                §aContract: from SERVER(S) to TCI(C) amount: 500000.0 for 10 weeks, reason: Upgrade[0] 1 delay: 0§0
                 §coutgoing:""");
         testPlayer.assertNoMoreSaid();
 

@@ -26,7 +26,7 @@ public class PatentDesignerMenu extends SelectionMenu {
         meta.setDisplayName(patent.getName());
         item.setItemMeta(meta);
         getInventory().setItem(4, item);
-        int upgrades = comp.upgrades.get(2).getBonus();
+        int upgrades = comp.upgrades.get(1).getBonus();
         for (int i=0; i<upgrades; i++){
 
             ItemStack upgrade;

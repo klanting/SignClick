@@ -28,7 +28,7 @@ public class UpgradeMenu extends SelectionMenu {
     }
 
     public void init(){
-        int counter = 11;
+        int counter = 10;
         for (Upgrade up: comp.upgrades){
             ArrayList<String> l = new ArrayList<>();
             DecimalFormat df = new DecimalFormat("###,###,###");

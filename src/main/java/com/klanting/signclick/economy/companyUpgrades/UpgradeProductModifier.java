@@ -4,22 +4,20 @@ import com.klanting.signclick.SignClick;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 
-import java.util.List;
-
-public class UpgradePatentSlot extends Upgrade{
-    public UpgradePatentSlot(Integer level) {
-        super(level, 0);
+public class UpgradeProductModifier extends Upgrade{
+    public UpgradeProductModifier(Integer level) {
+        super(level, 6);
 
         ConfigurationSection section = SignClick.getPlugin().getConfig().getConfigurationSection(
-                "upgrades").getConfigurationSection("patentSlot");
+                "upgrades").getConfigurationSection("productModifier");
 
         assert section != null;
 
         bonus = section.getIntegerList("bonus");
         upgradeCost = section.getIntegerList("upgradeCost");
 
-        name = "Patent Slot";
-        material = Material.END_CRYSTAL;
+        name = "Product Modifier";
+        material = Material.FURNACE;
 
     }
 }

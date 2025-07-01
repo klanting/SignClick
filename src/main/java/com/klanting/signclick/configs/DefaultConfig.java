@@ -54,35 +54,53 @@ public class DefaultConfig {
         ConfigurationSection section = config.getConfigurationSection("upgrades");
         assert section != null;
         section.createSection("craftLimit");
-        section.createSection("extraPoints");
         section.createSection("investReturnTime");
         section.createSection("patentSlot");
         section.createSection("patentUpgradeSlot");
+        section.createSection("boardSize");
+        section.createSection("productModifier");
+        section.createSection("productSlot");
+        section.createSection("researchModifier");
 
         section.getConfigurationSection("craftLimit").addDefault("bonus",
                 List.of(5, 10, 20, 40, 80, 100));
         section.getConfigurationSection("craftLimit").addDefault("upgradeCost",
-                List.of(40000, 80000, 120000, 160000, 200000));
-
-        section.getConfigurationSection("extraPoints").addDefault("bonus",
-                List.of(0, 5, 10, 15, 20, 25));
-        section.getConfigurationSection("extraPoints").addDefault("upgradeCost",
-                List.of(20000, 40000, 60000, 80000, 100000));
+                List.of(4000, 8000, 12000, 16000, 20000));
 
         section.getConfigurationSection("investReturnTime").addDefault("bonus",
                 List.of(0, 5, 10, 15, 20, 25));
         section.getConfigurationSection("investReturnTime").addDefault("upgradeCost",
-                List.of(40000, 80000, 120000, 160000, 200000));
+                List.of(4000, 8000, 12000, 16000, 20000));
 
         section.getConfigurationSection("patentSlot").addDefault("bonus",
                 List.of(1, 2, 3, 4, 5, 20));
         section.getConfigurationSection("patentSlot").addDefault("upgradeCost",
-                List.of(50000, 100000, 200000, 400000, 600000));
+                List.of(5000, 10000, 20000, 40000, 60000));
 
         section.getConfigurationSection("patentUpgradeSlot").addDefault("bonus",
                 List.of(3, 4, 5, 6, 7, 8));
         section.getConfigurationSection("patentUpgradeSlot").addDefault("upgradeCost",
-                List.of(40000, 80000, 120000, 160000, 200000));
+                List.of(4000, 8000, 12000, 16000, 20000));
+
+        section.getConfigurationSection("boardSize").addDefault("bonus",
+                List.of(2, 3, 5, 8, 10, 18));
+        section.getConfigurationSection("boardSize").addDefault("upgradeCost",
+                List.of(4000, 8000, 12000, 16000, 20000));
+
+        section.getConfigurationSection("productModifier").addDefault("bonus",
+                List.of(1.0, 1.2, 1.4, 1.6, 1.8, 2.0));
+        section.getConfigurationSection("productModifier").addDefault("upgradeCost",
+                List.of(4000, 8000, 12000, 16000, 20000));
+
+        section.getConfigurationSection("productSlot").addDefault("bonus",
+                List.of(9, 27, 45, 63, 81, 99));
+        section.getConfigurationSection("productSlot").addDefault("upgradeCost",
+                List.of(4000, 8000, 12000, 16000, 20000));
+
+        section.getConfigurationSection("researchModifier").addDefault("bonus",
+                List.of(1.0, 1.25, 1.5, 1.75, 2.0, 2.25));
+        section.getConfigurationSection("researchModifier").addDefault("upgradeCost",
+                List.of(4000, 8000, 12000, 16000, 20000));
 
         config.addDefault("auctionBitIncrease", 1000);
         config.addDefault("auctionStartPrice", 1000);
@@ -267,11 +285,6 @@ public class DefaultConfig {
                 List.of(5, 10, 20, 40, 80, 100));
         section.getConfigurationSection("craftLimit").addDefault("upgradeCost",
                 List.of(4000000, 8000000, 12000000, 16000000, 20000000));
-
-        section.getConfigurationSection("extraPoints").addDefault("bonus",
-                List.of(0, 5, 10, 15, 20, 25));
-        section.getConfigurationSection("extraPoints").addDefault("upgradeCost",
-                List.of(2000000, 4000000, 6000000, 8000000, 10000000));
 
         section.getConfigurationSection("investReturnTime").addDefault("bonus",
                 List.of(0, 5, 10, 15, 20, 25));

@@ -137,11 +137,15 @@ public class Company extends LoggableSubject{
 
         creater.receivePrivate(stockName, getTotalShares());
 
-        upgrades.add(new UpgradeExtraPoints(0));
         upgrades.add(new UpgradePatentSlot(0));
         upgrades.add(new UpgradePatentUpgradeSlot(0));
-        upgrades.add(new UpgradeCraftLimit(0));
+        upgrades.add(new UpgradeProductSlot(0));
+        upgrades.add(new UpgradeBoardSize(0));
+
         upgrades.add(new UpgradeInvestReturnTime(0));
+        upgrades.add(new UpgradeResearchModifier(0));
+        upgrades.add(new UpgradeProductModifier(0));
+
         this.type = type;
 
         lastValue = creationCost;

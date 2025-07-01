@@ -8,7 +8,7 @@ import java.util.List;
 
 public class UpgradePatentUpgradeSlot extends Upgrade{
     public UpgradePatentUpgradeSlot(Integer level) {
-        super(level, 2);
+        super(level, 1);
 
         ConfigurationSection section = SignClick.getPlugin().getConfig().getConfigurationSection(
                 "upgrades").getConfigurationSection("patentUpgradeSlot");

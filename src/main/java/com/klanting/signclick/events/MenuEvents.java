@@ -609,19 +609,15 @@ public class MenuEvents implements Listener {
             String option = event.getCurrentItem().getItemMeta().getDisplayName();
             if (option.equalsIgnoreCase("§6Get Patent Sheet")){
                 Player player = (Player) event.getWhoClicked();
-                if (old_screen.comp.patentCrafted < old_screen.comp.upgrades.get(3).getBonus()){
-                    old_screen.comp.patentCrafted += 1;
+                old_screen.comp.patentCrafted += 1;
 
-                    ItemStack item = new ItemStack(Material.PAPER, 1);
+                ItemStack item = new ItemStack(Material.PAPER, 1);
 
-                    ItemMeta m = item.getItemMeta();
-                    m.setDisplayName("§6"+old_screen.comp.getStockName() +":"+old_screen.patent.getName()+":"+old_screen.comp.patent.indexOf(old_screen.patent));
-                    item.setItemMeta(m);
+                ItemMeta m = item.getItemMeta();
+                m.setDisplayName("§6"+old_screen.comp.getStockName() +":"+old_screen.patent.getName()+":"+old_screen.comp.patent.indexOf(old_screen.patent));
+                item.setItemMeta(m);
 
-                    player.getInventory().setItem(player.getInventory().firstEmpty(), item);
-                }else{
-                    player.sendMessage(ChatColor.RED+"Craft limit Reached");
-                }
+                player.getInventory().setItem(player.getInventory().firstEmpty(), item);
             }
         }
 

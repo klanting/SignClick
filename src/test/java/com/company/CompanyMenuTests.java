@@ -165,16 +165,20 @@ public class CompanyMenuTests {
         InventoryView upgradeMenu = testPlayer.getOpenInventory();
         assertNotNull(upgradeMenu);
 
-        assertEquals("§6Extra Points Lvl. §c0", upgradeMenu.getItem(11).getItemMeta().getDisplayName());
-        assertEquals(Material.GOLD_NUGGET, upgradeMenu.getItem(11).getType());
-        assertEquals("§6Patent Slot Lvl. §c0", upgradeMenu.getItem(12).getItemMeta().getDisplayName());
-        assertEquals(Material.END_CRYSTAL, upgradeMenu.getItem(12).getType());
-        assertEquals("§6Patent Upgrade Slot Lvl. §c0", upgradeMenu.getItem(13).getItemMeta().getDisplayName());
-        assertEquals(Material.ITEM_FRAME, upgradeMenu.getItem(13).getType());
-        assertEquals("§6Craft Limit Lvl. §c0", upgradeMenu.getItem(14).getItemMeta().getDisplayName());
-        assertEquals(Material.CRAFTING_TABLE, upgradeMenu.getItem(14).getType());
-        assertEquals("§6Invest Return Time Lvl. §c0", upgradeMenu.getItem(15).getItemMeta().getDisplayName());
-        assertEquals(Material.EMERALD, upgradeMenu.getItem(15).getType());
+        assertEquals("§6Patent Slot Lvl. §c0", upgradeMenu.getItem(10).getItemMeta().getDisplayName());
+        assertEquals(Material.END_CRYSTAL, upgradeMenu.getItem(10).getType());
+        assertEquals("§6Patent Upgrade Slot Lvl. §c0", upgradeMenu.getItem(11).getItemMeta().getDisplayName());
+        assertEquals(Material.ITEM_FRAME, upgradeMenu.getItem(11).getType());
+        assertEquals("§6Product Slots Lvl. §c0", upgradeMenu.getItem(12).getItemMeta().getDisplayName());
+        assertEquals(Material.APPLE, upgradeMenu.getItem(12).getType());
+        assertEquals("§6Board Size Lvl. §c0", upgradeMenu.getItem(13).getItemMeta().getDisplayName());
+        assertEquals(Material.CHEST, upgradeMenu.getItem(13).getType());
+        assertEquals("§6Invest Return Time Lvl. §c0", upgradeMenu.getItem(14).getItemMeta().getDisplayName());
+        assertEquals(Material.EMERALD, upgradeMenu.getItem(14).getType());
+        assertEquals("§6Research Modifier Lvl. §c0", upgradeMenu.getItem(15).getItemMeta().getDisplayName());
+        assertEquals(Material.EXPERIENCE_BOTTLE, upgradeMenu.getItem(15).getType());
+        assertEquals("§6Product Modifier Lvl. §c0", upgradeMenu.getItem(16).getItemMeta().getDisplayName());
+        assertEquals(Material.FURNACE, upgradeMenu.getItem(16).getType());
 
         assertEquals(0, comp.upgrades.get(0).level);
 

@@ -21,7 +21,7 @@ public class PatentIDMenu extends SelectionMenu {
     }
 
     public void init(){
-        int size = comp.upgrades.get(1).getBonus();
+        int size = comp.upgrades.get(0).getBonus();
         for (int i=0; i<size; i++){
 
             ItemStack parent;
