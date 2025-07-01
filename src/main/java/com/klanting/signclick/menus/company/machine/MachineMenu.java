@@ -32,8 +32,16 @@ public class MachineMenu extends SelectionMenu {
     public void update(){
         List<String> l = new ArrayList<>();
         if (machine.hasProduct()){
-            l.add("§7Next Produced: "+(machine.getProductionTotal()-machine.getProductionProgress()));
+            int timeTillDone = machine.getProductionTotal()-machine.getProductionProgress();
+            l.add("§7Next Produced: "+(machine.isFrozenByFunds() ? "NEVER": timeTillDone));
         }
+
+        if (machine.isFrozenByFunds()){
+
+            l.add("§cMachine frozen by lack of ");
+            l.add("§cfunds or spendable");
+        }
+
         getInventory().setItem(13, ItemFactory.create(Material.CLOCK, "§7Production", l));
 
         ItemStack result = machine.results;

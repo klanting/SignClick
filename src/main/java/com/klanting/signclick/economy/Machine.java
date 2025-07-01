@@ -7,7 +7,11 @@ public class Machine {
 
     private boolean doLoop = true;
 
-    private boolean frozen = false;
+    public boolean isFrozenByFunds() {
+        return frozenByFunds;
+    }
+
+    private boolean frozenByFunds = false;
 
     public ItemStack results;
 
@@ -64,10 +68,10 @@ public class Machine {
         if (productionProgress >= product.getProductionTime()){
 
             if (!Market.getCompany(compName).removeBal(product.getPrice())){
-                frozen = true;
+                frozenByFunds = true;
                 return;
             }
-            frozen = false;
+            frozenByFunds = false;
 
             productionProgress -= product.getProductionTime();
 
