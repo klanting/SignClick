@@ -188,7 +188,7 @@ public class Company extends LoggableSubject{
     }
 
     public boolean removeBal(double amount, boolean skipSpendable){
-        if ((getBal()+ shareBalance >= amount) && (spendable >= amount || skipSpendable)){
+        if ((getValue() >= amount) && (spendable >= amount || skipSpendable)){
             this.bal -= amount;
             spendable -= amount;
 

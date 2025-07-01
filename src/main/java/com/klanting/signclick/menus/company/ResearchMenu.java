@@ -87,6 +87,11 @@ public class ResearchMenu extends PagingMenu {
                 String modifier = df.format(ResearchOption.modifiers.get(i).getLeft()*100);
                 l.add("§7Speed: "+modifier+"%");
                 l.add("§7Cost: $"+df2.format(ResearchOption.modifiers.get(i).getRight())+"/h");
+
+                if (researchOption.isResearching() && (comp.getValue() <= 0.5 || comp.getSpendable() <= 0.5)){
+                    l.add("§cResearch frozen by lack of funds or spendable");
+                }
+
                 addItem(ItemFactory.create(mat,
                         "§7"+modifier+"%", l));
             }

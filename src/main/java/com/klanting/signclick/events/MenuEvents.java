@@ -334,8 +334,6 @@ public class MenuEvents implements Listener {
 
             Company currentCompany = financialMenu.company;
 
-            Account acc = Market.getAccount(player);
-
             if (event.getCurrentItem().getItemMeta().getDisplayName().contains("Increase")){
                 int amount = Integer.parseInt((event.getCurrentItem().getItemMeta().getDisplayName().split(" ")[1]).replace(".", ""));
                 currentCompany.setSpendable(currentCompany.getSpendable()+amount);
