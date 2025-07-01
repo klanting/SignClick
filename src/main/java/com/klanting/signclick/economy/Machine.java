@@ -11,6 +11,10 @@ public class Machine {
 
     public ItemStack results;
 
+    public Product getProduct() {
+        return product;
+    }
+
     private Product product;
 
     private final String compName;

@@ -318,8 +318,26 @@ public class MenuEvents implements Listener {
             }else if(option.equalsIgnoreCase("§6Products")){
                 ProductList new_screen = new ProductList(old_screen.comp, s -> {return null;});
                 player.openInventory(new_screen.getInventory());
+            }else if(option.equalsIgnoreCase("§6Machines List")){
+                MachineList new_screen = new MachineList(old_screen.comp, s -> {return null;});
+                player.openInventory(new_screen.getInventory());
             }
 
+        }
+
+        if (event.getClickedInventory().getHolder() instanceof MachineList machineList){
+            Player player = (Player) event.getWhoClicked();
+            event.setCancelled(true);
+            int item = event.getSlot();
+
+            if(event.getCurrentItem().getType().equals(Material.LIGHT_GRAY_STAINED_GLASS_PANE)){
+                return;
+            }
+
+            int index = (machineList.getPage()*45+item);
+            machineList.func.apply(machineList.comp.getProducts().get(index));
+
+            return;
         }
 
         if (event.getClickedInventory().getHolder() instanceof ProductCraftMenu productCraftMenu){

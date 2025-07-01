@@ -2,13 +2,10 @@ package com.klanting.signclick.utils.Serializers;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.*;
-import com.klanting.signclick.economy.companyPatent.Auction;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 
 import java.lang.reflect.Type;
-import java.util.Map;
 
 public class BlockSerializer implements JsonSerializer<Block>, JsonDeserializer<Block> {
     @Override
