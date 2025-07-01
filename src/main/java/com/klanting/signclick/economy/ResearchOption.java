@@ -24,12 +24,18 @@ public class ResearchOption {
     public static final List<Pair<Double, Integer>> modifiers = new ArrayList<>();
 
     public static void initModifiers(){
+
+        List<Integer> cost = SignClick.getPlugin().getConfig().getIntegerList("researchModifiersCost");
+        List<Double> speed = SignClick.getPlugin().getConfig().getDoubleList("researchModifiersSpeed");
+
+        assert cost.size() == speed.size();
+
         modifiers.add(Pair.of(0.0, 0));
-        modifiers.add(Pair.of(1.0, 1000));
-        modifiers.add(Pair.of(1.4, 1500));
-        modifiers.add(Pair.of(1.7, 2000));
-        modifiers.add(Pair.of(1.9, 2500));
-        modifiers.add(Pair.of(2.0, 3000));
+
+        for (int i=0; i<cost.size(); i++){
+            modifiers.add(Pair.of(speed.get(i), cost.get(i)));
+        }
+
     }
 
     public int getModifierIndex() {
