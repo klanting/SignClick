@@ -107,4 +107,51 @@ public class BoardTests {
         assertEquals(testPlayer3.getUniqueId(), board.getChief("CEO"));
         assertEquals(3, board.getBoardMembers().size());
     }
+
+    @Test
+    void checkOnlyOneRole(){
+        /*
+        * Check that if the CFO is promoted to the CEO, this user is not the CFO anymore
+        * */
+        PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
+        PlayerMock testPlayer2 = TestTools.addPermsPlayer(server, plugin);
+        PlayerMock testPlayer3 = TestTools.addPermsPlayer(server, plugin);
+
+        CompanyOwnerManager companyOwnerManager = new CompanyOwnerManager(testPlayer.getUniqueId());
+        Board board = new Board(companyOwnerManager);
+        board.setBoardSeats(3);
+
+        companyOwnerManager.getShareHolders().put(testPlayer.getUniqueId(), 1000000);
+        board.addBoardSupport(testPlayer.getUniqueId(), testPlayer.getUniqueId());
+        board.addBoardSupport(testPlayer.getUniqueId(), testPlayer2.getUniqueId());
+        board.addBoardSupport(testPlayer.getUniqueId(), testPlayer3.getUniqueId());
+
+        board.boardChiefVote(testPlayer.getUniqueId(), "CEO", testPlayer2.getUniqueId());
+        board.boardChiefVote(testPlayer2.getUniqueId(), "CEO", testPlayer2.getUniqueId());
+        board.boardChiefVote(testPlayer3.getUniqueId(), "CEO", testPlayer2.getUniqueId());
+
+        board.boardChiefVote(testPlayer.getUniqueId(), "CFO", testPlayer.getUniqueId());
+        board.boardChiefVote(testPlayer2.getUniqueId(), "CFO", testPlayer.getUniqueId());
+        board.boardChiefVote(testPlayer3.getUniqueId(), "CFO", testPlayer2.getUniqueId());
+
+        /*
+        * Check testPlayer 2 is CEO
+        * check testPlayer 1 is CFO
+        * */
+        assertEquals(testPlayer2.getUniqueId(), board.getChief("CEO"));
+        assertEquals(testPlayer.getUniqueId(), board.getChief("CFO"));
+
+        board.boardChiefVote(testPlayer.getUniqueId(), "CEO", testPlayer.getUniqueId());
+        board.boardChiefVote(testPlayer2.getUniqueId(), "CEO", testPlayer.getUniqueId());
+        board.boardChiefVote(testPlayer3.getUniqueId(), "CEO", testPlayer.getUniqueId());
+
+        /*
+         * Check testPlayer 1 is CEO
+         * check testPlayer 2 is CFO
+         * */
+        assertEquals(testPlayer.getUniqueId(), board.getChief("CEO"));
+        assertEquals(testPlayer2.getUniqueId(), board.getChief("CFO"));
+
+
+    }
 }

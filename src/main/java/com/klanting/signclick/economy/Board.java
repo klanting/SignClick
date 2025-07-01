@@ -17,6 +17,8 @@ public class Board {
     * Keep track of the board of a given company
     * */
 
+    private static List<String> rankingOrder = List.of("CEO", "CFO", "CTO");
+
     /*
     * Stores how many seats are on the company board
     * */
@@ -183,7 +185,19 @@ public class Board {
          * the current chief remains.
          * */
         List<Pair<UUID, Double>> newChiefPairList = chiefRanking(position);
+
+        /*
+        * Remove higher ranking from consideration
+        * */
+        int chiefPos = rankingOrder.indexOf(position);
+        for (int i=0; i<chiefPos; i++){
+            int finalI = i;
+            newChiefPairList = newChiefPairList.stream().filter(s -> s.getLeft() != currentChief.
+                    get(rankingOrder.get(finalI))).toList();
+        }
+
         if (newChiefPairList.isEmpty()){
+            currentChief.put(position, null);
             return;
         }
 
@@ -192,6 +206,16 @@ public class Board {
         UUID newChief = newChiefPair.getKey();
 
         currentChief.put(position, newChief);
+
+        /*
+        * Check that person has not lower position, if so, remove this user from this position
+        * */
+        for (int i=chiefPos+1; i<rankingOrder.size(); i++){
+            if (currentChief.get(rankingOrder.get(i)) == null || currentChief.get(rankingOrder.get(i)).equals(newChief)){
+                currentChief.put(rankingOrder.get(i), null);
+                checkChiefVote(rankingOrder.get(i));
+            }
+        }
     }
 
     public void setBoardSeats(int seats){
