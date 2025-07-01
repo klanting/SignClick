@@ -3,7 +3,6 @@ package com.klanting.signclick;
 
 import com.google.common.reflect.TypeToken;
 import com.klanting.signclick.economy.ResearchOption;
-import com.klanting.signclick.migrations.Migration;
 import com.klanting.signclick.migrations.MigrationManager;
 import com.klanting.signclick.recipes.MachineRecipe;
 import com.klanting.signclick.routines.*;
@@ -19,11 +18,9 @@ import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.dynmap.DynmapAPI;
-import versionCompatibility.VersionDetection;
 
 import java.lang.reflect.Field;
 import java.util.*;
@@ -91,6 +88,7 @@ public class SignClick extends JavaPlugin{
         getServer().getPluginManager().registerEvents(new AddSupportEvent(), this);
         getServer().getPluginManager().registerEvents(new AddChiefSupportEvent(), this);
         getServer().getPluginManager().registerEvents(new OpenFurnaceEvent(), this);
+        getServer().getPluginManager().registerEvents(new MachineLiveUpdateEvent(), this);
 
         getCommand("signclickpos").setExecutor(new SignCommands());
         getCommand("signclick").setExecutor(new BasicCommands());

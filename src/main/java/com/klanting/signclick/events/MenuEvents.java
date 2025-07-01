@@ -20,14 +20,11 @@ import com.klanting.signclick.menus.company.machine.MachineMenu;
 import com.klanting.signclick.menus.country.*;
 import com.klanting.signclick.menus.party.DecisionChoice;
 import com.klanting.signclick.menus.party.DecisionVote;
-import com.klanting.signclick.utils.Utils;
-import org.apache.commons.lang3.tuple.Pair;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.block.Block;
-import org.bukkit.block.Furnace;
 import org.bukkit.block.TileState;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -38,10 +35,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.util.*;
-import java.util.function.BiFunction;
 import java.util.function.Function;
-
-import static org.bukkit.Bukkit.getServer;
 
 public class MenuEvents implements Listener {
 
@@ -74,6 +68,11 @@ public class MenuEvents implements Listener {
                 machine.productionUpdate();
 
             }
+
+            for (MachineMenu mm: MachineLiveUpdateEvent.openMenus){
+                mm.update();
+            }
+
         }, 0L, 20L);
     }
 

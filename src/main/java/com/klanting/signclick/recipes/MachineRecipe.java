@@ -9,7 +9,6 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,8 +16,7 @@ import static org.bukkit.Bukkit.getServer;
 
 public class MachineRecipe {
 
-    public static void create(){
-
+    public static ItemStack item(){
         NamespacedKey key = new NamespacedKey(SignClick.getPlugin(), "signclick_company_machine");
         NamespacedKey compKey = new NamespacedKey(SignClick.getPlugin(), "signclick_company_machine_company");
 
@@ -30,6 +28,14 @@ public class MachineRecipe {
         meta.getPersistentDataContainer().set(key, PersistentDataType.BYTE, (byte) 1);
         meta.getPersistentDataContainer().set(compKey, PersistentDataType.STRING, "");
         machine.setItemMeta(meta);
+
+        return machine;
+    }
+
+    public static void create(){
+
+        NamespacedKey key = new NamespacedKey(SignClick.getPlugin(), "signclick_company_machine");
+        ItemStack machine = item();
 
 
         ShapedRecipe something = (new ShapedRecipe(key, machine));

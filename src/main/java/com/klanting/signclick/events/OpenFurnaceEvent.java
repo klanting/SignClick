@@ -4,15 +4,15 @@ import com.klanting.signclick.SignClick;
 import com.klanting.signclick.economy.Company;
 import com.klanting.signclick.economy.Machine;
 import com.klanting.signclick.economy.Market;
-import com.klanting.signclick.menus.company.BoardMenu;
 import com.klanting.signclick.menus.company.Selector;
 import com.klanting.signclick.menus.company.machine.MachineMenu;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
+import com.klanting.signclick.recipes.MachineRecipe;
+
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.inventory.InventoryHolder;
@@ -20,8 +20,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.util.function.Function;
-
-import static org.bukkit.Bukkit.getServer;
 
 public class OpenFurnaceEvent implements Listener {
 
@@ -48,6 +46,31 @@ public class OpenFurnaceEvent implements Listener {
 
             tileState.update();
         }
+    }
+
+    @EventHandler
+    public void onBlockBreak(BlockBreakEvent event){
+        Block block = event.getBlock();
+        BlockState state = block.getState();
+
+        if (state instanceof TileState tileState) {
+            NamespacedKey key = new NamespacedKey(SignClick.getPlugin(), "signclick_company_machine");
+
+            if (tileState.getPersistentDataContainer().has(key, PersistentDataType.BYTE)){
+                event.setDropItems(false);
+
+                NamespacedKey compKey = new NamespacedKey(SignClick.getPlugin(), "signclick_company_machine_company");
+                String compName = tileState.getPersistentDataContainer().get(compKey, PersistentDataType.STRING);
+                if (tileState.getPersistentDataContainer().has(compKey, PersistentDataType.STRING) && !compName.isEmpty()){
+
+                    Market.getCompany(compName).machines.remove(block);
+                }
+
+                block.getWorld().dropItemNaturally(block.getLocation(), MachineRecipe.item());
+
+            }
+        }
+
     }
 
     @EventHandler
