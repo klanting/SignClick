@@ -24,7 +24,7 @@ public class Machine {
     private final String compName;
 
     public int getProductionProgress() {
-        return productionProgress;
+        return (int) productionProgress;
     }
 
     public boolean hasProduct(){
@@ -35,7 +35,7 @@ public class Machine {
         return product.getProductionTime();
     }
 
-    private int productionProgress;
+    private double productionProgress;
 
     public void clearProgress(){
         productionProgress = 0;
@@ -63,7 +63,7 @@ public class Machine {
             return;
         }
 
-        productionProgress += 1;
+        productionProgress += 1*(Market.getCompany(compName).upgrades.get(6).getBonus()/100.0);
 
         if (productionProgress >= product.getProductionTime()){
 

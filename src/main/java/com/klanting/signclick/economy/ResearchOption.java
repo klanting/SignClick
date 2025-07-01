@@ -86,7 +86,7 @@ public class ResearchOption {
         return (long) (Math.floor((amount * 3600.0) / modifiers.get(modifierIndex).getRight()));
     }
 
-    public boolean checkProgress(long delta){
+    public boolean checkProgress(long delta, double upgradeModifier){
 
         if (isComplete()){
             return false;
@@ -94,7 +94,7 @@ public class ResearchOption {
 
         boolean addProduct = false;
 
-        long change = (long) (delta*modifiers.get(modifierIndex).getLeft());
+        long change = (long) (delta*modifiers.get(modifierIndex).getLeft()*upgradeModifier);
 
         if (progress < getCompleteTime() && progress+change >= getCompleteTime()){
             addProduct = true;

@@ -1,17 +1,21 @@
 package com.klanting.signclick.migrations;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.economy.Board;
 import com.klanting.signclick.economy.CompanyOwnerManager;
 import com.klanting.signclick.economy.Research;
+import com.klanting.signclick.economy.companyUpgrades.*;
 import com.klanting.signclick.economy.logs.*;
 import com.klanting.signclick.utils.Utils;
 
 import java.io.*;
 
+import java.util.List;
 import java.util.UUID;
 
 public class Migrationv102v200 extends Migration{
@@ -62,6 +66,32 @@ public class Migrationv102v200 extends Migration{
                         Utils.serialize(new Research(companyObject.get("type").getAsString()),
                                 new com.google.common.reflect.TypeToken<Research>(){}.getType()))
                 );
+
+                /*
+                * Change updates
+                * */
+                JsonArray jsa = companyObject.getAsJsonArray("upgrades");
+                JsonElement patentSlot = jsa.get(1);
+                JsonElement patentUpgradeSlot = jsa.get(2);
+                JsonElement investTime = jsa.get(4);
+
+                JsonArray newJsa = new JsonArray();
+                newJsa.add(patentSlot);
+                newJsa.add(patentUpgradeSlot);
+                newJsa.add(JsonParser.parseString(
+                        Utils.serialize(new UpgradeProductSlot(0), new TypeToken<Upgrade>(){}.getType())
+                ));
+                newJsa.add(JsonParser.parseString(
+                        Utils.serialize(new UpgradeBoardSize(0), new TypeToken<Upgrade>(){}.getType())
+                ));
+                newJsa.add(investTime);
+                newJsa.add(JsonParser.parseString(
+                        Utils.serialize(new UpgradeResearchModifier(0), new TypeToken<Upgrade>(){}.getType())
+                ));
+                newJsa.add(JsonParser.parseString(
+                        Utils.serialize(new UpgradeProductModifier(0), new TypeToken<Upgrade>(){}.getType())
+                ));
+                companyObject.add("upgrades", newJsa);
             }
 
             Writer writer = new FileWriter(file, false);

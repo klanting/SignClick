@@ -388,12 +388,21 @@ public class MenuEvents implements Listener {
                 ProductList new_screen = new ProductList(productCraftMenu.comp, lambda);
                 player.openInventory(new_screen.getInventory());
             }else if(option.equals("§aSave Product")) {
+
+                if (productCraftMenu.comp.getProducts().size() >= productCraftMenu.comp.upgrades.get(2).getBonus()){
+                    player.sendMessage("§cYou don't have any free product slots. Used: "+productCraftMenu.comp.getProducts().size()
+                            +"/"+productCraftMenu.comp.upgrades.get(2).getBonus()+" (Research products are always added)");
+                    player.closeInventory();
+                    return;
+                }
+
                 Product product = productCraftMenu.getCrafted();
 
                 if (product != null){
                     productCraftMenu.comp.addProduct(product);
                     loadStack(player);
                 }
+
                 return;
 
             }else{
@@ -454,6 +463,11 @@ public class MenuEvents implements Listener {
             event.setCancelled(true);
             int id = event.getSlot()-11;
             boolean suc6 = screen.comp.doUpgrade(id);
+
+            if (id == 3){
+                screen.comp.getCOM().getBoard().setBoardSeats(screen.comp.upgrades.get(id).getBonus());
+            }
+
             screen.init();
 
             Player player = (Player) event.getWhoClicked();

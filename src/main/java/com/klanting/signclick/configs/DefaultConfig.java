@@ -88,7 +88,7 @@ public class DefaultConfig {
                 List.of(4000, 8000, 12000, 16000, 20000));
 
         section.getConfigurationSection("productModifier").addDefault("bonus",
-                List.of(1.0, 1.2, 1.4, 1.6, 1.8, 2.0));
+                List.of(100, 120, 140, 160, 180, 200));
         section.getConfigurationSection("productModifier").addDefault("upgradeCost",
                 List.of(4000, 8000, 12000, 16000, 20000));
 
@@ -98,7 +98,7 @@ public class DefaultConfig {
                 List.of(4000, 8000, 12000, 16000, 20000));
 
         section.getConfigurationSection("researchModifier").addDefault("bonus",
-                List.of(1.0, 1.25, 1.5, 1.75, 2.0, 2.25));
+                List.of(100, 125, 150, 175, 200, 225));
         section.getConfigurationSection("researchModifier").addDefault("upgradeCost",
                 List.of(4000, 8000, 12000, 16000, 20000));
 

@@ -53,7 +53,7 @@ public class Research {
 
             company.removeBal(researchOption.getCost(realDelta));
 
-            if (!researchOption.checkProgress(realDelta)){
+            if (!researchOption.checkProgress(realDelta, (double) company.upgrades.get(5).getBonus()/100.0)){
                 continue;
             }
             company.addProduct(ProductFactory.create(researchOption.getMaterial(), researchOption.companyType));

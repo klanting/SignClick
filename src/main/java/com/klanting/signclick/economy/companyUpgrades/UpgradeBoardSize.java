@@ -1,10 +1,12 @@
 package com.klanting.signclick.economy.companyUpgrades;
 
 import com.klanting.signclick.SignClick;
+import com.klanting.signclick.economy.Company;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 
 public class UpgradeBoardSize extends Upgrade{
+
     public UpgradeBoardSize(Integer level) {
         super(level, 3);
 
