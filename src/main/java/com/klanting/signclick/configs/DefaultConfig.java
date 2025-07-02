@@ -117,6 +117,9 @@ public class DefaultConfig {
         config.addDefault("researchModifiersCost", List.of(1000, 1500, 2000, 2500, 3000));
         config.addDefault("researchModifiersSpeed", List.of(1.0, 1.4, 1.7, 1.9, 2.0));
 
+        config.addDefault("chiefSalaryChange", 1000.0);
+        config.addDefault("maxChiefSalary", 10000.0);
+
         config.createSection("products");
 
 

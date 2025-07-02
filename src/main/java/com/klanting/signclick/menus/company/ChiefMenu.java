@@ -1,5 +1,6 @@
 package com.klanting.signclick.menus.company;
 
+import com.klanting.signclick.SignClick;
 import com.klanting.signclick.economy.Board;
 import com.klanting.signclick.economy.Company;
 import com.klanting.signclick.menus.SelectionMenu;
@@ -13,6 +14,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 
 import org.apache.commons.lang3.tuple.Pair;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -80,9 +82,16 @@ public class ChiefMenu extends SelectionMenu {
             getInventory().setItem(pos, orangeGlass);
         }
 
-        ItemStack incSalary = ItemFactory.create(Material.GREEN_STAINED_GLASS_PANE, "§aIncrease Salary by 1000");
-        ItemStack decrSalary = ItemFactory.create(Material.RED_STAINED_GLASS_PANE, "§cDecrease Salary by 1000");
-        ItemStack avgSalary = ItemFactory.create(Material.WHITE_STAINED_GLASS_PANE, "§7Show Salary");
+        Double change = SignClick.getPlugin().getConfig().getDouble("chiefSalaryChange");
+
+        ItemStack incSalary = ItemFactory.create(Material.LIME_STAINED_GLASS_PANE, "§aIncrease Salary by "+change);
+        ItemStack decrSalary = ItemFactory.create(Material.RED_STAINED_GLASS_PANE, "§cDecrease Salary by "+change);
+
+        DecimalFormat df = new DecimalFormat("###,###,##0.00");
+        List<String> l = new ArrayList<>();
+        l.add("§7Your Given Salary: "+df.format(board.getSalaryMap(uuid, position)));
+        ItemStack avgSalary = ItemFactory.create(Material.WHITE_STAINED_GLASS_PANE,
+                "§7(Avg) Salary: "+df.format(board.getSalary(position)), l);
 
         getInventory().setItem(0, incSalary);
         getInventory().setItem(9, avgSalary);
@@ -93,7 +102,7 @@ public class ChiefMenu extends SelectionMenu {
         * */
         UUID chiefVote = comp.getCOM().getBoard().getChiefSupport(position, uuid);
 
-        List<String> l = new ArrayList<>();
+        l = new ArrayList<>();
         if (chiefVote == null){
             chiefItem = ItemFactory.create(Material.SKELETON_SKULL, "§7Supporting No one yet");
         }else{

@@ -1,6 +1,8 @@
 package com.klanting.signclick.economy;
 
+import com.klanting.signclick.SignClick;
 import org.apache.commons.lang3.tuple.Pair;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
 import java.util.*;
@@ -28,6 +30,12 @@ public class Board {
     * reference to company ownership information
     * */
     private transient CompanyOwnerManager companyOwnerManager = null;
+
+    public Double getSalaryMap(UUID boardMember, String position) {
+        return salaryMap.get(position).getOrDefault(boardMember, 0.0);
+    }
+
+    private Map<String, Map<UUID, Double>> salaryMap = new HashMap<>();
 
     public List<UUID> getBoardSupport(UUID shareholder) {
         return boardSupport.getOrDefault(shareholder, new ArrayList<>());
@@ -115,6 +123,10 @@ public class Board {
         currentChief.put("CTO", null);
         currentChief.put("CFO", null);
 
+        salaryMap.put("CEO", new HashMap<>());
+        salaryMap.put("CTO", new HashMap<>());
+        salaryMap.put("CFO", new HashMap<>());
+
         UUID owner = companyOwnerManager.getShareHolders().keySet().iterator().next();
         /*
          * Make owner only board member with support
@@ -134,6 +146,45 @@ public class Board {
 
         chiefSupport.get(position).put(boardMember, chiefTarget);
         checkChiefVote(position);
+    }
+
+    public void paySalaries(Company comp){
+        for(String position: rankingOrder){
+            UUID user = currentChief.get(position);
+            if (user == null){
+                continue;
+            }
+            Double amount = getSalary(position);
+            boolean suc6 = comp.removeBal(amount);
+            if (suc6){
+                SignClick.getEconomy().depositPlayer(Bukkit.getOfflinePlayer(user), amount);
+            }
+        }
+    }
+
+    public void boardChangeSalary(UUID boardMember, String position, Double amount){
+        Double newAmount = salaryMap.get(position).getOrDefault(boardMember, 0.0)+amount;
+        newAmount = Math.max(0, newAmount);
+        newAmount = Math.min(SignClick.getPlugin().getConfig().getDouble("maxChiefSalary"), newAmount);
+
+
+        salaryMap.get(position).put(boardMember, newAmount);
+    }
+
+    public Double getSalary(String position){
+
+        List<UUID> boardMembers = getBoardMembers();
+
+        Double avg = 0.0;
+        for (Map.Entry<UUID, Double> chiefVote: salaryMap.get(position).entrySet()){
+            if (!boardMembers.contains(chiefVote.getKey())){
+                continue;
+            }
+            avg += salaryMap.get(position).get(chiefVote.getKey());
+        }
+
+        return avg/boardMembers.size();
+
     }
 
     public void checkChiefVote(){

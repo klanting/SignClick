@@ -492,6 +492,8 @@ public class Market {
     public static void runWeeklyCompanySalary(){
         for (Company comp : companies.values()){
 
+            comp.getCOM().getBoard().paySalaries(comp);
+
             String countryName = comp.getCountry();
             Country country = CountryManager.getCountry(countryName);
             if (country == null){

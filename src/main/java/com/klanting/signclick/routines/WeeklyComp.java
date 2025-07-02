@@ -1,6 +1,7 @@
 package com.klanting.signclick.routines;
 
 import com.google.common.reflect.TypeToken;
+import com.klanting.signclick.economy.Company;
 import com.klanting.signclick.economy.CountryManager;
 import com.klanting.signclick.economy.Market;
 import com.klanting.signclick.SignClick;

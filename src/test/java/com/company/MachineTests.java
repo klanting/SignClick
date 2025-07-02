@@ -39,6 +39,7 @@ public class MachineTests {
     @AfterEach
     public void tearDown() {
 
+        MenuEvents.furnaces.get(0).getBlock().getLocation().setWorld(null);
         MockBukkit.unmock();
         Market.clear();
         MenuEvents.furnaces.clear();
@@ -139,6 +140,7 @@ public class MachineTests {
         * Check production is working
         * */
         assertEquals(0, MenuEvents.furnaces.get(0).getProductionProgress());
+        MenuEvents.furnaces.get(0).getBlock().getLocation().setWorld(new WorldDoubleMock());
 
         server.getScheduler().performTicks(220);
         assertEquals(1, MenuEvents.furnaces.get(0).getProductionProgress());

@@ -500,6 +500,20 @@ public class MenuEvents implements Listener {
                 player.sendMessage("§bEnter the supported player its username");
             }
 
+            String option = event.getCurrentItem().getItemMeta().getDisplayName();
+
+            Double change = SignClick.getPlugin().getConfig().getDouble("chiefSalaryChange");
+
+            if (option.contains("§aIncrease Salary")){
+                chiefMenu.comp.getCOM().getBoard().boardChangeSalary(player.getUniqueId(), chiefMenu.position, change);
+                chiefMenu.init();
+            }
+
+            if (option.contains("§cDecrease Salary")){
+                chiefMenu.comp.getCOM().getBoard().boardChangeSalary(player.getUniqueId(), chiefMenu.position, -change);
+                chiefMenu.init();
+            }
+
 
             return;
         }
