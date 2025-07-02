@@ -154,6 +154,11 @@ public class Market {
         return companies.containsKey(Sname);
     }
 
+    public static List<Company> getBusinessExclude(Company company){
+        return companies.values().stream().filter(s -> s != company).toList();
+    }
+
+
     public static ArrayList<Company> getBusinessByDirector(UUID uuid){
         ArrayList<Company> outputs = new ArrayList<Company>();
         for(Map.Entry<String, Company> entry : companies.entrySet()){
@@ -166,6 +171,7 @@ public class Market {
                 outputs.add(entry.getValue());
             }
         }
+
         return outputs;
     }
 

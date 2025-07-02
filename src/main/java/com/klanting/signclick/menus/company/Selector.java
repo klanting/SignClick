@@ -22,10 +22,17 @@ public class Selector extends PagingMenu {
 
     public Function<Company, Void> funcType;
 
+    public final Company allButThis;
+
     public Selector(UUID uuid, Function<Company, Void> funcType){
-        super(54, "Company Selector", false);
+        this(uuid, funcType, null);
+    }
+
+    public Selector(UUID uuid, Function<Company, Void> funcType, Company allButThis){
+        super(54, "Company Selector", allButThis != null? true: false);
         this.uuid = uuid;
         this.funcType = funcType;
+        this.allButThis = allButThis;
 
         init();
     }
@@ -35,7 +42,12 @@ public class Selector extends PagingMenu {
 
         clearItems();
 
-        for(Company c: Market.getBusinessByDirector(uuid)){
+        List<Company> companies = Market.getBusinessByDirector(uuid);
+        if (allButThis != null){
+            companies = Market.getBusinessExclude(allButThis);
+        }
+
+        for(Company c: companies){
             item = new ItemStack(getCompanyTypeMaterial(c.type),1);
             ItemMeta m = item.getItemMeta();
             m.setDisplayName("§6"+c.getName()+" ["+c.getStockName()+"]");

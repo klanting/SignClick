@@ -229,7 +229,10 @@ public class MenuEvents implements Listener {
             Player player = (Player) event.getWhoClicked();
             event.setCancelled(true);
 
-            clearStack(player);
+            if (selector.allButThis == null){
+                clearStack(player);
+            }
+
 
             if (event.getCurrentItem().getType() == Material.LIGHT_GRAY_STAINED_GLASS_PANE){
                 return;
@@ -316,7 +319,8 @@ public class MenuEvents implements Listener {
                 ProductCraftMenu new_screen = new ProductCraftMenu(player.getUniqueId(), old_screen.comp);
                 player.openInventory(new_screen.getInventory());
             }else if(option.equalsIgnoreCase("§6Products")){
-                ProductList new_screen = new ProductList(old_screen.comp, s -> {return null;});
+                ProductList new_screen = new ProductList(old_screen.comp, s -> {return null;}, true,
+                        true, true);
                 player.openInventory(new_screen.getInventory());
             }else if(option.equalsIgnoreCase("§6Machines List")){
                 MachineList new_screen = new MachineList(old_screen.comp, s -> {return null;});
@@ -385,7 +389,7 @@ public class MenuEvents implements Listener {
                     loadStack(player);
                     return null;};
 
-                ProductList new_screen = new ProductList(productCraftMenu.comp, lambda);
+                ProductList new_screen = new ProductList(productCraftMenu.comp, lambda, false, true, true);
                 player.openInventory(new_screen.getInventory());
             }else if(option.equals("§aSave Product")) {
 
@@ -415,6 +419,7 @@ public class MenuEvents implements Listener {
         }
 
         if (event.getClickedInventory().getHolder() instanceof ProductList productList){
+            Player player = (Player) event.getWhoClicked();
             event.setCancelled(true);
             int item = event.getSlot();
 
@@ -422,10 +427,44 @@ public class MenuEvents implements Listener {
                 return;
             }
 
-            int index = (productList.getPage()*45+item);
-            productList.func.apply(productList.comp.getProducts().get(index));
+            if (event.getSlot() < 45){
+                int index = (productList.getPage()*45+item);
+                int productSize = productList.comp.getProducts().size();
+                productList.func.apply(index < productSize ?
+                        productList.comp.getProducts().get(index):
+                        LicenseManager.getInstance().getLicensesTo(productList.comp).get(index-productSize).getProduct());
 
-            return;
+                productList.init();
+                return;
+            }
+
+            if (event.getSlot() == 50){
+                ProductList new_screen = new ProductList(productList.comp, s -> {return null;},
+                        false, false, true);
+                player.openInventory(new_screen.getInventory());
+            }else if (event.getSlot() == 51){
+
+            }else if (event.getSlot() == 52){
+                Selector new_screen = new Selector(player.getUniqueId(), comp -> {
+
+                    ProductList new_screen2 = new ProductList(comp, s -> {
+                        LicenseManager.getInstance().addLicense(new License(comp, productList.comp, s,
+                                1000.0));
+                        loadStack(player);
+                        loadStack(player);
+                        return null;
+                        },
+                            false, true, false);
+                    player.openInventory(new_screen2.getInventory());
+
+                    return null;
+                }, productList.comp);
+                player.openInventory(new_screen.getInventory());
+            }else{
+                return;
+            }
+
+
         }
 
         if (event.getClickedInventory().getHolder() instanceof ResearchMenu researchMenu){
