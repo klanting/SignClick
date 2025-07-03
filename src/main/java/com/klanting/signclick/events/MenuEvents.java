@@ -177,7 +177,16 @@ public class MenuEvents implements Listener {
             String option = event.getCurrentItem().getItemMeta().getDisplayName();
             if (option.equals("§7Product Slot")){
 
-                Function<Product, Void> lambda = (prod) -> {
+                Function<Produceable, Void> lambda = (p) -> {
+
+                    Product prod;
+                    License license = null;
+                    if(!(p instanceof Product)){
+                        license = (License) p;
+                        prod = license.getProduct();
+                    }else{
+                        prod = (Product) p;
+                    }
 
                     if (!(machineMenu.machine.getBlock().getState() instanceof TileState tileState)) {
                         return null;
@@ -191,17 +200,25 @@ public class MenuEvents implements Listener {
                     tileState.update();
 
                     /*
-                    * Start furnace
-                    * */
-                    machineMenu.machine.clearProgress();
-                    machineMenu.machine.setProduct(prod);
+                     * Start furnace
+                     * */
+                    if (license != null){
+                        machineMenu.machine.clearProgress();
+                        machineMenu.machine.setLicense(license);
+                    }else{
+                        machineMenu.machine.clearProgress();
+                        machineMenu.machine.setProduct(prod);
+                    }
+
+
+
 
                     furnaces.add(machineMenu.machine);
 
                     loadStack(player);
                     return null;};
 
-                ProductList new_screen = new ProductList(machineMenu.comp, lambda);
+                ProductList new_screen = new ProductList(machineMenu.comp, lambda, false, true, true);
                 player.openInventory(new_screen.getInventory());
             }
 
@@ -382,7 +399,11 @@ public class MenuEvents implements Listener {
                     return;
                 }
 
-                Function<Product, Void> lambda = (prod) -> {
+                Function<Produceable, Void> lambda = (p) -> {
+                    if(!(p instanceof Product prod)){
+                        return null;
+                    }
+
                     productCraftMenu.products[slot] = prod;
                     productCraftMenu.init();
                     loadStack(player);
@@ -431,7 +452,7 @@ public class MenuEvents implements Listener {
                 int productSize = productList.comp.getProducts().size();
                 productList.func.apply(index < productSize ?
                         productList.comp.getProducts().get(index):
-                        LicenseSingleton.getInstance().getCurrentLicenses().getLicensesTo(productList.comp).get(index-productSize).getProduct());
+                        LicenseSingleton.getInstance().getCurrentLicenses().getLicensesTo(productList.comp).get(index-productSize));
 
                 productList.init();
                 return;
@@ -454,7 +475,10 @@ public class MenuEvents implements Listener {
             }else if (event.getSlot() == 52){
                 Selector new_screen = new Selector(player.getUniqueId(), comp -> {
 
-                    ProductList new_screen2 = new ProductList(comp, s -> {
+                    ProductList new_screen2 = new ProductList(comp, p -> {
+                        if(!(p instanceof Product s)){
+                            return null;
+                        }
                         LicenseRequestMenu newScreen = new LicenseRequestMenu(player.getUniqueId(), comp, productList.comp, s);
                         player.openInventory(newScreen.getInventory());
                         return null;

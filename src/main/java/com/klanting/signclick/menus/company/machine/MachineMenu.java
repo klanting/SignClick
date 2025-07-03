@@ -65,8 +65,6 @@ public class MachineMenu extends SelectionMenu {
         update();
 
         getInventory().setItem(27, ItemFactory.create(Material.HOPPER, "§7Allow Hopper"));
-        //getInventory().setItem(28, ItemFactory.create(Material.REDSTONE_TORCH, "§7Loop Production"));
-        //getInventory().setItem(29, ItemFactory.create(Material.LAPIS_LAZULI, "§7Speed Modifier"));
 
         NamespacedKey productKey = new NamespacedKey(SignClick.getPlugin(), "signclick_company_machine_product");
 
@@ -77,7 +75,14 @@ public class MachineMenu extends SelectionMenu {
         if (material.isEmpty()){
             getInventory().setItem(10, ItemFactory.create(Material.LIGHT_GRAY_DYE, "§7Product Slot"));
         }else{
-            getInventory().setItem(10, ItemFactory.create(Material.valueOf(material), "§7"+material));
+            List<String> l = new ArrayList<>();
+            l.add("§7Production Time: "+machine.getProduct().getProductionTime());
+            l.add("§7Production Cost: $"+machine.getProduct().getPrice());
+
+            if (machine.isLicensed()){
+                l.add("§cThis Product is Licensed");
+            }
+            getInventory().setItem(10, ItemFactory.create(Material.valueOf(material), "§7"+material, l));
         }
 
 

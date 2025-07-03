@@ -2,7 +2,7 @@ package com.klanting.signclick.economy;
 
 import org.bukkit.Material;
 
-public class Product {
+public class Product extends Produceable{
 
     public Material getMaterial() {
         return material;

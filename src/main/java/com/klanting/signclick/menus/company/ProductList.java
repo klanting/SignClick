@@ -13,21 +13,21 @@ import java.util.function.Function;
 public class ProductList extends PagingMenu {
 
     public final CompanyI comp;
-    public final Function<Product, Void> func;
+    public final Function<Produceable, Void> func;
     public final boolean fullList;
 
     public final boolean showProducts;
     public final boolean showLicenses;
 
-    public ProductList(CompanyI comp, Function<Product, Void> func){
+    public ProductList(CompanyI comp, Function<Produceable, Void> func){
         this(comp, func, false);
     }
 
-    public ProductList(CompanyI comp, Function<Product, Void> func, boolean fullList){
+    public ProductList(CompanyI comp, Function<Produceable, Void> func, boolean fullList){
         this(comp, func, fullList, true, false);
     }
 
-    public ProductList(CompanyI comp, Function<Product, Void> func, boolean fullList,
+    public ProductList(CompanyI comp, Function<Produceable, Void> func, boolean fullList,
                        boolean showProducts, boolean showLicenses){
         super(54, "Product List", true);
         this.comp = comp;

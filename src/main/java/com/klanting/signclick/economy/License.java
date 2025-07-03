@@ -1,6 +1,6 @@
 package com.klanting.signclick.economy;
 
-public class License {
+public class License extends Produceable{
 
     public CompanyI getFrom() {
         return from;

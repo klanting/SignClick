@@ -21,6 +21,8 @@ public class Machine {
 
     private Product product;
 
+    private License license;
+
     private final String compName;
 
     public int getProductionProgress() {
@@ -38,6 +40,8 @@ public class Machine {
     private double productionProgress;
 
     public void clearProgress(){
+        license = null;
+        product = null;
         productionProgress = 0;
     }
 
@@ -84,6 +88,16 @@ public class Machine {
     }
 
     public void setProduct(Product product){
+
         this.product = product;
+        this.license = null;
+    }
+    public void setLicense(License license){
+        this.product = license.getProduct();
+        this.license = license;
+    }
+
+    public boolean isLicensed(){
+        return license != null;
     }
 }
