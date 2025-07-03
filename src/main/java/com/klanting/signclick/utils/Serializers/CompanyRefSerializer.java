@@ -16,7 +16,7 @@ public class CompanyRefSerializer implements JsonSerializer<CompanyRef>, JsonDes
     public JsonElement serialize(CompanyRef company, Type type, JsonSerializationContext context) {
         JsonObject element = new JsonObject();
         element.add("stockName", JsonParser.parseString(company.getStockName()));
-        element.add("type", JsonParser.parseString("companyRef"));
+        element.add("classType", JsonParser.parseString("companyRef"));
         return element;
     }
 

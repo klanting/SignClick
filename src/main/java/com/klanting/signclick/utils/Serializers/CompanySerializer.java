@@ -14,7 +14,7 @@ public class CompanySerializer implements JsonSerializer<Company>, JsonDeseriali
     @Override
     public JsonElement serialize(Company company, Type type, JsonSerializationContext context) {
         JsonObject obj = company.toJson(context);
-        obj.add("type", JsonParser.parseString("company"));
+        obj.add("classType", JsonParser.parseString("company"));
         return obj;
     }
 

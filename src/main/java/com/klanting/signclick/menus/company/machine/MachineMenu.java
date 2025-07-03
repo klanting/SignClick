@@ -65,8 +65,8 @@ public class MachineMenu extends SelectionMenu {
         update();
 
         getInventory().setItem(27, ItemFactory.create(Material.HOPPER, "§7Allow Hopper"));
-        getInventory().setItem(28, ItemFactory.create(Material.REDSTONE_TORCH, "§7Loop Production"));
-        getInventory().setItem(29, ItemFactory.create(Material.LAPIS_LAZULI, "§7Speed Modifier"));
+        //getInventory().setItem(28, ItemFactory.create(Material.REDSTONE_TORCH, "§7Loop Production"));
+        //getInventory().setItem(29, ItemFactory.create(Material.LAPIS_LAZULI, "§7Speed Modifier"));
 
         NamespacedKey productKey = new NamespacedKey(SignClick.getPlugin(), "signclick_company_machine_product");
 

@@ -94,7 +94,7 @@ public class Migrationv102v200 extends Migration{
                 /*
                 * Add type of reference
                 * */
-                companyObject.add("type", JsonParser.parseString("company"));
+                companyObject.add("classType", JsonParser.parseString("company"));
             }
 
             Writer writer = new FileWriter(file, false);
@@ -127,7 +127,7 @@ public class Migrationv102v200 extends Migration{
                         String stockName = jsObj.get("stockName").getAsString();
                         jsObj = new JsonObject();
                         jsObj.getAsJsonObject().add("stockName", JsonParser.parseString(stockName));
-                        jsObj.getAsJsonObject().add("type", JsonParser.parseString("companyRef"));
+                        jsObj.getAsJsonObject().add("classType", JsonParser.parseString("companyRef"));
 
                         m.getAsJsonObject().add(location, jsObj);
                         jsonArray.set(counter, m);

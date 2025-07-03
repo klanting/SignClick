@@ -39,7 +39,7 @@ public class Utils {
             ;
 
     static RuntimeTypeAdapterFactory<CompanyI> companyTypes =
-            RuntimeTypeAdapterFactory.of(CompanyI.class, "type")
+            RuntimeTypeAdapterFactory.of(CompanyI.class, "classType")
                     .registerSubtype(Company.class, "company")
                     .registerSubtype(CompanyRef.class, "companyRef")
             ;
