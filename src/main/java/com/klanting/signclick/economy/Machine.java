@@ -5,7 +5,6 @@ import org.bukkit.inventory.ItemStack;
 
 public class Machine {
 
-    private boolean doLoop = true;
 
     public boolean isFrozenByFunds() {
         return frozenByFunds;
@@ -20,6 +19,10 @@ public class Machine {
     }
 
     private Product product;
+
+    public License getLicense() {
+        return license;
+    }
 
     private License license;
 

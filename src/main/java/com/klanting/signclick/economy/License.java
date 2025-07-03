@@ -44,4 +44,14 @@ public class License extends Produceable{
         this.costIncrease = costIncrease;
         this.royaltyFee = royaltyFee;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof License license){
+            return (license.product.getMaterial().equals(getProduct().getMaterial()))
+                    && (license.getFrom().equals(getFrom()))
+                    && (license.getTo().equals(getTo()));
+        }
+        return false;
+    }
 }

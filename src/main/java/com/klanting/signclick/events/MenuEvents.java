@@ -438,6 +438,41 @@ public class MenuEvents implements Listener {
 
         }
 
+        if (event.getClickedInventory().getHolder() instanceof LicenseInfoMenu licenseInfoMenu){
+            Player player = (Player) event.getWhoClicked();
+            event.setCancelled(true);
+
+            String option = event.getCurrentItem().getItemMeta().getDisplayName();
+
+            if (option.equals("§cCancel License")){
+                LicenseSingleton.getInstance().getCurrentLicenses().removeLicense(licenseInfoMenu.license);
+
+                List<Machine> toRemove = new ArrayList<>();
+                for (Machine machine: furnaces){
+                    if (machine.isLicensed() && machine.getLicense() == licenseInfoMenu.license){
+                        toRemove.add(machine);
+                    }
+                }
+
+                for (Machine machine: toRemove){
+                    furnaces.remove(machine);
+                    machine.clearProgress();
+
+                    if (!(machine.getBlock().getState() instanceof TileState tileState)) continue;
+                    NamespacedKey productKey = new NamespacedKey(SignClick.getPlugin(), "signclick_company_machine_product");
+                    tileState.getPersistentDataContainer().set(productKey, PersistentDataType.STRING, "");
+                    tileState.update();
+                }
+
+                for (MachineMenu mm: MachineLiveUpdateEvent.openMenus){
+                    mm.init();
+                }
+
+                loadStack(player);
+            }
+            return;
+        }
+
         if (event.getClickedInventory().getHolder() instanceof ProductList productList){
             Player player = (Player) event.getWhoClicked();
             event.setCancelled(true);
@@ -459,7 +494,16 @@ public class MenuEvents implements Listener {
             }
 
             if (event.getSlot() == 50){
-                ProductList new_screen = new ProductList(productList.comp, s -> {return null;},
+                ProductList new_screen = new ProductList(productList.comp, s -> {
+
+                    if (!(s instanceof License l)){
+                        return null;
+                    }
+
+                    LicenseInfoMenu screen = new LicenseInfoMenu(l);
+                    player.openInventory(screen.getInventory());
+                    return null;
+                    },
                         false, false, true);
                 player.openInventory(new_screen.getInventory());
             }else if (event.getSlot() == 51){
@@ -491,6 +535,8 @@ public class MenuEvents implements Listener {
                 player.openInventory(new_screen.getInventory());
             }else if (event.getSlot() == 49){
                 Function<License, Void> func = (license) -> {
+                    LicenseInfoMenu screen = new LicenseInfoMenu(license);
+                    player.openInventory(screen.getInventory());
                     return null;
                 };
                 LicenseGivenList newScreen = new LicenseGivenList(productList.comp, func);
@@ -512,7 +558,7 @@ public class MenuEvents implements Listener {
             int item = event.getSlot();
             if (event.getSlot() < 45){
                 int index = (licenseGivenList.getPage()*45+item);
-                List<License> licenses = LicenseSingleton.getInstance().getLicenseRequests().
+                List<License> licenses = LicenseSingleton.getInstance().getCurrentLicenses().
                         getLicensesFrom(licenseGivenList.comp);
                 licenseGivenList.func.apply(licenses.get(index));
 
