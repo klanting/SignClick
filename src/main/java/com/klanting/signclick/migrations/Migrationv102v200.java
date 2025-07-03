@@ -106,34 +106,45 @@ public class Migrationv102v200 extends Migration{
             throw new RuntimeException(e.getMessage());
         }
 
-        try {
-            File file2 = new File(SignClick.getPlugin().getDataFolder()+"/contractServerToComp.json");
-            Reader reader2 = new FileReader(file2);
-            JsonArray jsonArray = JsonParser.parseReader(reader2).getAsJsonArray();
+        /*
+        * Update contract copy of company to reference
+        * */
+        for (String contractPath: List.of("/contractServerToComp.json",
+                "/contractCompToComp.json", "/contractCompToPlayer.json",
+                "/contractPlayerToComp.json")){
+            try {
+                File file2 = new File(SignClick.getPlugin().getDataFolder()+contractPath);
+                Reader reader2 = new FileReader(file2);
+                JsonArray jsonArray = JsonParser.parseReader(reader2).getAsJsonArray();
 
-            int counter = 0;
-            for (JsonElement m: jsonArray){
-                JsonObject jsObj = m.getAsJsonObject().getAsJsonObject("to");
-                String stockName = jsObj.get("stockName").getAsString();
-                jsObj = new JsonObject();
-                jsObj.getAsJsonObject().add("stockName", JsonParser.parseString(stockName));
-                jsObj.getAsJsonObject().add("type", JsonParser.parseString("companyRef"));
+                int counter = 0;
+                for (JsonElement m: jsonArray){
+                    for (String location: List.of("to", "from")){
+                        JsonObject jsObj = m.getAsJsonObject().getAsJsonObject(location);
+                        if (jsObj == null || !jsObj.has("stockName")){
+                            continue;
+                        }
+                        String stockName = jsObj.get("stockName").getAsString();
+                        jsObj = new JsonObject();
+                        jsObj.getAsJsonObject().add("stockName", JsonParser.parseString(stockName));
+                        jsObj.getAsJsonObject().add("type", JsonParser.parseString("companyRef"));
 
-                m.getAsJsonObject().add("to", jsObj);
-                jsonArray.set(counter, m);
-                counter ++;
+                        m.getAsJsonObject().add(location, jsObj);
+                        jsonArray.set(counter, m);
+                        counter ++;
+                    }
+
+                }
+
+                Writer writer = new FileWriter(file2, false);
+                writer.write(jsonArray.toString());
+                writer.flush();
+                writer.close();
+
+            } catch (IOException e) {
+                throw new RuntimeException(e.getMessage());
             }
-
-            Writer writer = new FileWriter(file2, false);
-            writer.write(jsonArray.toString());
-            writer.flush();
-            writer.close();
-
-        } catch (IOException e) {
-            throw new RuntimeException(e.getMessage());
         }
-
-        //TODO SAME MIGRATION OTHER CONTRACTS
 
 
         SignClick.getPlugin().getConfig().set("version", "2.0.0");
