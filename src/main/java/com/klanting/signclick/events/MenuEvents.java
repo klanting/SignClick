@@ -37,6 +37,8 @@ import org.bukkit.persistence.PersistentDataType;
 import java.util.*;
 import java.util.function.Function;
 
+import static org.bukkit.Bukkit.getServer;
+
 public class MenuEvents implements Listener {
 
     private static final HashMap<Player, Stack<SelectionMenu>> menuStack = new HashMap<>();
@@ -432,7 +434,7 @@ public class MenuEvents implements Listener {
                 int productSize = productList.comp.getProducts().size();
                 productList.func.apply(index < productSize ?
                         productList.comp.getProducts().get(index):
-                        LicenseManager.getInstance().getLicensesTo(productList.comp).get(index-productSize).getProduct());
+                        LicenseSingleton.getInstance().getCurrentLicenses().getLicensesTo(productList.comp).get(index-productSize).getProduct());
 
                 productList.init();
                 return;
@@ -444,14 +446,20 @@ public class MenuEvents implements Listener {
                 player.openInventory(new_screen.getInventory());
             }else if (event.getSlot() == 51){
 
+                Function<License, Void> func = (license) -> {
+                    LicenseAcceptMenu acceptMenu = new LicenseAcceptMenu(license);
+                    player.openInventory(acceptMenu.getInventory());
+                    return null;
+                };
+
+                LicenseRequestList newScreen = new LicenseRequestList(productList.comp, func);
+                player.openInventory(newScreen.getInventory());
             }else if (event.getSlot() == 52){
                 Selector new_screen = new Selector(player.getUniqueId(), comp -> {
 
                     ProductList new_screen2 = new ProductList(comp, s -> {
-                        LicenseManager.getInstance().addLicense(new License(comp, productList.comp, s,
-                                1000.0));
-                        loadStack(player);
-                        loadStack(player);
+                        LicenseRequestMenu newScreen = new LicenseRequestMenu(player.getUniqueId(), comp, productList.comp, s);
+                        player.openInventory(newScreen.getInventory());
                         return null;
                         },
                             false, true, false);
@@ -460,11 +468,93 @@ public class MenuEvents implements Listener {
                     return null;
                 }, productList.comp);
                 player.openInventory(new_screen.getInventory());
+            }else if (event.getSlot() == 49){
+
             }else{
                 return;
             }
 
+        }
 
+        if (event.getClickedInventory().getHolder() instanceof LicenseAcceptMenu licenseAcceptMenu){
+            Player player = (Player) event.getWhoClicked();
+            event.setCancelled(true);
+
+            int slot = event.getSlot();
+
+            if (slot == 12){
+                LicenseSingleton.getInstance().getLicenseRequests().removeLicense(licenseAcceptMenu.license);
+                loadStack(player);
+            }
+
+            if (slot == 14){
+                LicenseSingleton.getInstance().getLicenseRequests().removeLicense(licenseAcceptMenu.license);
+                LicenseSingleton.getInstance().getCurrentLicenses().addLicense(licenseAcceptMenu.license);
+                loadStack(player);
+            }
+        }
+
+        if (event.getClickedInventory().getHolder() instanceof LicenseRequestList licenseRequestList){
+            Player player = (Player) event.getWhoClicked();
+            event.setCancelled(true);
+
+            if(event.getCurrentItem().getType().equals(Material.LIGHT_GRAY_STAINED_GLASS_PANE)){
+                return;
+            }
+
+            int item = event.getSlot();
+            if (event.getSlot() < 45){
+                int index = (licenseRequestList.getPage()*45+item);
+                List<License> licenses = LicenseSingleton.getInstance().getLicenseRequests().getLicensesFrom(licenseRequestList.comp);
+                licenseRequestList.func.apply(licenses.get(index));
+
+                licenseRequestList.init();
+                return;
+            }
+        }
+
+        if (event.getClickedInventory().getHolder() instanceof LicenseRequestMenu licenseRequestMenu){
+            Player player = (Player) event.getWhoClicked();
+            event.setCancelled(true);
+
+            int slot = event.getSlot();
+
+            if (slot >= 27 && slot < 36){
+                return;
+            }
+
+            boolean positive;
+            if (slot < 27){
+                slot += 9;
+                positive = true;
+            }else{
+                slot -=9;
+                positive = false;
+            }
+
+            if (slot == 29){
+                licenseRequestMenu.weeklyCost = Math.max(1000*(positive ? 1: -1)+licenseRequestMenu.weeklyCost, 0);
+                licenseRequestMenu.init();
+            }
+            if (slot == 31){
+                licenseRequestMenu.increaseCost += Math.max((positive ? 0.01: -0.01), 0);
+                licenseRequestMenu.init();
+            }
+            if (slot == 33){
+                licenseRequestMenu.royaltyFee += Math.max(1000*(positive ? 0.01: -0.01), 0);
+                licenseRequestMenu.init();
+            }
+
+            if (event.getCurrentItem().getItemMeta().getDisplayName().equals("§aSend License offer")){
+
+                LicenseSingleton.getInstance().getLicenseRequests().addLicense(new License(licenseRequestMenu.fromComp, licenseRequestMenu.toComp,
+                        licenseRequestMenu.product,
+                        licenseRequestMenu.weeklyCost, licenseRequestMenu.increaseCost, licenseRequestMenu.royaltyFee));
+                loadStack(player);
+                loadStack(player);
+            }
+
+            return;
         }
 
         if (event.getClickedInventory().getHolder() instanceof ResearchMenu researchMenu){

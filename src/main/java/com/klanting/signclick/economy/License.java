@@ -14,20 +14,34 @@ public class License {
         return product;
     }
 
-    public Double getCost() {
-        return cost;
+    public Double getWeeklyCost() {
+        return weeklyCost;
     }
 
     private Company from;
     private Company to;
     private Product product;
 
-    private Double cost;
+    private Double weeklyCost;
 
-    public License(Company from, Company to, Product product, Double cost){
+    public Double getCostIncrease() {
+        return costIncrease;
+    }
+
+    public Double getRoyaltyFee() {
+        return royaltyFee;
+    }
+
+    private Double costIncrease;
+    private Double royaltyFee;
+
+    public License(Company from, Company to, Product product, Double weeklyCost,
+                   Double costIncrease, Double royaltyFee){
         this.from = from;
         this.to = to;
         this.product = product;
-        this.cost = cost;
+        this.weeklyCost = weeklyCost;
+        this.costIncrease = costIncrease;
+        this.royaltyFee = royaltyFee;
     }
 }

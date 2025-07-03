@@ -2,6 +2,7 @@ package com.klanting.signclick;
 
 
 import com.google.common.reflect.TypeToken;
+import com.klanting.signclick.economy.LicenseSingleton;
 import com.klanting.signclick.economy.ResearchOption;
 import com.klanting.signclick.migrations.MigrationManager;
 import com.klanting.signclick.recipes.MachineRecipe;
@@ -71,6 +72,7 @@ public class SignClick extends JavaPlugin{
 
         Auction.Restore();
         Auction.getInstance().check();
+        LicenseSingleton.Restore();
 
         MachineRecipe.create();
 
@@ -119,6 +121,7 @@ public class SignClick extends JavaPlugin{
         CountryManager.saveData();
         Market.SaveData();
         Auction.Save();
+        LicenseSingleton.Save();
         WeeklyComp.Save();
 
         getServer().getConsoleSender().sendMessage(ChatColor.RED + "SignClick is disabled!");

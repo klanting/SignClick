@@ -12,21 +12,15 @@ public class LicenseManager {
         return licenses.stream().filter(l -> l.getTo().equals(comp)).toList();
     }
 
+    public List<License> getLicensesFrom(Company comp) {
+        return licenses.stream().filter(l -> l.getFrom().equals(comp)).toList();
+    }
+
     public void addLicense(License license){
         licenses.add(license);
     }
 
     public void removeLicense(License license){
         licenses.remove(license);
-    }
-
-    private static LicenseManager instance = null;
-
-    public static LicenseManager getInstance(){
-        if (instance == null){
-            instance = new LicenseManager();
-        }
-
-        return instance;
     }
 }

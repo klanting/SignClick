@@ -6,6 +6,7 @@ import com.klanting.signclick.SignClick;
 import com.klanting.signclick.economy.Company;
 import com.klanting.signclick.economy.CompanyOwnerManager;
 import com.klanting.signclick.economy.Country;
+import com.klanting.signclick.economy.LicenseSingleton;
 import com.klanting.signclick.economy.companyPatent.Auction;
 import com.klanting.signclick.economy.logs.*;
 import com.klanting.signclick.economy.parties.Election;
@@ -57,6 +58,7 @@ public class Utils {
         builder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer());
         builder.registerTypeAdapterFactory(new CompanyOwnerManagerAdapterFactory());
         builder.registerTypeAdapter(Block.class, new BlockSerializer());
+        builder.registerTypeAdapter(LicenseSingleton.class, new LicenseSerializer());
         builder.registerTypeAdapterFactory(pluginLogTypes);
         Gson gson = builder.create();
         return gson.toJson(value, token);
@@ -77,6 +79,7 @@ public class Utils {
         builder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer());
         builder.registerTypeAdapterFactory(new CompanyOwnerManagerAdapterFactory());
         builder.registerTypeAdapter(Block.class, new BlockSerializer());
+        builder.registerTypeAdapter(LicenseSingleton.class, new LicenseSerializer());
         builder.registerTypeAdapterFactory(pluginLogTypes);
         Gson gson = builder.create();
 
@@ -116,6 +119,7 @@ public class Utils {
         builder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer());
         builder.registerTypeAdapterFactory(new CompanyOwnerManagerAdapterFactory());
         builder.registerTypeAdapter(Block.class, new BlockSerializer());
+        builder.registerTypeAdapter(LicenseSingleton.class, new LicenseSerializer());
         builder.registerTypeAdapterFactory(pluginLogTypes);
         Gson gson = builder.create();
 

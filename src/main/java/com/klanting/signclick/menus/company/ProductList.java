@@ -1,9 +1,6 @@
 package com.klanting.signclick.menus.company;
 
-import com.klanting.signclick.economy.Company;
-import com.klanting.signclick.economy.License;
-import com.klanting.signclick.economy.LicenseManager;
-import com.klanting.signclick.economy.Product;
+import com.klanting.signclick.economy.*;
 import com.klanting.signclick.menus.PagingMenu;
 import com.klanting.signclick.utils.ItemFactory;
 import org.bukkit.ChatColor;
@@ -61,14 +58,16 @@ public class ProductList extends PagingMenu {
         }
 
         if (showLicenses){
-            for (License license: LicenseManager.getInstance().getLicensesTo(comp)){
+            for (License license: LicenseSingleton.getInstance().getCurrentLicenses().getLicensesTo(comp)){
 
                 Product product = license.getProduct();
 
                 List<String> l = new ArrayList<>();
-                l.add("§7Production Time: "+product.getProductionTime()+"s");
+                l.add("§7Production Time: "+product.getProductionTime()*
+                        (1.0+license.getCostIncrease()+license.getRoyaltyFee())+"s");
                 l.add("§7Cost: $"+product.getPrice());
                 l.add("§cThis Product is Licensed");
+                l.add("§7Weekly License cost: $"+license.getWeeklyCost());
                 ItemStack item = ItemFactory.create(product.getMaterial(), "§7"+product.getMaterial().name(), l);
                 addItem(item);
             }
@@ -81,11 +80,13 @@ public class ProductList extends PagingMenu {
 
             ItemStack book = ItemFactory.create(Material.BOOK, "§7Request Licenses");
             ItemStack writeBook = ItemFactory.create(Material.WRITABLE_BOOK, "§7See License Requests");
-            ItemStack bookShelf = ItemFactory.create(Material.BOOKSHELF, "§7License List");
+            ItemStack bookShelf = ItemFactory.create(Material.BOOKSHELF, "§7Received License List");
+            ItemStack enchantmentTable = ItemFactory.create(Material.ENCHANTING_TABLE, "§7Given License List");
 
             getInventory().setItem(52, book);
             getInventory().setItem(51, writeBook);
             getInventory().setItem(50, bookShelf);
+            getInventory().setItem(49, enchantmentTable);
         }
     }
 
