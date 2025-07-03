@@ -2,17 +2,16 @@ package com.company;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
-import com.klanting.signclick.economy.CompanyI;
+import com.klanting.signclick.economy.*;
 import com.klanting.signclick.economy.companyPatent.PatentUpgrade;
 import com.klanting.signclick.economy.companyPatent.PatentUpgradeJumper;
-import com.klanting.signclick.economy.CountryManager;
-import com.klanting.signclick.economy.Market;
 import com.klanting.signclick.menus.company.AuctionMenu;
 import com.klanting.signclick.SignClick;
 import org.bukkit.Material;
 import org.bukkit.inventory.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.yaml.snakeyaml.error.Mark;
 import tools.ExpandedServerMock;
 import tools.TestTools;
 
@@ -56,6 +55,7 @@ public class CompanyMenuTests {
         MockBukkit.unmock();
         CountryManager.clear();
         Market.clear();
+        LicenseSingleton.clear();
     }
 
     private CompanyI getCompany(int slot){
@@ -345,5 +345,119 @@ public class CompanyMenuTests {
         assertEquals(1, comp.getPatentUpgrades().size());
 
     }
+    @Test
+    void companyLicenseTest(){
+        /*
+        * ask a given company request a license from another company
+        * */
+        Market.addCompany("TestCaseInc2", "TCI2", Market.getAccount(testPlayer));
+
+        CompanyI comp = Market.getCompany("TCI");
+        CompanyI comp2 = Market.getCompany("TCI2");
+        comp2.addProduct(new Product(Material.DIRT, 100, 100));
+
+        server.getScheduler().performTicks(1);
+
+        InventoryView companyMenu = openMenu(0);
+
+        /*
+        * Select the productList
+        * */
+        assertEquals(Material.JUKEBOX, companyMenu.getItem(21).getType());
+        testPlayer.simulateInventoryClick(21);
+        InventoryView productList = testPlayer.getOpenInventory();
+
+        /*
+        * choose to license an item
+        * */
+        assertEquals(Material.BOOK, productList.getItem(52).getType());
+        testPlayer.simulateInventoryClick(52);
+
+
+        /*
+        * Select the product we want to license
+        * */
+        assertEquals("§6TestCaseInc2 [TCI2]", testPlayer.getOpenInventory().getItem(0).getItemMeta().getDisplayName());
+        testPlayer.simulateInventoryClick(0);
+        assertEquals(Material.DIRT, testPlayer.getOpenInventory().getItem(0).getType());
+        testPlayer.simulateInventoryClick(0);
+
+        /*
+        * Change settings for the license request menu
+        * increase royalty by 1%
+        * decrease weekly pay by 1000
+        * */
+        InventoryView requestView = testPlayer.getOpenInventory();
+        assertEquals("§7Weekly License cost: $1000.0", requestView.getItem(29).getItemMeta().getLore().get(0));
+        assertEquals("§7Increased Cost: 0,00%", requestView.getItem(31).getItemMeta().getLore().get(0));
+        assertEquals("§7Royalty Fee: 0,00%", requestView.getItem(33).getItemMeta().getLore().get(0));
+
+        testPlayer.simulateInventoryClick(33-9);
+        assertEquals("§7Weekly License cost: $1000.0", requestView.getItem(29).getItemMeta().getLore().get(0));
+        assertEquals("§7Increased Cost: 0,00%", requestView.getItem(31).getItemMeta().getLore().get(0));
+        assertEquals("§7Royalty Fee: 1,00%", requestView.getItem(33).getItemMeta().getLore().get(0));
+
+        testPlayer.simulateInventoryClick(29+9);
+        assertEquals("§7Weekly License cost: $0.0", requestView.getItem(29).getItemMeta().getLore().get(0));
+        assertEquals("§7Increased Cost: 0,00%", requestView.getItem(31).getItemMeta().getLore().get(0));
+        assertEquals("§7Royalty Fee: 1,00%", requestView.getItem(33).getItemMeta().getLore().get(0));
+
+        /*
+        * Send request
+        * */
+        testPlayer.simulateInventoryClick(52);
+
+        assertEquals(1, LicenseSingleton.getInstance().getLicenseRequests().getLicensesFrom(comp2).size());
+        assertEquals(1, LicenseSingleton.getInstance().getLicenseRequests().getLicensesTo(comp).size());
+
+        /*
+        * as the 2nd company accept the license request
+        * */
+
+        boolean suc6 = server.execute("company", testPlayer, "menu").hasSucceeded();
+        assertTrue(suc6);
+
+        inventoryMenu = testPlayer.getOpenInventory();
+        assertNotNull(inventoryMenu);
+
+        companyMenu = openMenu(1);
+
+        /*
+         * Select the productList
+         * */
+        assertEquals(Material.JUKEBOX, companyMenu.getItem(21).getType());
+        testPlayer.simulateInventoryClick(21);
+        productList = testPlayer.getOpenInventory();
+        assertEquals(Material.DIRT, productList.getItem(0).getType());
+
+        /*
+        * Go to the list of requested licenses
+        * */
+        testPlayer.simulateInventoryClick(51);
+        assertEquals(Material.DIRT, testPlayer.getOpenInventory().getItem(0).getType());
+
+        testPlayer.simulateInventoryClick(0);
+
+        /*
+        * Check accept menu open
+        * showing the right information
+        * */
+        assertEquals(Material.RED_WOOL, testPlayer.getOpenInventory().getItem(12).getType());
+        assertEquals(Material.DIRT, testPlayer.getOpenInventory().getItem(13).getType());
+        assertEquals(Material.LIME_WOOL, testPlayer.getOpenInventory().getItem(14).getType());
+
+        /*
+        * accept request
+        * */
+        testPlayer.simulateInventoryClick(14);
+
+        assertEquals(0, LicenseSingleton.getInstance().getLicenseRequests().getLicensesFrom(comp2).size());
+        assertEquals(0, LicenseSingleton.getInstance().getLicenseRequests().getLicensesTo(comp).size());
+
+        assertEquals(1, LicenseSingleton.getInstance().getCurrentLicenses().getLicensesFrom(comp2).size());
+        assertEquals(1, LicenseSingleton.getInstance().getCurrentLicenses().getLicensesTo(comp).size());
+
+    }
+
 
 }

@@ -57,4 +57,8 @@ public class LicenseSingleton {
     public static void Restore(){
         instance = Utils.readSave("licenses", new TypeToken<LicenseSingleton>(){}.getType(), new LicenseSingleton());
     }
+
+    public static void clear(){
+        instance = null;
+    }
 }

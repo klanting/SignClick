@@ -290,4 +290,12 @@ public class CompanyRef implements CompanyI{
     public CompanyI getRef(){
         return this;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof CompanyI companyI){
+            return companyI.getStockName().equals(getStockName());
+        }
+        return false;
+    }
 }

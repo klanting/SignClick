@@ -558,11 +558,11 @@ public class MenuEvents implements Listener {
                 licenseRequestMenu.init();
             }
             if (slot == 31){
-                licenseRequestMenu.increaseCost += Math.max((positive ? 0.01: -0.01), 0);
+                licenseRequestMenu.increaseCost = Math.max((positive ? 0.01: -0.01)+licenseRequestMenu.increaseCost, 0);
                 licenseRequestMenu.init();
             }
             if (slot == 33){
-                licenseRequestMenu.royaltyFee += Math.max(1000*(positive ? 0.01: -0.01), 0);
+                licenseRequestMenu.royaltyFee = Math.max((positive ? 0.01: -0.01)+licenseRequestMenu.royaltyFee, 0);
                 licenseRequestMenu.init();
             }
 

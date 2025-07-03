@@ -630,4 +630,12 @@ public class Company extends LoggableSubject implements CompanyI{
     public CompanyI getRef(){
         return new CompanyRef(this);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof CompanyI companyI){
+            return companyI.getStockName().equals(getStockName());
+        }
+        return false;
+    }
 }
