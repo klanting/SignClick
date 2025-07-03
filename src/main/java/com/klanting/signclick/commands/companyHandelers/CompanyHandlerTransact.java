@@ -3,7 +3,7 @@ package com.klanting.signclick.commands.companyHandelers;
 import com.klanting.signclick.commands.CommandTools;
 import com.klanting.signclick.commands.exceptions.CommandAssert;
 import com.klanting.signclick.commands.exceptions.CommandException;
-import com.klanting.signclick.economy.Company;
+import com.klanting.signclick.economy.CompanyI;
 import com.klanting.signclick.economy.Market;
 import org.bukkit.entity.Player;
 
@@ -37,7 +37,7 @@ public class CompanyHandlerTransact extends CompanyHandler{
 
         //still need refresh weekly the 20 % cap
         if (Market.getCompany(stock_name).removeBal(amount)){
-            Company comp_target = Market.getCompany(target_stock_name);
+            CompanyI comp_target = Market.getCompany(target_stock_name);
             comp_target.addBal(amount);
             player.sendMessage("§bsuccesfully paid §f"+target_stock_name+" "+amount);
             comp_target.getCOM().sendOwner("§bsuccesfully received §f"+amount+" §bfrom §f"+stock_name);

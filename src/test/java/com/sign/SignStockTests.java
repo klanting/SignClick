@@ -5,8 +5,6 @@ import be.seeseemelk.mockbukkit.ServerMock;
 import be.seeseemelk.mockbukkit.block.BlockMock;
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
 import com.klanting.signclick.SignClick;
-import com.klanting.signclick.economy.Company;
-import com.klanting.signclick.economy.CountryManager;
 import com.klanting.signclick.economy.Market;
 import org.bukkit.Location;
 import org.bukkit.Material;

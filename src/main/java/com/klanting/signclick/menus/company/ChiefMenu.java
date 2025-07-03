@@ -2,7 +2,7 @@ package com.klanting.signclick.menus.company;
 
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.economy.Board;
-import com.klanting.signclick.economy.Company;
+import com.klanting.signclick.economy.CompanyI;
 import com.klanting.signclick.menus.SelectionMenu;
 import com.klanting.signclick.utils.ItemFactory;
 import org.bukkit.Bukkit;
@@ -17,11 +17,10 @@ import org.apache.commons.lang3.tuple.Pair;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 public class ChiefMenu extends SelectionMenu {
-    public Company comp;
+    public CompanyI comp;
 
     @Override
     public boolean equals(Object obj) {
@@ -31,7 +30,7 @@ public class ChiefMenu extends SelectionMenu {
     public final String position;
     private final UUID uuid;
 
-    public ChiefMenu(UUID uuid, Company company, String position){
+    public ChiefMenu(UUID uuid, CompanyI company, String position){
         super(27, "Company Chief Menu: "+position, true);
         comp = company;
         this.position = position;

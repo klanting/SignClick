@@ -3,35 +3,31 @@ package com.klanting.signclick.menus.company;
 import com.klanting.signclick.economy.*;
 import com.klanting.signclick.menus.PagingMenu;
 import com.klanting.signclick.utils.ItemFactory;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import java.util.function.Function;
-
-import static org.bukkit.Bukkit.getServer;
 
 public class ProductList extends PagingMenu {
 
-    public final Company comp;
+    public final CompanyI comp;
     public final Function<Product, Void> func;
     public final boolean fullList;
 
     public final boolean showProducts;
     public final boolean showLicenses;
 
-    public ProductList(Company comp, Function<Product, Void> func){
+    public ProductList(CompanyI comp, Function<Product, Void> func){
         this(comp, func, false);
     }
 
-    public ProductList(Company comp, Function<Product, Void> func, boolean fullList){
+    public ProductList(CompanyI comp, Function<Product, Void> func, boolean fullList){
         this(comp, func, fullList, true, false);
     }
 
-    public ProductList(Company comp, Function<Product, Void> func, boolean fullList,
+    public ProductList(CompanyI comp, Function<Product, Void> func, boolean fullList,
                        boolean showProducts, boolean showLicenses){
         super(54, "Product List", true);
         this.comp = comp;

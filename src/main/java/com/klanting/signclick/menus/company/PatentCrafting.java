@@ -1,13 +1,12 @@
 package com.klanting.signclick.menus.company;
 
-import com.klanting.signclick.economy.Company;
+import com.klanting.signclick.economy.CompanyI;
 import com.klanting.signclick.economy.companyPatent.Patent;
 import com.klanting.signclick.economy.companyPatent.PatentUpgrade;
 import com.klanting.signclick.menus.SelectionMenu;
 import com.klanting.signclick.utils.ItemFactory;
 import org.bukkit.Material;
 import org.bukkit.inventory.*;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 
@@ -15,11 +14,11 @@ public class PatentCrafting extends SelectionMenu {
 
     private ArrayList<Integer> indexes = new ArrayList<>();
 
-    public Company comp;
+    public CompanyI comp;
 
     public Patent patent;
 
-    public PatentCrafting(Company comp, Patent patent){
+    public PatentCrafting(CompanyI comp, Patent patent){
         super(27, "Company Upgrade Menu", true);
 
         this.comp = comp;
@@ -39,7 +38,7 @@ public class PatentCrafting extends SelectionMenu {
     @Override
     public void init() {
         ItemStack gearItem = ItemFactory.create(patent.item,
-                "§6"+comp.getStockName() +":"+patent.getName()+":"+comp.patent.indexOf(patent));
+                "§6"+comp.getStockName() +":"+patent.getName()+":"+comp.getPatent().indexOf(patent));
 
         getInventory().setItem(13, gearItem);
 

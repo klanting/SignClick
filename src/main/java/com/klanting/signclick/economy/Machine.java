@@ -47,7 +47,7 @@ public class Machine {
 
     private final Block block;
 
-    public Machine(Block block, Company company){
+    public Machine(Block block, CompanyI company){
         product = null;
         productionProgress = 0;
         this.block = block;
@@ -63,7 +63,7 @@ public class Machine {
             return;
         }
 
-        productionProgress += 1*(Market.getCompany(compName).upgrades.get(6).getBonus()/100.0);
+        productionProgress += 1*(Market.getCompany(compName).getUpgrades().get(6).getBonus()/100.0);
 
         if (productionProgress >= product.getProductionTime()){
 

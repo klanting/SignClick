@@ -1,7 +1,6 @@
 package com.klanting.signclick.utils.Serializers;
 
 import com.google.gson.*;
-import com.klanting.signclick.economy.Company;
 
 import java.lang.reflect.Type;
 import java.time.LocalDateTime;

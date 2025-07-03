@@ -2,8 +2,7 @@ import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
 import com.klanting.signclick.SignClick;
-import com.klanting.signclick.economy.Company;
-import com.klanting.signclick.economy.Country;
+import com.klanting.signclick.economy.CompanyI;
 import com.klanting.signclick.economy.CountryManager;
 import com.klanting.signclick.economy.Market;
 import tools.ExpandedServerMock;
@@ -13,9 +12,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 public class TestDataGenerator {
     public static void main(String[] args) throws IOException {
@@ -43,7 +39,7 @@ public class TestDataGenerator {
         * Server to Company Contract
         * */
 
-        Company comp = Market.getCompany("TCI");
+        CompanyI comp = Market.getCompany("TCI");
         comp.addBal(1000000000.0);
         comp.doUpgrade(0);
 

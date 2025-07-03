@@ -5,7 +5,7 @@ import be.seeseemelk.mockbukkit.ServerMock;
 import be.seeseemelk.mockbukkit.block.BlockMock;
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
 import com.klanting.signclick.SignClick;
-import com.klanting.signclick.economy.Company;
+import com.klanting.signclick.economy.CompanyI;
 import com.klanting.signclick.economy.Market;
 import com.klanting.signclick.economy.Product;
 import com.klanting.signclick.events.MenuEvents;
@@ -52,7 +52,7 @@ public class MachineTests {
         * Create machine and produce an item
         * */
         Market.addCompany("TCI", "TCI", Market.getAccount(testPlayer));
-        Company comp = Market.getCompany("TCI");
+        CompanyI comp = Market.getCompany("TCI");
         comp.addBal(2000);
         comp.setSpendable(2000);
         comp.addProduct(new Product(Material.DIRT, 1, 2));
@@ -156,7 +156,7 @@ public class MachineTests {
         plugin = TestTools.reboot(server);
         MenuEvents.furnaces.get(0).getBlock().getLocation().setWorld(new WorldDoubleMock());
 
-        assertEquals(1, Market.getCompany("TCI").machines.values().size());
+        assertEquals(1, Market.getCompany("TCI").getMachines().values().size());
         assertEquals(1, MenuEvents.furnaces.size());
 
         assertEquals(1, MenuEvents.furnaces.get(0).getProductionProgress());

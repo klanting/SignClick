@@ -1,24 +1,14 @@
 package com.klanting.signclick.migrations;
 
-import com.google.gson.reflect.TypeToken;
 import com.klanting.signclick.SignClick;
 
 import java.io.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import com.google.gson.*;
-import com.klanting.signclick.economy.Company;
-import com.klanting.signclick.economy.Country;
-import com.klanting.signclick.economy.companyPatent.Auction;
-import com.klanting.signclick.economy.contracts.ContractCTC;
 import com.klanting.signclick.economy.logs.*;
-import com.klanting.signclick.economy.parties.Election;
-import com.klanting.signclick.utils.Serializers.*;
 import com.klanting.signclick.utils.Utils;
-import org.bukkit.Location;
 
 public class Migrationv100v101 extends Migration{
 

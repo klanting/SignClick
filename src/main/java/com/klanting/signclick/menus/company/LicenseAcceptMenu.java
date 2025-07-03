@@ -1,6 +1,5 @@
 package com.klanting.signclick.menus.company;
 
-import com.klanting.signclick.economy.Company;
 import com.klanting.signclick.economy.License;
 import com.klanting.signclick.menus.SelectionMenu;
 import com.klanting.signclick.utils.ItemFactory;
@@ -10,7 +9,6 @@ import org.bukkit.inventory.ItemStack;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class LicenseAcceptMenu extends SelectionMenu {
     public final License license;

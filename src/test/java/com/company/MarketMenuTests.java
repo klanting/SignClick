@@ -4,11 +4,10 @@ import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
 import com.klanting.signclick.SignClick;
-import com.klanting.signclick.economy.Company;
+import com.klanting.signclick.economy.CompanyI;
 import com.klanting.signclick.economy.CountryManager;
 import com.klanting.signclick.economy.Market;
 import org.bukkit.Material;
-import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
@@ -17,8 +16,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import tools.ExpandedServerMock;
 import tools.TestTools;
-
-import java.util.concurrent.CountDownLatch;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -56,7 +53,7 @@ public class MarketMenuTests {
 
         suc6 = Market.addCompany("TestCaseInc2", "TCI2", Market.getAccount(testPlayer));
         assertTrue(suc6);
-        Market.getCompany("TCI2").type = "bank";
+        Market.getCompany("TCI2").setType("bank");
 
         openMenu();
 
@@ -87,7 +84,7 @@ public class MarketMenuTests {
         /*
         * Test to sell 1 share
         * */
-        Company comp = Market.getCompany("TCI");
+        CompanyI comp = Market.getCompany("TCI");
         assertEquals(1000000, comp.getCOM().getShareHolders().get(testPlayer.getUniqueId()));
         assertEquals(0, comp.getCOM().getMarketShares());
 
@@ -108,7 +105,7 @@ public class MarketMenuTests {
         /*
          * Test to buy 1 share
          * */
-        Company comp = Market.getCompany("TCI");
+        CompanyI comp = Market.getCompany("TCI");
         assertEquals(999999, comp.getCOM().getShareHolders().get(testPlayer.getUniqueId()));
         assertEquals(1, comp.getCOM().getMarketShares());
 
@@ -130,7 +127,7 @@ public class MarketMenuTests {
          * Test to buy 1 share, by pressing on the emerald
          * (indicating a buy of 10 normally, but now 1 because only 1 share available)
          * */
-        Company comp = Market.getCompany("TCI");
+        CompanyI comp = Market.getCompany("TCI");
         assertEquals(999999, comp.getCOM().getShareHolders().get(testPlayer.getUniqueId()));
         assertEquals(1, comp.getCOM().getMarketShares());
 
@@ -150,7 +147,7 @@ public class MarketMenuTests {
         /*
         * Check pre actions the Buy&Sell All
         * */
-        Company comp = Market.getCompany("TCI");
+        CompanyI comp = Market.getCompany("TCI");
         assertEquals(1000000, comp.getCOM().getShareHolders().get(testPlayer.getUniqueId()));
         assertEquals(0, comp.getCOM().getMarketShares());
 

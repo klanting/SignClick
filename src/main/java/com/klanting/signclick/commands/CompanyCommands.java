@@ -5,8 +5,8 @@ import com.klanting.signclick.commands.companyHandelers.*;
 import com.klanting.signclick.commands.companyHandelers.contractHandlers.*;
 import com.klanting.signclick.commands.exceptions.CommandAssert;
 import com.klanting.signclick.commands.exceptions.CommandException;
+import com.klanting.signclick.economy.CompanyI;
 import com.klanting.signclick.economy.Market;
-import com.klanting.signclick.economy.Company;
 
 import com.klanting.signclick.economy.companyPatent.PatentUpgradeCustom;
 import com.klanting.signclick.SignClick;
@@ -142,8 +142,8 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
                 return true;
             }
 
-            Company comp = getCompany(stock_name);
-            comp.patentUpgrades.add(new PatentUpgradeCustom(args[2], item));
+            CompanyI comp = getCompany(stock_name);
+            comp.getPatentUpgrades().add(new PatentUpgradeCustom(args[2], item));
         }
 
         return true;

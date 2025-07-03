@@ -1,6 +1,6 @@
 package com.klanting.signclick.menus.company;
 
-import com.klanting.signclick.economy.Company;
+import com.klanting.signclick.economy.CompanyI;
 import com.klanting.signclick.economy.Product;
 import com.klanting.signclick.menus.SelectionMenu;
 import com.klanting.signclick.utils.ItemFactory;
@@ -14,11 +14,11 @@ import java.util.List;
 import java.util.UUID;
 
 public class ProductCraftMenu extends SelectionMenu {
-    public Company comp;
+    public CompanyI comp;
 
     public Product[] products = new Product[9];
 
-    public ProductCraftMenu(UUID uuid, Company company){
+    public ProductCraftMenu(UUID uuid, CompanyI company){
         super(45, "Company Product Crafting: "+ company.getStockName(), true);
         comp = company;
 

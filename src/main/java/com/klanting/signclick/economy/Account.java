@@ -60,7 +60,7 @@ public class Account {
         int share_amount = shares.getOrDefault(Sname, 0);
         shares.put(Sname, share_amount+amount);
         if (Market.getCompany(Sname).getCOM().isOpenTrade()){
-            Company comp = Market.getCompany(Sname);
+            CompanyI comp = Market.getCompany(Sname);
             comp.setTotalShares(comp.getTotalShares()+amount);
         }
 
@@ -170,7 +170,7 @@ public class Account {
             String b = entry.getKey();
             int s = entry.getValue();
 
-            Company comp = Market.getCompany(b);
+            CompanyI comp = Market.getCompany(b);
             double v = (comp.getValue()/(comp.getTotalShares().doubleValue()))*s;
 
             if (order.size() > 0){
@@ -208,7 +208,7 @@ public class Account {
             DecimalFormat df2 = new DecimalFormat("0.00");
             int i2 = i + 1;
             total += v;
-            Company comp = Market.getCompany(b);
+            CompanyI comp = Market.getCompany(b);
             player.sendMessage("§b"+i2+". §3"+b+": §7" +df.format(v)+" ("+df2.format((shares.get(b).doubleValue()/comp.getTotalShares().doubleValue()*100.0))+"%)\n");
         }
         DecimalFormat df = new DecimalFormat("###,###,###");

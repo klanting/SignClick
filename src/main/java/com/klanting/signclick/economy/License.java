@@ -2,11 +2,11 @@ package com.klanting.signclick.economy;
 
 public class License {
 
-    public Company getFrom() {
+    public CompanyI getFrom() {
         return from;
     }
 
-    public Company getTo() {
+    public CompanyI getTo() {
         return to;
     }
 
@@ -18,8 +18,8 @@ public class License {
         return weeklyCost;
     }
 
-    private Company from;
-    private Company to;
+    private CompanyI from;
+    private CompanyI to;
     private Product product;
 
     private Double weeklyCost;
@@ -35,10 +35,10 @@ public class License {
     private Double costIncrease;
     private Double royaltyFee;
 
-    public License(Company from, Company to, Product product, Double weeklyCost,
+    public License(CompanyI from, CompanyI to, Product product, Double weeklyCost,
                    Double costIncrease, Double royaltyFee){
-        this.from = from;
-        this.to = to;
+        this.from = from.getRef();
+        this.to = to.getRef();
         this.product = product;
         this.weeklyCost = weeklyCost;
         this.costIncrease = costIncrease;

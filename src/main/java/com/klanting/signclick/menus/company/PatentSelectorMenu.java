@@ -1,15 +1,15 @@
 package com.klanting.signclick.menus.company;
 
-import com.klanting.signclick.economy.Company;
+import com.klanting.signclick.economy.CompanyI;
 import com.klanting.signclick.menus.SelectionMenu;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 public class PatentSelectorMenu extends SelectionMenu {
 
-    public Company comp;
+    public CompanyI comp;
 
-    public PatentSelectorMenu(Company comp){
+    public PatentSelectorMenu(CompanyI comp){
         super(27, "Company Patent Selector", true);
         this.comp = comp;
         init();

@@ -1,23 +1,21 @@
 package com.klanting.signclick.economy.contracts;
 
 import com.klanting.signclick.economy.Account;
-import com.klanting.signclick.economy.Company;
+import com.klanting.signclick.economy.CompanyI;
 import com.klanting.signclick.economy.Market;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
 
-import java.text.DecimalFormat;
 import java.util.UUID;
 
 public class ContractCTP  extends Contract{
-    private final Company from;
+    private final CompanyI from;
     private final UUID to;
 
-    public ContractCTP(Company from, UUID to, double amount, int weeks, String reason) {
+    public ContractCTP(CompanyI from, UUID to, double amount, int weeks, String reason) {
         super(amount, weeks, reason);
 
-        this.from = from;
+        this.from = from.getRef();
         this.to = to;
 
     }

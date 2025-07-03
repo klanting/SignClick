@@ -1,6 +1,6 @@
 package com.klanting.signclick.menus.company;
 
-import com.klanting.signclick.economy.Company;
+import com.klanting.signclick.economy.CompanyI;
 import com.klanting.signclick.economy.Machine;
 import com.klanting.signclick.economy.Product;
 import com.klanting.signclick.menus.PagingMenu;
@@ -17,10 +17,10 @@ import java.util.function.Function;
 
 public class MachineList extends PagingMenu {
 
-    public final Company comp;
+    public final CompanyI comp;
     public final Function<Product, Void> func;
 
-    public MachineList(Company comp, Function<Product, Void> func){
+    public MachineList(CompanyI comp, Function<Product, Void> func){
         super(54, "Product List", true);
         this.comp = comp;
         this.func = func;
@@ -32,7 +32,7 @@ public class MachineList extends PagingMenu {
 
         clearItems();
 
-        for (Map.Entry<Block, Machine> entry: comp.machines.entrySet()){
+        for (Map.Entry<Block, Machine> entry: comp.getMachines().entrySet()){
 
             Machine machine = entry.getValue();
 

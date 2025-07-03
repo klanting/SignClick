@@ -22,7 +22,6 @@ import com.klanting.signclick.menus.party.DecisionChoice;
 import com.klanting.signclick.menus.party.DecisionVote;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.TileState;
@@ -36,8 +35,6 @@ import org.bukkit.persistence.PersistentDataType;
 
 import java.util.*;
 import java.util.function.Function;
-
-import static org.bukkit.Bukkit.getServer;
 
 public class MenuEvents implements Listener {
 
@@ -152,7 +149,7 @@ public class MenuEvents implements Listener {
             Player player = (Player) event.getWhoClicked();
             event.setCancelled(true);
 
-            Company currentCompany = currentScreen.currentCompany;
+            CompanyI currentCompany = currentScreen.currentCompany;
 
             Account acc = Market.getAccount(player);
 
@@ -242,7 +239,7 @@ public class MenuEvents implements Listener {
 
             int startPos = event.getCurrentItem().getItemMeta().getDisplayName().indexOf("[");
             int endPos = event.getCurrentItem().getItemMeta().getDisplayName().length()-1;
-            Company company = Market.getCompany(event.getCurrentItem().getItemMeta().getDisplayName().substring(startPos+1, endPos));
+            CompanyI company = Market.getCompany(event.getCurrentItem().getItemMeta().getDisplayName().substring(startPos+1, endPos));
 
             selector.funcType.apply(company);
         }
@@ -338,7 +335,7 @@ public class MenuEvents implements Listener {
             Player player = (Player) event.getWhoClicked();
             event.setCancelled(true);
 
-            Company currentCompany = financialMenu.company;
+            CompanyI currentCompany = financialMenu.company;
 
             if (event.getCurrentItem().getItemMeta().getDisplayName().contains("Increase")){
                 int amount = Integer.parseInt((event.getCurrentItem().getItemMeta().getDisplayName().split(" ")[1]).replace(".", ""));
@@ -395,9 +392,9 @@ public class MenuEvents implements Listener {
                 player.openInventory(new_screen.getInventory());
             }else if(option.equals("§aSave Product")) {
 
-                if (productCraftMenu.comp.getProducts().size() >= productCraftMenu.comp.upgrades.get(2).getBonus()){
+                if (productCraftMenu.comp.getProducts().size() >= productCraftMenu.comp.getUpgrades().get(2).getBonus()){
                     player.sendMessage("§cYou don't have any free product slots. Used: "+productCraftMenu.comp.getProducts().size()
-                            +"/"+productCraftMenu.comp.upgrades.get(2).getBonus()+" (Research products are always added)");
+                            +"/"+productCraftMenu.comp.getUpgrades().get(2).getBonus()+" (Research products are always added)");
                     player.closeInventory();
                     return;
                 }
@@ -469,11 +466,35 @@ public class MenuEvents implements Listener {
                 }, productList.comp);
                 player.openInventory(new_screen.getInventory());
             }else if (event.getSlot() == 49){
-
+                Function<License, Void> func = (license) -> {
+                    return null;
+                };
+                LicenseGivenList newScreen = new LicenseGivenList(productList.comp, func);
+                player.openInventory(newScreen.getInventory());
             }else{
                 return;
             }
 
+        }
+
+        if (event.getClickedInventory().getHolder() instanceof LicenseGivenList licenseGivenList){
+            Player player = (Player) event.getWhoClicked();
+            event.setCancelled(true);
+
+            if(event.getCurrentItem().getType().equals(Material.LIGHT_GRAY_STAINED_GLASS_PANE)){
+                return;
+            }
+
+            int item = event.getSlot();
+            if (event.getSlot() < 45){
+                int index = (licenseGivenList.getPage()*45+item);
+                List<License> licenses = LicenseSingleton.getInstance().getLicenseRequests().
+                        getLicensesFrom(licenseGivenList.comp);
+                licenseGivenList.func.apply(licenses.get(index));
+
+                licenseGivenList.init();
+                return;
+            }
         }
 
         if (event.getClickedInventory().getHolder() instanceof LicenseAcceptMenu licenseAcceptMenu){
@@ -594,7 +615,7 @@ public class MenuEvents implements Listener {
             boolean suc6 = screen.comp.doUpgrade(id);
 
             if (id == 3){
-                screen.comp.getCOM().getBoard().setBoardSeats(screen.comp.upgrades.get(id).getBonus());
+                screen.comp.getCOM().getBoard().setBoardSeats(screen.comp.getUpgrades().get(id).getBonus());
             }
 
             screen.init();
@@ -658,12 +679,12 @@ public class MenuEvents implements Listener {
                     PatentSelectorMenu new_screen = new PatentSelectorMenu(old_screen.comp);
                     player.openInventory(new_screen.getInventory());
                 }else{
-                    PatentDesignerMenu new_screen = new PatentDesignerMenu(old_screen.comp.patent.get(event.getSlot()), old_screen.comp);
+                    PatentDesignerMenu new_screen = new PatentDesignerMenu(old_screen.comp.getPatent().get(event.getSlot()), old_screen.comp);
                     player.openInventory(new_screen.getInventory());
                 }
             }else{
                 if (!option.equalsIgnoreCase("§6Empty Patent")){
-                    PatentCrafting new_screen = new PatentCrafting(old_screen.comp, old_screen.comp.patent.get(event.getSlot()));
+                    PatentCrafting new_screen = new PatentCrafting(old_screen.comp, old_screen.comp.getPatent().get(event.getSlot()));
                     player.openInventory(new_screen.getInventory());
                 }
             }
@@ -690,8 +711,8 @@ public class MenuEvents implements Listener {
 
             String option = event.getCurrentItem().getItemMeta().getDisplayName();
             if (option.equalsIgnoreCase("§aSave")){
-                if (!old_screen.comp.patent.contains(old_screen.patent)){
-                    old_screen.comp.patent.add(old_screen.patent);
+                if (!old_screen.comp.getPatent().contains(old_screen.patent)){
+                    old_screen.comp.getPatent().add(old_screen.patent);
                     old_screen.patent.createCraft(old_screen.comp);
                 }
 
@@ -766,12 +787,11 @@ public class MenuEvents implements Listener {
             String option = event.getCurrentItem().getItemMeta().getDisplayName();
             if (option.equalsIgnoreCase("§6Get Patent Sheet")){
                 Player player = (Player) event.getWhoClicked();
-                old_screen.comp.patentCrafted += 1;
 
                 ItemStack item = new ItemStack(Material.PAPER, 1);
 
                 ItemMeta m = item.getItemMeta();
-                m.setDisplayName("§6"+old_screen.comp.getStockName() +":"+old_screen.patent.getName()+":"+old_screen.comp.patent.indexOf(old_screen.patent));
+                m.setDisplayName("§6"+old_screen.comp.getStockName() +":"+old_screen.patent.getName()+":"+old_screen.comp.getPatent().indexOf(old_screen.patent));
                 item.setItemMeta(m);
 
                 player.getInventory().setItem(player.getInventory().firstEmpty(), item);

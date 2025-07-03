@@ -12,13 +12,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
-public class LicenseRequestList extends PagingMenu {
+public class LicenseGivenList extends PagingMenu {
 
     public final CompanyI comp;
 
     public final Function<License, Void> func;
 
-    public LicenseRequestList(CompanyI comp, Function<License, Void> func){
+    public LicenseGivenList(CompanyI comp, Function<License, Void> func){
         super(54, "License Request List", true);
         this.comp = comp;
         this.func = func;
@@ -29,13 +29,14 @@ public class LicenseRequestList extends PagingMenu {
     public void init(){
         clearItems();
 
-        for (License license: LicenseSingleton.getInstance().getLicenseRequests().getLicensesFrom(comp)){
+        for (License license: LicenseSingleton.getInstance().getCurrentLicenses().getLicensesFrom(comp)){
 
             Product product = license.getProduct();
 
             List<String> l = new ArrayList<>();
             l.add("§7Production Time: "+product.getProductionTime()+"s");
             l.add("§7Cost: $"+product.getPrice());
+            l.add("§7Given to: "+license.getTo().getStockName());
             ItemStack item = ItemFactory.create(product.getMaterial(), "§7"+product.getMaterial().name(), l);
             addItem(item);
         }

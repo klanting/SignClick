@@ -1,6 +1,6 @@
 package com.klanting.signclick.menus.company.logs;
 
-import com.klanting.signclick.economy.Company;
+import com.klanting.signclick.economy.CompanyI;
 import com.klanting.signclick.economy.logs.PluginLogs;
 import com.klanting.signclick.menus.SelectionMenu;
 import org.bukkit.Material;
@@ -9,9 +9,9 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class LogList extends SelectionMenu {
 
-    public Company comp;
+    public CompanyI comp;
 
-    public LogList(Company company){
+    public LogList(CompanyI company){
         super(9, "Company Logs", true);
         comp = company;
 

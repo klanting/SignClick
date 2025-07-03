@@ -1,20 +1,20 @@
 package com.klanting.signclick.economy.contracts;
 
-import com.klanting.signclick.economy.Company;
+import com.klanting.signclick.economy.CompanyI;
 
 public class ContractSTC  extends Contract{
 
-    private final Company to;
+    private final CompanyI to;
     private int delay;
 
     public int getDelay() {
         return delay;
     }
 
-    public ContractSTC(Company to, double amount, int weeks, String reason, int delay) {
+    public ContractSTC(CompanyI to, double amount, int weeks, String reason, int delay) {
         super(amount, weeks, reason);
 
-        this.to = to;
+        this.to = to.getRef();
         this.delay = delay;
 
     }

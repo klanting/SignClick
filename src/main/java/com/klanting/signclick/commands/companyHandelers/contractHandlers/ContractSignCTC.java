@@ -3,7 +3,7 @@ package com.klanting.signclick.commands.companyHandelers.contractHandlers;
 import com.klanting.signclick.commands.companyHandelers.CompanyHandler;
 import com.klanting.signclick.commands.exceptions.CommandAssert;
 import com.klanting.signclick.commands.exceptions.CommandException;
-import com.klanting.signclick.economy.Company;
+import com.klanting.signclick.economy.CompanyI;
 import com.klanting.signclick.economy.Market;
 import com.klanting.signclick.economy.contractRequests.ContractRequest;
 import org.bukkit.entity.Player;
@@ -24,7 +24,7 @@ public class ContractSignCTC extends CompanyHandler {
 
         CommandAssert.assertTrue(Market.getCompany(stock_name).getCOM().isOwner(player.getUniqueId()), "§byou must be CEO to sign that request");
 
-        Company comp = Market.getCompany(stock_name);
+        CompanyI comp = Market.getCompany(stock_name);
         ContractRequest cr = comp.getPendingContractRequest();
 
         CommandAssert.assertTrue(cr != null, "§bno contract pending");

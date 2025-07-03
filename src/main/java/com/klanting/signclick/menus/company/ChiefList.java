@@ -1,6 +1,6 @@
 package com.klanting.signclick.menus.company;
 
-import com.klanting.signclick.economy.Company;
+import com.klanting.signclick.economy.CompanyI;
 import com.klanting.signclick.menus.SelectionMenu;
 import com.klanting.signclick.utils.ItemFactory;
 import org.bukkit.Bukkit;
@@ -9,16 +9,15 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 public class ChiefList extends SelectionMenu {
 
-    public Company comp;
+    public CompanyI comp;
 
-    public ChiefList(UUID uuid, Company company){
+    public ChiefList(UUID uuid, CompanyI company){
         super(9, "Company Chief List", true);
         comp = company;
 

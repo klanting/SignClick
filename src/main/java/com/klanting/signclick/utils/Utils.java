@@ -3,26 +3,16 @@ package com.klanting.signclick.utils;
 import com.google.gson.*;
 import com.google.gson.typeadapters.RuntimeTypeAdapterFactory;
 import com.klanting.signclick.SignClick;
-import com.klanting.signclick.economy.Company;
-import com.klanting.signclick.economy.CompanyOwnerManager;
-import com.klanting.signclick.economy.Country;
-import com.klanting.signclick.economy.LicenseSingleton;
+import com.klanting.signclick.economy.*;
 import com.klanting.signclick.economy.companyPatent.Auction;
 import com.klanting.signclick.economy.logs.*;
 import com.klanting.signclick.economy.parties.Election;
 import com.klanting.signclick.utils.Serializers.*;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.block.Furnace;
 import org.bukkit.block.Sign;
-import org.bukkit.entity.Item;
-import org.bukkit.entity.Player;
 import org.bukkit.event.block.SignChangeEvent;
-import org.bukkit.event.inventory.InventoryType;
-import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.inventory.*;
 import org.jetbrains.annotations.NotNull;
 
@@ -48,9 +38,16 @@ public class Utils {
                     .registerSubtype(ShareholderChange.class, "ShareholderChange")
             ;
 
+    static RuntimeTypeAdapterFactory<CompanyI> companyTypes =
+            RuntimeTypeAdapterFactory.of(CompanyI.class, "type")
+                    .registerSubtype(Company.class, "company")
+                    .registerSubtype(CompanyRef.class, "companyRef")
+            ;
+
     public static <T> String serialize(T value, Type token){
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Company.class, new CompanySerializer());
+        builder.registerTypeAdapter(CompanyRef.class, new CompanyRefSerializer());
         builder.registerTypeAdapter(Country.class, new CountrySerializer());
         builder.registerTypeAdapter(Location.class, new LocationSerializer());
         builder.registerTypeAdapter(Election.class, new ElectionSerializer());
@@ -58,8 +55,9 @@ public class Utils {
         builder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer());
         builder.registerTypeAdapterFactory(new CompanyOwnerManagerAdapterFactory());
         builder.registerTypeAdapter(Block.class, new BlockSerializer());
-        builder.registerTypeAdapter(LicenseSingleton.class, new LicenseSerializer());
+        builder.registerTypeAdapter(LicenseSingleton.class, new LicenseSingletonSerializer());
         builder.registerTypeAdapterFactory(pluginLogTypes);
+        builder.registerTypeAdapterFactory(companyTypes);
         Gson gson = builder.create();
         return gson.toJson(value, token);
     }
@@ -72,6 +70,7 @@ public class Utils {
 
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Company.class, new CompanySerializer());
+        builder.registerTypeAdapter(CompanyRef.class, new CompanyRefSerializer());
         builder.registerTypeAdapter(Country.class, new CountrySerializer());
         builder.registerTypeAdapter(Location.class, new LocationSerializer());
         builder.registerTypeAdapter(Election.class, new ElectionSerializer());
@@ -79,8 +78,9 @@ public class Utils {
         builder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer());
         builder.registerTypeAdapterFactory(new CompanyOwnerManagerAdapterFactory());
         builder.registerTypeAdapter(Block.class, new BlockSerializer());
-        builder.registerTypeAdapter(LicenseSingleton.class, new LicenseSerializer());
+        builder.registerTypeAdapter(LicenseSingleton.class, new LicenseSingletonSerializer());
         builder.registerTypeAdapterFactory(pluginLogTypes);
+        builder.registerTypeAdapterFactory(companyTypes);
         Gson gson = builder.create();
 
         File file = new File(SignClick.getPlugin().getDataFolder()+"/"+name+".json");
@@ -111,6 +111,7 @@ public class Utils {
         * */
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Company.class, new CompanySerializer());
+        builder.registerTypeAdapter(CompanyRef.class, new CompanyRefSerializer());
         builder.registerTypeAdapter(Country.class, new CountrySerializer());
         builder.registerTypeAdapter(Location.class, new LocationSerializer());
         builder.registerTypeAdapter(UUID.class, new UUIDDeserializer());
@@ -119,8 +120,9 @@ public class Utils {
         builder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer());
         builder.registerTypeAdapterFactory(new CompanyOwnerManagerAdapterFactory());
         builder.registerTypeAdapter(Block.class, new BlockSerializer());
-        builder.registerTypeAdapter(LicenseSingleton.class, new LicenseSerializer());
+        builder.registerTypeAdapter(LicenseSingleton.class, new LicenseSingletonSerializer());
         builder.registerTypeAdapterFactory(pluginLogTypes);
+        builder.registerTypeAdapterFactory(companyTypes);
         Gson gson = builder.create();
 
         File file = new File(SignClick.getPlugin().getDataFolder()+"/"+name+".json");

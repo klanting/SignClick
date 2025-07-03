@@ -3,12 +3,9 @@ package com.klanting.signclick.economy;
 import com.klanting.signclick.SignClick;
 import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 
 import java.util.*;
 import java.util.stream.Collectors;
-
-import static org.bukkit.Bukkit.getServer;
 
 public class Board {
     public int getBoardSeats() {
@@ -148,7 +145,7 @@ public class Board {
         checkChiefVote(position);
     }
 
-    public void paySalaries(Company comp){
+    public void paySalaries(CompanyI comp){
         for(String position: rankingOrder){
             UUID user = currentChief.get(position);
             if (user == null){

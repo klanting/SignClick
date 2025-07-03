@@ -1,6 +1,6 @@
 package com.klanting.signclick.menus.company;
 
-import com.klanting.signclick.economy.Company;
+import com.klanting.signclick.economy.CompanyI;
 import com.klanting.signclick.economy.Market;
 import com.klanting.signclick.menus.PagingMenu;
 import com.klanting.signclick.utils.Utils;
@@ -26,9 +26,9 @@ public class MarketSelector extends PagingMenu {
         ItemStack item;
 
         clearItems();
-        for(Company c: Market.getTopMarketAvailable()){
+        for(CompanyI c: Market.getTopMarketAvailable()){
 
-            item = new ItemStack(Utils.getCompanyTypeMaterial(c.type),1);
+            item = new ItemStack(Utils.getCompanyTypeMaterial(c.getType()),1);
             ItemMeta m = item.getItemMeta();
             m.setDisplayName("§b"+c.getStockName());
 

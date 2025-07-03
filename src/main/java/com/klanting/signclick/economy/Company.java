@@ -17,7 +17,6 @@ import com.klanting.signclick.utils.JsonTools;
 import com.klanting.signclick.utils.Utils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.block.Block;
@@ -25,8 +24,6 @@ import org.bukkit.entity.Player;
 
 import org.jetbrains.annotations.NotNull;
 
-import javax.crypto.Mac;
-import java.io.Console;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.text.DecimalFormat;
@@ -37,7 +34,7 @@ import java.util.function.Function;
 
 import static org.bukkit.Bukkit.getServer;
 
-public class Company extends LoggableSubject{
+public class Company extends LoggableSubject implements CompanyI{
 
     private String name;
     private String stockName;
@@ -60,21 +57,64 @@ public class Company extends LoggableSubject{
 
     private ContractRequest pendingContractRequest = null;
 
+    public HashMap<Block, Machine> getMachines() {
+        return machines;
+    }
+
     public final HashMap<Block, Machine> machines = new HashMap<>();
 
 
+    public String getPlayerNamePending() {
+        return playerNamePending;
+    }
+
     public String playerNamePending = null;
 
+    public double getPlayerAmountPending() {
+        return playerAmountPending;
+    }
+
     public double playerAmountPending = 0.0;
+
+    public int getPlayerWeeksPending() {
+        return playerWeeksPending;
+    }
+
     public int playerWeeksPending = 0;
     public String playerReason = "no_reason";
+
+    public ArrayList<Upgrade> getUpgrades() {
+        return upgrades;
+    }
+
     public ArrayList<Upgrade> upgrades = new ArrayList<>();
 
+    public ArrayList<Patent> getPatent() {
+        return patent;
+    }
+
     public ArrayList<Patent> patent = new ArrayList<>();
+
+    public ArrayList<PatentUpgrade> getPatentUpgrades() {
+        return patentUpgrades;
+    }
+
     public ArrayList<PatentUpgrade> patentUpgrades = new ArrayList<>();
-    public Integer patentCrafted = 0;
+
+    public void setCountry(Country country) {
+        this.country = country;
+    }
 
     public Country country;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     public String type;
 
     /*
@@ -209,11 +249,11 @@ public class Company extends LoggableSubject{
         return true;
     }
 
-    void addShareBal(Double amount){
+    public void addShareBal(Double amount){
         shareBalance += amount;
     }
 
-    void removeShareBal(Double amount){
+    public void removeShareBal(Double amount){
         shareBalance -= amount;
     }
 
@@ -391,7 +431,7 @@ public class Company extends LoggableSubject{
     }
 
 
-    void dividend(){
+    public void dividend(){
         double modifier1 = 0.0;
         double modifier2 = 0.0;
         if (country != null){
@@ -506,10 +546,6 @@ public class Company extends LoggableSubject{
                 + "§b he/she will ask you §7"+amount+"§b for §7"+weeks+"§b weeks, do §c/company sign_contract_ctp "+ stockName);
     }
 
-    public void resetPatentCrafted(){
-        patentCrafted = 0;
-    }
-
 
     public boolean doUpgrade(Integer id){
         Upgrade u = upgrades.get(id);
@@ -589,5 +625,9 @@ public class Company extends LoggableSubject{
 
     public String getStockName() {
         return stockName;
+    }
+
+    public CompanyI getRef(){
+        return new CompanyRef(this);
     }
 }

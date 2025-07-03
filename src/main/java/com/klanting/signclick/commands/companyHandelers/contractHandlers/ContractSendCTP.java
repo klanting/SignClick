@@ -36,7 +36,7 @@ public class ContractSendCTP  extends CompanyHandler {
             return true;
         }
 
-        if (Market.getCompany(target_stock_name).playerNamePending == null){
+        if (Market.getCompany(target_stock_name).getPlayerNamePending() == null){
             Market.getCompany(target_stock_name).receiveOfferPlayerContract(player.getUniqueId().toString(), amount, weeks, reason);
         }else{
             player.sendMessage("§ccompany still has another offer pending, try again in 2 minutes");

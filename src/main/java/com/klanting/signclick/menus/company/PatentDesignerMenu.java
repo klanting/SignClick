@@ -1,6 +1,6 @@
 package com.klanting.signclick.menus.company;
 
-import com.klanting.signclick.economy.Company;
+import com.klanting.signclick.economy.CompanyI;
 import com.klanting.signclick.economy.companyPatent.Patent;
 import com.klanting.signclick.economy.companyPatent.PatentUpgrade;
 import com.klanting.signclick.menus.SelectionMenu;
@@ -10,11 +10,11 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class PatentDesignerMenu extends SelectionMenu {
 
-    public Company comp;
+    public CompanyI comp;
 
     public Patent patent;
 
-    public PatentDesignerMenu(Patent patent, Company comp){
+    public PatentDesignerMenu(Patent patent, CompanyI comp){
         super(27, "Company Patent Designer", true, 17);
         this.comp = comp;
         this.patent = patent;
@@ -26,7 +26,7 @@ public class PatentDesignerMenu extends SelectionMenu {
         meta.setDisplayName(patent.getName());
         item.setItemMeta(meta);
         getInventory().setItem(4, item);
-        int upgrades = comp.upgrades.get(1).getBonus();
+        int upgrades = comp.getUpgrades().get(1).getBonus();
         for (int i=0; i<upgrades; i++){
 
             ItemStack upgrade;

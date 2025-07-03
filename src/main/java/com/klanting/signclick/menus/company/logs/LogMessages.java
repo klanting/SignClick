@@ -1,13 +1,9 @@
 package com.klanting.signclick.menus.company.logs;
 
-import com.klanting.signclick.economy.Company;
+import com.klanting.signclick.economy.CompanyI;
 import com.klanting.signclick.economy.logs.PluginLogs;
 import com.klanting.signclick.menus.PagingMenu;
-import com.klanting.signclick.menus.SelectionMenu;
-import org.apache.commons.lang3.tuple.MutablePair;
-import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.MutableTriple;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -17,13 +13,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.bukkit.Bukkit.getServer;
-
 public class LogMessages extends PagingMenu {
-    public Company comp;
+    public CompanyI comp;
     private final PluginLogs pluginLog;
 
-    public LogMessages(Company company, PluginLogs pluginLog){
+    public LogMessages(CompanyI company, PluginLogs pluginLog){
         super(54, "Company Log Messages", true);
         comp = company;
         this.pluginLog = pluginLog;

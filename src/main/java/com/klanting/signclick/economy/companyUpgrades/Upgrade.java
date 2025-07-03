@@ -1,13 +1,9 @@
 package com.klanting.signclick.economy.companyUpgrades;
 
-import com.klanting.signclick.economy.Company;
-import com.klanting.signclick.SignClick;
 import org.bukkit.Material;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Upgrade {
     public List<Integer> bonus = new ArrayList<>();

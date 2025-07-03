@@ -4,7 +4,7 @@ import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
 import com.klanting.signclick.SignClick;
-import com.klanting.signclick.economy.Company;
+import com.klanting.signclick.economy.CompanyI;
 import com.klanting.signclick.economy.CountryManager;
 import com.klanting.signclick.economy.Market;
 import com.klanting.signclick.economy.companyPatent.Auction;
@@ -98,7 +98,7 @@ public class CompanyConfigTests {
         testPlayer.assertSaid("§byou succesfully found TESTINGCOMP good luck CEO Player0");
         testPlayer.assertNoMoreSaid();
 
-        Company comp = Market.getCompany("COMP");
+        CompanyI comp = Market.getCompany("COMP");
         assertEquals(1000, comp.getTotalShares());
         assertEquals(1000, Market.getAccount(testPlayer).shares.get("COMP"));
     }

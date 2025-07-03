@@ -1,6 +1,6 @@
 package com.klanting.signclick.menus.company;
 
-import com.klanting.signclick.economy.Company;
+import com.klanting.signclick.economy.CompanyI;
 import com.klanting.signclick.economy.ResearchOption;
 import com.klanting.signclick.menus.PagingMenu;
 import com.klanting.signclick.utils.ItemFactory;
@@ -13,9 +13,9 @@ import java.util.List;
 import java.util.UUID;
 
 public class ResearchMenu extends PagingMenu {
-    public Company comp;
+    public CompanyI comp;
 
-    public ResearchMenu(UUID uuid, Company company){
+    public ResearchMenu(UUID uuid, CompanyI company){
         super(54, "Company Research", true);
         comp = company;
 

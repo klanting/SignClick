@@ -1,7 +1,7 @@
 package com.klanting.signclick.events;
 
 import com.klanting.signclick.SignClick;
-import com.klanting.signclick.economy.Company;
+import com.klanting.signclick.economy.CompanyI;
 import com.klanting.signclick.economy.Machine;
 import com.klanting.signclick.economy.Market;
 import com.klanting.signclick.menus.company.Selector;
@@ -63,7 +63,7 @@ public class OpenFurnaceEvent implements Listener {
                 String compName = tileState.getPersistentDataContainer().get(compKey, PersistentDataType.STRING);
                 if (tileState.getPersistentDataContainer().has(compKey, PersistentDataType.STRING) && !compName.isEmpty()){
 
-                    Market.getCompany(compName).machines.remove(block);
+                    Market.getCompany(compName).getMachines().remove(block);
                 }
 
                 block.getWorld().dropItemNaturally(block.getLocation(), MachineRecipe.item());
@@ -93,14 +93,14 @@ public class OpenFurnaceEvent implements Listener {
 
             if (companyName.isEmpty()){
 
-                Function<Company, Void> func = (comp) -> {
+                Function<CompanyI, Void> func = (comp) -> {
 
                     tileState.getPersistentDataContainer().set(compKey, PersistentDataType.STRING, comp.getStockName());
                     tileState.getPersistentDataContainer().set(productKey, PersistentDataType.STRING, "");
                     tileState.update();
 
                     Machine machine = new Machine(block, comp);
-                    comp.machines.put(block, machine);
+                    comp.getMachines().put(block, machine);
                     InventoryHolder screen = new MachineMenu(event.getPlayer().getUniqueId(), comp, machine);
                     event.getPlayer().openInventory(screen.getInventory());
                     return null;
@@ -111,7 +111,7 @@ public class OpenFurnaceEvent implements Listener {
 
             }else{
                 InventoryHolder screen = new MachineMenu(event.getPlayer().getUniqueId(), Market.getCompany(companyName),
-                        Market.getCompany(companyName).machines.get(block));
+                        Market.getCompany(companyName).getMachines().get(block));
                 event.getPlayer().openInventory(screen.getInventory());
             }
 

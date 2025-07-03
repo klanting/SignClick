@@ -1,6 +1,6 @@
 package com.klanting.signclick.menus.company;
 
-import com.klanting.signclick.economy.Company;
+import com.klanting.signclick.economy.CompanyI;
 import com.klanting.signclick.economy.companyPatent.Patent;
 import com.klanting.signclick.economy.companyPatent.PatentUpgrade;
 import com.klanting.signclick.economy.companyPatent.PatentUpgradeCustom;
@@ -12,13 +12,13 @@ import java.util.ArrayList;
 
 public class PatentDesignerUpgrade extends SelectionMenu {
 
-    public Company comp;
+    public CompanyI comp;
 
     public Patent patent;
 
     public ArrayList<PatentUpgrade> patentUpgradeList = new ArrayList<>();
 
-    public PatentDesignerUpgrade(Patent patent, Company comp){
+    public PatentDesignerUpgrade(Patent patent, CompanyI comp){
         super(54, "Patent Designer Upgrade", true);
         this.comp = comp;
         this.patent = patent;
@@ -28,7 +28,7 @@ public class PatentDesignerUpgrade extends SelectionMenu {
 
     public void init(){
         int counter = 0;
-        for (PatentUpgrade patent_up: comp.patentUpgrades){
+        for (PatentUpgrade patent_up: comp.getPatentUpgrades()){
 
             if (patent_up instanceof PatentUpgradeCustom){
                 PatentUpgradeCustom p = (PatentUpgradeCustom) patent_up;

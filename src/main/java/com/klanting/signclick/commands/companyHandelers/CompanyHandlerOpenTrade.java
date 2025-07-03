@@ -2,7 +2,7 @@ package com.klanting.signclick.commands.companyHandelers;
 
 import com.klanting.signclick.commands.exceptions.CommandAssert;
 import com.klanting.signclick.commands.exceptions.CommandException;
-import com.klanting.signclick.economy.Company;
+import com.klanting.signclick.economy.CompanyI;
 import com.klanting.signclick.economy.Market;
 import org.bukkit.entity.Player;
 
@@ -33,7 +33,7 @@ public class CompanyHandlerOpenTrade extends CompanyHandler{
             Market.getCompany(stock_name).setMarketShares(0);
         }else{
 
-            Company comp = Market.getCompany(stock_name);
+            CompanyI comp = Market.getCompany(stock_name);
 
             comp.setTotalShares(comp.getTotalShares()-comp.getMarketShares());
 

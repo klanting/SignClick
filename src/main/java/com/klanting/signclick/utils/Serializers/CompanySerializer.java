@@ -2,6 +2,7 @@ package com.klanting.signclick.utils.Serializers;
 
 import com.google.gson.*;
 import com.klanting.signclick.economy.Company;
+import com.klanting.signclick.economy.CompanyI;
 
 import java.lang.reflect.Type;
 
@@ -12,7 +13,9 @@ public class CompanySerializer implements JsonSerializer<Company>, JsonDeseriali
 
     @Override
     public JsonElement serialize(Company company, Type type, JsonSerializationContext context) {
-        return company.toJson(context);
+        JsonObject obj = company.toJson(context);
+        obj.add("type", JsonParser.parseString("company"));
+        return obj;
     }
 
     @Override

@@ -1,6 +1,6 @@
 package com.klanting.signclick.menus.company;
 
-import com.klanting.signclick.economy.Company;
+import com.klanting.signclick.economy.CompanyI;
 import com.klanting.signclick.economy.Product;
 import com.klanting.signclick.menus.SelectionMenu;
 import com.klanting.signclick.utils.ItemFactory;
@@ -13,15 +13,15 @@ import java.util.List;
 import java.util.UUID;
 
 public class LicenseRequestMenu extends SelectionMenu {
-    public Company fromComp;
-    public Company toComp;
+    public CompanyI fromComp;
+    public CompanyI toComp;
     public Product product;
 
     public double royaltyFee;
     public double increaseCost;
     public double weeklyCost;
 
-    public LicenseRequestMenu(UUID uuid, Company fromCompany, Company toCompany, Product product){
+    public LicenseRequestMenu(UUID uuid, CompanyI fromCompany, CompanyI toCompany, Product product){
         super(54, "License Request Menu", true);
         this.fromComp = fromCompany;
         this.toComp = toCompany;

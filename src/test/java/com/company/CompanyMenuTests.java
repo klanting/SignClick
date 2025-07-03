@@ -2,7 +2,7 @@ package com.company;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
-import com.klanting.signclick.economy.Company;
+import com.klanting.signclick.economy.CompanyI;
 import com.klanting.signclick.economy.companyPatent.PatentUpgrade;
 import com.klanting.signclick.economy.companyPatent.PatentUpgradeJumper;
 import com.klanting.signclick.economy.CountryManager;
@@ -58,7 +58,7 @@ public class CompanyMenuTests {
         Market.clear();
     }
 
-    private Company getCompany(int slot){
+    private CompanyI getCompany(int slot){
         ItemStack companyOption = inventoryMenu.getItem(slot);
         assertNotNull(companyOption);
 
@@ -148,12 +148,12 @@ public class CompanyMenuTests {
         /*
         * Check that company is now a 'product' company
         * */
-        assertEquals("product", Market.getCompany("COMP").type);
+        assertEquals("product", Market.getCompany("COMP").getType());
     }
 
     @Test
     void companyUpgrade(){
-        Company comp = getCompany(0);
+        CompanyI comp = getCompany(0);
 
         InventoryView companyMenu = openMenu(0);
 
@@ -180,7 +180,7 @@ public class CompanyMenuTests {
         assertEquals("§6Product Modifier Lvl. §c0", upgradeMenu.getItem(16).getItemMeta().getDisplayName());
         assertEquals(Material.FURNACE, upgradeMenu.getItem(16).getType());
 
-        assertEquals(0, comp.upgrades.get(0).level);
+        assertEquals(0, comp.getUpgrades().get(0).level);
 
         /*
         * Upgrade first option
@@ -191,12 +191,12 @@ public class CompanyMenuTests {
         comp.addBal(20000000.0);
 
         testPlayer.simulateInventoryClick(upgradeMenu, 11);
-        assertEquals(1, comp.upgrades.get(0).level);
+        assertEquals(1, comp.getUpgrades().get(0).level);
     }
 
     @Test
     void companyAuction(){
-        Company comp = getCompany(0);
+        CompanyI comp = getCompany(0);
         comp.addBal(10000000.0);
 
         /*
@@ -223,7 +223,7 @@ public class CompanyMenuTests {
         bidItem = auctionMenu.getItem(0);
         assertEquals("§7Bid by: TCI", bidItem.getItemMeta().getLore().get(1));
 
-        assertEquals(0, comp.patentUpgrades.size());
+        assertEquals(0, comp.getPatentUpgrades().size());
         testPlayer.closeInventory();
 
         /*
@@ -239,19 +239,19 @@ public class CompanyMenuTests {
         bidItem = auctionMenu.getItem(0);
 
         assertEquals("§7Bid by: None", bidItem.getItemMeta().getLore().get(1));
-        assertEquals(1, comp.patentUpgrades.size());
+        assertEquals(1, comp.getPatentUpgrades().size());
     }
 
     @Test
     void companyPatentDesign(){
-        Company comp = getCompany(0);
+        CompanyI comp = getCompany(0);
 
         /*
         * Add patent upgrade
         * */
         PatentUpgrade up = new PatentUpgradeJumper();
         up.level = 1;
-        comp.patentUpgrades.add(up);
+        comp.getPatentUpgrades().add(up);
         assertNotNull(comp);
 
         /*
@@ -333,16 +333,16 @@ public class CompanyMenuTests {
         * Check if a patent upgrade is saved and loaded by the company save and load
         * */
 
-        Company comp = getCompany(0);
+        CompanyI comp = getCompany(0);
 
         PatentUpgrade up = new PatentUpgradeJumper();
         up.level = 1;
-        comp.patentUpgrades.add(up);
+        comp.getPatentUpgrades().add(up);
 
         plugin = TestTools.reboot(server);
 
         comp = Market.getCompany("TCI");
-        assertEquals(1, comp.patentUpgrades.size());
+        assertEquals(1, comp.getPatentUpgrades().size());
 
     }
 

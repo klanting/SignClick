@@ -1,7 +1,6 @@
 package com.klanting.signclick.routines;
 
 import com.google.common.reflect.TypeToken;
-import com.klanting.signclick.economy.Company;
 import com.klanting.signclick.economy.CountryManager;
 import com.klanting.signclick.economy.Market;
 import com.klanting.signclick.SignClick;
@@ -23,7 +22,6 @@ public class WeeklyComp {
 
             public void run() {
                 CountryManager.runLawSalary();
-                Market.resetPatentCrafted();
                 Market.runDividends();
                 Market.runContracts();
                 Market.runStockCompare();

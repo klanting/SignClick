@@ -1,9 +1,6 @@
 package com.klanting.signclick.migrations;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.economy.Board;
@@ -65,6 +62,7 @@ public class Migrationv102v200 extends Migration{
                 companyObject.add("research", JsonParser.parseString(
                         Utils.serialize(new Research(companyObject.get("type").getAsString()),
                                 new com.google.common.reflect.TypeToken<Research>(){}.getType()))
+
                 );
 
                 /*
@@ -92,6 +90,11 @@ public class Migrationv102v200 extends Migration{
                         Utils.serialize(new UpgradeProductModifier(0), new TypeToken<Upgrade>(){}.getType())
                 ));
                 companyObject.add("upgrades", newJsa);
+
+                /*
+                * Add type of reference
+                * */
+                companyObject.add("type", JsonParser.parseString("company"));
             }
 
             Writer writer = new FileWriter(file, false);
@@ -102,6 +105,36 @@ public class Migrationv102v200 extends Migration{
         } catch (IOException e) {
             throw new RuntimeException(e.getMessage());
         }
+
+        try {
+            File file2 = new File(SignClick.getPlugin().getDataFolder()+"/contractServerToComp.json");
+            Reader reader2 = new FileReader(file2);
+            JsonArray jsonArray = JsonParser.parseReader(reader2).getAsJsonArray();
+
+            int counter = 0;
+            for (JsonElement m: jsonArray){
+                JsonObject jsObj = m.getAsJsonObject().getAsJsonObject("to");
+                String stockName = jsObj.get("stockName").getAsString();
+                jsObj = new JsonObject();
+                jsObj.getAsJsonObject().add("stockName", JsonParser.parseString(stockName));
+                jsObj.getAsJsonObject().add("type", JsonParser.parseString("companyRef"));
+
+                m.getAsJsonObject().add("to", jsObj);
+                jsonArray.set(counter, m);
+                counter ++;
+            }
+
+            Writer writer = new FileWriter(file2, false);
+            writer.write(jsonArray.toString());
+            writer.flush();
+            writer.close();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+
+        //TODO SAME MIGRATION OTHER CONTRACTS
+
 
         SignClick.getPlugin().getConfig().set("version", "2.0.0");
 

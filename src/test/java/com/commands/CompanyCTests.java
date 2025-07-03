@@ -4,13 +4,12 @@ import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 
 import com.klanting.signclick.commands.CompanyCommands;
-import com.klanting.signclick.economy.Company;
+import com.klanting.signclick.economy.CompanyI;
 import com.klanting.signclick.economy.Country;
 import com.klanting.signclick.economy.CountryManager;
 import com.klanting.signclick.economy.Market;
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.utils.BookParser;
-import com.klanting.signclick.utils.Utils;
 import org.bukkit.Material;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.inventory.InventoryView;
@@ -84,7 +83,7 @@ class CompanyCTests {
 
     @Test
     void companyPay(){
-        Company company = Market.getCompany("TCI");
+        CompanyI company = Market.getCompany("TCI");
         PlayerMock testPlayer2 = TestTools.addPermsPlayer(server, plugin);
         assertNotNull(company);
         company.addBal(100000.0);
@@ -147,7 +146,7 @@ class CompanyCTests {
 
     @Test
     void companyShareTop2(){
-        Company comp = Market.getCompany("TCI");
+        CompanyI comp = Market.getCompany("TCI");
 
         PlayerMock testPlayer2 = server.addPlayer();
 
@@ -223,7 +222,7 @@ class CompanyCTests {
 
         SignClick.getEconomy().depositPlayer(testPlayer, 1000);
 
-        Company comp = Market.getCompany("TCI");
+        CompanyI comp = Market.getCompany("TCI");
         assertEquals(0, comp.getValue());
 
         boolean suc6 = server.execute("company", testPlayer, "give", "TCI", "1000").hasSucceeded();
@@ -252,7 +251,7 @@ class CompanyCTests {
     @Test
     void companySellBuyShares(){
         companyGive();
-        Company comp = Market.getCompany("TCI");
+        CompanyI comp = Market.getCompany("TCI");
 
         assertEquals(1000000, Market.getAccount(testPlayer.getUniqueId()).shares.get("TCI"));
 
@@ -427,8 +426,8 @@ class CompanyCTests {
         assertTrue(suc6);
 
 
-        Market.getCompany("TCI").country = c;
-        Market.getCompany("TCI2").country = c;
+        Market.getCompany("TCI").setCountry(c);
+        Market.getCompany("TCI2").setCountry(c);
         Market.getCompany("TCI2").setSpendable(1000000000.0);
 
         Market.getCompany("TCI2").addBal(200000.0);
@@ -526,7 +525,7 @@ class CompanyCTests {
 
         PlayerMock testPlayer2 = TestTools.addPermsPlayer(server, plugin);
 
-        Market.getCompany("TCI").country = c;
+        Market.getCompany("TCI").setCountry(c);
 
         Market.getCompany("TCI").addBal(200000.0);
         Market.getCompany("TCI").setSpendable(1000000000.0);
@@ -634,7 +633,7 @@ class CompanyCTests {
 
         PlayerMock testPlayer2 = TestTools.addPermsPlayer(server, plugin);
 
-        Market.getCompany("TCI").country = c;
+        Market.getCompany("TCI").setCountry(c);
 
         Market.getCompany("TCI").addBal(200000.0);
 
@@ -752,7 +751,7 @@ class CompanyCTests {
         testPlayer.assertSaid("§bopen trade set to true");
         testPlayer.assertNoMoreSaid();
 
-        Company comp = Market.getCompany("TCI");
+        CompanyI comp = Market.getCompany("TCI");
         assertTrue(comp.getCOM().isOpenTrade());
         assertEquals(0, comp.getMarketShares());
 
@@ -777,7 +776,7 @@ class CompanyCTests {
         testPlayer.assertSaid("§bbuy: §aaccepted");
         testPlayer.assertNoMoreSaid();
 
-        Company comp = Market.getCompany("TCI");
+        CompanyI comp = Market.getCompany("TCI");
         assertTrue(comp.getCOM().isOpenTrade());
         assertEquals(1000001, comp.getTotalShares());
 
@@ -870,7 +869,7 @@ class CompanyCTests {
     void companySupport(){
         PlayerMock testPlayer2 = server.addPlayer();
 
-        Company comp = Market.getCompany("TCI");
+        CompanyI comp = Market.getCompany("TCI");
 
         /*
         * Check that testPlayer is the owner
@@ -924,7 +923,7 @@ class CompanyCTests {
         * Check company shareBalance value
         * */
 
-        Company comp = Market.getCompany("TCI");
+        CompanyI comp = Market.getCompany("TCI");
         Market.getAccount(testPlayer).sellShare("TCI", 1000, testPlayer);
 
         comp.addBal(1000);
@@ -979,7 +978,7 @@ class CompanyCTests {
     void companySupportNeutral2(){
         PlayerMock testPlayer2 = server.addPlayer();
 
-        Company comp = Market.getCompany("TCI");
+        CompanyI comp = Market.getCompany("TCI");
 
         /*
          * Check that testPlayer is the owner

@@ -40,7 +40,7 @@ public class Research {
 
     }
 
-    public void checkProgress(Company company){
+    public void checkProgress(CompanyI company){
         long now = getServer().getCurrentTick();
         long delta = (now-lastChecked)/20;
 
@@ -53,7 +53,7 @@ public class Research {
 
             company.removeBal(researchOption.getCost(realDelta));
 
-            if (!researchOption.checkProgress(realDelta, (double) company.upgrades.get(5).getBonus()/100.0)){
+            if (!researchOption.checkProgress(realDelta, (double) company.getUpgrades().get(5).getBonus()/100.0)){
                 continue;
             }
             company.addProduct(ProductFactory.create(researchOption.getMaterial(), researchOption.companyType));

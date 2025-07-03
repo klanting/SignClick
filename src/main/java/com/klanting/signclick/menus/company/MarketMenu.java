@@ -1,7 +1,7 @@
 package com.klanting.signclick.menus.company;
 
 import com.klanting.signclick.SignClick;
-import com.klanting.signclick.economy.Company;
+import com.klanting.signclick.economy.CompanyI;
 import com.klanting.signclick.economy.Market;
 import com.klanting.signclick.menus.SelectionMenu;
 import com.klanting.signclick.utils.Utils;
@@ -16,10 +16,10 @@ import java.util.*;
 public class MarketMenu extends SelectionMenu {
 
     public UUID uuid;
-    public Company currentCompany;
+    public CompanyI currentCompany;
 
 
-    public MarketMenu(UUID uuid, Company company){
+    public MarketMenu(UUID uuid, CompanyI company){
         super(45, "Company Market", true);
         this.uuid = uuid;
         this.currentCompany = company;
@@ -41,16 +41,16 @@ public class MarketMenu extends SelectionMenu {
 
         double pct = currentCompany.stockCompareGet();
 
-        ItemStack gearItem = new ItemStack(Utils.getCompanyTypeMaterial(currentCompany.type), 1);
+        ItemStack gearItem = new ItemStack(Utils.getCompanyTypeMaterial(currentCompany.getType()), 1);
         ItemMeta m = gearItem.getItemMeta();
 
         List<String> lores = new ArrayList<>();
         DecimalFormat df = new DecimalFormat("###,###,##0.00");
         DecimalFormat df2 = new DecimalFormat("###,###,##0.##");
-        lores.add("§7Type: "+currentCompany.type);
+        lores.add("§7Type: "+currentCompany.getType());
         lores.add("§7Current Value: "+df.format(currentCompany.getValue()));
         lores.add("§7Value Change: "+df.format(pct)+"%");
-        lores.add("§7Patent Upgrades: "+currentCompany.upgrades.size());
+        lores.add("§7Patent Upgrades: "+currentCompany.getUpgrades().size());
 
         lores.add("§7Owned Shares: "+df2.format(currentCompany.getCOM().getShareHolders().getOrDefault(uuid, 0)));
         lores.add("§7Market Shares: "+df2.format(currentCompany.getCOM().getMarketShares())+"/"+df2.format(currentCompany.getCOM().getTotalShares()));

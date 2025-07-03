@@ -19,7 +19,7 @@ public class Market {
     * Stores which account corresponds to which UUID (player)
     * */
     private static Map<UUID, Account> accounts = new HashMap<UUID, Account>();
-    private static Map<String, Company> companies = new HashMap<String, Company>();
+    private static Map<String, CompanyI> companies = new HashMap<String, CompanyI>();
 
     public static final Double fee = SignClick.getPlugin().getConfig().getDouble("fee");
     public static final Double flux = SignClick.getPlugin().getConfig().getDouble("flux");
@@ -49,7 +49,7 @@ public class Market {
     }
 
     public static Double getBuyPrice(String Sname, Integer amount){
-        Company comp = Market.getCompany(Sname);
+        CompanyI comp = Market.getCompany(Sname);
 
         double market_pct = (comp.getMarketShares().doubleValue()/(comp.getTotalShares().doubleValue()+Math.min(comp.getMarketShares(), 0)));
         double a = (1.0 - market_pct) * 25.0 - 10.0;
@@ -83,7 +83,7 @@ public class Market {
 
 
     public static Boolean buy(String Sname, Integer amount, Account acc){
-        Company comp = getCompany(Sname);
+        CompanyI comp = getCompany(Sname);
         if (comp.getMarketShares() >= amount || comp.getCOM().isOpenTrade()){
             int market_am = comp.getMarketShares();
             comp.setMarketShares(market_am-amount);
@@ -96,7 +96,7 @@ public class Market {
     }
 
     public static Boolean sell(String Sname, Integer amount, Account acc){
-        Company comp = companies.get(Sname);
+        CompanyI comp = companies.get(Sname);
 
         int market_am = comp.getMarketShares();
         comp.setMarketShares(market_am+amount);
@@ -110,7 +110,7 @@ public class Market {
         return (Math.pow(flux, b) - Math.pow(flux, a))/Math.log(flux)/(b-a);
     }
 
-    public static Company getCompany(String Sname){
+    public static CompanyI getCompany(String Sname){
         return companies.get(Sname);
     }
 
@@ -134,13 +134,13 @@ public class Market {
         /*
          * Check name already in use
          * */
-        for (Company c: companies.values()){
+        for (CompanyI c: companies.values()){
             if (c.getName().equals(namebus)){
                 return false;
             }
         }
 
-        Company comp = new Company(namebus, StockName, acc, creationCost, type);
+        CompanyI comp = new Company(namebus, StockName, acc, creationCost, type);
         companies.put(StockName, comp);
 
         comp.changeBase();
@@ -154,14 +154,14 @@ public class Market {
         return companies.containsKey(Sname);
     }
 
-    public static List<Company> getBusinessExclude(Company company){
+    public static List<CompanyI> getBusinessExclude(CompanyI company){
         return companies.values().stream().filter(s -> s != company).toList();
     }
 
 
-    public static ArrayList<Company> getBusinessByDirector(UUID uuid){
-        ArrayList<Company> outputs = new ArrayList<Company>();
-        for(Map.Entry<String, Company> entry : companies.entrySet()){
+    public static ArrayList<CompanyI> getBusinessByDirector(UUID uuid){
+        ArrayList<CompanyI> outputs = new ArrayList<CompanyI>();
+        for(Map.Entry<String, CompanyI> entry : companies.entrySet()){
             Board board = entry.getValue().getCOM().getBoard();
             if (board.getBoardMembers().contains(uuid)
                     || board.getChief("CEO").equals(uuid)
@@ -180,7 +180,7 @@ public class Market {
         * Make a ranking of the top companies by value
         * */
 
-        ArrayList<Map.Entry<String, Company>> entries = new ArrayList<>(companies.entrySet());
+        ArrayList<Map.Entry<String, CompanyI>> entries = new ArrayList<>(companies.entrySet());
 
         entries.sort(Comparator.comparing(item -> -item.getValue().getValue()));
 
@@ -234,19 +234,10 @@ public class Market {
 
     }
 
-    public static void resetPatentCrafted(){
-
-        for(Map.Entry<String, Company> entry : companies.entrySet()){
-            Company comp = entry.getValue();
-            comp.resetPatentCrafted();
-        }
-
-    }
-
     public static void runDividends(){
 
-        for(Map.Entry<String, Company> entry : companies.entrySet()){
-            Company comp = entry.getValue();
+        for(Map.Entry<String, CompanyI> entry : companies.entrySet()){
+            CompanyI comp = entry.getValue();
             comp.dividend();
         }
 
@@ -254,7 +245,7 @@ public class Market {
 
     public static void marketAvailable(Player player){
 
-        ArrayList<Company> entries = getTopMarketAvailable();
+        ArrayList<CompanyI> entries = getTopMarketAvailable();
 
         entries.sort(Comparator.comparing(item -> -item.getMarketShares()));
 
@@ -264,7 +255,7 @@ public class Market {
 
         for (int i=0; i<entries.size(); i++){
             String b = entries.get(i).getStockName();
-            Company comp = Market.getCompany(b);
+            CompanyI comp = Market.getCompany(b);
             double v = entries.get(i).getMarketShares();
             DecimalFormat df = new DecimalFormat("###,###,###");
             DecimalFormat df2 = new DecimalFormat("0.00");
@@ -281,8 +272,8 @@ public class Market {
         player.sendMessage(String.join("\n", marketList));
     }
 
-    public static ArrayList<Company> getTopMarketAvailable(){
-        ArrayList<Company> entries = new ArrayList<>(companies.values());
+    public static ArrayList<CompanyI> getTopMarketAvailable(){
+        ArrayList<CompanyI> entries = new ArrayList<>(companies.values());
 
         entries.sort(Comparator.comparing(item -> -item.getMarketShares()));
 
@@ -423,7 +414,7 @@ public class Market {
 
     public static List<String> getBusinesses(){
         List<String> autoCompletes = new ArrayList<>();
-        for (Company comp : companies.values()){
+        for (CompanyI comp : companies.values()){
             autoCompletes.add(comp.getStockName());
         }
         return autoCompletes;
@@ -435,8 +426,8 @@ public class Market {
 
         for (Contract c : contractCompToComp) {
 
-            Company from = Market.getCompany(c.from());
-            Company to = Market.getCompany(c.to());
+            CompanyI from = Market.getCompany(c.from());
+            CompanyI to = Market.getCompany(c.to());
             if (to.getStockName().equals(stockName)){
                 income.add(c.getContractStatus(true));
             }
@@ -448,7 +439,7 @@ public class Market {
         }
 
         for (Contract c : contractCompToPlayer) {
-            Company from = Market.getCompany(c.from());
+            CompanyI from = Market.getCompany(c.from());
 
             if (from.getStockName().equals(stockName)){
                 outcome.add(c.getContractStatus(false));
@@ -457,7 +448,7 @@ public class Market {
         }
 
         for (Contract c : contractPlayerToComp) {
-            Company to = Market.getCompany(c.to());
+            CompanyI to = Market.getCompany(c.to());
 
             if (to.getStockName().equals(stockName)){
                 income.add(c.getContractStatus(true));
@@ -466,7 +457,7 @@ public class Market {
         }
 
         for (ContractSTC c : contractServerToComp) {
-            Company to = Market.getCompany(c.to());
+            CompanyI to = Market.getCompany(c.to());
 
             if (to.getStockName().equals(stockName)){
 
@@ -490,13 +481,13 @@ public class Market {
             SignStock.update(s);
         }
 
-        for (Company comp: companies.values()){
+        for (CompanyI comp: companies.values()){
             comp.stockCompare();
         }
     }
 
     public static void runWeeklyCompanySalary(){
-        for (Company comp : companies.values()){
+        for (CompanyI comp : companies.values()){
 
             comp.getCOM().getBoard().paySalaries(comp);
 
@@ -508,13 +499,13 @@ public class Market {
 
             int total = 0;
 
-            if (comp.type.equals("product")){
+            if (comp.getType().equals("product")){
 
                 comp.addBal(0+ country.getPolicyBonus(0, 4));
                 comp.addBal(0+ country.getPolicyBonus(4, 2));
                 total += (int) (country.getPolicyBonus(0, 4)+ country.getPolicyBonus(4, 2));
 
-            }else if (comp.type.equals("building")){
+            }else if (comp.getType().equals("building")){
 
                 total+= 1000;
                 comp.addBal(1000.0);
@@ -523,7 +514,7 @@ public class Market {
                 comp.addBal(0+ country.getPolicyBonus(3, 5));
                 comp.addBal(0+ country.getPolicyBonus(4, 5));
                 total += (int) (country.getPolicyBonus(0, 6)+ country.getPolicyBonus(3, 5)+ country.getPolicyBonus(4, 5));
-            }else if (comp.type.equals("military")){
+            }else if (comp.getType().equals("military")){
 
                 if (!country.isAboardMilitary()){
                     total+= 4000;
@@ -533,16 +524,16 @@ public class Market {
                 comp.addBal(0+ country.getPolicyBonus(2, 5));
                 comp.addBal(0+ country.getPolicyBonus(4, 4));
                 total += (int) (country.getPolicyBonus(2, 5)+ country.getPolicyBonus(4, 4));
-            }else if (comp.type.equals("transport")){
+            }else if (comp.getType().equals("transport")){
                 comp.addBal(0+ country.getPolicyBonus(2, 6));
                 comp.addBal(0+ country.getPolicyBonus(3, 3));
                 comp.addBal(0+ country.getPolicyBonus(4, 1));
                 total += (int) (country.getPolicyBonus(2, 6)+ country.getPolicyBonus(3, 3)+ country.getPolicyBonus(4, 1));
-            }else if (comp.type.equals("bank")){
+            }else if (comp.getType().equals("bank")){
                 comp.addBal(0+ country.getPolicyBonus(2, 7));
                 comp.addBal(0+ country.getPolicyBonus(4, 0));
                 total += (int) (country.getPolicyBonus(2, 7)+ country.getPolicyBonus(4, 0));
-            }else if(comp.type.equals("real estate")){
+            }else if(comp.getType().equals("real estate")){
                 comp.addBal(0+ country.getPolicyBonus(3, 4));
                 comp.addBal(0+country.getPolicyBonus(4, 3));
                 total += (int) (country.getPolicyBonus(3, 4)+ country.getPolicyBonus(4, 3));

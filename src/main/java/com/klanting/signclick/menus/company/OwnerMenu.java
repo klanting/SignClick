@@ -1,16 +1,13 @@
 package com.klanting.signclick.menus.company;
 
-import com.klanting.signclick.economy.Company;
+import com.klanting.signclick.economy.CompanyI;
 import com.klanting.signclick.menus.SelectionMenu;
 import com.klanting.signclick.utils.ItemFactory;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionData;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
 
 import java.text.DecimalFormat;
@@ -18,9 +15,9 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public class OwnerMenu extends SelectionMenu {
-    public Company comp;
+    public CompanyI comp;
 
-    public OwnerMenu(UUID uuid, Company company){
+    public OwnerMenu(UUID uuid, CompanyI company){
         super(54, "Company Menu: "+ company.getStockName(), true);
         comp = company;
 
@@ -37,7 +34,7 @@ public class OwnerMenu extends SelectionMenu {
         ArrayList<String> l = new ArrayList<>();
         l.add("§6Value: §9"+ df.format(comp.getValue()));
         l.add("§6Spendable: §9"+ df.format(comp.getSpendable()));
-        l.add("§6Type: §9"+ comp.type);
+        l.add("§6Type: §9"+ comp.getType());
         ItemStack value = ItemFactory.create(Material.GOLD_BLOCK, "§6Balance", l);
         getInventory().setItem(13, value);
 

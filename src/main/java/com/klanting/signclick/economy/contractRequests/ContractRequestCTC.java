@@ -1,14 +1,14 @@
 package com.klanting.signclick.economy.contractRequests;
 
-import com.klanting.signclick.economy.Company;
+import com.klanting.signclick.economy.CompanyI;
 import com.klanting.signclick.economy.Market;
 
 public class ContractRequestCTC extends ContractRequest{
 
-    private final Company from;
-    private final Company to;
+    private final CompanyI from;
+    private final CompanyI to;
 
-    public ContractRequestCTC(Company from, Company to, double amount, int weeks, String reason) {
+    public ContractRequestCTC(CompanyI from, CompanyI to, double amount, int weeks, String reason) {
         super(amount, weeks, reason);
 
         this.from = from;

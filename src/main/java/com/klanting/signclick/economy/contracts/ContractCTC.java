@@ -1,20 +1,18 @@
 package com.klanting.signclick.economy.contracts;
 
 
-import com.klanting.signclick.economy.Company;
-
-import java.text.DecimalFormat;
+import com.klanting.signclick.economy.CompanyI;
 
 public class ContractCTC extends Contract {
 
-    private final Company from;
-    private final Company to;
+    private final CompanyI from;
+    private final CompanyI to;
 
-    public ContractCTC(Company from, Company to, double amount, int weeks, String reason) {
+    public ContractCTC(CompanyI from, CompanyI to, double amount, int weeks, String reason) {
         super(amount, weeks, reason);
 
-        this.from = from;
-        this.to = to;
+        this.from = from.getRef();
+        this.to = to.getRef();
 
     }
 

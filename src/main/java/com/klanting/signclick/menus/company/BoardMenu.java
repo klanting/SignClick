@@ -1,6 +1,6 @@
 package com.klanting.signclick.menus.company;
 
-import com.klanting.signclick.economy.Company;
+import com.klanting.signclick.economy.CompanyI;
 import com.klanting.signclick.menus.SelectionMenu;
 import com.klanting.signclick.utils.ItemFactory;
 import org.apache.commons.lang3.tuple.Pair;
@@ -16,9 +16,9 @@ import java.util.List;
 import java.util.UUID;
 
 public class BoardMenu extends SelectionMenu {
-    public Company comp;
+    public CompanyI comp;
 
-    public BoardMenu(Company company){
+    public BoardMenu(CompanyI company){
         super(54, "Company Board Menu: "+ company.getStockName(), true);
         comp = company;
         init();

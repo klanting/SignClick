@@ -1,11 +1,9 @@
 package com.klanting.signclick.menus.company;
 
 import com.klanting.signclick.SignClick;
-import com.klanting.signclick.economy.Company;
-import com.klanting.signclick.economy.Market;
+import com.klanting.signclick.economy.CompanyI;
 import com.klanting.signclick.menus.SelectionMenu;
 import com.klanting.signclick.utils.ItemFactory;
-import com.klanting.signclick.utils.Utils;
 import org.apache.commons.lang3.tuple.Triple;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -19,10 +17,10 @@ import java.util.UUID;
 public class FinancialMenu extends SelectionMenu {
 
     public UUID uuid;
-    public Company company;
+    public CompanyI company;
 
 
-    public FinancialMenu(UUID uuid, Company company){
+    public FinancialMenu(UUID uuid, CompanyI company){
         super(45, "Company Financial", true);
         this.uuid = uuid;
         this.company = company;

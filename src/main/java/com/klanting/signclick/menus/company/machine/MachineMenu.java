@@ -1,7 +1,7 @@
 package com.klanting.signclick.menus.company.machine;
 
 import com.klanting.signclick.SignClick;
-import com.klanting.signclick.economy.Company;
+import com.klanting.signclick.economy.CompanyI;
 import com.klanting.signclick.economy.Machine;
 import com.klanting.signclick.menus.SelectionMenu;
 import com.klanting.signclick.utils.ItemFactory;
@@ -17,10 +17,10 @@ import java.util.List;
 import java.util.UUID;
 
 public class MachineMenu extends SelectionMenu {
-    public Company comp;
+    public CompanyI comp;
     public Machine machine;
 
-    public MachineMenu(UUID uuid, Company company, Machine machine){
+    public MachineMenu(UUID uuid, CompanyI company, Machine machine){
         super(45, "Company Machine: "+ company.getStockName(), false);
         comp = company;
         this.machine = machine;

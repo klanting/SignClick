@@ -3,7 +3,7 @@ package com.klanting.signclick.commands.companyHandelers.contractHandlers;
 import com.klanting.signclick.commands.companyHandelers.CompanyHandler;
 import com.klanting.signclick.commands.exceptions.CommandAssert;
 import com.klanting.signclick.commands.exceptions.CommandException;
-import com.klanting.signclick.economy.Company;
+import com.klanting.signclick.economy.CompanyI;
 import com.klanting.signclick.economy.Market;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -25,19 +25,19 @@ public class ContractSignCTP extends CompanyHandler {
 
         CommandAssert.assertTrue(Market.getCompany(stock_name).getCOM().isOwner(player.getUniqueId()), "§byou must be CEO to sign that request");
 
-        Company comp = Market.getCompany(stock_name);
+        CompanyI comp = Market.getCompany(stock_name);
 
-        CommandAssert.assertTrue(comp.getSpendable() >= comp.playerAmountPending, "§bcan't sign contract because lack of weekly spendable funds");
+        CommandAssert.assertTrue(comp.getSpendable() >= comp.getPlayerAmountPending(), "§bcan't sign contract because lack of weekly spendable funds");
 
-        CommandAssert.assertTrue(!comp.getCOM().isOwner(UUID.fromString(comp.playerNamePending)) || !player.getUniqueId().equals(UUID.fromString(comp.playerNamePending)),
+        CommandAssert.assertTrue(!comp.getCOM().isOwner(UUID.fromString(comp.getPlayerNamePending())) || !player.getUniqueId().equals(UUID.fromString(comp.getPlayerNamePending())),
                 "§byou can't' make a contract with yourself");
 
         if (firstEnter){
             DecimalFormat df = new DecimalFormat("###,###,###");
 
-            player.sendMessage("§bplease re-enter your command to confirm\nthat you want to sign a contract (§cYOU PAY THEM§b) requested from §f" + Bukkit.getOfflinePlayer(UUID.fromString(comp.playerNamePending)).getName()
-                    +"§b \nfor an amount of §f"+ df.format(comp.playerAmountPending)
-                    +"§b \nfor a time of §f"+ comp.playerWeeksPending +
+            player.sendMessage("§bplease re-enter your command to confirm\nthat you want to sign a contract (§cYOU PAY THEM§b) requested from §f" + Bukkit.getOfflinePlayer(UUID.fromString(comp.getPlayerNamePending())).getName()
+                    +"§b \nfor an amount of §f"+ df.format(comp.getPlayerAmountPending())
+                    +"§b \nfor a time of §f"+ comp.getPlayerWeeksPending() +
                     " weeks \n§c/company sign_contract_ctp "+stock_name);
 
             return true;

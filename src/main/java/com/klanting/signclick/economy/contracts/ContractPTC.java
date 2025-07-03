@@ -1,23 +1,22 @@
 package com.klanting.signclick.economy.contracts;
 
 import com.klanting.signclick.economy.Account;
-import com.klanting.signclick.economy.Company;
+import com.klanting.signclick.economy.CompanyI;
 import com.klanting.signclick.economy.Market;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
-import java.text.DecimalFormat;
 import java.util.UUID;
 
 public class ContractPTC extends Contract{
 
-    private final Company to;
+    private final CompanyI to;
     private final UUID from;
 
-    public ContractPTC(UUID from, Company to, double amount, int weeks, String reason) {
+    public ContractPTC(UUID from, CompanyI to, double amount, int weeks, String reason) {
         super(amount, weeks, reason);
 
-        this.to = to;
+        this.to = to.getRef();
         this.from = from;
 
     }

@@ -1,6 +1,6 @@
 package com.klanting.signclick.menus.company;
 
-import com.klanting.signclick.economy.Company;
+import com.klanting.signclick.economy.CompanyI;
 import com.klanting.signclick.economy.companyPatent.Auction;
 import com.klanting.signclick.economy.companyPatent.PatentUpgrade;
 import com.klanting.signclick.menus.SelectionMenu;
@@ -13,9 +13,9 @@ import java.util.List;
 
 public class AuctionMenu extends SelectionMenu {
 
-    public Company comp;
+    public CompanyI comp;
 
-    public AuctionMenu(Company comp){
+    public AuctionMenu(CompanyI comp){
         super(9, "Patent Upgrade Auction", true);
         this.comp = comp;
         init();

@@ -1,6 +1,6 @@
 package com.klanting.signclick.menus.company;
 
-import com.klanting.signclick.economy.Company;
+import com.klanting.signclick.economy.CompanyI;
 import com.klanting.signclick.menus.SelectionMenu;
 import com.klanting.signclick.utils.ItemFactory;
 import org.bukkit.Bukkit;
@@ -16,10 +16,10 @@ import java.util.UUID;
 
 
 public class BoardSupportMenu extends SelectionMenu {
-    public Company comp;
+    public CompanyI comp;
     private UUID uuid;
 
-    public BoardSupportMenu(UUID uuid, Company company){
+    public BoardSupportMenu(UUID uuid, CompanyI company){
         super(54, "Company Board Menu: "+ company.getStockName(), true);
         comp = company;
         this.uuid = uuid;

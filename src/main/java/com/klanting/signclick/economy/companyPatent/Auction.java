@@ -5,7 +5,7 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 import com.klanting.signclick.SignClick;
-import com.klanting.signclick.economy.Company;
+import com.klanting.signclick.economy.CompanyI;
 import com.klanting.signclick.economy.Market;
 import com.klanting.signclick.utils.Utils;
 import org.bukkit.Bukkit;
@@ -140,8 +140,8 @@ public class Auction {
                         continue;
                     }
 
-                    Company comp = Market.getCompany(bitsOwner.get(i));
-                    comp.patentUpgrades.add(toBuy.get(i));
+                    CompanyI comp = Market.getCompany(bitsOwner.get(i));
+                    comp.getPatentUpgrades().add(toBuy.get(i));
                 }
                 init();
                 time_end = getServer().getCurrentTick()+auctionCycle*20L;

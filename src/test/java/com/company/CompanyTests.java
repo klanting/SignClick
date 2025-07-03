@@ -2,7 +2,7 @@ package com.company;
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
-import com.klanting.signclick.economy.Company;
+import com.klanting.signclick.economy.CompanyI;
 import com.klanting.signclick.economy.CountryManager;
 import com.klanting.signclick.economy.Market;
 import com.klanting.signclick.SignClick;
@@ -54,7 +54,7 @@ class CompanyTests {
         assertTrue(succes);
         SignClick.getEconomy().withdrawPlayer(testPlayer, 40000000);
 
-        Company comp = Market.getCompany("TCI");
+        CompanyI comp = Market.getCompany("TCI");
         assertEquals(0, comp.getValue());
         assertEquals(1000000, Market.getAccount(testPlayer).shares.get("TCI"));
 
@@ -123,7 +123,7 @@ class CompanyTests {
         assertTrue(succes);
 
 
-        Company comp = Market.getCompany("TCI");
+        CompanyI comp = Market.getCompany("TCI");
         comp.addBal(100.0);
 
         assertEquals(100.0, comp.getBal());
@@ -137,7 +137,7 @@ class CompanyTests {
         Boolean succes = Market.addCompany("TestCaseInc", "TCI", Market.getAccount(testPlayer));
         assertTrue(succes);
 
-        Company comp = Market.getCompany("TCI");
+        CompanyI comp = Market.getCompany("TCI");
         comp.addBal(1000.0);
         assertEquals(1000.0, comp.getBal());
 
@@ -157,7 +157,7 @@ class CompanyTests {
         Boolean succes = Market.addCompany("TestCaseInc", "TCI", Market.getAccount(testPlayer));
         assertTrue(succes);
 
-        Company comp = Market.getCompany("TCI");
+        CompanyI comp = Market.getCompany("TCI");
         comp.addBal(1000.0);
 
         server.getScheduler().performTicks(60*60*24*7*20+1);
@@ -171,7 +171,7 @@ class CompanyTests {
         boolean succes = Market.addCompany("TestCaseInc", "TCI", Market.getAccount(testPlayer));
         assertTrue(succes);
 
-        Company comp = Market.getCompany("TCI");
+        CompanyI comp = Market.getCompany("TCI");
         comp.addBal(1000000000.0);
         comp.doUpgrade(0);
 
@@ -226,7 +226,7 @@ class CompanyTests {
         boolean suc6 = Market.addCompany("TestCaseInc", "TCI", Market.getAccount(testPlayer));
         assertTrue(suc6);
 
-        Company company = Market.getCompany("TCI");
+        CompanyI company = Market.getCompany("TCI");
         company.calculateCountry();
         assertEquals("empire1", company.getCountry());
 
@@ -247,7 +247,7 @@ class CompanyTests {
         boolean suc6 = Market.addCompany("TestCaseInc", "TCI", Market.getAccount(testPlayer));
         assertTrue(suc6);
 
-        Company company = Market.getCompany("TCI");
+        CompanyI company = Market.getCompany("TCI");
         company.addBal(Math.pow(2, 65));
         assertTrue(company.getBal() > 0);
     }

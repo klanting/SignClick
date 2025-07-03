@@ -69,22 +69,22 @@ public class GsonTests {
 
     @Test
     void saveLoadCompanies(){
-        Map<String, Company> accountsPreSave = new HashMap<>();
+        Map<String, CompanyI> accountsPreSave = new HashMap<>();
         accountsPreSave.put("A", new Company("AA", "A", Market.getAccount(testPlayer), 0, "other"));
         accountsPreSave.get("A").getCOM().getShareHolders().put(testPlayer.getUniqueId(), 10);
         accountsPreSave.get("A").setTotalShares(100);
 
         Utils.writeSave("companies", accountsPreSave);
 
-        Map<String, Company> companies = Utils.readSave("companies", new TypeToken<HashMap<String, Company>>(){}.getType(), new HashMap<>());
+        Map<String, CompanyI> companies = Utils.readSave("companies", new TypeToken<HashMap<String, CompanyI>>(){}.getType(), new HashMap<>());
         assertEquals(1, companies.size());
 
-        Company comp = companies.values().iterator().next();
+        CompanyI comp = companies.values().iterator().next();
 
         assertEquals("A", comp.getStockName());
         assertEquals("AA", comp.getName());
         assertEquals(0, comp.getBal());
-        assertEquals(7, comp.upgrades.size());
+        assertEquals(7, comp.getUpgrades().size());
         assertEquals(100, comp.getTotalShares());
 
         assertEquals(4, comp.getLogObservers().size());
