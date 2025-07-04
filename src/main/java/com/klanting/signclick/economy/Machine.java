@@ -82,16 +82,14 @@ public class Machine {
                 amount = amount*(1.0+license.getRoyaltyFee()+license.getCostIncrease());
             }
 
-            boolean suc6 = true;
             if (getLicense() != null &&  getLicense().isFrozenByLicenseCost()){
-                suc6 = false;
                 if (license.getTo().removeBal(getLicense().frozenByLicenseCost)){
-                    suc6 = true;
                     getLicense().frozenByLicenseCost = 0;
                 }
+                return;
             }
 
-            if (!Market.getCompany(compName).removeBal(amount) || !suc6){
+            if (!Market.getCompany(compName).removeBal(amount)){
                 frozenByFunds = true;
                 productionProgress = Math.min(productionProgress, product.getProductionTime());
                 return;

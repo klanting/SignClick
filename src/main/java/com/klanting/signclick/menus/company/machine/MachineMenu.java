@@ -42,6 +42,11 @@ public class MachineMenu extends SelectionMenu {
             l.add("§cfunds or spendable");
         }
 
+        if (machine.isLicensed() && machine.getLicense().isFrozenByLicenseCost()){
+            l.add("§cMachine frozen by lack of ");
+            l.add("§cLicense debt: $"+machine.getLicense().frozenByLicenseCost);
+        }
+
         getInventory().setItem(13, ItemFactory.create(Material.CLOCK, "§7Production", l));
 
         ItemStack result = machine.results;
@@ -88,6 +93,7 @@ public class MachineMenu extends SelectionMenu {
             if (machine.isLicensed()){
                 l.add("§cThis Product is Licensed");
             }
+
             getInventory().setItem(10, ItemFactory.create(Material.valueOf(material), "§7"+material, l));
         }
 
