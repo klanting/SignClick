@@ -6,6 +6,7 @@ import com.klanting.signclick.economy.Market;
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.utils.Utils;
 import org.bukkit.Bukkit;
+import org.yaml.snakeyaml.error.Mark;
 
 import static org.bukkit.Bukkit.getServer;
 
@@ -27,6 +28,7 @@ public class WeeklyComp {
                 Market.runStockCompare();
                 Market.runWeeklyCompanySalary();
                 CountryManager.runStability();
+                Market.runLicenses();
 
             }
         }, systemEnd,checkCycle);

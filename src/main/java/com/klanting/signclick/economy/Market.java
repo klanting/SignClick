@@ -243,6 +243,22 @@ public class Market {
 
     }
 
+    public static void runLicenses(){
+
+        for(Map.Entry<String, CompanyI> entry : companies.entrySet()){
+            CompanyI comp = entry.getValue();
+            List<License> licenses = LicenseSingleton.getInstance().getCurrentLicenses().getLicensesTo(comp);
+            for (License license: licenses){
+                if (license.getTo().removeBal(license.getWeeklyCost())){
+                    license.getFrom().addBal(license.getWeeklyCost());
+                }else{
+                    license.frozenByLicenseCost += license.getWeeklyCost();
+                }
+            }
+        }
+
+    }
+
     public static void marketAvailable(Player player){
 
         ArrayList<CompanyI> entries = getTopMarketAvailable();

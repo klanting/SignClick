@@ -35,6 +35,11 @@ public class License extends Produceable{
     private Double costIncrease;
     private Double royaltyFee;
 
+    public double frozenByLicenseCost = 0;
+    public boolean isFrozenByLicenseCost() {
+        return frozenByLicenseCost > 0;
+    }
+
     public License(CompanyI from, CompanyI to, Product product, Double weeklyCost,
                    Double costIncrease, Double royaltyFee){
         this.from = from.getRef();

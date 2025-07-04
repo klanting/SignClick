@@ -77,7 +77,13 @@ public class MachineMenu extends SelectionMenu {
         }else{
             List<String> l = new ArrayList<>();
             l.add("§7Production Time: "+machine.getProduct().getProductionTime());
-            l.add("§7Production Cost: $"+machine.getProduct().getPrice());
+
+            double price = machine.getProduct().getPrice();
+            if (machine.isLicensed()){
+                price = price*(1.0+machine.getLicense().getRoyaltyFee()+machine.getLicense().getCostIncrease());
+            }
+
+            l.add("§7Production Cost: $"+price);
 
             if (machine.isLicensed()){
                 l.add("§cThis Product is Licensed");

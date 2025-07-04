@@ -12,6 +12,9 @@ public class Machine {
 
     private boolean frozenByFunds = false;
 
+
+
+
     public ItemStack results;
 
     public Product getProduct() {
@@ -74,11 +77,30 @@ public class Machine {
 
         if (productionProgress >= product.getProductionTime()){
 
-            if (!Market.getCompany(compName).removeBal(product.getPrice())){
+            double amount = product.getPrice();
+            if (isLicensed()){
+                amount = amount*(1.0+license.getRoyaltyFee()+license.getCostIncrease());
+            }
+
+            boolean suc6 = true;
+            if (getLicense() != null &&  getLicense().isFrozenByLicenseCost()){
+                suc6 = false;
+                if (license.getTo().removeBal(getLicense().frozenByLicenseCost)){
+                    suc6 = true;
+                    getLicense().frozenByLicenseCost = 0;
+                }
+            }
+
+            if (!Market.getCompany(compName).removeBal(amount) || !suc6){
                 frozenByFunds = true;
+                productionProgress = Math.min(productionProgress, product.getProductionTime());
                 return;
             }
             frozenByFunds = false;
+
+            if (isLicensed()){
+                license.getFrom().addBal(product.getPrice()*license.getRoyaltyFee());
+            }
 
             productionProgress -= product.getProductionTime();
 
