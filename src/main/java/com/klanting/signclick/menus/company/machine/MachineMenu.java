@@ -36,23 +36,27 @@ public class MachineMenu extends SelectionMenu {
             l.add("§7Next Produced: "+(machine.isFrozenByFunds() ? "NEVER": timeTillDone));
         }
 
-        if (machine.isFrozenByFunds()){
-
-            l.add("§cMachine frozen by lack of ");
-            l.add("§cfunds or spendable");
-        }
-
         if (machine.isLicensed() && machine.getLicense().isFrozenByLicenseCost()){
             l.add("§cMachine frozen by lack of ");
             l.add("§cLicense debt: $"+machine.getLicense().frozenByLicenseCost);
+        }else if (machine.isFrozenByFunds()){
+
+            l.add("§cMachine frozen by lack of ");
+            l.add("§cfunds or spendable");
+        }else if (machine.frozenByMachineFull){
+            l.add("§cMachine frozen by ");
+            l.add("§cfull storage");
         }
 
         getInventory().setItem(13, ItemFactory.create(Material.CLOCK, "§7Production", l));
 
-        ItemStack result = machine.results;
-        if (result != null){
-            getInventory().setItem(34, result);
+        ItemStack[] result = machine.results;
+        for (int i=0;i<3;i++){
+            if (result[i] != null){
+                getInventory().setItem(16+(i*9), result[i]);
+            }
         }
+
     }
 
     public void init(){

@@ -147,7 +147,7 @@ public class MachineTests {
         server.getScheduler().performTicks(220);
         assertEquals(1, MenuEvents.furnaces.get(0).getProductionProgress());
 
-        assertEquals(new ItemStack(Material.DIRT, 5), MenuEvents.furnaces.get(0).results);
+        assertEquals(new ItemStack(Material.DIRT, 5), MenuEvents.furnaces.get(0).results[0]);
 
     }
 
@@ -162,11 +162,11 @@ public class MachineTests {
         assertEquals(1, MenuEvents.furnaces.size());
 
         assertEquals(1, MenuEvents.furnaces.get(0).getProductionProgress());
-        assertEquals(new ItemStack(Material.DIRT, 5), MenuEvents.furnaces.get(0).results);
+        assertEquals(new ItemStack(Material.DIRT, 5), MenuEvents.furnaces.get(0).results[0]);
 
         server.getScheduler().performTicks(180);
         assertEquals(0, MenuEvents.furnaces.get(0).getProductionProgress());
-        assertEquals(new ItemStack(Material.DIRT, 10), MenuEvents.furnaces.get(0).results);
+        assertEquals(new ItemStack(Material.DIRT, 10), MenuEvents.furnaces.get(0).results[0]);
     }
 
     @Test
@@ -281,7 +281,7 @@ public class MachineTests {
         server.getScheduler().performTicks(220);
         assertEquals(1, MenuEvents.furnaces.get(0).getProductionProgress());
 
-        assertEquals(new ItemStack(Material.DIRT, 5), MenuEvents.furnaces.get(0).results);
+        assertEquals(new ItemStack(Material.DIRT, 5), MenuEvents.furnaces.get(0).results[0]);
 
         /*
         * Remove the license

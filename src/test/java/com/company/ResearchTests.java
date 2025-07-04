@@ -98,8 +98,6 @@ public class ResearchTests {
         assertEquals(667, Math.ceil(Market.getCompany("TCI").getBal()));
         assertEquals(1, Market.getCompany("TCI").getProducts().size());
 
-
-
     }
 }
 

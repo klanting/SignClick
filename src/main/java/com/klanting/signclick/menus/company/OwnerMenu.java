@@ -1,8 +1,10 @@
 package com.klanting.signclick.menus.company;
 
+import com.klanting.signclick.economy.Board;
 import com.klanting.signclick.economy.CompanyI;
 import com.klanting.signclick.menus.SelectionMenu;
 import com.klanting.signclick.utils.ItemFactory;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -14,18 +16,23 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import static org.bukkit.Bukkit.getServer;
+
 public class OwnerMenu extends SelectionMenu {
     public CompanyI comp;
+    private UUID uuid;
 
     public OwnerMenu(UUID uuid, CompanyI company){
         super(54, "Company Menu: "+ company.getStockName(), true);
         comp = company;
+        this.uuid = uuid;
 
         assert comp.getCOM().isOwner(uuid);
         init();
     }
 
     public void init(){
+        Board board = comp.getCOM().getBoard();
 
         /*
         * balance block
@@ -122,35 +129,44 @@ public class OwnerMenu extends SelectionMenu {
         value = ItemFactory.create(Material.PAPER, "§6Logs", l);
         getInventory().setItem(45, value);
 
-        /*
-         * Craft Products
-         * */
-        l = new ArrayList<>();
-        l.add("§7Craft new products from the original products");
-        value = ItemFactory.create(Material.CRAFTING_TABLE, "§6Craft Products", l);
-        getInventory().setItem(39, value);
+        if (board.getChiefPermission("CTO").equals(uuid)){
+            /*
+             * Craft Products
+             * */
+            l = new ArrayList<>();
+            l.add("§7Craft new products from the original products");
+            value = ItemFactory.create(Material.CRAFTING_TABLE, "§6Craft Products", l);
+            getInventory().setItem(39, value);
+        }
 
-        /*
-         * set finances
-         * */
-        l = new ArrayList<>();
-        l.add("§7Change finance constraints");
-        value = ItemFactory.create(Material.GOLD_INGOT, "§6Financials", l);
-        getInventory().setItem(40, value);
 
-        /*
-         * Research
-         * */
-        l = new ArrayList<>();
-        l.add("§7Discover new products");
-        value = ItemFactory.create(Material.POTION, "§6Research", l);
+        if (board.getChiefPermission("CFO").equals(uuid)){
+            /*
+             * set finances
+             * */
+            l = new ArrayList<>();
+            l.add("§7Change finance constraints");
+            value = ItemFactory.create(Material.GOLD_INGOT, "§6Financials", l);
+            getInventory().setItem(40, value);
+        }
 
-        PotionMeta meta = (PotionMeta) value.getItemMeta();
-        meta.setBasePotionData(new PotionData(PotionType.NIGHT_VISION, false, false));
-        meta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
-        value.setItemMeta(meta);
+        if (board.getChiefPermission("CEO").equals(uuid)) {
+            /*
+             * Research
+             * */
+            l = new ArrayList<>();
+            l.add("§7Discover new products");
+            value = ItemFactory.create(Material.POTION, "§6Research", l);
 
-        getInventory().setItem(41, value);
+            PotionMeta meta = (PotionMeta) value.getItemMeta();
+            meta.setBasePotionData(new PotionData(PotionType.NIGHT_VISION, false, false));
+            meta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
+            value.setItemMeta(meta);
+
+            getInventory().setItem(41, value);
+        }
+
+
 
         super.init();
     }

@@ -444,6 +444,14 @@ public class MenuEvents implements Listener {
 
             String option = event.getCurrentItem().getItemMeta().getDisplayName();
 
+            boolean chiefFrom = licenseInfoMenu.license.getFrom().getCOM().getBoard().getChiefPermission("CEO").equals(player.getUniqueId());
+            boolean chiefTo = licenseInfoMenu.license.getTo().getCOM().getBoard().getChiefPermission("CEO").equals(player.getUniqueId());
+
+            if (!chiefFrom && !chiefTo){
+                player.sendMessage("§cOnly the CEO has the permissions for this");
+                return;
+            }
+
             if (option.equals("§cCancel License")){
                 LicenseSingleton.getInstance().getCurrentLicenses().removeLicense(licenseInfoMenu.license);
 
@@ -571,6 +579,13 @@ public class MenuEvents implements Listener {
             Player player = (Player) event.getWhoClicked();
             event.setCancelled(true);
 
+            boolean chiefFrom = licenseAcceptMenu.license.getFrom().getCOM().getBoard().getChiefPermission("CEO").equals(player.getUniqueId());
+
+            if (!chiefFrom){
+                player.sendMessage("§cOnly the CEO has the permissions for this");
+                return;
+            }
+
             int slot = event.getSlot();
 
             if (slot == 12){
@@ -607,6 +622,13 @@ public class MenuEvents implements Listener {
         if (event.getClickedInventory().getHolder() instanceof LicenseRequestMenu licenseRequestMenu){
             Player player = (Player) event.getWhoClicked();
             event.setCancelled(true);
+
+            boolean chiefTo = licenseRequestMenu.toComp.getCOM().getBoard().getChiefPermission("CEO").equals(player.getUniqueId());
+
+            if (!chiefTo){
+                player.sendMessage("§cOnly the CEO has the permissions for this");
+                return;
+            }
 
             int slot = event.getSlot();
 
@@ -680,7 +702,16 @@ public class MenuEvents implements Listener {
 
         if (event.getClickedInventory().getHolder() instanceof UpgradeMenu){
             UpgradeMenu screen = (UpgradeMenu) event.getClickedInventory().getHolder();
+            Player player = (Player) event.getWhoClicked();
             event.setCancelled(true);
+
+            boolean chief = screen.comp.getCOM().getBoard().getChiefPermission("CEO").equals(player.getUniqueId());
+
+            if (!chief){
+                player.sendMessage("§cOnly the CEO has the permissions for this");
+                return;
+            }
+
             int id = event.getSlot()-11;
             boolean suc6 = screen.comp.doUpgrade(id);
 
@@ -690,7 +721,6 @@ public class MenuEvents implements Listener {
 
             screen.init();
 
-            Player player = (Player) event.getWhoClicked();
             if (!suc6){
                 player.sendMessage("§bNot enough Money or Points to do the upgrade");
             }

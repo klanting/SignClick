@@ -87,6 +87,20 @@ public class Board {
         return currentChief.get(position);
     }
 
+    public UUID getChiefPermission(String position){
+        /*
+         * Get the user in the provided chief position
+         * */
+
+        UUID uuid = currentChief.get(position);
+
+        if (uuid == null){
+            uuid = currentChief.get("CEO");
+        }
+
+        return uuid;
+    }
+
     public void setCompanyOwnerManager(CompanyOwnerManager companyOwnerManager){
         /*
         * Needed for gson add right reference

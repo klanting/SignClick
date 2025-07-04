@@ -13,9 +13,7 @@ public class Machine {
     private boolean frozenByFunds = false;
 
 
-
-
-    public ItemStack results;
+    public ItemStack[] results = new ItemStack[3];
 
     public Product getProduct() {
         return product;
@@ -30,6 +28,8 @@ public class Machine {
     private License license;
 
     private final String compName;
+
+    public boolean frozenByMachineFull = false;
 
     public int getProductionProgress() {
         return (int) productionProgress;
@@ -62,6 +62,7 @@ public class Machine {
         productionProgress = 0;
         this.block = block;
         this.compName = company.getStockName();
+
     }
 
     public void productionUpdate(){
@@ -81,6 +82,25 @@ public class Machine {
             if (isLicensed()){
                 amount = amount*(1.0+license.getRoyaltyFee()+license.getCostIncrease());
             }
+
+            int index = 0;
+            while (true){
+
+                if(results[index] == null){
+                    break;
+                }
+
+                if (results[index].getType().equals(product.getMaterial()) && results[index].getAmount() < product.getMaterial().getMaxStackSize()){
+                    break;
+                }
+                index++;
+            }
+
+            if (index == 3){
+                frozenByMachineFull = true;
+                return;
+            }
+            frozenByMachineFull = false;
 
             if (getLicense() != null &&  getLicense().isFrozenByLicenseCost()){
                 if (license.getTo().removeBal(getLicense().frozenByLicenseCost)){
@@ -102,10 +122,11 @@ public class Machine {
 
             productionProgress -= product.getProductionTime();
 
-            if (results!= null){
-                results.setAmount(results.getAmount() + 1);
+
+            if (results[index] != null){
+                results[index].setAmount(results[index].getAmount() + 1);
             }else{
-                results = new ItemStack(product.getMaterial());
+                results[index] = new ItemStack(product.getMaterial());
             }
         }
     }

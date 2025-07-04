@@ -8,6 +8,7 @@ import com.klanting.signclick.economy.companyPatent.PatentUpgradeJumper;
 import com.klanting.signclick.menus.company.AuctionMenu;
 import com.klanting.signclick.SignClick;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -456,6 +457,104 @@ public class CompanyMenuTests {
 
         assertEquals(1, LicenseSingleton.getInstance().getCurrentLicenses().getLicensesFrom(comp2).size());
         assertEquals(1, LicenseSingleton.getInstance().getCurrentLicenses().getLicensesTo(comp).size());
+
+    }
+
+    @Test
+    void companyProductCraftTest(){
+        /*
+        * Test that we can craft new products using other products
+        * */
+        ShapelessRecipe recip = new ShapelessRecipe(NamespacedKey.minecraft("test"), new ItemStack(Material.CRAFTING_TABLE));
+        recip.addIngredient(new ItemStack(Material.OAK_PLANKS));
+        recip.addIngredient(new ItemStack(Material.OAK_PLANKS));
+        recip.addIngredient(new ItemStack(Material.OAK_PLANKS));
+        recip.addIngredient(new ItemStack(Material.OAK_PLANKS));
+        server.addRecipe(recip);
+
+        CompanyI comp = Market.getCompany("TCI");
+        comp.addProduct(new Product(Material.OAK_PLANKS, 10, 10));
+
+        InventoryView companyMenu = openMenu(0);
+        /*
+        * Select product crafting icon
+        * */
+        assertEquals(Material.CRAFTING_TABLE, companyMenu.getItem(39).getType());
+        testPlayer.simulateInventoryClick(39);
+
+        /*
+        * Check product craft menu properly initialized
+        * */
+
+        assertEquals(Material.LIGHT_GRAY_DYE, testPlayer.getOpenInventory().getItem(10).getType());
+        assertEquals(Material.LIGHT_GRAY_DYE, testPlayer.getOpenInventory().getItem(11).getType());
+        assertEquals(Material.LIGHT_GRAY_DYE, testPlayer.getOpenInventory().getItem(12).getType());
+        assertEquals(Material.LIGHT_GRAY_DYE, testPlayer.getOpenInventory().getItem(19).getType());
+        assertEquals(Material.LIGHT_GRAY_DYE, testPlayer.getOpenInventory().getItem(20).getType());
+        assertEquals(Material.LIGHT_GRAY_DYE, testPlayer.getOpenInventory().getItem(21).getType());
+        assertEquals(Material.LIGHT_GRAY_DYE, testPlayer.getOpenInventory().getItem(28).getType());
+        assertEquals(Material.LIGHT_GRAY_DYE, testPlayer.getOpenInventory().getItem(29).getType());
+        assertEquals(Material.LIGHT_GRAY_DYE, testPlayer.getOpenInventory().getItem(30).getType());
+
+        assertEquals(Material.LIGHT_GRAY_STAINED_GLASS_PANE, testPlayer.getOpenInventory().getItem(25).getType());
+
+        /*
+        * Add 1 wooden plank
+        * */
+        testPlayer.simulateInventoryClick(10);
+        assertEquals(Material.OAK_PLANKS, testPlayer.getOpenInventory().getItem(0).getType());
+        assertEquals(Material.LIGHT_GRAY_STAINED_GLASS_PANE, testPlayer.getOpenInventory().getItem(1).getType());
+        testPlayer.simulateInventoryClick(0);
+
+        assertEquals(Material.OAK_PLANKS, testPlayer.getOpenInventory().getItem(10).getType());
+        assertEquals(Material.LIGHT_GRAY_DYE, testPlayer.getOpenInventory().getItem(11).getType());
+        assertEquals(Material.LIGHT_GRAY_DYE, testPlayer.getOpenInventory().getItem(12).getType());
+        assertEquals(Material.LIGHT_GRAY_DYE, testPlayer.getOpenInventory().getItem(19).getType());
+        assertEquals(Material.LIGHT_GRAY_DYE, testPlayer.getOpenInventory().getItem(20).getType());
+        assertEquals(Material.LIGHT_GRAY_DYE, testPlayer.getOpenInventory().getItem(21).getType());
+        assertEquals(Material.LIGHT_GRAY_DYE, testPlayer.getOpenInventory().getItem(28).getType());
+        assertEquals(Material.LIGHT_GRAY_DYE, testPlayer.getOpenInventory().getItem(29).getType());
+        assertEquals(Material.LIGHT_GRAY_DYE, testPlayer.getOpenInventory().getItem(30).getType());
+
+        assertEquals(Material.LIGHT_GRAY_STAINED_GLASS_PANE, testPlayer.getOpenInventory().getItem(25).getType());
+
+        /*
+        * 2nd item
+        * */
+        testPlayer.simulateInventoryClick(11);
+        assertEquals(Material.OAK_PLANKS, testPlayer.getOpenInventory().getItem(0).getType());
+        assertEquals(Material.LIGHT_GRAY_STAINED_GLASS_PANE, testPlayer.getOpenInventory().getItem(1).getType());
+        testPlayer.simulateInventoryClick(0);
+        assertEquals(Material.OAK_PLANKS, testPlayer.getOpenInventory().getItem(11).getType());
+
+        /*
+        * 3rd item
+        * */
+        testPlayer.simulateInventoryClick(12);
+        assertEquals(Material.OAK_PLANKS, testPlayer.getOpenInventory().getItem(0).getType());
+        assertEquals(Material.LIGHT_GRAY_STAINED_GLASS_PANE, testPlayer.getOpenInventory().getItem(1).getType());
+        testPlayer.simulateInventoryClick(0);
+        assertEquals(Material.OAK_PLANKS, testPlayer.getOpenInventory().getItem(12).getType());
+
+        /*
+        * 4th
+        * */
+        testPlayer.simulateInventoryClick(19);
+        assertEquals(Material.OAK_PLANKS, testPlayer.getOpenInventory().getItem(0).getType());
+        assertEquals(Material.LIGHT_GRAY_STAINED_GLASS_PANE, testPlayer.getOpenInventory().getItem(1).getType());
+        testPlayer.simulateInventoryClick(0);
+        assertEquals(Material.OAK_PLANKS, testPlayer.getOpenInventory().getItem(19).getType());
+
+        assertEquals(Material.CRAFTING_TABLE, testPlayer.getOpenInventory().getItem(25).getType());
+
+        /*
+        * Save product
+        * */
+        assertEquals(Material.LIME_WOOL, testPlayer.getOpenInventory().getItem(43).getType());
+        testPlayer.simulateInventoryClick(43);
+
+        assertEquals(2, comp.getProducts().size());
+
 
     }
 
