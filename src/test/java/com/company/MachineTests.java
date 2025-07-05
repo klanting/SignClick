@@ -37,8 +37,8 @@ public class MachineTests {
 
     @AfterEach
     public void tearDown() {
-        if (MenuEvents.furnaces.size() > 0){
-            MenuEvents.furnaces.get(0).getBlock().getLocation().setWorld(null);
+        if (!MenuEvents.furnaces.isEmpty()){
+            MenuEvents.furnaces.get(0).getBlock().getLocation().setWorld(server.getWorld("world"));
         }
 
         MockBukkit.unmock();
