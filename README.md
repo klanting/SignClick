@@ -18,7 +18,6 @@ Download the plugin at [Spigot-SignClick](https://www.spigotmc.org/resources/sig
 ## 📚 Features
 
 ### Company Management
-Found Your Own Company:
 Establish and manage your own company with support for shares, board members, executive leadership, and patent ownership. 
 Automate item production, oversee research and transportation income Drive profit through smart business strategies in a fully player-driven economy.
 
