@@ -1,7 +1,11 @@
 package com.klanting.signclick.economy;
 
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.Hopper;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.HashMap;
 
 public class Machine {
 
@@ -30,6 +34,8 @@ public class Machine {
     private final String compName;
 
     public boolean frozenByMachineFull = false;
+
+    public boolean hopperAllowed = false;
 
     public int getProductionProgress() {
         return (int) productionProgress;
@@ -63,6 +69,30 @@ public class Machine {
         this.block = block;
         this.compName = company.getStockName();
 
+    }
+
+    public void checkHopper(){
+        if (!hopperAllowed){
+            return;
+        }
+
+        Block belowBlock = getBlock().getRelative(BlockFace.DOWN);
+
+        if (belowBlock.getState() instanceof Hopper hopper) {
+
+            for (int i=0; i<3;i++){
+                ItemStack item = results[i];
+
+                if (item == null){
+                    continue;
+                }
+
+                HashMap<Integer, ItemStack> leftovers = hopper.getInventory().addItem(item);
+                results[i] = leftovers.isEmpty() ? null: leftovers.values().iterator().next();
+            }
+
+
+        }
     }
 
     public void productionUpdate(){

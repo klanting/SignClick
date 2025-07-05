@@ -73,7 +73,10 @@ public class MachineMenu extends SelectionMenu {
 
         update();
 
-        getInventory().setItem(27, ItemFactory.create(Material.HOPPER, "§7Allow Hopper"));
+        List<String> l = new ArrayList<>();
+        l.add("§7Currently "+(machine.hopperAllowed ? "Enabled": "Disabled"));
+        getInventory().setItem(27, ItemFactory.create(Material.HOPPER,
+                machine.hopperAllowed ? "§cDisable Hopper": "§aEnable Hopper", l));
 
         NamespacedKey productKey = new NamespacedKey(SignClick.getPlugin(), "signclick_company_machine_product");
 
@@ -84,7 +87,7 @@ public class MachineMenu extends SelectionMenu {
         if (material.isEmpty()){
             getInventory().setItem(10, ItemFactory.create(Material.LIGHT_GRAY_DYE, "§7Product Slot"));
         }else{
-            List<String> l = new ArrayList<>();
+            l = new ArrayList<>();
             l.add("§7Production Time: "+machine.getProduct().getProductionTime());
 
             double price = machine.getProduct().getPrice();
@@ -100,7 +103,6 @@ public class MachineMenu extends SelectionMenu {
 
             getInventory().setItem(10, ItemFactory.create(Material.valueOf(material), "§7"+material, l));
         }
-
 
         super.init();
     }

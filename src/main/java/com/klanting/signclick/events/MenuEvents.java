@@ -65,6 +65,7 @@ public class MenuEvents implements Listener {
 
             for (Machine machine: furnaces){
                 machine.productionUpdate();
+                machine.checkHopper();
 
             }
 
@@ -220,6 +221,19 @@ public class MenuEvents implements Listener {
 
                 ProductList new_screen = new ProductList(machineMenu.comp, lambda, false, true, true);
                 player.openInventory(new_screen.getInventory());
+            }
+
+            if (option.contains("Hopper")){
+                machineMenu.machine.hopperAllowed = !machineMenu.machine.hopperAllowed;
+                machineMenu.init();
+            }
+
+            int slot = event.getSlot();
+            if (List.of(16, 16+9, 16+18).contains(slot)){
+                int index = (slot-16)/9;
+                event.setCursor(machineMenu.machine.results[index]);
+                machineMenu.machine.results[index] = null;
+                machineMenu.init();
             }
 
             if (event.getSlot() == 10){

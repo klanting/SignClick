@@ -226,7 +226,7 @@ public class MarketMenuTests {
         * Check has 1 item
         * */
         assertEquals(Material.SUNFLOWER, testPlayer.getOpenInventory().getItem(0).getType());
-        assertNull(testPlayer.getOpenInventory().getItem(1));
+        assertEquals(Material.LIGHT_GRAY_STAINED_GLASS_PANE, testPlayer.getOpenInventory().getItem(1).getType());
 
         /*
         * Check after click go back to this page

@@ -1,6 +1,7 @@
 package com.klanting.signclick.menus;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
@@ -8,6 +9,8 @@ import org.bukkit.inventory.ItemFactory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
+
+import static org.bukkit.Bukkit.getServer;
 
 abstract public class SelectionMenu implements InventoryHolder {
     private final Inventory menu;
@@ -53,5 +56,6 @@ abstract public class SelectionMenu implements InventoryHolder {
 
     public void init(){
         checkBackButton();
+        onOpen();
     }
 }
