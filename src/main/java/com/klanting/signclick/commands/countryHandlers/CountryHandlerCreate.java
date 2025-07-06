@@ -12,14 +12,13 @@ public class CountryHandlerCreate extends CountryHandler{
     @Override
     public void handleCommand(Player player, String[] args) throws CommandException {
 
-        CommandAssert.assertTrue(args.length >= 3, "§bplease enter /country create <name> <owner>");
+        CommandAssert.assertTrue(args.length >= 2, "§bplease enter /country create <name>");
 
         String countryName = CommandTools.parseString(args[1], "§bPlease use allowed characters for the Country name");
-        OfflinePlayer user = Bukkit.getServer().getOfflinePlayer(args[2]);
 
         CommandAssert.assertTrue(!CountryManager.getCountriesString().contains(countryName), "§bthis country already exists");
-        CommandAssert.assertTrue(CountryManager.getCountry(user) == null, "§bPlayer cannot create a new country, because he/she is already part of one");
+        CommandAssert.assertTrue(CountryManager.getCountry(player) == null, "§bPlayer cannot create a new country, because he/she is already part of one");
 
-        CountryManager.create(countryName, player, user);
+        CountryManager.create(countryName, player);
     }
 }
