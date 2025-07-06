@@ -12,8 +12,6 @@ import static org.bukkit.Bukkit.getServer;
 
 public class ResearchOption {
 
-    //TODO get from config
-
     public Material getMaterial() {
         return material;
     }

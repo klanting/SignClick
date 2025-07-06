@@ -29,6 +29,7 @@ public class AuctionMenu extends SelectionMenu {
             ItemMeta m = upgradeItem.getItemMeta();
             List<String> lores = new ArrayList<>();
             DecimalFormat df = new DecimalFormat("###,###,###");
+            lores.addAll(up.description());
             lores.add("§7Current Bid: "+df.format(Auction.getInstance().getBit(i)));
             String comp = Auction.getInstance().bitsOwner.get(i);
             if (comp == null){

@@ -68,7 +68,7 @@ public class Auction {
     public JsonObject toJson(JsonSerializationContext context){
         JsonObject jsonObject = new JsonObject();
 
-        jsonObject.add("toBuy", context.serialize(toBuy));
+        jsonObject.add("toBuy", context.serialize(toBuy, new TypeToken<ArrayList<PatentUpgrade>>(){}.getType()));
         jsonObject.add("bits", context.serialize(bits));
         jsonObject.add("bitsOwner", context.serialize(bitsOwner));
         jsonObject.add("waitTime", context.serialize(time_end-getServer().getCurrentTick()));

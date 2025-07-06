@@ -4,7 +4,7 @@ import com.google.gson.*;
 import com.google.gson.typeadapters.RuntimeTypeAdapterFactory;
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.economy.*;
-import com.klanting.signclick.economy.companyPatent.Auction;
+import com.klanting.signclick.economy.companyPatent.*;
 import com.klanting.signclick.economy.logs.*;
 import com.klanting.signclick.economy.parties.Election;
 import com.klanting.signclick.utils.Serializers.*;
@@ -44,6 +44,14 @@ public class Utils {
                     .registerSubtype(CompanyRef.class, "companyRef")
             ;
 
+    static RuntimeTypeAdapterFactory<PatentUpgrade> patentUpgradeTypes =
+            RuntimeTypeAdapterFactory.of(PatentUpgrade.class, "classType")
+                    .registerSubtype(PatentUpgradeCunning.class, "cunning")
+                    .registerSubtype(PatentUpgradeEvade.class, "evade")
+                    .registerSubtype(PatentUpgradeJumper.class, "jumper")
+                    .registerSubtype(PatentUpgradeRefill.class, "refill")
+            ;
+
     public static <T> String serialize(T value, Type token){
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Company.class, new CompanySerializer());
@@ -58,6 +66,7 @@ public class Utils {
         builder.registerTypeAdapter(LicenseSingleton.class, new LicenseSingletonSerializer());
         builder.registerTypeAdapterFactory(pluginLogTypes);
         builder.registerTypeAdapterFactory(companyTypes);
+        builder.registerTypeAdapterFactory(patentUpgradeTypes);
         Gson gson = builder.create();
         return gson.toJson(value, token);
     }
@@ -81,6 +90,7 @@ public class Utils {
         builder.registerTypeAdapter(LicenseSingleton.class, new LicenseSingletonSerializer());
         builder.registerTypeAdapterFactory(pluginLogTypes);
         builder.registerTypeAdapterFactory(companyTypes);
+        builder.registerTypeAdapterFactory(patentUpgradeTypes);
         Gson gson = builder.create();
 
         File file = new File(SignClick.getPlugin().getDataFolder()+"/"+name+".json");
@@ -123,6 +133,7 @@ public class Utils {
         builder.registerTypeAdapter(LicenseSingleton.class, new LicenseSingletonSerializer());
         builder.registerTypeAdapterFactory(pluginLogTypes);
         builder.registerTypeAdapterFactory(companyTypes);
+        builder.registerTypeAdapterFactory(patentUpgradeTypes);
         Gson gson = builder.create();
 
         File file = new File(SignClick.getPlugin().getDataFolder()+"/"+name+".json");

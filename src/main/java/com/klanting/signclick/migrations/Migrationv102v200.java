@@ -12,6 +12,7 @@ import com.klanting.signclick.utils.Utils;
 
 import java.io.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -95,9 +96,59 @@ public class Migrationv102v200 extends Migration{
                 * Add type of reference
                 * */
                 companyObject.add("classType", JsonParser.parseString("company"));
+
+                /*
+                * Update patent upgrades
+                * */
+                JsonArray jsapu = companyObject.getAsJsonArray("patentUpgrades");
+
+                HashMap<String, String> nameToClassType = new HashMap<>();
+                nameToClassType.put("§6Cunning", "cunning");
+                nameToClassType.put("§6Evade", "evade");
+                nameToClassType.put("§6Jumper", "jumper");
+                nameToClassType.put("§6Refill", "refill");
+
+                for (int i=0; i<jsapu.size(); i++){
+                    JsonObject jo = jsapu.get(i).getAsJsonObject();
+                    String name = jo.get("name").getAsString();
+                    jo.add("classType", JsonParser.parseString(nameToClassType.get(name)));
+                    jsapu.set(i, jo);
+                }
+                companyObject.add("patentUpgrades", jsapu);
             }
 
+
             Writer writer = new FileWriter(file, false);
+            writer.write(jsonObject.toString());
+            writer.flush();
+            writer.close();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+
+        try {
+
+            Reader reader = new FileReader(SignClick.getPlugin().getDataFolder()+"/auction.json");
+            JsonObject jsonObject = JsonParser.parseReader(reader).getAsJsonObject();
+
+            JsonArray toBuy = jsonObject.getAsJsonArray("toBuy");
+
+            HashMap<String, String> nameToClassType = new HashMap<>();
+            nameToClassType.put("Â§6Cunning", "cunning");
+            nameToClassType.put("Â§6Evade", "evade");
+            nameToClassType.put("Â§6Jumper", "jumper");
+            nameToClassType.put("Â§6Refill", "refill");
+
+            for (int i=0; i<toBuy.size(); i++){
+                JsonObject jo = toBuy.get(i).getAsJsonObject();
+                String name = jo.get("name").getAsString();
+                jo.add("classType", JsonParser.parseString(nameToClassType.get(name)));
+                toBuy.set(i, jo);
+            }
+            jsonObject.add("patentUpgrades", toBuy);
+
+            Writer writer = new FileWriter(SignClick.getPlugin().getDataFolder()+"/auction.json", false);
             writer.write(jsonObject.toString());
             writer.flush();
             writer.close();

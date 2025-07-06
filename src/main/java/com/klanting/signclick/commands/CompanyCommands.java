@@ -5,12 +5,10 @@ import com.klanting.signclick.commands.companyHandelers.*;
 import com.klanting.signclick.commands.companyHandelers.contractHandlers.*;
 import com.klanting.signclick.commands.exceptions.CommandAssert;
 import com.klanting.signclick.commands.exceptions.CommandException;
-import com.klanting.signclick.economy.CompanyI;
 import com.klanting.signclick.economy.Market;
 
-import com.klanting.signclick.economy.companyPatent.PatentUpgradeCustom;
 import com.klanting.signclick.SignClick;
-import org.bukkit.Material;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -20,8 +18,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
-
-import static com.klanting.signclick.economy.Market.getCompany;
 
 
 public class CompanyCommands implements CommandExecutor, TabCompleter {
@@ -115,37 +111,6 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
             return true;
         }
 
-        if (commando.equals("add_custom")){
-            confirm.put(player, "");
-            if (args.length < 4){
-                player.sendMessage("§bplease enter /company add_custom <stockname> <Texture> <Item>");
-                return true;
-            }
-
-            String stock_name = args[1].toUpperCase();
-            stock_name = stock_name.toUpperCase();
-
-            if (!Market.hasBusiness(stock_name)){
-                player.sendMessage("§bbusiness name is invalid");
-                return true;
-            }
-
-            if (!player.hasPermission("signclick.staff")){
-                player.sendMessage("§byou must be staff");
-                return true;
-            }
-
-            Material item = Material.valueOf(args[3].toUpperCase());
-
-            if (item == null){
-                player.sendMessage("§bitem not correctly specified");
-                return true;
-            }
-
-            CompanyI comp = getCompany(stock_name);
-            comp.getPatentUpgrades().add(new PatentUpgradeCustom(args[2], item));
-        }
-
         return true;
     }
 
@@ -165,7 +130,6 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
         if (args.length == 1) {
 
             autoCompletes.add("sharebal");
-            autoCompletes.add("add_custom");
 
             autoCompletes.add("create");
             autoCompletes.add("info");

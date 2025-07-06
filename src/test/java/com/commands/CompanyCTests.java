@@ -1092,7 +1092,6 @@ class CompanyCTests {
 
         List<String> autoCompletes = new ArrayList<>();
         autoCompletes.add("sharebal");
-        autoCompletes.add("add_custom");
         autoCompletes.add("create");
         autoCompletes.add("info");
         autoCompletes.add("sharetop");

@@ -59,6 +59,8 @@ public class SignClick extends JavaPlugin{
 
         WeeklyPay.restore();
 
+        ResearchOption.initModifiers();
+
         Market.restoreData();
 
         if (dynmapSupport && plugin.getConfig().getBoolean("dynmapTax")){
@@ -76,7 +78,7 @@ public class SignClick extends JavaPlugin{
 
         MachineRecipe.create();
 
-        ResearchOption.initModifiers();
+
         MenuEvents.checkMachines();
 
         getServer().getPluginManager().registerEvents(new SignEvents(), this);

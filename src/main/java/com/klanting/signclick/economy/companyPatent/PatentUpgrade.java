@@ -4,7 +4,7 @@ import org.bukkit.Material;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PatentUpgrade {
+abstract public class PatentUpgrade {
     public Material material;
     public Integer level;
 
@@ -33,4 +33,6 @@ public class PatentUpgrade {
 
         return id.equals(up.id) && level.equals(up.level) && name.equals(up.name);
     }
+
+    abstract public List<String> description();
 }

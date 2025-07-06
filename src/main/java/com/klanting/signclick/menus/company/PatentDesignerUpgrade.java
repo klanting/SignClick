@@ -3,7 +3,6 @@ package com.klanting.signclick.menus.company;
 import com.klanting.signclick.economy.CompanyI;
 import com.klanting.signclick.economy.companyPatent.Patent;
 import com.klanting.signclick.economy.companyPatent.PatentUpgrade;
-import com.klanting.signclick.economy.companyPatent.PatentUpgradeCustom;
 import com.klanting.signclick.menus.SelectionMenu;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -29,14 +28,6 @@ public class PatentDesignerUpgrade extends SelectionMenu {
     public void init(){
         int counter = 0;
         for (PatentUpgrade patent_up: comp.getPatentUpgrades()){
-
-            if (patent_up instanceof PatentUpgradeCustom){
-                PatentUpgradeCustom p = (PatentUpgradeCustom) patent_up;
-                if (patent.item != p.applied_item){
-                    return;
-                }
-
-            }
 
             if (!patent.upgrades.contains(patent_up)){
                 patentUpgradeList.add(patent_up);

@@ -216,13 +216,13 @@ public class CompanyMenuTests {
         assertNotNull(auctionMenu);
 
         ItemStack bidItem = auctionMenu.getItem(0);
-        assertEquals("§7Bid by: None", bidItem.getItemMeta().getLore().get(1));
+        assertTrue(bidItem.getItemMeta().getLore().contains("§7Bid by: None"));
         /*
         * Bid on first
         * */
         testPlayer.simulateInventoryClick(auctionMenu, 0);
         bidItem = auctionMenu.getItem(0);
-        assertEquals("§7Bid by: TCI", bidItem.getItemMeta().getLore().get(1));
+        assertTrue(bidItem.getItemMeta().getLore().contains("§7Bid by: TCI"));
 
         assertEquals(0, comp.getPatentUpgrades().size());
         testPlayer.closeInventory();
@@ -239,7 +239,7 @@ public class CompanyMenuTests {
         auctionMenu = testPlayer.getOpenInventory();
         bidItem = auctionMenu.getItem(0);
 
-        assertEquals("§7Bid by: None", bidItem.getItemMeta().getLore().get(1));
+        assertTrue(bidItem.getItemMeta().getLore().contains("§7Bid by: None"));
         assertEquals(1, comp.getPatentUpgrades().size());
     }
 
