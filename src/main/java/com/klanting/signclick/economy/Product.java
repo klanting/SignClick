@@ -10,7 +10,7 @@ public class Product extends Produceable{
 
     private final Material material;
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 
@@ -18,7 +18,7 @@ public class Product extends Produceable{
         return productionTime;
     }
 
-    private final int price;
+    private final double price;
 
     private final int productionTime;
 
