@@ -4,6 +4,7 @@ import com.klanting.signclick.SignClick;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class UpgradeInvestReturnTime extends Upgrade{
@@ -21,5 +22,19 @@ public class UpgradeInvestReturnTime extends Upgrade{
         name = "Invest Return Time";
         material = Material.EMERALD;
 
+    }
+
+    @Override
+    public List<String> description() {
+
+        List<String> l = new ArrayList<>();
+        l.add("§7Make the time smaller that you need");
+        l.add("§7to wait before getting your invested money back");
+
+        if (level < 5){
+            l.add("§7 From"+getBonus() +"->"+bonus.get(level+1));
+        }
+
+        return l;
     }
 }

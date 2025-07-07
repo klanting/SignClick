@@ -4,6 +4,7 @@ import com.klanting.signclick.SignClick;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class UpgradePatentUpgradeSlot extends Upgrade{
@@ -20,5 +21,18 @@ public class UpgradePatentUpgradeSlot extends Upgrade{
 
         name = "Patent Upgrade Slot";
         material = Material.ITEM_FRAME;
+    }
+
+    @Override
+    public List<String> description() {
+
+        List<String> l = new ArrayList<>();
+        l.add("§7Upgrade amount of patent upgrade slots");
+
+        if (level < 5){
+            l.add("§7 From"+getBonus() +"->"+bonus.get(level+1));
+        }
+
+        return l;
     }
 }

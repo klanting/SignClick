@@ -5,7 +5,7 @@ import org.bukkit.Material;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Upgrade {
+abstract public class Upgrade {
     public List<Integer> bonus = new ArrayList<>();
     public List<Integer> upgradeCost = new ArrayList<>();
 
@@ -43,5 +43,7 @@ public class Upgrade {
 
         return upgradeCost.get(level);
     }
+
+    abstract public List<String> description();
 
 }

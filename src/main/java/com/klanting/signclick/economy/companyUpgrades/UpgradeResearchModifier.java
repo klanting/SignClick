@@ -4,6 +4,9 @@ import com.klanting.signclick.SignClick;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class UpgradeResearchModifier extends Upgrade{
     public UpgradeResearchModifier(Integer level) {
         super(level, 5);
@@ -19,5 +22,18 @@ public class UpgradeResearchModifier extends Upgrade{
         name = "Research Modifier";
         material = Material.EXPERIENCE_BOTTLE;
 
+    }
+
+    @Override
+    public List<String> description() {
+
+        List<String> l = new ArrayList<>();
+        l.add("§7Upgrade research modifier");
+
+        if (level < 5){
+            l.add("§7 From"+getBonus() +"->"+bonus.get(level+1));
+        }
+
+        return l;
     }
 }

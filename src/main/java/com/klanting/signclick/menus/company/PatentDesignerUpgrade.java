@@ -8,6 +8,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PatentDesignerUpgrade extends SelectionMenu {
 
@@ -35,6 +36,9 @@ public class PatentDesignerUpgrade extends SelectionMenu {
                 ItemStack item = new ItemStack(patent_up.material, 1);
                 ItemMeta m = item.getItemMeta();
                 m.setDisplayName(patent_up.name+" "+patent_up.level);
+                List<String> l = new ArrayList<>();
+                l.addAll(patent_up.description());
+                m.setLore(l);
                 item.setItemMeta(m);
                 getInventory().setItem(counter, item);
                 counter++;

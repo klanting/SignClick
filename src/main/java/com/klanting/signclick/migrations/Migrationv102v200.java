@@ -70,9 +70,12 @@ public class Migrationv102v200 extends Migration{
                 * Change updates
                 * */
                 JsonArray jsa = companyObject.getAsJsonArray("upgrades");
-                JsonElement patentSlot = jsa.get(1);
-                JsonElement patentUpgradeSlot = jsa.get(2);
-                JsonElement investTime = jsa.get(4);
+                JsonObject patentSlot = jsa.get(1).getAsJsonObject();
+                patentSlot.add("classType", JsonParser.parseString("patentSlot"));
+                JsonObject patentUpgradeSlot = jsa.get(2).getAsJsonObject();
+                patentUpgradeSlot.add("classType", JsonParser.parseString("patentUpgradeSlot"));
+                JsonObject investTime = jsa.get(4).getAsJsonObject();
+                investTime.add("classType", JsonParser.parseString("investReturnTime"));
 
                 JsonArray newJsa = new JsonArray();
                 newJsa.add(patentSlot);
