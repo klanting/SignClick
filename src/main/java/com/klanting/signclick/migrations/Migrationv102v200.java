@@ -142,6 +142,10 @@ public class Migrationv102v200 extends Migration{
             nameToClassType.put("Â§6Evade", "evade");
             nameToClassType.put("Â§6Jumper", "jumper");
             nameToClassType.put("Â§6Refill", "refill");
+            nameToClassType.put("§6Cunning", "cunning");
+            nameToClassType.put("§6Evade", "evade");
+            nameToClassType.put("§6Jumper", "jumper");
+            nameToClassType.put("§6Refill", "refill");
 
             for (int i=0; i<toBuy.size(); i++){
                 JsonObject jo = toBuy.get(i).getAsJsonObject();
