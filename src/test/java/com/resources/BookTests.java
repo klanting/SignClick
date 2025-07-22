@@ -40,6 +40,6 @@ public class BookTests {
     @Test
     void loadCompanyGuide(){
         List<String> pages = BookParser.getPages("companyGuide.book", testPlayer);
-        assertEquals(14, pages.size());
+        assertEquals(24, pages.size());
     }
 }
