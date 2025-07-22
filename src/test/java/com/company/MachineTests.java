@@ -153,6 +153,19 @@ public class MachineTests {
     }
 
     @Test
+    void MachineItemOut(){
+        /*
+         * take item out of the machine
+         * */
+        basicMachineProduction();
+
+        PlayerMock testPlayer = server.getPlayer(0);
+
+        testPlayer.simulateInventoryClick(16);
+        assertEquals(new ItemStack(Material.DIRT, 5), testPlayer.getItemOnCursor());
+    }
+
+    @Test
     void MachineProductionSaveLoad(){
         basicMachineProduction();
 
@@ -186,7 +199,7 @@ public class MachineTests {
         Product product = new Product(Material.DIRT, 1, 2);
         comp2.addProduct(product);
         License license = new License(comp2, comp, product,
-                1.0, 0.0, 0.0);
+                1.0, 0.0, 0.1);
         LicenseSingleton.getInstance().getCurrentLicenses().addLicense(license);
 
         /*
@@ -284,6 +297,8 @@ public class MachineTests {
         assertEquals(1, MenuEvents.furnaces.get(0).getProductionProgress());
 
         assertEquals(new ItemStack(Material.DIRT, 5), MenuEvents.furnaces.get(0).results[0]);
+        assertEquals(Math.round((1995-(5*0.1))*1000), Math.round(comp.getBal()*1000));
+        assertEquals(Math.round((5*0.1)*1000), Math.round(comp2.getBal()*1000));
 
         /*
         * Remove the license

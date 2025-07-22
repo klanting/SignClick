@@ -179,69 +179,72 @@ public class MenuEvents implements Listener {
             event.setCancelled(true);
 
             String option = event.getCurrentItem().getItemMeta().getDisplayName();
-            if (option.equals("§7Product Slot")){
+            if (option != null){
+                if (option.equals("§7Product Slot")){
 
-                Function<Produceable, Void> lambda = (p) -> {
+                    Function<Produceable, Void> lambda = (p) -> {
 
-                    Product prod;
-                    License license = null;
-                    if(!(p instanceof Product)){
-                        license = (License) p;
-                        prod = license.getProduct();
-                    }else{
-                        prod = (Product) p;
-                    }
+                        Product prod;
+                        License license = null;
+                        if(!(p instanceof Product)){
+                            license = (License) p;
+                            prod = license.getProduct();
+                        }else{
+                            prod = (Product) p;
+                        }
 
-                    if (!(machineMenu.machine.getBlock().getState() instanceof TileState tileState)) {
-                        return null;
-                    }
-                    NamespacedKey productKey = new NamespacedKey(SignClick.getPlugin(), "signclick_company_machine_product");
+                        if (!(machineMenu.machine.getBlock().getState() instanceof TileState tileState)) {
+                            return null;
+                        }
+                        NamespacedKey productKey = new NamespacedKey(SignClick.getPlugin(), "signclick_company_machine_product");
 
-                    /*
-                    * set current item
-                    * */
-                    tileState.getPersistentDataContainer().set(productKey, PersistentDataType.STRING, prod.getMaterial().name());
-                    tileState.update();
+                        /*
+                         * set current item
+                         * */
+                        tileState.getPersistentDataContainer().set(productKey, PersistentDataType.STRING, prod.getMaterial().name());
+                        tileState.update();
 
-                    /*
-                     * Start furnace
-                     * */
-                    if (license != null){
-                        machineMenu.machine.clearProgress();
-                        machineMenu.machine.setLicense(license);
-                    }else{
-                        machineMenu.machine.clearProgress();
-                        machineMenu.machine.setProduct(prod);
-                    }
+                        /*
+                         * Start furnace
+                         * */
+                        if (license != null){
+                            machineMenu.machine.clearProgress();
+                            machineMenu.machine.setLicense(license);
+                        }else{
+                            machineMenu.machine.clearProgress();
+                            machineMenu.machine.setProduct(prod);
+                        }
 
-                    furnaces.add(machineMenu.machine);
+                        furnaces.add(machineMenu.machine);
 
-                    loadStack(player);
-                    return null;};
+                        loadStack(player);
+                        return null;};
 
-                ProductList new_screen = new ProductList(machineMenu.comp, lambda, false, true, true);
-                player.openInventory(new_screen.getInventory());
+                    ProductList new_screen = new ProductList(machineMenu.comp, lambda, false, true, true);
+                    player.openInventory(new_screen.getInventory());
+                }
+
+                if (option.contains("Hopper")){
+                    machineMenu.machine.hopperAllowed = !machineMenu.machine.hopperAllowed;
+                    machineMenu.init();
+                }
+
+                if (option.contains("Production Loop")){
+                    machineMenu.machine.changeProductionLoop();
+                    machineMenu.init();
+                }
+
+                if (option.contains("Add")){
+                    machineMenu.machine.changeProductionCount(1);
+                    machineMenu.init();
+                }
+
+                if (option.contains("Remove")){
+                    machineMenu.machine.changeProductionCount(-1);
+                    machineMenu.init();
+                }
             }
 
-            if (option.contains("Hopper")){
-                machineMenu.machine.hopperAllowed = !machineMenu.machine.hopperAllowed;
-                machineMenu.init();
-            }
-
-            if (option.contains("Production Loop")){
-                machineMenu.machine.changeProductionLoop();
-                machineMenu.init();
-            }
-
-            if (option.contains("Add")){
-                machineMenu.machine.changeProductionCount(1);
-                machineMenu.init();
-            }
-
-            if (option.contains("Remove")){
-                machineMenu.machine.changeProductionCount(-1);
-                machineMenu.init();
-            }
 
             int slot = event.getSlot();
             if (List.of(16, 16+9, 16+18).contains(slot)){
