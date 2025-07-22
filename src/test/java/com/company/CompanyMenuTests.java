@@ -7,6 +7,7 @@ import com.klanting.signclick.economy.companyPatent.PatentUpgrade;
 import com.klanting.signclick.economy.companyPatent.PatentUpgradeJumper;
 import com.klanting.signclick.menus.company.AuctionMenu;
 import com.klanting.signclick.SignClick;
+import com.klanting.signclick.menus.company.ProductList;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.*;
@@ -412,6 +413,18 @@ public class CompanyMenuTests {
         assertEquals(1, LicenseSingleton.getInstance().getLicenseRequests().getLicensesTo(comp).size());
 
         /*
+        * After request, check back button working properly,
+        * Should be routed to list of products and on press 'back' -> go to owner menu
+        * */
+        /*
+        * indicator of productList
+        * */
+        assertEquals(Material.ENCHANTING_TABLE, testPlayer.getOpenInventory().getItem(49).getType());
+        assertEquals(Material.BARRIER, testPlayer.getOpenInventory().getItem(53).getType());
+        testPlayer.simulateInventoryClick(53);
+        assertEquals(Material.GOLD_BLOCK, testPlayer.getOpenInventory().getItem(13).getType());
+
+        /*
         * as the 2nd company accept the license request
         * */
 
@@ -606,6 +619,54 @@ public class CompanyMenuTests {
          * */
         testPlayer.simulateInventoryClick(10);
         assertEquals(Material.LIGHT_GRAY_STAINED_GLASS_PANE, testPlayer.getOpenInventory().getItem(0).getType());
+
+    }
+
+    @Test
+    void companyResearch(){
+        /*
+        * Process company research
+        * */
+        CompanyI comp = getCompany(0);
+        comp.addBal(1000.0);
+        comp.setSpendable(1000.0);
+
+        assertNotNull(comp);
+
+        /*
+         * open company menu
+         * */
+        InventoryView companyMenu = openMenu(0);
+
+        assertEquals(Material.POTION, companyMenu.getItem(41).getType());
+        InventoryView researchSelector = openMenu(companyMenu, 41);
+
+        assertEquals(Material.AZALEA, researchSelector.getItem(0).getType());
+        assertEquals(Material.RED_STAINED_GLASS_PANE, researchSelector.getItem(2).getType());
+        assertEquals(Material.BLACK_STAINED_GLASS_PANE, researchSelector.getItem(4).getType());
+
+        assertEquals("§7Research 0,00% completed", researchSelector.getItem(0).getItemMeta().getLore().get(0));
+        assertEquals("§7IDLE", researchSelector.getItem(0).getItemMeta().getLore().get(1));
+
+        /*
+        * Start Research
+        * */
+        testPlayer.simulateInventoryClick(4);
+        assertEquals(Material.AZALEA, researchSelector.getItem(0).getType());
+        assertEquals(Material.LIGHT_BLUE_STAINED_GLASS_PANE, researchSelector.getItem(2).getType());
+        assertEquals(Material.WHITE_STAINED_GLASS_PANE, researchSelector.getItem(4).getType());
+
+        assertEquals("§7Research 0,00% completed", researchSelector.getItem(0).getItemMeta().getLore().get(0));
+        assertEquals("§70h 1m 25s", researchSelector.getItem(0).getItemMeta().getLore().get(1));
+
+        server.getScheduler().performTicks(100*20L);
+        testPlayer.closeInventory();
+        researchSelector = openMenu(companyMenu, 41);
+
+        assertEquals(Material.AZALEA, researchSelector.getItem(0).getType());
+        assertEquals(Material.LIME_STAINED_GLASS_PANE, researchSelector.getItem(2).getType());
+        assertEquals(Material.LIME_STAINED_GLASS_PANE, researchSelector.getItem(4).getType());
+        assertEquals("§aCOMPLETED", researchSelector.getItem(2).getItemMeta().getDisplayName());
 
     }
 

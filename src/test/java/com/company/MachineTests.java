@@ -8,6 +8,7 @@ import com.klanting.signclick.SignClick;
 import com.klanting.signclick.economy.*;
 import com.klanting.signclick.events.MenuEvents;
 import com.klanting.signclick.menus.company.LicenseInfoMenu;
+import com.klanting.signclick.menus.country.Menu;
 import com.klanting.signclick.utils.Utils;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -19,6 +20,7 @@ import org.bukkit.inventory.ItemStack;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.yaml.snakeyaml.error.Mark;
 import tools.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -163,6 +165,54 @@ public class MachineTests {
 
         testPlayer.simulateInventoryClick(16);
         assertEquals(new ItemStack(Material.DIRT, 5), testPlayer.getItemOnCursor());
+    }
+
+    @Test
+    void MachineItemOutFail(){
+        /*
+         * take item out of the machine, but have an item on your cursor, in this case you can't take the item
+         * */
+        basicMachineProduction();
+
+        PlayerMock testPlayer = server.getPlayer(0);
+        testPlayer.setItemOnCursor(new ItemStack(Material.PAPER, 1));
+
+        testPlayer.simulateInventoryClick(16);
+        assertEquals(new ItemStack(Material.DIRT, 5), MenuEvents.furnaces.get(0).results[0]);
+        assertEquals(new ItemStack(Material.PAPER, 1), testPlayer.getItemOnCursor());
+    }
+
+    @Test
+    void MachineStopProducing(){
+        /*
+         * When the item is taken out, it machine should stop producing
+         * */
+        basicMachineProduction();
+
+        PlayerMock testPlayer = server.getPlayer(0);
+        Machine machine = MenuEvents.furnaces.get(0);
+        assertEquals(new ItemStack(Material.DIRT, 5), machine.results[0]);
+
+        /*
+        * remove selection
+        * */
+        assertEquals(Material.DIRT, testPlayer.getOpenInventory().getItem(10).getType());
+        testPlayer.simulateInventoryClick(10);
+        assertEquals(Material.LIGHT_GRAY_DYE, testPlayer.getOpenInventory().getItem(10).getType());
+
+        CompanyI comp = Market.getCompany("TCI");
+        double balBefore = comp.getBal();
+
+        /*
+        * Perform some time to produce some more items, which should be produced
+        * */
+        assertEquals(new ItemStack(Material.DIRT, 5), machine.results[0]);
+        server.getScheduler().performTicks(220);
+
+        assertEquals(new ItemStack(Material.DIRT, 5), machine.results[0]);
+        assertEquals(balBefore, comp.getBal());
+        assertEquals(0, MenuEvents.furnaces.size());
+
     }
 
     @Test
