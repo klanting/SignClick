@@ -24,10 +24,16 @@ public class LocationSerializer implements JsonSerializer<Location>, JsonDeseria
         element.add("yaw", new JsonPrimitive(location.getYaw()));
         element.add("pitch", new JsonPrimitive(location.getPitch()));
 
-        if (location.getWorld() == null){
+        try{
+            if (location.getWorld() == null){
+                element.add("world", null);
+                return element;
+            }
+        }catch (IllegalArgumentException e){
             element.add("world", null);
             return element;
         }
+
 
         element.add("world", new JsonPrimitive(location.getWorld().getName()));
         return element;

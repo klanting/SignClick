@@ -82,6 +82,7 @@ public class OwnerMenu extends SelectionMenu {
          * */
         l = new ArrayList<>();
         l.add("§7Information of all its employees");
+        l.add("§9COMING IN FUTURE VERSIONS");
         value = ItemFactory.create(Material.SKELETON_SKULL, "§6Employees List", l);
         getInventory().setItem(31, value);
 
