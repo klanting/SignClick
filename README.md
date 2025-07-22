@@ -30,7 +30,7 @@ Automate item production, oversee research and transportation income Drive profi
 | ![](https://raw.githubusercontent.com/klanting/SignClick/main/images/companyMenu.png) | ![](https://raw.githubusercontent.com/klanting/SignClick/main/images/researchMenu.png) |
 
 ### Country Management
-Establish and govern your own country—hold democratic elections, vote on national policies, and shape the future of your citizens.
+Establish and govern your own country—hold democratic elections, vote on national policies, plan coups, and shape the future of your citizens.
 
 |          Country Decisions           | Country Policies          |
 |  :----------------------------------------: | :----------------------------------------: | 
