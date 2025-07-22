@@ -47,6 +47,7 @@ public class MachineMenu extends SelectionMenu {
             l.add("§cMachine frozen by ");
             l.add("§cfull storage");
         }
+        l.add("§7Items to be produced: "+(machine.productionLooped() ? "infinite": machine.getProductionCount()));
 
         getInventory().setItem(13, ItemFactory.create(Material.CLOCK, "§7Production", l));
 
@@ -73,10 +74,31 @@ public class MachineMenu extends SelectionMenu {
 
         update();
 
+        /*
+        * Enable hopper option
+        * */
         List<String> l = new ArrayList<>();
         l.add("§7Currently "+(machine.hopperAllowed ? "Enabled": "Disabled"));
         getInventory().setItem(27, ItemFactory.create(Material.HOPPER,
                 machine.hopperAllowed ? "§cDisable Hopper": "§aEnable Hopper", l));
+
+        /*
+        * enable production looping
+        * */
+        l = new ArrayList<>();
+        l.add("§7Currently "+(machine.productionLooped() ? "Enabled": "Disabled"));
+        getInventory().setItem(28, ItemFactory.create(Material.REDSTONE_TORCH,
+                machine.productionLooped() ? "§cDisable Production Loop": "§aEnable Production Loop", l));
+
+        /*
+        * add/remove production count
+        * */
+        getInventory().setItem(22, ItemFactory.create(Material.LIME_STAINED_GLASS,
+                "§aAdd 1 to production count"));
+
+        getInventory().setItem(31, ItemFactory.create(Material.RED_STAINED_GLASS,
+                "§cRemove 1 from production count"));
+
 
         NamespacedKey productKey = new NamespacedKey(SignClick.getPlugin(), "signclick_company_machine_product");
 

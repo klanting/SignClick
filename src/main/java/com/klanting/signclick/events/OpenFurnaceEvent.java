@@ -10,6 +10,7 @@ import com.klanting.signclick.recipes.MachineRecipe;
 
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.*;
+import org.bukkit.entity.Item;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -62,6 +63,15 @@ public class OpenFurnaceEvent implements Listener {
                 NamespacedKey compKey = new NamespacedKey(SignClick.getPlugin(), "signclick_company_machine_company");
                 String compName = tileState.getPersistentDataContainer().get(compKey, PersistentDataType.STRING);
                 if (tileState.getPersistentDataContainer().has(compKey, PersistentDataType.STRING) && !compName.isEmpty()){
+
+                    Machine machine = Market.getCompany(compName).getMachines().get(block);
+
+                    for (int i=0; i<3; i++){
+                        ItemStack itemStack = machine.results[i];
+                        if (itemStack != null){
+                            block.getWorld().dropItemNaturally(block.getLocation(), itemStack);
+                        }
+                    }
 
                     Market.getCompany(compName).getMachines().remove(block);
                 }

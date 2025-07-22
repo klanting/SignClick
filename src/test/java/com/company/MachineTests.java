@@ -143,6 +143,7 @@ public class MachineTests {
         * */
         assertEquals(0, MenuEvents.furnaces.get(0).getProductionProgress());
         MenuEvents.furnaces.get(0).getBlock().getLocation().setWorld(new WorldDoubleMock());
+        MenuEvents.furnaces.get(0).changeProductionLoop();
 
         server.getScheduler().performTicks(220);
         assertEquals(1, MenuEvents.furnaces.get(0).getProductionProgress());
@@ -277,6 +278,7 @@ public class MachineTests {
          * */
         assertEquals(0, MenuEvents.furnaces.get(0).getProductionProgress());
         MenuEvents.furnaces.get(0).getBlock().getLocation().setWorld(new WorldDoubleMock());
+        MenuEvents.furnaces.get(0).changeProductionLoop();
 
         server.getScheduler().performTicks(220);
         assertEquals(1, MenuEvents.furnaces.get(0).getProductionProgress());

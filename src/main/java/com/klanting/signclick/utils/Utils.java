@@ -91,6 +91,7 @@ public class Utils {
         * */
 
         GsonBuilder builder = new GsonBuilder();
+        builder.setPrettyPrinting();
         builder.registerTypeAdapter(Company.class, new CompanySerializer());
         builder.registerTypeAdapter(CompanyRef.class, new CompanyRefSerializer());
         builder.registerTypeAdapter(Country.class, new CountrySerializer());

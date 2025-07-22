@@ -22,6 +22,7 @@ import com.klanting.signclick.menus.party.DecisionChoice;
 import com.klanting.signclick.menus.party.DecisionVote;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.TileState;
@@ -35,6 +36,8 @@ import org.bukkit.persistence.PersistentDataType;
 
 import java.util.*;
 import java.util.function.Function;
+
+import static org.bukkit.Bukkit.getServer;
 
 public class MenuEvents implements Listener {
 
@@ -211,9 +214,6 @@ public class MenuEvents implements Listener {
                         machineMenu.machine.setProduct(prod);
                     }
 
-
-
-
                     furnaces.add(machineMenu.machine);
 
                     loadStack(player);
@@ -228,9 +228,30 @@ public class MenuEvents implements Listener {
                 machineMenu.init();
             }
 
+            if (option.contains("Production Loop")){
+                machineMenu.machine.changeProductionLoop();
+                machineMenu.init();
+            }
+
+            if (option.contains("Add")){
+                machineMenu.machine.changeProductionCount(1);
+                machineMenu.init();
+            }
+
+            if (option.contains("Remove")){
+                machineMenu.machine.changeProductionCount(-1);
+                machineMenu.init();
+            }
+
             int slot = event.getSlot();
             if (List.of(16, 16+9, 16+18).contains(slot)){
                 int index = (slot-16)/9;
+
+                getServer().getConsoleSender().sendMessage(ChatColor.YELLOW +" " +event.getCursor());
+
+                if ((event.getCursor() != null) && (!Objects.equals(event.getCursor().getType(), Material.AIR)) ){
+                    return;
+                }
                 event.setCursor(machineMenu.machine.results[index]);
                 machineMenu.machine.results[index] = null;
                 machineMenu.init();

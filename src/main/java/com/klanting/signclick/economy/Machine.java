@@ -16,6 +16,37 @@ public class Machine {
 
     private boolean frozenByFunds = false;
 
+    /*
+    * productionCount == -1 -> inf production
+    * */
+    private int productionCount = 0;
+
+    public void changeProductionCount(int amount){
+
+
+        if (productionLooped()){
+            return;
+        }
+        productionCount = Math.max(productionCount+amount, 0);
+    }
+
+    public boolean productionLooped(){
+        return productionCount == -1;
+    }
+
+    public int getProductionCount(){
+
+        if (productionCount == -1){
+            return Integer.MAX_VALUE;
+        }
+
+        return productionCount;
+    }
+
+    public void changeProductionLoop(){
+        productionCount = productionCount == -1 ? 0: -1;
+    }
+
 
     public ItemStack[] results = new ItemStack[3];
 
@@ -104,6 +135,10 @@ public class Machine {
             return;
         }
 
+        if (getProductionCount() == 0){
+            return;
+        }
+
         productionProgress += 1*(Market.getCompany(compName).getUpgrades().get(6).getBonus()/100.0);
 
         if (productionProgress >= product.getProductionTime()){
@@ -158,6 +193,10 @@ public class Machine {
             }else{
                 results[index] = new ItemStack(product.getMaterial());
             }
+            if (!productionLooped()){
+                productionCount -= 1;
+            }
+
         }
     }
 
