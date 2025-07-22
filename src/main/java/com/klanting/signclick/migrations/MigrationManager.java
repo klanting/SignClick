@@ -1,19 +1,16 @@
 package com.klanting.signclick.migrations;
 
 import com.klanting.signclick.SignClick;
-import org.bukkit.ChatColor;
 import versionCompatibility.VersionDetection;
 
 import java.util.List;
-
-import static org.bukkit.Bukkit.getServer;
 
 public class MigrationManager {
 
     private static final List<Migration> migrations = List.of(
             new Migrationv100v101(),
             new Migrationv101v102(),
-            new Migrationv102v200()
+            new Migrationv102v200beta()
     );
 
     public static void Migrate(){

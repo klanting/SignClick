@@ -55,8 +55,43 @@ Signs can also be made as a company with
 line 1: '§9[sign_comp]§0' and
 line 2: '§9<stockname>§0'.
 ---
+§9Company Production
+§0As a company you can produce specific items. The items you can create depends on your company type.
+To produce an item you need 2 things:
+§9A Machine§0
+§9A Product§0
+---
+§9Company Product
+§0You can only produce 'products', these products can be acquired using the following methods:
+---
+1. Research a product: In the company menu you can choose to research a specific product. The resource cost depends on the research speed. If you want to research your product faster, it increases the cost.
+---
+2. Craft a product: Using the other already unlocked products you can create new products, for which the cost depends on the cost of the resource products.
+---
+3. Product License: You can request a license from another company who has the product, in trade offering weekly payment, or royalty fees.
+---
+§9Company Machine
+§0You can create a new item called '§9Production Machine§0'.
+When you place this machine, you can choose the company for which it produces.
+When opening it, it shows an interface that allows you to select your product and to start producing it.
+---
+§9Company Leadership
+§0As a shareholder you can vote for a person to give that person a board seat.
+These board members will then each have 1 equal vote to choose the Company CEO, CTO and CFO.
+---
+§9CEO
+§0The CEO has access to a lot of systems, such as payment licencing etc.
+If no CTO or CFO is assigned, the CEO get access to these position its tasks.
+---
+§9CTO
+§0The CTO has access to crafting new products.
+---
+§9CFO
+§0The CFO has access to the 'spendable'.
+See the spendable as a budget, the CEO can do whatever he/she wants
+with the company money, as long as it doesn't exceed the spendable.
+---
 §9The End
-
 §0The world is in your hands now, my dear visionary.
 Good Luck §6{player}§0!
 

@@ -7,7 +7,6 @@ import com.klanting.signclick.economy.Board;
 import com.klanting.signclick.economy.CompanyOwnerManager;
 import com.klanting.signclick.economy.Research;
 import com.klanting.signclick.economy.companyUpgrades.*;
-import com.klanting.signclick.economy.logs.*;
 import com.klanting.signclick.utils.Utils;
 
 import java.io.*;
@@ -16,9 +15,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-public class Migrationv102v200 extends Migration{
-    Migrationv102v200(){
-        super("1.0.2", "2.0.0");
+public class Migrationv102v200beta extends Migration{
+    Migrationv102v200beta(){
+        super("1.0.2", "2.0.0-beta");
     }
 
     @Override
@@ -205,7 +204,7 @@ public class Migrationv102v200 extends Migration{
         }
 
 
-        SignClick.getPlugin().getConfig().set("version", "2.0.0");
+        SignClick.getPlugin().getConfig().set("version", "2.0.0-beta");
 
         SignClick.getPlugin().getConfig().options().copyDefaults(true);
         SignClick.getPlugin().saveConfig();
