@@ -3,6 +3,7 @@ package com.klanting.signclick.menus;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemFactory;
@@ -58,4 +59,6 @@ abstract public class SelectionMenu implements InventoryHolder {
         checkBackButton();
         onOpen();
     }
+
+    abstract public boolean onClick(InventoryClickEvent event);
 }

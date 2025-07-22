@@ -2,10 +2,15 @@ package com.klanting.signclick.menus.company;
 
 import com.klanting.signclick.economy.Board;
 import com.klanting.signclick.economy.CompanyI;
+import com.klanting.signclick.economy.Country;
+import com.klanting.signclick.economy.CountryManager;
 import com.klanting.signclick.menus.SelectionMenu;
+import com.klanting.signclick.menus.company.logs.LogList;
 import com.klanting.signclick.utils.ItemFactory;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
@@ -167,8 +172,62 @@ public class OwnerMenu extends SelectionMenu {
             getInventory().setItem(41, value);
         }
 
-
-
         super.init();
+    }
+
+    public boolean onClick(InventoryClickEvent event){
+        Player player = (Player) event.getWhoClicked();
+        event.setCancelled(true);
+        String option = event.getCurrentItem().getItemMeta().getDisplayName();
+        OwnerMenu old_screen = (OwnerMenu) event.getClickedInventory().getHolder();
+        if (option.equalsIgnoreCase("§6Upgrades")){
+            UpgradeMenu new_screen = new UpgradeMenu(player.getUniqueId(), old_screen.comp);
+            player.openInventory(new_screen.getInventory());
+        }else if(option.equalsIgnoreCase("§6Patent")){
+
+            Country country = CountryManager.getCountry(old_screen.comp.getCountry());
+            if (country != null && country.getStability() < 30){
+                player.sendMessage("§bcan`t access patent auction with country stability under 30");
+                return false;
+            }
+            PatentIDMenu new_screen = new PatentIDMenu(old_screen.comp, true);
+            player.openInventory(new_screen.getInventory());
+
+        }else if(option.equalsIgnoreCase("§6Patent Auction")){
+            AuctionMenu new_screen = new AuctionMenu(old_screen.comp);
+            player.openInventory(new_screen.getInventory());
+
+        }else if(option.equalsIgnoreCase("§6Recipes")){
+            PatentIDMenu new_screen = new PatentIDMenu(old_screen.comp, false);
+            player.openInventory(new_screen.getInventory());
+
+        }else if(option.equalsIgnoreCase("§6Logs")){
+            LogList new_screen = new LogList(old_screen.comp);
+            player.openInventory(new_screen.getInventory());
+
+        }else if(option.equalsIgnoreCase("§6Chief Positions")){
+            ChiefList new_screen = new ChiefList(player.getUniqueId(), old_screen.comp);
+            player.openInventory(new_screen.getInventory());
+        }else if(option.equalsIgnoreCase("§6Board Info")){
+            BoardMenu new_screen = new BoardMenu(old_screen.comp);
+            player.openInventory(new_screen.getInventory());
+        }else if(option.equalsIgnoreCase("§6Research")){
+            ResearchMenu new_screen = new ResearchMenu(player.getUniqueId(), old_screen.comp);
+            player.openInventory(new_screen.getInventory());
+        }else if(option.equalsIgnoreCase("§6Craft Products")){
+            ProductCraftMenu new_screen = new ProductCraftMenu(player.getUniqueId(), old_screen.comp);
+            player.openInventory(new_screen.getInventory());
+        }else if(option.equalsIgnoreCase("§6Products")){
+            ProductList new_screen = new ProductList(old_screen.comp, s -> {return null;}, true,
+                    true, true);
+            player.openInventory(new_screen.getInventory());
+        }else if(option.equalsIgnoreCase("§6Machines List")){
+            MachineList new_screen = new MachineList(old_screen.comp, s -> {return null;});
+            player.openInventory(new_screen.getInventory());
+        }else if(option.equalsIgnoreCase("§6Financials")){
+            FinancialMenu new_screen = new FinancialMenu(player.getUniqueId(), old_screen.comp);
+            player.openInventory(new_screen.getInventory());
+        }
+        return true;
     }
 }

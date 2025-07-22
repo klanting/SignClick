@@ -6,6 +6,8 @@ import com.klanting.signclick.menus.SelectionMenu;
 import com.klanting.signclick.utils.ItemFactory;
 import org.apache.commons.lang3.tuple.Triple;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -124,5 +126,26 @@ public class FinancialMenu extends SelectionMenu {
         }
 
         super.init();
+    }
+
+    public boolean onClick(InventoryClickEvent event){
+        Player player = (Player) event.getWhoClicked();
+        event.setCancelled(true);
+
+        CompanyI currentCompany = company;
+
+        if (event.getCurrentItem().getItemMeta().getDisplayName().contains("Increase")){
+            int amount = Integer.parseInt((event.getCurrentItem().getItemMeta().getDisplayName().split(" ")[1]).replace(".", ""));
+            currentCompany.setSpendable(currentCompany.getSpendable()+amount);
+        }
+
+        if (event.getCurrentItem().getItemMeta().getDisplayName().contains("Decrease")){
+            int amount = Integer.parseInt((event.getCurrentItem().getItemMeta().getDisplayName().split(" ")[1]).replace(".", ""));
+            currentCompany.setSpendable(Math.max(currentCompany.getSpendable()-amount, 0));
+        }
+
+        init();
+
+        return true;
     }
 }

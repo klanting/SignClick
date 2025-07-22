@@ -11,6 +11,8 @@ import com.klanting.signclick.economy.parties.Party;
 
 import com.klanting.signclick.menus.PagingMenu;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -50,5 +52,25 @@ public class DecisionVote extends PagingMenu {
         }
 
         super.init();
+    }
+
+    public boolean onClick(InventoryClickEvent event){
+        if (!super.onClick(event)){
+            return false;
+        }
+        event.setCancelled(true);
+        Player player = (Player) event.getWhoClicked();
+
+        int slot = getItemIndex(event.getCurrentItem());
+        assert slot != -1;
+
+        String countryName = p.country;
+        Country country = CountryManager.getCountry(countryName);
+
+        Decision d = country.getDecisions().get(slot);
+
+        DecisionChoice new_screen = new DecisionChoice(p, d);
+        player.openInventory(new_screen.getInventory());
+        return true;
     }
 }

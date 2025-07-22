@@ -316,7 +316,7 @@ public class Company extends LoggableSubject implements CompanyI{
 
                             for (Machine machine: machines.values()){
                                 if (machine.hasProduct()){
-                                    MenuEvents.furnaces.add(machine);
+                                    MenuEvents.activeMachines.add(machine);
                                 }
                             }
 

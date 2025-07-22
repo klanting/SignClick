@@ -6,6 +6,8 @@ import com.klanting.signclick.economy.companyUpgrades.Upgrade;
 import com.klanting.signclick.economy.CountryManager;
 import com.klanting.signclick.menus.SelectionMenu;
 import com.klanting.signclick.utils.ItemFactory;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.text.DecimalFormat;
@@ -48,5 +50,31 @@ public class UpgradeMenu extends SelectionMenu {
         }
 
         super.init();
+    }
+
+    public boolean onClick(InventoryClickEvent event){
+        Player player = (Player) event.getWhoClicked();
+        event.setCancelled(true);
+
+        boolean chief = comp.getCOM().getBoard().getChiefPermission("CEO").equals(player.getUniqueId());
+
+        if (!chief){
+            player.sendMessage("§cOnly the CEO has the permissions for this");
+            return false;
+        }
+
+        int id = event.getSlot()-11;
+        boolean suc6 = comp.doUpgrade(id);
+
+        if (id == 3){
+            comp.getCOM().getBoard().setBoardSeats(comp.getUpgrades().get(id).getBonus());
+        }
+
+        init();
+
+        if (!suc6){
+            player.sendMessage("§bNot enough Money or Points to do the upgrade");
+        }
+        return true;
     }
 }

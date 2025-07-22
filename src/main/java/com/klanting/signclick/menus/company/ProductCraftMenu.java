@@ -1,17 +1,23 @@
 package com.klanting.signclick.menus.company;
 
 import com.klanting.signclick.economy.CompanyI;
+import com.klanting.signclick.economy.Produceable;
 import com.klanting.signclick.economy.Product;
 import com.klanting.signclick.menus.SelectionMenu;
 import com.klanting.signclick.utils.ItemFactory;
 import com.klanting.signclick.utils.Utils;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
+import java.util.function.Function;
+
+import static com.klanting.signclick.events.MenuEvents.loadStack;
 
 public class ProductCraftMenu extends SelectionMenu {
     public CompanyI comp;
@@ -86,5 +92,62 @@ public class ProductCraftMenu extends SelectionMenu {
         getInventory().setItem(43, ItemFactory.create(Material.LIME_WOOL, "§aSave Product"));
 
         super.init();
+    }
+
+    public boolean onClick(InventoryClickEvent event){
+        Player player = (Player) event.getWhoClicked();
+        event.setCancelled(true);
+
+        String option = event.getCurrentItem().getItemMeta().getDisplayName();
+
+        if (option.equals("§7Crafting Slot") || (1 <= event.getSlot()/9 && event.getSlot()/9 <= 3) &&
+                (event.getSlot()-1)%3 <= 2 && 0 <= (event.getSlot()-1)%3){
+
+            int slot = (event.getSlot()/9 -1)*3+((event.getSlot()-1)%3);
+
+            if (products[slot] != null){
+                products[slot] = null;
+                init();
+                return false;
+            }
+
+            Function<Produceable, Void> lambda = (p) -> {
+                if(!(p instanceof Product prod)){
+                    return null;
+                }
+
+                products[slot] = prod;
+                init();
+                loadStack(player);
+                return null;};
+
+            ProductList new_screen = new ProductList(comp, lambda, false, true, false);
+            player.openInventory(new_screen.getInventory());
+        }else if(option.equals("§aSave Product")) {
+
+            if (comp.getProducts().size() >= comp.getUpgrades().get(2).getBonus()){
+                player.sendMessage("§cYou don't have any free product slots. Used: "+comp.getProducts().size()
+                        +"/"+comp.getUpgrades().get(2).getBonus()+" (Research products are always added)");
+                player.closeInventory();
+                return false;
+            }
+
+            Product product = getCrafted();
+
+            if (product != null){
+                comp.addProduct(product);
+                loadStack(player);
+            }
+
+            return false;
+
+        }else{
+            /*
+             * Only return if no slot selected
+             * */
+            return false;
+        }
+
+        return true;
     }
 }

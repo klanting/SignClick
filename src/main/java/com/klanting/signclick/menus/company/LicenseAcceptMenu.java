@@ -1,14 +1,19 @@
 package com.klanting.signclick.menus.company;
 
 import com.klanting.signclick.economy.License;
+import com.klanting.signclick.economy.LicenseSingleton;
 import com.klanting.signclick.menus.SelectionMenu;
 import com.klanting.signclick.utils.ItemFactory;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.klanting.signclick.events.MenuEvents.loadStack;
 
 public class LicenseAcceptMenu extends SelectionMenu {
     public final License license;
@@ -40,5 +45,31 @@ public class LicenseAcceptMenu extends SelectionMenu {
         getInventory().setItem(14, ItemFactory.create(Material.LIME_WOOL, "§aAccept License"));
 
         super.init();
+    }
+
+    public boolean onClick(InventoryClickEvent event){
+        Player player = (Player) event.getWhoClicked();
+        event.setCancelled(true);
+
+        boolean chiefFrom = license.getFrom().getCOM().getBoard().getChiefPermission("CEO").equals(player.getUniqueId());
+
+        if (!chiefFrom){
+            player.sendMessage("§cOnly the CEO has the permissions for this");
+            return false;
+        }
+
+        int slot = event.getSlot();
+
+        if (slot == 12){
+            LicenseSingleton.getInstance().getLicenseRequests().removeLicense(license);
+            loadStack(player);
+        }
+
+        if (slot == 14){
+            LicenseSingleton.getInstance().getLicenseRequests().removeLicense(license);
+            LicenseSingleton.getInstance().getCurrentLicenses().addLicense(license);
+            loadStack(player);
+        }
+        return true;
     }
 }

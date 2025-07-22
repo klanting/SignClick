@@ -2,7 +2,6 @@ package tools;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
-import be.seeseemelk.mockbukkit.block.state.BlockStateMock;
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
 import be.seeseemelk.mockbukkit.plugin.PluginManagerMock;
 import com.klanting.signclick.SignClick;
@@ -13,9 +12,6 @@ import com.klanting.signclick.economy.Market;
 import com.klanting.signclick.economy.companyPatent.Auction;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockState;
-import org.bukkit.block.Furnace;
 import org.bukkit.inventory.*;
 import org.bukkit.plugin.Plugin;
 import org.dynmap.DynmapAPI;
@@ -95,7 +91,7 @@ public class TestTools {
         CountryManager.clear();
         Auction.clear();
         Market.clear();
-        MenuEvents.furnaces.clear();
+        MenuEvents.activeMachines.clear();
         WeeklyPay.payments.clear();
     }
 

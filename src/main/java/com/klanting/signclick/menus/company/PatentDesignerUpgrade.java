@@ -4,6 +4,8 @@ import com.klanting.signclick.economy.CompanyI;
 import com.klanting.signclick.economy.companyPatent.Patent;
 import com.klanting.signclick.economy.companyPatent.PatentUpgrade;
 import com.klanting.signclick.menus.SelectionMenu;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -46,5 +48,18 @@ public class PatentDesignerUpgrade extends SelectionMenu {
         }
 
         super.init();
+    }
+
+    public boolean onClick(InventoryClickEvent event){
+        event.setCancelled(true);
+        PatentUpgrade pat_up = patentUpgradeList.get(event.getSlot());
+        Patent pat = patent;
+        pat.upgrades.add(pat_up);
+
+        Player player = (Player) event.getWhoClicked();
+        PatentDesignerMenu new_screen = new PatentDesignerMenu(pat, comp);
+        player.openInventory(new_screen.getInventory());
+
+        return true;
     }
 }

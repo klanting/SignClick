@@ -1,9 +1,15 @@
 package com.klanting.signclick.menus.company;
 
 import com.klanting.signclick.economy.CompanyI;
+import com.klanting.signclick.economy.companyPatent.Patent;
+import com.klanting.signclick.economy.companyPatent.PatentUpgrade;
 import com.klanting.signclick.menus.SelectionMenu;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.ArrayList;
 
 public class PatentSelectorMenu extends SelectionMenu {
 
@@ -30,6 +36,18 @@ public class PatentSelectorMenu extends SelectionMenu {
         getInventory().setItem(16, item);
 
         super.init();
+    }
+
+    public boolean onClick(InventoryClickEvent event){
+        Player player = (Player) event.getWhoClicked();
+        event.setCancelled(true);
+        ItemStack item = event.getCurrentItem();
+
+        Patent pat = new Patent("Nameless", item.getType(), new ArrayList<>());
+        PatentDesignerMenu new_screen = new PatentDesignerMenu(pat, comp);
+        player.openInventory(new_screen.getInventory());
+
+        return true;
     }
 
 }

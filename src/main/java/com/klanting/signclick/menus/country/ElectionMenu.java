@@ -4,6 +4,8 @@ import com.klanting.signclick.economy.parties.Election;
 import com.klanting.signclick.menus.PagingMenu;
 import com.klanting.signclick.menus.SelectionMenu;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -30,6 +32,24 @@ public class ElectionMenu extends PagingMenu {
         }
 
         super.init();
+    }
+
+    public boolean onClick(InventoryClickEvent event){
+        if (!super.onClick(event)){
+            return false;
+        }
+        ItemStack item = event.getCurrentItem();
+        ItemMeta m = item.getItemMeta();
+        String party = m.getDisplayName().substring(2);
+
+        ElectionMenu old_screen = (ElectionMenu) event.getClickedInventory().getHolder();
+        old_screen.e.vote(party, event.getWhoClicked().getUniqueId());
+
+        event.setCancelled(true);
+        Player player = (Player) event.getWhoClicked();
+        player.closeInventory();
+
+        return true;
     }
 
 }

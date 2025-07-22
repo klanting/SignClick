@@ -1,16 +1,22 @@
 package com.klanting.signclick.menus.company;
 
 import com.klanting.signclick.economy.CompanyI;
+import com.klanting.signclick.economy.License;
+import com.klanting.signclick.economy.LicenseSingleton;
 import com.klanting.signclick.economy.Product;
 import com.klanting.signclick.menus.SelectionMenu;
 import com.klanting.signclick.utils.ItemFactory;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import static com.klanting.signclick.events.MenuEvents.loadStack;
 
 public class LicenseRequestMenu extends SelectionMenu {
     public CompanyI fromComp;
@@ -89,5 +95,55 @@ public class LicenseRequestMenu extends SelectionMenu {
 
 
         super.init();
+    }
+
+    public boolean onClick(InventoryClickEvent event){
+        Player player = (Player) event.getWhoClicked();
+        event.setCancelled(true);
+
+        boolean chiefTo = toComp.getCOM().getBoard().getChiefPermission("CEO").equals(player.getUniqueId());
+
+        if (!chiefTo){
+            player.sendMessage("§cOnly the CEO has the permissions for this");
+            return false;
+        }
+
+        int slot = event.getSlot();
+
+        if (slot >= 27 && slot < 36){
+            return false;
+        }
+
+        boolean positive;
+        if (slot < 27){
+            slot += 9;
+            positive = true;
+        }else{
+            slot -=9;
+            positive = false;
+        }
+
+        if (slot == 29){
+            weeklyCost = Math.max(1000*(positive ? 1: -1)+weeklyCost, 0);
+            init();
+        }
+        if (slot == 31){
+            increaseCost = Math.max((positive ? 0.01: -0.01)+increaseCost, 0);
+            init();
+        }
+        if (slot == 33){
+            royaltyFee = Math.max((positive ? 0.01: -0.01)+royaltyFee, 0);
+            init();
+        }
+
+        if (event.getCurrentItem().getItemMeta().getDisplayName().equals("§aSend License offer")){
+
+            LicenseSingleton.getInstance().getLicenseRequests().addLicense(new License(fromComp, toComp,
+                    product, weeklyCost, increaseCost, royaltyFee));
+            loadStack(player);
+            loadStack(player);
+        }
+
+        return false;
     }
 }

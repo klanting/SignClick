@@ -6,7 +6,10 @@ import com.klanting.signclick.economy.companyPatent.PatentUpgrade;
 import com.klanting.signclick.menus.SelectionMenu;
 import com.klanting.signclick.utils.ItemFactory;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.*;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 
@@ -54,5 +57,22 @@ public class PatentCrafting extends SelectionMenu {
         getInventory().setItem(8, item);
 
         super.init();
+    }
+
+    public boolean onClick(InventoryClickEvent event){
+        event.setCancelled(true);
+        String option = event.getCurrentItem().getItemMeta().getDisplayName();
+        if (option.equalsIgnoreCase("§6Get Patent Sheet")){
+            Player player = (Player) event.getWhoClicked();
+
+            ItemStack item = new ItemStack(Material.PAPER, 1);
+
+            ItemMeta m = item.getItemMeta();
+            m.setDisplayName("§6"+comp.getStockName() +":"+patent.getName()+":"+comp.getPatent().indexOf(patent));
+            item.setItemMeta(m);
+
+            player.getInventory().setItem(player.getInventory().firstEmpty(), item);
+        }
+        return true;
     }
 }

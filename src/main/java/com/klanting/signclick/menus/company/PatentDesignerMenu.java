@@ -5,6 +5,8 @@ import com.klanting.signclick.economy.companyPatent.Patent;
 import com.klanting.signclick.economy.companyPatent.PatentUpgrade;
 import com.klanting.signclick.menus.SelectionMenu;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -58,5 +60,36 @@ public class PatentDesignerMenu extends SelectionMenu {
         getInventory().setItem(8, save_button);
 
         super.init();
+    }
+
+    public boolean onClick(InventoryClickEvent event){
+        Player player = (Player) event.getWhoClicked();
+        event.setCancelled(true);
+
+        Patent pat = patent;
+
+        String option = event.getCurrentItem().getItemMeta().getDisplayName();
+        if (option.equalsIgnoreCase("§aSave")){
+            if (!comp.getPatent().contains(patent)){
+                comp.getPatent().add(patent);
+                patent.createCraft(comp);
+            }
+
+            PatentIDMenu new_screen = new PatentIDMenu(comp, true);
+            player.openInventory(new_screen.getInventory());
+            return false;
+        }
+        if (event.getCurrentItem().getType().equals(Material.NAME_TAG)){
+            pat.setName(event.getCurrentItem().getItemMeta().getDisplayName());
+            init();
+            return false;
+        }
+
+        if (event.getCurrentItem().getType().equals(Material.LIGHT_GRAY_DYE)){
+            PatentDesignerUpgrade new_screen = new PatentDesignerUpgrade(pat, comp);
+            player.openInventory(new_screen.getInventory());
+        }
+
+        return true;
     }
 }

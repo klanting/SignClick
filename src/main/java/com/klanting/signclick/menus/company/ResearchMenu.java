@@ -5,6 +5,7 @@ import com.klanting.signclick.economy.ResearchOption;
 import com.klanting.signclick.menus.PagingMenu;
 import com.klanting.signclick.utils.ItemFactory;
 import org.bukkit.Material;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.text.DecimalFormat;
@@ -101,5 +102,23 @@ public class ResearchMenu extends PagingMenu {
 
         super.init();
         onOpen();
+    }
+
+    public boolean onClick(InventoryClickEvent event){
+        if (!super.onClick(event)){
+            return false;
+        }
+        event.setCancelled(true);
+
+
+        int slot = event.getSlot() % 9;
+        if (!(slot >= 2 && slot <= 7)){
+            return false;
+        }
+        int index = getPage()*5+(event.getSlot()/9);
+        comp.getResearch().getResearchOptions().get(index).setModifierIndex(slot-2);
+        init();
+
+        return false;
     }
 }

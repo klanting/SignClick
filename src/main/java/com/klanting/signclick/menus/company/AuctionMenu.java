@@ -1,15 +1,20 @@
 package com.klanting.signclick.menus.company;
 
+import com.klanting.signclick.SignClick;
 import com.klanting.signclick.economy.CompanyI;
 import com.klanting.signclick.economy.companyPatent.Auction;
 import com.klanting.signclick.economy.companyPatent.PatentUpgrade;
 import com.klanting.signclick.menus.SelectionMenu;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 public class AuctionMenu extends SelectionMenu {
 
@@ -43,5 +48,44 @@ public class AuctionMenu extends SelectionMenu {
         }
 
         super.init();
+    }
+
+    public boolean onClick(InventoryClickEvent event){
+        Player player = (Player) event.getWhoClicked();
+        event.setCancelled(true);
+        AuctionMenu old_screen = (AuctionMenu) event.getClickedInventory().getHolder();
+        int location = event.getSlot();
+
+        int add_price = SignClick.getPlugin().getConfig().getInt("auctionBitIncrease");
+        if (Auction.getInstance().bitsOwner.get(location) == null){
+            add_price = 0;
+        }
+
+        int currentBit = Auction.getInstance().getBit(location)+add_price;
+        double compValue = old_screen.comp.getValue();
+
+        /*
+         * Subtract other bits of the max allowed bit
+         * */
+        for (Map.Entry<Integer, String> entry :Auction.getInstance().bitsOwner.entrySet()){
+            if (!Objects.equals(entry.getValue(), old_screen.comp.getStockName())){
+                continue;
+            }
+            if (entry.getKey() == location){
+                continue;
+            }
+
+            compValue -= Auction.getInstance().getBit(entry.getKey());
+        }
+
+        if (compValue < currentBit){
+            player.sendMessage("§bCompany is not valued enough to place the current Bid");
+            return false;
+        }
+
+        Auction.getInstance().setBit(location, currentBit, old_screen.comp.getStockName());
+        old_screen.init();
+
+        return true;
     }
 }

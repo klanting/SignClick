@@ -2,9 +2,13 @@ package com.klanting.signclick.menus.country;
 
 import com.klanting.signclick.economy.Country;
 import com.klanting.signclick.economy.CountryManager;
+import com.klanting.signclick.economy.decisions.Decision;
+import com.klanting.signclick.economy.decisions.DecisionBanParty;
 import com.klanting.signclick.economy.parties.Party;
 import com.klanting.signclick.menus.SelectionMenu;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -34,6 +38,32 @@ public class PartyBan extends SelectionMenu {
         }
 
         super.init();
+    }
+
+    public boolean onClick(InventoryClickEvent event){
+        Player player = (Player) event.getWhoClicked();
+        event.setCancelled(true);
+        int slot = event.getSlot();
+        Country country = CountryManager.getCountry(player);
+
+        Party p = country.getParties().get(slot);
+        Party ph = country.getRuling();
+        if (ph == p){
+            player.sendMessage("§bcan`t ban ruling party");
+            return false;
+        }
+
+        if (country.getStability() < 40.0){
+            player.sendMessage("§brequired stability is 40");
+            return false;
+        }
+
+        Decision d = new DecisionBanParty("§6Ban Party §9"+p.name, 0.5, country.getName(), p);
+        country.addDecision(d);
+
+        player.closeInventory();
+
+        return true;
     }
 
 }

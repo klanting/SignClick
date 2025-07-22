@@ -1,20 +1,29 @@
 package com.klanting.signclick.menus.company.machine;
 
 import com.klanting.signclick.SignClick;
-import com.klanting.signclick.economy.CompanyI;
-import com.klanting.signclick.economy.Machine;
+import com.klanting.signclick.economy.*;
 import com.klanting.signclick.menus.SelectionMenu;
+import com.klanting.signclick.menus.company.ProductList;
 import com.klanting.signclick.utils.ItemFactory;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.TileState;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
+import java.util.function.Function;
+
+import static com.klanting.signclick.events.MenuEvents.activeMachines;
+import static com.klanting.signclick.events.MenuEvents.loadStack;
+import static org.bukkit.Bukkit.getServer;
 
 public class MachineMenu extends SelectionMenu {
     public CompanyI comp;
@@ -127,5 +136,111 @@ public class MachineMenu extends SelectionMenu {
         }
 
         super.init();
+    }
+
+    public boolean onClick(InventoryClickEvent event){
+        Player player = (Player) event.getWhoClicked();
+        event.setCancelled(true);
+
+        String option = event.getCurrentItem().getItemMeta().getDisplayName();
+        if (option != null){
+            if (option.equals("§7Product Slot")){
+
+                Function<Produceable, Void> lambda = (p) -> {
+
+                    Product prod;
+                    License license = null;
+                    if(!(p instanceof Product)){
+                        license = (License) p;
+                        prod = license.getProduct();
+                    }else{
+                        prod = (Product) p;
+                    }
+
+                    if (!(machine.getBlock().getState() instanceof TileState tileState)) {
+                        return null;
+                    }
+                    NamespacedKey productKey = new NamespacedKey(SignClick.getPlugin(), "signclick_company_machine_product");
+
+                    /*
+                     * set current item
+                     * */
+                    tileState.getPersistentDataContainer().set(productKey, PersistentDataType.STRING, prod.getMaterial().name());
+                    tileState.update();
+
+                    /*
+                     * Start furnace
+                     * */
+                    if (license != null){
+                        machine.clearProgress();
+                        machine.setLicense(license);
+                    }else{
+                        machine.clearProgress();
+                        machine.setProduct(prod);
+                    }
+
+                    activeMachines.add(machine);
+
+                    loadStack(player);
+                    return null;};
+
+                ProductList new_screen = new ProductList(comp, lambda, false, true, true);
+                player.openInventory(new_screen.getInventory());
+            }
+
+            if (option.contains("Hopper")){
+                machine.hopperAllowed = !machine.hopperAllowed;
+                init();
+            }
+
+            if (option.contains("Production Loop")){
+                machine.changeProductionLoop();
+                init();
+            }
+
+            if (option.contains("Add")){
+                machine.changeProductionCount(1);
+                init();
+            }
+
+            if (option.contains("Remove")){
+                machine.changeProductionCount(-1);
+                init();
+            }
+
+        }
+
+        int slot = event.getSlot();
+        if (List.of(16, 16+9, 16+18).contains(slot)){
+            int index = (slot-16)/9;
+
+            getServer().getConsoleSender().sendMessage(ChatColor.YELLOW +" " +event.getCursor());
+
+            if ((event.getCursor() != null) && (!Objects.equals(event.getCursor().getType(), Material.AIR)) ){
+                return false;
+            }
+            event.setCursor(machine.results[index]);
+            machine.results[index] = null;
+            init();
+        }
+
+        if (event.getSlot() == 10){
+            if (!(machine.getBlock().getState() instanceof TileState tileState)){
+                return false;
+            }
+            NamespacedKey productKey = new NamespacedKey(SignClick.getPlugin(), "signclick_company_machine_product");
+
+            /*
+             * set current item
+             * */
+            tileState.getPersistentDataContainer().set(productKey, PersistentDataType.STRING, "");
+            tileState.update();
+
+            activeMachines.remove(machine);
+
+            init();
+        }
+
+        return true;
     }
 }

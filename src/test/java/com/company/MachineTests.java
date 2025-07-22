@@ -8,7 +8,6 @@ import com.klanting.signclick.SignClick;
 import com.klanting.signclick.economy.*;
 import com.klanting.signclick.events.MenuEvents;
 import com.klanting.signclick.menus.company.LicenseInfoMenu;
-import com.klanting.signclick.menus.country.Menu;
 import com.klanting.signclick.utils.Utils;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -20,7 +19,6 @@ import org.bukkit.inventory.ItemStack;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.yaml.snakeyaml.error.Mark;
 import tools.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -39,14 +37,14 @@ public class MachineTests {
 
     @AfterEach
     public void tearDown() {
-        if (!MenuEvents.furnaces.isEmpty()){
-            MenuEvents.furnaces.get(0).getBlock().getLocation().setWorld(server.getWorld("world"));
+        if (!MenuEvents.activeMachines.isEmpty()){
+            MenuEvents.activeMachines.get(0).getBlock().getLocation().setWorld(server.getWorld("world"));
         }
 
         MockBukkit.unmock();
         Market.clear();
         LicenseSingleton.clear();
-        MenuEvents.furnaces.clear();
+        MenuEvents.activeMachines.clear();
     }
 
     @Test
@@ -143,14 +141,14 @@ public class MachineTests {
         /*
         * Check production is working
         * */
-        assertEquals(0, MenuEvents.furnaces.get(0).getProductionProgress());
-        MenuEvents.furnaces.get(0).getBlock().getLocation().setWorld(new WorldDoubleMock());
-        MenuEvents.furnaces.get(0).changeProductionLoop();
+        assertEquals(0, MenuEvents.activeMachines.get(0).getProductionProgress());
+        MenuEvents.activeMachines.get(0).getBlock().getLocation().setWorld(new WorldDoubleMock());
+        MenuEvents.activeMachines.get(0).changeProductionLoop();
 
         server.getScheduler().performTicks(220);
-        assertEquals(1, MenuEvents.furnaces.get(0).getProductionProgress());
+        assertEquals(1, MenuEvents.activeMachines.get(0).getProductionProgress());
 
-        assertEquals(new ItemStack(Material.DIRT, 5), MenuEvents.furnaces.get(0).results[0]);
+        assertEquals(new ItemStack(Material.DIRT, 5), MenuEvents.activeMachines.get(0).results[0]);
 
     }
 
@@ -178,7 +176,7 @@ public class MachineTests {
         testPlayer.setItemOnCursor(new ItemStack(Material.PAPER, 1));
 
         testPlayer.simulateInventoryClick(16);
-        assertEquals(new ItemStack(Material.DIRT, 5), MenuEvents.furnaces.get(0).results[0]);
+        assertEquals(new ItemStack(Material.DIRT, 5), MenuEvents.activeMachines.get(0).results[0]);
         assertEquals(new ItemStack(Material.PAPER, 1), testPlayer.getItemOnCursor());
     }
 
@@ -190,7 +188,7 @@ public class MachineTests {
         basicMachineProduction();
 
         PlayerMock testPlayer = server.getPlayer(0);
-        Machine machine = MenuEvents.furnaces.get(0);
+        Machine machine = MenuEvents.activeMachines.get(0);
         assertEquals(new ItemStack(Material.DIRT, 5), machine.results[0]);
 
         /*
@@ -211,7 +209,7 @@ public class MachineTests {
 
         assertEquals(new ItemStack(Material.DIRT, 5), machine.results[0]);
         assertEquals(balBefore, comp.getBal());
-        assertEquals(0, MenuEvents.furnaces.size());
+        assertEquals(0, MenuEvents.activeMachines.size());
 
     }
 
@@ -220,17 +218,17 @@ public class MachineTests {
         basicMachineProduction();
 
         plugin = TestTools.reboot(server);
-        MenuEvents.furnaces.get(0).getBlock().getLocation().setWorld(new WorldDoubleMock());
+        MenuEvents.activeMachines.get(0).getBlock().getLocation().setWorld(new WorldDoubleMock());
 
         assertEquals(1, Market.getCompany("TCI").getMachines().values().size());
-        assertEquals(1, MenuEvents.furnaces.size());
+        assertEquals(1, MenuEvents.activeMachines.size());
 
-        assertEquals(1, MenuEvents.furnaces.get(0).getProductionProgress());
-        assertEquals(new ItemStack(Material.DIRT, 5), MenuEvents.furnaces.get(0).results[0]);
+        assertEquals(1, MenuEvents.activeMachines.get(0).getProductionProgress());
+        assertEquals(new ItemStack(Material.DIRT, 5), MenuEvents.activeMachines.get(0).results[0]);
 
         server.getScheduler().performTicks(180);
-        assertEquals(0, MenuEvents.furnaces.get(0).getProductionProgress());
-        assertEquals(new ItemStack(Material.DIRT, 10), MenuEvents.furnaces.get(0).results[0]);
+        assertEquals(0, MenuEvents.activeMachines.get(0).getProductionProgress());
+        assertEquals(new ItemStack(Material.DIRT, 10), MenuEvents.activeMachines.get(0).results[0]);
     }
 
     @Test
@@ -339,14 +337,14 @@ public class MachineTests {
         /*
          * Check production is working
          * */
-        assertEquals(0, MenuEvents.furnaces.get(0).getProductionProgress());
-        MenuEvents.furnaces.get(0).getBlock().getLocation().setWorld(new WorldDoubleMock());
-        MenuEvents.furnaces.get(0).changeProductionLoop();
+        assertEquals(0, MenuEvents.activeMachines.get(0).getProductionProgress());
+        MenuEvents.activeMachines.get(0).getBlock().getLocation().setWorld(new WorldDoubleMock());
+        MenuEvents.activeMachines.get(0).changeProductionLoop();
 
         server.getScheduler().performTicks(220);
-        assertEquals(1, MenuEvents.furnaces.get(0).getProductionProgress());
+        assertEquals(1, MenuEvents.activeMachines.get(0).getProductionProgress());
 
-        assertEquals(new ItemStack(Material.DIRT, 5), MenuEvents.furnaces.get(0).results[0]);
+        assertEquals(new ItemStack(Material.DIRT, 5), MenuEvents.activeMachines.get(0).results[0]);
         assertEquals(Math.round((1995-(5*0.1))*1000), Math.round(comp.getBal()*1000));
         assertEquals(Math.round((5*0.1)*1000), Math.round(comp2.getBal()*1000));
 
@@ -358,7 +356,7 @@ public class MachineTests {
         testPlayer.simulateInventoryClick(7);
         assertEquals(0, LicenseSingleton.getInstance().getCurrentLicenses().getLicensesFrom(comp2).size());
 
-        assertEquals(0, MenuEvents.furnaces.size());
+        assertEquals(0, MenuEvents.activeMachines.size());
 
         event2 = new InventoryOpenEvent(
                 testPlayer.openInventory(furnaceState.getInventory())

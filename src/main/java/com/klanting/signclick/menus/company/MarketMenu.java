@@ -1,12 +1,15 @@
 package com.klanting.signclick.menus.company;
 
 import com.klanting.signclick.SignClick;
+import com.klanting.signclick.economy.Account;
 import com.klanting.signclick.economy.CompanyI;
 import com.klanting.signclick.economy.Market;
 import com.klanting.signclick.menus.SelectionMenu;
 import com.klanting.signclick.utils.Utils;
 import org.apache.commons.lang3.tuple.Triple;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -148,5 +151,27 @@ public class MarketMenu extends SelectionMenu {
         }
 
         super.init();
+    }
+
+    public boolean onClick(InventoryClickEvent event){
+        Player player = (Player) event.getWhoClicked();
+        event.setCancelled(true);
+
+        Account acc = Market.getAccount(player);
+
+        if (event.getCurrentItem().getItemMeta().getDisplayName().contains("BUY")){
+            int amount = Integer.parseInt(event.getCurrentItem().getItemMeta().getDisplayName().split(" ")[1]);
+            amount = Math.min(amount, currentCompany.getMarketShares());
+            acc.buyShare(currentCompany.getStockName(), amount, player);
+        }
+
+        if (event.getCurrentItem().getItemMeta().getDisplayName().contains("SELL")){
+            int amount = Integer.parseInt(event.getCurrentItem().getItemMeta().getDisplayName().split(" ")[1]);
+            amount = Math.min(amount, currentCompany.getCOM().getShareHolders().getOrDefault(player.getUniqueId(), 0));
+            acc.sellShare(currentCompany.getStockName(), amount, player);
+        }
+
+        init();
+        return true;
     }
 }

@@ -4,6 +4,8 @@ import com.klanting.signclick.economy.decisions.Decision;
 import com.klanting.signclick.economy.parties.Party;
 import com.klanting.signclick.menus.SelectionMenu;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -32,5 +34,17 @@ public class DecisionChoice extends SelectionMenu {
         disApprove.setItemMeta(m);
         getInventory().setItem(15, disApprove);
 
+    }
+
+    public boolean onClick(InventoryClickEvent event){
+        event.setCancelled(true);
+        Player player = (Player) event.getWhoClicked();
+        int slot = event.getSlot();
+
+        d.vote(p, slot == 11);
+
+        player.closeInventory();
+
+        return true;
     }
 }

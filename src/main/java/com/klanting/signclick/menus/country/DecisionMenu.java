@@ -2,9 +2,14 @@ package com.klanting.signclick.menus.country;
 
 import com.klanting.signclick.economy.Country;
 import com.klanting.signclick.economy.CountryManager;
+import com.klanting.signclick.economy.decisions.Decision;
+import com.klanting.signclick.economy.decisions.DecisionAboardMilitary;
+import com.klanting.signclick.economy.decisions.DecisionForbidParty;
 import com.klanting.signclick.menus.SelectionMenu;
 import com.klanting.signclick.utils.ItemFactory;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -50,6 +55,59 @@ public class DecisionMenu extends SelectionMenu {
         getInventory().setItem(14, value);
 
         super.init();
+    }
+
+    public boolean onClick(InventoryClickEvent event){
+        Player player = (Player) event.getWhoClicked();
+        event.setCancelled(true);
+        String option = event.getCurrentItem().getItemMeta().getDisplayName();
+        if (option.equalsIgnoreCase("§6Ban party")){
+            Country country = CountryManager.getCountry(player);
+
+            if (country.getCountryElection() != null){
+                player.sendMessage("§b you can`t ban parties during elections");
+                return false;
+            }
+            PartyBan screen = new PartyBan(player.getUniqueId());
+            player.openInventory(screen.getInventory());
+        }else if (option.equalsIgnoreCase("§6Forbid party") || option.equalsIgnoreCase("§6Allow party")){
+            String name;
+            if (option.equalsIgnoreCase("§6Allow party")){
+                name = "§6Allow Parties";
+            }else{
+                name = "§6Forbid Parties";
+            }
+
+            Country country = CountryManager.getCountry(player);
+
+
+            boolean go_to = !country.isForbidParty();
+
+            if (country.getStability() < 30.0){
+                player.sendMessage("§brequired stability is 30");
+                return false;
+            }
+
+            Decision d = new DecisionForbidParty(name, 0.5, country.getName(), go_to);
+            country.addDecision(d);
+        }else if (option.equalsIgnoreCase("§6Abort military payments") || option.equalsIgnoreCase("§6Allow military payments")){
+            String name;
+            if (option.equalsIgnoreCase("§6Allow military payments")){
+                name = "§6Allow military payments";
+            }else{
+                name = "§6Abort military payments";
+            }
+
+            Country country = CountryManager.getCountry(player);
+
+            boolean go_to = !country.isAboardMilitary();
+
+            Decision d = new DecisionAboardMilitary(name, 0.5, country.getName(), go_to);
+            country.addDecision(d);
+
+        }
+
+        return true;
     }
 
 }

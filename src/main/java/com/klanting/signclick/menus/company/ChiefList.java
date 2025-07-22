@@ -6,6 +6,8 @@ import com.klanting.signclick.utils.ItemFactory;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
@@ -55,5 +57,20 @@ public class ChiefList extends SelectionMenu {
 
         super.init();
 
+    }
+
+    public boolean onClick(InventoryClickEvent event){
+        Player player = (Player) event.getWhoClicked();
+        event.setCancelled(true);
+
+        if (event.getCurrentItem().getType().equals(Material.LIGHT_GRAY_STAINED_GLASS_PANE)){
+            return false;
+        }
+
+        String option = event.getCurrentItem().getItemMeta().getDisplayName().substring(2, 5);
+
+        ChiefMenu newScreen = new ChiefMenu(player.getUniqueId(), comp, option);
+        player.openInventory(newScreen.getInventory());
+        return true;
     }
 }

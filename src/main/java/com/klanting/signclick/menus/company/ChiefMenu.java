@@ -3,11 +3,14 @@ package com.klanting.signclick.menus.company;
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.economy.Board;
 import com.klanting.signclick.economy.CompanyI;
+import com.klanting.signclick.events.AddChiefSupportEvent;
 import com.klanting.signclick.menus.SelectionMenu;
 import com.klanting.signclick.utils.ItemFactory;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -128,6 +131,34 @@ public class ChiefMenu extends SelectionMenu {
         getInventory().setItem(24, chiefItem);
 
         super.init();
+    }
+
+    public boolean onClick(InventoryClickEvent event){
+        Player player = (Player) event.getWhoClicked();
+        event.setCancelled(true);
+
+        if(event.getSlot() == 24){
+            AddChiefSupportEvent.waitForMessage.put(player, this);
+            player.closeInventory();
+            player.sendMessage("§bEnter the supported player its username");
+        }
+
+        String option = event.getCurrentItem().getItemMeta().getDisplayName();
+
+        Double change = SignClick.getPlugin().getConfig().getDouble("chiefSalaryChange");
+
+        if (option.contains("§aIncrease Salary")){
+            comp.getCOM().getBoard().boardChangeSalary(player.getUniqueId(), position, change);
+            init();
+        }
+
+        if (option.contains("§cDecrease Salary")){
+            comp.getCOM().getBoard().boardChangeSalary(player.getUniqueId(), position, -change);
+            init();
+        }
+
+
+        return false;
     }
 
 

@@ -6,6 +6,9 @@ import com.klanting.signclick.economy.LicenseSingleton;
 import com.klanting.signclick.economy.Product;
 import com.klanting.signclick.menus.PagingMenu;
 import com.klanting.signclick.utils.ItemFactory;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -42,6 +45,30 @@ public class LicenseGivenList extends PagingMenu {
         }
 
         super.init();
+    }
+
+    public boolean onClick(InventoryClickEvent event){
+        if (!super.onClick(event)){
+            return false;
+        }
+        Player player = (Player) event.getWhoClicked();
+        event.setCancelled(true);
+
+        if(event.getCurrentItem().getType().equals(Material.LIGHT_GRAY_STAINED_GLASS_PANE)){
+            return false;
+        }
+
+        int item = event.getSlot();
+        if (event.getSlot() < 45){
+            int index = (getPage()*45+item);
+            List<License> licenses = LicenseSingleton.getInstance().getCurrentLicenses().
+                    getLicensesFrom(comp);
+            func.apply(licenses.get(index));
+
+            init();
+            return false;
+        }
+        return true;
     }
 }
 

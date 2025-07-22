@@ -8,6 +8,8 @@ import com.klanting.signclick.utils.ItemFactory;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -49,6 +51,24 @@ public class MachineList extends PagingMenu {
         }
 
         super.init();
+    }
+
+    public boolean onClick(InventoryClickEvent event){
+        if (!super.onClick(event)){
+            return false;
+        }
+        Player player = (Player) event.getWhoClicked();
+        event.setCancelled(true);
+        int item = event.getSlot();
+
+        if(event.getCurrentItem().getType().equals(Material.LIGHT_GRAY_STAINED_GLASS_PANE)){
+            return false;
+        }
+
+        int index = (getPage()*45+item);
+        func.apply(comp.getProducts().get(index));
+
+        return false;
     }
 
 }

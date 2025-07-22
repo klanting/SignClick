@@ -1,6 +1,9 @@
 package com.klanting.signclick.menus;
 
+import com.klanting.signclick.events.PagingSearchEvent;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import com.klanting.signclick.utils.ItemFactory;
 
@@ -98,5 +101,47 @@ abstract public class PagingMenu extends SelectionMenu{
     public void setSearchKey(String searchKey){
         this.searchKey = searchKey;
         init();
+    }
+
+    public boolean onClick(InventoryClickEvent event){
+        event.setCancelled(true);
+
+        if (event.getCurrentItem().getType().equals(Material.RED_DYE)){
+            return false;
+        }
+
+        boolean prevArrow = event.getCurrentItem().getItemMeta().getDisplayName().contains("Previous Page");
+        boolean nextArrow = event.getCurrentItem().getItemMeta().getDisplayName().contains("Next Page");
+
+        boolean cancelSearch = event.getCurrentItem().getItemMeta().getDisplayName().contains("Cancel Search");
+        boolean doSearch = event.getCurrentItem().getItemMeta().getDisplayName().contains("Search");
+
+        if (cancelSearch){
+            setSearchKey("");
+            return false;
+        }
+
+
+        if (doSearch){
+            Player player = (Player) event.getWhoClicked();
+            PagingSearchEvent.waitForMessage.put(player, this);
+            player.closeInventory();
+            player.sendMessage("§bEnter the search keyword");
+            return false;
+        }
+
+        if (prevArrow){
+            changePage(-1);
+            init();
+            return false;
+        }
+
+        if (nextArrow){
+            changePage(1);
+            init();
+            return false;
+        }
+
+        return true;
     }
 }

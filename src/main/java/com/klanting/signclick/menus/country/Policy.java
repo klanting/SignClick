@@ -4,6 +4,8 @@ import com.klanting.signclick.economy.Country;
 import com.klanting.signclick.economy.CountryManager;
 import com.klanting.signclick.menus.SelectionMenu;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -70,6 +72,27 @@ public class Policy extends SelectionMenu {
         }
 
         super.init();
+    }
+
+    public boolean onClick(InventoryClickEvent event){
+        event.setCancelled(true);
+        Policy old_screen = (Policy) event.getClickedInventory().getHolder();
+        Player player = (Player) event.getWhoClicked();
+
+        int slot = event.getSlot();
+        int row = slot/9;
+        int level = slot - 9*row-2;
+        if (level < 0){
+            return false;
+        }
+
+        Country country = CountryManager.getCountry(player);
+
+        country.setPolicies(row-1, level);
+
+        old_screen.init();
+        player.sendMessage("§bPolicy change Decision has been passed on");
+        return true;
     }
 
 }

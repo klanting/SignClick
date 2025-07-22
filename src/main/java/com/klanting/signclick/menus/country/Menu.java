@@ -4,6 +4,8 @@ import com.klanting.signclick.economy.Country;
 import com.klanting.signclick.economy.CountryManager;
 import com.klanting.signclick.menus.SelectionMenu;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -52,6 +54,21 @@ public class Menu extends SelectionMenu {
         getInventory().setItem(21, value);
 
         super.init();
+    }
+
+    public boolean onClick(InventoryClickEvent event){
+        Player player = (Player) event.getWhoClicked();
+        event.setCancelled(true);
+        String option = event.getCurrentItem().getItemMeta().getDisplayName();
+        if (option.equalsIgnoreCase("§6Policy")){
+            Policy screen = new Policy(player.getUniqueId());
+            player.openInventory(screen.getInventory());
+        }else if (option.equalsIgnoreCase("§6Decisions")){
+            DecisionMenu screen = new DecisionMenu(player.getUniqueId());
+            player.openInventory(screen.getInventory());
+        }
+
+        return true;
     }
 
 }

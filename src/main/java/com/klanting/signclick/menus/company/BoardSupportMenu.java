@@ -1,11 +1,14 @@
 package com.klanting.signclick.menus.company;
 
 import com.klanting.signclick.economy.CompanyI;
+import com.klanting.signclick.events.AddSupportEvent;
 import com.klanting.signclick.menus.SelectionMenu;
 import com.klanting.signclick.utils.ItemFactory;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
@@ -55,5 +58,24 @@ public class BoardSupportMenu extends SelectionMenu {
         getInventory().setItem(getInventory().firstEmpty(), addButton);
 
         super.init();
+    }
+
+    public boolean onClick(InventoryClickEvent event){
+        Player player = (Player) event.getWhoClicked();
+        event.setCancelled(true);
+
+        Material option = event.getCurrentItem().getType();
+        if (option.equals(Material.WHITE_WOOL)){
+            AddSupportEvent.waitForMessage.put(player, this);
+            player.closeInventory();
+            player.sendMessage("§bEnter the supported player its username");
+        }else{
+            String username = event.getCurrentItem().getItemMeta().getDisplayName().substring(2);
+            UUID uuid = Bukkit.getOfflinePlayer(username).getUniqueId();
+            comp.getCOM().getBoard().removeBoardSupport(player.getUniqueId(), uuid);
+            init();
+        }
+
+        return false;
     }
 }

@@ -3,6 +3,8 @@ package com.klanting.signclick.menus.company;
 import com.klanting.signclick.economy.CompanyI;
 import com.klanting.signclick.menus.SelectionMenu;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -45,5 +47,27 @@ public class PatentIDMenu extends SelectionMenu {
         }
 
         super.init();
+    }
+
+    public boolean onClick(InventoryClickEvent event){
+        Player player = (Player) event.getWhoClicked();
+        event.setCancelled(true);
+        String option = event.getCurrentItem().getItemMeta().getDisplayName();
+
+        if (designer){
+            if (option.equalsIgnoreCase("§6Empty Patent")){
+                PatentSelectorMenu new_screen = new PatentSelectorMenu(comp);
+                player.openInventory(new_screen.getInventory());
+            }else{
+                PatentDesignerMenu new_screen = new PatentDesignerMenu(comp.getPatent().get(event.getSlot()), comp);
+                player.openInventory(new_screen.getInventory());
+            }
+        }else{
+            if (!option.equalsIgnoreCase("§6Empty Patent")){
+                PatentCrafting new_screen = new PatentCrafting(comp, comp.getPatent().get(event.getSlot()));
+                player.openInventory(new_screen.getInventory());
+            }
+        }
+        return true;
     }
 }

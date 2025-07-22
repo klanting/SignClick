@@ -4,6 +4,8 @@ import com.klanting.signclick.economy.*;
 import com.klanting.signclick.menus.PagingMenu;
 import com.klanting.signclick.utils.ItemFactory;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -82,6 +84,83 @@ public class ProductList extends PagingMenu {
             getInventory().setItem(50, bookShelf);
             getInventory().setItem(49, enchantmentTable);
         }
+    }
+
+    public boolean onClick(InventoryClickEvent event){
+        if (!super.onClick(event)){
+            return false;
+        }
+        Player player = (Player) event.getWhoClicked();
+        event.setCancelled(true);
+        int item = event.getSlot();
+
+        if(event.getCurrentItem().getType().equals(Material.LIGHT_GRAY_STAINED_GLASS_PANE)){
+            return false;
+        }
+
+        if (event.getSlot() < 45){
+            int index = (getPage()*45+item);
+            int productSize = comp.getProducts().size();
+            func.apply(index < productSize ?
+                    comp.getProducts().get(index):
+                    LicenseSingleton.getInstance().getCurrentLicenses().getLicensesTo(comp).get(index-productSize));
+
+            init();
+            return false;
+        }
+
+        if (event.getSlot() == 50){
+            ProductList new_screen = new ProductList(comp, s -> {
+
+                if (!(s instanceof License l)){
+                    return null;
+                }
+
+                LicenseInfoMenu screen = new LicenseInfoMenu(l);
+                player.openInventory(screen.getInventory());
+                return null;
+            },
+                    false, false, true);
+            player.openInventory(new_screen.getInventory());
+        }else if (event.getSlot() == 51){
+
+            Function<License, Void> func = (license) -> {
+                LicenseAcceptMenu acceptMenu = new LicenseAcceptMenu(license);
+                player.openInventory(acceptMenu.getInventory());
+                return null;
+            };
+
+            LicenseRequestList newScreen = new LicenseRequestList(comp, func);
+            player.openInventory(newScreen.getInventory());
+        }else if (event.getSlot() == 52){
+            Selector new_screen = new Selector(player.getUniqueId(), comp2 -> {
+
+                ProductList new_screen2 = new ProductList(comp2, p -> {
+                    if(!(p instanceof Product s)){
+                        return null;
+                    }
+                    LicenseRequestMenu newScreen = new LicenseRequestMenu(player.getUniqueId(), comp2, comp, s);
+                    player.openInventory(newScreen.getInventory());
+                    return null;
+                },
+                        false, true, false);
+                player.openInventory(new_screen2.getInventory());
+
+                return null;
+            }, comp);
+            player.openInventory(new_screen.getInventory());
+        }else if (event.getSlot() == 49){
+            Function<License, Void> func = (license) -> {
+                LicenseInfoMenu screen = new LicenseInfoMenu(license);
+                player.openInventory(screen.getInventory());
+                return null;
+            };
+            LicenseGivenList newScreen = new LicenseGivenList(comp, func);
+            player.openInventory(newScreen.getInventory());
+        }else{
+            return false;
+        }
+        return true;
     }
 
 }

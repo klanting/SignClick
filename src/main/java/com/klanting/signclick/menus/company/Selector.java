@@ -2,6 +2,9 @@ package com.klanting.signclick.menus.company;
 
 import com.klanting.signclick.economy.CompanyI;
 import com.klanting.signclick.menus.PagingMenu;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -13,6 +16,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.function.Function;
 
+import static com.klanting.signclick.events.MenuEvents.clearStack;
 import static com.klanting.signclick.utils.Utils.getCompanyTypeMaterial;
 
 public class Selector extends PagingMenu {
@@ -65,6 +69,31 @@ public class Selector extends PagingMenu {
         super.init();
 
 
+    }
+
+    public boolean onClick(InventoryClickEvent event){
+        if (!super.onClick(event)){
+            return false;
+        }
+        Player player = (Player) event.getWhoClicked();
+        event.setCancelled(true);
+
+        if (allButThis == null){
+            clearStack(player);
+        }
+
+
+        if (event.getCurrentItem().getType() == Material.LIGHT_GRAY_STAINED_GLASS_PANE){
+            return false;
+        }
+
+        int startPos = event.getCurrentItem().getItemMeta().getDisplayName().indexOf("[");
+        int endPos = event.getCurrentItem().getItemMeta().getDisplayName().length()-1;
+        CompanyI company = Market.getCompany(event.getCurrentItem().getItemMeta().getDisplayName().substring(startPos+1, endPos));
+
+        funcType.apply(company);
+
+        return true;
     }
 
 }

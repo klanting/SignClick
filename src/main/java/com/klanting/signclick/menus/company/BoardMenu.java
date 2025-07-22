@@ -7,6 +7,8 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
@@ -69,5 +71,18 @@ public class BoardMenu extends SelectionMenu {
         getInventory().setItem(45, assignButton);
 
         super.init();
+    }
+
+    public boolean onClick(InventoryClickEvent event){
+        Player player = (Player) event.getWhoClicked();
+        event.setCancelled(true);
+
+        String option = event.getCurrentItem().getItemMeta().getDisplayName();
+        if (option.contains("Assign Board")){
+            BoardSupportMenu screen = new BoardSupportMenu(player.getUniqueId(), comp);
+
+            player.openInventory(screen.getInventory());
+        }
+        return true;
     }
 }

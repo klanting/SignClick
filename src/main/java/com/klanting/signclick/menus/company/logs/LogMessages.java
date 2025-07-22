@@ -5,6 +5,7 @@ import com.klanting.signclick.economy.logs.PluginLogs;
 import com.klanting.signclick.menus.PagingMenu;
 import org.apache.commons.lang3.tuple.MutableTriple;
 import org.bukkit.Material;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -70,5 +71,13 @@ public class LogMessages extends PagingMenu {
         }
 
         super.init();
+    }
+
+    public boolean onClick(InventoryClickEvent event){
+        if (!super.onClick(event)){
+            return false;
+        }
+        event.setCancelled(true);
+        return false;
     }
 }

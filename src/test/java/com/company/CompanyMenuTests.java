@@ -407,6 +407,7 @@ public class CompanyMenuTests {
         /*
         * Send request
         * */
+        TestTools.printInventory(testPlayer.getOpenInventory());
         testPlayer.simulateInventoryClick(52);
 
         assertEquals(1, LicenseSingleton.getInstance().getLicenseRequests().getLicensesFrom(comp2).size());
@@ -667,6 +668,32 @@ public class CompanyMenuTests {
         assertEquals(Material.LIME_STAINED_GLASS_PANE, researchSelector.getItem(2).getType());
         assertEquals(Material.LIME_STAINED_GLASS_PANE, researchSelector.getItem(4).getType());
         assertEquals("§aCOMPLETED", researchSelector.getItem(2).getItemMeta().getDisplayName());
+
+    }
+
+    @Test
+    void companySpendable(){
+        /*
+        * Change spendable of your company from within the UI
+        * */
+        CompanyI comp = getCompany(0);
+        assertNotNull(comp);
+
+        /*
+         * open company menu
+         * */
+        InventoryView companyMenu = openMenu(0);
+        assertEquals(Material.GOLD_INGOT, companyMenu.getItem(40).getType());
+
+        InventoryView financialMenu = openMenu(companyMenu, 40);
+
+        /*
+        * Increase spendable
+        * */
+        assertEquals(0.0, comp.getSpendable());
+        assertEquals(Material.LIME_DYE, financialMenu.getItem(11).getType());
+        testPlayer.simulateInventoryClick(financialMenu, 11);
+        assertEquals(1.0, comp.getSpendable());
 
     }
 
