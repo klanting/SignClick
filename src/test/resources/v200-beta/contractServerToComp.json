@@ -1,0 +1,12 @@
+[
+  {
+    "to": {
+      "stockName": "TCI",
+      "classType": "companyRef"
+    },
+    "delay": 0,
+    "amount": 500000.0,
+    "weeks": 10,
+    "reason": "Upgrade[0] 1"
+  }
+]

@@ -558,5 +558,56 @@ public class CompanyMenuTests {
 
     }
 
+    @Test
+    void companyProductNotCraftLicenseTest(){
+        /*
+        * Check that we cannot craft with licensed products
+        * */
+        ShapelessRecipe recip = new ShapelessRecipe(NamespacedKey.minecraft("test"), new ItemStack(Material.CRAFTING_TABLE));
+        recip.addIngredient(new ItemStack(Material.OAK_PLANKS));
+        recip.addIngredient(new ItemStack(Material.OAK_PLANKS));
+        recip.addIngredient(new ItemStack(Material.OAK_PLANKS));
+        recip.addIngredient(new ItemStack(Material.OAK_PLANKS));
+        server.addRecipe(recip);
+
+        CompanyI comp = Market.getCompany("TCI");
+        Market.addCompany("TCI2", "TCI2", Market.getAccount(testPlayer));
+        CompanyI comp2 = Market.getCompany("TCI2");
+        comp2.addProduct(new Product(Material.OAK_PLANKS, 10, 10));
+        LicenseSingleton.getInstance().getCurrentLicenses().addLicense(new License(comp2, comp,
+                comp2.getProducts().get(0), 0.0, 0.0, 0.0));
+
+        assertEquals(1, LicenseSingleton.getInstance().getCurrentLicenses().getLicensesTo(comp).size());
+
+        InventoryView companyMenu = openMenu(0);
+        /*
+         * Select product crafting icon
+         * */
+        assertEquals(Material.CRAFTING_TABLE, companyMenu.getItem(39).getType());
+        testPlayer.simulateInventoryClick(39);
+
+        /*
+         * Check product craft menu properly initialized
+         * */
+        assertEquals(Material.LIGHT_GRAY_DYE, testPlayer.getOpenInventory().getItem(10).getType());
+        assertEquals(Material.LIGHT_GRAY_DYE, testPlayer.getOpenInventory().getItem(11).getType());
+        assertEquals(Material.LIGHT_GRAY_DYE, testPlayer.getOpenInventory().getItem(12).getType());
+        assertEquals(Material.LIGHT_GRAY_DYE, testPlayer.getOpenInventory().getItem(19).getType());
+        assertEquals(Material.LIGHT_GRAY_DYE, testPlayer.getOpenInventory().getItem(20).getType());
+        assertEquals(Material.LIGHT_GRAY_DYE, testPlayer.getOpenInventory().getItem(21).getType());
+        assertEquals(Material.LIGHT_GRAY_DYE, testPlayer.getOpenInventory().getItem(28).getType());
+        assertEquals(Material.LIGHT_GRAY_DYE, testPlayer.getOpenInventory().getItem(29).getType());
+        assertEquals(Material.LIGHT_GRAY_DYE, testPlayer.getOpenInventory().getItem(30).getType());
+
+        assertEquals(Material.LIGHT_GRAY_STAINED_GLASS_PANE, testPlayer.getOpenInventory().getItem(25).getType());
+
+        /*
+         * Ensure the wooden plank not visible
+         * */
+        testPlayer.simulateInventoryClick(10);
+        assertEquals(Material.LIGHT_GRAY_STAINED_GLASS_PANE, testPlayer.getOpenInventory().getItem(0).getType());
+
+    }
+
 
 }

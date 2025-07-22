@@ -1,0 +1,613 @@
+version: 2.0.0-beta
+fee: 0.05
+flux: 1.15
+companyCreateCost: 4.0E7
+companyConfirmation: true
+companyStartShares: 1000000
+dynmapTax: true
+dynmapTaxPeriod: 600
+dynmapTaxAmount: 1000
+signIncomeOpenTime: 5
+signStockCost: 100000.0
+patentUpgradeBonusCunning:
+- 0.2
+- 0.4
+- 0.6
+- 0.8
+- 1.0
+- 1.2
+patentUpgradeBonusEvade:
+- 0.2
+- 0.4
+- 0.6
+- 0.8
+- 1.0
+- 1.2
+patentUpgradeBonusJumper:
+- 0.5
+- 1.0
+- 1.5
+- 2.0
+- 2.5
+- 3.0
+patentUpgradeBonusRefill:
+- 0.5
+- 1.0
+- 1.5
+- 2.0
+- 2.5
+- 3.0
+auctionBitIncrease: 100000
+auctionStartPrice: 100000
+auctionCycle: 604800
+electionTime: 604800
+stockBuySellAmount:
+- 100
+- 10000
+- 100000
+spendableAmount:
+- 100
+- 10000
+- 100000
+- 1000000
+autoSaveInterval: 0
+researchModifiersCost:
+- 1000
+- 1500
+- 2000
+- 2500
+- 3000
+researchModifiersSpeed:
+- 1.0
+- 1.4
+- 1.7
+- 1.9
+- 2.0
+chiefSalaryChange: 1000.0
+maxChiefSalary: 10000.0
+upgrades:
+  craftLimit:
+    bonus:
+    - 5
+    - 10
+    - 20
+    - 40
+    - 80
+    - 100
+    upgradeCost:
+    - 4000000
+    - 8000000
+    - 12000000
+    - 16000000
+    - 20000000
+  investReturnTime:
+    bonus:
+    - 0
+    - 5
+    - 10
+    - 15
+    - 20
+    - 25
+    upgradeCost:
+    - 4000000
+    - 8000000
+    - 12000000
+    - 16000000
+    - 20000000
+  patentSlot:
+    bonus:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 20
+    upgradeCost:
+    - 5000000
+    - 10000000
+    - 20000000
+    - 40000000
+    - 60000000
+  patentUpgradeSlot:
+    bonus:
+    - 3
+    - 4
+    - 5
+    - 6
+    - 7
+    - 8
+    upgradeCost:
+    - 4000000
+    - 8000000
+    - 12000000
+    - 16000000
+    - 20000000
+  boardSize:
+    bonus:
+    - 2
+    - 3
+    - 5
+    - 8
+    - 10
+    - 18
+    upgradeCost:
+    - 4000
+    - 8000
+    - 12000
+    - 16000
+    - 20000
+  productModifier:
+    bonus:
+    - 100
+    - 120
+    - 140
+    - 160
+    - 180
+    - 200
+    upgradeCost:
+    - 4000
+    - 8000
+    - 12000
+    - 16000
+    - 20000
+  productSlot:
+    bonus:
+    - 9
+    - 27
+    - 45
+    - 63
+    - 81
+    - 99
+    upgradeCost:
+    - 4000
+    - 8000
+    - 12000
+    - 16000
+    - 20000
+  researchModifier:
+    bonus:
+    - 100
+    - 125
+    - 150
+    - 175
+    - 200
+    - 225
+    upgradeCost:
+    - 4000
+    - 8000
+    - 12000
+    - 16000
+    - 20000
+products:
+  bank:
+    IRON_INGOT:
+      researchTime: 1200
+      productionCost: 100
+      productionTime: 100
+      index: 1
+    GOLD_INGOT:
+      researchTime: 3600
+      productionCost: 500
+      productionTime: 300
+      index: 2
+    DIAMOND:
+      researchTime: 18000
+      productionCost: 1000
+      productionTime: 600
+      index: 3
+    NETHERITE_INGOT:
+      researchTime: 36000
+      productionCost: 3000
+      productionTime: 1200
+      index: 4
+  transport:
+    POWERED_RAIL:
+      researchTime: 3600
+      productionCost: 100
+      productionTime: 60
+      index: 1
+    DETECTOR_RAIL:
+      researchTime: 600
+      productionCost: 30
+      productionTime: 20
+      index: 2
+    RAIL:
+      researchTime: 120
+      productionCost: 20
+      productionTime: 15
+      index: 3
+    ACTIVATOR_RAIL:
+      researchTime: 600
+      productionCost: 30
+      productionTime: 20
+      index: 4
+    MINECART:
+      researchTime: 1800
+      productionCost: 450
+      productionTime: 120
+      index: 5
+    SADDLE:
+      researchTime: 7200
+      productionCost: 500
+      productionTime: 180
+      index: 6
+    LEATHER_HORSE_ARMOR:
+      researchTime: 60
+      productionCost: 50
+      productionTime: 10
+      index: 7
+    IRON_HORSE_ARMOR:
+      researchTime: 720
+      productionCost: 100
+      productionTime: 20
+      index: 8
+    GOLDEN_HORSE_ARMOR:
+      researchTime: 1800
+      productionCost: 300
+      productionTime: 40
+      index: 9
+    DIAMOND_HORSE_ARMOR:
+      researchTime: 7200
+      productionCost: 600
+      productionTime: 120
+      index: 10
+    OAK_BOAT:
+      researchTime: 60
+      productionCost: 5
+      productionTime: 10
+      index: 11
+    ELYTRA:
+      researchTime: 72000
+      productionCost: 10000
+      productionTime: 3600
+      index: 12
+  product:
+    TOTEM_OF_UNDYING:
+      researchTime: 7200
+      productionCost: 1000
+      productionTime: 300
+      index: 1
+    TRIDENT:
+      researchTime: 3600
+      productionCost: 500
+      productionTime: 180
+      index: 2
+    ENDER_PEARL:
+      researchTime: 180
+      productionCost: 50
+      productionTime: 20
+      index: 3
+    BLAZE_ROD:
+      researchTime: 180
+      productionCost: 50
+      productionTime: 20
+      index: 4
+    ENDER_EYE:
+      researchTime: 360
+      productionCost: 30
+      productionTime: 30
+      index: 5
+    ENCHANTING_TABLE:
+      researchTime: 7200
+      productionCost: 2500
+      productionTime: 1200
+      index: 6
+    ENDER_CHEST:
+      researchTime: 720
+      productionCost: 500
+      productionTime: 300
+      index: 7
+    SLIME_BLOCK:
+      researchTime: 360
+      productionCost: 100
+      productionTime: 120
+      index: 8
+    HONEY_BLOCK:
+      researchTime: 360
+      productionCost: 100
+      productionTime: 120
+      index: 9
+  real estate:
+    WHITE_BED:
+      researchTime: 120
+      productionCost: 10
+      productionTime: 60
+      index: 1
+    ARMOR_STAND:
+      researchTime: 120
+      productionCost: 5
+      productionTime: 60
+      index: 2
+    ITEM_FRAME:
+      researchTime: 180
+      productionCost: 20
+      productionTime: 120
+      index: 3
+    GLOW_ITEM_FRAME:
+      researchTime: 240
+      productionCost: 20
+      productionTime: 120
+      index: 4
+    PAINTING:
+      researchTime: 120
+      productionCost: 5
+      productionTime: 60
+      index: 5
+  military:
+    DIAMOND_SWORD:
+      researchTime: 7200
+      productionCost: 1500
+      productionTime: 720
+      index: 1
+    NETHERITE_SWORD:
+      researchTime: 36000
+      productionCost: 3500
+      productionTime: 2400
+      index: 2
+    BOW:
+      researchTime: 60
+      productionCost: 15
+      productionTime: 60
+      index: 3
+    CROSSBOW:
+      researchTime: 120
+      productionCost: 30
+      productionTime: 90
+      index: 4
+    SHIELD:
+      researchTime: 120
+      productionCost: 30
+      productionTime: 90
+      index: 5
+    ARROW:
+      researchTime: 60
+      productionCost: 3
+      productionTime: 10
+      index: 6
+    SPECTRAL_ARROW:
+      researchTime: 240
+      productionCost: 15
+      productionTime: 30
+      index: 7
+  building:
+    COBBLESTONE:
+      researchTime: 60
+      productionCost: 1
+      productionTime: 10
+      index: 1
+    GRANITE:
+      researchTime: 60
+      productionCost: 1
+      productionTime: 10
+      index: 2
+    DIORITE:
+      researchTime: 60
+      productionCost: 1
+      productionTime: 10
+      index: 3
+    ANDESITE:
+      researchTime: 60
+      productionCost: 1
+      productionTime: 10
+      index: 4
+    STONE_BRICKS:
+      researchTime: 120
+      productionCost: 1
+      productionTime: 10
+      index: 5
+    SAND:
+      researchTime: 240
+      productionCost: 5
+      productionTime: 20
+      index: 6
+    GRAVEL:
+      researchTime: 240
+      productionCost: 5
+      productionTime: 20
+      index: 7
+    GLASS:
+      researchTime: 300
+      productionCost: 5
+      productionTime: 20
+      index: 8
+    WHITE_CONCRETE:
+      researchTime: 240
+      productionCost: 8
+      productionTime: 30
+      index: 9
+    WHITE_CONCRETE_POWDER:
+      researchTime: 240
+      productionCost: 8
+      productionTime: 30
+      index: 10
+    OAK_LOG:
+      researchTime: 120
+      productionCost: 4
+      productionTime: 20
+      index: 11
+    SPRUCE_LOG:
+      researchTime: 120
+      productionCost: 4
+      productionTime: 20
+      index: 12
+    BIRCH_LOG:
+      researchTime: 120
+      productionCost: 4
+      productionTime: 20
+      index: 13
+    JUNGLE_LOG:
+      researchTime: 120
+      productionCost: 4
+      productionTime: 20
+      index: 14
+    ACACIA_LOG:
+      researchTime: 120
+      productionCost: 4
+      productionTime: 20
+      index: 15
+    DARK_OAK_LOG:
+      researchTime: 120
+      productionCost: 4
+      productionTime: 20
+      index: 16
+    BRICKS:
+      researchTime: 180
+      productionCost: 5
+      productionTime: 20
+      index: 17
+    SMOOTH_STONE:
+      researchTime: 180
+      productionCost: 5
+      productionTime: 20
+      index: 18
+    QUARTZ_BLOCK:
+      researchTime: 7200
+      productionCost: 200
+      productionTime: 120
+      index: 19
+    CLAY:
+      researchTime: 180
+      productionCost: 5
+      productionTime: 20
+      index: 20
+  other:
+    AZALEA:
+      researchTime: 120
+      productionCost: 20
+      productionTime: 30
+      index: 1
+    FLOWERING_AZALEA:
+      researchTime: 120
+      productionCost: 20
+      productionTime: 30
+      index: 2
+    SPORE_BLOSSOM:
+      researchTime: 120
+      productionCost: 20
+      productionTime: 30
+      index: 3
+    SEAGRASS:
+      researchTime: 60
+      productionCost: 10
+      productionTime: 10
+      index: 4
+    SEA_PICKLE:
+      researchTime: 120
+      productionCost: 20
+      productionTime: 30
+      index: 5
+    DANDELION:
+      researchTime: 60
+      productionCost: 10
+      productionTime: 10
+      index: 6
+    POPPY:
+      researchTime: 60
+      productionCost: 10
+      productionTime: 10
+      index: 7
+    BLUE_ORCHID:
+      researchTime: 60
+      productionCost: 10
+      productionTime: 10
+      index: 8
+    ALLIUM:
+      researchTime: 60
+      productionCost: 10
+      productionTime: 10
+      index: 9
+    AZURE_BLUET:
+      researchTime: 60
+      productionCost: 10
+      productionTime: 10
+      index: 10
+    RED_TULIP:
+      researchTime: 60
+      productionCost: 10
+      productionTime: 10
+      index: 11
+    ORANGE_TULIP:
+      researchTime: 60
+      productionCost: 10
+      productionTime: 10
+      index: 12
+    WHITE_TULIP:
+      researchTime: 60
+      productionCost: 10
+      productionTime: 10
+      index: 13
+    PINK_TULIP:
+      researchTime: 60
+      productionCost: 10
+      productionTime: 10
+      index: 14
+    OXEYE_DAISY:
+      researchTime: 60
+      productionCost: 10
+      productionTime: 10
+      index: 15
+    CORNFLOWER:
+      researchTime: 60
+      productionCost: 10
+      productionTime: 10
+      index: 16
+    LILY_OF_THE_VALLEY:
+      researchTime: 60
+      productionCost: 10
+      productionTime: 10
+      index: 17
+    BAMBOO:
+      researchTime: 240
+      productionCost: 1
+      productionTime: 3
+      index: 18
+    SUGAR_CANE:
+      researchTime: 240
+      productionCost: 5
+      productionTime: 3
+      index: 19
+    KELP:
+      researchTime: 240
+      productionCost: 3
+      productionTime: 3
+      index: 20
+    CACTUS:
+      researchTime: 240
+      productionCost: 5
+      productionTime: 3
+      index: 21
+    VINE:
+      researchTime: 240
+      productionCost: 3
+      productionTime: 3
+      index: 22
+    LILY_PAD:
+      researchTime: 120
+      productionCost: 10
+      productionTime: 10
+      index: 23
+    CHORUS_PLANT:
+      researchTime: 3600
+      productionCost: 100
+      productionTime: 120
+      index: 24
+    LEATHER:
+      researchTime: 180
+      productionCost: 20
+      productionTime: 60
+      index: 25
+    LEAD:
+      researchTime: 3600
+      productionCost: 100
+      productionTime: 120
+      index: 26
+    SPYGLASS:
+      researchTime: 1800
+      productionCost: 150
+      productionTime: 120
+      index: 27
+    NAME_TAG:
+      researchTime: 3600
+      productionCost: 100
+      productionTime: 120
+      index: 28

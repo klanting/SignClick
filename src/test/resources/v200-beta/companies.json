@@ -1,0 +1,415 @@
+{
+  "TCI": {
+    "playerReason": "no_reason",
+    "spendable": 0.0,
+    "lastValue": 0.0,
+    "patent": [],
+    "logObservers": [
+      {
+        "type": "ContractChange",
+        "contractUpdates": [
+          {
+            "left": "2025-07-22 20:19:44",
+            "middle": "Contract Signed",
+            "right": "§aContract: from SERVER(S) to TCI(C) amount: 500000.0 for 10 weeks, reason: Upgrade[0] 1 delay: 0"
+          }
+        ],
+        "title": "Contract Change Logs"
+      },
+      {
+        "type": "ContractPayment",
+        "contractUpdates": [],
+        "title": "Contract Payment Logs"
+      },
+      {
+        "type": "MoneyTransfer",
+        "MoneyTransfers": [],
+        "title": "Money Transfer Logs"
+      },
+      {
+        "type": "ShareholderChange",
+        "ShareholderChanges": [],
+        "title": "Shareholder Changes"
+      }
+    ],
+    "shareBalance": 0.0,
+    "companyOwnerManager": {
+      "support": {
+        "29fc0f87-5db9-9f16-8157-c7833d839616": "29fc0f87-5db9-9f16-8157-c7833d839616"
+      },
+      "shareHolders": {
+        "29fc0f87-5db9-9f16-8157-c7833d839616": 1000000
+      },
+      "openTrade": false,
+      "marketShares": 0,
+      "totalShares": 1000000,
+      "board": {
+        "boardSeats": 2,
+        "salaryMap": {
+          "CEO": {},
+          "CFO": {},
+          "CTO": {}
+        },
+        "boardSupport": {
+          "29fc0f87-5db9-9f16-8157-c7833d839616": [
+            "29fc0f87-5db9-9f16-8157-c7833d839616"
+          ]
+        },
+        "chiefSupport": {
+          "CEO": {
+            "29fc0f87-5db9-9f16-8157-c7833d839616": "29fc0f87-5db9-9f16-8157-c7833d839616"
+          },
+          "CFO": {},
+          "CTO": {}
+        },
+        "currentChief": {
+          "CEO": "29fc0f87-5db9-9f16-8157-c7833d839616"
+        }
+      }
+    },
+    "$assertionsDisabled": true,
+    "playerAmountPending": 0.0,
+    "softLink": [
+      "country",
+      "machines"
+    ],
+    "type": "other",
+    "bal": 1.0E9,
+    "upgrades": [
+      {
+        "classType": "patentSlot",
+        "bonus": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          20
+        ],
+        "upgradeCost": [
+          5000000,
+          10000000,
+          20000000,
+          40000000,
+          60000000
+        ],
+        "name": "Patent Slot",
+        "material": "END_CRYSTAL",
+        "id": 0,
+        "level": 1
+      },
+      {
+        "classType": "patentUpgradeSlot",
+        "bonus": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "upgradeCost": [
+          4000000,
+          8000000,
+          12000000,
+          16000000,
+          20000000
+        ],
+        "name": "Patent Upgrade Slot",
+        "material": "ITEM_FRAME",
+        "id": 1,
+        "level": 0
+      },
+      {
+        "classType": "productSlot",
+        "bonus": [
+          9,
+          27,
+          45,
+          63,
+          81,
+          99
+        ],
+        "upgradeCost": [
+          4000,
+          8000,
+          12000,
+          16000,
+          20000
+        ],
+        "name": "Product Slots",
+        "material": "APPLE",
+        "id": 2,
+        "level": 0
+      },
+      {
+        "classType": "boardSize",
+        "bonus": [
+          2,
+          3,
+          5,
+          8,
+          10,
+          18
+        ],
+        "upgradeCost": [
+          4000,
+          8000,
+          12000,
+          16000,
+          20000
+        ],
+        "name": "Board Size",
+        "material": "CHEST",
+        "id": 3,
+        "level": 0
+      },
+      {
+        "classType": "investReturnTime",
+        "bonus": [
+          0,
+          5,
+          10,
+          15,
+          20,
+          25
+        ],
+        "upgradeCost": [
+          4000000,
+          8000000,
+          12000000,
+          16000000,
+          20000000
+        ],
+        "name": "Invest Return Time",
+        "material": "EMERALD",
+        "id": 4,
+        "level": 0
+      },
+      {
+        "classType": "researchModifier",
+        "bonus": [
+          100,
+          125,
+          150,
+          175,
+          200,
+          225
+        ],
+        "upgradeCost": [
+          4000,
+          8000,
+          12000,
+          16000,
+          20000
+        ],
+        "name": "Research Modifier",
+        "material": "EXPERIENCE_BOTTLE",
+        "id": 5,
+        "level": 0
+      },
+      {
+        "classType": "productModifier",
+        "bonus": [
+          100,
+          120,
+          140,
+          160,
+          180,
+          200
+        ],
+        "upgradeCost": [
+          4000,
+          8000,
+          12000,
+          16000,
+          20000
+        ],
+        "name": "Product Modifier",
+        "material": "FURNACE",
+        "id": 6,
+        "level": 0
+      }
+    ],
+    "research": {
+      "researchOptions": [
+        {
+          "material": "AZALEA",
+          "progress": 0,
+          "modifierIndex": 0,
+          "companyType": "other"
+        },
+        {
+          "material": "FLOWERING_AZALEA",
+          "progress": 0,
+          "modifierIndex": 0,
+          "companyType": "other"
+        },
+        {
+          "material": "SPORE_BLOSSOM",
+          "progress": 0,
+          "modifierIndex": 0,
+          "companyType": "other"
+        },
+        {
+          "material": "SEAGRASS",
+          "progress": 0,
+          "modifierIndex": 0,
+          "companyType": "other"
+        },
+        {
+          "material": "SEA_PICKLE",
+          "progress": 0,
+          "modifierIndex": 0,
+          "companyType": "other"
+        },
+        {
+          "material": "DANDELION",
+          "progress": 0,
+          "modifierIndex": 0,
+          "companyType": "other"
+        },
+        {
+          "material": "POPPY",
+          "progress": 0,
+          "modifierIndex": 0,
+          "companyType": "other"
+        },
+        {
+          "material": "BLUE_ORCHID",
+          "progress": 0,
+          "modifierIndex": 0,
+          "companyType": "other"
+        },
+        {
+          "material": "ALLIUM",
+          "progress": 0,
+          "modifierIndex": 0,
+          "companyType": "other"
+        },
+        {
+          "material": "AZURE_BLUET",
+          "progress": 0,
+          "modifierIndex": 0,
+          "companyType": "other"
+        },
+        {
+          "material": "RED_TULIP",
+          "progress": 0,
+          "modifierIndex": 0,
+          "companyType": "other"
+        },
+        {
+          "material": "ORANGE_TULIP",
+          "progress": 0,
+          "modifierIndex": 0,
+          "companyType": "other"
+        },
+        {
+          "material": "WHITE_TULIP",
+          "progress": 0,
+          "modifierIndex": 0,
+          "companyType": "other"
+        },
+        {
+          "material": "PINK_TULIP",
+          "progress": 0,
+          "modifierIndex": 0,
+          "companyType": "other"
+        },
+        {
+          "material": "OXEYE_DAISY",
+          "progress": 0,
+          "modifierIndex": 0,
+          "companyType": "other"
+        },
+        {
+          "material": "CORNFLOWER",
+          "progress": 0,
+          "modifierIndex": 0,
+          "companyType": "other"
+        },
+        {
+          "material": "LILY_OF_THE_VALLEY",
+          "progress": 0,
+          "modifierIndex": 0,
+          "companyType": "other"
+        },
+        {
+          "material": "BAMBOO",
+          "progress": 0,
+          "modifierIndex": 0,
+          "companyType": "other"
+        },
+        {
+          "material": "SUGAR_CANE",
+          "progress": 0,
+          "modifierIndex": 0,
+          "companyType": "other"
+        },
+        {
+          "material": "KELP",
+          "progress": 0,
+          "modifierIndex": 0,
+          "companyType": "other"
+        },
+        {
+          "material": "CACTUS",
+          "progress": 0,
+          "modifierIndex": 0,
+          "companyType": "other"
+        },
+        {
+          "material": "VINE",
+          "progress": 0,
+          "modifierIndex": 0,
+          "companyType": "other"
+        },
+        {
+          "material": "LILY_PAD",
+          "progress": 0,
+          "modifierIndex": 0,
+          "companyType": "other"
+        },
+        {
+          "material": "CHORUS_PLANT",
+          "progress": 0,
+          "modifierIndex": 0,
+          "companyType": "other"
+        },
+        {
+          "material": "LEATHER",
+          "progress": 0,
+          "modifierIndex": 0,
+          "companyType": "other"
+        },
+        {
+          "material": "LEAD",
+          "progress": 0,
+          "modifierIndex": 0,
+          "companyType": "other"
+        },
+        {
+          "material": "SPYGLASS",
+          "progress": 0,
+          "modifierIndex": 0,
+          "companyType": "other"
+        },
+        {
+          "material": "NAME_TAG",
+          "progress": 0,
+          "modifierIndex": 0,
+          "companyType": "other"
+        }
+      ],
+      "lastChecked": 0
+    },
+    "products": [],
+    "patentUpgrades": [],
+    "stockName": "TCI",
+    "playerWeeksPending": 0,
+    "name": "TestCaseInc",
+    "shareBase": 442.852099400366,
+    "classType": "company"
+  }
+}

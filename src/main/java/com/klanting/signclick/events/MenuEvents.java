@@ -444,7 +444,7 @@ public class MenuEvents implements Listener {
                     loadStack(player);
                     return null;};
 
-                ProductList new_screen = new ProductList(productCraftMenu.comp, lambda, false, true, true);
+                ProductList new_screen = new ProductList(productCraftMenu.comp, lambda, false, true, false);
                 player.openInventory(new_screen.getInventory());
             }else if(option.equals("§aSave Product")) {
 

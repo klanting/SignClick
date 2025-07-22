@@ -40,7 +40,6 @@ public class ProductList extends PagingMenu {
     }
 
     public void init(){
-
         clearItems();
 
         if (showProducts){
@@ -55,7 +54,6 @@ public class ProductList extends PagingMenu {
 
         if (showLicenses){
             for (License license: LicenseSingleton.getInstance().getCurrentLicenses().getLicensesTo(comp)){
-
                 Product product = license.getProduct();
 
                 List<String> l = new ArrayList<>();
