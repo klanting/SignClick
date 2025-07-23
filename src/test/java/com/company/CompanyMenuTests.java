@@ -21,6 +21,8 @@ import tools.TestTools;
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -572,17 +574,22 @@ public class CompanyMenuTests {
 
     }
 
-    @Test
-    void companyProductNotCraftLicenseTest(){
-        /*
-        * Check that we cannot craft with licensed products
-        * */
-        ShapelessRecipe recip = new ShapelessRecipe(NamespacedKey.minecraft("test"), new ItemStack(Material.CRAFTING_TABLE));
+    void addMockCraft(ItemStack finalResult){
+        server.removeRecipe(NamespacedKey.minecraft("test"));
+        ShapelessRecipe recip = new ShapelessRecipe(NamespacedKey.minecraft("test"), finalResult);
         recip.addIngredient(new ItemStack(Material.OAK_PLANKS));
         recip.addIngredient(new ItemStack(Material.OAK_PLANKS));
         recip.addIngredient(new ItemStack(Material.OAK_PLANKS));
         recip.addIngredient(new ItemStack(Material.OAK_PLANKS));
         server.addRecipe(recip);
+    }
+
+    @Test
+    void companyProductNotCraftLicenseTest(){
+        /*
+        * Check that we cannot craft with licensed products
+        * */
+        addMockCraft(new ItemStack(Material.CRAFTING_TABLE));
 
         CompanyI comp = Market.getCompany("TCI");
         Market.addCompany("TCI2", "TCI2", Market.getAccount(testPlayer));
@@ -694,6 +701,61 @@ public class CompanyMenuTests {
         assertEquals(Material.LIME_DYE, financialMenu.getItem(11).getType());
         testPlayer.simulateInventoryClick(financialMenu, 11);
         assertEquals(1.0, comp.getSpendable());
+
+    }
+
+    @Test
+    void companyProductSlotLimit(){
+        /*
+         * Test that the amount of product slots is limited
+         * */
+
+        /*
+        * open menu
+        * */
+        CompanyI comp = Market.getCompany("TCI");
+        comp.addProduct(new Product(Material.OAK_PLANKS, 10, 10));
+
+        InventoryView companyMenu = openMenu(0);
+
+        List<Material> results = List.of(Material.CRAFTING_TABLE, Material.DIRT, Material.STONE,
+                Material.COBBLESTONE, Material.RED_STAINED_GLASS_PANE, Material.RED_DYE,
+                Material.ITEM_FRAME, Material.LIGHT_GRAY_DYE, Material.BARRIER);
+
+        for (Material material: results){
+            /*
+             * Add recipe
+             * */
+            addMockCraft(new ItemStack(material));
+
+            /*
+             * Select product crafting icon
+             * */
+            assertEquals(Material.CRAFTING_TABLE, companyMenu.getItem(39).getType());
+            testPlayer.simulateInventoryClick(39);
+
+            /*
+             * select all items
+             * */
+            testPlayer.simulateInventoryClick(10);
+            testPlayer.simulateInventoryClick(0);
+            testPlayer.simulateInventoryClick(11);
+            testPlayer.simulateInventoryClick(0);
+            testPlayer.simulateInventoryClick(12);
+            testPlayer.simulateInventoryClick(0);
+            testPlayer.simulateInventoryClick(19);
+            testPlayer.simulateInventoryClick(0);
+
+            assertEquals(Material.LIME_WOOL, testPlayer.getOpenInventory().getItem(43).getType());
+            testPlayer.simulateInventoryClick(43);
+
+            assertNotEquals(10, comp.getProducts().size());
+        }
+
+        assertEquals("§cYou don't have any free product slots. Used: 9/9 (Research products are always added)",
+                testPlayer.nextMessage());
+        testPlayer.assertNoMoreSaid();
+
 
     }
 

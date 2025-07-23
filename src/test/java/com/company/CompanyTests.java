@@ -252,6 +252,5 @@ class CompanyTests {
         assertTrue(company.getBal() > 0);
     }
 
-
 }
 
