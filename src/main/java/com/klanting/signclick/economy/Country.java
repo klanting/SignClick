@@ -557,7 +557,7 @@ public class Country {
 
 
         DecimalFormat df = new DecimalFormat("###,###,###");
-        player.sendMessage("§bBank: §7"+name+"\n" +
+        player.sendMessage("§bCountry name: §7"+name+"\n" +
                 "§bbalance: §7"+df.format(amount)+"\n" +
                 "§bowners: §7"+p_list+"\n" +
                 "§bmembers: §7"+m_list+"\n" +

@@ -529,7 +529,7 @@ class CountryCTests {
 
         boolean result = server.execute("country", testPlayer, "info").hasSucceeded();
         assertTrue(result);
-        testPlayer.assertSaid("§bBank: §7empire1\n" +
+        testPlayer.assertSaid("§bCountry name: §7empire1\n" +
                 "§bbalance: §70\n" +
                 "§bowners: §7[Player0]\n" +
                 "§bmembers: §7[]\n" +
@@ -548,7 +548,7 @@ class CountryCTests {
         result = server.execute("country", testPlayer, "info").hasSucceeded();
         assertTrue(result);
 
-        testPlayer.assertSaid("§bBank: §7empire1\n" +
+        testPlayer.assertSaid("§bCountry name: §7empire1\n" +
                 "§bbalance: §70\n" +
                 "§bowners: §7[Player0]\n" +
                 "§bmembers: §7[]\n" +
