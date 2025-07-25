@@ -69,8 +69,6 @@ public class MarketSelector extends PagingMenu {
 
         String compName = event.getCurrentItem().getItemMeta().getDisplayName().substring(2);
 
-        System.out.println(compName);
-
         MarketMenu screen = new MarketMenu(player.getUniqueId(), Market.getCompany(compName));
 
         player.openInventory(screen.getInventory());

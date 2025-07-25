@@ -11,8 +11,8 @@ public class PolicyEconomics extends Policy{
         material = Material.GOLD_INGOT;
 
         bonus.add(Arrays.asList(-0.02, -0.01, 0.0, 0.02, 0.03)); //b0
-        bonus.add(Arrays.asList(0.005, 0.003, 0.0, -0.002, -0.004)); //b1
-        bonus.add(Arrays.asList(-0.25, -0.10, 0.0, 0.10, 0.25)); //b2
+        bonus.add(Arrays.asList(0.005, 0.003, 0.0, -0.002, -0.004)); //b1s
+        bonus.add(Arrays.asList(-0.25, -0.10, 0.0, 0.10, 0.25)); //b2: points but removed, fix later
         bonus.add(Arrays.asList(-0.05, -0.02, 0.0, 0.02, 0.05)); //b3
         bonus.add(Arrays.asList(-1000.0, 0.0, 0.0, 0.0, 2000.0)); //b4
         bonus.add(Arrays.asList(2.0, 1.0, 0.0, -1.0, -3.0)); //b5
@@ -25,7 +25,7 @@ public class PolicyEconomics extends Policy{
 
         description.add(Arrays.asList("§7+2% sell tax", "§7+1% sell tax", "", "§7-2% sell tax", "§7-3% sell tax"));
         description.add(Arrays.asList("§7-0.5% dividends", "§7-0.3% dividends", "", "§7+0.2% dividends", "§7+0.4% dividends"));
-        description.add(Arrays.asList("§7-25% points", "§7-10% points", "", "§7+10% points", "§7+25% points"));
+
         description.add(Arrays.asList("§7-5% spendable", "§7-2% spendable", "", "§7+2% spendable", "§7+5% spendable"));
         description.add(Arrays.asList("§7+2 stability", "§7+1 stability", "", "§7-1 stability", "§7-3 stability"));
         description.add(Arrays.asList("", "", "", "§7+4% spendable (bank)", "§7+8% spendable (bank)"));

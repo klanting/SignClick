@@ -53,6 +53,12 @@ public class Menu extends SelectionMenu {
         value.setItemMeta(m);
         getInventory().setItem(21, value);
 
+        value = new ItemStack(Material.CLOCK, 1);
+        m = value.getItemMeta();
+        m.setDisplayName("§6Party Overview");
+        value.setItemMeta(m);
+        getInventory().setItem(23, value);
+
         super.init();
     }
 
@@ -65,6 +71,9 @@ public class Menu extends SelectionMenu {
             player.openInventory(screen.getInventory());
         }else if (option.equalsIgnoreCase("§6Decisions")){
             DecisionMenu screen = new DecisionMenu(player.getUniqueId());
+            player.openInventory(screen.getInventory());
+        }else if (option.equalsIgnoreCase("§6Party Overview")){
+            PartyRankingMenu screen = new PartyRankingMenu(player.getUniqueId());
             player.openInventory(screen.getInventory());
         }
 

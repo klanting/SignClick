@@ -16,6 +16,11 @@ public class Party {
     public List<UUID> members = new ArrayList<>();
     public String name;
     public String country;
+
+    public double getPCT() {
+        return PCT;
+    }
+
     public double PCT = 0.0;
     public Party(String party_name, String country, UUID owner){
         name = party_name;

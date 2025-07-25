@@ -409,7 +409,6 @@ public class CompanyMenuTests {
         /*
         * Send request
         * */
-        TestTools.printInventory(testPlayer.getOpenInventory());
         testPlayer.simulateInventoryClick(52);
 
         assertEquals(1, LicenseSingleton.getInstance().getLicenseRequests().getLicensesFrom(comp2).size());
