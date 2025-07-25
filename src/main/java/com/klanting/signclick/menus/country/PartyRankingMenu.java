@@ -40,10 +40,11 @@ public class PartyRankingMenu extends SelectionMenu {
 
         List<Party> sortedParties = country.getParties().stream().sorted((p, i) -> (int) p.getPCT()).toList();
 
-        for (int i = 0; i<sortedParties.size(); i++){
+        for (int i = 0; i<Math.min(sortedParties.size(),rankingPosition.size()); i++){
+
             Integer pos = rankingPosition.get(i);
             Party party = sortedParties.get(i);
-            if (party.owners.size() == 0){
+            if (party.owners.isEmpty()){
                 continue;
             }
 
