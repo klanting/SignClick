@@ -11,6 +11,9 @@ import com.klanting.signclick.menus.company.LicenseInfoMenu;
 import com.klanting.signclick.utils.Utils;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.Hopper;
 import org.bukkit.block.TileState;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
@@ -82,9 +85,9 @@ public class MachineTests {
         testPlayer.setItemInHand(machine);
 
         BlockMock blockClicked = new BlockMock(Material.DIRT,
-                new Location(server.getWorld("world"), 0, 0, 0));
+                new Location(server.getWorld("world"), 0, 1, 0));
         BlockMock machineBlock = new DoubleBlockMock(machine.getType(),
-                new Location(new WorldDoubleMock(), 0, 0, 0));
+                new Location(new WorldDoubleMock(), 0, 1, 0));
         FurnaceStateMock furnaceState = (new FurnaceStateMock(machineBlock));
         assertTrue(furnaceState instanceof TileState);
         machineBlock.setState(furnaceState);
@@ -366,5 +369,25 @@ public class MachineTests {
         inv = testPlayer.getOpenInventory();
         assertEquals(Material.LIGHT_GRAY_DYE, inv.getItem(10).getType());
 
+    }
+
+    @Test
+    void machineProductionHopper(){
+        /*
+        * test that the machine produced items go into a hopper.
+        **/
+        basicMachineProduction();
+        Machine activeMachine = MenuEvents.activeMachines.get(0);
+        activeMachine.hopperAllowed = true;
+        Block blockBelow = activeMachine.getBlock().getRelative(BlockFace.DOWN);
+        blockBelow.setType(Material.HOPPER);
+        server.getScheduler().performTicks(1);
+
+        /*
+        * check item moved into the hopper
+        * */
+        assertNull(activeMachine.results[0]);
+        assertEquals(new ItemStack(Material.DIRT, 6),
+                ((Hopper) blockBelow.getState()).getInventory().getItem(0));
     }
 }
