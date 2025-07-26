@@ -144,8 +144,14 @@ public class CompanyMenuTests {
         assertEquals("§6building", typeMenu.getItem(5).getItemMeta().getDisplayName());
         assertEquals(Material.BRICKS, typeMenu.getItem(5).getType());
 
-        assertEquals("§6other", typeMenu.getItem(6).getItemMeta().getDisplayName());
-        assertEquals(Material.SUNFLOWER, typeMenu.getItem(6).getType());
+        assertEquals("§6enchantment", typeMenu.getItem(6).getItemMeta().getDisplayName());
+        assertEquals(Material.ENCHANTED_BOOK, typeMenu.getItem(6).getType());
+
+        assertEquals("§6brewery", typeMenu.getItem(7).getItemMeta().getDisplayName());
+        assertEquals(Material.GLASS_BOTTLE, typeMenu.getItem(7).getType());
+
+        assertEquals("§6other", typeMenu.getItem(8).getItemMeta().getDisplayName());
+        assertEquals(Material.SUNFLOWER, typeMenu.getItem(8).getType());
 
         testPlayer.simulateInventoryClick(typeMenu, 2);
 

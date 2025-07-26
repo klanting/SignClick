@@ -164,7 +164,6 @@ public class DefaultConfig {
         makeProductConfig(productP, Material.ENDER_PEARL, 180L, 50, 20L);
         makeProductConfig(productP, Material.BLAZE_ROD, 180L, 50, 20L);
         makeProductConfig(productP, Material.ENDER_EYE, 360L, 30, 30L);
-        makeProductConfig(productP, Material.ENCHANTING_TABLE, 7200L, 2500, 1200L);
         makeProductConfig(productP, Material.ENDER_CHEST, 720L, 500, 300L);
         makeProductConfig(productP, Material.SLIME_BLOCK, 360L, 100, 120L);
         makeProductConfig(productP, Material.HONEY_BLOCK, 360L, 100, 120L);
@@ -222,6 +221,31 @@ public class DefaultConfig {
         makeProductConfig(buildingP, Material.SMOOTH_STONE, 180L, 5, 20L);
         makeProductConfig(buildingP, Material.QUARTZ_BLOCK, 7200L, 200, 120L);
         makeProductConfig(buildingP, Material.CLAY, 180L, 5, 20L);
+
+        /*
+         * Product configuration of enchantment products
+         * */
+        config.getConfigurationSection("products").createSection("enchantment");
+        ConfigurationSection enchantmentP = config.getConfigurationSection("products").getConfigurationSection("enchantment");
+
+        makeProductConfig(enchantmentP, Material.ENCHANTING_TABLE, 7200L, 2500, 1200L);
+        makeProductConfig(enchantmentP, Material.BOOK, 120L, 40, 120L);
+        makeProductConfig(enchantmentP, Material.EXPERIENCE_BOTTLE, 240L, 50, 120L);
+
+        /*
+         * Product configuration of enchantment products
+         * */
+        config.getConfigurationSection("products").createSection("brewery");
+        ConfigurationSection breweryP = config.getConfigurationSection("products").getConfigurationSection("brewery");
+
+        makeProductConfig(breweryP, Material.BREWING_STAND, 120L, 50, 120L);
+        makeProductConfig(breweryP, Material.BLAZE_POWDER, 120L, 15, 120L);
+        makeProductConfig(breweryP, Material.GHAST_TEAR, 120L, 10, 120L);
+        makeProductConfig(breweryP, Material.FERMENTED_SPIDER_EYE, 120L, 10, 120L);
+        makeProductConfig(breweryP, Material.MAGMA_CREAM, 120L, 10, 120L);
+        makeProductConfig(breweryP, Material.GLISTERING_MELON_SLICE, 120L, 10, 120L);
+        makeProductConfig(breweryP, Material.GOLDEN_CARROT, 120L, 10, 120L);
+        makeProductConfig(breweryP, Material.RABBIT_FOOT, 120L, 10, 120L);
 
         /*
          * Product configuration of other products

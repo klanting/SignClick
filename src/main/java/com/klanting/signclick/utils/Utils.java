@@ -209,6 +209,8 @@ public class Utils {
         materialMap.put("real estate", Material.QUARTZ_BLOCK);
         materialMap.put("military", Material.BOW);
         materialMap.put("building", Material.BRICKS);
+        materialMap.put("enchantment", Material.ENCHANTED_BOOK);
+        materialMap.put("brewery", Material.GLASS_BOTTLE);
         materialMap.put("other", Material.SUNFLOWER);
 
         return materialMap.get(type);

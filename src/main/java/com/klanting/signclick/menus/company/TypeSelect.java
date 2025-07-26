@@ -41,6 +41,12 @@ public class TypeSelect extends SelectionMenu {
         value = ItemFactory.create(Material.BRICKS, "§6building");
         getInventory().setItem(getInventory().firstEmpty(), value);
 
+        value = ItemFactory.create(Material.ENCHANTED_BOOK, "§6enchantment");
+        getInventory().setItem(getInventory().firstEmpty(), value);
+
+        value = ItemFactory.create(Material.GLASS_BOTTLE, "§6brewery");
+        getInventory().setItem(getInventory().firstEmpty(), value);
+
         value = ItemFactory.create(Material.SUNFLOWER, "§6other");
         getInventory().setItem(getInventory().firstEmpty(), value);
 
