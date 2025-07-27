@@ -338,10 +338,6 @@ public class DefaultConfig {
         config.addDefault("stockBuySellAmount", List.of(100, 10000, 100000));
         config.addDefault("spendableAmount", List.of(100, 10000, 100000, 1000000));
 
-        /*
-        * Avoid AutoSave for testing
-        * */
-        config.addDefault("autoSaveInterval", 0);
 
         config.options().copyDefaults(true);
         SignClick.getPlugin().saveConfig();

@@ -12,6 +12,7 @@ import com.klanting.signclick.economy.Market;
 import com.klanting.signclick.economy.companyPatent.Auction;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Material;
+import org.bukkit.block.Sign;
 import org.bukkit.inventory.*;
 import org.bukkit.plugin.Plugin;
 import org.dynmap.DynmapAPI;
@@ -39,7 +40,9 @@ public class TestTools {
         server.getServicesManager().register(Economy.class, mockEconomy, vault, org.bukkit.plugin.ServicePriority.Highest);
         server.getServicesManager().register(DynmapAPI.class, mockDynmap, vault, org.bukkit.plugin.ServicePriority.Highest);
 
+
         SignClick plugin = MockBukkit.load(SignClick.class);
+        SignClick.getPlugin().getConfig().set("autoSaveInterval", 0);
 
         assertNotNull(SignClick.getEconomy());
         assertNotNull(plugin.getServer().getPluginManager().getPlugin("Vault"));
