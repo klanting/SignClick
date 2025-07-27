@@ -68,7 +68,7 @@ class CompanyCTests {
         boolean suc6 = server.execute("company", testPlayer, "create", "TESTINGCOMP", "COMP").hasSucceeded();
         assertTrue(suc6);
 
-        testPlayer.assertSaid("§bplease re-enter your command to confirm that you want to start a company and want to auto-transfer §640 million §bto your business from your account If you agree, enter: §c/company create TESTINGCOMP COMP");
+        testPlayer.assertSaid("§bplease re-enter your command to confirm that you want to start a company and want to auto-transfer §64 thousand §bto your business from your account If you agree, enter: §c/company create TESTINGCOMP COMP");
         testPlayer.assertNoMoreSaid();
 
         suc6 = server.execute("company", testPlayer, "create", "TESTINGCOMP", "COMP").hasSucceeded();
@@ -139,7 +139,7 @@ class CompanyCTests {
         * Check correctly received sharetop
         * */
         testPlayer.assertSaid("§bsharetop:");
-        testPlayer.assertSaid("§9Player0: §f1.000.000 (100,00%)");
+        testPlayer.assertSaid("§9Player0: §f1.000 (100,00%)");
         testPlayer.assertSaid("§eMarket: §f0 (0,00%)");
         testPlayer.assertNoMoreSaid();
     }
@@ -162,8 +162,8 @@ class CompanyCTests {
          * Check correctly received sharetop
          * */
         testPlayer.assertSaid("§bsharetop:");
-        testPlayer.assertSaid("§9Player0: §f999.900 (99,99%)");
-        testPlayer.assertSaid("§9Player1: §f100 (0,01%)");
+        testPlayer.assertSaid("§9Player0: §f900 (90,00%)");
+        testPlayer.assertSaid("§9Player1: §f100 (10,00%)");
         testPlayer.assertSaid("§eMarket: §f0 (0,00%)");
         testPlayer.assertNoMoreSaid();
     }
@@ -196,7 +196,7 @@ class CompanyCTests {
                 "§bCTO: §7NONE\n" +
                 "§bCFO: §7NONE\n" +
                 "§bbal: §70\n" +
-                "§bshares: §71.000.000\n" +
+                "§bshares: §71.000\n" +
                 "§bshareholders: §7[Player0]");
 
 
@@ -253,46 +253,47 @@ class CompanyCTests {
         companyGive();
         CompanyI comp = Market.getCompany("TCI");
 
-        assertEquals(1000000, Market.getAccount(testPlayer.getUniqueId()).shares.get("TCI"));
+        assertEquals(1000, Market.getAccount(testPlayer.getUniqueId()).shares.get("TCI"));
 
         /*
         * Sell 1000 stocks
         * */
-        boolean suc6 = server.execute("company", testPlayer, "sell", "TCI", "1000").hasSucceeded();
+        boolean suc6 = server.execute("company", testPlayer, "sell", "TCI", "1").hasSucceeded();
         assertTrue(suc6);
 
         testPlayer.assertSaid("§bplease re-enter your command to confirm\n" +
-                "that you want to sell §f1000§b from §fTCI§b for a price of §63,42 \n" +
-                "§c/company sell TCI 1000");
+                "that you want to sell §f1§b from §fTCI§b for a price of §61,07 \n" +
+                "§c/company sell TCI 1");
         testPlayer.assertNoMoreSaid();
-        suc6 = server.execute("company", testPlayer, "sell", "TCI", "1000").hasSucceeded();
+        suc6 = server.execute("company", testPlayer, "sell", "TCI", "1").hasSucceeded();
         assertTrue(suc6);
 
         testPlayer.assertSaid("§bsell: §aaccepted");
         testPlayer.assertNoMoreSaid();
 
-        assertEquals(999000, Market.getAccount(testPlayer.getUniqueId()).shares.get("TCI"));
+        assertEquals(999, Market.getAccount(testPlayer.getUniqueId()).shares.get("TCI"));
 
-        assertEquals(1000, comp.getMarketShares());
-        assertEquals(997, Math.round(comp.getValue()));
+        assertEquals(1, comp.getMarketShares());
+        assertEquals(999, Math.round(comp.getValue()));
 
         /*
          * Buy 1000 stocks
          * */
         SignClick.getEconomy().depositPlayer(testPlayer, 500);
 
-        suc6 = server.execute("company", testPlayer, "buy", "TCI", "1000").hasSucceeded();
+        suc6 = server.execute("company", testPlayer, "buy", "TCI", "1").hasSucceeded();
         assertTrue(suc6);
+
         testPlayer.assertSaid("§bplease re-enter your command to confirm\n" +
-                "that you want to buy §f1000§b from §fTCI for a price of §63,60 \n" +
-                "§c/company buy TCI 1000");
+                "that you want to buy §f1§b from §fTCI for a price of §61,13 \n" +
+                "§c/company buy TCI 1");
         testPlayer.assertNoMoreSaid();
-        suc6 = server.execute("company", testPlayer, "buy", "TCI", "1000").hasSucceeded();
+        suc6 = server.execute("company", testPlayer, "buy", "TCI", "1").hasSucceeded();
         assertTrue(suc6);
         testPlayer.assertSaid("§bbuy: §aaccepted");
         testPlayer.assertNoMoreSaid();
 
-        assertEquals(1000000, Market.getAccount(testPlayer.getUniqueId()).shares.get("TCI"));
+        assertEquals(1000, Market.getAccount(testPlayer.getUniqueId()).shares.get("TCI"));
         assertEquals(0, comp.getMarketShares());
         assertEquals(1000, Math.round(comp.getValue()));
 
@@ -303,33 +304,33 @@ class CompanyCTests {
 
         PlayerMock testPlayer2 = server.addPlayer();
 
-        assertEquals(1000000, Market.getAccount(testPlayer.getUniqueId()).shares.get("TCI"));
+        assertEquals(1000, Market.getAccount(testPlayer.getUniqueId()).shares.get("TCI"));
         assertEquals(null, Market.getAccount(testPlayer2.getUniqueId()).shares.get("TCI"));
 
         boolean suc6 = server.execute("company", testPlayer, "transfer",
-                "TCI", testPlayer2.getName(), "1000").hasSucceeded();
+                "TCI", testPlayer2.getName(), "1").hasSucceeded();
         assertTrue(suc6);
 
         testPlayer.assertSaid("§bplease re-enter your command to confirm\n" +
-                "that you want to transfer §f1000§b shares to §fPlayer1\n" +
-                "§c/company transfer TCI Player1 1000");
+                "that you want to transfer §f1§b shares to §fPlayer1\n" +
+                "§c/company transfer TCI Player1 1");
         testPlayer.assertNoMoreSaid();
 
         /*
         * confirm transfer
         * */
         suc6 = server.execute("company", testPlayer, "transfer",
-                "TCI", testPlayer2.getName(), "1000").hasSucceeded();
+                "TCI", testPlayer2.getName(), "1").hasSucceeded();
         assertTrue(suc6);
 
         testPlayer.assertSaid("§btransfer: §aaccepted");
         testPlayer.assertNoMoreSaid();
 
-        testPlayer2.assertSaid("§breceived: 1000 shares for TCI from Player0");
+        testPlayer2.assertSaid("§breceived: 1 shares for TCI from Player0");
         testPlayer2.assertNoMoreSaid();
 
-        assertEquals(999000, Market.getAccount(testPlayer.getUniqueId()).shares.get("TCI"));
-        assertEquals(1000, Market.getAccount(testPlayer2.getUniqueId()).shares.get("TCI"));
+        assertEquals(999, Market.getAccount(testPlayer.getUniqueId()).shares.get("TCI"));
+        assertEquals(1, Market.getAccount(testPlayer2.getUniqueId()).shares.get("TCI"));
     }
 
     @Test
@@ -778,7 +779,7 @@ class CompanyCTests {
 
         CompanyI comp = Market.getCompany("TCI");
         assertTrue(comp.getCOM().isOpenTrade());
-        assertEquals(1000001, comp.getTotalShares());
+        assertEquals(1001, comp.getTotalShares());
 
 
         assertEquals(-1, comp.getMarketShares());
@@ -823,7 +824,7 @@ class CompanyCTests {
                 "TCI").hasSucceeded();
         assertTrue(suc6);
 
-        testPlayer.assertSaid("§f1§b share(s) costs §f0,00");
+        testPlayer.assertSaid("§f1§b share(s) costs §f1,13");
         testPlayer.assertNoMoreSaid();
 
         /*
@@ -836,7 +837,7 @@ class CompanyCTests {
                 "TCI").hasSucceeded();
         assertTrue(suc6);
 
-        testPlayer.assertSaid("§f1§b share(s) costs §f0,00");
+        testPlayer.assertSaid("§f1§b share(s) costs §f1,13");
         testPlayer.assertNoMoreSaid();
     }
 
@@ -848,7 +849,7 @@ class CompanyCTests {
                 "TCI").hasSucceeded();
         assertTrue(suc6);
 
-        testPlayer.assertSaid("§f1§b share(s) costs §f0,00");
+        testPlayer.assertSaid("§f1§b share(s) costs §f1,07");
         testPlayer.assertNoMoreSaid();
 
         /*
@@ -861,7 +862,7 @@ class CompanyCTests {
                 "TCI").hasSucceeded();
         assertTrue(suc6);
 
-        testPlayer.assertSaid("§f1§b share(s) costs §f0,00");
+        testPlayer.assertSaid("§f1§b share(s) costs §f1,07");
         testPlayer.assertNoMoreSaid();
     }
 
@@ -924,11 +925,11 @@ class CompanyCTests {
         * */
 
         CompanyI comp = Market.getCompany("TCI");
-        Market.getAccount(testPlayer).sellShare("TCI", 1000, testPlayer);
+        Market.getAccount(testPlayer).sellShare("TCI", 100, testPlayer);
 
-        comp.addBal(1000);
+        comp.addBal(100);
         SignClick.getEconomy().depositPlayer(testPlayer, 10000);
-        Market.getAccount(testPlayer).buyShare("TCI", 1000, testPlayer);
+        Market.getAccount(testPlayer).buyShare("TCI", 100, testPlayer);
 
         testPlayer.nextMessage();
         testPlayer.nextMessage();
@@ -942,7 +943,7 @@ class CompanyCTests {
                 "TCI", testPlayer.getName()).hasSucceeded();
         assertTrue(suc6);
 
-        testPlayer.assertSaid("§b shareBal money: 3,60");
+        testPlayer.assertSaid("§b shareBal money: 11,16");
         testPlayer.assertNoMoreSaid();
 
     }
@@ -985,8 +986,8 @@ class CompanyCTests {
          * */
         assertEquals(testPlayer.getUniqueId(), comp.getCOM().getBoard().getChief("CEO"));
 
-        Market.getAccount(testPlayer).sellShare("TCI", 900000, testPlayer);
-        Market.getAccount(testPlayer2).buyShare("TCI", 900000, testPlayer2);
+        Market.getAccount(testPlayer).sellShare("TCI", 900, testPlayer);
+        Market.getAccount(testPlayer2).buyShare("TCI", 900, testPlayer2);
 
         testPlayer.assertSaid("§bsell: §aaccepted");
         testPlayer.assertNoMoreSaid();
@@ -997,8 +998,8 @@ class CompanyCTests {
         /*
          * change shares
          * */
-        assertEquals(900000, Market.getAccount(testPlayer2).shares.get("TCI"));
-        assertEquals(100000, Market.getAccount(testPlayer).shares.get("TCI"));
+        assertEquals(900, Market.getAccount(testPlayer2).shares.get("TCI"));
+        assertEquals(100, Market.getAccount(testPlayer).shares.get("TCI"));
 
         /*
          * Check that testPlayer is the owner, because testPlayer2 its support is neutral
@@ -1009,14 +1010,14 @@ class CompanyCTests {
 
     @Test
     void companyMarketAvailability(){
-        Market.getAccount(testPlayer).sellShare("TCI", 900000, testPlayer);
+        Market.getAccount(testPlayer).sellShare("TCI", 900, testPlayer);
 
         testPlayer.assertSaid("§bsell: §aaccepted");
 
         boolean suc6 = server.execute("company", testPlayer, "markettop").hasSucceeded();
         assertTrue(suc6);
 
-        testPlayer.assertSaid("§eMarket:\n§b1. §9TCI: §7900.000 (90,00%)");
+        testPlayer.assertSaid("§eMarket:\n§b1. §9TCI: §7900 (90,00%)");
         testPlayer.assertNoMoreSaid();
 
     }
@@ -1133,7 +1134,7 @@ class CompanyCTests {
         boolean suc6 = server.execute("company", testPlayer, "create", "TESTINGCOMP", "COMP").hasSucceeded();
         assertTrue(suc6);
 
-        testPlayer.assertSaid("§bplease re-enter your command to confirm that you want to start a company and want to auto-transfer §640 million §bto your business from your account If you agree, enter: §c/company create TESTINGCOMP COMP");
+        testPlayer.assertSaid("§bplease re-enter your command to confirm that you want to start a company and want to auto-transfer §64 thousand §bto your business from your account If you agree, enter: §c/company create TESTINGCOMP COMP");
         testPlayer.assertNoMoreSaid();
 
         suc6 = server.execute("company", testPlayer, "create", "TESTINGCOMP", "COMP").hasSucceeded();

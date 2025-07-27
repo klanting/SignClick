@@ -56,7 +56,7 @@ class CompanyTests {
 
         CompanyI comp = Market.getCompany("TCI");
         assertEquals(0, comp.getValue());
-        assertEquals(1000000, Market.getAccount(testPlayer).shares.get("TCI"));
+        assertEquals(1000, Market.getAccount(testPlayer).shares.get("TCI"));
 
     }
 

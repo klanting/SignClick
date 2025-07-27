@@ -293,10 +293,10 @@ public class DefaultConfig {
 
         FileConfiguration config = SignClick.getPlugin().getConfig();
 
-        config.addDefault("flux", 1.15);
-        config.addDefault("companyCreateCost", 40_000_000.0);
-        config.addDefault("companyConfirmation", true);
-        config.addDefault("companyStartShares", 1000_000);
+
+        //config.addDefault("companyCreateCost", 40_000_000.0);
+        //config.addDefault("companyConfirmation", true);
+        //config.addDefault("companyStartShares", 1000_000);
         config.addDefault("dynmapTax", true);
         config.addDefault("signStockCost", 100000.0);
 

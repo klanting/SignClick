@@ -43,6 +43,7 @@ public class TestTools {
 
         SignClick plugin = MockBukkit.load(SignClick.class);
         SignClick.getPlugin().getConfig().set("autoSaveInterval", 0);
+        SignClick.getPlugin().getConfig().set("companyConfirmation", true);
 
         assertNotNull(SignClick.getEconomy());
         assertNotNull(plugin.getServer().getPluginManager().getPlugin("Vault"));

@@ -137,20 +137,10 @@ public class Migrationv102v200beta extends Migration{
 
             JsonArray toBuy = jsonObject.getAsJsonArray("toBuy");
 
-            HashMap<String, String> nameToClassType = new HashMap<>();
-            nameToClassType.put("Â§6Cunning", "cunning");
-            nameToClassType.put("Â§6Evade", "evade");
-            nameToClassType.put("Â§6Jumper", "jumper");
-            nameToClassType.put("Â§6Refill", "refill");
-            nameToClassType.put("§6Cunning", "cunning");
-            nameToClassType.put("§6Evade", "evade");
-            nameToClassType.put("§6Jumper", "jumper");
-            nameToClassType.put("§6Refill", "refill");
-
             for (int i=0; i<toBuy.size(); i++){
                 JsonObject jo = toBuy.get(i).getAsJsonObject();
                 String name = jo.get("name").getAsString();
-                jo.add("classType", JsonParser.parseString(nameToClassType.get(name)));
+                jo.add("classType", JsonParser.parseString(name.substring(name.indexOf("6")+1).toLowerCase()));
                 toBuy.set(i, jo);
             }
             jsonObject.add("patentUpgrades", toBuy);
