@@ -180,7 +180,7 @@ public class Company extends LoggableSubject implements CompanyI{
         upgrades.add(new UpgradePatentSlot(0));
         upgrades.add(new UpgradePatentUpgradeSlot(0));
         upgrades.add(new UpgradeProductSlot(0));
-        upgrades.add(new UpgradeBoardSize(0));
+        upgrades.add(new UpgradeBoardSize(0, this));
 
         upgrades.add(new UpgradeInvestReturnTime(0));
         upgrades.add(new UpgradeResearchModifier(0));
@@ -279,7 +279,7 @@ public class Company extends LoggableSubject implements CompanyI{
         return getCOM().getMarketShares();
     }
 
-    private static final List<String> softLink = new ArrayList<>(List.of("country", "machines"));
+    private static final List<String> softLink = new ArrayList<>(List.of("country", "machines", "upgrades"));
 
 
     public Company(JsonObject jsonObject, JsonDeserializationContext context){
@@ -320,6 +320,14 @@ public class Company extends LoggableSubject implements CompanyI{
                                 }
                             }
 
+                            break;
+                        case "upgrades":
+                            upgrades = context.deserialize(element, new TypeToken<List<Upgrade>>(){}.getType());
+                            for (Upgrade upgrade: upgrades){
+                                if (upgrade instanceof UpgradeBoardSize bs){
+                                    bs.comp = this.getRef();
+                                }
+                            }
                             break;
                     }
 
@@ -384,9 +392,15 @@ public class Company extends LoggableSubject implements CompanyI{
             return jsonObject;
         };
 
+        Function<JsonObject, JsonObject> method3 = (jsonObject) -> {
+            jsonObject.add("upgrades", context.serialize(upgrades, new TypeToken<List<Upgrade>>(){}.getType()));
+            return jsonObject;
+        };
+
         HashMap<String, Function<JsonObject, JsonObject>> map = new HashMap<>();
         map.put("country", method);
         map.put("machines", method2);
+        map.put("upgrades", method3);
 
         Field[] fields = Utils.getAllFields(this.getClass());
         Map<String, Pair<Type, Object>> fieldMap = new HashMap<>();

@@ -5,6 +5,7 @@ import be.seeseemelk.mockbukkit.ServerMock;
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.economy.CountryManager;
 import com.klanting.signclick.economy.Market;
+import com.klanting.signclick.economy.companyUpgrades.UpgradeBoardSize;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,7 +21,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class compatibilityTest100 {
+public class compatibilityTestBasic {
     /*
     * Test compatibility with v1.0.0
     * */
@@ -42,14 +43,13 @@ public class compatibilityTest100 {
         Market.clear();
     }
 
-    @Test
-    void testLoadFiles(){
+    void performTest(String version, String compName){
         TestTools.disable(server);
 
         Path targetDir = Paths.get(plugin.getDataFolder().getAbsolutePath());
 
 
-        Path mockDataFolder = Paths.get("src","test", "resources", "v100");
+        Path mockDataFolder = Paths.get("src","test", "resources", version);
 
         try {
             List<Path> files = Files.list(Path.of(mockDataFolder.toFile().getAbsolutePath())).toList();
@@ -65,13 +65,30 @@ public class compatibilityTest100 {
 
         TestTools.setupPlugin(server);
 
-        assertNotNull(Market.getCompany("AA"));
+        assertNotNull(Market.getCompany(compName));
 
         /*
-        * Check that the observers that were added in v1.0.1 are now added
-        * */
-        assertEquals(4, Market.getCompany("AA").getLogObservers().size());
-        assertNotNull(Market.getCompany("AA").getResearch());
+         * Check that the observers that were added in v1.0.1 are now added
+         * */
+        assertEquals(4, Market.getCompany(compName).getLogObservers().size());
+        assertNotNull(Market.getCompany(compName).getResearch());
+    }
+
+    @Test
+    void testLoadFilesV100(){
+        performTest("v100", "AA");
+    }
+
+    @Test
+    void testLoadFilesV101(){
+        performTest("v101", "TCI");
+    }
+
+    @Test
+    void testLoadFilesV200Beta(){
+        performTest("v200-beta", "TCI");
+        assertEquals(Market.getCompany("TCI"),
+                ((UpgradeBoardSize) Market.getCompany("TCI").getUpgrades().get(3)).comp);
     }
 
 }

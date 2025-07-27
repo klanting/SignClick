@@ -3,9 +3,7 @@ package com.klanting.signclick.migrations;
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import com.klanting.signclick.SignClick;
-import com.klanting.signclick.economy.Board;
-import com.klanting.signclick.economy.CompanyOwnerManager;
-import com.klanting.signclick.economy.Research;
+import com.klanting.signclick.economy.*;
 import com.klanting.signclick.economy.companyUpgrades.*;
 import com.klanting.signclick.utils.Utils;
 
@@ -76,6 +74,12 @@ public class Migrationv102v200beta extends Migration{
                 JsonObject investTime = jsa.get(4).getAsJsonObject();
                 investTime.add("classType", JsonParser.parseString("investReturnTime"));
 
+                /*
+                 * Add type of reference
+                 * */
+                companyObject.add("classType", JsonParser.parseString("company"));
+                companyObject.add("upgrades", new JsonArray());
+
                 JsonArray newJsa = new JsonArray();
                 newJsa.add(patentSlot);
                 newJsa.add(patentUpgradeSlot);
@@ -83,7 +87,9 @@ public class Migrationv102v200beta extends Migration{
                         Utils.serialize(new UpgradeProductSlot(0), new TypeToken<Upgrade>(){}.getType())
                 ));
                 newJsa.add(JsonParser.parseString(
-                        Utils.serialize(new UpgradeBoardSize(0), new TypeToken<Upgrade>(){}.getType())
+                        Utils.serialize(new UpgradeBoardSize(0,
+                                        Utils.deserialize(companyObject.deepCopy(), new TypeToken<CompanyI>(){}.getType(), null)),
+                                new TypeToken<Upgrade>(){}.getType())
                 ));
                 newJsa.add(investTime);
                 newJsa.add(JsonParser.parseString(
@@ -93,11 +99,6 @@ public class Migrationv102v200beta extends Migration{
                         Utils.serialize(new UpgradeProductModifier(0), new TypeToken<Upgrade>(){}.getType())
                 ));
                 companyObject.add("upgrades", newJsa);
-
-                /*
-                * Add type of reference
-                * */
-                companyObject.add("classType", JsonParser.parseString("company"));
 
                 /*
                 * Update patent upgrades
@@ -155,6 +156,7 @@ public class Migrationv102v200beta extends Migration{
             jsonObject.add("patentUpgrades", toBuy);
 
             Writer writer = new FileWriter(SignClick.getPlugin().getDataFolder()+"/auction.json", false);
+
             writer.write(jsonObject.toString());
             writer.flush();
             writer.close();

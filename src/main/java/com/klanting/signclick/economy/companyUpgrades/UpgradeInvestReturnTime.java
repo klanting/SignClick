@@ -32,7 +32,7 @@ public class UpgradeInvestReturnTime extends Upgrade{
         l.add("§7to wait before getting your invested money back");
 
         if (level < 5){
-            l.add("§7 From"+getBonus() +"->"+bonus.get(level+1));
+            l.add("§7 From "+getBonus() +"->"+bonus.get(level+1));
         }
 
         return l;

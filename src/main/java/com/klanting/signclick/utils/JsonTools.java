@@ -20,6 +20,7 @@ public class JsonTools {
                 jsonObject = softLink.get(fieldName).apply(jsonObject);
                 continue;
             }
+
             jsonObject.add(fieldName, context.serialize(fieldValue, fieldMap.get(fieldName).getLeft()));
 
         }

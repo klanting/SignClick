@@ -66,10 +66,6 @@ public class UpgradeMenu extends SelectionMenu {
         int id = event.getSlot()-11;
         boolean suc6 = comp.doUpgrade(id);
 
-        if (id == 3){
-            comp.getCOM().getBoard().setBoardSeats(comp.getUpgrades().get(id).getBonus());
-        }
-
         init();
 
         if (!suc6){

@@ -172,6 +172,37 @@ public class Utils {
 
     }
 
+    public static <T> T deserialize(JsonElement js, Type token, T defaultValue){
+        /*
+         * Read object from a json file
+         * */
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(Company.class, new CompanySerializer());
+        builder.registerTypeAdapter(CompanyRef.class, new CompanyRefSerializer());
+        builder.registerTypeAdapter(Country.class, new CountrySerializer());
+        builder.registerTypeAdapter(Location.class, new LocationSerializer());
+        builder.registerTypeAdapter(UUID.class, new UUIDDeserializer());
+        builder.registerTypeAdapter(Election.class, new ElectionSerializer());
+        builder.registerTypeAdapter(Auction.class, new AuctionSerializer());
+        builder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer());
+        builder.registerTypeAdapterFactory(new CompanyOwnerManagerAdapterFactory());
+        builder.registerTypeAdapter(Block.class, new BlockSerializer());
+        builder.registerTypeAdapter(LicenseSingleton.class, new LicenseSingletonSerializer());
+        builder.registerTypeAdapterFactory(pluginLogTypes);
+        builder.registerTypeAdapterFactory(companyTypes);
+        builder.registerTypeAdapterFactory(patentUpgradeTypes);
+        builder.registerTypeAdapterFactory(upgradeTypes);
+        Gson gson = builder.create();
+
+        T value = gson.fromJson(js, token);
+        if (value == null){
+            value = defaultValue;
+        }
+
+        return value;
+
+    }
+
     public static void setSign(SignChangeEvent sign, String[] content){
         /*
         * update a sign with the provided text

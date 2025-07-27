@@ -1,6 +1,7 @@
 package com.klanting.signclick.economy.companyUpgrades;
 
 import com.klanting.signclick.SignClick;
+import com.klanting.signclick.economy.CompanyI;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 
@@ -9,7 +10,9 @@ import java.util.List;
 
 public class UpgradeBoardSize extends Upgrade{
 
-    public UpgradeBoardSize(Integer level) {
+    public CompanyI comp;
+
+    public UpgradeBoardSize(Integer level, CompanyI comp) {
         super(level, 3);
 
         ConfigurationSection section = SignClick.getPlugin().getConfig().getConfigurationSection(
@@ -23,6 +26,8 @@ public class UpgradeBoardSize extends Upgrade{
         name = "Board Size";
         material = Material.CHEST;
 
+        this.comp = comp.getRef();
+
     }
 
     @Override
@@ -32,9 +37,15 @@ public class UpgradeBoardSize extends Upgrade{
         l.add("§7Upgrade the amount of board seats");
 
         if (level < 5){
-            l.add("§7 From"+getBonus() +"->"+bonus.get(level+1));
+            l.add("§7 From "+getBonus() +"->"+bonus.get(level+1));
         }
 
         return l;
+    }
+
+    @Override
+    public void DoUpgrade(){
+        super.DoUpgrade();
+        comp.getCOM().getBoard().setBoardSeats(comp.getUpgrades().get(id).getBonus());
     }
 }
