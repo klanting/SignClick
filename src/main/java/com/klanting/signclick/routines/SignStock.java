@@ -54,7 +54,7 @@ public class SignStock {
             }else{
                 color = "§a";
             }
-            sign.setLine(2, color + df.format(pct));
+            sign.setLine(2, color + df.format(pct)+"%");
             sign.setLine(3, color+"$"+df2.format(Market.getCompany(stock_name).getValue()));
             sign.update();
         }

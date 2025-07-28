@@ -293,12 +293,7 @@ public class DefaultConfig {
 
         FileConfiguration config = SignClick.getPlugin().getConfig();
 
-
-        //config.addDefault("companyCreateCost", 40_000_000.0);
-        //config.addDefault("companyConfirmation", true);
-        //config.addDefault("companyStartShares", 1000_000);
         config.addDefault("dynmapTax", true);
-        config.addDefault("signStockCost", 100000.0);
 
         config.addDefault("patentUpgradeBonusCunning", List.of(0.2, 0.4, 0.6, 0.8, 1.0, 1.2));
         config.addDefault("patentUpgradeBonusEvade", List.of(0.2, 0.4, 0.6, 0.8, 1.0, 1.2));

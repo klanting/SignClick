@@ -46,6 +46,7 @@ public class SignStockTests {
 
     @Test
     public void setSignStock(){
+        plugin.getConfig().set("signStockCost", 2000.0);
         Market.addCompany("TCI", "TCI", Market.getAccount(testPlayer), 100000.0, "other");
 
 
@@ -75,6 +76,7 @@ public class SignStockTests {
         testPlayer.assertSaid("§bStock sign is created and you have been charged 100k for making this sign");
         testPlayer.assertNoMoreSaid();
         assertEquals(1, Market.stockSigns.size());
+        assertEquals(100000.0+2000, Market.getCompany("TCI").getBal());
     }
 
     @Test
@@ -83,6 +85,7 @@ public class SignStockTests {
 
         /*
         * Update sign stock positively
+        * does -% due to dividends
         * */
         server.getScheduler().performTicks(60*60*24*7*20L+1);
 
@@ -93,8 +96,8 @@ public class SignStockTests {
 
         assertEquals("§b[stock]", sign.getLine(0));
         assertEquals("TCI", sign.getLine(1));
-        assertEquals("§a98,00", sign.getLine(2));
-        assertEquals("§a$198.000", sign.getLine(3));
+        assertEquals("§a0,98%", sign.getLine(2));
+        assertEquals("§a$100.980", sign.getLine(3));
 
         /*
          * Update sign stock negatively
@@ -108,8 +111,8 @@ public class SignStockTests {
 
         assertEquals("§b[stock]", sign.getLine(0));
         assertEquals("TCI", sign.getLine(1));
-        assertEquals("§c-1,00", sign.getLine(2));
-        assertEquals("§c$196.020", sign.getLine(3));
+        assertEquals("§c-1,00%", sign.getLine(2));
+        assertEquals("§c$99.970,2", sign.getLine(3));
     }
 
     @Test
