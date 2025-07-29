@@ -333,7 +333,7 @@ public class CompanyMenuTests {
         assertEquals("§6Nameless", patentItem.getItemMeta().getDisplayName());
 
         assertEquals("§7Jumper 1", patentItem.getItemMeta().getLore().get(0));
-        assertEquals("§9JumpBonus: 0.5", patentItem.getItemMeta().getLore().get(1));
+        assertEquals("§9JumpBonus: 1.0", patentItem.getItemMeta().getLore().get(1));
 
     }
 

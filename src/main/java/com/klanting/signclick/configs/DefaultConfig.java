@@ -295,10 +295,10 @@ public class DefaultConfig {
 
         config.addDefault("dynmapTax", true);
 
-        config.addDefault("patentUpgradeBonusCunning", List.of(0.2, 0.4, 0.6, 0.8, 1.0, 1.2));
-        config.addDefault("patentUpgradeBonusEvade", List.of(0.2, 0.4, 0.6, 0.8, 1.0, 1.2));
-        config.addDefault("patentUpgradeBonusJumper", List.of(0.5, 1.0, 1.5, 2.0, 2.5, 3.0));
-        config.addDefault("patentUpgradeBonusRefill", List.of(0.5, 1.0, 1.5, 2.0, 2.5, 3.0));
+        //config.addDefault("patentUpgradeBonusCunning", List.of(0.2, 0.4, 0.6, 0.8, 1.0, 1.2));
+        //config.addDefault("patentUpgradeBonusEvade", List.of(0.2, 0.4, 0.6, 0.8, 1.0, 1.2));
+        //config.addDefault("patentUpgradeBonusJumper", List.of(0.5, 1.0, 1.5, 2.0, 2.5, 3.0));
+        //config.addDefault("patentUpgradeBonusRefill", List.of(0.5, 1.0, 1.5, 2.0, 2.5, 3.0));
 
         ConfigurationSection section = config.getConfigurationSection("upgrades");
         assert section != null;
