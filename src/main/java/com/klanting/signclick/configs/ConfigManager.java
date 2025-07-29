@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 
 public class ConfigManager {
     /*
@@ -18,7 +19,7 @@ public class ConfigManager {
 
     private final JavaPlugin plugin;
 
-    private final HashMap<String, ConfigFile> fileMap = new HashMap<>();
+    private final HashMap<String, CommentConfig> fileMap = new HashMap<>();
 
 
     public ConfigManager(JavaPlugin plugin) {
@@ -54,8 +55,28 @@ public class ConfigManager {
             throw new RuntimeException(e);
         }
 
-        ConfigFile cf = new ConfigFile(plugin, name);
-        fileMap.put(name, cf);
+        CommentConfig cc = new CommentConfig();
+        fileMap.put(name, cc);
+    }
+
+    public CommentConfig getConfig(String name){
+        return fileMap.get(name);
+    }
+
+    public void save(){
+        for (Map.Entry<String, CommentConfig> commentConfig: fileMap.entrySet()){
+            String fileName = commentConfig.getKey();
+            CommentConfig cc = commentConfig.getValue();
+
+            File configFile = new File(plugin.getDataFolder()+"/configs", fileName);
+
+            try{
+                cc.save(configFile);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
     }
 
 
