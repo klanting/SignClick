@@ -285,56 +285,5 @@ public class DefaultConfig {
         config.options().copyDefaults(true);
         SignClick.getPlugin().saveConfig();
 
-
-    }
-
-    public static void makeDefaultConfigHard(){
-        makeDefaultConfig();
-
-        FileConfiguration config = SignClick.getPlugin().getConfig();
-
-        config.addDefault("dynmapTax", true);
-
-        //config.addDefault("patentUpgradeBonusCunning", List.of(0.2, 0.4, 0.6, 0.8, 1.0, 1.2));
-        //config.addDefault("patentUpgradeBonusEvade", List.of(0.2, 0.4, 0.6, 0.8, 1.0, 1.2));
-        //config.addDefault("patentUpgradeBonusJumper", List.of(0.5, 1.0, 1.5, 2.0, 2.5, 3.0));
-        //config.addDefault("patentUpgradeBonusRefill", List.of(0.5, 1.0, 1.5, 2.0, 2.5, 3.0));
-
-        ConfigurationSection section = config.getConfigurationSection("upgrades");
-        assert section != null;
-
-        section.getConfigurationSection("craftLimit").addDefault("bonus",
-                List.of(5, 10, 20, 40, 80, 100));
-        section.getConfigurationSection("craftLimit").addDefault("upgradeCost",
-                List.of(4000000, 8000000, 12000000, 16000000, 20000000));
-
-        section.getConfigurationSection("investReturnTime").addDefault("bonus",
-                List.of(0, 5, 10, 15, 20, 25));
-        section.getConfigurationSection("investReturnTime").addDefault("upgradeCost",
-                List.of(4000000, 8000000, 12000000, 16000000, 20000000));
-
-        section.getConfigurationSection("patentSlot").addDefault("bonus",
-                List.of(1, 2, 3, 4, 5, 20));
-        section.getConfigurationSection("patentSlot").addDefault("upgradeCost",
-                List.of(5000000, 10000000, 20000000, 40000000, 60000000));
-
-        section.getConfigurationSection("patentUpgradeSlot").addDefault("bonus",
-                List.of(3, 4, 5, 6, 7, 8));
-        section.getConfigurationSection("patentUpgradeSlot").addDefault("upgradeCost",
-                List.of(4000000, 8000000, 12000000, 16000000, 20000000));
-
-        config.addDefault("auctionBitIncrease", 100000);
-        config.addDefault("auctionStartPrice", 100000);
-
-        config.addDefault("auctionCycle", 60*60*24*7L);
-
-        config.addDefault("electionTime", 60*60*24*7L);
-
-        config.addDefault("stockBuySellAmount", List.of(100, 10000, 100000));
-        config.addDefault("spendableAmount", List.of(100, 10000, 100000, 1000000));
-
-
-        config.options().copyDefaults(true);
-        SignClick.getPlugin().saveConfig();
     }
 }

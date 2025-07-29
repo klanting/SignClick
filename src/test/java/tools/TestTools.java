@@ -40,7 +40,6 @@ public class TestTools {
         server.getServicesManager().register(Economy.class, mockEconomy, vault, org.bukkit.plugin.ServicePriority.Highest);
         server.getServicesManager().register(DynmapAPI.class, mockDynmap, vault, org.bukkit.plugin.ServicePriority.Highest);
 
-
         SignClick plugin = MockBukkit.load(SignClick.class);
         SignClick.getPlugin().getConfig().set("autoSaveInterval", 0);
         SignClick.getPlugin().getConfig().set("companyConfirmation", true);

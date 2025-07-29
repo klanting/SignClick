@@ -195,7 +195,7 @@ class PartyTests {
         * */
         country.createParty("TestParty2", testPlayer2.getUniqueId());
 
-        long system_end = server.getCurrentTick() + 60*60*24*7*20L;
+        long system_end = server.getCurrentTick() + 60*60*20L;
         country.setCountryElection(new Election(country.getName(), system_end));
 
         Election election = country.getCountryElection();
@@ -218,7 +218,7 @@ class PartyTests {
         election = country.getCountryElection();
         assertNotNull(election);
 
-        server.getScheduler().performTicks(60*60*24*7*20L+1);
+        server.getScheduler().performTicks(60*60*20L+1);
 
         /*
         * check change of power happened

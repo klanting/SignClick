@@ -40,7 +40,7 @@ public class SignClick extends JavaPlugin{
 
         plugin = this;
 
-        DefaultConfig.makeDefaultConfigHard();
+        DefaultConfig.makeDefaultConfig();
         MigrationManager.Migrate();
 
         if (!setupEconomy() ) {
