@@ -17,6 +17,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.yaml.snakeyaml.error.Mark;
 import tools.ExpandedServerMock;
 import tools.TestTools;
 
@@ -915,6 +916,31 @@ class CompanyCTests {
          * */
         assertEquals(1, comp.getCOM().getBoard().getBoardMembers().size());
         assertEquals(testPlayer2.getUniqueId(), comp.getCOM().getBoard().getBoardMembers().get(0));
+
+    }
+
+    @Test
+    void companySupportOtherCompanyUI(){
+        /*
+        * check that you can see companies if you have at least 1 share
+        * */
+        PlayerMock testPlayer2 = server.addPlayer();
+
+        CompanyI comp = Market.getCompany("TCI");
+        Market.sell("TCI", 1, Market.getAccount(testPlayer));
+        SignClick.getEconomy().depositPlayer(testPlayer2, 1000);
+        Market.buy("TCI", 1, Market.getAccount(testPlayer2));
+        assertEquals(2, comp.getCOM().getShareHolders().keySet().size());
+
+        /*
+         * Check that testPlayer is the owner
+         * */
+        assertEquals(testPlayer.getUniqueId(), comp.getCOM().getBoard().getChief("CEO"));
+
+        boolean suc6 = server.execute("company", testPlayer2, "support").hasSucceeded();
+        assertTrue(suc6);
+
+        assertEquals(Material.SUNFLOWER, testPlayer2.getOpenInventory().getItem(0).getType());
 
     }
 

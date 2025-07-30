@@ -158,15 +158,27 @@ public class Market {
         return companies.values().stream().filter(s -> s != company).toList();
     }
 
+    public static ArrayList<CompanyI> getBusinessByShares(UUID uuid){
+        ArrayList<CompanyI> outputs = new ArrayList<>();
+        for(Map.Entry<String, CompanyI> entry : companies.entrySet()){
+
+            if(entry.getValue().getCOM().getShareHolders().keySet().contains(uuid)){
+                outputs.add(entry.getValue());
+            }
+
+        }
+        return outputs;
+    }
+
 
     public static ArrayList<CompanyI> getBusinessByDirector(UUID uuid){
         ArrayList<CompanyI> outputs = new ArrayList<CompanyI>();
         for(Map.Entry<String, CompanyI> entry : companies.entrySet()){
             Board board = entry.getValue().getCOM().getBoard();
             if (board.getBoardMembers().contains(uuid)
-                    || board.getChief("CEO").equals(uuid)
-                    || board.getChief("CTO").equals(uuid)
-                    || board.getChief("CFO").equals(uuid)
+                    || (board.getChief("CEO") != null && board.getChief("CEO").equals(uuid))
+                    || (board.getChief("CTO") != null && board.getChief("CEO").equals(uuid))
+                    || (board.getChief("CFO") != null && board.getChief("CEO").equals(uuid))
             ){
                 outputs.add(entry.getValue());
             }

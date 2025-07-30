@@ -27,8 +27,18 @@ public class Selector extends PagingMenu {
 
     public final CompanyI allButThis;
 
+    private boolean shares = false;
+
     public Selector(UUID uuid, Function<CompanyI, Void> funcType){
         this(uuid, funcType, null);
+    }
+
+    public Selector(UUID uuid, Function<CompanyI, Void> funcType, boolean byShares){
+
+        this(uuid, funcType, null);
+        shares = byShares;
+        init();
+
     }
 
     public Selector(UUID uuid, Function<CompanyI, Void> funcType, CompanyI allButThis){
@@ -45,7 +55,13 @@ public class Selector extends PagingMenu {
 
         clearItems();
 
-        List<CompanyI> companies = Market.getBusinessByDirector(uuid);
+        List<CompanyI> companies;
+        if (shares){
+            companies = Market.getBusinessByShares(uuid);
+        }else{
+            companies = Market.getBusinessByDirector(uuid);
+        }
+
         if (allButThis != null){
             companies = Market.getBusinessExclude(allButThis);
         }

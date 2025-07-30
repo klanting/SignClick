@@ -19,7 +19,7 @@ public class CompanyHandlerSupport extends CompanyHandler{
             return null;
         };
 
-        Selector screen = new Selector(player.getUniqueId(), func);
+        Selector screen = new Selector(player.getUniqueId(), func, true);
         player.openInventory(screen.getInventory());
 
         return false;
