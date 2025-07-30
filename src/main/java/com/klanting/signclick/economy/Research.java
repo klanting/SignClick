@@ -3,6 +3,7 @@ package com.klanting.signclick.economy;
 import com.klanting.signclick.SignClick;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
+import versionCompatibility.CompatibleLayer;
 
 import java.util.*;
 
@@ -24,7 +25,7 @@ public class Research {
 
     public Research(String companyType){
 
-        lastChecked = getServer().getCurrentTick();
+        lastChecked = CompatibleLayer.getCurrentTick();
 
         ConfigurationSection productsSection = SignClick.getConfigManager().getConfig("companies.yml").getConfigurationSection("products").
                 getConfigurationSection(companyType);
@@ -41,7 +42,7 @@ public class Research {
     }
 
     public void checkProgress(CompanyI company){
-        long now = getServer().getCurrentTick();
+        long now = CompatibleLayer.getCurrentTick();
         long delta = (now-lastChecked)/20;
 
         lastChecked = now;

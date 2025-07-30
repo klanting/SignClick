@@ -9,6 +9,7 @@ import com.klanting.signclick.economy.CompanyI;
 import com.klanting.signclick.economy.Market;
 import com.klanting.signclick.utils.Utils;
 import org.bukkit.Bukkit;
+import versionCompatibility.CompatibleLayer;
 
 import java.util.*;
 
@@ -71,7 +72,7 @@ public class Auction {
         jsonObject.add("toBuy", context.serialize(toBuy, new TypeToken<ArrayList<PatentUpgrade>>(){}.getType()));
         jsonObject.add("bits", context.serialize(bits));
         jsonObject.add("bitsOwner", context.serialize(bitsOwner));
-        jsonObject.add("waitTime", context.serialize(time_end-getServer().getCurrentTick()));
+        jsonObject.add("waitTime", context.serialize(time_end- CompatibleLayer.getCurrentTick()));
 
 
         return jsonObject;
@@ -130,7 +131,7 @@ public class Auction {
     public long start_time = 0;
     public long time_end;
     public void check(){
-        time_end = getServer().getCurrentTick()+auctionCycle*20L;
+        time_end = CompatibleLayer.getCurrentTick()+auctionCycle*20L;
 
         Bukkit.getServer().getScheduler().runTaskTimer(SignClick.getPlugin(), new Runnable() {
 
@@ -144,7 +145,7 @@ public class Auction {
                     comp.getPatentUpgrades().add(toBuy.get(i));
                 }
                 init();
-                time_end = getServer().getCurrentTick()+auctionCycle*20L;
+                time_end = CompatibleLayer.getCurrentTick()+auctionCycle*20L;
 
             }
         },start_time,auctionCycle*20L);

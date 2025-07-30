@@ -6,6 +6,7 @@ import com.google.gson.JsonSerializationContext;
 import com.klanting.signclick.economy.Country;
 import com.klanting.signclick.economy.CountryManager;
 import com.klanting.signclick.SignClick;
+import versionCompatibility.CompatibleLayer;
 
 import java.util.*;
 
@@ -57,13 +58,13 @@ public class Election {
 
         jsonObject.add("vote_dict", context.serialize(voteDict));
         jsonObject.add("voted", context.serialize(f_list));
-        jsonObject.add("to_wait", new JsonPrimitive(timeEnded -getServer().getCurrentTick()));
+        jsonObject.add("to_wait", new JsonPrimitive(timeEnded - CompatibleLayer.getCurrentTick()));
         jsonObject.add("name", new JsonPrimitive(s));
 
         return jsonObject;
     }
 
     public long getToWait(){
-        return timeEnded-getServer().getCurrentTick();
+        return timeEnded-CompatibleLayer.getCurrentTick();
     }
 }

@@ -7,6 +7,7 @@ import com.klanting.signclick.economy.Country;
 import com.klanting.signclick.economy.CountryManager;
 import com.klanting.signclick.economy.parties.Election;
 import org.bukkit.entity.Player;
+import versionCompatibility.CompatibleLayer;
 
 import static com.klanting.signclick.economy.parties.ElectionTools.setupElectionDeadline;
 import static org.bukkit.Bukkit.getServer;
@@ -21,7 +22,7 @@ public class CountryHandlerElection extends CountryHandler{
 
         CommandAssert.assertTrue(country.getCountryElection() == null, "§bcountry is already in an election phase");
 
-        long electionEnd = getServer().getCurrentTick() + SignClick.getConfigManager().getConfig("countries.yml").getLong("electionTime")*20L;
+        long electionEnd = CompatibleLayer.getCurrentTick() + SignClick.getConfigManager().getConfig("countries.yml").getLong("electionTime")*20L;
         country.addStability(15.0);
         player.sendMessage("§belections started");
 

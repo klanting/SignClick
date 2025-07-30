@@ -23,6 +23,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 import org.jetbrains.annotations.NotNull;
+import versionCompatibility.CompatibleLayer;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
@@ -358,7 +359,7 @@ public class Company extends LoggableSubject implements CompanyI{
          * set right research tick
          * */
         if (research != null){
-            research.setLastChecked(getServer().getCurrentTick());
+            research.setLastChecked(CompatibleLayer.getCurrentTick());
         }
     }
 

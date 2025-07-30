@@ -7,6 +7,7 @@ import com.klanting.signclick.SignClick;
 import com.klanting.signclick.utils.Utils;
 import org.bukkit.Bukkit;
 import org.yaml.snakeyaml.error.Mark;
+import versionCompatibility.CompatibleLayer;
 
 import static org.bukkit.Bukkit.getServer;
 
@@ -33,12 +34,12 @@ public class WeeklyComp {
             }
         }, systemEnd,checkCycle);
 
-        systemEnd = getServer().getCurrentTick() + checkCycle;
+        systemEnd = CompatibleLayer.getCurrentTick() + checkCycle;
 
     }
 
     public static void Save(){
-        Utils.writeSave("weeklyComp", systemEnd-getServer().getCurrentTick());
+        Utils.writeSave("weeklyComp", systemEnd-CompatibleLayer.getCurrentTick());
     }
 
 }
