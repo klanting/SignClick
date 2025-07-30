@@ -55,7 +55,7 @@ public class MockDynmap implements DynmapAPI {
 
     @Override
     public MarkerAPI getMarkerAPI() {
-        return null;
+        return new MockMarkerAPI();
     }
 
     @Override

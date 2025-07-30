@@ -15,6 +15,7 @@ public class CountryHandlerSetSpawn extends CountryHandler{
         CommandAssert.assertTrue(country.isOwner(player), "§bYou don't have the permissions to set the spawn");
 
         country.setSpawn(player.getLocation());
+
         player.sendMessage("§bspawn succesfully relocated");
     }
 }

@@ -23,6 +23,7 @@ import org.bukkit.Location;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.dynmap.DynmapAPI;
+import org.dynmap.markers.MarkerSet;
 
 import java.lang.reflect.Field;
 import java.util.*;
@@ -41,6 +42,8 @@ public class SignClick extends JavaPlugin{
     }
 
     public static ConfigManager configManager;
+
+    public static MarkerSet markerSet;
 
     @Override
     public void onEnable() {
@@ -111,6 +114,15 @@ public class SignClick extends JavaPlugin{
         getCommand("country").setExecutor(new CountryCommands());
         getCommand("company").setExecutor(new CompanyCommands());
         getCommand("party").setExecutor(new PartyCommands());
+
+        if (dynmapSupport){
+            markerSet = dynmap.getMarkerAPI().getMarkerSet("signclick.markerset");
+            if (markerSet == null) {
+                markerSet = dynmap.getMarkerAPI().createMarkerSet("signclick.markerset",
+                        "SignClick markers", null, true);
+            }
+        }
+
 
         getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "SignClick is enabled!");
 

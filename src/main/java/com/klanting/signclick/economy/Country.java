@@ -4,6 +4,7 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
+import com.klanting.signclick.SignClick;
 import com.klanting.signclick.economy.decisions.Decision;
 import com.klanting.signclick.economy.decisions.DecisionPolicy;
 import com.klanting.signclick.economy.parties.Election;
@@ -13,11 +14,16 @@ import com.klanting.signclick.utils.JsonTools;
 import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
+import org.dynmap.markers.MarkerIcon;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.text.DecimalFormat;
 import java.util.*;
+
+import static com.klanting.signclick.SignClick.getDynmap;
+import static com.klanting.signclick.SignClick.markerSet;
+import static org.bukkit.Bukkit.getServer;
 
 public class Country {
 
@@ -241,6 +247,26 @@ public class Country {
     }
 
     public void setSpawn(Location location){
+
+        if (SignClick.dynmapSupport && markerSet != null){
+            MarkerIcon icon = getDynmap().getMarkerAPI().getMarkerIcon("house");
+
+            if (markerSet.findMarker(name) != null){
+                markerSet.findMarker(name).deleteMarker();
+            }
+
+            markerSet.createMarker(
+                    name,
+                    name+" Country Spawn",
+                    location.getWorld().getName(),
+                    location.getX(),
+                    location.getY(),
+                    location.getZ(),
+                    icon,
+                    true
+            );
+        }
+
         spawnLocation = location;
     }
 
