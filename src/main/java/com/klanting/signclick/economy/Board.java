@@ -52,6 +52,10 @@ public class Board {
     * */
     private Map<String, Map<UUID, UUID>> chiefSupport = new HashMap<>();
 
+    public boolean isCurrentChief(UUID uuid) {
+        return currentChief.containsValue(uuid);
+    }
+
     /*
     * Store last chief position, to resolve support changes, when tied occurs
     * */

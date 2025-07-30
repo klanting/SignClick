@@ -11,6 +11,7 @@ import com.klanting.signclick.recipes.MachineRecipe;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.*;
 import org.bukkit.entity.Item;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -120,8 +121,15 @@ public class OpenFurnaceEvent implements Listener {
                 event.getPlayer().openInventory(screen.getInventory());
 
             }else{
-                InventoryHolder screen = new MachineMenu(event.getPlayer().getUniqueId(), Market.getCompany(companyName),
-                        Market.getCompany(companyName).getMachines().get(block));
+                CompanyI comp = Market.getCompany(companyName);
+                Player player = (Player) event.getPlayer();
+                if (!comp.getCOM().isEmployee(player.getUniqueId())){
+                    player.sendMessage("§bOnly Chiefs and employees can access the machines");
+                    return;
+                }
+
+                InventoryHolder screen = new MachineMenu(event.getPlayer().getUniqueId(), comp,
+                        comp.getMachines().get(block));
                 event.getPlayer().openInventory(screen.getInventory());
             }
 

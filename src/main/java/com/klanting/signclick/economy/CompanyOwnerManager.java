@@ -16,6 +16,8 @@ public class CompanyOwnerManager {
 
     private final Map<UUID, Integer> shareHolders = new HashMap<>();
 
+    private final List<UUID> employees = new ArrayList<>();
+
     public void fixBoard(){
         if (board != null){
             board.setCompanyOwnerManager(this);
@@ -140,6 +142,23 @@ public class CompanyOwnerManager {
         }else{
             player.sendMessage("§eMarket: §f"+df.format(marketShares)+" ("+df2.format(marketShares/totalShares.doubleValue()*100.0)+"%)");
         }
+    }
+
+    public boolean isEmployee(UUID uuid){
+
+        return employees.contains(uuid) || getBoard().isCurrentChief(uuid);
+    }
+
+    public List<UUID> getEmployees() {
+        return employees;
+    }
+
+    public void addEmployee(UUID uuid){
+        employees.add(uuid);
+    }
+
+    public void removeEmployee(UUID uuid){
+        employees.remove(uuid);
     }
 
 }
