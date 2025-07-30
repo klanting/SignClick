@@ -35,29 +35,40 @@ public class DefaultConfig {
          * Configure the current version of the plugin storage
          * */
         if (generalConfig.saveToString().isEmpty()){
-            generalConfig.addDefault("version", SignClick.getPlugin().getDescription().getVersion());
+            generalConfig.addDefault("version", SignClick.getPlugin().getDescription().getVersion(),
+                    "Latest updated version, don't change this, it will be done automatically");
         }
 
-        companiesConfig.addDefault("fee", 0.05);
+        companiesConfig.addDefault("fee", 0.05,
+                "The amount (%) of money that goes to your country when you sell shares");
 
-        companiesConfig.addDefault("flux", 1.01);
-        companiesConfig.addDefault("companyCreateCost", 4_000.0);
-        companiesConfig.addDefault("companyConfirmation", false);
-        companiesConfig.addDefault("companyStartShares", 1000);
+        companiesConfig.addDefault("flux", 1.01,
+                "How much share prices increase or decrease when shares are bought/sold, " +
+                "how higher how much more it changes");
+        companiesConfig.addDefault("companyCreateCost", 4_000.0,
+                "Amount a player needs to have to create a company");
+        companiesConfig.addDefault("companyConfirmation", false,
+                "true/false: whether the user needs to repeat the command to confirm");
+        companiesConfig.addDefault("companyStartShares", 1000,
+                "The amount of shares a company starts with");
 
-        generalConfig.addDefault("dynmapTax", false);
-        generalConfig.addDefault("dynmapTaxPeriod", 60*10);
-        generalConfig.addDefault("dynmapTaxAmount", 1000);
-        generalConfig.addDefault("signIncomeOpenTime", 5);
+        generalConfig.addDefault("dynmapTax", false,
+                "by enabling this, people will be taxed for being hidden on the dynmap");
+        generalConfig.addDefault("dynmapTaxPeriod", 60*10, "tax period");
+        generalConfig.addDefault("dynmapTaxAmount", 1000,
+                "Amount the user needs to pay, or player becomes visible");
+        generalConfig.addDefault("signIncomeOpenTime", 5,
+                "How long sign income door stays open when clicked");
 
-        companiesConfig.addDefault("signStockCost", 1000.0);
+        companiesConfig.addDefault("signStockCost", 1000.0,
+                "Cost for making a stock sign, amount goes to company");
 
         companiesConfig.addDefault("patentUpgradeBonusCunning", List.of(0.5, 1.0, 1.5, 2.0, 2.5, 3.0));
         companiesConfig.addDefault("patentUpgradeBonusEvade", List.of(0.5, 1.0, 1.5, 2.0, 2.5, 3.0));
         companiesConfig.addDefault("patentUpgradeBonusJumper", List.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0));
         companiesConfig.addDefault("patentUpgradeBonusRefill", List.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0));
 
-        companiesConfig.createSection("upgrades");
+        companiesConfig.createSection("upgrades", "Config for upgrades of your company");
         ConfigurationSection section = companiesConfig.getConfigurationSection("upgrades");
         assert section != null;
         section.createSection("craftLimit");
@@ -109,25 +120,37 @@ public class DefaultConfig {
         section.getConfigurationSection("researchModifier").addDefault("upgradeCost",
                 List.of(4000, 8000, 12000, 16000, 20000));
 
-        companiesConfig.addDefault("auctionBitIncrease", 1000);
-        companiesConfig.addDefault("auctionStartPrice", 1000);
+        companiesConfig.addDefault("auctionBitIncrease", 1000,
+                "By how much patent bids increase each time");
+        companiesConfig.addDefault("auctionStartPrice", 1000,
+                "Start price for patent auction");
 
-        companiesConfig.addDefault("auctionCycle", 60*60L);
+        companiesConfig.addDefault("auctionCycle", 60*60L,
+                "How long an auction takes before offering new items");
 
-        countriesConfig.addDefault("electionTime", 60*60*24L);
+        countriesConfig.addDefault("electionTime", 60*60*24L,
+                "Time that users have to vote at a country election before it is concluded");
 
-        companiesConfig.addDefault("stockBuySellAmount", List.of(10, 100, 200));
-        companiesConfig.addDefault("spendableAmount", List.of(10, 100, 1000, 10000));
+        companiesConfig.addDefault("stockBuySellAmount", List.of(10, 100, 200),
+                "Market Stock buttons buy/sell amount options UI");
+        companiesConfig.addDefault("spendableAmount", List.of(10, 100, 1000, 10000),
+                "Spendable buttons buy/sell amount options UI"
+                );
 
-        generalConfig.addDefault("autoSaveInterval", 1800);
+        generalConfig.addDefault("autoSaveInterval", 1800,
+                "After how much seconds the server auto-saves its plugin data");
 
-        companiesConfig.addDefault("researchModifiersCost", List.of(1000, 1500, 2000, 2500, 3000));
-        companiesConfig.addDefault("researchModifiersSpeed", List.of(1.0, 1.4, 1.7, 1.9, 2.0));
+        companiesConfig.addDefault("researchModifiersCost", List.of(1000, 1500, 2000, 2500, 3000),
+                "Costs for different research modifiers");
+        companiesConfig.addDefault("researchModifiersSpeed", List.of(1.0, 1.4, 1.7, 1.9, 2.0),
+                "Modifiers of different research modifier options 1.4 -> 140%");
 
-        companiesConfig.addDefault("chiefSalaryChange", 1000.0);
-        companiesConfig.addDefault("maxChiefSalary", 10000.0);
+        companiesConfig.addDefault("chiefSalaryChange", 1000.0,
+                "Salary button for chief salary UI");
+        companiesConfig.addDefault("maxChiefSalary", 10000.0,
+                "Max Amount a company chief position can get");
 
-        companiesConfig.createSection("products");
+        companiesConfig.createSection("products", "products that can be produced by each type of company");
 
 
         /*

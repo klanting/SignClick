@@ -21,12 +21,16 @@ public class MarketMenu extends SelectionMenu {
     public UUID uuid;
     public CompanyI currentCompany;
 
-
-    public MarketMenu(UUID uuid, CompanyI company){
-        super(45, "Company Market", true);
+    public MarketMenu(UUID uuid, CompanyI company, boolean backButton){
+        super(45, "Company Market", backButton);
         this.uuid = uuid;
         this.currentCompany = company;
         init();
+    }
+
+
+    public MarketMenu(UUID uuid, CompanyI company){
+        this(uuid, company, true);
     }
 
     @Override

@@ -72,7 +72,8 @@ public class ConfigManager {
                 currentVersion = "1.0.0";
             }
 
-            SignClick.getConfigManager().getConfig("general.yml").set("version", currentVersion);
+            SignClick.getConfigManager().getConfig("general.yml").set("version", currentVersion,
+                    "Latest updated version, don't change this, it will be done automatically");
 
             SignClick.getConfigManager().getConfig("general.yml").options().copyDefaults(true);
             SignClick.getConfigManager().save();
