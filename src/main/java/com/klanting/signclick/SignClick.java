@@ -116,11 +116,16 @@ public class SignClick extends JavaPlugin{
         getCommand("party").setExecutor(new PartyCommands());
 
         if (dynmapSupport){
-            markerSet = dynmap.getMarkerAPI().getMarkerSet("signclick.markerset");
-            if (markerSet == null) {
-                markerSet = dynmap.getMarkerAPI().createMarkerSet("signclick.markerset",
-                        "SignClick markers", null, true);
+            try{
+                markerSet = dynmap.getMarkerAPI().getMarkerSet("signclick.markerset");
+                if (markerSet == null) {
+                    markerSet = dynmap.getMarkerAPI().createMarkerSet("signclick.markerset",
+                            "SignClick markers", null, true);
+                }
+            }catch (Exception e){
+                getServer().getConsoleSender().sendMessage(ChatColor.RED + "SignClick: Failed to connect with dynmap markers");
             }
+
         }
 
 
