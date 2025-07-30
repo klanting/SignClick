@@ -27,7 +27,7 @@ public class CompanyOwnerManager {
 
     private Integer marketShares = 0;
 
-    private Integer totalShares = SignClick.getPlugin().getConfig().getInt("companyStartShares");
+    private Integer totalShares =  SignClick.getConfigManager().getConfig("companies.yml").getInt("companyStartShares");
 
     private Board board;
 

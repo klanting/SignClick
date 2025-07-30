@@ -11,7 +11,7 @@ public class UpgradePatentSlot extends Upgrade{
     public UpgradePatentSlot(Integer level) {
         super(level, 0);
 
-        ConfigurationSection section = SignClick.getPlugin().getConfig().getConfigurationSection(
+        ConfigurationSection section = SignClick.getConfigManager().getConfig("companies.yml").getConfigurationSection(
                 "upgrades").getConfigurationSection("patentSlot");
 
         assert section != null;

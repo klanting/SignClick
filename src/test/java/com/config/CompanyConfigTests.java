@@ -46,7 +46,7 @@ public class CompanyConfigTests {
     @Test
     void companyCreateNoConfirm(){
 
-        plugin.getConfig().set("companyConfirmation", false);
+        SignClick.getConfigManager().getConfig("companies.yml").set("companyConfirmation", false);
 
         /*
         * Check that we can bypass company confirmation
@@ -64,8 +64,8 @@ public class CompanyConfigTests {
     @Test
     void companyCreateCheaper(){
 
-        plugin.getConfig().set("companyConfirmation", false);
-        plugin.getConfig().set("companyCreateCost", 30_000_000.0);
+        SignClick.getConfigManager().getConfig("companies.yml").set("companyConfirmation", false);
+        SignClick.getConfigManager().getConfig("companies.yml").set("companyCreateCost", 30_000_000.0);
 
         /*
          * Check that we can create a company cheaper
@@ -83,8 +83,8 @@ public class CompanyConfigTests {
     @Test
     void companyCreateLessShares(){
 
-        plugin.getConfig().set("companyConfirmation", false);
-        plugin.getConfig().set("companyStartShares", 1000);
+        SignClick.getConfigManager().getConfig("companies.yml").set("companyConfirmation", false);
+        SignClick.getConfigManager().getConfig("companies.yml").set("companyStartShares", 1000);
 
         /*
          * Check that we can create a company cheaper
@@ -106,9 +106,9 @@ public class CompanyConfigTests {
     @Test
     void auctionUpdate(){
 
-        plugin.getConfig().set("companyConfirmation", false);
-        plugin.getConfig().set("companyStartShares", 1000);
-        plugin.getConfig().set("auctionCycle", 360);
+        SignClick.getConfigManager().getConfig("companies.yml").set("companyConfirmation", false);
+        SignClick.getConfigManager().getConfig("companies.yml").set("companyStartShares", 1000);
+        SignClick.getConfigManager().getConfig("companies.yml").set("auctionCycle", 360);
 
         plugin = TestTools.reboot(server);
 

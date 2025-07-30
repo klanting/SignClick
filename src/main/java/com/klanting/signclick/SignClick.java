@@ -2,6 +2,7 @@ package com.klanting.signclick;
 
 
 import com.google.common.reflect.TypeToken;
+import com.klanting.signclick.configs.ConfigManager;
 import com.klanting.signclick.economy.LicenseSingleton;
 import com.klanting.signclick.economy.ResearchOption;
 import com.klanting.signclick.migrations.MigrationManager;
@@ -35,10 +36,17 @@ public class SignClick extends JavaPlugin{
     private static SignClick plugin;
     public static boolean dynmapSupport;
 
+    public static ConfigManager getConfigManager() {
+        return configManager;
+    }
+
+    public static ConfigManager configManager;
+
     @Override
     public void onEnable() {
 
         plugin = this;
+        configManager = new ConfigManager(this);
 
         DefaultConfig.makeDefaultConfig();
         MigrationManager.Migrate();
@@ -63,7 +71,7 @@ public class SignClick extends JavaPlugin{
 
         Market.restoreData();
 
-        if (dynmapSupport && plugin.getConfig().getBoolean("dynmapTax")){
+        if (dynmapSupport && SignClick.getConfigManager().getConfig("general.yml").getBoolean("dynmapTax")){
             DynmapCheck.Hide();
         }
 
@@ -127,7 +135,7 @@ public class SignClick extends JavaPlugin{
         WeeklyComp.Save();
 
         getServer().getConsoleSender().sendMessage(ChatColor.RED + "SignClick is disabled!");
-        saveConfig();
+        configManager.save();
         Bukkit.getScheduler().cancelTasks(SignClick.getPlugin());
     }
 

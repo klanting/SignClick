@@ -26,7 +26,7 @@ public class Research {
 
         lastChecked = getServer().getCurrentTick();
 
-        ConfigurationSection productsSection = SignClick.getPlugin().getConfig().getConfigurationSection("products").
+        ConfigurationSection productsSection = SignClick.getConfigManager().getConfig("companies.yml").getConfigurationSection("products").
                 getConfigurationSection(companyType);
 
         List<String> researchItems = new ArrayList<>(productsSection.getKeys(false).stream().toList());

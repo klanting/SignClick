@@ -12,8 +12,8 @@ import java.util.Random;
 
 public class DynmapCheck {
     public static void Hide(){
-        long delay = SignClick.getPlugin().getConfig().getLong("dynmapTaxPeriod");
-        int amount = SignClick.getPlugin().getConfig().getInt("dynmapTaxAmount");
+        long delay = SignClick.getConfigManager().getConfig("general.yml").getLong("dynmapTaxPeriod");
+        int amount = SignClick.getConfigManager().getConfig("general.yml").getInt("dynmapTaxAmount");
 
         Bukkit.getServer().getScheduler().runTaskTimer(SignClick.getPlugin(), new Runnable() {
             public void run() {

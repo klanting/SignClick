@@ -7,7 +7,7 @@ import org.bukkit.configuration.ConfigurationSection;
 public class ProductFactory {
     public static Product create(Material material, String companyType){
 
-        ConfigurationSection section = SignClick.getPlugin().getConfig().getConfigurationSection("products").
+        ConfigurationSection section = SignClick.getConfigManager().getConfig("companies.yml").getConfigurationSection("products").
                 getConfigurationSection(companyType).getConfigurationSection(material.name());
 
         return new Product(material, section.getInt("productionCost"), section.getInt("productionTime"));

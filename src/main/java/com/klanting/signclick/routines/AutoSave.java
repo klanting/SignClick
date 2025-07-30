@@ -12,7 +12,7 @@ import static org.bukkit.Bukkit.getServer;
 public class AutoSave {
     public static void start(){
 
-        long delay = SignClick.getPlugin().getConfig().getLong("autoSaveInterval");
+        long delay = SignClick.getConfigManager().getConfig("general.yml").getLong("autoSaveInterval");
 
         if (delay <= 0){
             getServer().getConsoleSender().sendMessage(ChatColor.YELLOW + "SignClick: AutoSave has been disabled");

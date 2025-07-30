@@ -70,7 +70,7 @@ public class MarketMenu extends SelectionMenu {
 
         List<Triple<Integer, Integer, Material>> buySellButtons = new ArrayList<>();
 
-        List<Integer> buySellAmount = SignClick.getPlugin().getConfig().getIntegerList("stockBuySellAmount");
+        List<Integer> buySellAmount = SignClick.getConfigManager().getConfig("companies.yml").getIntegerList("stockBuySellAmount");
         assert buySellAmount.size() == 3;
 
         buySellButtons.add(Triple.of(1, 11, Material.LIME_DYE));

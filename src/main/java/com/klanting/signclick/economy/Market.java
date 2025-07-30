@@ -21,8 +21,8 @@ public class Market {
     private static Map<UUID, Account> accounts = new HashMap<UUID, Account>();
     private static Map<String, CompanyI> companies = new HashMap<String, CompanyI>();
 
-    public static final Double fee = SignClick.getPlugin().getConfig().getDouble("fee");
-    public static final Double flux = SignClick.getPlugin().getConfig().getDouble("flux");
+    public static final Double fee = SignClick.getConfigManager().getConfig("companies.yml").getDouble("fee");
+    public static final Double flux = SignClick.getConfigManager().getConfig("companies.yml").getDouble("flux");
 
     public static ArrayList<Contract> contractCompToComp = new ArrayList<>();
 

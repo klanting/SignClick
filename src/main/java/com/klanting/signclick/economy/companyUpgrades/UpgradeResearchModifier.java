@@ -11,7 +11,7 @@ public class UpgradeResearchModifier extends Upgrade{
     public UpgradeResearchModifier(Integer level) {
         super(level, 5);
 
-        ConfigurationSection section = SignClick.getPlugin().getConfig().getConfigurationSection(
+        ConfigurationSection section = SignClick.getConfigManager().getConfig("companies.yml").getConfigurationSection(
                 "upgrades").getConfigurationSection("researchModifier");
 
         assert section != null;

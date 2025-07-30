@@ -54,6 +54,10 @@ public class compatibilityTestBasic {
         try {
             List<Path> files = Files.list(Path.of(mockDataFolder.toFile().getAbsolutePath())).toList();
 
+            for (Path file: Files.list(targetDir.resolve("configs")).toList()){
+                Files.delete(file);
+            }
+
             for (Path file: files){
                 Files.copy(file, targetDir.resolve(file.getFileName()), StandardCopyOption.REPLACE_EXISTING);
             }

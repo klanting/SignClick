@@ -55,9 +55,9 @@ public class Migrationv100v101 extends Migration{
             throw new RuntimeException(e.getMessage());
         }
 
-        SignClick.getPlugin().getConfig().set("version", "1.0.1");
+        SignClick.getConfigManager().getConfig("general.yml").set("version", "1.0.1");
 
-        SignClick.getPlugin().getConfig().options().copyDefaults(true);
-        SignClick.getPlugin().saveConfig();
+        SignClick.getConfigManager().getConfig("general.yml").options().copyDefaults(true);
+        SignClick.getConfigManager().save();
     }
 }

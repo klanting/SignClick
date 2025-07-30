@@ -40,7 +40,7 @@ public class CompanyHandlerCreate extends CompanyHandler{
             discount_pct = (1.0- country.getPolicyBonus(1, 4));
         }
 
-        double baseCreationCost = SignClick.getPlugin().getConfig().getDouble("companyCreateCost");
+        double baseCreationCost = SignClick.getConfigManager().getConfig("companies.yml").getDouble("companyCreateCost");
         double creationCost = baseCreationCost*discount_pct;
 
         String formattedCost = PreciseNumberFormatter.format(creationCost);

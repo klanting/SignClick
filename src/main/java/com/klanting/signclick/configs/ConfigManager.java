@@ -1,5 +1,6 @@
 package com.klanting.signclick.configs;
 
+import com.klanting.signclick.SignClick;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -46,17 +47,36 @@ public class ConfigManager {
 
         File configFile = new File(plugin.getDataFolder()+"/configs", name);
 
+        boolean takeAction = false;
         try{
             /*
              * create config file
              * */
+
+            if (!configFile.exists() && name.equals("general.yml")){
+                takeAction = true;
+            }
+
             assert (configFile.exists() || configFile.createNewFile());
+
         }catch (IOException e) {
             throw new RuntimeException(e);
         }
 
         CommentConfig cc = CommentConfig.loadConfiguration(configFile);
         fileMap.put(name, cc);
+
+        if (takeAction){
+            String currentVersion = SignClick.getPlugin().getConfig().getString("version");
+            if (currentVersion == null){
+                currentVersion = "1.0.0";
+            }
+
+            SignClick.getConfigManager().getConfig("general.yml").set("version", currentVersion);
+
+            SignClick.getConfigManager().getConfig("general.yml").options().copyDefaults(true);
+            SignClick.getConfigManager().save();
+        }
     }
 
     public CommentConfig getConfig(String name){

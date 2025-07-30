@@ -56,7 +56,7 @@ public class AuctionMenu extends SelectionMenu {
         AuctionMenu old_screen = (AuctionMenu) event.getClickedInventory().getHolder();
         int location = event.getSlot();
 
-        int add_price = SignClick.getPlugin().getConfig().getInt("auctionBitIncrease");
+        int add_price =  SignClick.getConfigManager().getConfig("companies.yml").getInt("auctionBitIncrease");
         if (Auction.getInstance().bitsOwner.get(location) == null){
             add_price = 0;
         }

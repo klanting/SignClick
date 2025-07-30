@@ -93,7 +93,7 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
                 * if command confirmation is enabled
                 * */
                 boolean firstEnter = !confirm.getOrDefault(player, "").equals(commando);
-                firstEnter = firstEnter && SignClick.getPlugin().getConfig().getBoolean("companyConfirmation");
+                firstEnter = firstEnter && SignClick.getConfigManager().getConfig("companies.yml").getBoolean("companyConfirmation");
 
                 boolean setConfirm = ch.handleCommand(player, args, firstEnter);
 

@@ -57,7 +57,7 @@ public class FinancialMenu extends SelectionMenu {
 
         List<Triple<Integer, Integer, Material>> spendableButtons = new ArrayList<>();
 
-        List<Integer> spendableAmount = SignClick.getPlugin().getConfig().getIntegerList("spendableAmount");
+        List<Integer> spendableAmount = SignClick.getConfigManager().getConfig("companies.yml").getIntegerList("spendableAmount");
         assert spendableAmount.size() == 4;
 
         spendableButtons.add(Triple.of(1, 11, Material.LIME_DYE));

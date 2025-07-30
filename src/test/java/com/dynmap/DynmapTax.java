@@ -26,7 +26,7 @@ public class DynmapTax {
         server = MockBukkit.mock(new ExpandedServerMock());
 
         plugin = TestTools.setupPlugin(server);
-        SignClick.getPlugin().getConfig().set("dynmapTax", true);
+        SignClick.getConfigManager().getConfig("general.yml").set("dynmapTax", true);
         plugin = TestTools.reboot(server);
 
         testPlayer = server.addPlayer();

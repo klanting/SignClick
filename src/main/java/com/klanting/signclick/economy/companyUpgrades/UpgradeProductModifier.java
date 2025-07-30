@@ -11,7 +11,7 @@ public class UpgradeProductModifier extends Upgrade{
     public UpgradeProductModifier(Integer level) {
         super(level, 6);
 
-        ConfigurationSection section = SignClick.getPlugin().getConfig().getConfigurationSection(
+        ConfigurationSection section = SignClick.getConfigManager().getConfig("companies.yml").getConfigurationSection(
                 "upgrades").getConfigurationSection("productModifier");
 
         assert section != null;

@@ -23,35 +23,42 @@ public class DefaultConfig {
     }
 
     public static void makeDefaultConfig(){
-
-        FileConfiguration config = SignClick.getPlugin().getConfig();
+        ConfigManager configManager = SignClick.getConfigManager();
+        configManager.createConfigFile("general.yml");
+        configManager.createConfigFile("companies.yml");
+        configManager.createConfigFile("countries.yml");
+        CommentConfig generalConfig = SignClick.getConfigManager().getConfig("general.yml");
+        CommentConfig companiesConfig = SignClick.getConfigManager().getConfig("companies.yml");
+        CommentConfig countriesConfig = SignClick.getConfigManager().getConfig("countries.yml");
 
         /*
          * Configure the current version of the plugin storage
          * */
-        if (config.saveToString().isEmpty()){
-            config.addDefault("version", SignClick.getPlugin().getDescription().getVersion());
+        if (generalConfig.saveToString().isEmpty()){
+            generalConfig.addDefault("version", SignClick.getPlugin().getDescription().getVersion());
         }
 
-        config.addDefault("fee", 0.05);
+        companiesConfig.addDefault("fee", 0.05);
 
-        config.addDefault("flux", 1.01);
-        config.addDefault("companyCreateCost", 4_000.0);
-        config.addDefault("companyConfirmation", false);
-        config.addDefault("companyStartShares", 1000);
-        config.addDefault("dynmapTax", false);
-        config.addDefault("dynmapTaxPeriod", 60*10);
-        config.addDefault("dynmapTaxAmount", 1000);
-        config.addDefault("signIncomeOpenTime", 5);
-        config.addDefault("signStockCost", 1000.0);
+        companiesConfig.addDefault("flux", 1.01);
+        companiesConfig.addDefault("companyCreateCost", 4_000.0);
+        companiesConfig.addDefault("companyConfirmation", false);
+        companiesConfig.addDefault("companyStartShares", 1000);
 
-        config.addDefault("patentUpgradeBonusCunning", List.of(0.5, 1.0, 1.5, 2.0, 2.5, 3.0));
-        config.addDefault("patentUpgradeBonusEvade", List.of(0.5, 1.0, 1.5, 2.0, 2.5, 3.0));
-        config.addDefault("patentUpgradeBonusJumper", List.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0));
-        config.addDefault("patentUpgradeBonusRefill", List.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0));
+        generalConfig.addDefault("dynmapTax", false);
+        generalConfig.addDefault("dynmapTaxPeriod", 60*10);
+        generalConfig.addDefault("dynmapTaxAmount", 1000);
+        generalConfig.addDefault("signIncomeOpenTime", 5);
 
-        config.createSection("upgrades");
-        ConfigurationSection section = config.getConfigurationSection("upgrades");
+        companiesConfig.addDefault("signStockCost", 1000.0);
+
+        companiesConfig.addDefault("patentUpgradeBonusCunning", List.of(0.5, 1.0, 1.5, 2.0, 2.5, 3.0));
+        companiesConfig.addDefault("patentUpgradeBonusEvade", List.of(0.5, 1.0, 1.5, 2.0, 2.5, 3.0));
+        companiesConfig.addDefault("patentUpgradeBonusJumper", List.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0));
+        companiesConfig.addDefault("patentUpgradeBonusRefill", List.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0));
+
+        companiesConfig.createSection("upgrades");
+        ConfigurationSection section = companiesConfig.getConfigurationSection("upgrades");
         assert section != null;
         section.createSection("craftLimit");
         section.createSection("investReturnTime");
@@ -102,32 +109,32 @@ public class DefaultConfig {
         section.getConfigurationSection("researchModifier").addDefault("upgradeCost",
                 List.of(4000, 8000, 12000, 16000, 20000));
 
-        config.addDefault("auctionBitIncrease", 1000);
-        config.addDefault("auctionStartPrice", 1000);
+        companiesConfig.addDefault("auctionBitIncrease", 1000);
+        companiesConfig.addDefault("auctionStartPrice", 1000);
 
-        config.addDefault("auctionCycle", 60*60L);
+        companiesConfig.addDefault("auctionCycle", 60*60L);
 
-        config.addDefault("electionTime", 60*60*24L);
+        countriesConfig.addDefault("electionTime", 60*60*24L);
 
-        config.addDefault("stockBuySellAmount", List.of(10, 100, 200));
-        config.addDefault("spendableAmount", List.of(10, 100, 1000, 10000));
+        companiesConfig.addDefault("stockBuySellAmount", List.of(10, 100, 200));
+        companiesConfig.addDefault("spendableAmount", List.of(10, 100, 1000, 10000));
 
-        config.addDefault("autoSaveInterval", 1800);
+        generalConfig.addDefault("autoSaveInterval", 1800);
 
-        config.addDefault("researchModifiersCost", List.of(1000, 1500, 2000, 2500, 3000));
-        config.addDefault("researchModifiersSpeed", List.of(1.0, 1.4, 1.7, 1.9, 2.0));
+        companiesConfig.addDefault("researchModifiersCost", List.of(1000, 1500, 2000, 2500, 3000));
+        companiesConfig.addDefault("researchModifiersSpeed", List.of(1.0, 1.4, 1.7, 1.9, 2.0));
 
-        config.addDefault("chiefSalaryChange", 1000.0);
-        config.addDefault("maxChiefSalary", 10000.0);
+        companiesConfig.addDefault("chiefSalaryChange", 1000.0);
+        companiesConfig.addDefault("maxChiefSalary", 10000.0);
 
-        config.createSection("products");
+        companiesConfig.createSection("products");
 
 
         /*
         * Product configuration of bank products
         * */
-        config.getConfigurationSection("products").createSection("bank");
-        ConfigurationSection bankP = config.getConfigurationSection("products").getConfigurationSection("bank");
+        companiesConfig.getConfigurationSection("products").createSection("bank");
+        ConfigurationSection bankP = companiesConfig.getConfigurationSection("products").getConfigurationSection("bank");
 
         makeProductConfig(bankP, Material.IRON_INGOT, 1200L, 100, 100L);
         makeProductConfig(bankP, Material.GOLD_INGOT, 3600L, 500, 300L);
@@ -137,8 +144,8 @@ public class DefaultConfig {
         /*
          * Product configuration of transport products
          * */
-        config.getConfigurationSection("products").createSection("transport");
-        ConfigurationSection transportP = config.getConfigurationSection("products").getConfigurationSection("transport");
+        companiesConfig.getConfigurationSection("products").createSection("transport");
+        ConfigurationSection transportP = companiesConfig.getConfigurationSection("products").getConfigurationSection("transport");
 
         makeProductConfig(transportP, Material.POWERED_RAIL, 3600L, 100, 60L);
         makeProductConfig(transportP, Material.DETECTOR_RAIL, 600L, 30, 20L);
@@ -156,8 +163,8 @@ public class DefaultConfig {
         /*
          * Product configuration of product products
          * */
-        config.getConfigurationSection("products").createSection("product");
-        ConfigurationSection productP = config.getConfigurationSection("products").getConfigurationSection("product");
+        companiesConfig.getConfigurationSection("products").createSection("product");
+        ConfigurationSection productP = companiesConfig.getConfigurationSection("products").getConfigurationSection("product");
 
         makeProductConfig(productP, Material.TOTEM_OF_UNDYING, 7200L, 1000, 300L);
         makeProductConfig(productP, Material.TRIDENT, 3600L, 500, 180L);
@@ -171,8 +178,8 @@ public class DefaultConfig {
         /*
          * Product configuration of real estate products
          * */
-        config.getConfigurationSection("products").createSection("real estate");
-        ConfigurationSection realEstateP = config.getConfigurationSection("products").getConfigurationSection("real estate");
+        companiesConfig.getConfigurationSection("products").createSection("real estate");
+        ConfigurationSection realEstateP = companiesConfig.getConfigurationSection("products").getConfigurationSection("real estate");
 
         makeProductConfig(realEstateP, Material.WHITE_BED, 120L, 10, 60L);
         makeProductConfig(realEstateP, Material.ARMOR_STAND, 120L, 5, 60L);
@@ -183,8 +190,8 @@ public class DefaultConfig {
         /*
          * Product configuration of military products
          * */
-        config.getConfigurationSection("products").createSection("military");
-        ConfigurationSection militaryP = config.getConfigurationSection("products").getConfigurationSection("military");
+        companiesConfig.getConfigurationSection("products").createSection("military");
+        ConfigurationSection militaryP = companiesConfig.getConfigurationSection("products").getConfigurationSection("military");
 
         makeProductConfig(militaryP, Material.DIAMOND_SWORD, 7200L, 1500, 720L);
         makeProductConfig(militaryP, Material.NETHERITE_SWORD, 36000L, 3500, 2400L);
@@ -197,8 +204,8 @@ public class DefaultConfig {
         /*
          * Product configuration of building products
          * */
-        config.getConfigurationSection("products").createSection("building");
-        ConfigurationSection buildingP = config.getConfigurationSection("products").getConfigurationSection("building");
+        companiesConfig.getConfigurationSection("products").createSection("building");
+        ConfigurationSection buildingP = companiesConfig.getConfigurationSection("products").getConfigurationSection("building");
 
         makeProductConfig(buildingP, Material.COBBLESTONE, 60L, 1, 10L);
         makeProductConfig(buildingP, Material.GRANITE, 60L, 1, 10L);
@@ -225,8 +232,8 @@ public class DefaultConfig {
         /*
          * Product configuration of enchantment products
          * */
-        config.getConfigurationSection("products").createSection("enchantment");
-        ConfigurationSection enchantmentP = config.getConfigurationSection("products").getConfigurationSection("enchantment");
+        companiesConfig.getConfigurationSection("products").createSection("enchantment");
+        ConfigurationSection enchantmentP = companiesConfig.getConfigurationSection("products").getConfigurationSection("enchantment");
 
         makeProductConfig(enchantmentP, Material.ENCHANTING_TABLE, 7200L, 2500, 1200L);
         makeProductConfig(enchantmentP, Material.BOOK, 120L, 40, 120L);
@@ -235,8 +242,8 @@ public class DefaultConfig {
         /*
          * Product configuration of enchantment products
          * */
-        config.getConfigurationSection("products").createSection("brewery");
-        ConfigurationSection breweryP = config.getConfigurationSection("products").getConfigurationSection("brewery");
+        companiesConfig.getConfigurationSection("products").createSection("brewery");
+        ConfigurationSection breweryP = companiesConfig.getConfigurationSection("products").getConfigurationSection("brewery");
 
         makeProductConfig(breweryP, Material.BREWING_STAND, 120L, 50, 120L);
         makeProductConfig(breweryP, Material.BLAZE_POWDER, 120L, 15, 120L);
@@ -250,8 +257,8 @@ public class DefaultConfig {
         /*
          * Product configuration of other products
          * */
-        config.getConfigurationSection("products").createSection("other");
-        ConfigurationSection otherP = config.getConfigurationSection("products").getConfigurationSection("other");
+        companiesConfig.getConfigurationSection("products").createSection("other");
+        ConfigurationSection otherP = companiesConfig.getConfigurationSection("products").getConfigurationSection("other");
 
         makeProductConfig(otherP, Material.AZALEA, 120L, 20, 30L);
         makeProductConfig(otherP, Material.FLOWERING_AZALEA, 120L, 20, 30L);
@@ -282,8 +289,11 @@ public class DefaultConfig {
         makeProductConfig(otherP, Material.SPYGLASS, 1800L, 150, 120L);
         makeProductConfig(otherP, Material.NAME_TAG, 3600L, 100, 120L);
 
-        config.options().copyDefaults(true);
-        SignClick.getPlugin().saveConfig();
+        generalConfig.options().copyDefaults(true);
+        companiesConfig.options().copyDefaults(true);
+        countriesConfig.options().copyDefaults(true);
+
+        configManager.save();
 
     }
 }

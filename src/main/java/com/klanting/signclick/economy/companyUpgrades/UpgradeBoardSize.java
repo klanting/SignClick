@@ -15,7 +15,7 @@ public class UpgradeBoardSize extends Upgrade{
     public UpgradeBoardSize(Integer level, CompanyI comp) {
         super(level, 3);
 
-        ConfigurationSection section = SignClick.getPlugin().getConfig().getConfigurationSection(
+        ConfigurationSection section = SignClick.getConfigManager().getConfig("companies.yml").getConfigurationSection(
                 "upgrades").getConfigurationSection("boardSize");
 
         assert section != null;

@@ -35,7 +35,7 @@ public class Auction {
     private final Map<Integer, Integer> bits;
     public final Map<Integer, String> bitsOwner;
 
-    private final long auctionCycle = SignClick.getPlugin().getConfig().getLong("auctionCycle");
+    private final long auctionCycle = SignClick.getConfigManager().getConfig("companies.yml").getLong("auctionCycle");
 
     public int getBit(int index){
         return bits.getOrDefault(index, 0);
@@ -107,7 +107,7 @@ public class Auction {
     private void init(){
         toBuy.clear();
 
-        int defaultPrice = SignClick.getPlugin().getConfig().getInt("auctionStartPrice");
+        int defaultPrice = SignClick.getConfigManager().getConfig("companies.yml").getInt("auctionStartPrice");
 
         for(int i=0; i<5; i++){
 

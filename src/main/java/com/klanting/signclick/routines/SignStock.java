@@ -18,7 +18,7 @@ public class SignStock {
     * SignStock is a tool to track the stock value of a company on a sign
     * */
 
-    private static final double signStockCost = SignClick.getPlugin().getConfig().getDouble("signStockCost");
+    private static final double signStockCost = SignClick.getConfigManager().getConfig("companies.yml").getDouble("signStockCost");
 
     public static void set(SignChangeEvent sign, Player player){
         String Sname = sign.getLine(1);

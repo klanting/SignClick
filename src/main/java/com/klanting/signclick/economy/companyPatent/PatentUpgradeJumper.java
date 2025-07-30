@@ -9,7 +9,7 @@ import java.util.List;
 public class PatentUpgradeJumper extends PatentUpgrade{
     public PatentUpgradeJumper(){
         super(0, 0);
-        bonus = SignClick.getPlugin().getConfig().getDoubleList("patentUpgradeBonusJumper");
+        bonus = SignClick.getConfigManager().getConfig("companies.yml").getDoubleList("patentUpgradeBonusJumper");
         material = Material.FEATHER;
         name = "§6Jumper";
     }

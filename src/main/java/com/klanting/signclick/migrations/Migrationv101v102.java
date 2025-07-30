@@ -10,9 +10,9 @@ public class Migrationv101v102 extends Migration{
     @Override
     public void migrate() {
 
-        SignClick.getPlugin().getConfig().set("version", "1.0.2");
+        SignClick.getConfigManager().getConfig("general.yml").set("version", "1.0.2");
 
-        SignClick.getPlugin().getConfig().options().copyDefaults(true);
-        SignClick.getPlugin().saveConfig();
+        SignClick.getConfigManager().getConfig("general.yml").options().copyDefaults(true);
+        SignClick.getConfigManager().save();
     }
 }

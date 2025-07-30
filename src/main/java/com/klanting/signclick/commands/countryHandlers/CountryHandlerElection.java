@@ -21,7 +21,7 @@ public class CountryHandlerElection extends CountryHandler{
 
         CommandAssert.assertTrue(country.getCountryElection() == null, "§bcountry is already in an election phase");
 
-        long electionEnd = getServer().getCurrentTick() + SignClick.getPlugin().getConfig().getLong("electionTime")*20L;
+        long electionEnd = getServer().getCurrentTick() + SignClick.getConfigManager().getConfig("countries.yml").getLong("electionTime")*20L;
         country.addStability(15.0);
         player.sendMessage("§belections started");
 

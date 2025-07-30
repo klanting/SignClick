@@ -23,8 +23,8 @@ public class ResearchOption {
 
     public static void initModifiers(){
 
-        List<Integer> cost = SignClick.getPlugin().getConfig().getIntegerList("researchModifiersCost");
-        List<Double> speed = SignClick.getPlugin().getConfig().getDoubleList("researchModifiersSpeed");
+        List<Integer> cost = SignClick.getConfigManager().getConfig("companies.yml").getIntegerList("researchModifiersCost");
+        List<Double> speed = SignClick.getConfigManager().getConfig("companies.yml").getDoubleList("researchModifiersSpeed");
 
         assert cost.size() == speed.size();
 
@@ -63,7 +63,7 @@ public class ResearchOption {
 
     public long getCompleteTime(){
 
-        ConfigurationSection section = SignClick.getPlugin().getConfig().getConfigurationSection("products").
+        ConfigurationSection section = SignClick.getConfigManager().getConfig("companies.yml").getConfigurationSection("products").
                 getConfigurationSection(this.companyType).getConfigurationSection(this.material.name());
 
         return section.getLong("researchTime");

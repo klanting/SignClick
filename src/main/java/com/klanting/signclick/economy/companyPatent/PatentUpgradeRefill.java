@@ -9,7 +9,7 @@ import java.util.List;
 public class PatentUpgradeRefill extends PatentUpgrade{
     public PatentUpgradeRefill(){
         super(2, 0);
-        bonus = SignClick.getPlugin().getConfig().getDoubleList("patentUpgradeBonusRefill");
+        bonus = SignClick.getConfigManager().getConfig("companies.yml").getDoubleList("patentUpgradeBonusRefill");
         material = Material.BREAD;
         name = "§6Refill";
     }

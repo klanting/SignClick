@@ -13,7 +13,7 @@ public class PatentUpgradeCunning extends PatentUpgrade{
     public PatentUpgradeCunning(){
 
         super(3, 0);
-        bonus = SignClick.getPlugin().getConfig().getDoubleList("patentUpgradeBonusCunning");
+        bonus =  SignClick.getConfigManager().getConfig("companies.yml").getDoubleList("patentUpgradeBonusCunning");
         material = Material.PURPLE_DYE;
         name = "§6Cunning";
     }

@@ -46,7 +46,7 @@ public class SignStockTests {
 
     @Test
     public void setSignStock(){
-        plugin.getConfig().set("signStockCost", 2000.0);
+        SignClick.getConfigManager().getConfig("companies.yml").set("signStockCost", 2000.0);
         Market.addCompany("TCI", "TCI", Market.getAccount(testPlayer), 100000.0, "other");
 
 

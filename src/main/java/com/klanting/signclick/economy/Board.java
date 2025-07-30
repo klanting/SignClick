@@ -176,7 +176,7 @@ public class Board {
     public void boardChangeSalary(UUID boardMember, String position, Double amount){
         Double newAmount = salaryMap.get(position).getOrDefault(boardMember, 0.0)+amount;
         newAmount = Math.max(0, newAmount);
-        newAmount = Math.min(SignClick.getPlugin().getConfig().getDouble("maxChiefSalary"), newAmount);
+        newAmount = Math.min(SignClick.getConfigManager().getConfig("companies.yml").getDouble("maxChiefSalary"), newAmount);
 
 
         salaryMap.get(position).put(boardMember, newAmount);

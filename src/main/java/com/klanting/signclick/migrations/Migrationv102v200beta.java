@@ -196,9 +196,9 @@ public class Migrationv102v200beta extends Migration{
         }
 
 
-        SignClick.getPlugin().getConfig().set("version", "2.0.0-beta");
+        SignClick.getConfigManager().getConfig("general.yml").set("version", "2.0.0-beta");
 
-        SignClick.getPlugin().getConfig().options().copyDefaults(true);
-        SignClick.getPlugin().saveConfig();
+        SignClick.getConfigManager().getConfig("general.yml").options().copyDefaults(true);
+        SignClick.getConfigManager().save();
     }
 }

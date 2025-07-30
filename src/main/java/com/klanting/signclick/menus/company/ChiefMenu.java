@@ -84,7 +84,7 @@ public class ChiefMenu extends SelectionMenu {
             getInventory().setItem(pos, orangeGlass);
         }
 
-        Double change = SignClick.getPlugin().getConfig().getDouble("chiefSalaryChange");
+        Double change = SignClick.getConfigManager().getConfig("companies.yml").getDouble("chiefSalaryChange");
 
         ItemStack incSalary = ItemFactory.create(Material.LIME_STAINED_GLASS_PANE, "§aIncrease Salary by "+change);
         ItemStack decrSalary = ItemFactory.create(Material.RED_STAINED_GLASS_PANE, "§cDecrease Salary by "+change);
@@ -145,7 +145,7 @@ public class ChiefMenu extends SelectionMenu {
 
         String option = event.getCurrentItem().getItemMeta().getDisplayName();
 
-        Double change = SignClick.getPlugin().getConfig().getDouble("chiefSalaryChange");
+        Double change = SignClick.getConfigManager().getConfig("companies.yml").getDouble("chiefSalaryChange");
 
         if (option.contains("§aIncrease Salary")){
             comp.getCOM().getBoard().boardChangeSalary(player.getUniqueId(), position, change);

@@ -11,7 +11,7 @@ public class UpgradeInvestReturnTime extends Upgrade{
     public UpgradeInvestReturnTime(Integer level) {
         super(level, 4);
 
-        ConfigurationSection section = SignClick.getPlugin().getConfig().getConfigurationSection(
+        ConfigurationSection section = SignClick.getConfigManager().getConfig("companies.yml").getConfigurationSection(
                 "upgrades").getConfigurationSection("investReturnTime");
 
         assert section != null;

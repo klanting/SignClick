@@ -11,7 +11,7 @@ public class UpgradeProductSlot extends Upgrade{
     public UpgradeProductSlot(Integer level) {
         super(level, 2);
 
-        ConfigurationSection section = SignClick.getPlugin().getConfig().getConfigurationSection(
+        ConfigurationSection section = SignClick.getConfigManager().getConfig("companies.yml").getConfigurationSection(
                 "upgrades").getConfigurationSection("productSlot");
 
         assert section != null;
