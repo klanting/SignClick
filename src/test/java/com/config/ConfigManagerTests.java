@@ -80,6 +80,13 @@ public class ConfigManagerTests {
         cs.set("c", "d", "f");
         assertEquals("#e\nc: d", data);
 
+        /*
+        * Check creating file doesn't create if already exists
+        * */
+        cm.createConfigFile("a.yml");
+        cs =  cm.getConfig("a.yml");
+        assertEquals("d", cs.getString("c"));
+
 
     }
 }

@@ -55,7 +55,7 @@ public class ConfigManager {
             throw new RuntimeException(e);
         }
 
-        CommentConfig cc = new CommentConfig();
+        CommentConfig cc = CommentConfig.loadConfiguration(configFile);
         fileMap.put(name, cc);
     }
 

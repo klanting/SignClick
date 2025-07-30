@@ -1,6 +1,9 @@
 package com.klanting.signclick.configs;
 
+import com.google.common.base.Preconditions;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.jetbrains.annotations.NotNull;
 
@@ -8,6 +11,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
 
 public class CommentConfig extends YamlConfiguration {
 
@@ -24,6 +28,19 @@ public class CommentConfig extends YamlConfiguration {
         return createSection(path);
 
 
+    }
+
+    public static @NotNull CommentConfig loadConfiguration(@NotNull File file) {
+        CommentConfig config = new CommentConfig();
+
+        try {
+            config.load(file);
+        } catch (FileNotFoundException ignored) {
+        } catch (IOException | InvalidConfigurationException var4) {
+            Bukkit.getLogger().log(Level.SEVERE, "Cannot load " + file, var4);
+        }
+
+        return config;
     }
 
     @Override
