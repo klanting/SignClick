@@ -12,26 +12,26 @@ import java.text.DecimalFormat;
 public class CompanyHandlerGive extends CompanyHandler{
     @Override
     public Boolean handleCommand(Player player, String[] args, Boolean firstEnter) throws CommandException {
-        CommandAssert.assertTrue(args.length >= 3, "§bplease enter /company give <stockname> <amount>");
+        CommandAssert.assertTrue(args.length >= 3, SignClick.getPrefix()+"please enter /company give <stockname> <amount>");
 
         String stockName = args[1].toUpperCase();
         stockName = stockName.toUpperCase();
 
-        double amount = CommandTools.parseDouble(args[2], "§bPlease enter a valid double as amount");
+        double amount = CommandTools.parseDouble(args[2], SignClick.getPrefix()+"Please enter a valid double as amount");
 
-        CommandAssert.assertTrue(Market.hasBusiness(stockName), "§bplease enter a valid company stockname");
+        CommandAssert.assertTrue(Market.hasBusiness(stockName), SignClick.getPrefix()+"please enter a valid company stockname");
 
         CommandAssert.assertTrue(SignClick.getEconomy().has(player, amount), "§byou do not have enough money");
 
         DecimalFormat df = new DecimalFormat("###,###,###");
 
         if (firstEnter){
-            player.sendMessage("§bplease re-enter your command to confirm\nthat you want to give §f" +df.format(amount)+
-                    "§b to §f"+ stockName+"\n§c/company give "+stockName+" "+amount);
+            player.sendMessage(SignClick.getPrefix()+"please re-enter your command to confirm\nthat you want to give §f" +df.format(amount)+
+                    SignClick.getPrefix()+" to §f"+ stockName+"\n§c/company give "+stockName+" "+amount);
             return true;
         }
 
-        player.sendMessage("§byou succesfully gave §f"+df.format(amount)+"§b to §f"+stockName);
+        player.sendMessage(SignClick.getPrefix()+"you succesfully gave §f"+df.format(amount)+SignClick.getPrefix()+" to §f"+stockName);
 
         Market.getCompany(stockName).addBal(amount);
 
@@ -40,7 +40,7 @@ public class CompanyHandlerGive extends CompanyHandler{
         Market.getCompany(stockName).update("Balance added",
                 "§aPlayer paid "+ df.format(amount) + " to " + stockName, player.getUniqueId());
 
-        Market.getCompany(stockName).getCOM().sendOwner("§byour business §f"+stockName+" §b received §f"+amount+" §b from §f"+player.getName());
+        Market.getCompany(stockName).getCOM().sendOwner(SignClick.getPrefix()+"your business §f"+stockName+" "+SignClick.getPrefix()+" received §f"+amount+" "+SignClick.getPrefix()+" from §f"+player.getName());
 
         return false;
     }

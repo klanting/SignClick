@@ -1,5 +1,6 @@
 package com.klanting.signclick.commands.companyHandelers.contractHandlers;
 
+import com.klanting.signclick.SignClick;
 import com.klanting.signclick.commands.companyHandelers.CompanyHandler;
 import com.klanting.signclick.commands.exceptions.CommandAssert;
 import com.klanting.signclick.commands.exceptions.CommandException;
@@ -16,21 +17,21 @@ public class ContractSignPTC extends CompanyHandler {
         Account acc = Market.getAccount(player);
 
         CommandAssert.assertTrue(acc.getBal() >= acc.compAmountPending,
-                "§bcan't sign contract because lack of money");
+                SignClick.getPrefix()+"can't sign contract because lack of money");
 
         if (firstEnter){
             DecimalFormat df = new DecimalFormat("###,###,###");
 
-            player.sendMessage("§bplease re-enter your command to confirm\nthat you want to sign a contract (§cYOU PAY THEM§b) requested from §f" + acc.compNamePending
-                    +"§b \nfor an amount of §f"+ df.format(acc.compAmountPending)
-                    +"§b \nfor a time of §f"+ acc.compWeeksPending +
+            player.sendMessage(SignClick.getPrefix()+"please re-enter your command to confirm\nthat you want to sign a contract (§cYOU PAY THEM"+SignClick.getPrefix()+") requested from §f" + acc.compNamePending
+                    +SignClick.getPrefix()+" \nfor an amount of §f"+ df.format(acc.compAmountPending)
+                    +SignClick.getPrefix()+" \nfor a time of §f"+ acc.compWeeksPending +
                     " weeks \n§c/company sign_contract_ptc");
             return true;
         }
 
 
         acc.accept_offer_comp_contract();
-        player.sendMessage("§bcontract confirmed");
+        player.sendMessage(SignClick.getPrefix()+"contract confirmed");
 
         return false;
 

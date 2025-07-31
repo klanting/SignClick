@@ -1,5 +1,6 @@
 package com.klanting.signclick.commands.companyHandelers.contractHandlers;
 
+import com.klanting.signclick.SignClick;
 import com.klanting.signclick.commands.CommandTools;
 import com.klanting.signclick.commands.companyHandelers.CompanyHandler;
 import com.klanting.signclick.commands.exceptions.CommandAssert;
@@ -18,7 +19,7 @@ public class ContractSendPTC extends CompanyHandler {
     @Override
     public Boolean handleCommand(Player player, String[] args, Boolean firstEnter) throws CommandException {
 
-        CommandAssert.assertTrue(args.length >= 5, "§bplease enter /company send_contract_ptc <owncompany> <player> <amount> <weeks> [reason]");
+        CommandAssert.assertTrue(args.length >= 5, SignClick.getPrefix()+"please enter /company send_contract_ptc <owncompany> <player> <amount> <weeks> [reason]");
 
 
         String reason;
@@ -31,10 +32,10 @@ public class ContractSendPTC extends CompanyHandler {
         String stock_name = args[1].toUpperCase();
         stock_name = stock_name.toUpperCase();
 
-        CommandAssert.assertTrue(Market.hasBusiness(stock_name), "§bbusiness name is invalid");
+        CommandAssert.assertTrue(Market.hasBusiness(stock_name), SignClick.getPrefix()+"business name is invalid");
 
         CommandAssert.assertTrue(getCompany(stock_name).getCOM().isOwner(player.getUniqueId()),
-                "§byou must be CEO to send that request");
+                SignClick.getPrefix()+"you must be CEO to send that request");
 
         UUID target_uuid = null;
         for (OfflinePlayer target : Bukkit.getOfflinePlayers()) {
@@ -43,17 +44,17 @@ public class ContractSendPTC extends CompanyHandler {
             }
         }
 
-        CommandAssert.assertTrue(target_uuid != null, "§bplayer doesn't exist");
+        CommandAssert.assertTrue(target_uuid != null, SignClick.getPrefix()+"player doesn't exist");
 
-        CommandAssert.assertTrue(Market.hasAccount(target_uuid), "§bplayer doesn't have an account");
+        CommandAssert.assertTrue(Market.hasAccount(target_uuid), SignClick.getPrefix()+"player doesn't have an account");
 
-        double amount = CommandTools.parseDouble(args[3], "§bPlease enter a valid double as amount");
-        int weeks = CommandTools.parseInteger(args[4], "§bPlease enter a valid integer as weeks");
+        double amount = CommandTools.parseDouble(args[3], SignClick.getPrefix()+"Please enter a valid double as amount");
+        int weeks = CommandTools.parseInteger(args[4], SignClick.getPrefix()+"Please enter a valid integer as weeks");
 
         if (firstEnter){
-            player.sendMessage("§bplease re-enter your command to confirm\nthat you want to send a contract request to §f" +args[2]
-                    +"§b \n for an amount of §f"+ amount
-                    +"§b \n for a time of §f"+ weeks+
+            player.sendMessage(SignClick.getPrefix()+"please re-enter your command to confirm\nthat you want to send a contract request to §f" +args[2]
+                    +SignClick.getPrefix()+" \n for an amount of §f"+ amount
+                    +SignClick.getPrefix()+" \n for a time of §f"+ weeks+
                     " weeks \n§c/company send_contract_ptc "+stock_name+" "+args[2]+" "+amount+ " "+ weeks);
             return true;
         }

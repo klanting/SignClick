@@ -1,5 +1,6 @@
 package com.klanting.signclick.menus;
 
+import com.klanting.signclick.SignClick;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -24,7 +25,7 @@ abstract public class SelectionMenu implements InventoryHolder {
     }
 
     public SelectionMenu(int size, String title, boolean backButton, int backPosition){
-        menu = Bukkit.createInventory(this, size, title);
+        menu = Bukkit.createInventory(this, size, SignClick.getPrefixUI()+title);
 
         this.backButton = backButton;
         this.backPosition = backPosition;

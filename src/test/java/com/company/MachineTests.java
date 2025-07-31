@@ -85,7 +85,7 @@ public class MachineTests {
         testPlayer.setItemInHand(machine);
 
         BlockMock blockClicked = new DoubleBlockMock(Material.DIRT,
-                new Location(server.getWorld("world"), 0, 1, 0));
+                new Location(new WorldDoubleMock(), 0, 1, 0));
         BlockMock machineBlock = new DoubleBlockMock(machine.getType(),
                 new Location(new WorldDoubleMock(), 0, 1, 0));
         FurnaceStateMock furnaceState = (new FurnaceStateMock(machineBlock));

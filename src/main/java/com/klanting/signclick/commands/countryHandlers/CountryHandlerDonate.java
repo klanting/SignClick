@@ -18,7 +18,8 @@ public class CountryHandlerDonate extends CountryHandler{
             country = CountryManager.getCountry(player);
         }
 
-        CommandAssert.assertTrue(country != null, "§bYou are not in a country or your designated country does not exist");
+        CommandAssert.assertTrue(country != null,
+                SignClick.getPrefix()+"You are not in a country or your designated country does not exist");
 
 
 
@@ -26,7 +27,7 @@ public class CountryHandlerDonate extends CountryHandler{
         try{
             amount = Integer.parseInt(args[args.length-1]);
         }catch (Exception e){
-            player.sendMessage("§bplease enter /country donate [country] <amount>");
+            player.sendMessage(SignClick.getPrefix()+"please enter /country donate [country] <amount>");
             return;
         }
 
@@ -35,12 +36,12 @@ public class CountryHandlerDonate extends CountryHandler{
 
         country.deposit(amount);
         SignClick.getEconomy().withdrawPlayer(player, amount);
-        player.sendMessage("§bYou paid " + amount + " to " + country.getName());
+        player.sendMessage(SignClick.getPrefix()+"You paid " + amount + " to " + country.getName());
 
         for (Player pl : Bukkit.getServer().getOnlinePlayers()){
 
             if (country.isOwner(pl)){
-                pl.sendMessage("§b"+player.getName()+" donated "+amount + " to your country");
+                pl.sendMessage(SignClick.getPrefix()+player.getName()+" donated "+amount + " to your country");
             }
         }
     }

@@ -40,10 +40,10 @@ public class SignTP {
                     player.getLocation().getYaw(), player.getLocation().getPitch()));
 
 
-            player.sendMessage("§bYou are now Teleported");
+            player.sendMessage(SignClick.getPrefix()+"You are now Teleported");
         }
         else{
-            player.sendMessage("§bYou have not enough money to travel");
+            player.sendMessage(SignClick.getPrefix()+"You have not enough money to travel");
         }
 
     }
@@ -96,14 +96,14 @@ public class SignTP {
             String cords = x+" "+y+" "+z;
             String bus = sign.getLine(1);
             if (bus == null){
-                player.sendMessage("§bplease enter company name on 2nd line");
+                player.sendMessage(SignClick.getPrefix()+"please enter company name on 2nd line");
                 return;
             }
 
             bus = bus.toUpperCase();
 
             if (!Market.hasBusiness(bus)){
-                player.sendMessage("§bcompany name invalid");
+                player.sendMessage(SignClick.getPrefix()+"company name invalid");
                 sign.getBlock().setType(Material.AIR);
                 return;
             }
@@ -137,7 +137,7 @@ public class SignTP {
             amount = (int) (amount*(1.0+d));
 
             if (comp == null){
-                player.sendMessage("§bCompany invalid");
+                player.sendMessage(SignClick.getPrefix()+"Company invalid");
                 return;
             }
 
@@ -152,10 +152,10 @@ public class SignTP {
             player.teleport(new Location(player.getLocation().getWorld(), x, y, z));
 
 
-            player.sendMessage("§bYou are now Teleported");
+            player.sendMessage(SignClick.getPrefix()+"You are now Teleported");
         }
         else{
-            player.sendMessage("§bYou have not enough money to travel");
+            player.sendMessage(SignClick.getPrefix()+"You have not enough money to travel");
         }
 
     }

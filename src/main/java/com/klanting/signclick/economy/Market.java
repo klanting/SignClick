@@ -201,7 +201,7 @@ public class Market {
             Double v = entries.get(i).getValue().getValue();
             DecimalFormat df = new DecimalFormat("###,###,###");
             int i2 = i + 1;
-            player.sendMessage("§b"+i2+". §3"+b+": §7" +df.format(v)+"\n");
+            player.sendMessage(SignClick.getPrefix()+i2+". §3"+b+": §7" +df.format(v)+"\n");
         }
     }
 
@@ -290,9 +290,9 @@ public class Market {
             int i2 = i + 1;
 
             if (Market.getCompany(b).getCOM().isOpenTrade()){
-                marketList.add("§b"+i2+". §9"+b+": §7" +"inf"+" ("+"inf"+"%)");
+                marketList.add(SignClick.getPrefix()+i2+". §9"+b+": §7" +"inf"+" ("+"inf"+"%)");
             }else{
-                marketList.add("§b"+i2+". §9"+b+": §7" +df.format(v)+" ("+df2.format((v/comp.getTotalShares().doubleValue()*100.0))+"%)");
+                marketList.add(SignClick.getPrefix()+i2+". §9"+b+": §7" +df.format(v)+" ("+df2.format((v/comp.getTotalShares().doubleValue()*100.0))+"%)");
             }
 
         }

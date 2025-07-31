@@ -74,7 +74,7 @@ public class SignIncome {
                             }
                         }, 20L*signIncomeOpenTime);
                     }else{
-                        player.sendMessage("§bYou have not enough money");
+                        player.sendMessage(SignClick.getPrefix()+"You have not enough money");
                     }
                 }
             }
@@ -131,7 +131,7 @@ public class SignIncome {
                 try {
                     Integer.parseInt(sign.getLine(1));
                 }catch (NumberFormatException nfe){
-                    player.sendMessage("§bThe 2nd line needs a price");
+                    player.sendMessage(SignClick.getPrefix()+"The 2nd line needs a price");
                     return;
                 }
 
@@ -139,7 +139,7 @@ public class SignIncome {
 
                 owner.put(getAttachedBlock(sign.getBlock()).getRelative(BlockFace.DOWN).getLocation(), player.getUniqueId());
             }else {
-                player.sendMessage("§bThis door is already locked");
+                player.sendMessage(SignClick.getPrefix()+"This door is already locked");
             }
         }
     }

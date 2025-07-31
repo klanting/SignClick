@@ -1,5 +1,6 @@
 package com.klanting.signclick.events;
 
+import com.klanting.signclick.SignClick;
 import com.klanting.signclick.economy.CompanyI;
 import com.klanting.signclick.economy.Market;
 import com.klanting.signclick.menus.company.MarketMenu;
@@ -78,7 +79,7 @@ public class SignEvents implements Listener {
                         SignStock.set(sign, player);
 
                     }else{
-                        player.sendMessage("§b no company given");
+                        player.sendMessage(SignClick.getPrefix() +"no company given");
                     }
 
                 }

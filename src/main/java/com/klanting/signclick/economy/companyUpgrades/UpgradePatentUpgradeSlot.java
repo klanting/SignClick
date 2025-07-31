@@ -30,7 +30,7 @@ public class UpgradePatentUpgradeSlot extends Upgrade{
         l.add("§7Upgrade amount of patent upgrade slots");
 
         if (level < 5){
-            l.add("§7 From "+getBonus() +"->"+bonus.get(level+1));
+            l.add("§7From §f§n"+getBonus() +"§r§7->§f§n"+bonus.get(level+1));
         }
 
         return l;

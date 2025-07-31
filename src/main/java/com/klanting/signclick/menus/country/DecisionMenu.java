@@ -1,5 +1,6 @@
 package com.klanting.signclick.menus.country;
 
+import com.klanting.signclick.SignClick;
 import com.klanting.signclick.economy.Country;
 import com.klanting.signclick.economy.CountryManager;
 import com.klanting.signclick.economy.decisions.Decision;
@@ -65,7 +66,7 @@ public class DecisionMenu extends SelectionMenu {
             Country country = CountryManager.getCountry(player);
 
             if (country.getCountryElection() != null){
-                player.sendMessage("§b you can`t ban parties during elections");
+                player.sendMessage(SignClick.getPrefix()+"you can`t ban parties during elections");
                 return false;
             }
             PartyBan screen = new PartyBan(player.getUniqueId());

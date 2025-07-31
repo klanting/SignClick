@@ -38,12 +38,12 @@ public class UpgradeMenu extends SelectionMenu {
             }
 
             if (up.getUpgradeCost() != -1){
-                l.add("§6Cost: §8"+ df.format((double) up.getUpgradeCost()*(1.0- modifier)));
+                l.add("§6Cost: §f§n"+ df.format((double) up.getUpgradeCost()*(1.0- modifier)));
             }
 
             l.addAll(up.description());
 
-            ItemStack value = ItemFactory.create(up.material, "§6"+up.name +" Lvl. §c"+ up.level, l);
+            ItemStack value = ItemFactory.create(up.material, "§6§l"+up.name +"§r§6 Lvl. §c"+ up.level, l);
 
             getInventory().setItem(counter, value);
             counter ++;

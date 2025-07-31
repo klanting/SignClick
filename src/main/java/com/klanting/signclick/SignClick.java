@@ -230,4 +230,12 @@ public class SignClick extends JavaPlugin{
         return plugin;
     }
 
+    public static String getPrefix(){
+        return configManager.getConfig("general.yml").getString("chatPrefix");
+    }
+
+    public static String getPrefixUI(){
+        return configManager.getConfig("general.yml").getString("UIPrefix");
+    }
+
 }

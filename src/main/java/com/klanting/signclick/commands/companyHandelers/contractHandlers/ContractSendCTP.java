@@ -1,5 +1,6 @@
 package com.klanting.signclick.commands.companyHandelers.contractHandlers;
 
+import com.klanting.signclick.SignClick;
 import com.klanting.signclick.commands.CommandTools;
 import com.klanting.signclick.commands.companyHandelers.CompanyHandler;
 import com.klanting.signclick.commands.exceptions.CommandAssert;
@@ -11,7 +12,7 @@ public class ContractSendCTP  extends CompanyHandler {
     @Override
     public Boolean handleCommand(Player player, String[] args, Boolean firstEnter) throws CommandException {
 
-        CommandAssert.assertTrue(args.length >= 4, "§bplease enter /company send_contract_ctp <othercompany> <amount> <weeks> [reason]");
+        CommandAssert.assertTrue(args.length >= 4, SignClick.getPrefix()+"please enter /company send_contract_ctp <othercompany> <amount> <weeks> [reason]");
 
         String reason;
         if (args.length < 5){
@@ -23,15 +24,15 @@ public class ContractSendCTP  extends CompanyHandler {
         String target_stock_name = args[1].toUpperCase();
         target_stock_name = target_stock_name.toUpperCase();
 
-        CommandAssert.assertTrue(Market.hasBusiness(target_stock_name), "§bbusiness name is invalid");
+        CommandAssert.assertTrue(Market.hasBusiness(target_stock_name), SignClick.getPrefix()+"business name is invalid");
 
-        double amount = CommandTools.parseDouble(args[2], "§bPlease enter a valid double as amount");
-        int weeks = CommandTools.parseInteger(args[3], "§bPlease enter a valid integer as weeks");
+        double amount = CommandTools.parseDouble(args[2], SignClick.getPrefix()+"Please enter a valid double as amount");
+        int weeks = CommandTools.parseInteger(args[3], SignClick.getPrefix()+"Please enter a valid integer as weeks");
 
         if (firstEnter){
-            player.sendMessage("§bplease re-enter your command to confirm\nthat you want to send a contract request to §f" +target_stock_name
-                    +"§b \n for an amount of §f"+ amount
-                    +"§b \n for a time of §f"+ weeks+
+            player.sendMessage(SignClick.getPrefix()+"please re-enter your command to confirm\nthat you want to send a contract request to §f" +target_stock_name
+                    +SignClick.getPrefix()+" \n for an amount of §f"+ amount
+                    +SignClick.getPrefix()+" \n for a time of §f"+ weeks+
                     " weeks \n§c/company send_contract_ctp "+target_stock_name+" "+amount+ " "+ weeks);
             return true;
         }

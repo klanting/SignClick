@@ -41,8 +41,8 @@ public class LicenseAcceptMenu extends SelectionMenu {
 
         getInventory().setItem(13, productItem);
 
-        getInventory().setItem(12, ItemFactory.create(Material.RED_WOOL, "§cDeny License"));
-        getInventory().setItem(14, ItemFactory.create(Material.LIME_WOOL, "§aAccept License"));
+        getInventory().setItem(12, ItemFactory.create(Material.RED_WOOL, "§c✘ Deny License"));
+        getInventory().setItem(14, ItemFactory.create(Material.LIME_WOOL, "§a✓ Accept License"));
 
         super.init();
     }

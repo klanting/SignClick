@@ -1,5 +1,6 @@
 package com.klanting.signclick.commands.companyHandelers;
 
+import com.klanting.signclick.SignClick;
 import com.klanting.signclick.commands.exceptions.CommandAssert;
 import com.klanting.signclick.commands.exceptions.CommandException;
 import com.klanting.signclick.economy.Account;
@@ -12,12 +13,12 @@ public class CompanyHandlerTransfer extends CompanyHandler{
     @Override
     public Boolean handleCommand(Player player, String[] args, Boolean firstEnter) throws CommandException {
 
-        CommandAssert.assertTrue(args.length >= 4, "§bplease enter /company transfer <stockname> <playername> <amount>");
+        CommandAssert.assertTrue(args.length >= 4, SignClick.getPrefix()+"please enter /company transfer <stockname> <playername> <amount>");
 
         String stockName = args[1].toUpperCase();
         stockName = stockName.toUpperCase();
 
-        CommandAssert.assertTrue(Market.hasBusiness(stockName), "§bbusiness name is invalid");
+        CommandAssert.assertTrue(Market.hasBusiness(stockName), SignClick.getPrefix()+"business name is invalid");
 
         String player_name = args[2];
         OfflinePlayer playerOfflineName = null;
@@ -28,13 +29,13 @@ public class CompanyHandlerTransfer extends CompanyHandler{
             }
         }
 
-        CommandAssert.assertTrue(playerOfflineName != null, "§bplayer doesn't exist");
-        CommandAssert.assertTrue(Market.hasAccount(playerOfflineName.getUniqueId()), "§bplayer doesn't have an account");
+        CommandAssert.assertTrue(playerOfflineName != null, SignClick.getPrefix()+"player doesn't exist");
+        CommandAssert.assertTrue(Market.hasAccount(playerOfflineName.getUniqueId()), SignClick.getPrefix()+"player doesn't have an account");
 
         int amount = Integer.parseInt(args[3]);
 
         if (firstEnter){
-            player.sendMessage("§bplease re-enter your command to confirm\nthat you want to transfer §f" +amount+"§b shares to §f"+ player_name+
+            player.sendMessage(SignClick.getPrefix()+"please re-enter your command to confirm\nthat you want to transfer §f" +amount+SignClick.getPrefix()+" shares to §f"+ player_name+
                     "\n§c/company transfer "+stockName+" "+player_name+" "+amount);
             return true;
         }

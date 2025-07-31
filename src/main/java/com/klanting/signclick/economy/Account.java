@@ -43,12 +43,12 @@ public class Account {
     public void buyShare(String Sname, Integer amount, Player player){
         double v = Market.getBuyPrice(Sname, amount);
         if (getBal()<v){
-            player.sendMessage("§bbuy: §cdenied (not enough money)");
+            player.sendMessage(SignClick.getPrefix()+"buy: §cdenied (not enough money)");
             return;
         }
 
         if (!Market.buy(Sname, amount, this)){
-            player.sendMessage("§bbuy: §cdenied (not enough shares on the market)");
+            player.sendMessage(SignClick.getPrefix()+"buy: §cdenied (not enough shares on the market)");
             return;
         }
 
@@ -69,7 +69,7 @@ public class Account {
                 "§aPlayer bought " + amount + " shares for " + df.format(v),
                 player.getUniqueId());
 
-        player.sendMessage("§bbuy: §aaccepted");
+        player.sendMessage(SignClick.getPrefix()+"buy: §aaccepted");
     }
 
     public void sellShare(String Sname, Integer amount, Player player){
@@ -102,7 +102,7 @@ public class Account {
 
         int share_amount = shares.getOrDefault(Sname, 0);
         if (share_amount < amount){
-            player.sendMessage("§bsell: §cdenied (not enough shares)");
+            player.sendMessage(SignClick.getPrefix()+"sell: §cdenied (not enough shares)");
             return;
         }
 
@@ -119,7 +119,7 @@ public class Account {
                     "§cPlayer sold " + amount + " shares for " + df.format(v),
                     player.getUniqueId());
 
-            player.sendMessage("§bsell: §aaccepted");
+            player.sendMessage(SignClick.getPrefix()+"sell: §aaccepted");
         }
     }
 
@@ -128,10 +128,10 @@ public class Account {
             target.receive(Sname, amount, this, Objects.requireNonNull(Bukkit.getPlayer(target.uuid)));
             int share_amount = shares.get(Sname);
             shares.put(Sname, share_amount-amount);
-            player.sendMessage("§btransfer: §aaccepted");
+            player.sendMessage(SignClick.getPrefix()+"transfer: §aaccepted");
             return true;
         }else{
-            player.sendMessage("§btransfer: §cdenied (not enough shares)");
+            player.sendMessage(SignClick.getPrefix()+"transfer: §cdenied (not enough shares)");
             return false;
         }
 
@@ -140,7 +140,7 @@ public class Account {
     public void receive(String Sname, Integer amount, Account sender, Player player){
         int share_amount = shares.getOrDefault(Sname, 0);
         shares.put(Sname, share_amount+amount);
-        player.sendMessage("§breceived: "+amount+" shares for "+Sname+" from "+Bukkit.getPlayer(sender.uuid).getName());
+        player.sendMessage(SignClick.getPrefix()+"received: "+amount+" shares for "+Sname+" from "+Bukkit.getPlayer(sender.uuid).getName());
     }
 
     public void receivePrivate(String Sname, Integer amount){
@@ -199,7 +199,7 @@ public class Account {
 
         }
 
-        player.sendMessage("§bportfolio:\n");
+        player.sendMessage(SignClick.getPrefix()+"portfolio:\n");
         double total = 0;
         for (int i=0; i<values.size(); i++){
             String b = order.get(i);
@@ -209,7 +209,7 @@ public class Account {
             int i2 = i + 1;
             total += v;
             CompanyI comp = Market.getCompany(b);
-            player.sendMessage("§b"+i2+". §3"+b+": §7" +df.format(v)+" ("+df2.format((shares.get(b).doubleValue()/comp.getTotalShares().doubleValue()*100.0))+"%)\n");
+            player.sendMessage(SignClick.getPrefix()+i2+". §3"+b+": §7" +df.format(v)+" ("+df2.format((shares.get(b).doubleValue()/comp.getTotalShares().doubleValue()*100.0))+"%)\n");
         }
         DecimalFormat df = new DecimalFormat("###,###,###");
         player.sendMessage("§9Total value: §e" +df.format(total));
@@ -250,8 +250,8 @@ public class Account {
 
         Player p = Bukkit.getPlayer(uuid);
         if (p != null){
-            p.sendMessage("§b you §7"+p.getName()+"§b got a contract request from §7" + stock_name
-                    + "§b they will ask you §7"+amount+"§b for §7"+weeks+"§b weeks, do §c/company sign_contract_ptc");
+            p.sendMessage(SignClick.getPrefix()+" you §7"+p.getName()+SignClick.getPrefix()+" got a contract request from §7" + stock_name
+                    + SignClick.getPrefix()+" they will ask you §7"+amount+SignClick.getPrefix()+" for §7"+weeks+SignClick.getPrefix()+" weeks, do §c/company sign_contract_ptc");
         }
     }
 

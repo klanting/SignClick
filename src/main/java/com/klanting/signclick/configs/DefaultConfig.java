@@ -38,6 +38,10 @@ public class DefaultConfig {
             generalConfig.addDefault("version", SignClick.getPlugin().getDescription().getVersion(),
                     "Latest updated version, don't change this, it will be done automatically");
         }
+        generalConfig.addDefault("chatPrefix", "§b",
+                "prefix/color being applied to all plugin commands");
+        generalConfig.addDefault("UIPrefix", "§6§l",
+                "prefix/color being applied to all UI titles");
 
         companiesConfig.addDefault("fee", 0.05,
                 "The amount (%) of money that goes to your country when you sell shares");

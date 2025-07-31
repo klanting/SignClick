@@ -25,7 +25,7 @@ public class ProductCraftMenu extends SelectionMenu {
     public Product[] products = new Product[9];
 
     public ProductCraftMenu(UUID uuid, CompanyI company){
-        super(45, "Company Product Crafting: "+ company.getStockName(), true);
+        super(45, "Product Crafting: "+ company.getStockName(), true);
         comp = company;
 
         assert comp.getCOM().isOwner(uuid);
@@ -89,7 +89,7 @@ public class ProductCraftMenu extends SelectionMenu {
             getInventory().setItem(25, ItemFactory.create(recipe.getType(), "§7"+recipe.getType().name()));
         }
 
-        getInventory().setItem(43, ItemFactory.create(Material.LIME_WOOL, "§aSave Product"));
+        getInventory().setItem(43, ItemFactory.create(Material.LIME_WOOL, "§a✓ Save Product"));
 
         super.init();
     }
@@ -123,7 +123,7 @@ public class ProductCraftMenu extends SelectionMenu {
 
             ProductList new_screen = new ProductList(comp, lambda, false, true, false);
             player.openInventory(new_screen.getInventory());
-        }else if(option.equals("§aSave Product")) {
+        }else if(option.equals("§a✓ Save Product")) {
 
             if (comp.getProducts().size() >= comp.getUpgrades().get(2).getBonus()){
                 player.sendMessage("§cYou don't have any free product slots. Used: "+comp.getProducts().size()

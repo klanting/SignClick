@@ -33,9 +33,9 @@ public class SignStock {
 
             Market.getCompany(Sname).addBal(signStockCost);
             SignClick.getEconomy().withdrawPlayer(player, signStockCost);
-            player.sendMessage("§bStock sign is created and you have been charged 100k for making this sign");
+            player.sendMessage(SignClick.getPrefix()+"Stock sign is created and you have been charged 100k for making this sign");
         }else{
-            player.sendMessage("§bNot a valid company");
+            player.sendMessage(SignClick.getPrefix()+"Not a valid company");
         }
 
 
