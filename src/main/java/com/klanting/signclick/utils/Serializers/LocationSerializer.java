@@ -52,7 +52,7 @@ public class LocationSerializer implements JsonSerializer<Location>, JsonDeseria
         if (obj.get("world") != null){
             world = SignClick.getPlugin().getServer().getWorld(obj.get("world").getAsString());
         }else{
-            world = null;
+            world =  SignClick.getPlugin().getServer().getWorld("world");
         }
 
         double x = obj.get("x").getAsDouble();
