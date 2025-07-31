@@ -73,10 +73,10 @@ public class MarketMenuTests {
         * Check that the menu selector is displaying properly
         * */
         ItemStack firstComp = inventoryMenu.getItem(0);
-        TestTools.assertItem(firstComp, Material.SUNFLOWER, "§bTCI");
+        TestTools.assertItem(firstComp, Material.SUNFLOWER, "§6TestCaseInc [TCI]");
 
         ItemStack secondComp = inventoryMenu.getItem(1);
-        TestTools.assertItem(secondComp, Material.GOLD_INGOT, "§bTCI2");
+        TestTools.assertItem(secondComp, Material.GOLD_INGOT, "§6TestCaseInc2 [TCI2]");
     }
 
     @Test
@@ -91,7 +91,7 @@ public class MarketMenuTests {
         testPlayer.simulateInventoryClick(inventoryMenu, 0);
         InventoryView marketMenu = testPlayer.getOpenInventory();
 
-        TestTools.assertItem(marketMenu.getItem(29), Material.RED_DYE, "§cSELL: 1 Share");
+        TestTools.assertItem(marketMenu.getItem(29), Material.RED_DYE, "§c§lSELL: 1 Share");
         testPlayer.simulateInventoryClick(29);
 
         assertEquals(999, comp.getCOM().getShareHolders().get(testPlayer.getUniqueId()));
@@ -112,7 +112,7 @@ public class MarketMenuTests {
         testPlayer.simulateInventoryClick(inventoryMenu, 0);
         InventoryView marketMenu = testPlayer.getOpenInventory();
 
-        TestTools.assertItem(marketMenu.getItem(11), Material.LIME_DYE, "§aBUY: 1 Share");
+        TestTools.assertItem(marketMenu.getItem(11), Material.LIME_DYE, "§a§lBUY: 1 Share");
         testPlayer.simulateInventoryClick(11);
 
         assertEquals(1000, comp.getCOM().getShareHolders().get(testPlayer.getUniqueId()));
@@ -134,7 +134,7 @@ public class MarketMenuTests {
         testPlayer.simulateInventoryClick(inventoryMenu, 0);
         InventoryView marketMenu = testPlayer.getOpenInventory();
 
-        TestTools.assertItem(marketMenu.getItem(12), Material.EMERALD, "§aBUY: 1 Share");
+        TestTools.assertItem(marketMenu.getItem(12), Material.EMERALD, "§a§lBUY: 1 Share");
         testPlayer.simulateInventoryClick(12);
 
         assertEquals(1000, comp.getCOM().getShareHolders().get(testPlayer.getUniqueId()));
@@ -154,9 +154,9 @@ public class MarketMenuTests {
         testPlayer.simulateInventoryClick(inventoryMenu, 0);
         InventoryView marketMenu = testPlayer.getOpenInventory();
 
-        TestTools.assertItem(marketMenu.getItem(15), Material.LIME_CONCRETE, "§fDOES NOTHING");
-        TestTools.assertItem(marketMenu.getItem(14), Material.LIME_STAINED_GLASS, "§fDOES NOTHING");
-        TestTools.assertItem(marketMenu.getItem(33), Material.RED_CONCRETE, "§cSELL: 1000 Shares");
+        TestTools.assertItem(marketMenu.getItem(15), Material.LIME_CONCRETE, "§f§lDOES NOTHING");
+        TestTools.assertItem(marketMenu.getItem(14), Material.LIME_STAINED_GLASS, "§f§lDOES NOTHING");
+        TestTools.assertItem(marketMenu.getItem(33), Material.RED_CONCRETE, "§c§lSELL: 1000 Shares");
 
         sellShare();
 
@@ -169,8 +169,8 @@ public class MarketMenuTests {
 
         marketMenu = testPlayer.getOpenInventory();
 
-        TestTools.assertItem(marketMenu.getItem(15), Material.LIME_CONCRETE, "§aBUY: 1 Share");
-        TestTools.assertItem(marketMenu.getItem(33), Material.RED_CONCRETE, "§cSELL: 999 Shares");
+        TestTools.assertItem(marketMenu.getItem(15), Material.LIME_CONCRETE, "§a§lBUY: 1 Share");
+        TestTools.assertItem(marketMenu.getItem(33), Material.RED_CONCRETE, "§c§lSELL: 999 Shares");
 
         /*
          * Check after Sell all the: the Buy&Sell All
@@ -178,8 +178,8 @@ public class MarketMenuTests {
 
         marketMenu = testPlayer.getOpenInventory();
         testPlayer.simulateInventoryClick(33);
-        TestTools.assertItem(marketMenu.getItem(15), Material.LIME_CONCRETE, "§aBUY: 1000 Shares");
-        TestTools.assertItem(marketMenu.getItem(33), Material.RED_CONCRETE, "§fDOES NOTHING");
+        TestTools.assertItem(marketMenu.getItem(15), Material.LIME_CONCRETE, "§a§lBUY: 1000 Shares");
+        TestTools.assertItem(marketMenu.getItem(33), Material.RED_CONCRETE, "§f§lDOES NOTHING");
     }
 
     @Test

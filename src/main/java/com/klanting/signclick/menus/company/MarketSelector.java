@@ -35,7 +35,7 @@ public class MarketSelector extends PagingMenu {
 
             item = new ItemStack(Utils.getCompanyTypeMaterial(c.getType()),1);
             ItemMeta m = item.getItemMeta();
-            m.setDisplayName("§b"+c.getStockName());
+            m.setDisplayName("§6"+c.getName()+" ["+c.getStockName()+"]");
 
             DecimalFormat df2 = new DecimalFormat("0.00");
 
@@ -67,9 +67,11 @@ public class MarketSelector extends PagingMenu {
             return false;
         }
 
-        String compName = event.getCurrentItem().getItemMeta().getDisplayName().substring(2);
+        int startPos = event.getCurrentItem().getItemMeta().getDisplayName().indexOf("[");
+        int endPos = event.getCurrentItem().getItemMeta().getDisplayName().length()-1;
+        CompanyI company = Market.getCompany(event.getCurrentItem().getItemMeta().getDisplayName().substring(startPos+1, endPos));
 
-        MarketMenu screen = new MarketMenu(player.getUniqueId(), Market.getCompany(compName));
+        MarketMenu screen = new MarketMenu(player.getUniqueId(), company);
 
         player.openInventory(screen.getInventory());
 

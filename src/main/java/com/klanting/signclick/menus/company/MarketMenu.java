@@ -54,16 +54,19 @@ public class MarketMenu extends SelectionMenu {
         List<String> lores = new ArrayList<>();
         DecimalFormat df = new DecimalFormat("###,###,##0.00");
         DecimalFormat df2 = new DecimalFormat("###,###,##0.##");
-        lores.add("§7Type: "+currentCompany.getType());
-        lores.add("§7Current Value: "+df.format(currentCompany.getValue()));
-        lores.add("§7Value Change: "+df.format(pct)+"%");
-        lores.add("§7Patent Upgrades: "+currentCompany.getUpgrades().size());
+        lores.add("§7Type: §f"+currentCompany.getType());
+        lores.add("§7Owned Shares: §f"+df2.format(currentCompany.getCOM().getShareHolders().getOrDefault(uuid, 0)));
+        lores.add("§7Market Shares: §f"+df2.format(currentCompany.getCOM().getMarketShares())+"/"+df2.format(currentCompany.getCOM().getTotalShares()));
+        lores.add("");
+        lores.add("§7Current Value: §f"+df.format(currentCompany.getValue()));
+        lores.add("§7Value Change: "+(pct > 0 ? "§a": "§c")+df.format(pct)+"%");
+        lores.add("");
+        lores.add("§7Products: §f"+currentCompany.getProducts().size());
+        lores.add("§7Patent Upgrades: §f"+currentCompany.getUpgrades().size());
 
-        lores.add("§7Owned Shares: "+df2.format(currentCompany.getCOM().getShareHolders().getOrDefault(uuid, 0)));
-        lores.add("§7Market Shares: "+df2.format(currentCompany.getCOM().getMarketShares())+"/"+df2.format(currentCompany.getCOM().getTotalShares()));
         m.setLore(lores);
 
-        m.setDisplayName("§6"+currentCompany.getStockName()+"-"+currentCompany.getName());
+        m.setDisplayName("§6§l"+currentCompany.getStockName()+"-"+currentCompany.getName());
         gearItem.setItemMeta(m);
 
         getInventory().setItem(22, gearItem);
@@ -107,13 +110,13 @@ public class MarketMenu extends SelectionMenu {
 
             String message;
             if (amount > 0){
-                message = "§a"+"BUY: "+amount+" Shares";
-                buttonLore.add("§7BUY PRICE: §8"+ df.format(Market.getBuyPrice(currentCompany.getStockName(), amount)));
+                message = "§a§l"+"BUY: "+amount+" Shares";
+                buttonLore.add("§7BUY PRICE: §f"+ df.format(Market.getBuyPrice(currentCompany.getStockName(), amount)));
             } else if (amount == 0) {
-                message = "§fDOES NOTHING";
+                message = "§f§lDOES NOTHING";
             } else{
-                message = "§c"+"SELL: "+-amount+" Shares";
-                buttonLore.add("§7SELL PRICE: §8"+ df.format(Market.getSellPrice(currentCompany.getStockName(),- amount)));
+                message = "§c§l"+"SELL: "+-amount+" Shares";
+                buttonLore.add("§7SELL PRICE: §f"+ df.format(Market.getSellPrice(currentCompany.getStockName(),- amount)));
             }
 
             if (Math.abs(amount) == 1){
