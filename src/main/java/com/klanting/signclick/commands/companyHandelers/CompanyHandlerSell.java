@@ -12,13 +12,13 @@ import java.text.DecimalFormat;
 public class CompanyHandlerSell extends CompanyHandler{
     @Override
     public Boolean handleCommand(Player player, String[] args, Boolean firstEnter) throws CommandException {
-        CommandAssert.assertTrue(args.length >= 3, SignClick.getPrefix()+"please enter /company sell <stockname> <amount>");
+        CommandAssert.assertTrue(args.length >= 3, "please enter /company sell <stockname> <amount>");
 
         String stockName = args[1].toUpperCase();
         stockName = stockName.toUpperCase();
         int amount = Integer.parseInt(args[2]);
 
-        CommandAssert.assertTrue(Market.hasBusiness(stockName), SignClick.getPrefix()+"please enter a valid company stockname");
+        CommandAssert.assertTrue(Market.hasBusiness(stockName), "please enter a valid company stockname");
 
         if (firstEnter){
             double v = Market.getSellPrice(stockName, amount);

@@ -13,12 +13,12 @@ public class CompanyHandlerTransfer extends CompanyHandler{
     @Override
     public Boolean handleCommand(Player player, String[] args, Boolean firstEnter) throws CommandException {
 
-        CommandAssert.assertTrue(args.length >= 4, SignClick.getPrefix()+"please enter /company transfer <stockname> <playername> <amount>");
+        CommandAssert.assertTrue(args.length >= 4, "please enter /company transfer <stockname> <playername> <amount>");
 
         String stockName = args[1].toUpperCase();
         stockName = stockName.toUpperCase();
 
-        CommandAssert.assertTrue(Market.hasBusiness(stockName), SignClick.getPrefix()+"business name is invalid");
+        CommandAssert.assertTrue(Market.hasBusiness(stockName), "business name is invalid");
 
         String player_name = args[2];
         OfflinePlayer playerOfflineName = null;
@@ -29,8 +29,8 @@ public class CompanyHandlerTransfer extends CompanyHandler{
             }
         }
 
-        CommandAssert.assertTrue(playerOfflineName != null, SignClick.getPrefix()+"player doesn't exist");
-        CommandAssert.assertTrue(Market.hasAccount(playerOfflineName.getUniqueId()), SignClick.getPrefix()+"player doesn't have an account");
+        CommandAssert.assertTrue(playerOfflineName != null, "player doesn't exist");
+        CommandAssert.assertTrue(Market.hasAccount(playerOfflineName.getUniqueId()), "player doesn't have an account");
 
         int amount = Integer.parseInt(args[3]);
 

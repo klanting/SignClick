@@ -439,9 +439,9 @@ class CompanyCTests {
         assertTrue(suc6);
 
         testPlayer.assertSaid("§bplease re-enter your command to confirm\n" +
-                "that you want to send a contract request to §fTCI2\n" +
-                "§bfor an amount of §f100.0\n" +
-                "§bfor a time of §f2 weeks \n" +
+                "that you want to send a contract request to §fTCI2" +
+                "§b\nfor an amount of §f100.0" +
+                "§b\nfor a time of §f2 weeks \n" +
                 "§c/company send_contract_ctc TCI TCI2 100.0 2");
 
         suc6 = server.execute("company", testPlayer, "send_contract_ctc",

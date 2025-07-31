@@ -14,20 +14,20 @@ public class CompanyHandlerTransact extends CompanyHandler{
     @Override
     public Boolean handleCommand(Player player, String[] args, Boolean firstEnter) throws CommandException {
 
-        CommandAssert.assertTrue(args.length >= 4, SignClick.getPrefix()+"please enter /company transact <stockname> <target_company> <amount>");
+        CommandAssert.assertTrue(args.length >= 4, "please enter /company transact <stockname> <target_company> <amount>");
 
 
         String stock_name = args[1].toUpperCase();
         stock_name = stock_name.toUpperCase();
 
-        CommandAssert.assertTrue(Market.hasBusiness(stock_name), SignClick.getPrefix()+"business name is invalid");
+        CommandAssert.assertTrue(Market.hasBusiness(stock_name), "business name is invalid");
 
         String target_stock_name = args[2].toUpperCase();
         target_stock_name = target_stock_name.toUpperCase();
 
-        CommandAssert.assertTrue(Market.hasBusiness(target_stock_name), SignClick.getPrefix()+"business name is invalid");
+        CommandAssert.assertTrue(Market.hasBusiness(target_stock_name), "business name is invalid");
 
-        double amount = CommandTools.parseDouble(args[3], SignClick.getPrefix()+"Please enter a valid double as amount");
+        double amount = CommandTools.parseDouble(args[3], "Please enter a valid double as amount");
 
         CommandAssert.assertTrue(Market.getCompany(stock_name).getCOM().isOwner(player.getUniqueId()), "§byou must be a CEO of this com.company");
 

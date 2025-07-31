@@ -14,22 +14,22 @@ import java.text.DecimalFormat;
 public class CompanyHandlerPay extends CompanyHandler{
     @Override
     public Boolean handleCommand(Player player, String[] args, Boolean firstEnter) throws CommandException {
-        CommandAssert.assertTrue(args.length >= 4, SignClick.getPrefix()+"please enter /company pay <stockname> <playername> <amount>");
+        CommandAssert.assertTrue(args.length >= 4, "please enter /company pay <stockname> <playername> <amount>");
 
         String stockName = args[1].toUpperCase();
         stockName = stockName.toUpperCase();
-        CommandAssert.assertTrue(Market.hasBusiness(stockName), SignClick.getPrefix()+"business name is invalid");
+        CommandAssert.assertTrue(Market.hasBusiness(stockName), "business name is invalid");
 
         String playerName = args[2];
 
-        double amount = CommandTools.parseDouble(args[3], SignClick.getPrefix()+"Please enter a valid double as amount");
+        double amount = CommandTools.parseDouble(args[3], "Please enter a valid double as amount");
         OfflinePlayer player_offline = Bukkit.getOfflinePlayer(playerName);
 
         CommandAssert.assertTrue(Market.getCompany(stockName).getCOM().isOwner(player.getUniqueId()),
-                SignClick.getPrefix()+"you must be a CEO of this company");
+                "you must be a CEO of this company");
 
         CommandAssert.assertTrue(!player.getName().equals(playerName),
-                SignClick.getPrefix()+"you can't pay out yourself");
+                "you can't pay out yourself");
 
         if (firstEnter){
             player.sendMessage(SignClick.getPrefix()+"please re-enter your command to confirm\nthat you want to pay §f" +amount+

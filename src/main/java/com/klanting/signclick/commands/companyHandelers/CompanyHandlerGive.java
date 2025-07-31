@@ -12,14 +12,14 @@ import java.text.DecimalFormat;
 public class CompanyHandlerGive extends CompanyHandler{
     @Override
     public Boolean handleCommand(Player player, String[] args, Boolean firstEnter) throws CommandException {
-        CommandAssert.assertTrue(args.length >= 3, SignClick.getPrefix()+"please enter /company give <stockname> <amount>");
+        CommandAssert.assertTrue(args.length >= 3, "please enter /company give <stockname> <amount>");
 
         String stockName = args[1].toUpperCase();
         stockName = stockName.toUpperCase();
 
-        double amount = CommandTools.parseDouble(args[2], SignClick.getPrefix()+"Please enter a valid double as amount");
+        double amount = CommandTools.parseDouble(args[2], "Please enter a valid double as amount");
 
-        CommandAssert.assertTrue(Market.hasBusiness(stockName), SignClick.getPrefix()+"please enter a valid company stockname");
+        CommandAssert.assertTrue(Market.hasBusiness(stockName), "please enter a valid company stockname");
 
         CommandAssert.assertTrue(SignClick.getEconomy().has(player, amount), "§byou do not have enough money");
 

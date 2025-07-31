@@ -12,7 +12,7 @@ public class CompanyHandlerGetBuyPrice extends CompanyHandler{
     @Override
     public Boolean handleCommand(Player player, String[] args, Boolean firstEnter) throws CommandException {
 
-        CommandAssert.assertTrue(args.length >= 2, SignClick.getPrefix()+"please enter /company get_buy_price <stockname> [amount]");
+        CommandAssert.assertTrue(args.length >= 2, "please enter /company get_buy_price <stockname> [amount]");
 
         int amount = 1;
 
@@ -23,7 +23,7 @@ public class CompanyHandlerGetBuyPrice extends CompanyHandler{
         String stock_name = args[1].toUpperCase();
         stock_name = stock_name.toUpperCase();
 
-        CommandAssert.assertTrue(Market.hasBusiness(stock_name), SignClick.getPrefix()+"business name is invalid");
+        CommandAssert.assertTrue(Market.hasBusiness(stock_name), "business name is invalid");
 
         DecimalFormat df = new DecimalFormat("###,###,##0.00");
         player.sendMessage("§f"+amount+SignClick.getPrefix()+" share(s) costs §f"+ df.format(Market.getBuyPrice(stock_name, amount)));

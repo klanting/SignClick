@@ -19,7 +19,7 @@ public class ContractSendPTC extends CompanyHandler {
     @Override
     public Boolean handleCommand(Player player, String[] args, Boolean firstEnter) throws CommandException {
 
-        CommandAssert.assertTrue(args.length >= 5, SignClick.getPrefix()+"please enter /company send_contract_ptc <owncompany> <player> <amount> <weeks> [reason]");
+        CommandAssert.assertTrue(args.length >= 5, "please enter /company send_contract_ptc <owncompany> <player> <amount> <weeks> [reason]");
 
 
         String reason;

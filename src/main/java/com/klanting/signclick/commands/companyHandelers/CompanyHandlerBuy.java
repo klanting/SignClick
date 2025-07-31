@@ -13,13 +13,13 @@ import java.text.DecimalFormat;
 public class CompanyHandlerBuy extends CompanyHandler{
     @Override
     public Boolean handleCommand(Player player, String[] args, Boolean firstEnter) throws CommandException {
-        CommandAssert.assertTrue(args.length >= 3, SignClick.getPrefix()+"please enter /company buy <stockname> <amount>");
+        CommandAssert.assertTrue(args.length >= 3, "please enter /company buy <stockname> <amount>");
 
         String stockName = args[1].toUpperCase();
         stockName = stockName.toUpperCase();
-        int amount = CommandTools.parseInteger(args[2], SignClick.getPrefix()+"Please enter a valid integer as amount");
+        int amount = CommandTools.parseInteger(args[2], "Please enter a valid integer as amount");
 
-        CommandAssert.assertTrue(Market.hasBusiness(stockName), SignClick.getPrefix()+"please enter a valid company stockname");
+        CommandAssert.assertTrue(Market.hasBusiness(stockName), "please enter a valid company stockname");
 
         if (firstEnter){
             DecimalFormat df = new DecimalFormat("###,###,##0.00");

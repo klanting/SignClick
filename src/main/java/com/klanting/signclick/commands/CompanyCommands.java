@@ -9,6 +9,7 @@ import com.klanting.signclick.economy.Market;
 
 import com.klanting.signclick.SignClick;
 
+import com.klanting.signclick.utils.Prefix;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -106,7 +107,7 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
             }
 
         }catch (CommandException e){
-            player.sendMessage(e.getMessage());
+            Prefix.sendMessage(player, e.getMessage());
             confirm.put(player, "");
             return true;
         }

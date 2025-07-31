@@ -15,13 +15,13 @@ public class CompanyHandlerShareBal extends CompanyHandler{
     @Override
     public Boolean handleCommand(Player player, String[] args, Boolean firstEnter) throws CommandException {
 
-        CommandAssert.assertTrue(args.length >= 2, SignClick.getPrefix()+"please enter /company sharebal <owncompany>");
+        CommandAssert.assertTrue(args.length >= 2, "please enter /company sharebal <owncompany>");
 
 
         String stock_name = args[1].toUpperCase();
         stock_name = stock_name.toUpperCase();
 
-        CommandAssert.assertTrue(Market.hasBusiness(stock_name), SignClick.getPrefix()+"business name is invalid");
+        CommandAssert.assertTrue(Market.hasBusiness(stock_name), "business name is invalid");
 
         DecimalFormat df = new DecimalFormat("###,###,##0.00");
         CompanyI comp = getCompany(stock_name);

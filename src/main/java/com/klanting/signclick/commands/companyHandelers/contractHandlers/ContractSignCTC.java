@@ -15,22 +15,22 @@ public class ContractSignCTC extends CompanyHandler {
     @Override
     public Boolean handleCommand(Player player, String[] args, Boolean firstEnter) throws CommandException {
 
-        CommandAssert.assertTrue(args.length >= 2, SignClick.getPrefix()+"please enter /company sign_contract_ctc <owncompany>");
+        CommandAssert.assertTrue(args.length >= 2, "please enter /company sign_contract_ctc <owncompany>");
 
         String stock_name = args[1].toUpperCase();
         stock_name = stock_name.toUpperCase();
 
 
-        CommandAssert.assertTrue(Market.hasBusiness(stock_name), SignClick.getPrefix()+"business name is invalid");
+        CommandAssert.assertTrue(Market.hasBusiness(stock_name), "business name is invalid");
 
-        CommandAssert.assertTrue(Market.getCompany(stock_name).getCOM().isOwner(player.getUniqueId()), SignClick.getPrefix()+"you must be CEO to sign that request");
+        CommandAssert.assertTrue(Market.getCompany(stock_name).getCOM().isOwner(player.getUniqueId()), "you must be CEO to sign that request");
 
         CompanyI comp = Market.getCompany(stock_name);
         ContractRequest cr = comp.getPendingContractRequest();
 
-        CommandAssert.assertTrue(cr != null, SignClick.getPrefix()+"no contract pending");
+        CommandAssert.assertTrue(cr != null, "no contract pending");
 
-        CommandAssert.assertTrue(comp.getSpendable() >= cr.getAmount(), SignClick.getPrefix()+"can't sign contract because lack of weekly spendable funds");
+        CommandAssert.assertTrue(comp.getSpendable() >= cr.getAmount(), "can't sign contract because lack of weekly spendable funds");
 
         if (firstEnter){
 

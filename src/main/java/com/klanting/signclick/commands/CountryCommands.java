@@ -4,6 +4,7 @@ import com.klanting.signclick.commands.countryHandlers.*;
 import com.klanting.signclick.commands.countryHandlers.staffHandler.*;
 import com.klanting.signclick.commands.exceptions.CommandException;
 import com.klanting.signclick.economy.CountryManager;
+import com.klanting.signclick.utils.Prefix;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -78,7 +79,7 @@ public class CountryCommands implements CommandExecutor, TabCompleter {
                 ch.handleCommand(player, args);
             }
         }catch (CommandException e){
-            player.sendMessage(e.getMessage());
+            Prefix.sendMessage(player, e.getMessage());
         }
 
         return true;
