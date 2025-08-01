@@ -10,6 +10,7 @@ import com.klanting.signclick.SignClick;
 import com.klanting.signclick.menus.company.ProductList;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.inventory.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -761,6 +762,60 @@ public class CompanyMenuTests {
                 testPlayer.nextMessage());
         testPlayer.assertNoMoreSaid();
 
+    }
+
+    @Test
+    void companyChiefMenuTest(){
+        /*
+        * test that checks that we can choose a new chief using the UI
+        * */
+        PlayerMock testPlayer2 = TestTools.addPermsPlayer(server, plugin);
+
+        CompanyI comp = Market.getCompany("TCI");
+        assertEquals(testPlayer.getUniqueId(), comp.getCOM().getBoard().getChief("CEO"));
+
+        InventoryView companyMenu = openMenu(0);
+
+        /*
+        * select the iron helmet -> chief menu
+        * */
+        testPlayer.simulateInventoryClick(companyMenu, 23);
+
+        assertEquals(Material.PLAYER_HEAD, testPlayer.getOpenInventory().getItem(2).getType());
+        assertEquals("§7CEO: Player0", testPlayer.getOpenInventory().getItem(2).getItemMeta().getDisplayName());
+        assertEquals(Material.IRON_HELMET, testPlayer.getOpenInventory().getItem(4).getType());
+        assertEquals("§7CTO: Unassigned", testPlayer.getOpenInventory().getItem(4).getItemMeta().getDisplayName());
+        assertEquals(Material.IRON_HELMET, testPlayer.getOpenInventory().getItem(6).getType());
+        assertEquals("§7CFO: Unassigned", testPlayer.getOpenInventory().getItem(6).getItemMeta().getDisplayName());
+
+        /*
+        * go to the CEO menu
+        * */
+        testPlayer.simulateInventoryClick(2);
+        assertEquals(Material.PLAYER_HEAD, testPlayer.getOpenInventory().getItem(13).getType());
+        assertEquals("§7CEO: Player0", testPlayer.getOpenInventory().getItem(13).getItemMeta().getDisplayName());
+
+        assertEquals(Material.PLAYER_HEAD, testPlayer.getOpenInventory().getItem(24).getType());
+        assertEquals("§7Supporting: Player0", testPlayer.getOpenInventory().getItem(24).getItemMeta().getDisplayName());
+        assertEquals("§7CEO Votes: 1", testPlayer.getOpenInventory().getItem(24).getItemMeta().getLore().get(0));
+
+        /*
+        * support someone else as CEO
+        * */
+        testPlayer.simulateInventoryClick(24);
+
+        PlayerChatEvent chatEvent = new PlayerChatEvent(testPlayer, testPlayer2.getName());
+        server.getPluginManager().callEvent(chatEvent);
+
+        /*
+        * Check CEO has been changed
+        * */
+        assertEquals(Material.PLAYER_HEAD, testPlayer.getOpenInventory().getItem(13).getType());
+        assertEquals("§7CEO: Player1", testPlayer.getOpenInventory().getItem(13).getItemMeta().getDisplayName());
+
+        assertEquals(Material.PLAYER_HEAD, testPlayer.getOpenInventory().getItem(24).getType());
+        assertEquals("§7Supporting: Player1", testPlayer.getOpenInventory().getItem(24).getItemMeta().getDisplayName());
+        assertEquals("§7CEO Votes: 1", testPlayer.getOpenInventory().getItem(24).getItemMeta().getLore().get(0));
 
     }
 

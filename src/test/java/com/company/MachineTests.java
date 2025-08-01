@@ -22,6 +22,9 @@ import org.bukkit.inventory.ItemStack;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import tools.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -389,5 +392,53 @@ public class MachineTests {
         assertNull(activeMachine.results[0]);
         assertEquals(new ItemStack(Material.DIRT, 6),
                 ((Hopper) blockBelow.getState()).getInventory().getItem(0));
+        assertNull(((Hopper) blockBelow.getState()).getInventory().getItem(8));
+    }
+
+    @ParameterizedTest
+    @EnumSource(value = Material.class, names = { "STONE", "DIRT" })
+    void machineProductionHopperFull(Material hopperItemName){
+        machineProductionHopper();
+
+        /*
+        * Test that items don't disappear when the hopper is full
+        * */
+        Machine activeMachine = MenuEvents.activeMachines.get(0);
+        assertTrue(activeMachine.hopperAllowed);
+
+        Block blockBelow = activeMachine.getBlock().getRelative(BlockFace.DOWN);
+        Hopper hopper = ((Hopper) blockBelow.getState());
+
+        assertEquals(9, hopper.getInventory().getSize());
+
+        /*
+        * check hopper only has 6 dirt
+        * */
+        assertEquals(new ItemStack(Material.DIRT, 6), hopper.getInventory().getItem(0));
+        for (int i=1; i<9; i++){
+            assertEquals(null, hopper.getInventory().getItem(i));
+        }
+
+        /*
+        * Make hopper full, with other items
+        * */
+        for (int i=0; i<9; i++){
+            hopper.getInventory().setItem(i, new ItemStack(hopperItemName, 64));
+        }
+
+        /*
+        * add dirt to machine result
+        * */
+        activeMachine.results[0] = new ItemStack(Material.DIRT, 1);
+        server.getScheduler().performTicks(1);
+
+        /*
+        * Check item has not been moved
+        * */
+        hopper = ((Hopper) blockBelow.getState());
+        assertNotNull(activeMachine.results[0]);
+        for (int i=0; i<9; i++){
+            assertEquals(new ItemStack(hopperItemName, 64), hopper.getInventory().getItem(i));
+        }
     }
 }
