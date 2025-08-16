@@ -37,6 +37,7 @@ public class MachineTests {
     public void setUp() {
 
         server = MockBukkit.mock(new ExpandedServerMock());
+        server.addSimpleWorld("world");
 
         plugin = TestTools.setupPlugin(server);
     }

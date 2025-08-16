@@ -57,6 +57,14 @@ public class Research {
             if (!researchOption.checkProgress(realDelta, (double) company.getUpgrades().get(5).getBonus()/100.0)){
                 continue;
             }
+
+            /*
+            * Make log about completed research
+            * */
+            company.update("Research Completed",
+                    "§aResearch for product "+researchOption.getMaterial().toString()+" COMPLETED"
+                    , null);
+
             company.addProduct(ProductFactory.create(researchOption.getMaterial(), researchOption.companyType));
         }
     }

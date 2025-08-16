@@ -11,7 +11,8 @@ public class MigrationManager {
             new Migrationv100v101(),
             new Migrationv101v102(),
             new Migrationv102v200beta(),
-            new Migrationv200betav200()
+            new Migrationv200betav200(),
+            new Migrationv200v201()
     );
 
     public static void Migrate(){

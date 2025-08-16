@@ -5,6 +5,7 @@ import com.klanting.signclick.economy.ResearchOption;
 import com.klanting.signclick.menus.PagingMenu;
 import com.klanting.signclick.utils.ItemFactory;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -116,7 +117,32 @@ public class ResearchMenu extends PagingMenu {
             return false;
         }
         int index = getPage()*5+(event.getSlot()/9);
-        comp.getResearch().getResearchOptions().get(index).setModifierIndex(slot-2);
+
+        int newIndex = slot-2;
+        ResearchOption researchOption = comp.getResearch().getResearchOptions().get(index);
+
+        if (researchOption.getModifierIndex() != newIndex){
+            /*
+            * Store a log of this research change
+            * */
+            int old = researchOption.getModifierIndex();
+            double oldModifier = ResearchOption.modifiers.get(old).getLeft();
+            double newModifier = ResearchOption.modifiers.get(newIndex).getLeft();
+
+            DecimalFormat df = new DecimalFormat("###,###,###");
+
+            comp.update("Research priority Change",
+                    "§7From "+ df.format(oldModifier*100)+"% to "+
+                            df.format(newModifier*100)+"% for product "+researchOption.getMaterial().toString()
+                    , event.getWhoClicked().getUniqueId());
+
+            /*
+            * Change the modifier
+            * */
+            researchOption.setModifierIndex(newIndex);
+        }
+
+
         init();
 
         return false;
