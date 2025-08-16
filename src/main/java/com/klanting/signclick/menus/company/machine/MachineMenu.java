@@ -214,8 +214,6 @@ public class MachineMenu extends SelectionMenu {
         if (List.of(16, 16+9, 16+18).contains(slot)){
             int index = (slot-16)/9;
 
-            getServer().getConsoleSender().sendMessage(ChatColor.YELLOW +" " +event.getCursor());
-
             if ((event.getCursor() != null) && (!Objects.equals(event.getCursor().getType(), Material.AIR)) ){
                 return false;
             }
