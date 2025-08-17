@@ -55,13 +55,13 @@ public class SignClick extends JavaPlugin{
         MigrationManager.Migrate();
 
         if (!setupEconomy() ) {
-            getServer().getConsoleSender().sendMessage(ChatColor.RED + "Economy failed!");
+            getServer().getConsoleSender().sendMessage(ChatColor.RED + "SignClick: Economy failed!: Failed to load vault");
             getServer().getPluginManager().disablePlugin(this);
             return;}
 
         dynmapSupport = setupDynmap();
         if (!dynmapSupport) {
-            getServer().getConsoleSender().sendMessage(ChatColor.RED + "Dynmap Not Supported failed!");
+            getServer().getConsoleSender().sendMessage(ChatColor.RED + "SignClick: Dynmap Not Supported failed!");
         }
 
         this.RestoreDoors();
@@ -163,7 +163,7 @@ public class SignClick extends JavaPlugin{
 
     private boolean setupEconomy() {
         if (getServer().getPluginManager().getPlugin("Vault") == null) {
-            getServer().getConsoleSender().sendMessage(ChatColor.RED + "Vault Not found!");
+            getServer().getConsoleSender().sendMessage(ChatColor.RED + "SignClick: Vault Not found!");
             return false;
         }
         RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
@@ -183,7 +183,7 @@ public class SignClick extends JavaPlugin{
 
 
         if (rsp == null) {
-            getServer().getConsoleSender().sendMessage(ChatColor.RED + "RSP is null!");
+            getServer().getConsoleSender().sendMessage(ChatColor.RED + "SignClick: RSP is null!");
             return false;
         }
         econ = rsp.getProvider();
