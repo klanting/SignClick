@@ -4,6 +4,7 @@ import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
 import com.klanting.signclick.SignClick;
+import com.klanting.signclick.economy.CompanyI;
 import com.klanting.signclick.economy.Market;
 import com.klanting.signclick.economy.Research;
 import org.bukkit.Material;
@@ -19,12 +20,21 @@ public class ResearchTests {
     private ServerMock server;
     private SignClick plugin;
 
+    private CompanyI comp;
+
     @BeforeEach
     public void setUp() {
 
         server = MockBukkit.mock(new ExpandedServerMock());
 
         plugin = TestTools.setupPlugin(server);
+
+        boolean suc6 =  Market.addCompany("TCI", "TCI",
+                Market.getAccount(TestTools.addPermsPlayer(server, plugin)), 0.0, "bank");
+
+        assertTrue(suc6);
+
+        this.comp = Market.getCompany("TCI");
     }
 
     @AfterEach
@@ -39,8 +49,7 @@ public class ResearchTests {
         /*
         * check research correctly initialized
         * */
-
-        Research research = new Research("bank");
+        Research research = new Research(comp.getRef());
 
         assertEquals(SignClick.getConfigManager().getConfig("companies.yml").getConfigurationSection("products").
                         getConfigurationSection("bank").getKeys(false).size(),
@@ -56,9 +65,7 @@ public class ResearchTests {
         /*
          * check research update
          * */
-        PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
-
-        Research research = new Research("bank");
+        Research research = new Research(comp.getRef());
 
         assertEquals(SignClick.getConfigManager().getConfig("companies.yml").getConfigurationSection("products").
                         getConfigurationSection("bank").getKeys(false).size(),
@@ -69,14 +76,14 @@ public class ResearchTests {
         assertEquals(1200L, research.getResearchOptions().get(0).getCompleteTime());
 
         research.getResearchOptions().get(0).setModifierIndex(1);
-        Market.addCompany("TCI", "TCI", Market.getAccount(testPlayer), 1000);
+        Market.getCompany("TCI").addBal(1000);
         Market.getCompany("TCI").setSpendable(1000);
 
         /*
         * do 50% of the time
         * */
         server.getScheduler().performTicks(600*20L);
-        research.checkProgress(Market.getCompany("TCI"));
+        research.checkProgress();
 
         /*
         * check 50% progress
@@ -88,7 +95,7 @@ public class ResearchTests {
         assertEquals(0, Market.getCompany("TCI").getProducts().size());
 
         server.getScheduler().performTicks(600*20L + 6000);
-        research.checkProgress(Market.getCompany("TCI"));
+        research.checkProgress();
 
         /*
          * check 100% progress

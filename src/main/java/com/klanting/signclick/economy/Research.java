@@ -23,12 +23,15 @@ public class Research {
 
     private long lastChecked;
 
-    public Research(String companyType){
+    public transient CompanyI company;
+
+    public Research(CompanyI company){
+        this.company = company;
 
         lastChecked = CompatibleLayer.getCurrentTick();
 
         ConfigurationSection productsSection = SignClick.getConfigManager().getConfig("companies.yml").getConfigurationSection("products").
-                getConfigurationSection(companyType);
+                getConfigurationSection(company.getType());
 
         List<String> researchItems = new ArrayList<>(productsSection.getKeys(false).stream().toList());
 
@@ -36,12 +39,12 @@ public class Research {
 
         for (String researchItem: researchItems){
             Material m = Material.valueOf(researchItem);
-            researchOptions.add(new ResearchOption(companyType, m));
+            researchOptions.add(new ResearchOption(this.company.getType(), m));
         }
 
     }
 
-    public void checkProgress(CompanyI company){
+    public void checkProgress(){
         long now = CompatibleLayer.getCurrentTick();
         long delta = (now-lastChecked)/20;
 

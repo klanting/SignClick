@@ -5,6 +5,7 @@ import com.google.gson.reflect.TypeToken;
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.economy.*;
 import com.klanting.signclick.economy.companyUpgrades.*;
+import com.klanting.signclick.migrations.mocks.CompanyIv102v200;
 import com.klanting.signclick.utils.Utils;
 
 import java.io.*;
@@ -58,7 +59,7 @@ public class Migrationv102v200beta extends Migration{
                 * add research
                 * */
                 companyObject.add("research", JsonParser.parseString(
-                        Utils.serialize(new Research(companyObject.get("type").getAsString()),
+                        Utils.serialize(new Research(new CompanyIv102v200(companyObject.get("type").getAsString())),
                                 new com.google.common.reflect.TypeToken<Research>(){}.getType()))
 
                 );

@@ -30,7 +30,7 @@ public class ResearchMenu extends PagingMenu {
         getInventory().clear();
         clearItems();
 
-        comp.getResearch().checkProgress(comp);
+        comp.getResearch().checkProgress();
 
         for(ResearchOption researchOption: comp.getResearch().getResearchOptions()){
 
