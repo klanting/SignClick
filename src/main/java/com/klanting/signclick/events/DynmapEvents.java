@@ -9,6 +9,10 @@ public class DynmapEvents implements Listener {
 
     @EventHandler
     public static void OnJoin(PlayerJoinEvent event){
+        if(!SignClick.dynmapSupport){
+            return;
+        }
+
         if (!SignClick.getDynmap().getPlayerVisbility(event.getPlayer())){
             event.getPlayer().sendMessage("§cYou are now visible on the dynmap\n" +
                     "if you hide yourself on the dynmap it will cost you 1000$ every 10m");
