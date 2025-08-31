@@ -291,4 +291,9 @@ public class CompanyIv102v200 implements CompanyI {
     public CompanyI getRef() {
         return null;
     }
+
+    @Override
+    public double getUpgradeModifier() {
+        return 0;
+    }
 }

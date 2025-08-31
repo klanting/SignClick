@@ -10,6 +10,8 @@ import org.bukkit.entity.Player;
 
 import java.util.Objects;
 
+import static com.klanting.signclick.events.CountryEvents.sortTab;
+
 public class CountryHandlerRemoveMember extends CountryStaffHandler{
     @Override
     public void handleStaffCommand(Player player, String[] args) throws CommandException {
@@ -23,5 +25,6 @@ public class CountryHandlerRemoveMember extends CountryStaffHandler{
         country.removeMember(removedPlayer);
         player.sendMessage("§bplayer succesfully left this country");
         removedPlayer.setPlayerListName(ChatColor.WHITE+player.getName());
+        sortTab();
     }
 }

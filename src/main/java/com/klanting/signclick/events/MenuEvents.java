@@ -28,6 +28,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.block.TileState;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -79,7 +80,7 @@ public class MenuEvents implements Listener {
         }, 0L, 20L);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public static void OnClick(InventoryClickEvent event){
 
         if (event.getClickedInventory() == null || event.getCurrentItem() == null){

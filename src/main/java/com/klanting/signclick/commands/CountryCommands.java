@@ -5,6 +5,8 @@ import com.klanting.signclick.commands.countryHandlers.staffHandler.*;
 import com.klanting.signclick.commands.exceptions.CommandException;
 import com.klanting.signclick.economy.CountryManager;
 import com.klanting.signclick.utils.Prefix;
+
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -140,6 +142,29 @@ public class CountryCommands implements CommandExecutor, TabCompleter {
                     }
 
                 }
+            }else if (args.length == 3 && args[0].equals("color")){
+
+                List<ChatColor> colors = List.of(
+                        ChatColor.BLACK,
+                        ChatColor.DARK_BLUE,
+                        ChatColor.DARK_GREEN,
+                        ChatColor.DARK_AQUA,
+                        ChatColor.DARK_RED,
+                        ChatColor.DARK_PURPLE,
+                        ChatColor.GOLD,
+                        ChatColor.GRAY,
+                        ChatColor.DARK_GRAY,
+                        ChatColor.BLUE,
+                        ChatColor.GREEN,
+                        ChatColor.AQUA,
+                        ChatColor.RED,
+                        ChatColor.LIGHT_PURPLE,
+                        ChatColor.YELLOW,
+                        ChatColor.WHITE
+                );
+                return colors.stream()
+                        .map(c -> c.getName())
+                        .toList();
             }
 
         }

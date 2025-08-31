@@ -1,9 +1,12 @@
 package com.klanting.signclick.economy.companyUpgrades;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.bukkit.Bukkit.getServer;
 
 abstract public class Upgrade {
     public List<Integer> bonus = new ArrayList<>();

@@ -32,13 +32,8 @@ public class UpgradeMenu extends SelectionMenu {
             DecimalFormat df = new DecimalFormat("###,###,###");
             Country country = CountryManager.getCountry(comp.getCountry());
 
-            double modifier = 0;
-            if (country != null){
-                modifier = country.getPolicyBonus(1, 3);
-            }
-
             if (up.getUpgradeCost() != -1){
-                l.add("§6Cost: §f§n"+ df.format((double) up.getUpgradeCost()*(1.0- modifier)));
+                l.add("§6Cost: §f§n"+ df.format((double) up.getUpgradeCost()*comp.getUpgradeModifier()));
             }
 
             l.addAll(up.description());
@@ -63,7 +58,7 @@ public class UpgradeMenu extends SelectionMenu {
             return false;
         }
 
-        int id = event.getSlot()-11;
+        int id = event.getSlot()-10;
         boolean suc6 = comp.doUpgrade(id);
 
         init();

@@ -6,6 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -19,7 +20,7 @@ import java.util.Random;
 
 
 public class PatentEvents implements Listener {
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public static void OnDamage(EntityDamageEvent event){
         if (! (event.getEntity() instanceof Player)){
             return;
@@ -94,7 +95,7 @@ public class PatentEvents implements Listener {
 
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public static void OnPlayerXp(PlayerExpChangeEvent event){
         Player player = event.getPlayer();
 

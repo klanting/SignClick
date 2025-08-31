@@ -23,6 +23,7 @@ import java.util.*;
 
 import static com.klanting.signclick.SignClick.getDynmap;
 import static com.klanting.signclick.SignClick.markerSet;
+import static com.klanting.signclick.events.CountryEvents.sortTab;
 import static org.bukkit.Bukkit.getServer;
 
 public class Country {
@@ -239,6 +240,7 @@ public class Country {
                 player.setPlayerListName(memberColor+player.getName());
             }
         }
+        sortTab();
 
     }
 

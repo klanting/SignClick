@@ -18,6 +18,7 @@ import com.klanting.signclick.utils.JsonTools;
 import com.klanting.signclick.utils.Utils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.block.Block;
@@ -567,18 +568,10 @@ public class Company extends LoggableSubject implements CompanyI{
                 + "§b he/she will ask you §7"+amount+"§b for §7"+weeks+"§b weeks, do §c/company sign_contract_ctp "+ stockName);
     }
 
-
-    public boolean doUpgrade(Integer id){
-        Upgrade u = upgrades.get(id);
-        if (!u.canUpgrade((int) (getBal()+ getShareBalance()))){
-            return false;
-
-        }
-
+    public double getUpgradeModifier(){
         double base = 1.0;
 
         double modifier = 0.0;
-        double modifier2 = 0.0;
         if (country != null){
             if (country.getStability() < 30){
                 base += 0.05;
@@ -587,10 +580,27 @@ public class Company extends LoggableSubject implements CompanyI{
                 base += 0.15;
             }
             modifier += country.getPolicyBonus(1, 3);
+        }
+
+        return base-modifier;
+
+    }
+
+
+    public boolean doUpgrade(Integer id){
+        Upgrade u = upgrades.get(id);
+        if (!u.canUpgrade((int) (getBal()+ getShareBalance()))){
+            return false;
+
+        }
+
+        double modifier2 = 0.0;
+        if (country != null){
             modifier2 += country.getPolicyBonus(3, 2);
         }
 
-        int cost = (int) ((double) u.getUpgradeCost()*(base-modifier));
+        int cost = (int) ((double) u.getUpgradeCost()*getUpgradeModifier());
+
         removeBal(cost);
         u.DoUpgrade();
 

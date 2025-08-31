@@ -16,11 +16,13 @@ public class CountryHandlerColor extends CountryStaffHandler{
 
         CommandAssert.assertTrue(country != null, "§bThe country "+args[1]+" does not exists");
 
+        String colorString = args[2].toUpperCase();
+
         try {
-            country.setColor(ChatColor.valueOf(args[2]));
-            player.sendMessage("§bColor has been changed to "+args[2].toUpperCase());
+            country.setColor(ChatColor.valueOf(colorString));
+            player.sendMessage("§bColor has been changed to "+colorString);
         }catch (IllegalArgumentException e){
-            player.sendMessage("§bColor "+args[2].toUpperCase()+" is not a valid color");
+            player.sendMessage("§bColor "+colorString+" is not a valid color");
         }
     }
 }

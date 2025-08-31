@@ -7,6 +7,8 @@ import com.klanting.signclick.economy.CountryManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import static com.klanting.signclick.events.CountryEvents.sortTab;
+
 public class CountryHandlerAddMember extends CountryStaffHandler{
     @Override
     public void handleStaffCommand(Player player, String[] args) throws CommandException {
@@ -21,5 +23,6 @@ public class CountryHandlerAddMember extends CountryStaffHandler{
         player.sendMessage("§bplayer succesfully joint this country");
 
         addedPlayer.setPlayerListName(country.getColor()+player.getName());
+        sortTab();
     }
 }

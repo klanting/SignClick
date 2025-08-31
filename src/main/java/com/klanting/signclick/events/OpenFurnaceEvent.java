@@ -13,6 +13,7 @@ import org.bukkit.block.*;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -25,7 +26,7 @@ import java.util.function.Function;
 
 public class OpenFurnaceEvent implements Listener {
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onBlockPlace(BlockPlaceEvent event){
 
         ItemStack item = event.getItemInHand();
@@ -50,7 +51,7 @@ public class OpenFurnaceEvent implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onBlockBreak(BlockBreakEvent event){
         Block block = event.getBlock();
         BlockState state = block.getState();
@@ -84,7 +85,7 @@ public class OpenFurnaceEvent implements Listener {
 
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onInventoryOpen(InventoryOpenEvent event) {
         if (!(event.getInventory().getHolder() instanceof Furnace)) return;
 

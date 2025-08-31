@@ -298,4 +298,9 @@ public class CompanyRef implements CompanyI{
         }
         return false;
     }
+
+    @Override
+    public double getUpgradeModifier(){
+        return this.comp.getUpgradeModifier();
+    }
 }

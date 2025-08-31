@@ -70,4 +70,6 @@ public interface CompanyI {
     int getPlayerWeeksPending();
     void setCountry(Country country);
     CompanyI getRef();
+
+    double getUpgradeModifier();
 }

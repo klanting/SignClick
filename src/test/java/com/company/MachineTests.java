@@ -222,6 +222,7 @@ public class MachineTests {
 
     @Test
     void MachineProductionSaveLoad(){
+        server.addSimpleWorld("world");
         basicMachineProduction();
 
         plugin = TestTools.reboot(server);
