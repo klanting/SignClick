@@ -9,7 +9,7 @@ public class CompatibleLayer {
         try{
             return getServer().getCurrentTick();
         }catch (NoSuchMethodError e){
-            return Objects.requireNonNull(getServer().getWorld("world")).getTime();
+            return Objects.requireNonNull(getServer().getWorld("world")).getFullTime();
         }
     }
 }

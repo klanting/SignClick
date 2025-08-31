@@ -9,7 +9,7 @@ public class DynmapEvents implements Listener {
 
     @EventHandler
     public static void OnJoin(PlayerJoinEvent event){
-        if(!SignClick.dynmapSupport){
+        if(!SignClick.dynmapSupport || SignClick.getDynmap() == null){
             return;
         }
 
