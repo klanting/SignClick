@@ -193,7 +193,7 @@ public class DefaultConfig {
         companiesConfig.getConfigurationSection("products").createSection("product");
         ConfigurationSection productP = companiesConfig.getConfigurationSection("products").getConfigurationSection("product");
 
-        makeProductConfig(productP, Material.TOTEM_OF_UNDYING, 7200L, 1000, 300L);
+        makeProductConfig(productP, Material.TOTEM_OF_UNDYING, 7200L, 2000, 300L);
         makeProductConfig(productP, Material.TRIDENT, 3600L, 500, 180L);
         makeProductConfig(productP, Material.ENDER_PEARL, 180L, 50, 20L);
         makeProductConfig(productP, Material.BLAZE_ROD, 180L, 50, 20L);

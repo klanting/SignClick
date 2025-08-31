@@ -108,6 +108,11 @@ public class PatentEvents implements Listener {
         for (ItemStack gear: items){
             if (gear != null){
                 ItemMeta m = gear.getItemMeta();
+
+                if (m == null || m.getLore() == null){
+                    continue;
+                }
+
                 for (String lore: m.getLore()){
                     if (lore.contains(param)){
                         String range_str = lore.substring(lore.indexOf(":")+2);

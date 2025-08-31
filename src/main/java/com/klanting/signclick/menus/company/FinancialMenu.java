@@ -135,12 +135,12 @@ public class FinancialMenu extends SelectionMenu {
         CompanyI currentCompany = company;
 
         if (event.getCurrentItem().getItemMeta().getDisplayName().contains("Increase")){
-            int amount = Integer.parseInt((event.getCurrentItem().getItemMeta().getDisplayName().split(" ")[1]).replace(".", ""));
+            int amount = Integer.parseInt((event.getCurrentItem().getItemMeta().getDisplayName().split(" ")[1]).replace(".", "").replace(",", ""));
             currentCompany.setSpendable(currentCompany.getSpendable()+amount);
         }
 
         if (event.getCurrentItem().getItemMeta().getDisplayName().contains("Decrease")){
-            int amount = Integer.parseInt((event.getCurrentItem().getItemMeta().getDisplayName().split(" ")[1]).replace(".", ""));
+            int amount = Integer.parseInt((event.getCurrentItem().getItemMeta().getDisplayName().split(" ")[1]).replace(".", "").replace(",", ""));
             currentCompany.setSpendable(Math.max(currentCompany.getSpendable()-amount, 0));
         }
 
