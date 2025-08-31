@@ -81,6 +81,9 @@ public class ResearchOption {
     }
 
     public long canPayDelta(double amount){
+        if (modifierIndex == 0){
+            return 0;
+        }
         return (long) (Math.floor((amount * 3600.0) / modifiers.get(modifierIndex).getRight()));
     }
 
@@ -97,6 +100,7 @@ public class ResearchOption {
         if (progress < getCompleteTime() && progress+change >= getCompleteTime()){
             addProduct = true;
         }
+
         progress += change;
 
         return addProduct;

@@ -7,6 +7,7 @@ import versionCompatibility.CompatibleLayer;
 
 import java.util.*;
 
+import static com.klanting.signclick.utils.Utils.AssertMet;
 import static org.bukkit.Bukkit.getServer;
 
 public class Research {
@@ -46,14 +47,20 @@ public class Research {
 
     public void checkProgress(){
         long now = CompatibleLayer.getCurrentTick();
-        long delta = (now-lastChecked)/20;
+        long delta = (now-lastChecked)/20L;
 
         lastChecked = now;
 
         for (ResearchOption researchOption: researchOptions){
 
-            long realDelta = Math.min(Math.min(researchOption.canPayDelta(Math.min(company.getBal(), company.getSpendable())), delta),
-                    (long) (researchOption.getCompleteTime()*(1-researchOption.getProgress())));
+            long canPayDelta = researchOption.canPayDelta(Math.min(company.getBal(), company.getSpendable()));
+            long remainingTime = Math.max((long) (researchOption.getCompleteTime()*(1-researchOption.getProgress())), 0);
+
+            AssertMet(canPayDelta >= 0, "Research: canPayDelta must be positive");
+            AssertMet(delta >= 0, "Research: delta must be positive");
+            AssertMet(remainingTime >= 0, "Research: remainingTime must be positive");
+
+            long realDelta = Math.min(Math.min(canPayDelta, delta), remainingTime);
 
             company.removeBal(researchOption.getCost(realDelta));
 

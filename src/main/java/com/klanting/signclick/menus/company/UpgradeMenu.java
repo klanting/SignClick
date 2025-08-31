@@ -64,7 +64,7 @@ public class UpgradeMenu extends SelectionMenu {
         init();
 
         if (!suc6){
-            player.sendMessage("§bNot enough Money or Points to do the upgrade");
+            player.sendMessage("§bNot enough Money or spendable to do the upgrade");
         }
         return true;
     }

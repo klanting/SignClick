@@ -200,6 +200,7 @@ public class CompanyMenuTests {
         * Give company enough spendable
         * */
         comp.addBal(20000000.0);
+        comp.setSpendable(20000000.0);
 
         testPlayer.simulateInventoryClick(upgradeMenu, 10);
         assertEquals(1, comp.getUpgrades().get(0).level);

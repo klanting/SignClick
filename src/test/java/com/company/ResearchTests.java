@@ -7,6 +7,7 @@ import com.klanting.signclick.SignClick;
 import com.klanting.signclick.economy.CompanyI;
 import com.klanting.signclick.economy.Market;
 import com.klanting.signclick.economy.Research;
+import com.klanting.signclick.economy.ResearchOption;
 import org.bukkit.Material;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -105,6 +106,31 @@ public class ResearchTests {
         assertEquals(667, Math.ceil(Market.getCompany("TCI").getBal()));
         assertEquals(1, Market.getCompany("TCI").getProducts().size());
 
+    }
+
+    @Test
+    void longResearchPositive(){
+        /*
+        * ensure research progression is always positive
+        * */
+
+        comp.addBal(10000);
+        comp.setSpendable(10000);
+
+        ResearchOption ro = comp.getResearch().getResearchOptions().get(0);
+        ro.setModifierIndex(5);
+
+        assertEquals(0.0, ro.getProgress());
+        assertEquals(ro.getCompleteTime()/2L, ro.getRemainingTime());
+        assertEquals(600, ro.getRemainingTime());
+
+        server.getScheduler().performTicks(21L);
+        comp.getResearch().checkProgress();
+
+        server.getScheduler().performTicks(800L);
+        comp.getResearch().checkProgress();
+
+        assertEquals(559, ro.getRemainingTime());
     }
 }
 

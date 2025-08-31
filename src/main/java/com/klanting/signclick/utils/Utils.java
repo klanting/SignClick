@@ -306,4 +306,11 @@ public class Utils {
         return null;
     }
 
+    public static void AssertMet(boolean value, String reason){
+        if(!value){
+            throw new AssertionError(reason);
+        }
+
+    }
+
 }

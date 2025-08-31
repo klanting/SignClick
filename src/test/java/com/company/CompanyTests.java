@@ -173,6 +173,7 @@ class CompanyTests {
 
         CompanyI comp = Market.getCompany("TCI");
         comp.addBal(1000000000.0);
+        comp.setSpendable(1000000000.0);
         comp.doUpgrade(0);
 
         Market.getContracts("TCI", testPlayer);

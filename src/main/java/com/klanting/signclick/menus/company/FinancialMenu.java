@@ -88,13 +88,6 @@ public class FinancialMenu extends SelectionMenu {
                 message = "§c"+"Decrease: "+df2.format(-amount)+" Spendable";
             }
 
-            if (Math.abs(amount) == 1){
-                /*
-                * removes the last 's' of shares
-                * */
-                message = message.substring(0, message.length()-1);
-            }
-
             m.setDisplayName(message);
 
             button.setItemMeta(m);

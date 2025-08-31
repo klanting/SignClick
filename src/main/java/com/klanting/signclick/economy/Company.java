@@ -589,7 +589,7 @@ public class Company extends LoggableSubject implements CompanyI{
 
     public boolean doUpgrade(Integer id){
         Upgrade u = upgrades.get(id);
-        if (!u.canUpgrade((int) (getBal()+ getShareBalance()))){
+        if (!u.canUpgrade((int) getValue())){
             return false;
 
         }
@@ -601,7 +601,10 @@ public class Company extends LoggableSubject implements CompanyI{
 
         int cost = (int) ((double) u.getUpgradeCost()*getUpgradeModifier());
 
-        removeBal(cost);
+        boolean suc6 = removeBal(cost);
+        if (!suc6){
+            return false;
+        }
         u.DoUpgrade();
 
         int pct = upgrades.get(4).getBonus()+(int) (modifier2*100.0);
