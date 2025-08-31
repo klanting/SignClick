@@ -22,11 +22,9 @@ import java.util.Random;
 public class PatentEvents implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     public static void OnDamage(EntityDamageEvent event){
-        if (! (event.getEntity() instanceof Player)){
+        if (! (event.getEntity() instanceof Player player)){
             return;
         }
-
-        Player player = (Player) event.getEntity();
 
         if (event.getCause().equals(EntityDamageEvent.DamageCause.FALL)){
             double jump_distance = getGearValue(player.getInventory().getArmorContents(), "JumpBonus");
@@ -76,7 +74,12 @@ public class PatentEvents implements Listener {
                 player.setFoodLevel(player.getFoodLevel()+1);
             }
 
+            if (!(event instanceof EntityDamageByEntityEvent)) {
+                return;
+            }
+
             Entity attacker = ((EntityDamageByEntityEvent)event).getDamager();
+
             if (!(attacker instanceof Player)){
                 return;
             }
