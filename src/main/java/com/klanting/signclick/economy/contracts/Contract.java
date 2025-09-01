@@ -1,10 +1,14 @@
 package com.klanting.signclick.economy.contracts;
 
+import java.text.DecimalFormat;
+
 abstract public class Contract {
 
     protected double amount;
     protected int weeks;
     protected String reason;
+
+    protected static DecimalFormat df = new DecimalFormat("##0.0#");
 
     public int getWeeks() {
         return weeks;

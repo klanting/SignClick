@@ -132,7 +132,7 @@ public class SignClick extends JavaPlugin{
         }
 
         scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
-        SignClick.scoreboard.registerNewTeam("ZZZ_default");
+        SignClick.scoreboard.registerNewTeam("zzz_default");
 
         getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "SignClick is enabled!");
 

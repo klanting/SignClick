@@ -17,7 +17,7 @@ public class CompanyHandlerBuy extends CompanyHandler{
 
         String stockName = args[1].toUpperCase();
         stockName = stockName.toUpperCase();
-        int amount = CommandTools.parseInteger(args[2], "Please enter a valid integer as amount");
+        int amount = CommandTools.parseInteger(args[2], "Please enter a valid positive integer as amount");
 
         CommandAssert.assertTrue(Market.hasBusiness(stockName), "please enter a valid company stockname");
 

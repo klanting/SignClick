@@ -29,7 +29,7 @@ public class CompanyHandlerTransact extends CompanyHandler{
 
         double amount = CommandTools.parseDouble(args[3], "Please enter a valid double as amount");
 
-        CommandAssert.assertTrue(Market.getCompany(stock_name).getCOM().isOwner(player.getUniqueId()), "§byou must be a CEO of this com.company");
+        CommandAssert.assertTrue(Market.getCompany(stock_name).getCOM().isOwner(player.getUniqueId()), "§byou must be a CEO of this company");
 
         if (firstEnter){
             player.sendMessage(SignClick.getPrefix()+"please re-enter the command to confirm");

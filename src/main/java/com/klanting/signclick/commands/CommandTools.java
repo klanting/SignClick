@@ -9,6 +9,11 @@ public class CommandTools {
 
         try {
             amount = Double.parseDouble(input);
+
+            if (amount < 0){
+                throw new CommandException(errorMessage);
+            }
+
         }catch (NumberFormatException nfe){
             throw new CommandException(errorMessage);
         }
@@ -21,6 +26,11 @@ public class CommandTools {
 
         try {
             amount = Integer.parseInt(input);
+
+            if (amount < 0){
+                throw new CommandException(errorMessage);
+            }
+
         }catch (NumberFormatException nfe){
             throw new CommandException(errorMessage);
         }

@@ -62,7 +62,7 @@ public class MarketMenu extends SelectionMenu {
         lores.add("§7Value Change: "+(pct > 0 ? "§a": "§c")+df.format(pct)+"%");
         lores.add("");
         lores.add("§7Products: §f"+currentCompany.getProducts().size());
-        lores.add("§7Patent Upgrades: §f"+currentCompany.getUpgrades().size());
+        lores.add("§7Patent Upgrades: §f"+currentCompany.getPatentUpgrades().size());
 
         m.setLore(lores);
 

@@ -991,11 +991,11 @@ class CompanyCTests {
 
         testPlayer.assertSaid("""
                 §aincome:§0
-                §aContract: from Player1(P) to TCI(C) amount: 4.0 for 4 weeks, reason: d§0
-                §aContract: from SERVER(S) to TCI(C) amount: 2.0 for 2 weeks, reason: b delay: 1§0
+                §aContract: from Player1(P) to TCI(C) amount: 4,0 for 4 weeks, reason: d§0
+                §aContract: from SERVER(S) to TCI(C) amount: 2,0 for 2 weeks, reason: b delay: 1§0
                 §coutgoing:§0
-                §cContract: from TCI(C) to TCI2(C) amount: 1.0 for 1 weeks, reason: a§0
-                §cContract: from TCI(C) to Player1(P) amount: 3.0 for 3 weeks, reason: c""");
+                §cContract: from TCI(C) to TCI2(C) amount: 1,0 for 1 weeks, reason: a§0
+                §cContract: from TCI(C) to Player1(P) amount: 3,0 for 3 weeks, reason: c""");
 
         testPlayer.assertNoMoreSaid();
 

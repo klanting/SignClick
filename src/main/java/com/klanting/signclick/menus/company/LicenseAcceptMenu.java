@@ -63,13 +63,15 @@ public class LicenseAcceptMenu extends SelectionMenu {
         if (slot == 12){
             LicenseSingleton.getInstance().getLicenseRequests().removeLicense(license);
             loadStack(player);
+
         }
 
         if (slot == 14){
             LicenseSingleton.getInstance().getLicenseRequests().removeLicense(license);
             LicenseSingleton.getInstance().getCurrentLicenses().addLicense(license);
+
             loadStack(player);
         }
-        return true;
+        return false;
     }
 }

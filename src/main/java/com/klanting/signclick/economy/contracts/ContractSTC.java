@@ -33,7 +33,7 @@ public class ContractSTC  extends Contract{
         weeks -= 1;
         to.addBalNoPoint(amount);
 
-        String message = "Contract: from SERVER (S) to " + to.getStockName() + "(C) amount: " + amount;
+        String message = "Contract: from SERVER (S) to " + to.getStockName() + "(C) amount: " + df.format(amount);
 
         to.update("Contract Payment", "§a"+message, null);
 
@@ -58,7 +58,7 @@ public class ContractSTC  extends Contract{
             prefix = "§a";
         }
 
-        return prefix + "Contract: from SERVER(S) to " + to.getStockName() + "(C) amount: " + amount
+        return prefix + "Contract: from SERVER(S) to " + to.getStockName() + "(C) amount: " + df.format(amount)
                 + " for "+weeks+" weeks, " + "reason: "+getReason() + " delay: "+ getDelay();
     }
 }

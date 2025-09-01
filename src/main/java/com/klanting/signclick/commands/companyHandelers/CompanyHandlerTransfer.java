@@ -1,6 +1,7 @@
 package com.klanting.signclick.commands.companyHandelers;
 
 import com.klanting.signclick.SignClick;
+import com.klanting.signclick.commands.CommandTools;
 import com.klanting.signclick.commands.exceptions.CommandAssert;
 import com.klanting.signclick.commands.exceptions.CommandException;
 import com.klanting.signclick.economy.Account;
@@ -32,7 +33,7 @@ public class CompanyHandlerTransfer extends CompanyHandler{
         CommandAssert.assertTrue(playerOfflineName != null, "player doesn't exist");
         CommandAssert.assertTrue(Market.hasAccount(playerOfflineName.getUniqueId()), "player doesn't have an account");
 
-        int amount = Integer.parseInt(args[3]);
+        int amount = CommandTools.parseInteger(args[3], "Please enter a valid positive integer as amount");
 
         if (firstEnter){
             player.sendMessage(SignClick.getPrefix()+"please re-enter your command to confirm\nthat you want to transfer §f" +amount+SignClick.getPrefix()+" shares to §f"+ player_name+

@@ -1,6 +1,7 @@
 package com.klanting.signclick.commands.companyHandelers;
 
 import com.klanting.signclick.SignClick;
+import com.klanting.signclick.commands.CommandTools;
 import com.klanting.signclick.commands.exceptions.CommandAssert;
 import com.klanting.signclick.commands.exceptions.CommandException;
 import com.klanting.signclick.economy.Account;
@@ -16,7 +17,7 @@ public class CompanyHandlerSell extends CompanyHandler{
 
         String stockName = args[1].toUpperCase();
         stockName = stockName.toUpperCase();
-        int amount = Integer.parseInt(args[2]);
+        int amount = CommandTools.parseInteger(args[2], "Please enter a valid positive integer as amount");
 
         CommandAssert.assertTrue(Market.hasBusiness(stockName), "please enter a valid company stockname");
 

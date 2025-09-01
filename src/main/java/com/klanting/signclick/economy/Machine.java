@@ -149,7 +149,7 @@ public class Machine {
             }
 
             int index = 0;
-            while (true){
+            while (index < 3){
 
                 if(results[index] == null){
                     break;

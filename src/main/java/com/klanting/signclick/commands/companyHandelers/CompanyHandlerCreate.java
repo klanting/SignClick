@@ -68,7 +68,7 @@ public class CompanyHandlerCreate extends CompanyHandler{
         Boolean succes = Market.addCompany(details.companyName,
                 details. stockName, Market.getAccount(details.player), details.creationCost, details.companyType);
 
-        CommandAssert.assertTrue(succes, "§bcompany create failed: name/stockName already in use");
+        CommandAssert.assertTrue(succes, "§bcompany create failed: name/stock name already in use");
 
         details.player.sendMessage("§byou succesfully found "+details.companyName+" good luck CEO "+
                 details.player.getName());

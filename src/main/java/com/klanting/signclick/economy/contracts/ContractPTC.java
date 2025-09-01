@@ -32,7 +32,7 @@ public class ContractPTC extends Contract{
         weeks -= 1;
         to.addBal(amount);
 
-        String message = "Contract: from " + fromAcc.getName() + "(P) to " + to.getStockName() + "(C) amount: " + amount;
+        String message = "Contract: from " + fromAcc.getName() + "(P) to " + to.getStockName() + "(C) amount: " + df.format(amount);
 
         to.update("Contract Payment", "§a"+message, null);
 
@@ -62,7 +62,7 @@ public class ContractPTC extends Contract{
             prefix = "§a";
         }
 
-        return prefix + "Contract: from " + from() + "(P) to " + to() + "(C) amount: " + amount
+        return prefix + "Contract: from " + from() + "(P) to " + to() + "(C) amount: " + df.format(amount)
                 + " for "+weeks+" weeks, "+ "reason: "+ getReason();
     }
 

@@ -35,6 +35,7 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.function.Function;
 
+import static com.klanting.signclick.utils.Utils.AssertMet;
 import static org.bukkit.Bukkit.getServer;
 
 public class Company extends LoggableSubject implements CompanyI{
@@ -236,6 +237,9 @@ public class Company extends LoggableSubject implements CompanyI{
     }
 
     public boolean removeBal(double amount, boolean skipSpendable){
+
+        AssertMet(amount >= 0.0, "Company: remove balance must be positive");
+
         if ((getValue() >= amount) && (spendable >= amount || skipSpendable)){
             this.bal -= amount;
             spendable -= amount;
@@ -429,6 +433,9 @@ public class Company extends LoggableSubject implements CompanyI{
 
 
     public boolean addBal(double amount){
+
+        AssertMet(amount >= 0.0, "Company: add balance must be positive");
+
         bal += amount;
         changeBase();
 

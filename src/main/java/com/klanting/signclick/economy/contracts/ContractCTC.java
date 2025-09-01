@@ -3,6 +3,8 @@ package com.klanting.signclick.economy.contracts;
 
 import com.klanting.signclick.economy.CompanyI;
 
+import java.text.DecimalFormat;
+
 public class ContractCTC extends Contract {
 
     private final CompanyI from;
@@ -32,7 +34,9 @@ public class ContractCTC extends Contract {
         weeks -= 1;
         to.addBal(amount);
 
-        String message = "Contract: from " + from.getStockName() + "(C) to " + to.getStockName() + "(C) amount: " + amount;
+
+
+        String message = "Contract: from " + from.getStockName() + "(C) to " + to.getStockName() + "(C) amount: " + df.format(amount);
 
         from.getCOM().sendOwner("§c"+message);
         to.getCOM().sendOwner("§a"+message);
@@ -63,7 +67,7 @@ public class ContractCTC extends Contract {
         }
 
         return prefix + "Contract: from " + from.getStockName() +
-                "(C) to " + to.getStockName() + "(C) amount: " + amount
+                "(C) to " + to.getStockName() + "(C) amount: " + df.format(amount)
                 + " for "+weeks+" weeks, " + "reason: "+ getReason();
     }
 }

@@ -39,7 +39,7 @@ public class ContractCTP  extends Contract{
 
         OfflinePlayer player = Bukkit.getServer().getOfflinePlayer(to);
 
-        String message = "Contract: from " + from.getStockName() + "(C) to " + player.getName() + "(P) amount: " + amount;
+        String message = "Contract: from " + from.getStockName() + "(C) to " + player.getName() + "(P) amount: " + df.format(amount);
 
         from.update("Contract Payment", "§c"+message, null);
 
@@ -70,7 +70,7 @@ public class ContractCTP  extends Contract{
             prefix = "§a";
         }
 
-        return prefix + "Contract: from " + from.getStockName() + "(C) to " + to() + "(P) amount: " + amount
+        return prefix + "Contract: from " + from.getStockName() + "(C) to " + to() + "(P) amount: " + df.format(amount)
                 + " for "+weeks+" weeks, "+ "reason: "+ getReason();
     }
 }

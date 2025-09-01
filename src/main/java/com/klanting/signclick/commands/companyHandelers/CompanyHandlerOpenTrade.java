@@ -24,7 +24,7 @@ public class CompanyHandlerOpenTrade extends CompanyHandler{
             return false;
         }
 
-        CommandAssert.assertTrue(Market.getCompany(stock_name).getCOM().isOwner(player.getUniqueId()), "§byou must be a CEO of this com.company");
+        CommandAssert.assertTrue(Market.getCompany(stock_name).getCOM().isOwner(player.getUniqueId()), "§byou must be a CEO of this company");
 
         boolean to_open = Objects.equals(args[2], "TRUE");
         Market.getCompany(stock_name).getCOM().setOpenTrade(to_open);

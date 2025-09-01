@@ -46,7 +46,7 @@ public class CountryEvents implements Listener {
 
             Team team;
             if (country == null){
-                team = SignClick.scoreboard.getTeam("ZZZ_default");
+                team = SignClick.scoreboard.getTeam("zzz_default");
             }else{
                 team = SignClick.scoreboard.getTeam(country.getName());
             }
