@@ -324,7 +324,7 @@ public class Market {
 
         Utils.writeSave("stockSigns", stockSigns);
 
-        getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "SignClick save Market completed!");
+        getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "SignClick save Companies completed!");
 
 
     }
