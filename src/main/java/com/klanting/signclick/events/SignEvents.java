@@ -50,7 +50,7 @@ public class SignEvents implements Listener {
 
                         MarketMenu mm = new MarketMenu(player.getUniqueId(), comp, false);
                         player.openInventory(mm.getInventory());
-
+                        event.setCancelled(true);
                     }
 
 

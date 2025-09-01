@@ -37,36 +37,10 @@ public class CountryEvents implements Listener {
     }
 
     public static void sortTab(){
+
         /*
-         * Sort player by country
-         * */
-        List<Player> sortedPlayers = new ArrayList<>(Bukkit.getOnlinePlayers());
-        sortedPlayers.sort((p1, p2) -> {
-            // Example: sort by country name first, then by player name
-            Country c1 = CountryManager.getCountry(p1);
-            Country c2 = CountryManager.getCountry(p2);
-            String name1 = p1.getName();
-            String name2 = p2.getName();
-
-            if (c1 != null && c2 != null) {
-                int cmp = c1.getName().compareToIgnoreCase(c2.getName());
-
-                if (cmp == 0){
-                    return name1.compareToIgnoreCase(name2);
-                }
-
-                return cmp;
-            }
-
-            /*
-             * put players with country first
-             * */
-            if (c1 != null) {return -1;}
-            if (c2 != null) {return 1;}
-
-            return name1.compareToIgnoreCase(name2);
-        });
-
+        * add each player to the right scoreboard team for sorting
+        * */
         for (Player player: Bukkit.getOnlinePlayers()){
             Country country = CountryManager.getCountry(player);
 

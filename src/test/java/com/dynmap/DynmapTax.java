@@ -27,6 +27,7 @@ public class DynmapTax {
 
         plugin = TestTools.setupPlugin(server);
         SignClick.getConfigManager().getConfig("general.yml").set("dynmapTax", true);
+        SignClick.getConfigManager().save();
         plugin = TestTools.reboot(server);
 
         testPlayer = server.addPlayer();

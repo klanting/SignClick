@@ -1,6 +1,7 @@
 package com.klanting.signclick.configs;
 
 import com.klanting.signclick.SignClick;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -11,6 +12,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
+import static org.bukkit.Bukkit.getServer;
 
 public class ConfigManager {
     /*
@@ -64,6 +67,7 @@ public class ConfigManager {
         }
 
         CommentConfig cc = CommentConfig.loadConfiguration(configFile);
+
         fileMap.put(name, cc);
 
         if (takeAction){

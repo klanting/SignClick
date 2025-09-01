@@ -46,7 +46,9 @@ public class SignStockTests {
 
     @Test
     public void setSignStock(){
+        SignClick.getEconomy().depositPlayer(testPlayer, 2000);
         SignClick.getConfigManager().getConfig("companies.yml").set("signStockCost", 2000.0);
+        SignClick.getConfigManager().save();
         Market.addCompany("TCI", "TCI", Market.getAccount(testPlayer), 100000.0, "other");
 
 
@@ -73,7 +75,7 @@ public class SignStockTests {
         assertEquals("0,00", sign.getLine(2));
         assertEquals("", sign.getLine(3));
 
-        testPlayer.assertSaid("§bStock sign is created and you have been charged 100k for making this sign");
+        testPlayer.assertSaid("§bStock sign is created and you have been charged 2.000,00 for making this sign");
         testPlayer.assertNoMoreSaid();
         assertEquals(1, Market.stockSigns.size());
         assertEquals(100000.0+2000, Market.getCompany("TCI").getBal());

@@ -68,14 +68,17 @@ public class OpenFurnaceEvent implements Listener {
 
                     Machine machine = Market.getCompany(compName).getMachines().get(block);
 
-                    for (int i=0; i<3; i++){
-                        ItemStack itemStack = machine.results[i];
-                        if (itemStack != null){
-                            block.getWorld().dropItemNaturally(block.getLocation(), itemStack);
+                    if (machine != null){
+                        for (int i=0; i<3; i++){
+                            ItemStack itemStack = machine.results[i];
+                            if (itemStack != null){
+                                block.getWorld().dropItemNaturally(block.getLocation(), itemStack);
+                            }
                         }
+
+                        Market.getCompany(compName).getMachines().remove(block);
                     }
 
-                    Market.getCompany(compName).getMachines().remove(block);
                 }
 
                 block.getWorld().dropItemNaturally(block.getLocation(), MachineRecipe.item());

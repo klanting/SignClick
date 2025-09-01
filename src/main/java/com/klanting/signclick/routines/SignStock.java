@@ -23,20 +23,26 @@ public class SignStock {
     public static void set(SignChangeEvent sign, Player player){
         String Sname = sign.getLine(1);
         Sname = Sname.toUpperCase();
-        if (Market.hasBusiness(Sname)){
-            stockSigns.add(sign.getBlock().getLocation());
-
-            DecimalFormat df = new DecimalFormat("###,##0.00");
-
-            Utils.setSign(sign, new String[]{"§b[stock]", Sname,
-                    df.format(Market.getCompany(Sname).stockCompareGet()), ""});
-
-            Market.getCompany(Sname).addBal(signStockCost);
-            SignClick.getEconomy().withdrawPlayer(player, signStockCost);
-            player.sendMessage(SignClick.getPrefix()+"Stock sign is created and you have been charged 100k for making this sign");
-        }else{
+        if (!Market.hasBusiness(Sname)){
             player.sendMessage(SignClick.getPrefix()+"Not a valid company");
+            return;
         }
+
+        if(!SignClick.getEconomy().has(player, signStockCost)){
+            player.sendMessage(SignClick.getPrefix()+"Not enough player money to create sign");
+            return;
+        }
+
+        stockSigns.add(sign.getBlock().getLocation());
+
+        DecimalFormat df = new DecimalFormat("###,##0.00");
+
+        Utils.setSign(sign, new String[]{"§b[stock]", Sname,
+                df.format(Market.getCompany(Sname).stockCompareGet()), ""});
+
+        Market.getCompany(Sname).addBal(signStockCost);
+        SignClick.getEconomy().withdrawPlayer(player, signStockCost);
+        player.sendMessage(SignClick.getPrefix()+"Stock sign is created and you have been charged "+df.format(signStockCost)+" for making this sign");
 
 
     }

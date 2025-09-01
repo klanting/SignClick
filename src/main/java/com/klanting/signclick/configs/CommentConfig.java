@@ -35,7 +35,12 @@ public class CommentConfig extends YamlConfiguration {
 
     public ConfigurationSection createSection(@NotNull String path, String comment){
         commentMap.put(path, comment);
-        return createSection(path);
+
+        ConfigurationSection section = this.getConfigurationSection(path);
+        if (section == null){
+            section = createSection(path);
+        }
+        return section;
 
 
     }

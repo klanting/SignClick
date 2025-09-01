@@ -116,6 +116,7 @@ public class CompanyMenuTests {
     void changeCompanyType(){
 
         SignClick.getConfigManager().getConfig("companies.yml").set("companyConfirmation", false);
+        SignClick.getConfigManager().save();
 
         SignClick.getEconomy().depositPlayer(testPlayer, 40000000);
         boolean suc6 = server.execute("company", testPlayer, "create", "TESTINGCOMP", "COMP").hasSucceeded();

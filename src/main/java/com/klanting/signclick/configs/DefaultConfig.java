@@ -1,25 +1,40 @@
 package com.klanting.signclick.configs;
 
 import com.klanting.signclick.SignClick;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.List;
 
+import static org.bukkit.Bukkit.getServer;
+
 public class DefaultConfig {
 
     private static void makeProductConfig(ConfigurationSection configSection, Material material,
                                           long researchTime, int productionCost, long productionTime){
         String item = material.name();
-        configSection.createSection(item);
 
         int keys = configSection.getKeys(false).size();
 
-        configSection.getConfigurationSection(item).addDefault("researchTime", researchTime);
-        configSection.getConfigurationSection(item).addDefault("productionCost", productionCost);
-        configSection.getConfigurationSection(item).addDefault("productionTime", productionTime);
-        configSection.getConfigurationSection(item).addDefault("index", keys);
+
+        getOrCreate(configSection, item).addDefault("researchTime", researchTime);
+        getOrCreate(configSection, item).addDefault("productionCost", productionCost);
+        getOrCreate(configSection, item).addDefault("productionTime", productionTime);
+        getOrCreate(configSection, item).addDefault("index", keys);
+    }
+
+    private static ConfigurationSection getOrCreate(ConfigurationSection config, String path){
+        ConfigurationSection section = config.getConfigurationSection(path);
+        if (section == null) {
+            /*
+            * create if not exists
+            * */
+            section = config.createSection(path);
+        }
+
+        return section;
     }
 
     public static void makeDefaultConfig(){
@@ -160,8 +175,9 @@ public class DefaultConfig {
         /*
         * Product configuration of bank products
         * */
-        companiesConfig.getConfigurationSection("products").createSection("bank");
-        ConfigurationSection bankP = companiesConfig.getConfigurationSection("products").getConfigurationSection("bank");
+        ConfigurationSection products = companiesConfig.getConfigurationSection("products");
+
+        ConfigurationSection bankP = getOrCreate(products, "bank");
 
         makeProductConfig(bankP, Material.IRON_INGOT, 1200L, 100, 100L);
         makeProductConfig(bankP, Material.GOLD_INGOT, 3600L, 500, 300L);
@@ -171,8 +187,7 @@ public class DefaultConfig {
         /*
          * Product configuration of transport products
          * */
-        companiesConfig.getConfigurationSection("products").createSection("transport");
-        ConfigurationSection transportP = companiesConfig.getConfigurationSection("products").getConfigurationSection("transport");
+        ConfigurationSection transportP = getOrCreate(products, "transport");
 
         makeProductConfig(transportP, Material.POWERED_RAIL, 3600L, 100, 60L);
         makeProductConfig(transportP, Material.DETECTOR_RAIL, 600L, 30, 20L);
@@ -185,13 +200,12 @@ public class DefaultConfig {
         makeProductConfig(transportP, Material.GOLDEN_HORSE_ARMOR, 1800L, 300, 40L);
         makeProductConfig(transportP, Material.DIAMOND_HORSE_ARMOR, 7200L, 600, 120L);
         makeProductConfig(transportP, Material.OAK_BOAT, 60L, 5, 10L);
-        makeProductConfig(transportP, Material.ELYTRA, 72000L, 10000, 3600L);
+        makeProductConfig(transportP, Material.ELYTRA, 72000L, 100000, 3600L);
 
         /*
          * Product configuration of product products
          * */
-        companiesConfig.getConfigurationSection("products").createSection("product");
-        ConfigurationSection productP = companiesConfig.getConfigurationSection("products").getConfigurationSection("product");
+        ConfigurationSection productP = getOrCreate(products, "product");
 
         makeProductConfig(productP, Material.TOTEM_OF_UNDYING, 7200L, 2000, 300L);
         makeProductConfig(productP, Material.TRIDENT, 3600L, 500, 180L);
@@ -205,8 +219,7 @@ public class DefaultConfig {
         /*
          * Product configuration of real estate products
          * */
-        companiesConfig.getConfigurationSection("products").createSection("real estate");
-        ConfigurationSection realEstateP = companiesConfig.getConfigurationSection("products").getConfigurationSection("real estate");
+        ConfigurationSection realEstateP = getOrCreate(products, "real estate");
 
         makeProductConfig(realEstateP, Material.WHITE_BED, 120L, 10, 60L);
         makeProductConfig(realEstateP, Material.ARMOR_STAND, 120L, 5, 60L);
@@ -217,8 +230,7 @@ public class DefaultConfig {
         /*
          * Product configuration of military products
          * */
-        companiesConfig.getConfigurationSection("products").createSection("military");
-        ConfigurationSection militaryP = companiesConfig.getConfigurationSection("products").getConfigurationSection("military");
+        ConfigurationSection militaryP = getOrCreate(products, "military");
 
         makeProductConfig(militaryP, Material.DIAMOND_SWORD, 7200L, 1500, 720L);
         makeProductConfig(militaryP, Material.NETHERITE_SWORD, 36000L, 3500, 2400L);
@@ -231,8 +243,7 @@ public class DefaultConfig {
         /*
          * Product configuration of building products
          * */
-        companiesConfig.getConfigurationSection("products").createSection("building");
-        ConfigurationSection buildingP = companiesConfig.getConfigurationSection("products").getConfigurationSection("building");
+        ConfigurationSection buildingP = getOrCreate(products, "building");
 
         makeProductConfig(buildingP, Material.COBBLESTONE, 60L, 1, 10L);
         makeProductConfig(buildingP, Material.GRANITE, 60L, 1, 10L);
@@ -259,18 +270,16 @@ public class DefaultConfig {
         /*
          * Product configuration of enchantment products
          * */
-        companiesConfig.getConfigurationSection("products").createSection("enchantment");
-        ConfigurationSection enchantmentP = companiesConfig.getConfigurationSection("products").getConfigurationSection("enchantment");
+        ConfigurationSection enchantmentP = getOrCreate(products, "enchantment");
 
         makeProductConfig(enchantmentP, Material.ENCHANTING_TABLE, 7200L, 2500, 1200L);
         makeProductConfig(enchantmentP, Material.BOOK, 120L, 40, 120L);
         makeProductConfig(enchantmentP, Material.EXPERIENCE_BOTTLE, 240L, 50, 120L);
 
         /*
-         * Product configuration of enchantment products
+         * Product configuration of potion products
          * */
-        companiesConfig.getConfigurationSection("products").createSection("brewery");
-        ConfigurationSection breweryP = companiesConfig.getConfigurationSection("products").getConfigurationSection("brewery");
+        ConfigurationSection breweryP = getOrCreate(products, "brewery");
 
         makeProductConfig(breweryP, Material.BREWING_STAND, 120L, 50, 120L);
         makeProductConfig(breweryP, Material.BLAZE_POWDER, 120L, 15, 120L);
@@ -284,8 +293,7 @@ public class DefaultConfig {
         /*
          * Product configuration of other products
          * */
-        companiesConfig.getConfigurationSection("products").createSection("other");
-        ConfigurationSection otherP = companiesConfig.getConfigurationSection("products").getConfigurationSection("other");
+        ConfigurationSection otherP = getOrCreate(products, "other");
 
         makeProductConfig(otherP, Material.AZALEA, 120L, 20, 30L);
         makeProductConfig(otherP, Material.FLOWERING_AZALEA, 120L, 20, 30L);
@@ -321,6 +329,7 @@ public class DefaultConfig {
         countriesConfig.options().copyDefaults(true);
 
         configManager.save();
+
 
     }
 }
