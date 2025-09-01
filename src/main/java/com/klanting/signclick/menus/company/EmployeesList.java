@@ -23,7 +23,7 @@ public class EmployeesList extends PagingMenu {
     public CompanyI comp;
 
     public EmployeesList(CompanyI company){
-        super(54, "Company Employees List: "+ company.getStockName(), true);
+        super(54, "Company Employees List", true);
         comp = company;
         init();
     }

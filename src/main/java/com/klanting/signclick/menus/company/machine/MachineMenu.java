@@ -233,6 +233,7 @@ public class MachineMenu extends SelectionMenu {
              * */
             tileState.getPersistentDataContainer().set(productKey, PersistentDataType.STRING, "");
             tileState.update();
+            machine.clearProgress();
 
             activeMachines.remove(machine);
 

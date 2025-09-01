@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.scoreboard.Team;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,12 +67,25 @@ public class CountryEvents implements Listener {
             return name1.compareToIgnoreCase(name2);
         });
 
-        // Update the player list order by resetting each player's list name
-        for (Player p : Bukkit.getOnlinePlayers()) {
-            for (Player sorted : sortedPlayers) {
-                // This triggers the tab list to refresh in order
-                p.showPlayer(SignClick.getPlugin(), sorted);
+        for (Player player: Bukkit.getOnlinePlayers()){
+            Country country = CountryManager.getCountry(player);
+
+            Team team;
+            if (country == null){
+                team = SignClick.scoreboard.getTeam("ZZZ_default");
+            }else{
+                team = SignClick.scoreboard.getTeam(country.getName());
             }
+
+            if(team == null){
+                team = SignClick.scoreboard.registerNewTeam(country.getName());
+            }
+
+            team.addPlayer(player);
+            player.setScoreboard(SignClick.scoreboard);
         }
+
+
+
     }
 }

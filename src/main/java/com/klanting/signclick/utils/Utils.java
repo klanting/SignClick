@@ -9,6 +9,7 @@ import com.klanting.signclick.economy.companyUpgrades.*;
 import com.klanting.signclick.economy.logs.*;
 import com.klanting.signclick.economy.parties.Election;
 import com.klanting.signclick.utils.Serializers.*;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -22,6 +23,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.IntStream;
 
 import static org.bukkit.Bukkit.getServer;
 
@@ -260,7 +262,10 @@ public class Utils {
 
                 List<ItemStack> ingredients = shapelessRecipe.getIngredientList().stream().
                         sorted(Comparator.comparing(s -> s.getType().name())).toList();
-                boolean b = ingredients.equals(array);
+
+                boolean b = array.size() == ingredients.size()
+                        && IntStream.range(0, array.size())
+                        .allMatch(i -> array.get(i).getType() == ingredients.get(i).getType());
 
                 if (b){
                     return shapelessRecipe.getResult();

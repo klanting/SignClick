@@ -86,7 +86,12 @@ public class ProductCraftMenu extends SelectionMenu {
         }
 
         if (recipe != null){
-            getInventory().setItem(25, ItemFactory.create(recipe.getType(), "§7"+recipe.getType().name()));
+            Product product = getCrafted();
+            List<String> l = new ArrayList<>();
+            l.add("§7Production Time: "+product.getProductionTime()+"s");
+            l.add("§7Cost: $"+product.getPrice());
+            getInventory().setItem(25, ItemFactory.create(recipe.getType(), "§7"+recipe.getType().name(),
+                    l));
         }
 
         getInventory().setItem(43, ItemFactory.create(Material.LIME_WOOL, "§a✓ Save Product"));

@@ -56,6 +56,7 @@ public class MachineTests {
 
     @Test
     void basicMachineProduction(){
+        server.addSimpleWorld("world");
         PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
         /*
         * Create machine and produce an item
@@ -378,6 +379,7 @@ public class MachineTests {
 
     @Test
     void machineProductionHopper(){
+        server.addSimpleWorld("world");
         /*
         * test that the machine produced items go into a hopper.
         **/

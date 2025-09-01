@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
@@ -59,10 +60,11 @@ public class ProductList extends PagingMenu {
             for (License license: LicenseSingleton.getInstance().getCurrentLicenses().getLicensesTo(comp)){
                 Product product = license.getProduct();
 
+                DecimalFormat df = new DecimalFormat("###,###,##0.00");
+
                 List<String> l = new ArrayList<>();
-                l.add("§7Production Time: "+product.getProductionTime()*
-                        (1.0+license.getCostIncrease()+license.getRoyaltyFee())+"s");
-                l.add("§7Cost: $"+product.getPrice());
+                l.add("§7Production Time: "+product.getProductionTime()+"s");
+                l.add("§7Cost: $"+df.format(product.getPrice()*(1.0+license.getRoyaltyFee()+license.getCostIncrease())));
                 l.add("§cThis Product is Licensed");
                 l.add("§7Weekly License cost: $"+license.getWeeklyCost());
                 ItemStack item = ItemFactory.create(product.getMaterial(), "§7"+product.getMaterial().name(), l);

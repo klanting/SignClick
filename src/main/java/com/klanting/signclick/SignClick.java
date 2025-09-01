@@ -22,6 +22,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scoreboard.Scoreboard;
 import org.dynmap.DynmapAPI;
 import org.dynmap.markers.MarkerSet;
 
@@ -44,6 +45,8 @@ public class SignClick extends JavaPlugin{
     public static ConfigManager configManager;
 
     public static MarkerSet markerSet;
+
+    public static Scoreboard scoreboard;
 
     @Override
     public void onEnable() {
@@ -128,6 +131,8 @@ public class SignClick extends JavaPlugin{
 
         }
 
+        scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
+        SignClick.scoreboard.registerNewTeam("ZZZ_default");
 
         getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "SignClick is enabled!");
 
@@ -153,7 +158,6 @@ public class SignClick extends JavaPlugin{
         WeeklyComp.Save();
 
         getServer().getConsoleSender().sendMessage(ChatColor.RED + "SignClick is disabled!");
-        configManager.save();
         Bukkit.getScheduler().cancelTasks(SignClick.getPlugin());
     }
 

@@ -103,6 +103,11 @@ public class PatentEvents implements Listener {
         Player player = event.getPlayer();
 
         Country country = CountryManager.getCountry(player);
+
+        if(country == null){
+            return;
+        }
+
         double m = 1.0 + country.getPolicyBonus(2, 2);
         event.setAmount((int) Math.round(event.getAmount()*m));
     }

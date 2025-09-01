@@ -151,7 +151,7 @@ public class CountryManager {
         /*
         * save results
         * */
-        getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "SignClick save Countries completed!");
+        getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "SignClick: save Countries completed!");
     }
 
     public static void restoreData(){
