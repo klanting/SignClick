@@ -90,53 +90,45 @@ public class DefaultConfig {
         companiesConfig.createSection("upgrades", "Config for upgrades of your company");
         ConfigurationSection section = companiesConfig.getConfigurationSection("upgrades");
         assert section != null;
-        section.createSection("craftLimit");
-        section.createSection("investReturnTime");
-        section.createSection("patentSlot");
-        section.createSection("patentUpgradeSlot");
-        section.createSection("boardSize");
-        section.createSection("productModifier");
-        section.createSection("productSlot");
-        section.createSection("researchModifier");
 
-        section.getConfigurationSection("craftLimit").addDefault("bonus",
+        getOrCreate(section, "craftLimit").addDefault("bonus",
                 List.of(5, 10, 20, 40, 80, 100));
-        section.getConfigurationSection("craftLimit").addDefault("upgradeCost",
+        getOrCreate(section, "craftLimit").addDefault("upgradeCost",
                 List.of(4000, 8000, 12000, 16000, 20000));
 
-        section.getConfigurationSection("investReturnTime").addDefault("bonus",
+        getOrCreate(section, "investReturnTime").addDefault("bonus",
                 List.of(0, 5, 10, 15, 20, 25));
-        section.getConfigurationSection("investReturnTime").addDefault("upgradeCost",
+        getOrCreate(section, "investReturnTime").addDefault("upgradeCost",
                 List.of(4000, 8000, 12000, 16000, 20000));
 
-        section.getConfigurationSection("patentSlot").addDefault("bonus",
+        getOrCreate(section, "patentSlot").addDefault("bonus",
                 List.of(1, 2, 3, 4, 5, 20));
-        section.getConfigurationSection("patentSlot").addDefault("upgradeCost",
+        getOrCreate(section, "patentSlot").addDefault("upgradeCost",
                 List.of(5000, 10000, 20000, 40000, 60000));
 
-        section.getConfigurationSection("patentUpgradeSlot").addDefault("bonus",
+        getOrCreate(section, "patentUpgradeSlot").addDefault("bonus",
                 List.of(3, 4, 5, 6, 7, 8));
-        section.getConfigurationSection("patentUpgradeSlot").addDefault("upgradeCost",
+        getOrCreate(section, "patentUpgradeSlot").addDefault("upgradeCost",
                 List.of(4000, 8000, 12000, 16000, 20000));
 
-        section.getConfigurationSection("boardSize").addDefault("bonus",
+        getOrCreate(section, "boardSize").addDefault("bonus",
                 List.of(2, 3, 5, 8, 10, 18));
-        section.getConfigurationSection("boardSize").addDefault("upgradeCost",
+        getOrCreate(section, "boardSize").addDefault("upgradeCost",
                 List.of(4000, 8000, 12000, 16000, 20000));
 
-        section.getConfigurationSection("productModifier").addDefault("bonus",
+        getOrCreate(section, "productModifier").addDefault("bonus",
                 List.of(100, 120, 140, 160, 180, 200));
-        section.getConfigurationSection("productModifier").addDefault("upgradeCost",
+        getOrCreate(section, "productModifier").addDefault("upgradeCost",
                 List.of(4000, 8000, 12000, 16000, 20000));
 
-        section.getConfigurationSection("productSlot").addDefault("bonus",
+        getOrCreate(section, "productSlot").addDefault("bonus",
                 List.of(9, 27, 45, 63, 81, 99));
-        section.getConfigurationSection("productSlot").addDefault("upgradeCost",
+        getOrCreate(section, "productSlot").addDefault("upgradeCost",
                 List.of(4000, 8000, 12000, 16000, 20000));
 
-        section.getConfigurationSection("researchModifier").addDefault("bonus",
+        getOrCreate(section, "researchModifier").addDefault("bonus",
                 List.of(100, 125, 150, 175, 200, 225));
-        section.getConfigurationSection("researchModifier").addDefault("upgradeCost",
+        getOrCreate(section, "researchModifier").addDefault("upgradeCost",
                 List.of(4000, 8000, 12000, 16000, 20000));
 
         companiesConfig.addDefault("auctionBitIncrease", 1000,

@@ -206,7 +206,7 @@ public class SignClick extends JavaPlugin{
             dynmap = (DynmapAPI) Bukkit.getServer().getPluginManager().getPlugin("dynmap");
         }
 
-        return true;
+        return dynmap != null;
 
     }
 
