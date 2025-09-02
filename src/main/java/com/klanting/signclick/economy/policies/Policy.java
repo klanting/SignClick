@@ -16,13 +16,9 @@ public class Policy {
 
     protected List<String> titles = new ArrayList<>();
 
-    protected ArrayList<List<Double>> bonus = new ArrayList<>();
-
     protected ArrayList<List<String>> description = new ArrayList<>();
 
-    protected ArrayList<List<Integer>> require = new ArrayList<>();
-
-    protected ArrayList<PolicyOption> options = new ArrayList<>();
+    protected transient ArrayList<PolicyOption> options = new ArrayList<>();
 
     private Integer id;
     private Integer level;
@@ -42,7 +38,6 @@ public class Policy {
     }
 
     public int getRequireLevel(String s, int lvl){
-        System.out.println("CHICK2"+lvl+" "+s+" "+options.get(lvl).getRequire(s));
         return options.get(lvl).getRequire(s);
     }
 

@@ -25,13 +25,6 @@ public class PolicyMarket extends Policy{
             options.add(po);
         }
 
-        bonus.add(Arrays.asList(4000.0, 2000.0, 0.0, -5000.0, -10000.0)); //b0 weekly closed market
-        bonus.add(Arrays.asList(-0.02, -0.01, 0.0, 0.01, 0.02)); //b1 taxReduction
-        bonus.add(Arrays.asList(0.001, 0.0, 0.0, 0.0, 0.0)); //b2 div reduction
-        bonus.add(Arrays.asList(-0.10, -0.05, 0.0, 0.05, 0.10)); //b3 upgradeDiscount
-        bonus.add(Arrays.asList(0.0, 0.0, 0.0, 0.05, 0.10)); //b4 createDiscount
-        bonus.add(Arrays.asList(0.02, 0.0, 0.0, 0.0, 0.0)); //b5 spendable
-
         description.add(Arrays.asList("§74k/week income (closed market)", "§72k/week income (closed market)", "", "§75k/week tax (closed market)", "§710k/week tax (closed market)"));
         description.add(Arrays.asList("§7+2% sell tax", "§7+1% sell tax", "", "§7-1% sell tax", "§7-2% sell tax"));
         description.add(Arrays.asList("§7-0.1% dividends", "", "", "", ""));

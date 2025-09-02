@@ -412,6 +412,7 @@ public class DefaultConfig {
         getOrCreate(policyMilitary, "Para-Militaire").addDefault("xpGain", 0.0);
         getOrCreate(policyMilitary, "Para-Militaire").addDefault("electionPenaltyReduction", 0.25);
         getOrCreate(getOrCreate(policyMilitary, "Para-Militaire"), "funding").addDefault("military", 4000.0);
+        getOrCreate(getOrCreate(policyMilitary, "Para-Militaire"), "required").addDefault("lawEnforcement", 3);
 
         getOrCreate(policyMilitary, "Military State").addDefault("lawEnforcementSalary", 10000.0);
         getOrCreate(policyMilitary, "Military State").addDefault("stabilityModifier", 8.0);
@@ -422,6 +423,8 @@ public class DefaultConfig {
         getOrCreate(getOrCreate(policyMilitary, "Military State"), "funding").addDefault("transport", -2000.0);
         getOrCreate(getOrCreate(policyMilitary, "Military State"), "funding").addDefault("bank", -2000.0);
         getOrCreate(policyMilitary, "Military State").addDefault("switchLeaderPenaltyReduction", -1.0);
+        getOrCreate(getOrCreate(policyMilitary, "Military State"), "required").addDefault("lawEnforcement", 8);
+        getOrCreate(getOrCreate(policyMilitary, "Military State"), "required").addDefault("capital", 10_000_000);
 
         /*
          * tourism policy

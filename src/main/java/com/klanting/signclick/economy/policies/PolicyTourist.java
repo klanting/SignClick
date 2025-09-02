@@ -24,15 +24,6 @@ public class PolicyTourist extends Policy{
             options.add(po);
         }
 
-        bonus.add(Arrays.asList(0.08, 0.04, 0.0, -0.1, -0.15)); //b0 transportCost
-        bonus.add(Arrays.asList(0.0, 0.02, 0.0, -0.02, -0.05)); //b1 license cost: does not exist
-        bonus.add(Arrays.asList(-0.05, 0.0, 0.0, 0.0, 0.05)); //b2 UpgradeReturnTimeReduction
-        bonus.add(Arrays.asList(-1000.0, 0.0, 0.0, 0.0, 2000.0)); //b3 transport
-        bonus.add(Arrays.asList(-1000.0, 0.0, 0.0, 0.0, 2000.0)); //b4 real estate
-        bonus.add(Arrays.asList(2000.0, 0.0, 0.0, 0.0, -1000.0)); //b5 building
-
-        require.add(Arrays.asList(0, 0, 0, 5000000, 10000000)); // capital required
-
         description.add(Arrays.asList("§7+8% transport cost (foreigner)", "§7+4% transport cost (foreigner)", "", "§7-10% transport cost (foreigner)", "§7-15% transport cost (foreigner)"));
         description.add(Arrays.asList("§7block license with foreigner", "§7+2% license cost (foreigner)", "", "§7-2% license cost (foreigner)", "§7-5% license cost (foreigner)"));
         description.add(Arrays.asList("§7+5% upgrade return time", "", "", "", "§7-5% upgrade return time"));

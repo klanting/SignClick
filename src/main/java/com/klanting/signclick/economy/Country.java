@@ -443,29 +443,24 @@ public class Country {
     public boolean setPolicies(int id, int level){
         int old_level = policies.get(id).getLevel();
         if (old_level == level){
-            System.out.println("F1");
             return false;
         }
 
         if (id == 0 || id == 3){
             int gov_cap = getPolicyRequire(id, "capital", level);
             if (gov_cap > getBalance() && (level == 0 || level == 4)){
-                System.out.println("F2");
                 return false;
             }
         }
 
         if (id == 2 || id == 4){
             int gov_cap = getPolicyRequire(id, "capital", level);
-            System.out.println("FREE "+gov_cap);
             if (gov_cap > getBalance()){
-                System.out.println("F3");
                 return false;
             }
 
             int law_enfo = getPolicyRequire(id, "lawEnforcement", level);
             if (law_enfo > lawEnforcement.size()){
-                System.out.println("F4");
                 return false;
             }
         }
@@ -475,12 +470,10 @@ public class Country {
             int max_tax_rate = getPolicyRequire(id, "maxTaxRate", level);
 
             if(taxRate < min_tax_rate){
-                System.out.println("F5");
                 return false;
             }
 
             if(taxRate > max_tax_rate){
-                System.out.println("F6");
                 return false;
             }
         }
@@ -495,12 +488,10 @@ public class Country {
                 "§6 to §9"+policies.get(id).getTitle(level), change, this.name, id, old_level, level);
 
         if (hasDecisionName(d.name)){
-            System.out.println("F7");
             return false;
         }
 
         decisions.add(d);
-        System.out.println("F8");
         return true;
     }
 

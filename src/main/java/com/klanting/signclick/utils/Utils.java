@@ -8,6 +8,7 @@ import com.klanting.signclick.economy.companyPatent.*;
 import com.klanting.signclick.economy.companyUpgrades.*;
 import com.klanting.signclick.economy.logs.*;
 import com.klanting.signclick.economy.parties.Election;
+import com.klanting.signclick.economy.policies.Policy;
 import com.klanting.signclick.utils.Serializers.*;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -83,6 +84,7 @@ public class Utils {
         builder.registerTypeAdapterFactory(companyTypes);
         builder.registerTypeAdapterFactory(patentUpgradeTypes);
         builder.registerTypeAdapterFactory(upgradeTypes);
+        builder.registerTypeAdapter(Policy.class, new PolicySerializer());
         Gson gson = builder.create();
         return gson.toJson(value, token);
     }
@@ -109,6 +111,7 @@ public class Utils {
         builder.registerTypeAdapterFactory(companyTypes);
         builder.registerTypeAdapterFactory(patentUpgradeTypes);
         builder.registerTypeAdapterFactory(upgradeTypes);
+        builder.registerTypeAdapter(Policy.class, new PolicySerializer());
         Gson gson = builder.create();
 
         File file = new File(SignClick.getPlugin().getDataFolder()+"/"+name+".json");
@@ -153,6 +156,7 @@ public class Utils {
         builder.registerTypeAdapterFactory(companyTypes);
         builder.registerTypeAdapterFactory(patentUpgradeTypes);
         builder.registerTypeAdapterFactory(upgradeTypes);
+        builder.registerTypeAdapter(Policy.class, new PolicySerializer());
         Gson gson = builder.create();
 
         File file = new File(SignClick.getPlugin().getDataFolder()+"/"+name+".json");
@@ -195,6 +199,7 @@ public class Utils {
         builder.registerTypeAdapterFactory(companyTypes);
         builder.registerTypeAdapterFactory(patentUpgradeTypes);
         builder.registerTypeAdapterFactory(upgradeTypes);
+        builder.registerTypeAdapter(Policy.class, new PolicySerializer());
         Gson gson = builder.create();
 
         T value = gson.fromJson(js, token);

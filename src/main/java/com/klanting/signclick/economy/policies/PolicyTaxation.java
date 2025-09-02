@@ -23,19 +23,6 @@ public class PolicyTaxation extends Policy{
             options.add(po);
         }
 
-        bonus.add(Arrays.asList(-5000.0, -2000.0, 0.0, 2000.0, 5000.0)); //b0 bank
-        bonus.add(Arrays.asList(-5000.0, -2000.0, 0.0, 2000.0, 5000.0)); //b1 transport
-        bonus.add(Arrays.asList(-5000.0, -2000.0, 0.0, 2000.0, 5000.0)); //b2 product
-        bonus.add(Arrays.asList(-5000.0, -2000.0, 0.0, 2000.0, 5000.0)); //b3 realEstate
-        bonus.add(Arrays.asList(-5000.0, -2000.0, 0.0, 2000.0, 5000.0)); //b4 military
-        bonus.add(Arrays.asList(-5000.0, -2000.0, 0.0, 2000.0, 5000.0)); //b5 building
-        bonus.add(Arrays.asList(-5000.0, -2000.0, 0.0, 2000.0, 5000.0)); //b6 other
-        bonus.add(Arrays.asList(-6.0, -3.0, 0.0, 3.0, 5.0)); //b7 tax rate
-
-        require.add(Arrays.asList(4, 2, 0, 0, 0)); //law enf req
-        require.add(Arrays.asList(0, 0, 0, 5000000, 10000000)); // capital req
-        require.add(Arrays.asList(10, 10, 0, 5, 5)); //tax rate
-
         description.add(Arrays.asList("§75k/week tax (bank)", "§72k/week tax (bank)", "", "§72k/week income (bank)", "§75k/week income (bank)"));
         description.add(Arrays.asList("§75k/week tax (transport)", "§72k/week tax (transport)", "", "§72k/week income (transport)", "§75k/week income (transport)"));
         description.add(Arrays.asList("§75k/week tax (product)", "§72k/week tax (product)", "", "§72k/week income (product)", "§75k/week income (product)"));

@@ -24,7 +24,6 @@ public class PolicyOption {
     }
 
     public Integer getRequire(String s){
-        System.out.println("CHICK3 "+require);
         return require.getOrDefault(s, 0);
     }
 
@@ -57,7 +56,5 @@ public class PolicyOption {
 
 
         }
-
-        System.out.println(bonus);
     }
 }
