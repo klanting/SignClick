@@ -60,8 +60,9 @@ public class Policy {
         return titles.get(level);
     }
 
-    public ArrayList<List<String>> getDescription() {
-        return description;
+    public List<String> getDescription(int lvl) {
+
+        return options.get(lvl).getDescription();
     }
 
     public Integer getId() {

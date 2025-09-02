@@ -54,13 +54,8 @@ public class Policy extends SelectionMenu {
                 List<String> lore_list = new ArrayList<>();
                 lore_list.add("§9"+visual_pct+"% Approval needed");
 
-                for (List<String> s: p.getDescription()){
-                    String d = s.get(i);
-                    if (d != ""){
-                        lore_list.add(d);
-                    }
+                lore_list.addAll(p.getDescription(i));
 
-                }
                 m.setLore(lore_list);
                 color.setItemMeta(m);
 
