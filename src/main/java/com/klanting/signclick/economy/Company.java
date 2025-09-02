@@ -266,7 +266,9 @@ public class Company extends LoggableSubject implements CompanyI{
     }
 
     public void changeBase(){
-        shareBase = (getBal()/getTotalShares()) / Market.calculateFluxChange(-10, 15);
+        int startShares = SignClick.getConfigManager().getConfig("companies.yml").getInt("companyStartShares");
+
+        shareBase = (getBal()/startShares) / Market.calculateFluxChange(-10, 15);
     }
 
     public double stockCompareGet(){

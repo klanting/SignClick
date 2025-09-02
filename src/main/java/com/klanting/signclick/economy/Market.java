@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import java.text.DecimalFormat;
 import java.util.*;
 
+import static com.klanting.signclick.utils.Utils.AssertMet;
 import static org.bukkit.Bukkit.getServer;
 
 public class Market {
@@ -59,6 +60,9 @@ public class Market {
 
 
         double base = comp.getShareBase();
+
+        AssertMet(base >= 0, "Share base price needs to be positive");
+
         double v = base * calculateFluxChange(a, b);
         return v*amount;
     }

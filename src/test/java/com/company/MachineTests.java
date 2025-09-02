@@ -243,6 +243,8 @@ public class MachineTests {
     @Test
     void licenseMachineProduction(){
         PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
+        server.addSimpleWorld("world");
+
         /*
          * Create machine and produce an licensed item
          * */

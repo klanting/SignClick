@@ -2,6 +2,7 @@ package com.company;
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
+import com.klanting.signclick.economy.Account;
 import com.klanting.signclick.economy.CompanyI;
 import com.klanting.signclick.economy.CountryManager;
 import com.klanting.signclick.economy.Market;
@@ -251,6 +252,69 @@ class CompanyTests {
         CompanyI company = Market.getCompany("TCI");
         company.addBal(Math.pow(2, 65));
         assertTrue(company.getBal() > 0);
+    }
+
+    @Test
+    void companyOpenTradeBug(){
+        /*
+        * Do the following scenario
+        * 1. set comp open trade
+        * 2. buy shares
+        * 3. buy shares
+        * 4. disable open trade
+        * 5. enable open trade
+        * Now each time I buy shares, it gets cheaper
+        * */
+        PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
+
+        boolean suc6 = Market.addCompany("TestCaseInc", "TCI", Market.getAccount(testPlayer));
+        assertTrue(suc6);
+
+        CompanyI company = Market.getCompany("TCI");
+        company.addBal(4000.0);
+        company.getCOM().setOpenTrade(true);
+
+        SignClick.getEconomy().depositPlayer(testPlayer, 1000.0);
+
+        double amount1;
+        double amount2;
+        double amount3;
+
+        Account acc =  Market.getAccount(testPlayer);
+
+        /*
+         * Check second buy more expensive
+         * */
+        amount1 = SignClick.getEconomy().getBalance(testPlayer);
+        acc.buyShare("TCI", 10, testPlayer);
+        amount2 = SignClick.getEconomy().getBalance(testPlayer);
+        acc.buyShare("TCI", 10, testPlayer);
+        amount3 = SignClick.getEconomy().getBalance(testPlayer);
+
+        double dif1 = (amount2 - amount1)*-1;
+        double dif2 = (amount3 - amount2)*-1;
+
+        assertTrue(dif1<dif2);
+
+        /*
+        * Change the open trade
+        * */
+        company.getCOM().setOpenTrade(false);
+        company.getCOM().setOpenTrade(true);
+
+        /*
+        * Check second buy more expensive
+        * */
+        amount1 = SignClick.getEconomy().getBalance(testPlayer);
+        acc.buyShare("TCI", 10, testPlayer);
+        amount2 = SignClick.getEconomy().getBalance(testPlayer);
+        acc.buyShare("TCI", 10, testPlayer);
+        amount3 = SignClick.getEconomy().getBalance(testPlayer);
+
+        dif1 = (amount2 - amount1)*-1;
+        dif2 = (amount3 - amount2)*-1;
+
+        assertTrue(dif1<dif2);
     }
 
 }
