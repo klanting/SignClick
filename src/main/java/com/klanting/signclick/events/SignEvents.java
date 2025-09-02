@@ -35,11 +35,14 @@ public class SignEvents implements Listener {
                     //start options
                     if (define.equalsIgnoreCase("§b[signclick_tp]")||define.equalsIgnoreCase("§b[sign_tp]")){
                         SignTP.tp(sign, player);
+                        event.setCancelled(true);
                     }else if(define.equalsIgnoreCase("§b[sign_in]")){
                         SignIncome.Open(sign, player);
+                        event.setCancelled(true);
 
                     }else if (define.equalsIgnoreCase("§b[signclick_comp]")||define.equalsIgnoreCase("§b[sign_comp]")){
                         SignTP.tpBus(sign, player);
+                        event.setCancelled(true);
                     }else if (define.equalsIgnoreCase("§b[stock]")){
                         String stockName = sign.getLine(1);
 

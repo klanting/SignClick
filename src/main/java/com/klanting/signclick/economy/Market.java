@@ -81,7 +81,7 @@ public class Market {
         if (country.getStability() < 50){
             sub_fee += 0.01;
         }
-        return (getBuyPrice(Sname, -amount)*-1)*(1.0 - (sub_fee - country.getPolicyBonus(0, 0)- country.getPolicyBonus(1, 1)));
+        return (getBuyPrice(Sname, -amount)*-1)*(1.0 - (sub_fee - country.getPolicyBonus(0, "taxReduction")- country.getPolicyBonus(1, "taxReduction")));
 
     }
 
@@ -533,19 +533,23 @@ public class Market {
 
             if (comp.getType().equals("product")){
 
-                comp.addBal(0+ country.getPolicyBonus(0, 4));
-                comp.addBal(0+ country.getPolicyBonus(4, 2));
-                total += (int) (country.getPolicyBonus(0, 4)+ country.getPolicyBonus(4, 2));
+                double val = country.getFunding("product");
+                if (val >= 0){
+                    comp.addBal(val);
+                }else{
+                    comp.removeBal(val);
+                }
+                total += (int) val;
 
             }else if (comp.getType().equals("building")){
 
-                total+= 1000;
-                comp.addBal(1000.0);
-
-                comp.addBal(0+ country.getPolicyBonus(0, 6));
-                comp.addBal(0+ country.getPolicyBonus(3, 5));
-                comp.addBal(0+ country.getPolicyBonus(4, 5));
-                total += (int) (country.getPolicyBonus(0, 6)+ country.getPolicyBonus(3, 5)+ country.getPolicyBonus(4, 5));
+                double val = country.getFunding("building");
+                if (val >= 0){
+                    comp.addBal(val);
+                }else{
+                    comp.removeBal(val);
+                }
+                total += (int) val;
             }else if (comp.getType().equals("military")){
 
                 if (!country.isAboardMilitary()){
@@ -553,32 +557,56 @@ public class Market {
                     comp.addBal(4000.0);
                 }
 
-                comp.addBal(0+ country.getPolicyBonus(2, 5));
-                comp.addBal(0+ country.getPolicyBonus(4, 4));
-                total += (int) (country.getPolicyBonus(2, 5)+ country.getPolicyBonus(4, 4));
-            }else if (comp.getType().equals("transport")){
-                comp.addBal(0+ country.getPolicyBonus(2, 6));
-                comp.addBal(0+ country.getPolicyBonus(3, 3));
-                comp.addBal(0+ country.getPolicyBonus(4, 1));
-                total += (int) (country.getPolicyBonus(2, 6)+ country.getPolicyBonus(3, 3)+ country.getPolicyBonus(4, 1));
-            }else if (comp.getType().equals("bank")){
-                comp.addBal(0+ country.getPolicyBonus(2, 7));
-                comp.addBal(0+ country.getPolicyBonus(4, 0));
-                total += (int) (country.getPolicyBonus(2, 7)+ country.getPolicyBonus(4, 0));
-            }else if(comp.getType().equals("real estate")){
-                comp.addBal(0+ country.getPolicyBonus(3, 4));
-                comp.addBal(0+country.getPolicyBonus(4, 3));
-                total += (int) (country.getPolicyBonus(3, 4)+ country.getPolicyBonus(4, 3));
-            }else{
-                if (country != null){
-                    comp.addBal(0+ country.getPolicyBonus(4, 6));
-                    total += (int) country.getPolicyBonus(4, 6);
+                double val = country.getFunding("military");
+                if (val >= 0){
+                    comp.addBal(val);
+                }else{
+                    comp.removeBal(val);
                 }
+                total += (int) val;
 
+            }else if (comp.getType().equals("transport")){
+
+                double val = country.getFunding("transport");
+                if (val >= 0){
+                    comp.addBal(val);
+                }else{
+                    comp.removeBal(val);
+                }
+                total += (int) val;
+
+            }else if (comp.getType().equals("bank")){
+
+                double val = country.getFunding("bank");
+                if (val >= 0){
+                    comp.addBal(val);
+                }else{
+                    comp.removeBal(val);
+                }
+                total += (int) val;
+
+            }else if(comp.getType().equals("real estate")){
+
+                double val = country.getFunding("realEstate");
+                if (val >= 0){
+                    comp.addBal(val);
+                }else{
+                    comp.removeBal(val);
+                }
+                total += (int) val;
+
+            }else{
+                double val = country.getFunding("other");
+                if (val >= 0){
+                    comp.addBal(val);
+                }else{
+                    comp.removeBal(val);
+                }
+                total += (int) val;
             }
 
             if (!comp.getCOM().isOpenTrade()){
-                double value = country.getPolicyBonus(1, 0);
+                double value = country.getPolicyBonus(1, "closedMarket");
                 total += (int) value;
                 if (value > 0.0){
                     comp.addBal(value);

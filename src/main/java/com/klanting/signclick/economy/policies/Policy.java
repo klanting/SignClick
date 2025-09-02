@@ -22,6 +22,8 @@ public class Policy {
 
     protected ArrayList<List<Integer>> require = new ArrayList<>();
 
+    protected ArrayList<PolicyOption> options = new ArrayList<>();
+
     private Integer id;
     private Integer level;
 
@@ -31,16 +33,21 @@ public class Policy {
 
     final private String name;
 
-    public Double getBonus(Integer index){
-        return bonus.get(index).get(level);
+    public Double getBonus(String s){
+        return options.get(level).getBonus(s);
     }
 
-    public int getRequireLevel(Integer index, int lvl){
-        return require.get(index).get(lvl);
+    public Double getFunding(String s){
+        return options.get(level).getFunding(s);
     }
 
-    public Double getBonusLevel(Integer index, Integer lvl){
-        return bonus.get(index).get(lvl);
+    public int getRequireLevel(String s, int lvl){
+        System.out.println("CHICK2"+lvl+" "+s+" "+options.get(lvl).getRequire(s));
+        return options.get(lvl).getRequire(s);
+    }
+
+    public Double getBonusLevel(String s, Integer lvl){
+        return options.get(lvl).getBonus(s);
     }
 
 

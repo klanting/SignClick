@@ -30,7 +30,7 @@ public class Menu extends SelectionMenu {
 
         value = new ItemStack(Material.GOLD_BLOCK, 1);
         m = value.getItemMeta();
-        DecimalFormat df = new DecimalFormat("###,###,###.00");
+        DecimalFormat df = new DecimalFormat("###,###,##0.00");
         m.setDisplayName("§6"+country.getName());
         ArrayList<String> l = new ArrayList<>();
 

@@ -90,7 +90,8 @@ public class Account {
             sub_fee += 0.01;
         }
 
-        to_gov = v/(1.0-(sub_fee- country.getPolicyBonus(0, 0))*(Market.getFee()- country.getPolicyBonus(0, 0)- country.getPolicyBonus(1, 1)));
+        to_gov = v/(1.0-(sub_fee-country.getPolicyBonus(0, "taxReduction")- country.getPolicyBonus(1, "taxReduction"))
+                *(Market.getFee()- country.getPolicyBonus(0, "taxReduction")- country.getPolicyBonus(1, "taxReduction")));
         Country playerCountry = CountryManager.getCountry(player);
         if (playerCountry != null){
             playerCountry.deposit((int) to_gov);

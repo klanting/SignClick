@@ -6,6 +6,7 @@ import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static org.bukkit.Bukkit.getServer;
@@ -42,9 +43,11 @@ public class DefaultConfig {
         configManager.createConfigFile("general.yml");
         configManager.createConfigFile("companies.yml");
         configManager.createConfigFile("countries.yml");
+        configManager.createConfigFile("policies.yml");
         CommentConfig generalConfig = SignClick.getConfigManager().getConfig("general.yml");
         CommentConfig companiesConfig = SignClick.getConfigManager().getConfig("companies.yml");
         CommentConfig countriesConfig = SignClick.getConfigManager().getConfig("countries.yml");
+        CommentConfig policiesConfig = SignClick.getConfigManager().getConfig("policies.yml");
 
         /*
          * Configure the current version of the plugin storage
@@ -316,9 +319,190 @@ public class DefaultConfig {
         makeProductConfig(otherP, Material.SPYGLASS, 1800L, 150, 120L);
         makeProductConfig(otherP, Material.NAME_TAG, 3600L, 100, 120L);
 
+        /*
+        * setup policies config
+        * */
+        ConfigurationSection policies = policiesConfig.createSection("policies",
+                "configure all the country policy modifiers");
+
+        /*
+        * economy policy
+        * */
+        ConfigurationSection policyEconomics = getOrCreate(policies, "economics");
+
+        getOrCreate(policyEconomics, "Conservative").addDefault("taxReduction", -0.02);
+        getOrCreate(policyEconomics, "Conservative").addDefault("dividendReduction", 0.005);
+        getOrCreate(getOrCreate(policyEconomics, "Conservative"), "funding").addDefault("product", -1000.0);
+        getOrCreate(policyEconomics, "Conservative").addDefault("stabilityModifier", 2.0);
+        getOrCreate(getOrCreate(policyEconomics, "Conservative"), "funding").addDefault("building", 1000.0);
+        getOrCreate(getOrCreate(policyEconomics, "Conservative"), "required").addDefault("capital", 20000000);
+
+        getOrCreate(policyEconomics, "Saver").addDefault("taxReduction", -0.01);
+        getOrCreate(policyEconomics, "Saver").addDefault("dividendReduction", 0.003);
+        getOrCreate(policyEconomics, "Saver").addDefault("stabilityModifier", 1.0);
+
+        getOrCreate(policyEconomics, "Normal").addDefault("taxReduction", 0.0);
+        getOrCreate(policyEconomics, "Normal").addDefault("dividendReduction", 0.0);
+        getOrCreate(policyEconomics, "Normal").addDefault("stabilityModifier", 0.0);
+
+        getOrCreate(policyEconomics, "Invester").addDefault("taxReduction", 0.02);
+        getOrCreate(policyEconomics, "Invester").addDefault("dividendReduction", -0.002);
+        getOrCreate(policyEconomics, "Invester").addDefault("stabilityModifier", -1.0);
+
+        getOrCreate(policyEconomics, "Businessman").addDefault("taxReduction", 0.03);
+        getOrCreate(policyEconomics, "Businessman").addDefault("dividendReduction", -0.004);
+        getOrCreate(getOrCreate(policyEconomics, "Businessman"), "funding").addDefault("product", 2000.0);
+        getOrCreate(policyEconomics, "Businessman").addDefault("stabilityModifier", -3.0);
+        getOrCreate(getOrCreate(policyEconomics, "Businessman"), "required").addDefault("capital", 20000000);
+
+        /*
+         * market policy
+         * */
+        ConfigurationSection policyMarket = getOrCreate(policies, "market");
+
+        getOrCreate(policyMarket, "Closed Market").addDefault("taxReduction", -0.02);
+        getOrCreate(getOrCreate(policyMarket, "Closed Market"), "funding").addDefault("closedMarket", 4000.0);
+        getOrCreate(policyMarket, "Closed Market").addDefault("dividendReduction", 0.001);
+        getOrCreate(policyMarket, "Closed Market").addDefault("upgradeDiscount", -0.10);
+
+        getOrCreate(policyMarket, "Limited Market").addDefault("taxReduction", -0.01);
+        getOrCreate(getOrCreate(policyMarket, "Limited Market"), "funding").addDefault("closedMarket", 2000.0);
+        getOrCreate(policyMarket, "Limited Market").addDefault("upgradeDiscount", -0.05);
+
+        getOrCreate(policyMarket, "Normal").addDefault("taxReduction", 0);
+        getOrCreate(getOrCreate(policyMarket, "Normal"), "funding").addDefault("closedMarket", 0.0);
+        getOrCreate(policyMarket, "Normal").addDefault("upgradeDiscount", 0.0);
+
+        getOrCreate(policyMarket, "Open Market").addDefault("taxReduction", 0.01);
+        getOrCreate(getOrCreate(policyMarket, "Open Market"), "funding").addDefault("closedMarket", -5000.0);
+        getOrCreate(policyMarket, "Open Market").addDefault("upgradeDiscount", 0.05);
+        getOrCreate(policyMarket, "Open Market").addDefault("createDiscount", 0.05);
+
+        getOrCreate(policyMarket, "Free Market").addDefault("taxReduction", 0.02);
+        getOrCreate(getOrCreate(policyMarket, "Free Market"), "funding").addDefault("closedMarket", -10000.0);
+        getOrCreate(policyMarket, "Free Market").addDefault("upgradeDiscount", 0.10);
+        getOrCreate(policyMarket, "Free Market").addDefault("createDiscount", 0.10);
+
+        /*
+         * military policy
+         * */
+        ConfigurationSection policyMilitary = getOrCreate(policies, "military");
+
+        getOrCreate(policyMilitary, "Low Arment").addDefault("lawEnforcementSalary", 1000.0);
+        getOrCreate(policyMilitary, "Low Arment").addDefault("stabilityModifier", -5.0);
+        getOrCreate(policyMilitary, "Low Arment").addDefault("xpGain", 0.08);
+        getOrCreate(getOrCreate(policyMilitary, "Low Arment"), "funding").addDefault("military", -8000.0);
+        getOrCreate(getOrCreate(policyMilitary, "Low Arment"), "funding").addDefault("bank", 2000.0);
+        getOrCreate(policyMilitary, "Low Arment").addDefault("switchLeaderPenaltyReduction", 0.5);
+        getOrCreate(policyMilitary, "Low Arment").addDefault("joinPlayerBonus", 0.5);
+        getOrCreate(policyMilitary, "Low Arment").addDefault("removePlayerPenalty", 0.5);
+
+        getOrCreate(policyMilitary, "Police Force").addDefault("lawEnforcementSalary", 2000.0);
+        getOrCreate(policyMilitary, "Police Force").addDefault("stabilityModifier", -3.0);
+        getOrCreate(policyMilitary, "Police Force").addDefault("xpGain", 0.03);
+        getOrCreate(getOrCreate(policyMilitary, "Police Force"), "funding").addDefault("military", -4000.0);
+
+        getOrCreate(policyMilitary, "Normal").addDefault("lawEnforcementSalary", 4000.0);
+        getOrCreate(policyMilitary, "Normal").addDefault("stabilityModifier", 0.0);
+        getOrCreate(policyMilitary, "Normal").addDefault("xpGain", 0.0);
+        getOrCreate(getOrCreate(policyMilitary, "Normal"), "funding").addDefault("military", 0.0);
+
+        getOrCreate(policyMilitary, "Para-Militaire").addDefault("lawEnforcementSalary", 8000.0);
+        getOrCreate(policyMilitary, "Para-Militaire").addDefault("stabilityModifier", 5.0);
+        getOrCreate(policyMilitary, "Para-Militaire").addDefault("xpGain", 0.0);
+        getOrCreate(policyMilitary, "Para-Militaire").addDefault("electionPenaltyReduction", 0.25);
+        getOrCreate(getOrCreate(policyMilitary, "Para-Militaire"), "funding").addDefault("military", 4000.0);
+
+        getOrCreate(policyMilitary, "Military State").addDefault("lawEnforcementSalary", 10000.0);
+        getOrCreate(policyMilitary, "Military State").addDefault("stabilityModifier", 8.0);
+        getOrCreate(policyMilitary, "Military State").addDefault("xpGain", -0.03);
+        getOrCreate(policyMilitary, "Military State").addDefault("electionPenaltyReduction", 0.5);
+        getOrCreate(policyMilitary, "Military State").addDefault("coupPenaltyReduction", 0.5);
+        getOrCreate(getOrCreate(policyMilitary, "Military State"), "funding").addDefault("military", 8000.0);
+        getOrCreate(getOrCreate(policyMilitary, "Military State"), "funding").addDefault("transport", -2000.0);
+        getOrCreate(getOrCreate(policyMilitary, "Military State"), "funding").addDefault("bank", -2000.0);
+        getOrCreate(policyMilitary, "Military State").addDefault("switchLeaderPenaltyReduction", -1.0);
+
+        /*
+         * tourism policy
+         * */
+        ConfigurationSection policyTourism = getOrCreate(policies, "tourism");
+
+        getOrCreate(policyTourism, "Xenofobia").addDefault("transportCost", 0.08);
+        getOrCreate(policyTourism, "Xenofobia").addDefault("UpgradeReturnTimeReduction", -0.05);
+        getOrCreate(getOrCreate(policyTourism, "Xenofobia"), "funding").addDefault("transport", -1000.0);
+        getOrCreate(getOrCreate(policyTourism, "Xenofobia"), "funding").addDefault("realEstate", -1000.0);
+        getOrCreate(getOrCreate(policyTourism, "Xenofobia"), "funding").addDefault("building", 2000.0);
+
+        getOrCreate(policyTourism, "Bigot").addDefault("transportCost", 0.04);
+
+        getOrCreate(policyTourism, "Normal").addDefault("transportCost", 0.0);
+
+        getOrCreate(policyTourism, "Open Arm").addDefault("transportCost", -0.1);
+        getOrCreate(getOrCreate(policyTourism, "Open Arm"), "required").addDefault("capital", 5000000);
+
+        getOrCreate(policyTourism, "Tourist Hugger").addDefault("transportCost", -0.15);
+        getOrCreate(policyTourism, "Tourist Hugger").addDefault("UpgradeReturnTimeReduction", 0.05);
+        getOrCreate(getOrCreate(policyTourism, "Tourist Hugger"), "funding").addDefault("transport", 2000.0);
+        getOrCreate(getOrCreate(policyTourism, "Tourist Hugger"), "funding").addDefault("realEstate", 2000.0);
+        getOrCreate(getOrCreate(policyTourism, "Tourist Hugger"), "funding").addDefault("building", -1000.0);
+        getOrCreate(getOrCreate(policyTourism, "Tourist Hugger"), "required").addDefault("capital", 10000000);
+
+        /*
+         * taxation policy
+         * */
+        ConfigurationSection policyTaxation = getOrCreate(policies, "taxation");
+
+        getOrCreate(getOrCreate(policyTaxation, "Bankruptcy"), "funding").addDefault("bank", -5000.0);
+        getOrCreate(getOrCreate(policyTaxation, "Bankruptcy"), "funding").addDefault("transport", -5000.0);
+        getOrCreate(getOrCreate(policyTaxation, "Bankruptcy"), "funding").addDefault("realEstate", -5000.0);
+        getOrCreate(getOrCreate(policyTaxation, "Bankruptcy"), "funding").addDefault("military", -5000.0);
+        getOrCreate(getOrCreate(policyTaxation, "Bankruptcy"), "funding").addDefault("product", -5000.0);
+        getOrCreate(getOrCreate(policyTaxation, "Bankruptcy"), "funding").addDefault("building", -5000.0);
+        getOrCreate(getOrCreate(policyTaxation, "Bankruptcy"), "funding").addDefault("other", -5000.0);
+        getOrCreate(policyTaxation, "Bankruptcy").addDefault("stabilityModifier", -6.0);
+        getOrCreate(getOrCreate(policyTaxation, "Bankruptcy"), "required").addDefault("lawEnforcement", 4);
+        getOrCreate(getOrCreate(policyTaxation, "Bankruptcy"), "required").addDefault("minTaxRate", 10);
+
+        getOrCreate(getOrCreate(policyTaxation, "High Taxer"), "funding").addDefault("bank", -2000.0);
+        getOrCreate(getOrCreate(policyTaxation, "High Taxer"), "funding").addDefault("transport", -2000.0);
+        getOrCreate(getOrCreate(policyTaxation, "High Taxer"), "funding").addDefault("realEstate", -2000.0);
+        getOrCreate(getOrCreate(policyTaxation, "High Taxer"), "funding").addDefault("military", -2000.0);
+        getOrCreate(getOrCreate(policyTaxation, "High Taxer"), "funding").addDefault("product", -2000.0);
+        getOrCreate(getOrCreate(policyTaxation, "High Taxer"), "funding").addDefault("building", -2000.0);
+        getOrCreate(getOrCreate(policyTaxation, "High Taxer"), "funding").addDefault("other", -2000.0);
+        getOrCreate(policyTaxation, "High Taxer").addDefault("stabilityModifier", -3.0);
+        getOrCreate(getOrCreate(policyTaxation, "High Taxer"), "required").addDefault("lawEnforcement", 2);
+        getOrCreate(getOrCreate(policyTaxation, "High Taxer"), "required").addDefault("minTaxRate", 10);
+
+        getOrCreate(getOrCreate(policyTaxation, "Normal"), "funding").addDefault("bank", 0.0);
+
+        getOrCreate(getOrCreate(policyTaxation, "Supporter"), "funding").addDefault("bank", 2000.0);
+        getOrCreate(getOrCreate(policyTaxation, "Supporter"), "funding").addDefault("transport", 2000.0);
+        getOrCreate(getOrCreate(policyTaxation, "Supporter"), "funding").addDefault("realEstate", 2000.0);
+        getOrCreate(getOrCreate(policyTaxation, "Supporter"), "funding").addDefault("military", 2000.0);
+        getOrCreate(getOrCreate(policyTaxation, "Supporter"), "funding").addDefault("product", 2000.0);
+        getOrCreate(getOrCreate(policyTaxation, "Supporter"), "funding").addDefault("building", 2000.0);
+        getOrCreate(getOrCreate(policyTaxation, "Supporter"), "funding").addDefault("other", 2000.0);
+        getOrCreate(policyTaxation, "Supporter").addDefault("stabilityModifier", 3.0);
+        getOrCreate(getOrCreate(policyTaxation, "Supporter"), "required").addDefault("capital", 5000000);
+        getOrCreate(getOrCreate(policyTaxation, "Supporter"), "required").addDefault("maxTaxRate", 5);
+
+        getOrCreate(getOrCreate(policyTaxation, "The Hero"), "funding").addDefault("bank", 5000.0);
+        getOrCreate(getOrCreate(policyTaxation, "The Hero"), "funding").addDefault("transport", 5000.0);
+        getOrCreate(getOrCreate(policyTaxation, "The Hero"), "funding").addDefault("realEstate", 5000.0);
+        getOrCreate(getOrCreate(policyTaxation, "The Hero"), "funding").addDefault("military", 5000.0);
+        getOrCreate(getOrCreate(policyTaxation, "The Hero"), "funding").addDefault("product", 5000.0);
+        getOrCreate(getOrCreate(policyTaxation, "The Hero"), "funding").addDefault("building", 5000.0);
+        getOrCreate(getOrCreate(policyTaxation, "The Hero"), "funding").addDefault("other", 5000.0);
+        getOrCreate(policyTaxation, "The Hero").addDefault("stabilityModifier", 5.0);
+        getOrCreate(getOrCreate(policyTaxation, "The Hero"), "required").addDefault("capital", 10000000);
+        getOrCreate(getOrCreate(policyTaxation, "Supporter"), "required").addDefault("maxTaxRate", 5);
+
         generalConfig.options().copyDefaults(true);
         companiesConfig.options().copyDefaults(true);
         countriesConfig.options().copyDefaults(true);
+        policiesConfig.options().copyDefaults(true);
 
         configManager.save();
 

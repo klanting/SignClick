@@ -132,7 +132,7 @@ public class SignTP {
             CompanyI comp = Market.getCompany(sign.getLine(2));
 
             Country country = CountryManager.getCountry(player);
-            double d = country.getPolicyBonus(3, 0);
+            double d = country.getPolicyBonus(3, "transportCost");
             int amount_first = amount;
             amount = (int) (amount*(1.0+d));
 
@@ -141,11 +141,16 @@ public class SignTP {
                 return;
             }
 
+            if(!comp.getCOM().isOwner(player.getUniqueId())){
+                player.sendMessage(SignClick.getPrefix()+"Only CEO can make sign");
+                return;
+            }
+
             if (amount_first > amount){
-                comp.addBal((double) amount_first);
+                comp.addBal(amount_first);
                 country.withdraw(amount_first-amount);
             }else{
-                comp.addBal((double) amount);
+                comp.addBal(amount);
             }
 
             SignClick.getEconomy().withdrawPlayer(player, amount);

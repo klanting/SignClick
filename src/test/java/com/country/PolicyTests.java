@@ -75,6 +75,9 @@ class PolicyTests {
         assertTrue(country.setPolicies(1, 3));
         assertEquals(2, country.getDecisions().size());
 
+        /*
+        * require missing capital
+        * */
         assertFalse(country.setPolicies(4, 3));
         assertEquals(2, country.getDecisions().size());
 

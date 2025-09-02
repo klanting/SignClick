@@ -101,30 +101,38 @@ public class OwnerMenu extends SelectionMenu {
         /*
         * patent
         * */
-        l = new ArrayList<>();
-        l.add("§7Allows you to create Gear with");
-        l.add("§7custom properties");
-        l.add("§7Combine Patent paper and gear item in");
-        l.add("§7the crafting table to get started");
-        value = ItemFactory.create(Material.NETHERITE_HELMET, "§6§lPatent", l);
-        getInventory().setItem(9, value);
+        if(board.getChiefPermission("CEO").equals(uuid)){
+            l = new ArrayList<>();
+            l.add("§7Allows you to create Gear with");
+            l.add("§7custom properties");
+            l.add("§7Combine Patent paper and gear item in");
+            l.add("§7the crafting table to get started");
+            value = ItemFactory.create(Material.NETHERITE_HELMET, "§6§lPatent", l);
+            getInventory().setItem(9, value);
+        }
+
 
         /*
         * Auction
         * */
-        l = new ArrayList<>();
-        l.add("§7Auction for patent upgrades");
-        l.add("§7that can be applied to Gear");
-        value = ItemFactory.create(Material.IRON_NUGGET, "§6§lPatent Auction", l);
-        getInventory().setItem(27, value);
+        if(board.getChiefPermission("CEO").equals(uuid)){
+            l = new ArrayList<>();
+            l.add("§7Auction for patent upgrades");
+            l.add("§7that can be applied to Gear");
+            value = ItemFactory.create(Material.IRON_NUGGET, "§6§lPatent Auction", l);
+            getInventory().setItem(27, value);
+        }
 
         /*
         * Recipes
         * */
-        l = new ArrayList<>();
-        l.add("§7See the gear patent recipes");
-        value = ItemFactory.create(Material.CRAFTING_TABLE, "§6§lRecipes", l);
-        getInventory().setItem(18, value);
+        if(board.getChiefPermission("CEO").equals(uuid)){
+            l = new ArrayList<>();
+            l.add("§7See the gear patent recipes");
+            value = ItemFactory.create(Material.CRAFTING_TABLE, "§6§lRecipes", l);
+            getInventory().setItem(18, value);
+        }
+
 
         /*
          * Logs

@@ -185,8 +185,8 @@ public class CountryManager {
                     base += 3000.0;
                 }
 
-                country.withdraw((int) country.getPolicyBonus(2, 0)+(int) base);
-                SignClick.getEconomy().depositPlayer(Bukkit.getOfflinePlayer(uuid), (int) country.getPolicyBonus(2, 0)+(int) base);
+                country.withdraw((int) country.getPolicyBonus(2, "lawEnforcementSalary")+(int) base);
+                SignClick.getEconomy().depositPlayer(Bukkit.getOfflinePlayer(uuid), (int) country.getPolicyBonus(2, "lawEnforcementSalary")+(int) base);
             }
         }
     }
@@ -196,7 +196,7 @@ public class CountryManager {
         for (Country country: countries.values()){
 
             double base = 1.0;
-            base -= country.getPolicyBonus(2, 3);
+            base -= country.getPolicyBonus(2, "electionPenaltyReduction");
             country.addStability(-base);
 
             if (country.isForbidParty()){

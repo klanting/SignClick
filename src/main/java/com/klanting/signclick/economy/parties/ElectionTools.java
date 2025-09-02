@@ -46,7 +46,7 @@ public class ElectionTools {
                 }
 
                 if (highest_party != country.getRuling()){
-                    double base = 2.0*(1.0- country.getPolicyBonus(2, 8));
+                    double base = 2.0*(1.0- country.getPolicyBonus(2, "switchLeaderPenaltyReduction"));
                     country.addStability(-base);
                 }
 

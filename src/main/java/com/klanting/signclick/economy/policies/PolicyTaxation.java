@@ -1,28 +1,40 @@
 package com.klanting.signclick.economy.policies;
 
 import org.bukkit.Material;
+import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.Arrays;
+
+import static com.klanting.signclick.SignClick.configManager;
+import static com.klanting.signclick.utils.Utils.AssertMet;
 
 public class PolicyTaxation extends Policy{
     public PolicyTaxation(Integer level) {
         super(4, level, "Taxation Policy");
         material = Material.GOLD_BLOCK;
 
-        bonus.add(Arrays.asList(-5000.0, -2000.0, 0.0, 2000.0, 5000.0)); //b0
-        bonus.add(Arrays.asList(-5000.0, -2000.0, 0.0, 2000.0, 5000.0)); //b1
-        bonus.add(Arrays.asList(-5000.0, -2000.0, 0.0, 2000.0, 5000.0)); //b2
-        bonus.add(Arrays.asList(-5000.0, -2000.0, 0.0, 2000.0, 5000.0)); //b3
-        bonus.add(Arrays.asList(-5000.0, -2000.0, 0.0, 2000.0, 5000.0)); //b4
-        bonus.add(Arrays.asList(-5000.0, -2000.0, 0.0, 2000.0, 5000.0)); //b5
-        bonus.add(Arrays.asList(-5000.0, -2000.0, 0.0, 2000.0, 5000.0)); //b6
-        bonus.add(Arrays.asList(-6.0, -3.0, 0.0, 3.0, 5.0)); //b7
+        ConfigurationSection section = configManager.getConfig("policies.yml").getConfigurationSection("policies").getConfigurationSection("taxation");
 
-        require.add(Arrays.asList(4, 2, 0, 0, 0));
-        require.add(Arrays.asList(0, 0, 0, 5000000, 10000000));
-        require.add(Arrays.asList(10, 10, 0, 5, 5));
+        AssertMet(section != null, "Section economics not found");
 
-        titles = Arrays.asList("Bankruptcy", "High Taxer", "Normal", "Supporter", "The Hero");
+        for(String title: section.getKeys(false)){
+            titles.add(title);
+            PolicyOption po = new PolicyOption(title, section.getConfigurationSection(title));
+            options.add(po);
+        }
+
+        bonus.add(Arrays.asList(-5000.0, -2000.0, 0.0, 2000.0, 5000.0)); //b0 bank
+        bonus.add(Arrays.asList(-5000.0, -2000.0, 0.0, 2000.0, 5000.0)); //b1 transport
+        bonus.add(Arrays.asList(-5000.0, -2000.0, 0.0, 2000.0, 5000.0)); //b2 product
+        bonus.add(Arrays.asList(-5000.0, -2000.0, 0.0, 2000.0, 5000.0)); //b3 realEstate
+        bonus.add(Arrays.asList(-5000.0, -2000.0, 0.0, 2000.0, 5000.0)); //b4 military
+        bonus.add(Arrays.asList(-5000.0, -2000.0, 0.0, 2000.0, 5000.0)); //b5 building
+        bonus.add(Arrays.asList(-5000.0, -2000.0, 0.0, 2000.0, 5000.0)); //b6 other
+        bonus.add(Arrays.asList(-6.0, -3.0, 0.0, 3.0, 5.0)); //b7 tax rate
+
+        require.add(Arrays.asList(4, 2, 0, 0, 0)); //law enf req
+        require.add(Arrays.asList(0, 0, 0, 5000000, 10000000)); // capital req
+        require.add(Arrays.asList(10, 10, 0, 5, 5)); //tax rate
 
         description.add(Arrays.asList("§75k/week tax (bank)", "§72k/week tax (bank)", "", "§72k/week income (bank)", "§75k/week income (bank)"));
         description.add(Arrays.asList("§75k/week tax (transport)", "§72k/week tax (transport)", "", "§72k/week income (transport)", "§75k/week income (transport)"));

@@ -1,8 +1,12 @@
 package com.klanting.signclick.economy.policies;
 
 import org.bukkit.Material;
+import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.Arrays;
+
+import static com.klanting.signclick.SignClick.configManager;
+import static com.klanting.signclick.utils.Utils.AssertMet;
 
 public class PolicyMilitary extends Policy{
     public PolicyMilitary(Integer level) {
@@ -10,20 +14,28 @@ public class PolicyMilitary extends Policy{
 
         material = Material.IRON_SWORD;
 
-        bonus.add(Arrays.asList(1000.0, 2000.0, 4000.0, 8000.0, -10000.0)); //b0
-        bonus.add(Arrays.asList(-5.0, -3.0, 0.0, 5.0, 8.0)); //b1
-        bonus.add(Arrays.asList(0.08, 0.03, 0.0, 0.0, -0.03)); //b2
-        bonus.add(Arrays.asList(0.0, 0.0, 0.0, 0.25, 0.50)); //b3
-        bonus.add(Arrays.asList(0.0, 0.0, 0.0, 0.0, 0.50)); //b4
-        bonus.add(Arrays.asList(-8000.0, -4000.0, 0.0, 4000.0, 8000.0)); //b5
-        bonus.add(Arrays.asList(0.0, 0.0, 0.0, 0.0, -2000.0)); //b6
-        bonus.add(Arrays.asList(2000.0, 0.0, 0.0, 0.0, -2000.0)); //b7
-        bonus.add(Arrays.asList(0.50, 0.0, 0.0, 0.0, -1.0)); //b8
-        bonus.add(Arrays.asList(0.5, 0.0, 0.0, 0.0, 0.0)); //b9
-        bonus.add(Arrays.asList(-0.5, 0.0, 0.0, 0.0, 0.0)); //b10
-        bonus.add(Arrays.asList(0.02, 0.0, 0.0, 0.0, 0.0)); //b11
+        ConfigurationSection section = configManager.getConfig("policies.yml").getConfigurationSection("policies").getConfigurationSection("military");
 
-        titles = Arrays.asList("Low Arment", "Police Force", "Normal", "Para-Militaire", "Military State");
+        AssertMet(section != null, "Section economics not found");
+
+        for(String title: section.getKeys(false)){
+            titles.add(title);
+            PolicyOption po = new PolicyOption(title, section.getConfigurationSection(title));
+            options.add(po);
+        }
+
+        bonus.add(Arrays.asList(1000.0, 2000.0, 4000.0, 8000.0, 10000.0)); //b0 law enforcement salary
+        bonus.add(Arrays.asList(-5.0, -3.0, 0.0, 5.0, 8.0)); //b1 stability
+        bonus.add(Arrays.asList(0.08, 0.03, 0.0, 0.0, -0.03)); //b2 xpGain
+        bonus.add(Arrays.asList(0.0, 0.0, 0.0, 0.25, 0.50)); //b3 electionPenaltyReduction
+        bonus.add(Arrays.asList(0.0, 0.0, 0.0, 0.0, 0.50)); //b4 coupPenaltyReduction
+        bonus.add(Arrays.asList(-8000.0, -4000.0, 0.0, 4000.0, 8000.0)); //b5 military funding
+        bonus.add(Arrays.asList(0.0, 0.0, 0.0, 0.0, -2000.0)); //b6 transport funding
+        bonus.add(Arrays.asList(2000.0, 0.0, 0.0, 0.0, -2000.0)); //b7 bank funding
+        bonus.add(Arrays.asList(0.50, 0.0, 0.0, 0.0, -1.0)); //b8 switchLeaderPenaltyReduction
+        bonus.add(Arrays.asList(0.5, 0.0, 0.0, 0.0, 0.0)); //b9 joinPlayerBonus
+        bonus.add(Arrays.asList(-0.5, 0.0, 0.0, 0.0, 0.0)); //b10 removePlayerPenalty
+        bonus.add(Arrays.asList(0.02, 0.0, 0.0, 0.0, 0.0)); //b11 spendable
 
         description.add(Arrays.asList("§7Law-Enforcement 1k/week salary", "§7Law-Enforcement 2k/week salary", "§7Law-Enforcement 4k/week salary", "§7Law-Enforcement 8k/week salary", "§7Law-Enforcement 10k/week salary"));
         description.add(Arrays.asList("§7-5 stability", "§7-3 stability", "", "§7+5 stability", "§7+8 stability"));
