@@ -11,6 +11,7 @@ import com.klanting.signclick.menus.company.LicenseInfoMenu;
 import com.klanting.signclick.utils.Utils;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Hopper;
@@ -89,10 +90,12 @@ public class MachineTests {
 
         testPlayer.setItemInHand(machine);
 
+        World world = new WorldDoubleMock();
+
         BlockMock blockClicked = new DoubleBlockMock(Material.DIRT,
-                new Location(new WorldDoubleMock(), 0, 1, 0));
+                new Location(world, 0, 1, 0));
         BlockMock machineBlock = new DoubleBlockMock(machine.getType(),
-                new Location(new WorldDoubleMock(), 0, 1, 0));
+                new Location(world, 0, 1, 0));
         FurnaceStateMock furnaceState = (new FurnaceStateMock(machineBlock));
         assertTrue(furnaceState instanceof TileState);
         machineBlock.setState(furnaceState);
@@ -150,7 +153,7 @@ public class MachineTests {
         * Check production is working
         * */
         assertEquals(0, MenuEvents.activeMachines.get(0).getProductionProgress());
-        MenuEvents.activeMachines.get(0).getBlock().getLocation().setWorld(new WorldDoubleMock());
+        MenuEvents.activeMachines.get(0).getBlock().getLocation().setWorld(world);
         MenuEvents.activeMachines.get(0).changeProductionLoop();
 
         server.getScheduler().performTicks(220);
@@ -283,10 +286,12 @@ public class MachineTests {
 
         testPlayer.setItemInHand(machine);
 
+        World world = new WorldDoubleMock();
+
         BlockMock blockClicked = new DoubleBlockMock(Material.DIRT,
-                new Location(server.getWorld("world"), 0, 0, 0));
+                new Location(world, 0, 0, 0));
         BlockMock machineBlock = new DoubleBlockMock(machine.getType(),
-                new Location(new WorldDoubleMock(), 0, 0, 0));
+                new Location(world, 0, 0, 0));
         FurnaceStateMock furnaceState = (new FurnaceStateMock(machineBlock));
         assertTrue(furnaceState instanceof TileState);
         machineBlock.setState(furnaceState);
@@ -349,7 +354,7 @@ public class MachineTests {
          * Check production is working
          * */
         assertEquals(0, MenuEvents.activeMachines.get(0).getProductionProgress());
-        MenuEvents.activeMachines.get(0).getBlock().getLocation().setWorld(new WorldDoubleMock());
+        MenuEvents.activeMachines.get(0).getBlock().getLocation().setWorld(world);
         MenuEvents.activeMachines.get(0).changeProductionLoop();
 
         server.getScheduler().performTicks(220);

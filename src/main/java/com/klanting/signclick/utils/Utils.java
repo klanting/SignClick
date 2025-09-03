@@ -323,4 +323,13 @@ public class Utils {
 
     }
 
+    public static Location normalize(Location loc) {
+        return new Location(
+                loc.getWorld(),
+                loc.getBlockX(),
+                loc.getBlockY(),
+                loc.getBlockZ()
+        );
+    }
+
 }

@@ -6,6 +6,7 @@ import com.klanting.signclick.economy.companyPatent.PatentUpgrade;
 import com.klanting.signclick.economy.companyUpgrades.Upgrade;
 import com.klanting.signclick.economy.contractRequests.ContractRequest;
 import com.klanting.signclick.economy.logs.PluginLogs;
+import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
@@ -263,7 +264,7 @@ public class CompanyIv102v200 implements CompanyI {
     }
 
     @Override
-    public HashMap<Block, Machine> getMachines() {
+    public HashMap<Location, Machine> getMachines() {
         return null;
     }
 

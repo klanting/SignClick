@@ -61,11 +61,11 @@ public class Company extends LoggableSubject implements CompanyI{
 
     private ContractRequest pendingContractRequest = null;
 
-    public HashMap<Block, Machine> getMachines() {
+    public HashMap<Location, Machine> getMachines() {
         return machines;
     }
 
-    public final HashMap<Block, Machine> machines = new HashMap<>();
+    public final HashMap<Location, Machine> machines = new HashMap<>();
 
 
     public String getPlayerNamePending() {
@@ -338,7 +338,7 @@ public class Company extends LoggableSubject implements CompanyI{
                                 Location loc = context.deserialize(JsonParser.parseString(entry.getKey()), new TypeToken<Location>(){}.getType());
                                 Machine machine = context.deserialize(entry.getValue(), new TypeToken<Machine>(){}.getType());
 
-                                machines.put(loc.getBlock(), machine);
+                                machines.put(loc, machine);
                             }
 
                             for (Machine machine: machines.values()){
@@ -411,10 +411,10 @@ public class Company extends LoggableSubject implements CompanyI{
         };
 
         Function<JsonObject, JsonObject> method2 = (jsonObject) -> {
-            for (Map.Entry<Block, Machine> entry: machines.entrySet()){
+            for (Map.Entry<Location, Machine> entry: machines.entrySet()){
 
                 JsonObject machinesJson = new JsonObject();
-                machinesJson.add(context.serialize(entry.getKey().getLocation()).toString(),
+                machinesJson.add(context.serialize(entry.getKey()).toString(),
                         context.serialize(entry.getValue())
                         );
 

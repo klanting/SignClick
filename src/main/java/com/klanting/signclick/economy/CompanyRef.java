@@ -5,6 +5,7 @@ import com.klanting.signclick.economy.companyPatent.PatentUpgrade;
 import com.klanting.signclick.economy.companyUpgrades.Upgrade;
 import com.klanting.signclick.economy.contractRequests.ContractRequest;
 import com.klanting.signclick.economy.logs.PluginLogs;
+import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.checkerframework.checker.units.qual.A;
@@ -263,7 +264,7 @@ public class CompanyRef implements CompanyI{
     }
 
     @Override
-    public HashMap<Block, Machine> getMachines() {
+    public HashMap<Location, Machine> getMachines() {
         return comp.getMachines();
     }
 

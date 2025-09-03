@@ -34,7 +34,7 @@ public class MachineList extends PagingMenu {
 
         clearItems();
 
-        for (Map.Entry<Block, Machine> entry: comp.getMachines().entrySet()){
+        for (Map.Entry<Location, Machine> entry: comp.getMachines().entrySet()){
 
             Machine machine = entry.getValue();
 
