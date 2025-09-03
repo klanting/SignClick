@@ -22,7 +22,7 @@ public class Product extends Produceable{
 
     private final int productionTime;
 
-    public Product(Material material, int price, int productionTime){
+    public Product(Material material, double price, int productionTime){
         this.material = material;
         this.price = price;
         this.productionTime = productionTime;

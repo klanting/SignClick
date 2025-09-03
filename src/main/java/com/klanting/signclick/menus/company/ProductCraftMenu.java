@@ -6,6 +6,7 @@ import com.klanting.signclick.economy.Product;
 import com.klanting.signclick.menus.SelectionMenu;
 import com.klanting.signclick.utils.ItemFactory;
 import com.klanting.signclick.utils.Utils;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -18,6 +19,7 @@ import java.util.UUID;
 import java.util.function.Function;
 
 import static com.klanting.signclick.events.MenuEvents.loadStack;
+import static org.bukkit.Bukkit.getServer;
 
 public class ProductCraftMenu extends SelectionMenu {
     public CompanyI comp;
@@ -51,7 +53,7 @@ public class ProductCraftMenu extends SelectionMenu {
             cost += product.getPrice();
         }
 
-        return new Product(recipe.getType(), cost/recipe.getAmount(), time/recipe.getAmount());
+        return new Product(recipe.getType(), (double) cost/recipe.getAmount(), Math.max(time/recipe.getAmount(), 1));
     }
 
     public void init(){

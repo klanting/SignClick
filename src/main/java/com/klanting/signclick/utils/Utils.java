@@ -24,6 +24,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.function.BiPredicate;
 import java.util.stream.IntStream;
 
 import static org.bukkit.Bukkit.getServer;
@@ -255,13 +256,37 @@ public class Utils {
         return materialMap.get(type);
     }
 
+    private static <T> int indexOfSubList(
+            List<T> source,
+            List<T> target,
+            BiPredicate<T, T> equals
+    ) {
+        int sourceSize = source.size();
+        int targetSize = target.size();
+
+        if (targetSize == 0) return 0;
+        if (targetSize > sourceSize) return -1;
+
+        for (int i = 0; i <= sourceSize - targetSize; i++) {
+            boolean match = true;
+            for (int j = 0; j < targetSize; j++) {
+                if (!equals.test(source.get(i + j), target.get(j))) {
+                    match = false;
+                    break;
+                }
+            }
+            if (match) return i;
+        }
+
+        return -1;
+    }
+
     public static ItemStack simulateCraft(ItemStack[] inputMatrix) {
 
         for (@NotNull Iterator<Recipe> it = getServer().recipeIterator(); it.hasNext(); ) {
             Recipe recipe = it.next();
 
             if (recipe instanceof ShapelessRecipe shapelessRecipe){
-
                 List<ItemStack> array = Arrays.stream(inputMatrix).
                         filter(Objects::nonNull).sorted(Comparator.comparing(s -> s.getType().name())).toList();
 
@@ -281,8 +306,18 @@ public class Utils {
 
                 String s = "";
                 for (String row: shapedRecipe.getShape()){
-                    s += row;
+                    String tempRow = row;
+
+                    while (tempRow.length() < 3){
+                        tempRow += " ";
+                    }
+
+                    s += tempRow;
                 }
+
+                /*
+                * make my own shape
+                * */
                 List<ItemStack> ingredients = new ArrayList<>();
                 for (char s2: s.toCharArray()){
                     RecipeChoice rc = shapedRecipe.getChoiceMap().get(s2);
@@ -293,7 +328,20 @@ public class Utils {
                     }
                 }
 
-                int subsetIndex = Collections.indexOfSubList(Arrays.stream(inputMatrix).toList(), ingredients);
+                int subsetIndex = indexOfSubList(Arrays.stream(inputMatrix).toList(), ingredients,
+                        (a, b) ->  {
+
+                    if (a == null && b == null){
+                        return true;
+                    }
+
+                    if (a == null || b == null){
+                        return false;
+                    }
+
+                    return a.getType() == b.getType();
+                });
+
                 boolean b = subsetIndex != -1;
                 for (int i=0; i<subsetIndex;i++){
                     if (Arrays.stream(inputMatrix).toList().get(i) != null){
