@@ -24,15 +24,6 @@ public class PolicyTourist extends Policy{
             options.add(po);
         }
 
-        description.add(Arrays.asList("§7+8% transport cost (foreigner)", "§7+4% transport cost (foreigner)", "", "§7-10% transport cost (foreigner)", "§7-15% transport cost (foreigner)"));
-        description.add(Arrays.asList("§7block license with foreigner", "§7+2% license cost (foreigner)", "", "§7-2% license cost (foreigner)", "§7-5% license cost (foreigner)"));
-        description.add(Arrays.asList("§7+5% upgrade return time", "", "", "", "§7-5% upgrade return time"));
-        description.add(Arrays.asList("§71k/week tax (transport)", "", "", "", "§72k/week income (transport)"));
-        description.add(Arrays.asList("§71k/week tax (real estate)", "", "", "", "§72k/week income (real estate)"));
-        description.add(Arrays.asList("§72k/week income (building)", "", "", "", "§71k/week tax (building)"));
-
-        description.add(Arrays.asList("", "", "", "§9REQUIRE gov capital 5M+", "§9REQUIRE gov capital 10M+"));
-
     }
 
 }

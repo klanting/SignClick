@@ -16,8 +16,6 @@ public class Policy {
 
     protected List<String> titles = new ArrayList<>();
 
-    protected ArrayList<List<String>> description = new ArrayList<>();
-
     protected transient ArrayList<PolicyOption> options = new ArrayList<>();
 
     private Integer id;

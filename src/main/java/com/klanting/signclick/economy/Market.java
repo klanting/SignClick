@@ -51,6 +51,7 @@ public class Market {
 
     public static Double getBuyPrice(String Sname, Integer amount){
         CompanyI comp = Market.getCompany(Sname);
+        comp.reCalcBalance();
 
         double market_pct = (comp.getMarketShares().doubleValue()/(comp.getTotalShares().doubleValue()+Math.min(comp.getMarketShares(), 0)));
         double a = (1.0 - market_pct) * 25.0 - 10.0;

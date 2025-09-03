@@ -296,4 +296,9 @@ public class CompanyIv102v200 implements CompanyI {
     public double getUpgradeModifier() {
         return 0;
     }
+
+    @Override
+    public void reCalcBalance() {
+
+    }
 }

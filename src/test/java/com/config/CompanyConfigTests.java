@@ -58,7 +58,7 @@ public class CompanyConfigTests {
         assertTrue(suc6);
         testPlayer.simulateInventoryClick(6);
 
-        testPlayer.assertSaid("§byou succesfully found TESTINGCOMP good luck CEO Player0");
+        testPlayer.assertSaid("§byou succesfully founded TESTINGCOMP good luck CEO Player0");
         testPlayer.assertNoMoreSaid();
     }
 
@@ -78,7 +78,7 @@ public class CompanyConfigTests {
         assertTrue(suc6);
         testPlayer.simulateInventoryClick(6);
 
-        testPlayer.assertSaid("§byou succesfully found TESTINGCOMP good luck CEO Player0");
+        testPlayer.assertSaid("§byou succesfully founded TESTINGCOMP good luck CEO Player0");
         testPlayer.assertNoMoreSaid();
     }
 
@@ -98,7 +98,7 @@ public class CompanyConfigTests {
         assertTrue(suc6);
         testPlayer.simulateInventoryClick(6);
 
-        testPlayer.assertSaid("§byou succesfully found TESTINGCOMP good luck CEO Player0");
+        testPlayer.assertSaid("§byou succesfully founded TESTINGCOMP good luck CEO Player0");
         testPlayer.assertNoMoreSaid();
 
         CompanyI comp = Market.getCompany("COMP");

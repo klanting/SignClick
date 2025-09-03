@@ -4,10 +4,7 @@ import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 
 import com.klanting.signclick.commands.CompanyCommands;
-import com.klanting.signclick.economy.CompanyI;
-import com.klanting.signclick.economy.Country;
-import com.klanting.signclick.economy.CountryManager;
-import com.klanting.signclick.economy.Market;
+import com.klanting.signclick.economy.*;
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.utils.BookParser;
 import org.bukkit.Material;
@@ -76,7 +73,7 @@ class CompanyCTests {
         assertTrue(suc6);
         testPlayer.simulateInventoryClick(6);
 
-        testPlayer.assertSaid("§byou succesfully found TESTINGCOMP good luck CEO Player0");
+        testPlayer.assertSaid("§byou succesfully founded TESTINGCOMP good luck CEO Player0");
         testPlayer.assertNoMoreSaid();
 
 
@@ -1169,6 +1166,53 @@ class CompanyCTests {
 
         assertNull(Market.getCompany("COMP"));
         assertEquals(40000000, SignClick.getEconomy().getBalance(testPlayer));
+    }
+
+    @Test
+    void companySharesBrokenBug(){
+        /*
+        * Test the following scenario that caused a bug
+        * 1. players buys many shares
+        * 2. player spends money, so bal is negative but shares bal is not.
+        * 3. the buy base value < 0, because we were able to remove money, when only checking the value
+        * */
+
+        SignClick.getEconomy().depositPlayer(testPlayer, 1283);
+        CompanyI company = Market.getCompany("TCI");
+        company.addBal(1000.0);
+
+        assertNotNull(company);
+        company.getCOM().setOpenTrade(true);
+
+        boolean  suc6 = server.execute("company", testPlayer, "buy", "TCI", "1000").hasSucceeded();
+        assertTrue(suc6);
+        testPlayer.nextMessage();
+
+        suc6 = server.execute("company", testPlayer, "buy", "TCI", "1000").hasSucceeded();
+        assertTrue(suc6);
+        testPlayer.assertSaid("§bbuy: §aaccepted");
+
+        assertEquals(1000, company.getBal());
+
+        assertNotEquals(1283, SignClick.getEconomy().getBalance(testPlayer));
+        double oldShares = company.getShareBalance();
+        assertEquals(SignClick.getEconomy().getBalance(testPlayer), 1283-oldShares);
+
+        /*
+        * check if money removed from sharebal not bal
+        * */
+        assertTrue(company.removeBal(1000, true));
+
+        assertEquals(1000, company.getBal());
+        assertEquals(oldShares-1000, company.getShareBalance());
+
+        /*
+        * check balance always positive
+        * */
+        assertTrue(company.removeBal(1000, true));
+        assertEquals(0, company.getShareBalance());
+
+        assertEquals(282, Math.round(company.getBal()));
     }
 
 

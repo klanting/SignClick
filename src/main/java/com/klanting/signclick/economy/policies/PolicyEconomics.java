@@ -25,18 +25,5 @@ public class PolicyEconomics extends Policy{
             options.add(po);
         }
 
-        description.add(Arrays.asList("§7+2% sell tax", "§7+1% sell tax", "", "§7-2% sell tax", "§7-3% sell tax"));
-        description.add(Arrays.asList("§7-0.5% dividends", "§7-0.3% dividends", "", "§7+0.2% dividends", "§7+0.4% dividends"));
-
-        description.add(Arrays.asList("§7-5% spendable", "§7-2% spendable", "", "§7+2% spendable", "§7+5% spendable"));
-        description.add(Arrays.asList("§7+2 stability", "§7+1 stability", "", "§7-1 stability", "§7-3 stability"));
-        description.add(Arrays.asList("", "", "", "§7+4% spendable (bank)", "§7+8% spendable (bank)"));
-        description.add(Arrays.asList("§71k/week tax (product)", "", "", "", "§72k/week income (product)"));
-        description.add(Arrays.asList("§71k/week income (building)", "", "", "", ""));
-
-        description.add(Arrays.asList("§9REQUIRE gov capital 20M+", "", "", "", "§9REQUIRE gov capital 20M+"));
-
-
-
     }
 }

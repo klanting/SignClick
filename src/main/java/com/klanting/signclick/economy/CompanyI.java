@@ -72,4 +72,5 @@ public interface CompanyI {
     CompanyI getRef();
 
     double getUpgradeModifier();
+    void reCalcBalance();
 }

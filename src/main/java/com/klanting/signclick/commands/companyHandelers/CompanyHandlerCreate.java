@@ -70,7 +70,7 @@ public class CompanyHandlerCreate extends CompanyHandler{
 
         CommandAssert.assertTrue(succes, "§bcompany create failed: name/stock name already in use");
 
-        details.player.sendMessage("§byou succesfully found "+details.companyName+" good luck CEO "+
+        details.player.sendMessage("§byou succesfully founded "+details.companyName+" good luck CEO "+
                 details.player.getName());
 
         SignClick.getEconomy().withdrawPlayer(details.player, details.creationCost);

@@ -303,4 +303,9 @@ public class CompanyRef implements CompanyI{
     public double getUpgradeModifier(){
         return this.comp.getUpgradeModifier();
     }
+
+    @Override
+    public void reCalcBalance() {
+        comp.reCalcBalance();
+    }
 }
