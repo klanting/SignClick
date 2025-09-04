@@ -3,9 +3,12 @@ package com.klanting.signclick.economy;
 import com.klanting.signclick.SignClick;
 import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static org.bukkit.Bukkit.getServer;
 
 public class Board {
     public int getBoardSeats() {
@@ -258,8 +261,9 @@ public class Board {
         int chiefPos = rankingOrder.indexOf(position);
         for (int i=0; i<chiefPos; i++){
             int finalI = i;
-            newChiefPairList = newChiefPairList.stream().filter(s -> s.getLeft() != currentChief.
-                    get(rankingOrder.get(finalI))).toList();
+            newChiefPairList = newChiefPairList.stream().filter(s -> !s.getLeft().equals(
+                    currentChief.get(rankingOrder.get(finalI)))
+                    ).toList();
         }
 
         if (newChiefPairList.isEmpty()){

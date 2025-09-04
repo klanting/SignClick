@@ -19,28 +19,52 @@ public class CompanyRef implements CompanyI{
 
     private CompanyI comp;
 
+    private transient String StockName = null;
+
     public CompanyRef(CompanyI comp){
         this.comp = comp;
     }
 
+    public CompanyRef(String StockName){
+        /*
+        * Supporting lazy resolve
+        * */
+
+        this.StockName = StockName;
+    }
+
+    private void checkComp(){
+        if(StockName != null){
+            comp = Market.getCompany(StockName);
+            if(comp != null){
+                StockName = null;
+            }
+        }
+    }
+
+    private CompanyI getComp(){
+        checkComp();
+        return comp;
+    }
+
     @Override
     public Research getResearch() {
-        return comp.getResearch();
+        return getComp().getResearch();
     }
 
     @Override
     public boolean hasPendingContractRequest() {
-        return comp.hasPendingContractRequest();
+        return getComp().hasPendingContractRequest();
     }
 
     @Override
     public ContractRequest getPendingContractRequest() {
-        return comp.getPendingContractRequest();
+        return getComp().getPendingContractRequest();
     }
 
     @Override
     public List<Product> getProducts() {
-        return comp.getProducts();
+        return getComp().getProducts();
     }
 
     @Override
@@ -50,12 +74,12 @@ public class CompanyRef implements CompanyI{
 
     @Override
     public CompanyOwnerManager getCOM() {
-        return comp.getCOM();
+        return getComp().getCOM();
     }
 
     @Override
     public double getSpendable() {
-        return comp.getSpendable();
+        return getComp().getSpendable();
     }
 
     @Override
@@ -70,12 +94,12 @@ public class CompanyRef implements CompanyI{
 
     @Override
     public double getShareBalance() {
-        return comp.getShareBalance();
+        return getComp().getShareBalance();
     }
 
     @Override
     public Integer getTotalShares() {
-        return comp.getTotalShares();
+        return getComp().getTotalShares();
     }
 
     @Override
@@ -85,32 +109,32 @@ public class CompanyRef implements CompanyI{
 
     @Override
     public double getValue() {
-        return comp.getValue();
+        return getComp().getValue();
     }
 
     @Override
     public double getShareBase() {
-        return comp.getShareBase();
+        return getComp().getShareBase();
     }
 
     @Override
     public double getBal() {
-        return comp.getBal();
+        return getComp().getBal();
     }
 
     @Override
     public boolean removeBal(double amount) {
-        return comp.removeBal(amount);
+        return getComp().removeBal(amount);
     }
 
     @Override
     public boolean removeBal(double amount, boolean skipSpendable) {
-        return comp.removeBal(amount, skipSpendable);
+        return getComp().removeBal(amount, skipSpendable);
     }
 
     @Override
     public boolean addBalNoPoint(double bal) {
-        return comp.addBalNoPoint(bal);
+        return getComp().addBalNoPoint(bal);
     }
 
     @Override
@@ -120,22 +144,22 @@ public class CompanyRef implements CompanyI{
 
     @Override
     public double stockCompareGet() {
-        return comp.stockCompareGet();
+        return getComp().stockCompareGet();
     }
 
     @Override
     public double stockCompare() {
-        return comp.stockCompare();
+        return getComp().stockCompare();
     }
 
     @Override
     public Integer getMarketShares() {
-        return comp.getMarketShares();
+        return getComp().getMarketShares();
     }
 
     @Override
     public boolean addBal(double amount) {
-        return comp.addBal(amount);
+        return getComp().addBal(amount);
     }
 
     @Override
@@ -190,7 +214,7 @@ public class CompanyRef implements CompanyI{
 
     @Override
     public boolean doUpgrade(Integer id) {
-        return comp.doUpgrade(id);
+        return getComp().doUpgrade(id);
     }
 
     @Override
@@ -200,22 +224,22 @@ public class CompanyRef implements CompanyI{
 
     @Override
     public String getCountry() {
-        return comp.getCountry();
+        return getComp().getCountry();
     }
 
     @Override
     public String getName() {
-        return comp.getName();
+        return getComp().getName();
     }
 
     @Override
     public String getStockName() {
-        return comp.getStockName();
+        return getComp().getStockName();
     }
 
     @Override
     public ArrayList<Upgrade> getUpgrades() {
-        return comp.getUpgrades();
+        return getComp().getUpgrades();
     }
 
     @Override
@@ -225,7 +249,7 @@ public class CompanyRef implements CompanyI{
 
     @Override
     public String getType() {
-        return comp.getType();
+        return getComp().getType();
     }
 
     @Override
@@ -240,7 +264,7 @@ public class CompanyRef implements CompanyI{
 
     @Override
     public ArrayList<Patent> getPatent() {
-        return comp.getPatent();
+        return getComp().getPatent();
     }
 
     @Override
@@ -250,7 +274,7 @@ public class CompanyRef implements CompanyI{
 
     @Override
     public List<PluginLogs> getLogObservers() {
-        return comp.getLogObservers();
+        return getComp().getLogObservers();
     }
 
     @Override
@@ -260,27 +284,27 @@ public class CompanyRef implements CompanyI{
 
     @Override
     public ArrayList<PatentUpgrade> getPatentUpgrades() {
-        return comp.getPatentUpgrades();
+        return getComp().getPatentUpgrades();
     }
 
     @Override
     public HashMap<Location, Machine> getMachines() {
-        return comp.getMachines();
+        return getComp().getMachines();
     }
 
     @Override
     public String getPlayerNamePending() {
-        return comp.getPlayerNamePending();
+        return getComp().getPlayerNamePending();
     }
 
     @Override
     public double getPlayerAmountPending() {
-        return comp.getPlayerAmountPending();
+        return getComp().getPlayerAmountPending();
     }
 
     @Override
     public int getPlayerWeeksPending() {
-        return comp.getPlayerWeeksPending();
+        return getComp().getPlayerWeeksPending();
     }
 
     @Override

@@ -341,5 +341,29 @@ class CompanyTests {
         assertTrue(val1 > val2);
     }
 
+    @Test
+    void companyChiefBug(){
+        /*
+        * let a player start as CEO of a company
+        * Now vote on itself as CFO, this player should remain just CEO, but in the bug he/she also becomes CFO
+        * */
+
+        PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
+        SignClick.getEconomy().depositPlayer(testPlayer, 1000.0);
+
+        boolean suc6 = Market.addCompany("TestCaseInc", "TCI", Market.getAccount(testPlayer));
+        assertTrue(suc6);
+
+        CompanyI company = Market.getCompany("TCI");
+
+        assertEquals(testPlayer.getUniqueId(), company.getCOM().getBoard().getChief("CEO"));
+
+        company.getCOM().getBoard().boardChiefVote(testPlayer.getUniqueId(), "CFO", testPlayer.getUniqueId());
+
+        assertEquals(testPlayer.getUniqueId(), company.getCOM().getBoard().getChief("CEO"));
+        assertEquals(null, company.getCOM().getBoard().getChief("CFO"));
+
+    }
+
 }
 

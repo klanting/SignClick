@@ -120,10 +120,6 @@ public class Account {
         if (Market.sell(Sname, amount, this)){
             addBal(v);
 
-            getServer().getConsoleSender().sendMessage(ChatColor.YELLOW + "Y" +(v+to_gov));
-            getServer().getConsoleSender().sendMessage(ChatColor.YELLOW + "Z" +(to_gov));
-            getServer().getConsoleSender().sendMessage(ChatColor.YELLOW + "Y" + Market.getCompany(Sname).getValue());
-
             Market.getCompany(Sname).removeShareBal(v+to_gov);
             Market.getCompany(Sname).changeBase();
 

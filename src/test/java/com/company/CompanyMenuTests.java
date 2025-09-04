@@ -821,5 +821,56 @@ public class CompanyMenuTests {
 
     }
 
+    @Test
+    void companyChiefMenuTestBug(){
+        /*
+         * let a player start as CEO of a company
+         * Now vote on itself as CFO, this player should remain just CEO, but in the bug he/she also becomes CFO
+         * */
+
+        CompanyI comp = Market.getCompany("TCI");
+        assertEquals(testPlayer.getUniqueId(), comp.getCOM().getBoard().getChief("CEO"));
+
+        InventoryView companyMenu = openMenu(0);
+
+        /*
+         * select the iron helmet -> chief menu
+         * */
+        testPlayer.simulateInventoryClick(companyMenu, 23);
+
+        assertEquals(Material.PLAYER_HEAD, testPlayer.getOpenInventory().getItem(2).getType());
+        assertEquals("§7CEO: Player0", testPlayer.getOpenInventory().getItem(2).getItemMeta().getDisplayName());
+        assertEquals(Material.IRON_HELMET, testPlayer.getOpenInventory().getItem(4).getType());
+        assertEquals("§7CTO: Unassigned", testPlayer.getOpenInventory().getItem(4).getItemMeta().getDisplayName());
+        assertEquals(Material.IRON_HELMET, testPlayer.getOpenInventory().getItem(6).getType());
+        assertEquals("§7CFO: Unassigned", testPlayer.getOpenInventory().getItem(6).getItemMeta().getDisplayName());
+
+        /*
+         * go to the CFO menu
+         * */
+        testPlayer.simulateInventoryClick(6);
+        assertEquals(Material.IRON_HELMET, testPlayer.getOpenInventory().getItem(13).getType());
+        assertEquals(Material.SKELETON_SKULL, testPlayer.getOpenInventory().getItem(24).getType());
+
+        /*
+         * support yourself as CFO
+         * */
+        testPlayer.simulateInventoryClick(24);
+
+        PlayerChatEvent chatEvent = new PlayerChatEvent(testPlayer, testPlayer.getName());
+        server.getPluginManager().callEvent(chatEvent);
+
+        /*
+         * Check CEO has been changed
+         * */
+        assertEquals(Material.IRON_HELMET, testPlayer.getOpenInventory().getItem(13).getType());
+        assertEquals("§7CFO: Unassigned", testPlayer.getOpenInventory().getItem(13).getItemMeta().getDisplayName());
+
+        assertEquals(Material.PLAYER_HEAD, testPlayer.getOpenInventory().getItem(24).getType());
+        assertEquals("§7Supporting: Player0", testPlayer.getOpenInventory().getItem(24).getItemMeta().getDisplayName());
+        assertEquals("§7CFO Votes: 1", testPlayer.getOpenInventory().getItem(24).getItemMeta().getLore().get(0));
+
+    }
+
 
 }

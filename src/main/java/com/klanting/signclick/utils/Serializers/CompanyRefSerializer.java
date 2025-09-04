@@ -2,6 +2,7 @@ package com.klanting.signclick.utils.Serializers;
 
 import com.google.gson.*;
 import com.klanting.signclick.economy.Company;
+import com.klanting.signclick.economy.CompanyI;
 import com.klanting.signclick.economy.CompanyRef;
 import com.klanting.signclick.economy.Market;
 
@@ -23,6 +24,13 @@ public class CompanyRefSerializer implements JsonSerializer<CompanyRef>, JsonDes
     @Override
     public CompanyRef deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         JsonObject obj = json.getAsJsonObject();
-        return new CompanyRef(Market.getCompany(obj.get("stockName").getAsString()));
+        CompanyI comp = Market.getCompany(obj.get("stockName").getAsString());
+
+        if(comp != null){
+            return new CompanyRef(comp);
+        }
+
+        return new CompanyRef(obj.get("stockName").getAsString());
+
     }
 }

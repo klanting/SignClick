@@ -8,6 +8,7 @@ import com.klanting.signclick.SignClick;
 import com.klanting.signclick.economy.*;
 import com.klanting.signclick.events.MenuEvents;
 import com.klanting.signclick.menus.company.LicenseInfoMenu;
+import com.klanting.signclick.menus.country.Menu;
 import com.klanting.signclick.utils.Utils;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -349,7 +350,6 @@ public class MachineTests {
         assertEquals(Material.DIRT, inv.getItem(10).getType());
         assertTrue(inv.getItem(10).getItemMeta().getLore().contains("§cThis Product is Licensed"));
 
-
         /*
          * Check production is working
          * */
@@ -382,6 +382,138 @@ public class MachineTests {
         inv = testPlayer.getOpenInventory();
         assertEquals(Material.LIGHT_GRAY_DYE, inv.getItem(10).getType());
 
+    }
+
+    @Test
+    void licenseMachineReboot(){
+        PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
+        server.addSimpleWorld("world");
+
+        /*
+         * Create machine and produce an licensed item
+         * */
+        Market.addCompany("TCI", "TCI", Market.getAccount(testPlayer));
+        Market.addCompany("TCI2", "TCI2", Market.getAccount(testPlayer));
+        CompanyI comp = Market.getCompany("TCI");
+        comp.addBal(2000);
+        comp.setSpendable(2000);
+
+        CompanyI comp2 = Market.getCompany("TCI2");
+        Product product = new Product(Material.DIRT, 1, 2);
+        comp2.addProduct(product);
+        License license = new License(comp2, comp, product,
+                1.0, 0.0, 0.1);
+        LicenseSingleton.getInstance().getCurrentLicenses().addLicense(license);
+
+        /*
+         * Build the Machine
+         * */
+
+        ItemStack[] matrix = new ItemStack[9];
+
+        matrix[0] = new ItemStack(Material.IRON_INGOT);
+        matrix[1] = new ItemStack(Material.IRON_INGOT);
+        matrix[2] = new ItemStack(Material.IRON_INGOT);
+        matrix[3] = new ItemStack(Material.IRON_BLOCK);
+        matrix[4] = new ItemStack(Material.FURNACE);
+        matrix[5] = new ItemStack(Material.IRON_BLOCK);
+        matrix[6] = new ItemStack(Material.IRON_BLOCK);
+        matrix[7] = new ItemStack(Material.IRON_BARS);
+        matrix[8] = new ItemStack(Material.IRON_BLOCK);
+
+        ItemStack machine = Utils.simulateCraft(matrix);
+
+        assertEquals(Material.BLAST_FURNACE, machine.getType());
+
+        testPlayer.setItemInHand(machine);
+
+        World world = new WorldDoubleMock();
+
+        BlockMock blockClicked = new DoubleBlockMock(Material.DIRT,
+                new Location(world, 0, 0, 0));
+        BlockMock machineBlock = new DoubleBlockMock(machine.getType(),
+                new Location(world, 0, 0, 0));
+        FurnaceStateMock furnaceState = (new FurnaceStateMock(machineBlock));
+        assertTrue(furnaceState instanceof TileState);
+        machineBlock.setState(furnaceState);
+        assertNotNull(machineBlock.getState());
+
+        BlockPlaceEvent event = new BlockPlaceEvent(
+                machineBlock,
+                machineBlock.getState(),
+                blockClicked,
+                testPlayer.getInventory().getItemInMainHand(),
+                testPlayer,
+                true
+        );
+
+        server.getPluginManager().callEvent(event);
+
+        assertEquals(Material.BLAST_FURNACE, machineBlock.getType());
+
+        InventoryOpenEvent event2 = new InventoryOpenEvent(
+                testPlayer.openInventory(furnaceState.getInventory())
+        );
+
+        server.getPluginManager().callEvent(event2);
+
+        /*
+         * Have list of companies
+         * */
+        InventoryView inv = testPlayer.getOpenInventory();
+        assertEquals(Material.SUNFLOWER, inv.getItem(0).getType());
+        assertEquals("§6TCI [TCI]", inv.getItem(0).getItemMeta().getDisplayName());
+        assertEquals(Material.SUNFLOWER, inv.getItem(1).getType());
+        assertEquals(Material.LIGHT_GRAY_STAINED_GLASS_PANE, inv.getItem(2).getType());
+
+        testPlayer.simulateInventoryClick(0);
+
+        /*
+         * See the machine view
+         * */
+        inv = testPlayer.getOpenInventory();
+
+        /*
+         * Check no product assigned yet
+         * */
+        assertEquals(Material.LIGHT_GRAY_DYE, inv.getItem(10).getType());
+
+        /*
+         * Assign dirt as item
+         * */
+        testPlayer.simulateInventoryClick(10);
+        assertEquals(Material.DIRT, testPlayer.getOpenInventory().getItem(0).getType());
+        assertTrue(testPlayer.getOpenInventory().getItem(0).getItemMeta().getLore().contains("§cThis Product is Licensed"));
+        testPlayer.simulateInventoryClick(0);
+
+        inv = testPlayer.getOpenInventory();
+        assertEquals(Material.DIRT, inv.getItem(10).getType());
+        assertTrue(inv.getItem(10).getItemMeta().getLore().contains("§cThis Product is Licensed"));
+
+        /*
+         * Check production is working
+         * */
+        assertEquals(0, MenuEvents.activeMachines.get(0).getProductionProgress());
+        MenuEvents.activeMachines.get(0).getBlock().getLocation().setWorld(world);
+        MenuEvents.activeMachines.get(0).changeProductionLoop();
+
+        server.getScheduler().performTicks(220);
+        assertEquals(1, MenuEvents.activeMachines.get(0).getProductionProgress());
+
+        assertEquals(new ItemStack(Material.DIRT, 5), MenuEvents.activeMachines.get(0).results[0]);
+        assertEquals(Math.round((1995-(5*0.1))*1000), Math.round(comp.getBal()*1000));
+        assertEquals(Math.round((5*0.1)*1000), Math.round(comp2.getBal()*1000));
+
+        /*
+         * Restart the server, and check lease companies are stored correctly
+         * */
+        TestTools.reboot(server);
+        assertEquals(1, MenuEvents.activeMachines.size());
+        MenuEvents.activeMachines.get(0).getLicense().getFrom().getBal();
+        License license1 = LicenseSingleton.getInstance().getCurrentLicenses().getLicensesTo(Market.getCompany("TCI")).get(0);
+        license1.getFrom().getBal();
+
+        assertEquals(license1.getFrom().getBal(), MenuEvents.activeMachines.get(0).getLicense().getFrom().getBal());
     }
 
     @Test
@@ -451,5 +583,29 @@ public class MachineTests {
         for (int i=0; i<9; i++){
             assertEquals(new ItemStack(hopperItemName, 64), hopper.getInventory().getItem(i));
         }
+    }
+
+    @Test
+    void checkLicensePersistence(){
+        /*
+         * Check licenses properly saved after reboot
+         * */
+        PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
+
+        Market.addCompany("TCI", "TCI", Market.getAccount(testPlayer));
+        Market.addCompany("TCI2", "TCI2", Market.getAccount(testPlayer));
+
+        CompanyI comp1 = Market.getCompany("TCI");
+        CompanyI comp2 = Market.getCompany("TCI2");
+
+        LicenseSingleton.getInstance().getCurrentLicenses().addLicense(new License(comp1, comp2,
+                new Product(Material.RED_WOOL, 0, 0),
+                0.0, 0.0, 0.0));
+
+        LicenseSingleton.Save();
+
+        TestTools.reboot(server);
+        assertEquals(1, LicenseSingleton.getInstance().getCurrentLicenses().getLicensesFrom(Market.getCompany("TCI")).size());
+
     }
 }

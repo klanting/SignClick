@@ -51,10 +51,17 @@ public class LicenseSingleton {
     }
 
     public static void Save(){
+
+        if(instance == null){
+            return;
+        }
+
         Utils.writeSave("licenses", instance);
+        instance = null;
     }
 
     public static void Restore(){
+
         instance = Utils.readSave("licenses", new TypeToken<LicenseSingleton>(){}.getType(), new LicenseSingleton());
     }
 
