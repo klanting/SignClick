@@ -966,7 +966,7 @@ class CompanyCTests {
                 "TCI", testPlayer.getName()).hasSucceeded();
         assertTrue(suc6);
 
-        testPlayer.assertSaid("§b shareBal money: 11,16");
+        testPlayer.assertSaid("§b shareBal money: 1,16");
         testPlayer.assertNoMoreSaid();
 
     }
@@ -1184,6 +1184,7 @@ class CompanyCTests {
         assertNotNull(company);
         company.getCOM().setOpenTrade(true);
 
+        assertEquals(1000, company.getBal());
         boolean  suc6 = server.execute("company", testPlayer, "buy", "TCI", "1000").hasSucceeded();
         assertTrue(suc6);
         testPlayer.nextMessage();
@@ -1192,19 +1193,19 @@ class CompanyCTests {
         assertTrue(suc6);
         testPlayer.assertSaid("§bbuy: §aaccepted");
 
-        assertEquals(1000, company.getBal());
+        assertEquals(2000, company.getBal());
 
         assertNotEquals(1283, SignClick.getEconomy().getBalance(testPlayer));
         double oldShares = company.getShareBalance();
-        assertEquals(SignClick.getEconomy().getBalance(testPlayer), 1283-oldShares);
+        assertEquals(SignClick.getEconomy().getBalance(testPlayer), 1283-(oldShares+1000));
 
         /*
         * check if money removed from sharebal not bal
         * */
         assertTrue(company.removeBal(1000, true));
 
-        assertEquals(1000, company.getBal());
-        assertEquals(oldShares-1000, company.getShareBalance());
+        assertEquals(1000+oldShares, company.getBal());
+        assertEquals(0, company.getShareBalance());
 
         /*
         * check balance always positive

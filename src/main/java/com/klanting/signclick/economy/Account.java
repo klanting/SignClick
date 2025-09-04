@@ -2,10 +2,14 @@ package com.klanting.signclick.economy;
 
 import com.klanting.signclick.SignClick;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.yaml.snakeyaml.error.Mark;
 
 import java.text.DecimalFormat;
 import java.util.*;
+
+import static org.bukkit.Bukkit.getServer;
 
 public class Account {
 
@@ -41,6 +45,8 @@ public class Account {
     }
 
     public void buyShare(String Sname, Integer amount, Player player){
+
+        double base = Market.getCompany(Sname).getShareBase();
         double v = Market.getBuyPrice(Sname, amount);
         if (getBal()<v){
             player.sendMessage(SignClick.getPrefix()+"buy: §cdenied (not enough money)");
@@ -54,8 +60,10 @@ public class Account {
 
         removeBal(v);
 
-        Market.getCompany(Sname).addShareBal(v);
-        Market.getCompany(Sname).changeBase();
+        double toBal = base*amount*Market.calculateFluxChange(-10, 15);
+
+        Market.getCompany(Sname).addShareBal(v-toBal);
+        Market.getCompany(Sname).addBal(toBal);
 
         int share_amount = shares.getOrDefault(Sname, 0);
         shares.put(Sname, share_amount+amount);
@@ -63,6 +71,8 @@ public class Account {
             CompanyI comp = Market.getCompany(Sname);
             comp.setTotalShares(comp.getTotalShares()+amount);
         }
+
+        Market.getCompany(Sname).changeBase();
 
         DecimalFormat df = new DecimalFormat("###,###,###");
         Market.getCompany(Sname).update("Shares bought",
@@ -109,6 +119,10 @@ public class Account {
 
         if (Market.sell(Sname, amount, this)){
             addBal(v);
+
+            getServer().getConsoleSender().sendMessage(ChatColor.YELLOW + "Y" +(v+to_gov));
+            getServer().getConsoleSender().sendMessage(ChatColor.YELLOW + "Z" +(to_gov));
+            getServer().getConsoleSender().sendMessage(ChatColor.YELLOW + "Y" + Market.getCompany(Sname).getValue());
 
             Market.getCompany(Sname).removeShareBal(v+to_gov);
             Market.getCompany(Sname).changeBase();

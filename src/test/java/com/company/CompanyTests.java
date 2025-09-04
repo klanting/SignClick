@@ -317,5 +317,29 @@ class CompanyTests {
         assertTrue(dif1<dif2);
     }
 
+    @Test
+    void companyBuyPriceMoreThanSell(){
+        /*
+        * Check that the buy price is more than the sell price
+        * */
+        PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
+        SignClick.getEconomy().depositPlayer(testPlayer, 1000.0);
+
+        boolean suc6 = Market.addCompany("TestCaseInc", "TCI", Market.getAccount(testPlayer));
+        assertTrue(suc6);
+
+        CompanyI company = Market.getCompany("TCI");
+        company.addBal(4000.0);
+        company.getCOM().setOpenTrade(true);
+
+        Account acc =  Market.getAccount(testPlayer);
+
+        double val1 = Market.getBuyPrice("TCI", 100);
+        acc.buyShare("TCI", 100, testPlayer);
+        double val2 = Market.getSellPrice("TCI", 100);
+
+        assertTrue(val1 > val2);
+    }
+
 }
 

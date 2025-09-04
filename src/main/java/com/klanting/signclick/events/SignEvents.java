@@ -7,6 +7,7 @@ import com.klanting.signclick.menus.company.MarketMenu;
 import com.klanting.signclick.routines.SignIncome;
 import com.klanting.signclick.routines.SignStock;
 import com.klanting.signclick.routines.SignTP;
+import com.klanting.signclick.utils.Prefix;
 import org.bukkit.ChatColor;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
@@ -21,7 +22,7 @@ import static org.bukkit.Bukkit.getServer;
 public class SignEvents implements Listener {
 
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.NORMAL)
     public static void OnSignClick(PlayerInteractEvent event){
 
         if(event.getClickedBlock() != null){
@@ -44,16 +45,19 @@ public class SignEvents implements Listener {
                         SignTP.tpBus(sign, player);
                         event.setCancelled(true);
                     }else if (define.equalsIgnoreCase("§b[stock]")){
+                        event.setCancelled(true);
+
                         String stockName = sign.getLine(1);
 
                         CompanyI comp = Market.getCompany(stockName);
                         if (comp == null){
+                            Prefix.sendMessage(player, "Company not found");
                             return;
                         }
 
                         MarketMenu mm = new MarketMenu(player.getUniqueId(), comp, false);
                         player.openInventory(mm.getInventory());
-                        event.setCancelled(true);
+
                     }
 
 

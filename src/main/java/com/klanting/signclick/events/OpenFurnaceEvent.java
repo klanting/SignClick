@@ -136,8 +136,6 @@ public class OpenFurnaceEvent implements Listener {
                     return;
                 }
 
-                System.out.println(comp.getMachines().keySet());
-                System.out.println(Utils.normalize(block.getLocation()));
                 AssertMet(comp.getMachines().get(Utils.normalize(block.getLocation())) != null, "Machine Open: machine is null");
                 InventoryHolder screen = new MachineMenu(event.getPlayer().getUniqueId(), comp,
                         comp.getMachines().get(Utils.normalize(block.getLocation())));

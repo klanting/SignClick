@@ -51,12 +51,15 @@ public class MarketMenu extends SelectionMenu {
         ItemStack gearItem = new ItemStack(Utils.getCompanyTypeMaterial(currentCompany.getType()), 1);
         ItemMeta m = gearItem.getItemMeta();
 
+        DecimalFormat df2 = new DecimalFormat("###,###,##0.##");
+        String marketShares = currentCompany.getCOM().getMarketShares() >= 0 ? df2.format(currentCompany.getCOM().getMarketShares()) : "inf";
+
         List<String> lores = new ArrayList<>();
         DecimalFormat df = new DecimalFormat("###,###,##0.00");
-        DecimalFormat df2 = new DecimalFormat("###,###,##0.##");
+
         lores.add("§7Type: §f"+currentCompany.getType());
         lores.add("§7Owned Shares: §f"+df2.format(currentCompany.getCOM().getShareHolders().getOrDefault(uuid, 0)));
-        lores.add("§7Market Shares: §f"+df2.format(currentCompany.getCOM().getMarketShares())+"/"+df2.format(currentCompany.getCOM().getTotalShares()));
+        lores.add("§7Market Shares: §f"+marketShares+"/"+df2.format(currentCompany.getCOM().getTotalShares()));
         lores.add("");
         lores.add("§7Current Value: §f"+df.format(currentCompany.getValue()));
         lores.add("§7Value Change: "+(pct > 0 ? "§a": "§c")+df.format(pct)+"%");
@@ -84,7 +87,7 @@ public class MarketMenu extends SelectionMenu {
         buySellButtons.add(Triple.of(buySellAmount.get(0), 12, Material.EMERALD));
         buySellButtons.add(Triple.of(buySellAmount.get(1), 13, Material.LIME_STAINED_GLASS_PANE));
         buySellButtons.add(Triple.of(buySellAmount.get(2), 14, Material.LIME_STAINED_GLASS));
-        buySellButtons.add(Triple.of(currentCompany.getMarketShares(), 15, Material.LIME_CONCRETE));
+        buySellButtons.add(Triple.of(currentCompany.getCOM().isOpenTrade() ? 0:currentCompany.getMarketShares(), 15, Material.LIME_CONCRETE));
 
         buySellButtons.add(Triple.of(-1, 29, Material.RED_DYE));
         buySellButtons.add(Triple.of(-buySellAmount.get(0), 30, Material.REDSTONE));
@@ -99,7 +102,7 @@ public class MarketMenu extends SelectionMenu {
 
             int amount = tup.getLeft();
 
-            if (amount > 0){
+            if (amount > 0 && !currentCompany.getCOM().isOpenTrade()){
                 amount = Math.min(amount, currentCompany.getMarketShares());
             }
 
@@ -168,7 +171,11 @@ public class MarketMenu extends SelectionMenu {
 
         if (event.getCurrentItem().getItemMeta().getDisplayName().contains("BUY")){
             int amount = Integer.parseInt(event.getCurrentItem().getItemMeta().getDisplayName().split(" ")[1]);
-            amount = Math.min(amount, currentCompany.getMarketShares());
+
+            if(!currentCompany.getCOM().isOpenTrade()){
+                amount = Math.min(amount, currentCompany.getMarketShares());
+            }
+
             acc.buyShare(currentCompany.getStockName(), amount, player);
         }
 
