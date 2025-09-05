@@ -4,6 +4,7 @@ import com.klanting.signclick.economy.CompanyI;
 import com.klanting.signclick.economy.Machine;
 import com.klanting.signclick.economy.Product;
 import com.klanting.signclick.menus.PagingMenu;
+import com.klanting.signclick.utils.BlockPosKey;
 import com.klanting.signclick.utils.ItemFactory;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -34,7 +35,7 @@ public class MachineList extends PagingMenu {
 
         clearItems();
 
-        for (Map.Entry<Location, Machine> entry: comp.getMachines().entrySet()){
+        for (Map.Entry<BlockPosKey, Machine> entry: comp.getMachines().entrySet()){
 
             Machine machine = entry.getValue();
 

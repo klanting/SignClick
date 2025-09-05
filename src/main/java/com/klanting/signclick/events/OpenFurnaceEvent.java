@@ -8,7 +8,9 @@ import com.klanting.signclick.menus.company.Selector;
 import com.klanting.signclick.menus.company.machine.MachineMenu;
 import com.klanting.signclick.recipes.MachineRecipe;
 
+import com.klanting.signclick.utils.BlockPosKey;
 import com.klanting.signclick.utils.Utils;
+import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.*;
 import org.bukkit.entity.Item;
@@ -27,6 +29,7 @@ import org.checkerframework.dataflow.qual.AssertMethod;
 import java.util.function.Function;
 
 import static com.klanting.signclick.utils.Utils.AssertMet;
+import static org.bukkit.Bukkit.getServer;
 
 public class OpenFurnaceEvent implements Listener {
 
@@ -70,7 +73,7 @@ public class OpenFurnaceEvent implements Listener {
                 String compName = tileState.getPersistentDataContainer().get(compKey, PersistentDataType.STRING);
                 if (tileState.getPersistentDataContainer().has(compKey, PersistentDataType.STRING) && !compName.isEmpty()){
 
-                    Machine machine = Market.getCompany(compName).getMachines().get(Utils.normalize(block.getLocation()));
+                    Machine machine = Market.getCompany(compName).getMachines().get(BlockPosKey.from(block.getLocation()));
 
                     if (machine != null){
                         for (int i=0; i<3; i++){
@@ -80,7 +83,8 @@ public class OpenFurnaceEvent implements Listener {
                             }
                         }
 
-                        Market.getCompany(compName).getMachines().remove(Utils.normalize(block.getLocation()));
+
+                        Market.getCompany(compName).getMachines().remove(BlockPosKey.from(block.getLocation()));
                     }
 
                 }
@@ -119,7 +123,8 @@ public class OpenFurnaceEvent implements Listener {
                     tileState.update();
 
                     Machine machine = new Machine(block, comp);
-                    comp.getMachines().put(Utils.normalize(block.getLocation()), machine);
+
+                    comp.getMachines().put(BlockPosKey.from(block.getLocation()), machine);
                     InventoryHolder screen = new MachineMenu(event.getPlayer().getUniqueId(), comp, machine);
                     event.getPlayer().openInventory(screen.getInventory());
                     return null;
@@ -136,9 +141,9 @@ public class OpenFurnaceEvent implements Listener {
                     return;
                 }
 
-                AssertMet(comp.getMachines().get(Utils.normalize(block.getLocation())) != null, "Machine Open: machine is null");
+                AssertMet(comp.getMachines().get(BlockPosKey.from(block.getLocation())) != null, "Machine Open: machine is null");
                 InventoryHolder screen = new MachineMenu(event.getPlayer().getUniqueId(), comp,
-                        comp.getMachines().get(Utils.normalize(block.getLocation())));
+                        comp.getMachines().get(BlockPosKey.from(block.getLocation())));
                 event.getPlayer().openInventory(screen.getInventory());
             }
 

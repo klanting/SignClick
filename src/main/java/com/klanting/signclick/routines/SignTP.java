@@ -107,6 +107,12 @@ public class SignTP {
                 sign.getBlock().setType(Material.AIR);
                 return;
             }
+
+            if(!Market.getCompany(bus).getCOM().isOwner(player.getUniqueId())){
+                player.sendMessage(SignClick.getPrefix()+"Only CEO can make sign");
+                return;
+            }
+
             sign.setLine(0, "§b[sign_comp]");
             sign.setLine(1, cords);
             sign.setLine(2,bus);
@@ -138,11 +144,6 @@ public class SignTP {
 
             if (comp == null){
                 player.sendMessage(SignClick.getPrefix()+"Company invalid");
-                return;
-            }
-
-            if(!comp.getCOM().isOwner(player.getUniqueId())){
-                player.sendMessage(SignClick.getPrefix()+"Only CEO can make sign");
                 return;
             }
 

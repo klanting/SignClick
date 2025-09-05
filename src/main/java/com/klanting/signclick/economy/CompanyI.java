@@ -7,9 +7,11 @@ import com.klanting.signclick.economy.companyPatent.PatentUpgrade;
 import com.klanting.signclick.economy.companyUpgrades.Upgrade;
 import com.klanting.signclick.economy.contractRequests.ContractRequest;
 import com.klanting.signclick.economy.logs.PluginLogs;
+import com.klanting.signclick.utils.BlockPosKey;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.util.BlockVector;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -65,7 +67,7 @@ public interface CompanyI {
     List<PluginLogs> getLogObservers();
     void setType(String type);
     ArrayList<PatentUpgrade> getPatentUpgrades();
-    HashMap<Location, Machine> getMachines();
+    HashMap<BlockPosKey, Machine> getMachines();
     String getPlayerNamePending();
     double getPlayerAmountPending();
     int getPlayerWeeksPending();

@@ -14,6 +14,7 @@ import com.klanting.signclick.economy.logs.MoneyTransfer;
 import com.klanting.signclick.economy.logs.ShareholderChange;
 import com.klanting.signclick.economy.logs.ResearchUpdate;
 import com.klanting.signclick.events.MenuEvents;
+import com.klanting.signclick.utils.BlockPosKey;
 import com.klanting.signclick.utils.JsonTools;
 import com.klanting.signclick.utils.Utils;
 import org.apache.commons.lang3.tuple.Pair;
@@ -24,6 +25,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
+import org.bukkit.util.BlockVector;
 import org.jetbrains.annotations.NotNull;
 import versionCompatibility.CompatibleLayer;
 
@@ -61,11 +63,11 @@ public class Company extends LoggableSubject implements CompanyI{
 
     private ContractRequest pendingContractRequest = null;
 
-    public HashMap<Location, Machine> getMachines() {
+    public HashMap<BlockPosKey, Machine> getMachines() {
         return machines;
     }
 
-    public final HashMap<Location, Machine> machines = new HashMap<>();
+    public final HashMap<BlockPosKey, Machine> machines = new HashMap<>();
 
 
     public String getPlayerNamePending() {
@@ -338,10 +340,10 @@ public class Company extends LoggableSubject implements CompanyI{
                         case "machines":
                             Set<Entry<String, JsonElement>> entries = element.getAsJsonObject().entrySet();
                             for(Entry<String, JsonElement> entry: entries){
-                                Location loc = context.deserialize(JsonParser.parseString(entry.getKey()), new TypeToken<Location>(){}.getType());
+                                BlockPosKey blockPos = context.deserialize(JsonParser.parseString(entry.getKey()), new TypeToken<BlockPosKey>(){}.getType());
                                 Machine machine = context.deserialize(entry.getValue(), new TypeToken<Machine>(){}.getType());
 
-                                machines.put(loc, machine);
+                                machines.put(blockPos, machine);
                             }
 
                             for (Machine machine: machines.values()){
@@ -414,9 +416,8 @@ public class Company extends LoggableSubject implements CompanyI{
         };
 
         Function<JsonObject, JsonObject> method2 = (jsonObject) -> {
-            for (Map.Entry<Location, Machine> entry: machines.entrySet()){
-
-                JsonObject machinesJson = new JsonObject();
+            JsonObject machinesJson = new JsonObject();
+            for (Map.Entry<BlockPosKey, Machine> entry: machines.entrySet()){
                 machinesJson.add(context.serialize(entry.getKey()).toString(),
                         context.serialize(entry.getValue())
                         );

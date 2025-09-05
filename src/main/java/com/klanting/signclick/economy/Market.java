@@ -76,7 +76,6 @@ public class Market {
         }
 
         double keepPCT = (1.0 - (sub_fee - country.getPolicyBonus("taxReduction")));
-        System.out.println("K "+keepPCT);
 
         AssertMet(keepPCT > 0.0, "Player needs to keep at least more than 0 from selling shares");
         AssertMet(keepPCT <= 1.0, "Player can only keep 100% of the shares at most");

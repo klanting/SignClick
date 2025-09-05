@@ -2,11 +2,10 @@ package com.company;
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
-import com.klanting.signclick.economy.Account;
-import com.klanting.signclick.economy.CompanyI;
-import com.klanting.signclick.economy.CountryManager;
-import com.klanting.signclick.economy.Market;
+import com.klanting.signclick.economy.*;
 import com.klanting.signclick.SignClick;
+import com.klanting.signclick.utils.BlockPosKey;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -363,6 +362,40 @@ class CompanyTests {
         assertEquals(testPlayer.getUniqueId(), company.getCOM().getBoard().getChief("CEO"));
         assertEquals(null, company.getCOM().getBoard().getChief("CFO"));
 
+    }
+
+    @Test
+    void companyStoreMachinesBug(){
+        /*
+        * when having multiple machines, the storing only returns 1 machine
+        * */
+
+        PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
+        SignClick.getEconomy().depositPlayer(testPlayer, 1000.0);
+
+        boolean suc6 = Market.addCompany("TestCaseInc", "TCI", Market.getAccount(testPlayer));
+        assertTrue(suc6);
+
+        CompanyI company = Market.getCompany("TCI");
+
+        /*
+        * create machine 1
+        * */
+        company.getMachines().put(BlockPosKey.from(new Location(server.addSimpleWorld("world"), 0, 0, 0)),
+                new Machine(null, company));
+
+        /*
+         * create machine 2
+         * */
+        company.getMachines().put(BlockPosKey.from(new Location(server.addSimpleWorld("world"), 1, 0, 0)),
+                new Machine(null, company));
+
+        assertEquals(2, company.getMachines().size());
+
+        plugin = TestTools.reboot(server);
+
+        company = Market.getCompany("TCI");
+        assertEquals(2, company.getMachines().size());
     }
 
 }
