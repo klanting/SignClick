@@ -68,6 +68,21 @@ public class Market {
         return v*amount;
     }
 
+    public static double getKeepFee(Country country){
+        double sub_fee = fee;
+
+        if (country.getStability() < 50){
+            sub_fee += 0.01;
+        }
+
+        double keepPCT = (1.0 - (sub_fee - country.getPolicyBonus(0, "taxReduction")- country.getPolicyBonus(1, "taxReduction")));
+
+        AssertMet(keepPCT > 0.0, "Player needs to keep at least more than 0 from selling shares");
+        AssertMet(keepPCT <= 1.0, "Player can only keep 100% of the shares at most");
+
+        return  keepPCT;
+    }
+
     public static  Double getSellPrice(String Sname, Integer amount){
 
         String countryName = Market.getCompany(Sname).getCountry();
@@ -76,13 +91,9 @@ public class Market {
             country = new CountryNull();
         }
 
+        double keepPCT = getKeepFee(country);
 
-        double sub_fee = fee;
-
-        if (country.getStability() < 50){
-            sub_fee += 0.01;
-        }
-        return (getBuyPrice(Sname, -amount)*-1)*(1.0 - (sub_fee - country.getPolicyBonus(0, "taxReduction")- country.getPolicyBonus(1, "taxReduction")));
+        return (getBuyPrice(Sname, -amount)*-1)*keepPCT;
 
     }
 

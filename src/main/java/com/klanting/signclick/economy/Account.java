@@ -88,7 +88,6 @@ public class Account {
 
         String countryName = Market.getCompany(Sname).getCountry();
 
-        double sub_fee = Market.getFee();
         Country country = CountryManager.getCountry(countryName);
 
         double to_gov;
@@ -96,20 +95,16 @@ public class Account {
             country = new CountryNull();
         }
 
-        if (country.getStability() < 50){
-            sub_fee += 0.01;
-        }
+        double keepPCT = Market.getKeepFee(country);
 
-        to_gov = v/(1.0-(sub_fee-country.getPolicyBonus(0, "taxReduction")- country.getPolicyBonus(1, "taxReduction"))
-                *(Market.getFee()- country.getPolicyBonus(0, "taxReduction")- country.getPolicyBonus(1, "taxReduction")));
+        to_gov = v/keepPCT*(1.0-keepPCT);
+
         Country playerCountry = CountryManager.getCountry(player);
         if (playerCountry != null){
             playerCountry.deposit((int) to_gov);
         }else{
             Market.getCompany(Sname).addShareBal(to_gov);
         }
-
-
 
         int share_amount = shares.getOrDefault(Sname, 0);
         if (share_amount < amount){
