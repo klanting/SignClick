@@ -14,7 +14,7 @@ public class CountryNull extends Country{
     }
 
     @Override
-    public double getPolicyBonus(int id, String s){
+    public double getPolicyBonus(String s){
 
         return 0.0;
     }
