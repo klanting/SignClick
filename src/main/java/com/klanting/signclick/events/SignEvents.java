@@ -7,6 +7,7 @@ import com.klanting.signclick.menus.company.MarketMenu;
 import com.klanting.signclick.routines.SignIncome;
 import com.klanting.signclick.routines.SignStock;
 import com.klanting.signclick.routines.SignTP;
+import com.klanting.signclick.signs.SignLookup;
 import com.klanting.signclick.utils.Prefix;
 import org.bukkit.ChatColor;
 import org.bukkit.block.Sign;
@@ -21,6 +22,11 @@ import static org.bukkit.Bukkit.getServer;
 
 public class SignEvents implements Listener {
 
+    private static final SignLookup slTp = new SignLookup("tp");
+    private static final SignLookup slIn = new SignLookup("in");
+    private static final SignLookup slComp = new SignLookup("comp");
+    private static final SignLookup slStock = new SignLookup("stock");
+
 
     @EventHandler(priority = EventPriority.NORMAL)
     public static void OnSignClick(PlayerInteractEvent event){
@@ -33,18 +39,19 @@ public class SignEvents implements Listener {
                     Player player = event.getPlayer();
 
                     String define = sign.getLine(0);
+
                     //start options
-                    if (define.equalsIgnoreCase("§b[signclick_tp]")||define.equalsIgnoreCase("§b[sign_tp]")){
+                    if (slTp.equals(define)){
                         SignTP.tp(sign, player);
                         event.setCancelled(true);
-                    }else if(define.equalsIgnoreCase("§b[sign_in]")){
+                    }else if(slIn.equals(define)){
                         SignIncome.Open(sign, player);
                         event.setCancelled(true);
 
-                    }else if (define.equalsIgnoreCase("§b[signclick_comp]")||define.equalsIgnoreCase("§b[sign_comp]")){
+                    }else if (slComp.equals(define)){
                         SignTP.tpBus(sign, player);
                         event.setCancelled(true);
-                    }else if (define.equalsIgnoreCase("§b[stock]")){
+                    }else if (slStock.equals(define)){
                         event.setCancelled(true);
 
                         String stockName = sign.getLine(1);
@@ -74,14 +81,13 @@ public class SignEvents implements Listener {
         if (sign.getLine(0) != null){
             Player player = sign.getPlayer();
             String define = sign.getLine(0);
-
-                if ((define.equalsIgnoreCase("[signclick_tp]"))||(define.equalsIgnoreCase("[sign_tp]"))) {
+                if (slTp.preEquals(define)) {
                     SignTP.set(sign, player);
-                }else if(define.equalsIgnoreCase("[sign_in]")){
+                }else if(slIn.preEquals(define)){
                     SignIncome.Set(sign, player);
-                }else if (define.equalsIgnoreCase("[sign_comp]")){
+                }else if (slComp.preEquals(define)){
                     SignTP.setBus(sign, player);
-                }else if (define.equalsIgnoreCase("[stock]")){
+                }else if (slStock.preEquals(define)){
                     if (sign.getLine(1) != null){
                         SignStock.set(sign, player);
 
