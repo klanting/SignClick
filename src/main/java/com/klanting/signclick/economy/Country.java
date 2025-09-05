@@ -300,7 +300,7 @@ public class Country {
 
             CountryManager.joinCountry(this, uuid);
 
-            addStability(3.0*(1.0+ getPolicyBonus(2, "joinPlayerBonus")));
+            addStability(3.0*(1.0+ getPolicyBonus("joinPlayerBonus")));
         }
 
     }
@@ -349,7 +349,7 @@ public class Country {
         members.remove(uuid);
 
         CountryManager.leaveCountry(uuid);
-        addStability(-3.0*(1.0- getPolicyBonus(2, "removePlayerPenalty")));
+        addStability(-3.0*(1.0- getPolicyBonus("removePlayerPenalty")));
     }
 
     public Double addStability(double change){
@@ -357,9 +357,14 @@ public class Country {
         return stability;
     }
 
-    public double getPolicyBonus(int id, String s){
+    public double getPolicyBonus(String s){
 
-        return policies.get(id).getBonus(s);
+        double total = 0.0;
+        for(Policy policy: policies){
+            total += policy.getBonus(s);
+        }
+
+        return total;
     }
 
     public double getFunding(String type){

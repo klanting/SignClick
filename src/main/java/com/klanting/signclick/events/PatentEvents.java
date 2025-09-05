@@ -108,7 +108,7 @@ public class PatentEvents implements Listener {
             return;
         }
 
-        double m = 1.0 + country.getPolicyBonus(2, "xpGain");
+        double m = 1.0 + country.getPolicyBonus("xpGain");
         event.setAmount((int) Math.round(event.getAmount()*m));
     }
 

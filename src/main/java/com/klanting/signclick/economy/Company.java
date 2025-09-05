@@ -484,13 +484,13 @@ public class Company extends LoggableSubject implements CompanyI{
 
     public void dividend(){
         double modifier1 = 0.0;
-        double modifier2 = 0.0;
         if (country != null){
-            modifier1 = country.getPolicyBonus(0, "dividendReduction");
-            modifier2 = country.getPolicyBonus(1, "dividendReduction");
+            modifier1 = country.getPolicyBonus("dividendReduction");
         }
 
-        double value_one = (getValue()/getTotalShares().doubleValue())*(0.01- modifier1-modifier2);
+        AssertMet((0.01- modifier1) >= 0, "Dividends payout % must be positive");
+
+        double value_one = (getValue()/getTotalShares().doubleValue())*(0.01- modifier1);
         assert removeBal(value_one*(getTotalShares()-getMarketShares()), true);
 
         for (Entry<UUID, Integer> entry : getCOM().getShareHolders().entrySet()){
@@ -608,7 +608,7 @@ public class Company extends LoggableSubject implements CompanyI{
             if (country.getStability() < 50){
                 base += 0.15;
             }
-            modifier += country.getPolicyBonus(1, "upgradeDiscount");
+            modifier += country.getPolicyBonus("upgradeDiscount");
         }
 
         return base-modifier;
@@ -625,7 +625,7 @@ public class Company extends LoggableSubject implements CompanyI{
 
         double modifier2 = 0.0;
         if (country != null){
-            modifier2 += country.getPolicyBonus(3, "UpgradeReturnTimeReduction");
+            modifier2 += country.getPolicyBonus("UpgradeReturnTimeReduction");
         }
 
         int cost = (int) ((double) u.getUpgradeCost()*getUpgradeModifier());

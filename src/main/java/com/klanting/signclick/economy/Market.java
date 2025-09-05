@@ -75,7 +75,8 @@ public class Market {
             sub_fee += 0.01;
         }
 
-        double keepPCT = (1.0 - (sub_fee - country.getPolicyBonus(0, "taxReduction")- country.getPolicyBonus(1, "taxReduction")));
+        double keepPCT = (1.0 - (sub_fee - country.getPolicyBonus("taxReduction")));
+        System.out.println("K "+keepPCT);
 
         AssertMet(keepPCT > 0.0, "Player needs to keep at least more than 0 from selling shares");
         AssertMet(keepPCT <= 1.0, "Player can only keep 100% of the shares at most");
@@ -618,7 +619,7 @@ public class Market {
             }
 
             if (!comp.getCOM().isOpenTrade()){
-                double value = country.getPolicyBonus(1, "closedMarket");
+                double value = country.getPolicyBonus( "closedMarket");
                 total += (int) value;
                 if (value > 0.0){
                     comp.addBal(value);

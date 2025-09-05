@@ -37,7 +37,7 @@ public class CompanyHandlerCreate extends CompanyHandler{
         Country country = CountryManager.getCountry(player);
         double discount_pct = 1.0;
         if (country != null){
-            discount_pct = (1.0- country.getPolicyBonus(1, "createDiscount"));
+            discount_pct = (1.0- country.getPolicyBonus("createDiscount"));
         }
 
         double baseCreationCost = SignClick.getConfigManager().getConfig("companies.yml").getDouble("companyCreateCost");

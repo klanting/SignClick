@@ -132,7 +132,7 @@ public class SignTP {
             CompanyI comp = Market.getCompany(sign.getLine(2));
 
             Country country = CountryManager.getCountry(player);
-            double d = country.getPolicyBonus(3, "transportCost");
+            double d = country.getPolicyBonus("transportCost");
             int amount_first = amount;
             amount = (int) (amount*(1.0+d));
 
