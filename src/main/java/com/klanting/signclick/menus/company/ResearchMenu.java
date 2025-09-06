@@ -37,7 +37,9 @@ public class ResearchMenu extends PagingMenu {
             DecimalFormat df3 = new DecimalFormat("###,###,##0.00");
             List<String> l = new ArrayList<>();
             l.add("§7Research "+df3.format(researchOption.getProgress()*100)+"% completed");
-            long remainingTime = researchOption.getRemainingTime();
+
+            double compUpgradeModifier = (double) comp.getUpgrades().get(5).getBonus()/100.0;
+            long remainingTime = (long) (researchOption.getRemainingTime()/compUpgradeModifier);
 
             if (researchOption.isResearching()){
                 l.add("§7"+remainingTime/3600+"h "+(remainingTime%3600)/60 + "m "+remainingTime%60+"s");

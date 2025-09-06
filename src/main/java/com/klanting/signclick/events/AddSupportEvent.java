@@ -3,6 +3,7 @@ package com.klanting.signclick.events;
 import com.klanting.signclick.economy.Board;
 import com.klanting.signclick.menus.company.BoardSupportMenu;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,6 +14,8 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import java.util.HashMap;
 import java.util.Map;
 import org.bukkit.event.Listener;
+
+import static org.bukkit.Bukkit.getServer;
 
 public class AddSupportEvent implements Listener {
     public static Map<Player, BoardSupportMenu> waitForMessage = new HashMap<>();
@@ -25,7 +28,8 @@ public class AddSupportEvent implements Listener {
             Board board = waitForMessage.get(event.getPlayer()).comp.getCOM().getBoard();
 
             OfflinePlayer target = Bukkit.getOfflinePlayer(name);
-            if (target != null && target.getUniqueId() != null && !board.
+
+            if (target.hasPlayedBefore() && target != null && target.getUniqueId() != null && !board.
                     getBoardSupport(event.getPlayer().getUniqueId()).contains(target.getUniqueId())){
                 board.addBoardSupport(event.getPlayer().getUniqueId(), target.getUniqueId());
 
