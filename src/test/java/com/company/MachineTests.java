@@ -343,7 +343,7 @@ public class MachineTests {
          * */
         testPlayer.simulateInventoryClick(10);
         assertEquals(Material.DIRT, testPlayer.getOpenInventory().getItem(0).getType());
-        assertTrue(testPlayer.getOpenInventory().getItem(0).getItemMeta().getLore().contains("§cThis Product is Licensed"));
+        assertTrue(testPlayer.getOpenInventory().getItem(0).getItemMeta().getLore().contains("§cThis Product is Licensed from TCI2"));
         testPlayer.simulateInventoryClick(0);
 
         inv = testPlayer.getOpenInventory();
@@ -483,7 +483,7 @@ public class MachineTests {
          * */
         testPlayer.simulateInventoryClick(10);
         assertEquals(Material.DIRT, testPlayer.getOpenInventory().getItem(0).getType());
-        assertTrue(testPlayer.getOpenInventory().getItem(0).getItemMeta().getLore().contains("§cThis Product is Licensed"));
+        assertTrue(testPlayer.getOpenInventory().getItem(0).getItemMeta().getLore().contains("§cThis Product is Licensed from TCI2"));
         testPlayer.simulateInventoryClick(0);
 
         inv = testPlayer.getOpenInventory();

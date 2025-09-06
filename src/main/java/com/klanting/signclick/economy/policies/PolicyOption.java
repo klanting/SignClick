@@ -4,10 +4,7 @@ import com.klanting.signclick.utils.PreciseNumberFormatter;
 import org.bukkit.configuration.ConfigurationSection;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.klanting.signclick.utils.Utils.AssertMet;
 
@@ -15,6 +12,11 @@ public class PolicyOption {
 
     private String title;
     private Map<String, Double> bonus = new HashMap<>();
+
+    public Set<String> getBonusKeys(){
+        return bonus.keySet();
+    }
+
     private Map<String, Integer> require = new HashMap<>();
 
     private Map<String, Double> funding = new HashMap<>();
@@ -31,7 +33,7 @@ public class PolicyOption {
         return require.getOrDefault(s, 0);
     }
 
-    private static String translationMethod(String type, double value){
+    public static String translationMethod(String type, double value){
         DecimalFormat df = new DecimalFormat("##0.##");
 
         return switch (type) {
@@ -60,7 +62,10 @@ public class PolicyOption {
             case "transport" -> df.format(Math.abs(value))+"/week "+(value >= 0 ?"income":"tax")+" (transport)";
             case "closedMarket" -> df.format(Math.abs(value))+"/week "+(value >= 0 ?"income":"tax")+" (closed trade)";
 
-            case "capital" -> "gov capital > "+ PreciseNumberFormatter.format(value);
+            case "capital" -> "gov capital at least "+ PreciseNumberFormatter.format(value);
+            case "lawEnforcement" -> "law enforcement at least "+ PreciseNumberFormatter.format(value);
+            case "minTaxRate" -> "tax rate at least "+ PreciseNumberFormatter.format(value)+"%";
+            case "maxTaxRate" -> "tax rate at most "+ PreciseNumberFormatter.format(value)+"%";
 
             default -> null;
         };

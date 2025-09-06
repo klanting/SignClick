@@ -2,15 +2,18 @@ package com.klanting.signclick.menus.country;
 
 import com.klanting.signclick.economy.Country;
 import com.klanting.signclick.economy.CountryManager;
+import com.klanting.signclick.economy.policies.PolicyOption;
 import com.klanting.signclick.menus.SelectionMenu;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import com.klanting.signclick.utils.ItemFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class Policy extends SelectionMenu {
@@ -24,8 +27,18 @@ public class Policy extends SelectionMenu {
     }
 
     public void init(){
-        int startIndex = 11;
+        List<String> policyLore = new ArrayList<>();
+
         Country country = CountryManager.getCountry(uuid);
+
+        for(Map.Entry<String, Double> entry: country.getPolicyBonusMap().entrySet()){
+            policyLore.add("§7"+ PolicyOption.translationMethod(entry.getKey(), entry.getValue()));
+        }
+
+        getInventory().setItem(4, ItemFactory.create(Material.DIAMOND, "§6Policy Modifiers", policyLore));
+
+        int startIndex = 11;
+
         for (com.klanting.signclick.economy.policies.Policy p: country.getPolicies()){
             ItemStack item = new ItemStack(p.getMaterial());
             ItemMeta meta = item.getItemMeta();

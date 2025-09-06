@@ -5,6 +5,7 @@ import org.bukkit.Material;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class Policy {
 
@@ -61,6 +62,10 @@ public class Policy {
     public List<String> getDescription(int lvl) {
 
         return options.get(lvl).getDescription();
+    }
+
+    public Set<String> getBonusKeys(){
+        return options.get(level).getBonusKeys();
     }
 
     public Integer getId() {

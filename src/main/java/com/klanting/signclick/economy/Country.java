@@ -367,6 +367,22 @@ public class Country {
         return total;
     }
 
+    public Map<String, Double> getPolicyBonusMap(){
+        Map<String, Double> keyMap = new HashMap<>();
+
+        for(Policy policy: policies){
+            for(String key: policy.getBonusKeys()){
+                double total = keyMap.getOrDefault(key, 0.0);
+                total += policy.getBonus(key);
+
+                keyMap.put(key, total);
+            }
+
+        }
+
+        return keyMap;
+    }
+
     public double getFunding(String type){
         double val = 0.0;
         for(Policy p: policies){
