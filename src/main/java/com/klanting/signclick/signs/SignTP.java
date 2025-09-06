@@ -1,4 +1,4 @@
-package com.klanting.signclick.routines;
+package com.klanting.signclick.signs;
 
 import com.klanting.signclick.economy.*;
 import com.klanting.signclick.SignClick;

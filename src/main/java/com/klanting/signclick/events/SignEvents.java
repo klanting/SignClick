@@ -6,10 +6,10 @@ import com.klanting.signclick.economy.Market;
 import com.klanting.signclick.menus.company.MarketMenu;
 import com.klanting.signclick.routines.SignIncome;
 import com.klanting.signclick.routines.SignStock;
-import com.klanting.signclick.routines.SignTP;
+import com.klanting.signclick.signs.SignShop;
+import com.klanting.signclick.signs.SignTP;
 import com.klanting.signclick.signs.SignLookup;
 import com.klanting.signclick.utils.Prefix;
-import org.bukkit.ChatColor;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -18,14 +18,14 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.*;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-import static org.bukkit.Bukkit.getServer;
-
 public class SignEvents implements Listener {
 
     private static final SignLookup slTp = new SignLookup("tp");
     private static final SignLookup slIn = new SignLookup("in");
     private static final SignLookup slComp = new SignLookup("comp");
     private static final SignLookup slStock = new SignLookup("stock");
+
+    public static final SignLookup slShop = new SignLookup("shop");
 
 
     @EventHandler(priority = EventPriority.NORMAL)
@@ -65,6 +65,9 @@ public class SignEvents implements Listener {
                         MarketMenu mm = new MarketMenu(player.getUniqueId(), comp, false);
                         player.openInventory(mm.getInventory());
 
+                    }else if (slShop.equals(define)){
+                        SignShop.onSign(sign, player);
+                        event.setCancelled(true);
                     }
 
 
@@ -95,6 +98,8 @@ public class SignEvents implements Listener {
                         player.sendMessage(SignClick.getPrefix() +"no company given");
                     }
 
+                }else if (slShop.preEquals(define)){
+                    SignShop.setSign(sign, player);
                 }
         }
     }
