@@ -49,12 +49,16 @@ public class Research {
         long now = CompatibleLayer.getCurrentTick();
         long delta = (now-lastChecked)/20L;
 
+        if(delta == 0){
+            return;
+        }
+
         lastChecked = now;
 
         for (ResearchOption researchOption: researchOptions){
 
             long canPayDelta = researchOption.canPayDelta(Math.min(company.getBal(), company.getSpendable()));
-            long remainingTime = Math.max((long) (researchOption.getCompleteTime()*(1-researchOption.getProgress())), 0);
+            long remainingTime = Math.max((long) Math.ceil((researchOption.getCompleteTime()*(1-researchOption.getProgress()))), 0);
 
             AssertMet(canPayDelta >= 0, "Research: canPayDelta must be positive");
             AssertMet(delta >= 0, "Research: delta must be positive");

@@ -30,6 +30,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -82,6 +83,17 @@ public class MenuEvents implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST)
     public static void OnClick(InventoryClickEvent event){
+
+        /*
+        * ensure we cannot move blocks into the ui if we have the same block
+        * */
+        if ((event.getInventory().getHolder() instanceof SelectionMenu
+                && event.getAction() == InventoryAction.MOVE_TO_OTHER_INVENTORY)
+                && !(event.getClickedInventory().getHolder() instanceof SelectionMenu)
+        ){
+            event.setCancelled(true);
+            return;
+        }
 
         if (event.getClickedInventory() == null || event.getCurrentItem() == null){
             return;

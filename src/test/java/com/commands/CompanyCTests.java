@@ -14,6 +14,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.mockito.Mockito;
 import org.yaml.snakeyaml.error.Mark;
 import tools.ExpandedServerMock;
 import tools.TestTools;
@@ -868,6 +869,19 @@ class CompanyCTests {
     void companySupport(){
         PlayerMock testPlayer2 = server.addPlayer();
 
+        /*
+        * fix has played before
+        * */
+        PlayerMock spyPlayer = Mockito.spy(testPlayer2);
+        Mockito.when(spyPlayer.hasPlayedBefore()).thenReturn(true);
+        assertTrue(spyPlayer.hasPlayedBefore());
+
+        /*
+        * add the spy player to player list, to ensure ahsPlayerBefore
+        * */
+        server.getPlayerList().addPlayer(spyPlayer);
+
+
         CompanyI comp = Market.getCompany("TCI");
 
         /*
@@ -1214,6 +1228,41 @@ class CompanyCTests {
         assertEquals(0, company.getShareBalance());
 
         assertEquals(282, Math.round(company.getBal()));
+    }
+
+    @Test
+    void companyDirectSellBug(){
+        /*
+        * Selling company after directly creating, should not create negative value, but should be 0
+        * */
+        SignClick.getEconomy().depositPlayer(testPlayer, 40000000);
+
+        CountryManager.create("CO", testPlayer);
+        testPlayer.nextMessage();
+
+        boolean suc6 = server.execute("company", testPlayer, "create", "TESTINGCOMP", "COMP").hasSucceeded();
+        assertTrue(suc6);
+
+        testPlayer.assertSaid("§bplease re-enter your command to confirm that you want to start a company and want to auto-transfer §64 thousand §bto your business from your account If you agree, enter: §c/company create TESTINGCOMP COMP");
+        testPlayer.assertNoMoreSaid();
+
+        suc6 = server.execute("company", testPlayer, "create", "TESTINGCOMP", "COMP").hasSucceeded();
+        assertTrue(suc6);
+        testPlayer.simulateInventoryClick(6);
+
+        testPlayer.assertSaid("§byou succesfully founded TESTINGCOMP good luck CEO Player0");
+        testPlayer.assertNoMoreSaid();
+
+        suc6 = server.execute("company", testPlayer, "sell", "COMP", "1000").hasSucceeded();
+        assertTrue(suc6);
+        testPlayer.nextMessage();
+
+        suc6 = server.execute("company", testPlayer, "sell", "COMP", "1000").hasSucceeded();
+        assertTrue(suc6);
+        testPlayer.assertSaid("§bsell: §aaccepted");
+
+        CompanyI company = Market.getCompany("COMP");
+        assertTrue(company.getValue() >= 0.0);
     }
 
 

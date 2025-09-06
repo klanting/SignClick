@@ -201,7 +201,7 @@ public class OwnerMenu extends SelectionMenu {
             player.openInventory(new_screen.getInventory());
 
         }else if(option.equalsIgnoreCase("§6§lPatent Auction")){
-            AuctionMenu new_screen = new AuctionMenu(old_screen.comp);
+            AuctionMenu new_screen = new AuctionMenu(old_screen.comp, player.getUniqueId());
             player.openInventory(new_screen.getInventory());
 
         }else if(option.equalsIgnoreCase("§6§lRecipes")){

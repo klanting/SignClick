@@ -245,7 +245,7 @@ public class CompanyMenuTests {
         int i = 60*60*24*7*20+1;
         server.getScheduler().performTicks(i);
 
-        AuctionMenu new_screen = new AuctionMenu(comp);
+        AuctionMenu new_screen = new AuctionMenu(comp, testPlayer.getUniqueId());
         testPlayer.openInventory(new_screen.getInventory());
 
         auctionMenu = testPlayer.getOpenInventory();
@@ -674,6 +674,7 @@ public class CompanyMenuTests {
 
         assertEquals("§7Research 0,00% completed", researchSelector.getItem(0).getItemMeta().getLore().get(0));
         assertEquals("§70h 1m 25s", researchSelector.getItem(0).getItemMeta().getLore().get(1));
+
 
         server.getScheduler().performTicks(100*20L);
         testPlayer.closeInventory();

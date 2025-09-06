@@ -1,13 +1,18 @@
 package com.klanting.signclick.menus.company;
 
+import com.klanting.signclick.SignClick;
 import com.klanting.signclick.economy.CompanyI;
 import com.klanting.signclick.economy.ResearchOption;
 import com.klanting.signclick.menus.PagingMenu;
 import com.klanting.signclick.utils.ItemFactory;
+import com.klanting.signclick.utils.Utils;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -24,6 +29,7 @@ public class ResearchMenu extends PagingMenu {
         assert comp.getCOM().getBoard().getBoardMembers().contains(uuid);
 
         init();
+        startTitleUpdater(Bukkit.getPlayer(uuid));
     }
 
     public void init(){
@@ -148,5 +154,24 @@ public class ResearchMenu extends PagingMenu {
         init();
 
         return false;
+    }
+
+    public void startTitleUpdater(Player player) {
+        BukkitRunnable titleUpdater = new BukkitRunnable() {
+            @Override
+            public void run() {
+                Inventory top = player.getOpenInventory().getTopInventory();
+
+                if (top == null ||!top.equals(getInventory())) {
+                    cancel();
+                    return;
+                }
+
+                init();
+
+            }
+        };
+
+        titleUpdater.runTaskTimer(SignClick.getPlugin(), 0L, 20L); // every second
     }
 }

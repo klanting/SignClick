@@ -6,11 +6,13 @@ import com.klanting.signclick.menus.SelectionMenu;
 import com.klanting.signclick.menus.company.ProductList;
 import com.klanting.signclick.utils.ItemFactory;
 
+import com.klanting.signclick.utils.Utils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.TileState;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
@@ -42,7 +44,7 @@ public class MachineMenu extends SelectionMenu {
         List<String> l = new ArrayList<>();
         if (machine.hasProduct()){
             int timeTillDone = machine.getProductionTotal()-machine.getProductionProgress();
-            l.add("§7Next Produced: "+(machine.isFrozenByFunds() ? "NEVER": timeTillDone));
+            l.add("§7Next Produced: "+(machine.isFrozenByFunds() ? "NEVER": Utils.formatDuration(timeTillDone)));
         }
 
         if (machine.isLicensed() && machine.getLicense().isFrozenByLicenseCost()){

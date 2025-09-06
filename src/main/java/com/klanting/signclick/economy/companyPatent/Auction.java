@@ -151,4 +151,8 @@ public class Auction {
         },start_time,auctionCycle*20L);
 
     }
+
+    public long getWaitTime(){
+        return time_end - CompatibleLayer.getCurrentTick();
+    }
 }

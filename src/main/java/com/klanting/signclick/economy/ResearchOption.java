@@ -17,7 +17,7 @@ public class ResearchOption {
     }
 
     private final Material material;
-    private long progress;
+    private double progress;
 
     public static final List<Pair<Double, Integer>> modifiers = new ArrayList<>();
 
@@ -71,7 +71,7 @@ public class ResearchOption {
 
     public double getProgress(){
         return Math.min(
-                ((double) progress)/getCompleteTime(),
+                (progress)/getCompleteTime(),
                 1.0
         );
     }
@@ -95,7 +95,7 @@ public class ResearchOption {
 
         boolean addProduct = false;
 
-        long change = (long) (delta*modifiers.get(modifierIndex).getLeft()*upgradeModifier);
+        double change = delta*modifiers.get(modifierIndex).getLeft()*upgradeModifier;
 
         if (progress < getCompleteTime() && progress+change >= getCompleteTime()){
             addProduct = true;

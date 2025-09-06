@@ -17,7 +17,7 @@ public class CountryHandlerVote extends CountryHandler{
         Election e = country.getCountryElection();
         CommandAssert.assertTrue(!e.alreadyVoted.contains(player.getUniqueId()), "§byou can`t vote twice");
 
-        ElectionMenu screen = new ElectionMenu(e);
+        ElectionMenu screen = new ElectionMenu(e, player.getUniqueId());
         player.openInventory(screen.getInventory());
     }
 }

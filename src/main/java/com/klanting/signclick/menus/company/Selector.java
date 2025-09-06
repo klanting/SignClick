@@ -91,6 +91,7 @@ public class Selector extends PagingMenu {
         if (!super.onClick(event)){
             return false;
         }
+
         Player player = (Player) event.getWhoClicked();
         event.setCancelled(true);
 

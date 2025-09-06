@@ -5,25 +5,33 @@ import com.klanting.signclick.economy.CompanyI;
 import com.klanting.signclick.economy.companyPatent.Auction;
 import com.klanting.signclick.economy.companyPatent.PatentUpgrade;
 import com.klanting.signclick.menus.SelectionMenu;
+import com.klanting.signclick.utils.Utils;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.NotNull;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
+
+import static org.bukkit.Bukkit.getServer;
 
 public class AuctionMenu extends SelectionMenu {
 
     public CompanyI comp;
 
-    public AuctionMenu(CompanyI comp){
-        super(9, "Patent Upgrade Auction", true);
+    public AuctionMenu(CompanyI comp, UUID uuid){
+        super(9, "Auction: "+ Utils.formatDuration(Auction.getInstance().getWaitTime()/20), true);
+
         this.comp = comp;
         init();
+        startTitleUpdater(Bukkit.getPlayer(uuid));
 
     }
 
@@ -88,4 +96,25 @@ public class AuctionMenu extends SelectionMenu {
 
         return true;
     }
+
+    public void startTitleUpdater(Player player) {
+        BukkitRunnable titleUpdater = new BukkitRunnable() {
+            @Override
+            public void run() {
+                Inventory top = player.getOpenInventory().getTopInventory();
+
+                if (top == null ||!top.equals(getInventory())) {
+                    cancel();
+                    return;
+                }
+
+                String title = "Auction: "+ Utils.formatDuration(Auction.getInstance().getWaitTime()/20);
+                setTitle(title, player);
+
+            }
+        };
+
+        titleUpdater.runTaskTimer(SignClick.getPlugin(), 0L, 20L); // every second
+    }
+
 }

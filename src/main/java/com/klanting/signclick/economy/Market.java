@@ -193,8 +193,8 @@ public class Market {
             Board board = entry.getValue().getCOM().getBoard();
             if (board.getBoardMembers().contains(uuid)
                     || (board.getChief("CEO") != null && board.getChief("CEO").equals(uuid))
-                    || (board.getChief("CTO") != null && board.getChief("CEO").equals(uuid))
-                    || (board.getChief("CFO") != null && board.getChief("CEO").equals(uuid))
+                    || (board.getChief("CTO") != null && board.getChief("CTO").equals(uuid))
+                    || (board.getChief("CFO") != null && board.getChief("CFO").equals(uuid))
             ){
                 outputs.add(entry.getValue());
             }
