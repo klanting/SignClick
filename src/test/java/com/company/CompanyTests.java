@@ -11,6 +11,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import org.yaml.snakeyaml.error.Mark;
 import tools.ExpandedServerMock;
 import tools.TestTools;
 
@@ -396,6 +397,59 @@ class CompanyTests {
 
         company = Market.getCompany("TCI");
         assertEquals(2, company.getMachines().size());
+    }
+
+    @Test
+    void companySellMoreThenBuyBug(){
+        /*
+        * In the following scenario selling shares is worth more than buying:
+        * buy a lot of shares,
+        * spend a lot of the shareBal money,
+        * now sell the shares
+        * */
+
+        PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
+        SignClick.getEconomy().depositPlayer(testPlayer, 10000000.0);
+
+        boolean suc6 = Market.addCompany("TestCaseInc", "TCI", Market.getAccount(testPlayer));
+        assertTrue(suc6);
+
+        /*
+        * set open market
+        * */
+        CompanyI company = Market.getCompany("TCI");
+        company.addBal(20);
+        company.getCOM().setOpenTrade(true);
+
+        /*
+        * buy shares
+        * */
+        Market.getAccount(testPlayer).buyShare("TCI", 2000, testPlayer);
+        System.out.println("check sell price");
+        System.out.println(Market.getSellPrice("TCI", 3000));
+
+        /*
+        * spend money
+        * */
+
+        double toSpend = company.getShareBalance();
+        company.removeBal(toSpend, true);
+
+        assertEquals(0, company.getShareBalance());
+        assertTrue(company.getBal() > 0);
+
+        System.out.println(company.getBal());
+        System.out.println("check sell price");
+        System.out.println(Market.getSellPrice("TCI", 3000));
+
+        System.out.println("check sell price2");
+        /*
+        * ensure we cannot sell for more than the value
+        * */
+        //assertTrue(company.getValue() >= Market.getSellPrice("TCI", 3000));
+
+
+
     }
 
 }

@@ -64,7 +64,17 @@ public class Market {
 
         AssertMet(base >= 0, "Share base price needs to be positive");
 
+        System.out.println("Y "+calculateFluxChange(a, b)+" "+a+" "+b+" "+calculateFluxChange(a, -10));
+        System.out.println("B "+ amount+" "+comp.getTotalShares());
+        double sharePCT = (amount/comp.getTotalShares());
+        System.out.println("C "+base);
+
+        //sharePCT maybe change this for shareBal to integral current/integral total to have more fluxation
+        double sharebalPCT = (calculateFluxChange(a, b)*(b-a)/(calculateFluxChange(a, -10)*(-10-a)));
+        System.out.println("A "+((comp.getShareBalance()*sharebalPCT)+(base*amount))+" "+sharebalPCT);
+
         double v = base * calculateFluxChange(a, b);
+        System.out.println("z "+v*amount);
         return v*amount;
     }
 
@@ -92,6 +102,8 @@ public class Market {
         }
 
         double keepPCT = getKeepFee(country);
+
+        System.out.println("X "+calculateFluxChange(-10, 15));
 
         return (getBuyPrice(Sname, -amount)*-1)*keepPCT;
 
