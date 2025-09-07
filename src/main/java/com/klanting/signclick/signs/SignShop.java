@@ -3,6 +3,7 @@ package com.klanting.signclick.signs;
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.economy.CompanyI;
 import com.klanting.signclick.economy.Market;
+import com.klanting.signclick.utils.Prefix;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Chest;
@@ -17,6 +18,7 @@ import org.bukkit.persistence.PersistentDataType;
 import org.checkerframework.dataflow.qual.AssertMethod;
 import org.yaml.snakeyaml.error.Mark;
 
+import java.text.DecimalFormat;
 import java.util.Map;
 
 import static com.klanting.signclick.utils.Utils.AssertMet;
@@ -137,6 +139,12 @@ public class SignShop {
         * */
         SignClick.getEconomy().withdrawPlayer(player, price);
         company.addBal(price);
+
+        DecimalFormat df = new DecimalFormat("###,###,##0.00");
+
+        Prefix.sendMessage(player,"§7You bought "+amount+" "+material.name()+" FOR $"+df.format(price));
+        company.update("Shop sales", "bought "+amount+" "+material.name()+" FOR $"+df.format(price),
+                player.getUniqueId());
 
     }
 

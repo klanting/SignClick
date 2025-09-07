@@ -8,11 +8,7 @@ import com.klanting.signclick.economy.companyUpgrades.*;
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.economy.contractRequests.ContractRequest;
 import com.klanting.signclick.economy.contractRequests.ContractRequestCTC;
-import com.klanting.signclick.economy.logs.ContractChange;
-import com.klanting.signclick.economy.logs.ContractPayment;
-import com.klanting.signclick.economy.logs.MoneyTransfer;
-import com.klanting.signclick.economy.logs.ShareholderChange;
-import com.klanting.signclick.economy.logs.ResearchUpdate;
+import com.klanting.signclick.economy.logs.*;
 import com.klanting.signclick.events.MenuEvents;
 import com.klanting.signclick.utils.BlockPosKey;
 import com.klanting.signclick.utils.JsonTools;
@@ -181,6 +177,7 @@ public class Company extends LoggableSubject implements CompanyI{
         addObserver(new MoneyTransfer());
         addObserver(new ShareholderChange());
         addObserver(new ResearchUpdate());
+        addObserver(new ShopLogs());
 
         creater.receivePrivate(stockName, getTotalShares());
 
