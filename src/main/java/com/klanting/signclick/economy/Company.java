@@ -267,6 +267,19 @@ public class Company extends LoggableSubject implements CompanyI{
         return false;
     }
 
+    public void removeBalVar(double amount){
+        AssertMet(amount >= 0.0, "Company: remove balance must be positive");
+        reCalcBalance();
+
+        this.bal -= amount;
+
+        AssertMet(this.bal >=0, "Balance must always be positive");
+
+        spendable -= amount;
+        changeBase();
+
+    }
+
     public boolean addBalNoPoint(double bal) {
         this.bal += bal;
         changeBase();

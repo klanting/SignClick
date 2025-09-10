@@ -33,6 +33,7 @@ public interface CompanyI {
     void setTotalShares(Integer totalShares);
     double getValue();
     double getShareBase();
+    void removeBalVar(double amount);
     double getBal();
     boolean removeBal(double amount);
     boolean removeBal(double amount, boolean skipSpendable);

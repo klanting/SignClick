@@ -120,6 +120,11 @@ public class CompanyRef implements CompanyI{
     }
 
     @Override
+    public void removeBalVar(double amount) {
+        getComp().removeBalVar(amount);
+    }
+
+    @Override
     public double getBal() {
         return getComp().getBal();
     }

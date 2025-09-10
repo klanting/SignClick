@@ -49,6 +49,32 @@ public class Market {
         stockSigns.clear();
     }
 
+    public static Double getShareBalSellPrice(String Sname, Integer amount){
+        AssertMet(amount >= 0, "Cannot get shareBal sell price for negative amount of shares");
+
+        CompanyI comp = Market.getCompany(Sname);
+        comp.reCalcBalance();
+
+        double market_pct = (comp.getMarketShares().doubleValue()/(comp.getTotalShares().doubleValue()+Math.min(comp.getMarketShares(), 0)));
+        double a = (1.0 - market_pct) * 25.0 - 10.0;
+
+        market_pct = ((comp.getMarketShares().doubleValue()+amount.doubleValue())/(comp.getTotalShares().doubleValue()+Math.min(comp.getMarketShares(), 0)));
+        double b = (1.0 - market_pct) * 25.0 - 10.0;
+
+        double sharebalPCT = (calculateFluxChange(a, b)*(b-a)/(calculateFluxChange(a, -10)*(-10-a)));
+
+        return sharebalPCT*comp.getShareBalance();
+    }
+
+    public static Double getBalSellPrice(String Sname, Integer amount){
+        AssertMet(amount >= 0, "Cannot get Bal sell price for negative amount of shares");
+
+        CompanyI comp = Market.getCompany(Sname);
+        comp.reCalcBalance();
+        double base = comp.getShareBase()*Market.calculateFluxChange(-10, 15);
+        return base*amount;
+    }
+
     public static Double getBuyPrice(String Sname, Integer amount){
         CompanyI comp = Market.getCompany(Sname);
         comp.reCalcBalance();
@@ -64,17 +90,7 @@ public class Market {
 
         AssertMet(base >= 0, "Share base price needs to be positive");
 
-        System.out.println("Y "+calculateFluxChange(a, b)+" "+a+" "+b+" "+calculateFluxChange(a, -10));
-        System.out.println("B "+ amount+" "+comp.getTotalShares());
-        double sharePCT = (amount/comp.getTotalShares());
-        System.out.println("C "+base);
-
-        //sharePCT maybe change this for shareBal to integral current/integral total to have more fluxation
-        double sharebalPCT = (calculateFluxChange(a, b)*(b-a)/(calculateFluxChange(a, -10)*(-10-a)));
-        System.out.println("A "+((comp.getShareBalance()*sharebalPCT)+(base*amount))+" "+sharebalPCT);
-
         double v = base * calculateFluxChange(a, b);
-        System.out.println("z "+v*amount);
         return v*amount;
     }
 
@@ -94,6 +110,7 @@ public class Market {
     }
 
     public static  Double getSellPrice(String Sname, Integer amount){
+        AssertMet(amount >= 0, "Cannot get sell price for negative amount of shares");
 
         String countryName = Market.getCompany(Sname).getCountry();
         Country country = CountryManager.getCountry(countryName);
@@ -101,11 +118,11 @@ public class Market {
             country = new CountryNull();
         }
 
+        double totalValue = getShareBalSellPrice(Sname, amount)+getBalSellPrice(Sname, amount);
+
         double keepPCT = getKeepFee(country);
 
-        System.out.println("X "+calculateFluxChange(-10, 15));
-
-        return (getBuyPrice(Sname, -amount)*-1)*keepPCT;
+        return totalValue * keepPCT;
 
     }
 

@@ -95,6 +95,11 @@ public class CompanyIv102v200 implements CompanyI {
     }
 
     @Override
+    public void removeBalVar(double amount) {
+
+    }
+
+    @Override
     public double getBal() {
         return 0;
     }

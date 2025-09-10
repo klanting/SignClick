@@ -9,6 +9,7 @@ import org.yaml.snakeyaml.error.Mark;
 import java.text.DecimalFormat;
 import java.util.*;
 
+import static com.klanting.signclick.utils.Utils.AssertMet;
 import static org.bukkit.Bukkit.getServer;
 
 public class Account {
@@ -83,21 +84,25 @@ public class Account {
     }
 
     public void sellShare(String Sname, Integer amount, Player player){
-        double v = Market.getSellPrice(Sname, amount);
-        v = Math.min(v, Market.getCompany(Sname).getValue());
+        double shareBalSellPrice = Market.getShareBalSellPrice(Sname, amount);
+        double balSellPrice = Market.getBalSellPrice(Sname, amount);
 
         String countryName = Market.getCompany(Sname).getCountry();
-
         Country country = CountryManager.getCountry(countryName);
 
-        double to_gov;
         if (country == null){
             country = new CountryNull();
         }
 
         double keepPCT = Market.getKeepFee(country);
 
-        to_gov = v/keepPCT*(1.0-keepPCT);
+        double total = shareBalSellPrice+balSellPrice;
+        AssertMet(total <= Market.getCompany(Sname).getValue(), "The total sell value is larger then value");
+
+
+        double to_gov;
+
+        to_gov = total*(1.0-keepPCT);
 
         Country playerCountry = CountryManager.getCountry(player);
         if (playerCountry != null){
@@ -113,16 +118,17 @@ public class Account {
         }
 
         if (Market.sell(Sname, amount, this)){
-            addBal(v);
+            addBal(total*keepPCT);
 
-            Market.getCompany(Sname).removeShareBal(v+to_gov);
+            Market.getCompany(Sname).removeShareBal(shareBalSellPrice);
+            Market.getCompany(Sname).removeBalVar(balSellPrice);
             Market.getCompany(Sname).changeBase();
 
             shares.put(Sname, share_amount-amount);
 
             DecimalFormat df = new DecimalFormat("###,###,###");
             Market.getCompany(Sname).update("Shares sold",
-                    "§cPlayer sold " + amount + " shares for " + df.format(v),
+                    "§cPlayer sold " + amount + " shares for " + df.format(total*keepPCT),
                     player.getUniqueId());
 
             player.sendMessage(SignClick.getPrefix()+"sell: §aaccepted");

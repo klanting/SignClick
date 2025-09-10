@@ -425,9 +425,6 @@ class CompanyTests {
         * buy shares
         * */
         Market.getAccount(testPlayer).buyShare("TCI", 2000, testPlayer);
-        System.out.println("check sell price");
-        System.out.println(Market.getSellPrice("TCI", 3000));
-
         /*
         * spend money
         * */
@@ -438,15 +435,10 @@ class CompanyTests {
         assertEquals(0, company.getShareBalance());
         assertTrue(company.getBal() > 0);
 
-        System.out.println(company.getBal());
-        System.out.println("check sell price");
-        System.out.println(Market.getSellPrice("TCI", 3000));
-
-        System.out.println("check sell price2");
         /*
         * ensure we cannot sell for more than the value
         * */
-        //assertTrue(company.getValue() >= Market.getSellPrice("TCI", 3000));
+        assertTrue(company.getValue() >= Market.getSellPrice("TCI", 3000));
 
 
 

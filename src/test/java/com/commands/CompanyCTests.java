@@ -261,7 +261,7 @@ class CompanyCTests {
         assertTrue(suc6);
 
         testPlayer.assertSaid("§bplease re-enter your command to confirm\n" +
-                "that you want to sell §f1§b from §fTCI§b for a price of §61,07 \n" +
+                "that you want to sell §f1§b from §fTCI§b for a price of §60,95 \n" +
                 "§c/company sell TCI 1");
         testPlayer.assertNoMoreSaid();
         suc6 = server.execute("company", testPlayer, "sell", "TCI", "1").hasSucceeded();
@@ -271,7 +271,6 @@ class CompanyCTests {
         testPlayer.assertNoMoreSaid();
 
         assertEquals(999, Market.getAccount(testPlayer.getUniqueId()).shares.get("TCI"));
-
         assertEquals(1, comp.getMarketShares());
         assertEquals(999, Math.round(comp.getValue()));
 
@@ -848,7 +847,7 @@ class CompanyCTests {
                 "TCI").hasSucceeded();
         assertTrue(suc6);
 
-        testPlayer.assertSaid("§f1§b share(s) costs §f1,07");
+        testPlayer.assertSaid("§f1§b share(s) costs §f0,95");
         testPlayer.assertNoMoreSaid();
 
         /*
@@ -861,7 +860,7 @@ class CompanyCTests {
                 "TCI").hasSucceeded();
         assertTrue(suc6);
 
-        testPlayer.assertSaid("§f1§b share(s) costs §f1,07");
+        testPlayer.assertSaid("§f1§b share(s) costs §f0,95");
         testPlayer.assertNoMoreSaid();
     }
 
