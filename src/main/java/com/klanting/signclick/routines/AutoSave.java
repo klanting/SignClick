@@ -6,10 +6,14 @@ import com.klanting.signclick.economy.Market;
 import com.klanting.signclick.economy.companyPatent.Auction;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.scheduler.BukkitTask;
 
 import static org.bukkit.Bukkit.getServer;
 
 public class AutoSave {
+
+    private static BukkitTask task;
+
     public static void start(){
 
         long delay = SignClick.getConfigManager().getConfig("general.yml").getLong("autoSaveInterval");
@@ -19,7 +23,7 @@ public class AutoSave {
             return;
         }
 
-        Bukkit.getServer().getScheduler().runTaskTimer(SignClick.getPlugin(), new Runnable() {
+        task = Bukkit.getServer().getScheduler().runTaskTimer(SignClick.getPlugin(), new Runnable() {
 
             public void run() {
                 getServer().getConsoleSender().sendMessage(ChatColor.YELLOW + "SignClick: Conducting AutoSave");
@@ -32,5 +36,9 @@ public class AutoSave {
             }
         }, delay*20l, delay*20l);
 
+    }
+
+    public static void stop(){
+        task.cancel();
     }
 }

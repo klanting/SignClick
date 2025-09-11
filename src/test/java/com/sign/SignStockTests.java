@@ -6,6 +6,7 @@ import be.seeseemelk.mockbukkit.block.BlockMock;
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.economy.Market;
+import com.klanting.signclick.routines.AutoSave;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -84,6 +85,7 @@ public class SignStockTests {
     @Test
     public void updateSignStock(){
         setSignStock();
+        AutoSave.stop();
 
         /*
         * Update sign stock positively

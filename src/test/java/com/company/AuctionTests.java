@@ -6,6 +6,7 @@ import be.seeseemelk.mockbukkit.entity.PlayerMock;
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.economy.Market;
 import com.klanting.signclick.economy.companyPatent.Auction;
+import com.klanting.signclick.routines.AutoSave;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,6 +38,7 @@ public class AuctionTests {
     @Test
     void auctionUpdate(){
         Auction auction = Auction.getInstance();
+        AutoSave.stop();
 
         PlayerMock testPlayer = server.addPlayer();
 

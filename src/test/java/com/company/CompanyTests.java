@@ -440,8 +440,35 @@ class CompanyTests {
         * */
         assertTrue(company.getValue() >= Market.getSellPrice("TCI", 3000));
 
+    }
 
+    @Test
+    void valueLossTest(){
+        /*
+        * Ensure that we do not lose too much value after selling
+        * */
 
+        PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
+
+        /*Ensure tax goes to country*/
+        CountryManager.create("TCI", testPlayer);
+
+        SignClick.getEconomy().depositPlayer(testPlayer, 10000000.0);
+
+        boolean suc6 = Market.addCompany("TestCaseInc", "TCI", Market.getAccount(testPlayer));
+        assertTrue(suc6);
+
+        CompanyI company = Market.getCompany("TCI");
+        company.addBal(500);
+        company.addShareBal(500.0);
+
+        /*
+        * sell 500 shares and ensure we still have 40% of the value, which is sufficient
+        * should be less than 50% because the top 500 shares should have the most value
+        * */
+        Market.getAccount(testPlayer.getUniqueId()).sellShare("TCI", 500, testPlayer);
+        assertTrue(company.getValue() <= 500);
+        assertTrue(company.getValue() >= 400);
     }
 
 }
