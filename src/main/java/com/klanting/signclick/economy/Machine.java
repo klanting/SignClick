@@ -7,6 +7,8 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
 
+import static com.klanting.signclick.utils.Utils.AssertMet;
+
 public class Machine {
 
 
@@ -187,6 +189,8 @@ public class Machine {
                 }
                 return;
             }
+
+            AssertMet(Market.getCompany(compName).getMachines().containsValue(this), "Phantom machine not allowed");
 
             if (!Market.getCompany(compName).removeBal(amount)){
                 frozenByFunds = true;
