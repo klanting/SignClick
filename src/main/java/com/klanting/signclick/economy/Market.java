@@ -232,6 +232,21 @@ public class Market {
         return outputs;
     }
 
+    public static ArrayList<CompanyI> getBusinessByChief(UUID uuid){
+        ArrayList<CompanyI> outputs = new ArrayList<CompanyI>();
+        for(Map.Entry<String, CompanyI> entry : companies.entrySet()){
+            Board board = entry.getValue().getCOM().getBoard();
+            if ((board.getChief("CEO") != null && board.getChief("CEO").equals(uuid))
+                || (board.getChief("CTO") != null && board.getChief("CTO").equals(uuid))
+                || (board.getChief("CFO") != null && board.getChief("CFO").equals(uuid))
+            ){
+                outputs.add(entry.getValue());
+            }
+        }
+
+        return outputs;
+    }
+
     public static void getMarketValueTop(Player player){
         /*
         * Make a ranking of the top companies by value

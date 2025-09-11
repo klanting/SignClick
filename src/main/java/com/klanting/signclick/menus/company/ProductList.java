@@ -22,14 +22,6 @@ public class ProductList extends PagingMenu {
     public final boolean showProducts;
     public final boolean showLicenses;
 
-    public ProductList(CompanyI comp, Function<Produceable, Void> func){
-        this(comp, func, false);
-    }
-
-    public ProductList(CompanyI comp, Function<Produceable, Void> func, boolean fullList){
-        this(comp, func, fullList, true, false);
-    }
-
     public ProductList(CompanyI comp, Function<Produceable, Void> func, boolean fullList,
                        boolean showProducts, boolean showLicenses){
         super(54, "Product List: "+comp.getProducts().size()+"/"+comp.getUpgrades().get(2).getBonus()+" slots",

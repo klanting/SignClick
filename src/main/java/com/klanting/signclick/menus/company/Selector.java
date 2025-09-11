@@ -27,25 +27,32 @@ public class Selector extends PagingMenu {
 
     public final CompanyI allButThis;
 
-    private boolean shares = false;
+    private SelectionType selectionType;
 
     public Selector(UUID uuid, Function<CompanyI, Void> funcType){
-        this(uuid, funcType, null);
+        this(uuid, funcType, SelectionType.Chief);
     }
 
-    public Selector(UUID uuid, Function<CompanyI, Void> funcType, boolean byShares){
+    public Selector(UUID uuid, Function<CompanyI, Void> funcType, SelectionType selectionType){
 
-        this(uuid, funcType, null);
-        shares = byShares;
+        this(uuid, funcType, selectionType, null);
         init();
 
     }
 
     public Selector(UUID uuid, Function<CompanyI, Void> funcType, CompanyI allButThis){
+
+        this(uuid, funcType, SelectionType.AllButThis, allButThis);
+        init();
+
+    }
+
+    public Selector(UUID uuid, Function<CompanyI, Void> funcType, SelectionType selectionType, CompanyI allButThis){
         super(54, "Company Selector", allButThis != null? true: false);
         this.uuid = uuid;
         this.funcType = funcType;
         this.allButThis = allButThis;
+        this.selectionType = selectionType;
 
         init();
     }
@@ -56,14 +63,21 @@ public class Selector extends PagingMenu {
         clearItems();
 
         List<CompanyI> companies;
-        if (shares){
-            companies = Market.getBusinessByShares(uuid);
-        }else{
-            companies = Market.getBusinessByDirector(uuid);
-        }
 
-        if (allButThis != null){
-            companies = Market.getBusinessExclude(allButThis);
+        switch (selectionType){
+            case Chief:
+                companies = Market.getBusinessByChief(uuid);
+                break;
+            case Shares:
+                companies = Market.getBusinessByShares(uuid);
+                break;
+            case AllButThis:
+                companies = Market.getBusinessExclude(allButThis);
+                break;
+            case BoardMember:
+            default:
+                companies = Market.getBusinessByDirector(uuid);
+                break;
         }
 
         for(CompanyI c: companies){

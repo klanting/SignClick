@@ -24,8 +24,9 @@ public class Machine {
     private int productionCount = 0;
 
     public void changeProductionCount(int amount){
-
-
+        /*
+        * change the amount that will be produced by the provided value
+        * */
         if (productionLooped()){
             return;
         }
@@ -33,11 +34,16 @@ public class Machine {
     }
 
     public boolean productionLooped(){
+        /*
+        * verify if the production is looping
+        * */
         return productionCount == -1;
     }
 
     public int getProductionCount(){
-
+        /*
+        * retrieve how many items that will be produced
+        * */
         if (productionCount == -1){
             return Integer.MAX_VALUE;
         }
@@ -46,11 +52,20 @@ public class Machine {
     }
 
     public boolean isActive(){
+        /*
+        * Check if the machine is currently active
+        * */
 
+        /*
+        * if no product is present -> not active
+        * */
         if(product == null){
             return false;
         }
 
+        /*
+        * if production is looped -> it is active
+        * */
         if(productionLooped()){
             return true;
         }
@@ -59,6 +74,10 @@ public class Machine {
     }
 
     public void changeProductionLoop(){
+        /*
+        * When looped production is enabled -> set count to 0, disabling the loop
+        * when disabled -> -1, enabling the loop
+        * */
         productionCount = productionCount == -1 ? 0: -1;
     }
 

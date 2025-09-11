@@ -11,15 +11,15 @@ import java.util.stream.Collectors;
 import static org.bukkit.Bukkit.getServer;
 
 public class Board {
-    public int getBoardSeats() {
-        return boardSeats;
-    }
-
     /**
     * Keep track of the board of a given company
     * */
 
-    private static List<String> rankingOrder = List.of("CEO", "CFO", "CTO");
+    private static final List<String> rankingOrder = List.of("CEO", "CFO", "CTO");
+
+    public int getBoardSeats() {
+        return boardSeats;
+    }
 
     /*
     * Stores how many seats are on the company board
@@ -129,8 +129,6 @@ public class Board {
             return;
         }
 
-//        assert companyOwnerManager.getShareHolders().keySet().size() == 1;
-//
         boardSeats = 2;
 
         chiefSupport.put("CEO", new HashMap<>());
@@ -328,7 +326,9 @@ public class Board {
         }
 
         return potentialBoardMemberMap.entrySet().
-                stream().map(e -> Pair.of(e.getKey(), e.getValue()/companyOwnerManager.getTotalShares())).
+                stream()
+                .filter(e -> e.getValue() > 0.0)
+                .map(e -> Pair.of(e.getKey(), e.getValue()/companyOwnerManager.getTotalShares())).
                 sorted(Comparator.comparingDouble((Pair<UUID, Double> p) -> p.getRight()).reversed()).
                 collect(Collectors.toList()).subList(0, Math.min(boardSeats, potentialBoardMemberMap.keySet().size()));
     }

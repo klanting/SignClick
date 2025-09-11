@@ -156,6 +156,7 @@ public class MachineTests {
         assertEquals(0, MenuEvents.activeMachines.get(0).getProductionProgress());
         MenuEvents.activeMachines.get(0).getBlock().getLocation().setWorld(world);
         MenuEvents.activeMachines.get(0).changeProductionLoop();
+        assertTrue(MenuEvents.activeMachines.get(0).isActive());
 
         server.getScheduler().performTicks(220);
         assertEquals(1, MenuEvents.activeMachines.get(0).getProductionProgress());

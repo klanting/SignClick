@@ -2,6 +2,7 @@ package com.klanting.signclick.commands.companyHandelers;
 
 import com.klanting.signclick.economy.CompanyI;
 import com.klanting.signclick.menus.company.OwnerMenu;
+import com.klanting.signclick.menus.company.SelectionType;
 import com.klanting.signclick.menus.company.Selector;
 import com.klanting.signclick.commands.exceptions.CommandException;
 import org.bukkit.entity.Player;
@@ -20,7 +21,7 @@ public class CompanyHandlerMenu extends CompanyHandler{
         };
 
 
-        Selector screen = new Selector(player.getUniqueId(), func);
+        Selector screen = new Selector(player.getUniqueId(), func, SelectionType.BoardMember);
         player.openInventory(screen.getInventory());
 
         return false;

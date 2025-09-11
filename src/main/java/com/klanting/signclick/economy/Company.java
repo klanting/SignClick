@@ -331,7 +331,7 @@ public class Company extends LoggableSubject implements CompanyI{
         return getCOM().getMarketShares();
     }
 
-    private static final List<String> softLink = new ArrayList<>(List.of("country", "machines", "upgrades", "research"));
+    private static transient final List<String> softLink = new ArrayList<>(List.of("country", "machines", "upgrades", "research"));
 
 
     public Company(JsonObject jsonObject, JsonDeserializationContext context){
