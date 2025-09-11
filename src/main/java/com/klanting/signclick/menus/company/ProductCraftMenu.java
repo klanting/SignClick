@@ -128,7 +128,7 @@ public class ProductCraftMenu extends SelectionMenu {
                 loadStack(player);
                 return null;};
 
-            ProductList new_screen = new ProductList(comp, lambda, false, true, false);
+            ProductList new_screen = new ProductList(comp, lambda, false, ProductType.allOwnedProducts);
             player.openInventory(new_screen.getInventory());
         }else if(option.equals("§a✓ Save Product")) {
 

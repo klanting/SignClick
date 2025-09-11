@@ -226,7 +226,7 @@ public class OwnerMenu extends SelectionMenu {
             player.openInventory(new_screen.getInventory());
         }else if(option.equalsIgnoreCase("§6§lProducts")){
             ProductList new_screen = new ProductList(old_screen.comp, s -> {return null;}, true,
-                    true, true);
+                    ProductType.allOwned);
             player.openInventory(new_screen.getInventory());
         }else if(option.equalsIgnoreCase("§6§lMachines List")){
             MachineList new_screen = new MachineList(old_screen.comp, s -> {return null;});

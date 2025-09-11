@@ -4,6 +4,7 @@ import com.klanting.signclick.SignClick;
 import com.klanting.signclick.economy.*;
 import com.klanting.signclick.menus.SelectionMenu;
 import com.klanting.signclick.menus.company.ProductList;
+import com.klanting.signclick.menus.company.ProductType;
 import com.klanting.signclick.utils.ItemFactory;
 
 import com.klanting.signclick.utils.Utils;
@@ -186,7 +187,7 @@ public class MachineMenu extends SelectionMenu {
                     loadStack(player);
                     return null;};
 
-                ProductList new_screen = new ProductList(comp, lambda, false, true, true);
+                ProductList new_screen = new ProductList(comp, lambda, false, ProductType.allOwned);
                 player.openInventory(new_screen.getInventory());
             }
 

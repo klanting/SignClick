@@ -12,6 +12,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
+import org.apache.commons.lang3.tuple.Pair;
 
 public class ProductList extends PagingMenu {
 
@@ -19,49 +20,83 @@ public class ProductList extends PagingMenu {
     public final Function<Produceable, Void> func;
     public final boolean fullList;
 
-    public final boolean showProducts;
-    public final boolean showLicenses;
+    private final ProductType productType;
 
     public ProductList(CompanyI comp, Function<Produceable, Void> func, boolean fullList,
-                       boolean showProducts, boolean showLicenses){
-        super(54, "Product List: "+comp.getProducts().size()+"/"+comp.getUpgrades().get(2).getBonus()+" slots",
+                       ProductType productType){
+        super(54, "Product List: "+
+                        (productType.equals(ProductType.allOwned) ?
+                                (comp.getProducts().size()+"/"+comp.getUpgrades().get(2).getBonus()+" slots"): ""),
                 true);
         this.comp = comp;
         this.func = func;
         this.fullList = fullList;
-        this.showProducts = showProducts;
-        this.showLicenses = showLicenses;
+
+        this.productType = productType;
 
         init();
+    }
+
+    private Pair<List<Product>, List<License>> getProduceables(){
+        List<Product> products = new ArrayList<>();
+        List<License> licenses = new ArrayList<>();
+
+        switch (productType){
+            case allOwned:
+                products = comp.getProducts();
+                licenses = LicenseSingleton.getInstance().getCurrentLicenses().getLicensesTo(comp);
+                break;
+            case allOwnedProducts:
+                products = comp.getProducts();
+                break;
+            case allOwnedLicenses:
+                licenses = LicenseSingleton.getInstance().getCurrentLicenses().getLicensesTo(comp);
+                break;
+            case licenseRequestsFrom:
+                licenses = LicenseSingleton.getInstance().getLicenseRequests().getLicensesFrom(comp);
+                break;
+        }
+
+        return Pair.of(products, licenses);
     }
 
     public void init(){
         clearItems();
 
-        if (showProducts){
-            for (Product product: comp.getProducts()){
-                List<String> l = new ArrayList<>();
-                l.add("§7Production Time: "+product.getProductionTime()+"s");
-                l.add("§7Cost: $"+product.getPrice());
-                ItemStack item = ItemFactory.create(product.getMaterial(), "§7"+product.getMaterial().name(), l);
-                addItem(item);
-            }
+        List<Product> products = getProduceables().getLeft();
+        List<License> licenses = getProduceables().getRight();
+
+        for (Product product: products){
+            List<String> l = new ArrayList<>();
+            l.add("§7Production Time: "+product.getProductionTime()+"s");
+            l.add("§7Cost: $"+product.getPrice());
+            ItemStack item = ItemFactory.create(product.getMaterial(), "§7"+product.getMaterial().name(), l);
+            addItem(item);
         }
 
-        if (showLicenses){
-            for (License license: LicenseSingleton.getInstance().getCurrentLicenses().getLicensesTo(comp)){
-                Product product = license.getProduct();
+        for (License license: licenses){
+            Product product = license.getProduct();
 
-                DecimalFormat df = new DecimalFormat("###,###,##0.00");
+            DecimalFormat df = new DecimalFormat("###,###,##0.00");
 
-                List<String> l = new ArrayList<>();
-                l.add("§7Production Time: "+product.getProductionTime()+"s");
-                l.add("§7Cost: $"+df.format(product.getPrice()*(1.0+license.getRoyaltyFee()+license.getCostIncrease())));
+            List<String> l = new ArrayList<>();
+            l.add("§7Production Time: "+product.getProductionTime()+"s");
+            l.add("§7Cost: $"+df.format(product.getPrice()*(1.0+license.getRoyaltyFee()+license.getCostIncrease())));
+
+            if(productType.equals(ProductType.allOwned) || productType.equals(ProductType.allOwnedLicenses)){
                 l.add("§cThis Product is Licensed from "+license.getFrom().getStockName());
-                l.add("§7Weekly License cost: $"+license.getWeeklyCost());
-                ItemStack item = ItemFactory.create(product.getMaterial(), "§7"+product.getMaterial().name(), l);
-                addItem(item);
             }
+
+            if(productType.equals(ProductType.licenseRequestsFrom)){
+                l.add("§cRequested by "+license.getTo().getStockName());
+            }
+
+            l.add("§7Weekly License cost: $"+license.getWeeklyCost());
+            l.add("§7Cost increase: $"+df.format(license.getCostIncrease()*100)+"%");
+            l.add("§7Royalty Fee: $"+df.format(license.getRoyaltyFee()*100)+"%");
+
+            ItemStack item = ItemFactory.create(product.getMaterial(), "§7"+product.getMaterial().name(), l);
+            addItem(item);
         }
 
 
@@ -93,12 +128,15 @@ public class ProductList extends PagingMenu {
             return false;
         }
 
+        List<Product> products = getProduceables().getLeft();
+        List<License> licenses = getProduceables().getRight();
+
         if (event.getSlot() < 45){
             int index = (getPage()*45+item);
-            int productSize = comp.getProducts().size();
+            int productSize = products.size();
             func.apply(index < productSize ?
-                    comp.getProducts().get(index):
-                    LicenseSingleton.getInstance().getCurrentLicenses().getLicensesTo(comp).get(index-productSize));
+                    products.get(index):
+                    licenses.get(index-productSize));
 
             init();
             return false;
@@ -115,17 +153,19 @@ public class ProductList extends PagingMenu {
                 player.openInventory(screen.getInventory());
                 return null;
             },
-                    false, false, true);
+                    false, ProductType.allOwnedLicenses);
             player.openInventory(new_screen.getInventory());
         }else if (event.getSlot() == 51){
 
-            Function<License, Void> func = (license) -> {
+            Function<Produceable, Void> func = (potentialLicense) -> {
+                License license = (License) potentialLicense;
+
                 LicenseAcceptMenu acceptMenu = new LicenseAcceptMenu(license);
                 player.openInventory(acceptMenu.getInventory());
                 return null;
             };
 
-            LicenseRequestList newScreen = new LicenseRequestList(comp, func);
+            ProductList newScreen = new ProductList(comp, func, false, ProductType.licenseRequestsFrom);
             player.openInventory(newScreen.getInventory());
         }else if (event.getSlot() == 52){
             Selector new_screen = new Selector(player.getUniqueId(), comp2 -> {
@@ -138,7 +178,7 @@ public class ProductList extends PagingMenu {
                     player.openInventory(newScreen.getInventory());
                     return null;
                 },
-                        false, true, false);
+                        false, ProductType.allOwnedProducts);
                 player.openInventory(new_screen2.getInventory());
 
                 return null;
