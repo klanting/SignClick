@@ -247,15 +247,25 @@ public class Company extends LoggableSubject implements CompanyI{
         AssertMet(amount >= 0.0, "Company: remove balance must be positive");
 
         if ((getValue() >= amount) && (spendable >= amount || skipSpendable)){
-
             reCalcBalance();
-            double remainingCost = Math.max(amount-shareBalance, 0);
-            shareBalance -= Math.min(amount, shareBalance);
+
+            double shareBalPCT;
+            double balPCT;
+            if(bal == 0.0){
+                shareBalPCT = 1.0;
+                balPCT = 0.0;
+            }else{
+                double shareBalMultiplier = shareBalance/bal;
+                shareBalPCT = shareBalMultiplier/(shareBalMultiplier+1);
+                balPCT = 1/(shareBalMultiplier+1);
+            }
+
+            AssertMet(balPCT+shareBalPCT <= 1.0001, "removeBal: balPCT+shareBalPCT must be 100% together");
+
+            this.shareBalance -= amount*shareBalPCT;
+            this.bal -= amount*balPCT;
 
             AssertMet(shareBalance >= 0, "Share balance must be positive afterwards");
-
-            this.bal -= remainingCost;
-
             AssertMet(this.bal >=0, "Balance must always be positive");
 
             spendable -= amount;

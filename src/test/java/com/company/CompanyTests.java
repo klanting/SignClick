@@ -432,7 +432,7 @@ class CompanyTests {
         double toSpend = company.getShareBalance();
         company.removeBal(toSpend, true);
 
-        assertEquals(0, company.getShareBalance());
+        assertTrue(company.getShareBalance() > 0);
         assertTrue(company.getBal() > 0);
 
         /*

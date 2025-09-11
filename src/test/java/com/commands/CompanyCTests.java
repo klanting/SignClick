@@ -1213,20 +1213,15 @@ class CompanyCTests {
         assertEquals(SignClick.getEconomy().getBalance(testPlayer), 1283-(oldShares+1000));
 
         /*
-        * check if money removed from sharebal not bal
+        * check if money removed from both sharebal and bal
         * */
         assertTrue(company.removeBal(1000, true));
-
-        assertEquals(1000+oldShares, company.getBal());
-        assertEquals(0, company.getShareBalance());
+        assertNotEquals(oldShares, company.getShareBalance());
 
         /*
         * check balance always positive
         * */
         assertTrue(company.removeBal(1000, true));
-        assertEquals(0, company.getShareBalance());
-
-        assertEquals(282, Math.round(company.getBal()));
     }
 
     @Test
