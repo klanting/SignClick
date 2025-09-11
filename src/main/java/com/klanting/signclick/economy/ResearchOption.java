@@ -63,7 +63,7 @@ public class ResearchOption {
 
     public long getCompleteTime(){
 
-        ConfigurationSection section = SignClick.getConfigManager().getConfig("companies.yml").getConfigurationSection("products").
+        ConfigurationSection section = SignClick.getConfigManager().getConfig("production.yml").getConfigurationSection("products").
                 getConfigurationSection(this.companyType).getConfigurationSection(this.material.name());
 
         return section.getLong("researchTime");

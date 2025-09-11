@@ -52,7 +52,7 @@ public class ResearchTests {
         * */
         Research research = new Research(comp.getRef());
 
-        assertEquals(SignClick.getConfigManager().getConfig("companies.yml").getConfigurationSection("products").
+        assertEquals(SignClick.getConfigManager().getConfig("production.yml").getConfigurationSection("products").
                         getConfigurationSection("bank").getKeys(false).size(),
                 research.getResearchOptions().size());
 
@@ -68,7 +68,7 @@ public class ResearchTests {
          * */
         Research research = new Research(comp.getRef());
 
-        assertEquals(SignClick.getConfigManager().getConfig("companies.yml").getConfigurationSection("products").
+        assertEquals(SignClick.getConfigManager().getConfig("production.yml").getConfigurationSection("products").
                         getConfigurationSection("bank").getKeys(false).size(),
                 research.getResearchOptions().size());
 

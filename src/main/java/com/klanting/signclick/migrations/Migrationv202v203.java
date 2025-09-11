@@ -56,6 +56,13 @@ public class Migrationv202v203 extends Migration{
             throw new RuntimeException(e.getMessage());
         }
 
+        /*
+        * move the production list from companies.yml to production.yml
+        * */
+        SignClick.getConfigManager().getConfig("production.yml").set("products",
+                SignClick.getConfigManager().getConfig("companies.yml").get("products"));
+        SignClick.getConfigManager().getConfig("companies.yml").set("products", null);
+
         SignClick.getConfigManager().getConfig("general.yml").set("version", "2.0.3",
                 "Latest updated version, don't change this, it will be done automatically");
 

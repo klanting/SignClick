@@ -44,10 +44,12 @@ public class DefaultConfig {
         configManager.createConfigFile("companies.yml");
         configManager.createConfigFile("countries.yml");
         configManager.createConfigFile("policies.yml");
+        configManager.createConfigFile("production.yml");
         CommentConfig generalConfig = SignClick.getConfigManager().getConfig("general.yml");
         CommentConfig companiesConfig = SignClick.getConfigManager().getConfig("companies.yml");
         CommentConfig countriesConfig = SignClick.getConfigManager().getConfig("countries.yml");
         CommentConfig policiesConfig = SignClick.getConfigManager().getConfig("policies.yml");
+        CommentConfig productionConfig = SignClick.getConfigManager().getConfig("production.yml");
 
         /*
          * Configure the current version of the plugin storage
@@ -164,13 +166,13 @@ public class DefaultConfig {
         companiesConfig.addDefault("maxChiefSalary", 10000.0,
                 "Max Amount a company chief position can get");
 
-        companiesConfig.createSection("products", "products that can be produced by each type of company");
+        productionConfig.createSection("products", "products that can be produced by each type of company");
 
 
         /*
         * Product configuration of bank products
         * */
-        ConfigurationSection products = companiesConfig.getConfigurationSection("products");
+        ConfigurationSection products = productionConfig.getConfigurationSection("products");
 
         ConfigurationSection bankP = getOrCreate(products, "bank");
 
@@ -506,6 +508,7 @@ public class DefaultConfig {
         companiesConfig.options().copyDefaults(true);
         countriesConfig.options().copyDefaults(true);
         policiesConfig.options().copyDefaults(true);
+        productionConfig.options().copyDefaults(true);
 
         configManager.save();
 

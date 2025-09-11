@@ -31,7 +31,7 @@ public class Research {
 
         lastChecked = CompatibleLayer.getCurrentTick();
 
-        ConfigurationSection productsSection = SignClick.getConfigManager().getConfig("companies.yml").getConfigurationSection("products").
+        ConfigurationSection productsSection = SignClick.getConfigManager().getConfig("production.yml").getConfigurationSection("products").
                 getConfigurationSection(company.getType());
 
         List<String> researchItems = new ArrayList<>(productsSection.getKeys(false).stream().toList());

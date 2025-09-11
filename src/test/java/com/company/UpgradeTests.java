@@ -12,6 +12,7 @@ import com.klanting.signclick.economy.Product;
 import com.klanting.signclick.economy.companyUpgrades.Upgrade;
 import com.klanting.signclick.economy.companyUpgrades.UpgradeBoardSize;
 import com.klanting.signclick.economy.companyUpgrades.UpgradeProductModifier;
+import com.klanting.signclick.utils.BlockPosKey;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.junit.jupiter.api.AfterEach;
@@ -75,6 +76,7 @@ public class UpgradeTests {
         BlockMock machineBlock = new DoubleBlockMock(Material.BLAST_FURNACE,
                 new Location(new WorldDoubleMock(), 0, 1, 0));
         Machine m = new Machine(machineBlock, comp);
+        comp.getMachines().put(BlockPosKey.from(machineBlock.getLocation()), m);
 
         assertEquals(0, m.getProductionProgress());
 
