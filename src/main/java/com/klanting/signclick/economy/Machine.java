@@ -43,6 +43,19 @@ public class Machine {
         return productionCount;
     }
 
+    public boolean isActive(){
+
+        if(product == null){
+            return false;
+        }
+
+        if(productionLooped()){
+            return true;
+        }
+
+        return productionCount > 0;
+    }
+
     public void changeProductionLoop(){
         productionCount = productionCount == -1 ? 0: -1;
     }
@@ -163,6 +176,7 @@ public class Machine {
 
             if (index == 3){
                 frozenByMachineFull = true;
+                productionProgress = Math.min(productionProgress, product.getProductionTime());
                 return;
             }
             frozenByMachineFull = false;

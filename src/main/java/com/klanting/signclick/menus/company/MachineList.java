@@ -46,6 +46,7 @@ public class MachineList extends PagingMenu {
             String posString = "X: "+(int) pos.getX()+ " Y: "+(int) pos.getY()+ " Z: "+(int) pos.getZ();
 
             l.add("§7Machine Location: "+posString);
+            l.add(machine.isActive() ? "§aACTIVE": "§cINACTIVE");
             ItemStack item = ItemFactory.create(machine.hasProduct() ? machine.getProduct().getMaterial(): Material.BLAST_FURNACE,
                     "§7Machine", l);
             addItem(item);
