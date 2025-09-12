@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import static com.klanting.signclick.utils.Utils.AssertMet;
+
 public class ContractChange extends PluginLogs {
 
     public final List<MutableTriple<LocalDateTime, String, String>> contractUpdates = new ArrayList<>();
@@ -19,15 +21,19 @@ public class ContractChange extends PluginLogs {
     }
 
     @Override
-    public void update(String action, String message, UUID issuer) {
+    public void update(String action, Object message, UUID issuer) {
         if (!action.equals("Contract Signed")){
+            return;
+        }
+
+        if(!(message instanceof String mess)){
             return;
         }
 
         Instant now = Instant.now();
         LocalDateTime ldt = LocalDateTime.ofInstant(now, ZoneId.systemDefault());
 
-        contractUpdates.add(MutableTriple.of(ldt, action, message));
+        contractUpdates.add(MutableTriple.of(ldt, action, mess));
     }
 
     @Override

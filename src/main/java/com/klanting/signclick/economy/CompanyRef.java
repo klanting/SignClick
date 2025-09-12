@@ -250,7 +250,7 @@ public class CompanyRef implements CompanyI{
     }
 
     @Override
-    public void update(String action, String message, UUID issuer) {
+    public void update(String action, Object message, UUID issuer) {
         comp.update(action, message, issuer);
     }
 

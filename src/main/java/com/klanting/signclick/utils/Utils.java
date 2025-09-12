@@ -22,6 +22,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.*;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.function.BiPredicate;
@@ -87,6 +88,7 @@ public class Utils {
         builder.registerTypeAdapterFactory(patentUpgradeTypes);
         builder.registerTypeAdapterFactory(upgradeTypes);
         builder.registerTypeAdapter(Policy.class, new PolicySerializer());
+        builder.registerTypeAdapter(LocalDate.class, new LocalDateSerializer());
         Gson gson = builder.create();
         return gson.toJson(value, token);
     }
@@ -114,6 +116,7 @@ public class Utils {
         builder.registerTypeAdapterFactory(patentUpgradeTypes);
         builder.registerTypeAdapterFactory(upgradeTypes);
         builder.registerTypeAdapter(Policy.class, new PolicySerializer());
+        builder.registerTypeAdapter(LocalDate.class, new LocalDateSerializer());
         Gson gson = builder.create();
 
         File file = new File(SignClick.getPlugin().getDataFolder()+"/"+name+".json");
@@ -159,6 +162,7 @@ public class Utils {
         builder.registerTypeAdapterFactory(patentUpgradeTypes);
         builder.registerTypeAdapterFactory(upgradeTypes);
         builder.registerTypeAdapter(Policy.class, new PolicySerializer());
+        builder.registerTypeAdapter(LocalDate.class, new LocalDateSerializer());
         Gson gson = builder.create();
 
         File file = new File(SignClick.getPlugin().getDataFolder()+"/"+name+".json");
@@ -202,6 +206,7 @@ public class Utils {
         builder.registerTypeAdapterFactory(patentUpgradeTypes);
         builder.registerTypeAdapterFactory(upgradeTypes);
         builder.registerTypeAdapter(Policy.class, new PolicySerializer());
+        builder.registerTypeAdapter(LocalDate.class, new LocalDateSerializer());
         Gson gson = builder.create();
 
         T value = gson.fromJson(js, token);

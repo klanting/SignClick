@@ -23,7 +23,7 @@ abstract public class PluginLogs {
         return title;
     }
 
-    public abstract void update(String action, String message, UUID issuer);
+    public abstract void update(String action, Object message, UUID issuer);
     public abstract List<MutableTriple<LocalDateTime, String, String>> getLogs();
 
 

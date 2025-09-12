@@ -142,8 +142,8 @@ public class SignShop {
 
         DecimalFormat df = new DecimalFormat("###,###,##0.00");
 
-        Prefix.sendMessage(player,"§7You bought "+amount+" "+material.name()+" FOR $"+df.format(price));
-        company.update("Shop sales", "bought "+amount+" "+material.name()+" FOR $"+df.format(price),
+        Prefix.sendMessage(player,"You bought "+amount+" "+material.name()+" FOR $"+df.format(price));
+        company.update("Shop sales", amount+" "+material.name()+" "+df.format(price),
                 player.getUniqueId());
 
     }

@@ -13,7 +13,7 @@ abstract class LoggableSubject {
         logObservers.add(observer);
     }
 
-    public void update(String action, String message, UUID issuer){
+    public void update(String action, Object message, UUID issuer){
         for (PluginLogs pluginLog: logObservers){
             pluginLog.update(action, message, issuer);
         }

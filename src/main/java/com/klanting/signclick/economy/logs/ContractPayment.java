@@ -19,15 +19,19 @@ public class ContractPayment extends PluginLogs {
     }
 
     @Override
-    public void update(String action, String message, UUID issuer) {
+    public void update(String action, Object message, UUID issuer) {
         if (!action.equals("Contract Payment")){
+            return;
+        }
+
+        if(!(message instanceof String mess)){
             return;
         }
 
         Instant now = Instant.now();
         LocalDateTime ldt = LocalDateTime.ofInstant(now, ZoneId.systemDefault());
 
-        contractUpdates.add(MutableTriple.of(ldt, action, message));
+        contractUpdates.add(MutableTriple.of(ldt, action, mess));
     }
 
     @Override

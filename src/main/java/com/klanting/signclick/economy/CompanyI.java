@@ -59,7 +59,7 @@ public interface CompanyI {
     String getName();
     String getStockName();
     ArrayList<Upgrade> getUpgrades();
-    void update(String action, String message, UUID issuer);
+    void update(String action, Object message, UUID issuer);
     String getType();
     void addShareBal(Double amount);
     void removeShareBal(Double amount);

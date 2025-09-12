@@ -18,8 +18,12 @@ public class ResearchUpdate extends PluginLogs{
         super("Research Updates");
     }
     @Override
-    public void update(String action, String message, UUID issuer) {
+    public void update(String action, Object message, UUID issuer) {
         if (!action.equals("Research priority Change") && !action.equals("Research Completed")){
+            return;
+        }
+
+        if(!(message instanceof String mess)){
             return;
         }
 
@@ -29,7 +33,7 @@ public class ResearchUpdate extends PluginLogs{
         ShareholderChanges.add(MutableTriple.of(
                 ldt,
                 action+ (issuer != null ? (" by " + Bukkit.getOfflinePlayer(issuer).getName()) : ""),
-                message));
+                mess));
     }
 
     @Override

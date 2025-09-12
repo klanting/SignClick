@@ -17,8 +17,12 @@ public class ShareholderChange extends PluginLogs{
         super("Shareholder Changes");
     }
     @Override
-    public void update(String action, String message, UUID issuer) {
+    public void update(String action, Object message, UUID issuer) {
         if (!action.equals("Shares bought") && !action.equals("Shares sold") && !action.equals("Shares transferred")){
+            return;
+        }
+
+        if(!(message instanceof String mess)){
             return;
         }
 
@@ -28,7 +32,7 @@ public class ShareholderChange extends PluginLogs{
         ShareholderChanges.add(MutableTriple.of(
                 ldt,
                 action+" by " + Bukkit.getOfflinePlayer(issuer).getName(),
-                message));
+                mess));
     }
 
     @Override

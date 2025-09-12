@@ -18,8 +18,12 @@ public class MoneyTransfer extends PluginLogs {
         super("Money Transfer Logs");
     }
     @Override
-    public void update(String action, String message, UUID issuer) {
+    public void update(String action, Object message, UUID issuer) {
         if (!action.equals("Balance added") && !action.equals("Balance removed")){
+            return;
+        }
+
+        if(!(message instanceof String mess)){
             return;
         }
 
@@ -32,7 +36,7 @@ public class MoneyTransfer extends PluginLogs {
         MoneyTransfers.add(MutableTriple.of(
                 ldt,
                 title,
-                message));
+                mess));
     }
 
     @Override

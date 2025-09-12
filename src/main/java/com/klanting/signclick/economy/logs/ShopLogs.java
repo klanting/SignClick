@@ -2,38 +2,83 @@ package com.klanting.signclick.economy.logs;
 
 import org.apache.commons.lang3.tuple.MutableTriple;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.time.*;
+import java.util.*;
+
+
+class ItemSummary{
+    public int amount = 0;
+    public double price = 0;
+
+}
 
 public class ShopLogs extends PluginLogs{
 
-    public final List<MutableTriple<LocalDateTime, String, String>> ShopLogsEntries = new ArrayList<>();
+    /*
+    * log map: date -> block -> amount, to keep logs for each day as a summary
+    * */
+    public final Map<LocalDate, List<ShopLogEntry>> shopSalesMap = new HashMap<>();
 
     public ShopLogs(){
         super("Shop logs");
     }
     @Override
-    public void update(String action, String message, UUID issuer) {
+    public void update(String action, Object message, UUID issuer) {
         if (!action.equals("Shop sales")){
             return;
         }
 
-        Instant now = Instant.now();
-        LocalDateTime ldt = LocalDateTime.ofInstant(now, ZoneId.systemDefault());
+        if(!(message instanceof ShopLogEntry shopLogEntry)){
+            return;
+        }
 
-        ShopLogsEntries.add(MutableTriple.of(
-                ldt,
-                action+ (issuer != null ? (" by " + Bukkit.getOfflinePlayer(issuer).getName()) : ""),
-                message));
+        Instant now = Instant.now();
+        LocalDate ldt = LocalDateTime.ofInstant(now, ZoneId.systemDefault()).toLocalDate();
+
+        /*
+        * add new log to the given date
+        * */
+        List<ShopLogEntry> dailyShopLogs = shopSalesMap.getOrDefault(ldt, new ArrayList<>());
+        dailyShopLogs.add(shopLogEntry);
+
+        shopSalesMap.put(ldt, dailyShopLogs);
     }
 
     @Override
     public List<MutableTriple<LocalDateTime, String, String>> getLogs() {
-        return ShopLogsEntries;
+        List<MutableTriple<LocalDateTime, String, String>> shopLogsEntries = new ArrayList<>();
+
+
+        for(Map.Entry<LocalDate, List<ShopLogEntry>> entry: shopSalesMap.entrySet()){
+
+            /*
+            * make a summary by item
+            * */
+            Map<Material,  ItemSummary> summaryMap = new HashMap<>();
+
+            for(ShopLogEntry shopLogEntry: entry.getValue()){
+                ItemSummary iSum = summaryMap.getOrDefault(shopLogEntry.item(), new ItemSummary());
+
+                iSum.amount += shopLogEntry.amount();
+                iSum.price += shopLogEntry.price();
+            }
+
+            String mess = "";
+
+            for(Map.Entry<Material, ItemSummary> iSum: summaryMap.entrySet()){
+                mess += iSum.getValue().amount+"x "+ iSum.getKey().name()+" sold for $"+iSum.getValue().price+"\n";
+            }
+
+            LocalTime time = LocalTime.of(0, 0); // 2:30 PM
+
+            shopLogsEntries.add(MutableTriple.of(
+                    entry.getKey().atTime(time),
+                    "Shop Sales",
+                    mess));
+        }
+
+        return shopLogsEntries;
     }
 }

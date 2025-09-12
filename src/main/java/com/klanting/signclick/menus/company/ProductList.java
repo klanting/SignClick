@@ -110,11 +110,17 @@ public class ProductList extends PagingMenu {
         super.init();
 
         if (fullList){
+            int licenseRequestSize = LicenseSingleton.getInstance().getLicenseRequests().getLicensesFrom(comp).size();
+            int licenseGivenSize = LicenseSingleton.getInstance().getCurrentLicenses().getLicensesFrom(comp).size();
+            int licenseReceivedSize = LicenseSingleton.getInstance().getCurrentLicenses().getLicensesTo(comp).size();
 
             ItemStack book = ItemFactory.create(Material.BOOK, "§7Request Licenses");
-            ItemStack writeBook = ItemFactory.create(Material.WRITABLE_BOOK, "§7See License Requests");
-            ItemStack bookShelf = ItemFactory.create(Material.BOOKSHELF, "§7Received License List");
-            ItemStack enchantmentTable = ItemFactory.create(Material.ENCHANTING_TABLE, "§7Given License List");
+            ItemStack writeBook = ItemFactory.create(Material.WRITABLE_BOOK, "§7See License Requests",
+                    List.of("§7Pending requests: "+licenseRequestSize));
+            ItemStack bookShelf = ItemFactory.create(Material.BOOKSHELF, "§7Received License List",
+                    List.of("§7Received licenses: "+licenseReceivedSize));
+            ItemStack enchantmentTable = ItemFactory.create(Material.ENCHANTING_TABLE, "§7Given License List",
+                    List.of("§7Given licenses: "+licenseGivenSize));
 
             getInventory().setItem(52, book);
             getInventory().setItem(51, writeBook);
