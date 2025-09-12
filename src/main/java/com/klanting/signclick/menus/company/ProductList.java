@@ -55,6 +55,9 @@ public class ProductList extends PagingMenu {
             case licenseRequestsFrom:
                 licenses = LicenseSingleton.getInstance().getLicenseRequests().getLicensesFrom(comp);
                 break;
+            case licenseFrom:
+                licenses = LicenseSingleton.getInstance().getCurrentLicenses().getLicensesFrom(comp);
+                break;
         }
 
         return Pair.of(products, licenses);
@@ -89,6 +92,10 @@ public class ProductList extends PagingMenu {
 
             if(productType.equals(ProductType.licenseRequestsFrom)){
                 l.add("§cRequested by "+license.getTo().getStockName());
+            }
+
+            if(productType.equals(ProductType.licenseFrom)){
+                l.add("§cGiven to: "+license.getTo().getStockName());
             }
 
             l.add("§7Weekly License cost: $"+license.getWeeklyCost());
@@ -185,12 +192,13 @@ public class ProductList extends PagingMenu {
             }, comp);
             player.openInventory(new_screen.getInventory());
         }else if (event.getSlot() == 49){
-            Function<License, Void> func = (license) -> {
+            Function<Produceable, Void> func = (potentialLicense) -> {
+                License license = (License) potentialLicense;
                 LicenseInfoMenu screen = new LicenseInfoMenu(license);
                 player.openInventory(screen.getInventory());
                 return null;
             };
-            LicenseGivenList newScreen = new LicenseGivenList(comp, func);
+            ProductList newScreen = new ProductList(comp, func, false, ProductType.licenseFrom);
             player.openInventory(newScreen.getInventory());
         }else{
             return false;
