@@ -1,0 +1,45 @@
+#YML used to init the default production config, in a quick manner
+
+types:
+  EASY:
+    researchTime: 1800 #30m
+    productionTime: 60
+  MEDIUM:
+    researchTime: 7200 #2h
+    productionTime: 120
+  HARD:
+    researchTime: 28800 #8h
+    productionTime: 300
+  VERY_HARD:
+    researchTime: 86400 #24h
+    productionTime: 1800 #30m
+  LEGENDARY:
+    researchTime: 172800 #48h
+    productionTime: 3600 #1h
+
+
+companyTypes:
+  Farmer:
+    icon: WHEAT
+    products:
+      CARROT:
+        TYPE: EASY
+        COST: 5
+      POTATO:
+        TYPE: EASY
+        COST: 5
+      WHEAT:
+        TYPE: EASY
+        COST: 5
+      BEETROOT:
+        TYPE: EASY
+        COST: 5
+      MELON_SLICE:
+        TYPE: EASY
+        COST: 5
+      PUMPKIN:
+        TYPE: EASY
+        COST: 5
+      SUGAR_CANE:
+        TYPE: MEDIUM
+        COST: 20
