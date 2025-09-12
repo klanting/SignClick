@@ -3,6 +3,7 @@ package com.klanting.signclick.signs;
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.economy.CompanyI;
 import com.klanting.signclick.economy.Market;
+import com.klanting.signclick.economy.logs.ShopLogEntry;
 import com.klanting.signclick.utils.Prefix;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -143,8 +144,7 @@ public class SignShop {
         DecimalFormat df = new DecimalFormat("###,###,##0.00");
 
         Prefix.sendMessage(player,"You bought "+amount+" "+material.name()+" FOR $"+df.format(price));
-        company.update("Shop sales", amount+" "+material.name()+" "+df.format(price),
-                player.getUniqueId());
+        company.update("Shop sales", new ShopLogEntry(material, player.getUniqueId(), amount, price), player.getUniqueId());
 
     }
 

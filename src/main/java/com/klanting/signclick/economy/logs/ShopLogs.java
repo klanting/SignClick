@@ -4,6 +4,7 @@ import org.apache.commons.lang3.tuple.MutableTriple;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 
+import java.text.DecimalFormat;
 import java.time.*;
 import java.util.*;
 
@@ -67,8 +68,10 @@ public class ShopLogs extends PluginLogs{
 
             String mess = "";
 
+            DecimalFormat df = new DecimalFormat("###,###,##0.00");
+
             for(Map.Entry<Material, ItemSummary> iSum: summaryMap.entrySet()){
-                mess += iSum.getValue().amount+"x "+ iSum.getKey().name()+" sold for $"+iSum.getValue().price+"\n";
+                mess += iSum.getValue().amount+"x "+ iSum.getKey().name()+" sold for $"+df.format(iSum.getValue().price)+"\n";
             }
 
             LocalTime time = LocalTime.of(0, 0); // 2:30 PM
