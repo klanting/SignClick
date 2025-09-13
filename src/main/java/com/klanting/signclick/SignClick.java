@@ -25,6 +25,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.Scoreboard;
 import org.dynmap.DynmapAPI;
 import org.dynmap.markers.MarkerSet;
+import net.ess3.api.IEssentials;
 
 import java.lang.reflect.Field;
 import java.util.*;
@@ -48,11 +49,19 @@ public class SignClick extends JavaPlugin{
 
     public static Scoreboard scoreboard;
 
+    public static boolean essentialsSupport;
+    public static IEssentials essentials;
+
     @Override
     public void onEnable() {
 
         plugin = this;
         configManager = new ConfigManager(this);
+
+        essentialsSupport = getServer().getPluginManager().getPlugin("Essentials") != null;
+        if(essentialsSupport){
+            essentials = (IEssentials) getServer().getPluginManager().getPlugin("Essentials");
+        }
 
         DefaultConfig.makeDefaultConfig();
         MigrationManager.Migrate();

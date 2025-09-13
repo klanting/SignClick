@@ -29,6 +29,7 @@ repositories {
     maven("https://oss.sonatype.org/content/repositories/snapshots");
     maven("https://oss.sonatype.org/content/repositories/central");
     maven("https://repo1.maven.org/maven2/com/github/seeseemelk/MockBukkit-v1.19");
+    maven("https://repo.essentialsx.net/releases/");
 }
 
 dependencies {
@@ -47,6 +48,8 @@ dependencies {
     * */
 
     compileOnly("org.spigotmc:spigot-api:1.21.4-R0.1-SNAPSHOT");
+    compileOnly("net.essentialsx:EssentialsX:2.20.1");
+    testImplementation("net.essentialsx:EssentialsX:2.20.1");
 
     implementation("com.google.code.gson:gson:2.13.1");
     implementation("org.danilopianini:gson-extras:0.2.1");

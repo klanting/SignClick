@@ -129,4 +129,4 @@ permissions:
       signclick.*: true
 
 depend: [Vault]
-softdepend: [dynmap]
+softdepend: [dynmap, Essentials]

@@ -5,7 +5,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.inventory.ItemStack;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 
@@ -14,11 +16,18 @@ import static org.bukkit.Bukkit.getServer;
 public class DefaultConfig {
 
     private static void makeProductConfig(ConfigurationSection configSection, Material material,
-                                          long researchTime, int productionCost, long productionTime){
+                                          long researchTime, double productionCost, long productionTime){
         String item = material.name();
 
         int keys = configSection.getKeys(false).size();
 
+        if(SignClick.essentialsSupport){
+            BigDecimal price = SignClick.essentials.getWorth().getPrice(SignClick.essentials, new ItemStack(material));
+
+            if(price != null){
+                productionCost = price.doubleValue();
+            }
+        }
 
         getOrCreate(configSection, item).addDefault("researchTime", researchTime);
         getOrCreate(configSection, item).addDefault("productionCost", productionCost);

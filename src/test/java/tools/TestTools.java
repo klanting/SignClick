@@ -10,6 +10,7 @@ import com.klanting.signclick.routines.WeeklyPay;
 import com.klanting.signclick.economy.CountryManager;
 import com.klanting.signclick.economy.Market;
 import com.klanting.signclick.economy.companyPatent.Auction;
+import net.ess3.api.IEssentials;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Material;
 import org.bukkit.block.Sign;
@@ -35,10 +36,12 @@ public class TestTools {
         pluginManager.enablePlugin(vault);
         MockEconomy mockEconomy = new MockEconomy();
         MockDynmap mockDynmap = new MockDynmap();
+        MockEssentials mockEssentials = new MockEssentials();
 
         // add Mock Vault to server
         server.getServicesManager().register(Economy.class, mockEconomy, vault, org.bukkit.plugin.ServicePriority.Highest);
         server.getServicesManager().register(DynmapAPI.class, mockDynmap, vault, org.bukkit.plugin.ServicePriority.Highest);
+        server.getServicesManager().register(IEssentials.class, mockEssentials, vault, org.bukkit.plugin.ServicePriority.Highest);
 
         SignClick plugin = MockBukkit.load(SignClick.class);
         SignClick.getConfigManager().getConfig("general.yml").set("autoSaveInterval", 0);
