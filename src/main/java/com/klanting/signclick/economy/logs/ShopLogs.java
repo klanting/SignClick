@@ -53,7 +53,6 @@ public class ShopLogs extends PluginLogs{
 
 
         for(Map.Entry<LocalDate, List<ShopLogEntry>> entry: shopSalesMap.entrySet()){
-
             /*
             * make a summary by item
             * */
@@ -64,6 +63,8 @@ public class ShopLogs extends PluginLogs{
 
                 iSum.amount += shopLogEntry.amount();
                 iSum.price += shopLogEntry.price();
+
+                summaryMap.put(shopLogEntry.item(), iSum);
             }
 
             String mess = "";
@@ -71,7 +72,7 @@ public class ShopLogs extends PluginLogs{
             DecimalFormat df = new DecimalFormat("###,###,##0.00");
 
             for(Map.Entry<Material, ItemSummary> iSum: summaryMap.entrySet()){
-                mess += iSum.getValue().amount+"x "+ iSum.getKey().name()+" sold for $"+df.format(iSum.getValue().price)+"\n";
+                mess += "§7"+iSum.getValue().amount+"x "+ iSum.getKey().name()+" sold for $"+df.format(iSum.getValue().price)+"\n";
             }
 
             LocalTime time = LocalTime.of(0, 0); // 2:30 PM

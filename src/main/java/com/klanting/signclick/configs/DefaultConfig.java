@@ -23,7 +23,6 @@ public class DefaultConfig {
 
         if(SignClick.essentialsSupport){
             BigDecimal price = SignClick.essentials.getWorth().getPrice(SignClick.essentials, new ItemStack(material));
-
             if(price != null){
                 productionCost = price.doubleValue();
             }
