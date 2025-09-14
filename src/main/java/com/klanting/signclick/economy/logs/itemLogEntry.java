@@ -4,4 +4,4 @@ import org.bukkit.Material;
 
 import java.util.UUID;
 
-public record ShopLogEntry(Material item, UUID issuer, int amount, double price) {}
+public record itemLogEntry(Material item, UUID issuer, int amount, double price) {}

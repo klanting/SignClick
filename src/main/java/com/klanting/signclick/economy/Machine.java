@@ -1,9 +1,11 @@
 package com.klanting.signclick.economy;
 
+import com.klanting.signclick.economy.logs.itemLogEntry;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Hopper;
 import org.bukkit.inventory.ItemStack;
+import org.yaml.snakeyaml.error.Mark;
 
 import java.util.HashMap;
 
@@ -230,6 +232,12 @@ public class Machine {
             }else{
                 results[index] = new ItemStack(product.getMaterial());
             }
+
+
+            Market.getCompany(compName).update("Machine production",
+                    new itemLogEntry(product.getMaterial(), null, 1, amount), null);
+
+
             if (!productionLooped()){
                 productionCount -= 1;
             }

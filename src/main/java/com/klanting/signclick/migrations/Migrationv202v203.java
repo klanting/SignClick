@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import com.klanting.signclick.SignClick;
+import com.klanting.signclick.economy.logs.MachineProduction;
 import com.klanting.signclick.economy.logs.PluginLogs;
 import com.klanting.signclick.economy.logs.ResearchUpdate;
 import com.klanting.signclick.economy.logs.ShopLogs;
@@ -40,6 +41,7 @@ public class Migrationv202v203 extends Migration{
                         new TypeToken<List<PluginLogs>>(){}.getType(),
                         new ArrayList<>());
                 pluginLogs.add(new ShopLogs());
+                pluginLogs.add(new MachineProduction());
 
                 companyObject.add("logObservers", JsonParser.parseString(
                         Utils.serialize(pluginLogs, new com.google.common.reflect.TypeToken<List<PluginLogs>>(){}.getType())

@@ -3,10 +3,9 @@ package com.klanting.signclick.signs;
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.economy.CompanyI;
 import com.klanting.signclick.economy.Market;
-import com.klanting.signclick.economy.logs.ShopLogEntry;
+import com.klanting.signclick.economy.logs.itemLogEntry;
 import com.klanting.signclick.utils.Prefix;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.block.Chest;
 import org.bukkit.block.Sign;
 import org.bukkit.block.data.type.WallSign;
@@ -14,10 +13,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
-import org.checkerframework.dataflow.qual.AssertMethod;
-import org.yaml.snakeyaml.error.Mark;
 
 import java.text.DecimalFormat;
 import java.util.Map;
@@ -144,7 +139,7 @@ public class SignShop {
         DecimalFormat df = new DecimalFormat("###,###,##0.00");
 
         Prefix.sendMessage(player,"You bought "+amount+" "+material.name()+" FOR $"+df.format(price));
-        company.update("Shop sales", new ShopLogEntry(material, player.getUniqueId(), amount, price), player.getUniqueId());
+        company.update("Shop sales", new itemLogEntry(material, player.getUniqueId(), amount, price), player.getUniqueId());
 
     }
 

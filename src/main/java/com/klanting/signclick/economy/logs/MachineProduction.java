@@ -7,26 +7,18 @@ import java.text.DecimalFormat;
 import java.time.*;
 import java.util.*;
 
-
-class ItemSummary{
-    public int amount = 0;
-    public double price = 0;
-
-}
-
-public class ShopLogs extends PluginLogs{
-
+public class MachineProduction extends PluginLogs{
     /*
-    * log map: date -> block -> amount, to keep logs for each day as a summary
-    * */
-    public final Map<LocalDate, List<itemLogEntry>> shopSalesMap = new HashMap<>();
+     * log map: date -> block -> amount, to keep logs for each day as a summary
+     * */
+    public final Map<LocalDate, List<itemLogEntry>> machineProduction = new HashMap<>();
 
-    public ShopLogs(){
-        super("Shop logs");
+    public MachineProduction(){
+        super("Machine production");
     }
     @Override
     public void update(String action, Object message, UUID issuer) {
-        if (!action.equals("Shop sales")){
+        if (!action.equals("Machine production")){
             return;
         }
 
@@ -38,12 +30,12 @@ public class ShopLogs extends PluginLogs{
         LocalDate ldt = LocalDateTime.ofInstant(now, ZoneId.systemDefault()).toLocalDate();
 
         /*
-        * add new log to the given date
-        * */
-        List<itemLogEntry> dailyShopLogs = shopSalesMap.getOrDefault(ldt, new ArrayList<>());
+         * add new log to the given date
+         * */
+        List<itemLogEntry> dailyShopLogs = machineProduction.getOrDefault(ldt, new ArrayList<>());
         dailyShopLogs.add(itemLogEntry);
 
-        shopSalesMap.put(ldt, dailyShopLogs);
+        machineProduction.put(ldt, dailyShopLogs);
     }
 
     @Override
@@ -51,10 +43,10 @@ public class ShopLogs extends PluginLogs{
         List<MutableTriple<LocalDateTime, String, String>> shopLogsEntries = new ArrayList<>();
 
 
-        for(Map.Entry<LocalDate, List<itemLogEntry>> entry: shopSalesMap.entrySet()){
+        for(Map.Entry<LocalDate, List<itemLogEntry>> entry: machineProduction.entrySet()){
             /*
-            * make a summary by item
-            * */
+             * make a summary by item
+             * */
             Map<Material,  ItemSummary> summaryMap = new HashMap<>();
 
             for(itemLogEntry itemLogEntry : entry.getValue()){
@@ -71,14 +63,14 @@ public class ShopLogs extends PluginLogs{
             DecimalFormat df = new DecimalFormat("###,###,##0.00");
 
             for(Map.Entry<Material, ItemSummary> iSum: summaryMap.entrySet()){
-                mess += "§7"+iSum.getValue().amount+"x "+ iSum.getKey().name()+" sold for $"+df.format(iSum.getValue().price)+"\n";
+                mess += "§7"+iSum.getValue().amount+"x "+ iSum.getKey().name()+" created for $"+df.format(iSum.getValue().price)+"\n";
             }
 
             LocalTime time = LocalTime.of(0, 0); // 2:30 PM
 
             shopLogsEntries.add(MutableTriple.of(
                     entry.getKey().atTime(time),
-                    "Shop Sales",
+                    "Machines production",
                     mess));
         }
 

@@ -14,13 +14,13 @@ public class  LocalDateSerializer implements JsonSerializer<LocalDate>, JsonDese
 
     @Override
     public JsonElement serialize(LocalDate dateTime, Type type, JsonSerializationContext context) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         return context.serialize(dateTime.format(formatter));
     }
 
     @Override
     public LocalDate deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         return LocalDate.parse(json.getAsString(), formatter);
     }
 

@@ -178,6 +178,7 @@ public class Company extends LoggableSubject implements CompanyI{
         addObserver(new ShareholderChange());
         addObserver(new ResearchUpdate());
         addObserver(new ShopLogs());
+        addObserver(new MachineProduction());
 
         creater.receivePrivate(stockName, getTotalShares());
 

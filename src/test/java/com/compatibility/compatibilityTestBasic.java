@@ -74,8 +74,9 @@ public class compatibilityTestBasic {
         /*
          * Check that the observers that were added in v1.0.1 are now added (4)
          * and extended to 5 in v2.0.1
+         * extended to 7 in 2.0.3
          * */
-        assertEquals(6, Market.getCompany(compName).getLogObservers().size());
+        assertEquals(7, Market.getCompany(compName).getLogObservers().size());
         assertNotNull(Market.getCompany(compName).getResearch());
     }
 

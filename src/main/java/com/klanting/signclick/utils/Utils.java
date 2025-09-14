@@ -44,6 +44,7 @@ public class Utils {
                     .registerSubtype(ShareholderChange.class, "ShareholderChange")
                     .registerSubtype(ResearchUpdate.class, "ResearchUpdate")
                     .registerSubtype(ShopLogs.class, "ShopLogs")
+                    .registerSubtype(MachineProduction.class, "MachineProduction")
             ;
 
     static RuntimeTypeAdapterFactory<CompanyI> companyTypes =
