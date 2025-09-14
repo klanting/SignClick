@@ -58,6 +58,7 @@ public class LicenseInfoMenu extends SelectionMenu {
 
         if (option.equals("§cCancel License")){
             LicenseSingleton.getInstance().getCurrentLicenses().removeLicense(license);
+            license.getProduct().onDelete(license.getTo());
 
             List<Machine> toRemove = new ArrayList<>();
             for (Machine machine: activeMachines){

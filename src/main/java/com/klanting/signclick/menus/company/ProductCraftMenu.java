@@ -1,6 +1,7 @@
 package com.klanting.signclick.menus.company;
 
 import com.klanting.signclick.economy.CompanyI;
+import com.klanting.signclick.economy.License;
 import com.klanting.signclick.economy.Produceable;
 import com.klanting.signclick.economy.Product;
 import com.klanting.signclick.menus.SelectionMenu;
@@ -119,8 +120,11 @@ public class ProductCraftMenu extends SelectionMenu {
             }
 
             Function<Produceable, Void> lambda = (p) -> {
-                if(!(p instanceof Product prod)){
-                    return null;
+                Product prod;
+                if((p instanceof Product p2)){
+                    prod = p2;
+                }else{
+                    prod = ((License) p).getProduct();
                 }
 
                 products[slot] = prod;
@@ -128,7 +132,7 @@ public class ProductCraftMenu extends SelectionMenu {
                 loadStack(player);
                 return null;};
 
-            ProductList new_screen = new ProductList(comp, lambda, false, ProductType.allOwnedProducts);
+            ProductList new_screen = new ProductList(comp, lambda, false, ProductType.allOwned);
             player.openInventory(new_screen.getInventory());
         }else if(option.equals("§a✓ Save Product")) {
 
@@ -140,6 +144,17 @@ public class ProductCraftMenu extends SelectionMenu {
             }
 
             Product product = getCrafted();
+
+            /*
+            * link new product to old
+            * */
+            for(Product product1: products){
+                if(product1 == null){
+                    continue;
+                }
+
+                product1.addUsedFor(product);
+            }
 
             if (product != null){
                 comp.addProduct(product);

@@ -595,7 +595,7 @@ public class CompanyMenuTests {
     @Test
     void companyProductNotCraftLicenseTest(){
         /*
-        * Check that we cannot craft with licensed products
+        * Check that we can craft with licensed products
         * */
         addMockCraft(new ItemStack(Material.CRAFTING_TABLE));
 
@@ -634,7 +634,7 @@ public class CompanyMenuTests {
          * Ensure the wooden plank not visible
          * */
         testPlayer.simulateInventoryClick(10);
-        assertEquals(Material.LIGHT_GRAY_STAINED_GLASS_PANE, testPlayer.getOpenInventory().getItem(0).getType());
+        assertEquals(Material.OAK_PLANKS, testPlayer.getOpenInventory().getItem(0).getType());
 
     }
 
