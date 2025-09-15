@@ -211,7 +211,7 @@ public class Machine {
                 return;
             }
 
-            AssertMet(Market.getCompany(compName).getMachines().containsValue(this), "Phantom machine not allowed");
+            AssertMet(Market.getCompany(compName).getMachines().containsValue(this), "Phantom machine not allowed: "+compName);
 
             if (!Market.getCompany(compName).removeBal(amount)){
                 frozenByFunds = true;

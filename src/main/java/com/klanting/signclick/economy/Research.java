@@ -105,7 +105,6 @@ public class Research {
         lastChecked = now;
 
         for (ResearchOption researchOption: researchOptions){
-            System.out.println("X "+researchOption.getMaterial().name());
 
             long canPayDelta = researchOption.canPayDelta(Math.min(company.getBal(), company.getSpendable()));
             long remainingTime = Math.max((long) Math.ceil((researchOption.getCompleteTime()*(1-researchOption.getProgress()))), 0);

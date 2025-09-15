@@ -62,7 +62,6 @@ public class ResearchOption {
     }
 
     public long getCompleteTime(){
-        System.out.println("Y "+this.material.name()+" "+this.companyType);
         ConfigurationSection section = SignClick.getConfigManager().getConfig("production.yml").getConfigurationSection("products").
                 getConfigurationSection(this.companyType).getConfigurationSection(this.material.name());
 

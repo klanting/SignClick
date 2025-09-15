@@ -85,6 +85,7 @@ public class OpenFurnaceEvent implements Listener {
 
 
                         Market.getCompany(compName).getMachines().remove(BlockPosKey.from(block.getLocation()));
+                        MenuEvents.activeMachines.remove(machine);
                     }
 
                 }
