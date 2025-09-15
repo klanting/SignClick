@@ -225,6 +225,7 @@ public class Machine {
             }
 
             productionProgress -= product.getProductionTime();
+            productionProgress = Math.max(productionProgress, 0);
 
 
             if (results[index] != null){

@@ -52,7 +52,7 @@ public class MarketMenuTests {
 
         suc6 = Market.addCompany("TestCaseInc2", "TCI2", Market.getAccount(testPlayer));
         assertTrue(suc6);
-        Market.getCompany("TCI2").setType("bank");
+        Market.getCompany("TCI2").setType("Building");
 
         openMenu();
 
@@ -72,10 +72,10 @@ public class MarketMenuTests {
         * Check that the menu selector is displaying properly
         * */
         ItemStack firstComp = inventoryMenu.getItem(0);
-        TestTools.assertItem(firstComp, Material.SUNFLOWER, "§6TestCaseInc [TCI]");
+        TestTools.assertItem(firstComp, Material.LANTERN, "§6TestCaseInc [TCI]");
 
         ItemStack secondComp = inventoryMenu.getItem(1);
-        TestTools.assertItem(secondComp, Material.GOLD_INGOT, "§6TestCaseInc2 [TCI2]");
+        TestTools.assertItem(secondComp, Material.BRICKS, "§6TestCaseInc2 [TCI2]");
     }
 
     @Test
@@ -224,7 +224,7 @@ public class MarketMenuTests {
         /*
         * Check has 1 item
         * */
-        assertEquals(Material.SUNFLOWER, testPlayer.getOpenInventory().getItem(0).getType());
+        assertEquals(Material.LANTERN, testPlayer.getOpenInventory().getItem(0).getType());
         assertEquals(Material.LIGHT_GRAY_STAINED_GLASS_PANE, testPlayer.getOpenInventory().getItem(1).getType());
 
         /*
@@ -242,7 +242,7 @@ public class MarketMenuTests {
         /*
          * Check has 1 item
          * */
-        assertEquals(Material.SUNFLOWER, testPlayer.getOpenInventory().getItem(0).getType());
+        assertEquals(Material.LANTERN, testPlayer.getOpenInventory().getItem(0).getType());
         assertEquals(Material.LIGHT_GRAY_STAINED_GLASS_PANE, testPlayer.getOpenInventory().getItem(1).getType());
 
     }

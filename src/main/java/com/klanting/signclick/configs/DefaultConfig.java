@@ -5,12 +5,17 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 
+import java.io.File;
+import java.io.InputStreamReader;
 import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.klanting.signclick.utils.Utils.AssertMet;
 import static org.bukkit.Bukkit.getServer;
 
 public class DefaultConfig {
@@ -181,170 +186,37 @@ public class DefaultConfig {
         * Product configuration of bank products
         * */
         ConfigurationSection products = productionConfig.getConfigurationSection("products");
-        ConfigurationSection bankP = getOrCreate(products, "bank");
 
-        if (bankP.getKeys(false).isEmpty()){
-            makeProductConfig(bankP, Material.IRON_INGOT, 1200L, 100, 100L);
-            makeProductConfig(bankP, Material.GOLD_INGOT, 3600L, 500, 300L);
-            makeProductConfig(bankP, Material.DIAMOND, 18000L, 1000, 600L);
-            makeProductConfig(bankP, Material.NETHERITE_INGOT, 36000L, 3000, 1200L);
-        }
+        YamlConfiguration productionInit = YamlConfiguration.loadConfiguration(
+                new InputStreamReader(SignClick.productionConfig, StandardCharsets.UTF_8)
+        );
 
-        /*
-         * Product configuration of transport products
-         * */
-        ConfigurationSection transportP = getOrCreate(products, "transport");
+        ConfigurationSection types = productionInit.getConfigurationSection("types");
+        ConfigurationSection companyTypes = productionInit.getConfigurationSection("companyTypes");
 
-        if (transportP.getKeys(false).isEmpty()){
-            makeProductConfig(transportP, Material.POWERED_RAIL, 3600L, 100, 60L);
-            makeProductConfig(transportP, Material.DETECTOR_RAIL, 600L, 30, 20L);
-            makeProductConfig(transportP, Material.RAIL, 120L, 20, 15L);
-            makeProductConfig(transportP, Material.ACTIVATOR_RAIL, 600L, 30, 20L);
-            makeProductConfig(transportP, Material.MINECART, 1800L, 450, 120L);
-            makeProductConfig(transportP, Material.SADDLE, 7200L, 500, 180L);
-            makeProductConfig(transportP, Material.LEATHER_HORSE_ARMOR, 60L, 50, 10L);
-            makeProductConfig(transportP, Material.IRON_HORSE_ARMOR, 720L, 100, 20L);
-            makeProductConfig(transportP, Material.GOLDEN_HORSE_ARMOR, 1800L, 300, 40L);
-            makeProductConfig(transportP, Material.DIAMOND_HORSE_ARMOR, 7200L, 600, 120L);
-            makeProductConfig(transportP, Material.OAK_BOAT, 60L, 5, 10L);
-            makeProductConfig(transportP, Material.ELYTRA, 72000L, 100000, 3600L);
-        }
+        for(String category: companyTypes.getKeys(false)){
+            ConfigurationSection categoryP = getOrCreate(products, category);
 
-        /*
-         * Product configuration of product products
-         * */
-        ConfigurationSection productP = getOrCreate(products, "product");
+            if (categoryP.getKeys(false).isEmpty()){
+                for(String MaterialString: companyTypes.getConfigurationSection(category).
+                        getConfigurationSection("products").getKeys(false)){
 
-        if (productP.getKeys(false).isEmpty()){
-            makeProductConfig(productP, Material.TOTEM_OF_UNDYING, 7200L, 2000, 300L);
-            makeProductConfig(productP, Material.TRIDENT, 3600L, 500, 180L);
-            makeProductConfig(productP, Material.ENDER_PEARL, 180L, 50, 20L);
-            makeProductConfig(productP, Material.BLAZE_ROD, 180L, 50, 20L);
-            makeProductConfig(productP, Material.ENDER_EYE, 360L, 30, 30L);
-            makeProductConfig(productP, Material.ENDER_CHEST, 720L, 500, 300L);
-            makeProductConfig(productP, Material.SLIME_BLOCK, 360L, 100, 120L);
-            makeProductConfig(productP, Material.HONEY_BLOCK, 360L, 100, 120L);
-        }
+                    try{
+                        String level = companyTypes.getConfigurationSection(category).getConfigurationSection("products")
+                                .getConfigurationSection(MaterialString).getString("TYPE");
+                        makeProductConfig(categoryP, Material.valueOf(MaterialString),
+                                types.getConfigurationSection(level).getInt("researchTime"),
+                                companyTypes.getConfigurationSection(category).getConfigurationSection("products").get("COST") != null ?
+                                        companyTypes.getConfigurationSection(category).getConfigurationSection("products").getInt("COST"):
+                                        types.getConfigurationSection(level).getInt("COST"),
+                                types.getConfigurationSection(level).getInt("productionTime"));
+                    }catch (Exception e){
+                        getServer().getConsoleSender().sendMessage(ChatColor.GRAY + "SignClick: "+MaterialString+" INVALID");
+                        continue;
+                    }
 
-        /*
-         * Product configuration of real estate products
-         * */
-        ConfigurationSection realEstateP = getOrCreate(products, "real estate");
-
-        if (realEstateP.getKeys(false).isEmpty()){
-            makeProductConfig(realEstateP, Material.WHITE_BED, 120L, 10, 60L);
-            makeProductConfig(realEstateP, Material.ARMOR_STAND, 120L, 5, 60L);
-            makeProductConfig(realEstateP, Material.ITEM_FRAME, 180L, 20, 120L);
-            makeProductConfig(realEstateP, Material.GLOW_ITEM_FRAME, 240L, 20, 120L);
-            makeProductConfig(realEstateP, Material.PAINTING, 120L, 5, 60L);
-        }
-
-        /*
-         * Product configuration of military products
-         * */
-        ConfigurationSection militaryP = getOrCreate(products, "military");
-
-        if (militaryP.getKeys(false).isEmpty()){
-            makeProductConfig(militaryP, Material.DIAMOND_SWORD, 7200L, 1500, 720L);
-            makeProductConfig(militaryP, Material.NETHERITE_SWORD, 36000L, 3500, 2400L);
-            makeProductConfig(militaryP, Material.BOW, 60L, 15, 60L);
-            makeProductConfig(militaryP, Material.CROSSBOW, 120L, 30, 90L);
-            makeProductConfig(militaryP, Material.SHIELD, 120L, 30, 90L);
-            makeProductConfig(militaryP, Material.ARROW, 60L, 3, 10L);
-            makeProductConfig(militaryP, Material.SPECTRAL_ARROW, 240L, 15, 30L);
-        }
-
-        /*
-         * Product configuration of building products
-         * */
-        ConfigurationSection buildingP = getOrCreate(products, "building");
-
-        if (buildingP.getKeys(false).isEmpty()){
-            makeProductConfig(buildingP, Material.COBBLESTONE, 60L, 1, 10L);
-            makeProductConfig(buildingP, Material.GRANITE, 60L, 1, 10L);
-            makeProductConfig(buildingP, Material.DIORITE, 60L, 1, 10L);
-            makeProductConfig(buildingP, Material.ANDESITE, 60L, 1, 10L);
-            makeProductConfig(buildingP, Material.STONE_BRICKS, 120L, 1, 10L);
-            makeProductConfig(buildingP, Material.SAND, 240L, 5, 20L);
-            makeProductConfig(buildingP, Material.GRAVEL, 240L, 5, 20L);
-            makeProductConfig(buildingP, Material.GLASS, 300L, 5, 20L);
-            makeProductConfig(buildingP, Material.WHITE_CONCRETE, 240L, 8, 30L);
-            makeProductConfig(buildingP, Material.WHITE_CONCRETE_POWDER, 240L, 8, 30L);
-            makeProductConfig(buildingP, Material.OAK_LOG, 120L, 4, 20L);
-            makeProductConfig(buildingP, Material.OAK_LOG, 120L, 4, 20L);
-            makeProductConfig(buildingP, Material.SPRUCE_LOG, 120L, 4, 20L);
-            makeProductConfig(buildingP, Material.BIRCH_LOG, 120L, 4, 20L);
-            makeProductConfig(buildingP, Material.JUNGLE_LOG, 120L, 4, 20L);
-            makeProductConfig(buildingP, Material.ACACIA_LOG, 120L, 4, 20L);
-            makeProductConfig(buildingP, Material.DARK_OAK_LOG, 120L, 4, 20L);
-            makeProductConfig(buildingP, Material.BRICKS, 180L, 5, 20L);
-            makeProductConfig(buildingP, Material.SMOOTH_STONE, 180L, 5, 20L);
-            makeProductConfig(buildingP, Material.QUARTZ_BLOCK, 7200L, 200, 120L);
-            makeProductConfig(buildingP, Material.CLAY, 180L, 5, 20L);
-        }
-
-
-        /*
-         * Product configuration of enchantment products
-         * */
-        ConfigurationSection enchantmentP = getOrCreate(products, "enchantment");
-
-        if (enchantmentP.getKeys(false).isEmpty()){
-            makeProductConfig(enchantmentP, Material.ENCHANTING_TABLE, 7200L, 2500, 1200L);
-            makeProductConfig(enchantmentP, Material.BOOK, 120L, 40, 120L);
-            makeProductConfig(enchantmentP, Material.EXPERIENCE_BOTTLE, 240L, 50, 120L);
-        }
-
-        /*
-         * Product configuration of potion products
-         * */
-        ConfigurationSection breweryP = getOrCreate(products, "brewery");
-
-        if (breweryP.getKeys(false).isEmpty()){
-            makeProductConfig(breweryP, Material.BREWING_STAND, 120L, 50, 120L);
-            makeProductConfig(breweryP, Material.BLAZE_POWDER, 120L, 15, 120L);
-            makeProductConfig(breweryP, Material.GHAST_TEAR, 120L, 10, 120L);
-            makeProductConfig(breweryP, Material.FERMENTED_SPIDER_EYE, 120L, 10, 120L);
-            makeProductConfig(breweryP, Material.MAGMA_CREAM, 120L, 10, 120L);
-            makeProductConfig(breweryP, Material.GLISTERING_MELON_SLICE, 120L, 10, 120L);
-            makeProductConfig(breweryP, Material.GOLDEN_CARROT, 120L, 10, 120L);
-            makeProductConfig(breweryP, Material.RABBIT_FOOT, 120L, 10, 120L);
-        }
-
-        /*
-         * Product configuration of other products
-         * */
-        ConfigurationSection otherP = getOrCreate(products, "other");
-
-        if (otherP.getKeys(false).isEmpty()){
-            makeProductConfig(otherP, Material.AZALEA, 120L, 20, 30L);
-            makeProductConfig(otherP, Material.FLOWERING_AZALEA, 120L, 20, 30L);
-            makeProductConfig(otherP, Material.SPORE_BLOSSOM, 120L, 20, 30L);
-            makeProductConfig(otherP, Material.SEAGRASS, 60L, 10, 10L);
-            makeProductConfig(otherP, Material.SEA_PICKLE, 120L, 20, 30L);
-            makeProductConfig(otherP, Material.DANDELION, 60L, 10, 10L);
-            makeProductConfig(otherP, Material.POPPY, 60L, 10, 10L);
-            makeProductConfig(otherP, Material.BLUE_ORCHID, 60L, 10, 10L);
-            makeProductConfig(otherP, Material.ALLIUM, 60L, 10, 10L);
-            makeProductConfig(otherP, Material.AZURE_BLUET, 60L, 10, 10L);
-            makeProductConfig(otherP, Material.RED_TULIP, 60L, 10, 10L);
-            makeProductConfig(otherP, Material.ORANGE_TULIP, 60L, 10, 10L);
-            makeProductConfig(otherP, Material.WHITE_TULIP, 60L, 10, 10L);
-            makeProductConfig(otherP, Material.PINK_TULIP, 60L, 10, 10L);
-            makeProductConfig(otherP, Material.OXEYE_DAISY, 60L, 10, 10L);
-            makeProductConfig(otherP, Material.CORNFLOWER, 60L, 10, 10L);
-            makeProductConfig(otherP, Material.LILY_OF_THE_VALLEY, 60L, 10, 10L);
-            makeProductConfig(otherP, Material.BAMBOO, 240L, 1, 3L);
-            makeProductConfig(otherP, Material.SUGAR_CANE, 240L, 5, 3L);
-            makeProductConfig(otherP, Material.KELP, 240L, 3, 3L);
-            makeProductConfig(otherP, Material.CACTUS, 240L, 5, 3L);
-            makeProductConfig(otherP, Material.VINE, 240L, 3, 3L);
-            makeProductConfig(otherP, Material.LILY_PAD, 120L, 10, 10L);
-            makeProductConfig(otherP, Material.CHORUS_PLANT, 3600L, 100, 120L);
-            makeProductConfig(otherP, Material.LEATHER, 180L, 20, 60L);
-            makeProductConfig(otherP, Material.LEAD, 3600L, 100, 120L);
-            makeProductConfig(otherP, Material.SPYGLASS, 1800L, 150, 120L);
-            makeProductConfig(otherP, Material.NAME_TAG, 3600L, 100, 120L);
+                }
+            }
         }
 
         /*

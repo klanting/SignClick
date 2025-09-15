@@ -950,7 +950,7 @@ class CompanyCTests {
         boolean suc6 = server.execute("company", testPlayer2, "support").hasSucceeded();
         assertTrue(suc6);
 
-        assertEquals(Material.SUNFLOWER, testPlayer2.getOpenInventory().getItem(0).getType());
+        assertEquals(Material.LANTERN, testPlayer2.getOpenInventory().getItem(0).getType());
 
     }
 

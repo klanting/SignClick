@@ -1,10 +1,12 @@
 package com.klanting.signclick.menus.company;
 
+import com.klanting.signclick.SignClick;
 import com.klanting.signclick.commands.companyHandelers.CompanyHandlerCreate;
 import com.klanting.signclick.commands.exceptions.CommandException;
 import com.klanting.signclick.menus.SelectionMenu;
 import com.klanting.signclick.utils.ItemFactory;
 
+import com.klanting.signclick.utils.Utils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -15,7 +17,7 @@ public class TypeSelect extends SelectionMenu {
     public CompanyHandlerCreate.companyCreationDetails details;
 
     public TypeSelect(CompanyHandlerCreate.companyCreationDetails details){
-        super(9, "Company Type Select", false);
+        super(18, "Company Type Select", false);
         this.details = details;
         init();
     }
@@ -23,32 +25,10 @@ public class TypeSelect extends SelectionMenu {
     public void init(){
         ItemStack value;
 
-        value = ItemFactory.create(Material.GOLD_INGOT, "§6bank");
-        getInventory().setItem(getInventory().firstEmpty(), value);
-
-        value = ItemFactory.create(Material.MINECART, "§6transport");
-        getInventory().setItem(getInventory().firstEmpty(), value);
-
-        value = ItemFactory.create(Material.IRON_CHESTPLATE, "§6product");
-        getInventory().setItem(getInventory().firstEmpty(), value);
-
-        value = ItemFactory.create(Material.QUARTZ_BLOCK, "§6real estate");
-        getInventory().setItem(getInventory().firstEmpty(), value);
-
-        value = ItemFactory.create(Material.BOW, "§6military");
-        getInventory().setItem(getInventory().firstEmpty(), value);
-
-        value = ItemFactory.create(Material.BRICKS, "§6building");
-        getInventory().setItem(getInventory().firstEmpty(), value);
-
-        value = ItemFactory.create(Material.ENCHANTED_BOOK, "§6enchantment");
-        getInventory().setItem(getInventory().firstEmpty(), value);
-
-        value = ItemFactory.create(Material.GLASS_BOTTLE, "§6brewery");
-        getInventory().setItem(getInventory().firstEmpty(), value);
-
-        value = ItemFactory.create(Material.SUNFLOWER, "§6other");
-        getInventory().setItem(getInventory().firstEmpty(), value);
+        for(String category: SignClick.getConfigManager().getConfig("production.yml").getConfigurationSection("products").getKeys(false)){
+            value = ItemFactory.create(Utils.getCompanyTypeMaterial(category), "§6"+category);
+            getInventory().setItem(getInventory().firstEmpty(), value);
+        }
 
         super.init();
     }

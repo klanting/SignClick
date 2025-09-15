@@ -47,5 +47,511 @@ companyTypes:
         TYPE: EASY
       KELP:
         TYPE: EASY
-      VINES:
+      VINE:
         TYPE: MEDIUM
+      SWEET_BERRIES:
+        TYPE: MEDIUM
+      GLOW_BERRIES:
+        TYPE: MEDIUM
+      APPLE:
+        TYPE: EASY
+      GOLDEN_APPLE:
+        TYPE: VERY_HARD
+      ENCHANTED_GOLDEN_APPLE:
+        TYPE: LEGENDARY
+  Fisherman:
+    icon: COD
+    products:
+      COD:
+        TYPE: EASY
+      SALMON:
+        TYPE: EASY
+      TROPICAL_FISH:
+        TYPE: EASY
+      PUFFERFISH:
+        TYPE: MEDIUM
+      FISHING_ROD:
+        TYPE: EASY
+      TUBE_CORAL_BLOCK:
+        TYPE: HARD
+      BRAIN_CORAL_BLOCK:
+        TYPE: HARD
+      BUBBLE_CORAL_BLOCK:
+        TYPE: HARD
+      FIRE_CORAL_BLOCK:
+        TYPE: HARD
+      HORN_CORAL_BLOCK:
+        TYPE: HARD
+      TUBE_CORAL:
+        TYPE: HARD
+      BRAIN_CORAL:
+        TYPE: HARD
+      BUBBLE_CORAL:
+        TYPE: HARD
+      FIRE_CORAL:
+        TYPE: HARD
+      HORN_CORAL:
+        TYPE: HARD
+      TUBE_CORAL_FAN:
+        TYPE: HARD
+      BRAIN_CORAL_FAN:
+        TYPE: HARD
+      BUBBLE_CORAL_FAN:
+        TYPE: HARD
+      FIRE_CORAL_FAN:
+        TYPE: HARD
+      HORN_CORAL_FAN:
+        TYPE: HARD
+      PRISMARINE:
+        TYPE: HARD
+      PRISMARINE_SHARD:
+        TYPE: HARD
+      PRISMARINE_CRYSTALS:
+        TYPE: HARD
+      COD_BUCKET:
+        TYPE: MEDIUM
+      SALMON_BUCKET:
+        TYPE: MEDIUM
+      TROPICAL_FISH_BUCKET:
+        TYPE: MEDIUM
+      PUFFERFISH_BUCKET:
+        TYPE: MEDIUM
+      AXOLOTL_BUCKET:
+        TYPE: HARD
+      TADPOLE_BUCKET:
+        TYPE: HARD
+      NAUTILUS_SHELL:
+        TYPE: MEDIUM
+      HEART_OF_THE_SEA:
+        TYPE: VERY_HARD
+      SPONGE:
+        TYPE: VERY_HARD
+      TRIDENT:
+        TYPE: LEGENDARY
+        COST: 10000
+  Woodcutter:
+    icon: OAK_LOG
+    products:
+      OAK_LOG:
+        TYPE: EASY
+        COST: 4
+      SPRUCE_LOG:
+        TYPE: EASY
+        COST: 4
+      BIRCH_LOG:
+        TYPE: EASY
+        COST: 4
+      JUNGLE_LOG:
+        TYPE: EASY
+        COST: 4
+      ACACIA_LOG:
+        TYPE: EASY
+        COST: 4
+      DARK_OAK_LOG:
+        TYPE: EASY
+        COST: 4
+      MANGROVE_LOG:
+        TYPE: MEDIUM
+        COST: 15
+      CHERRY_LOG:
+        TYPE: MEDIUM
+        COST: 15
+      PALE_OAK_LOG:
+        TYPE: MEDIUM
+        COST: 15
+      OAK_SAPLING:
+        TYPE: MEDIUM
+      SPRUCE_SAPLING:
+        TYPE: MEDIUM
+      BIRCH_SAPLING:
+        TYPE: MEDIUM
+      JUNGLE_SAPLING:
+        TYPE: MEDIUM
+      ACACIA_SAPLING:
+        TYPE: MEDIUM
+      DARK_OAK_SAPLING:
+        TYPE: MEDIUM
+      CHERRY_SAPLING:
+        TYPE: HARD
+      PALE_OAK_SAPLING:
+        TYPE: HARD
+      OAK_LEAVES:
+        TYPE: MEDIUM
+      SPRUCE_LEAVES:
+        TYPE: MEDIUM
+      BIRCH_LEAVES:
+        TYPE: MEDIUM
+      JUNGLE_LEAVES:
+        TYPE: MEDIUM
+      ACACIA_LEAVES:
+        TYPE: MEDIUM
+      DARK_OAK_LEAVES:
+        TYPE: MEDIUM
+      MANGROVE_LEAVES:
+        TYPE: HARD
+      CHERRY_LEAVES:
+        TYPE: HARD
+      PALE_OAK_LEAVES:
+        TYPE: HARD
+  Building:
+    icon: BRICKS
+    products:
+      GRASS_BLOCK:
+        TYPE: MEDIUM
+      DIRT:
+        TYPE: EASY
+      PODZOL:
+        TYPE: MEDIUM
+      MYCELIUM:
+        TYPE: HARD
+      COARSE_DIRT:
+        TYPE: MEDIUM
+      ROOTED_DIRT:
+        TYPE: MEDIUM
+      MOSS_BLOCK:
+        TYPE: EASY
+      PALE_MOSS_BLOCK:
+        TYPE: MEDIUM
+      CLAY_BALL:
+        TYPE: EASY
+        COST: 2
+      SAND:
+        TYPE: EASY
+        COST: 5
+      RED_SAND:
+        TYPE: MEDIUM
+      GRAVEL:
+        TYPE: EASY
+        COST: 5
+      CALCITE:
+        TYPE: MEDIUM
+      TUFF:
+        TYPE: MEDIUM
+      MUD:
+        TYPE: MEDIUM
+      RESIN_CLUMP:
+        TYPE: MEDIUM
+      AMETHYST_SHARD:
+        TYPE: MEDIUM
+      DRIPSTONE_BLOCK:
+        TYPE: MEDIUM
+  Decoration:
+    icon: LANTERN
+    products:
+      TORCH:
+        TYPE: EASY
+      SOUL_TORCH:
+        TYPE: EASY
+      LANTERN:
+        TYPE: EASY
+      SOUL_LANTERN:
+        TYPE: EASY
+      CHAIN:
+        TYPE: MEDIUM
+      POINTED_DRIPSTONE:
+        TYPE: MEDIUM
+      CANDLE:
+        TYPE: MEDIUM
+      WHITE_DYE:
+        TYPE: MEDIUM
+      LIGHT_GRAY_DYE:
+        TYPE: MEDIUM
+      GRAY_DYE:
+        TYPE: MEDIUM
+      BLACK_DYE:
+        TYPE: MEDIUM
+      BROWN_DYE:
+        TYPE: MEDIUM
+      RED_DYE:
+        TYPE: MEDIUM
+      ORANGE_DYE:
+        TYPE: MEDIUM
+      YELLOW_DYE:
+        TYPE: MEDIUM
+      LIME_DYE:
+        TYPE: MEDIUM
+      GREEN_DYE:
+        TYPE: MEDIUM
+      CYAN_DYE:
+        TYPE: MEDIUM
+      LIGHT_BLUE_DYE:
+        TYPE: MEDIUM
+      BLUE_DYE:
+        TYPE: MEDIUM
+      PURPLE_DYE:
+        TYPE: MEDIUM
+      MAGENTA_DYE:
+        TYPE: MEDIUM
+      PINK_DYE:
+        TYPE: MEDIUM
+      AZALEA:
+        TYPE: MEDIUM
+      FLOWERING_AZALEA:
+        TYPE: MEDIUM
+      AZALEA_LEAVES:
+        TYPE: MEDIUM
+      FLOWERING_AZALEA_LEAVES:
+        TYPE: MEDIUM
+      SPORE_BLOSSOM:
+        TYPE: MEDIUM
+      DANDELION:
+        TYPE: MEDIUM
+      POPPY:
+        TYPE: MEDIUM
+      BLUE_ORCHID:
+        TYPE: MEDIUM
+      ALLIUM:
+        TYPE: MEDIUM
+      AZURE_BLUET:
+        TYPE: MEDIUM
+      RED_TULIP:
+        TYPE: MEDIUM
+      ORANGE_TULIP:
+        TYPE: MEDIUM
+      WHITE_TULIP:
+        TYPE: MEDIUM
+      PINK_TULIP:
+        TYPE: MEDIUM
+      OXEYE_DAISY:
+        TYPE: MEDIUM
+      CORNFLOWER:
+        TYPE: MEDIUM
+      SHORT_GRASS:
+        TYPE: MEDIUM
+      TALL_GRASS:
+        TYPE: MEDIUM
+      BIG_DRIPLEAF:
+        TYPE: MEDIUM
+      SMALL_DRIPLEAF:
+        TYPE: MEDIUM
+      GLOW_LICHEN:
+        TYPE: MEDIUM
+      LILY_PAD:
+        TYPE: MEDIUM
+      SEAGRASS:
+        TYPE: MEDIUM
+      SEA_PICKLE:
+        TYPE: MEDIUM
+  Nether:
+    icon: NETHERRACK
+    products:
+      NETHERRACK:
+        TYPE: EASY
+      CRIMSON_NYLIUM:
+        TYPE: EASY
+      WARPED_NYLIUM:
+        TYPE: EASY
+      CRIMSON_FUNGUS:
+        TYPE: EASY
+      WARPED_FUNGUS:
+        TYPE: EASY
+      CRIMSON_STEM:
+        TYPE: EASY
+      WARPED_STEM:
+        TYPE: EASY
+      CRIMSON_ROOTS:
+        TYPE: EASY
+      WARPED_ROOTS:
+        TYPE: EASY
+      NETHER_SPROUTS:
+        TYPE: EASY
+      WEEPING_VINES:
+        TYPE: EASY
+      TWISTING_VINES:
+        TYPE: EASY
+      SOUL_SAND:
+        TYPE: MEDIUM
+      SOUL_SOIL:
+        TYPE: MEDIUM
+      BLACKSTONE:
+        TYPE: MEDIUM
+      BASALT:
+        TYPE: MEDIUM
+      WITHER_ROSE:
+        TYPE: MEDIUM
+      FIRE_CHARGE:
+        TYPE: MEDIUM
+      BLAZE_ROD:
+        TYPE: MEDIUM
+      GHAST_TEAR:
+        TYPE: MEDIUM
+      MAGMA_CREAM:
+        TYPE: MEDIUM
+      QUARTZ:
+        TYPE: MEDIUM
+        COST: 50
+      NETHERITE_INGOT:
+        TYPE: VERY_HARD
+        COST: 30000
+      WITHER_SKELETON_SKULL:
+        TYPE: VERY_HARD
+      NETHER_STAR:
+        TYPE: LEGENDARY
+  End:
+    icon: END_STONE
+    products:
+      END_STONE:
+        TYPE: MEDIUM
+      PURPUR_BLOCK:
+        TYPE: MEDIUM
+      END_ROD:
+        TYPE: MEDIUM
+      CHORUS_FRUIT:
+        TYPE: MEDIUM
+      CHORUS_FLOWER:
+        TYPE: HARD
+      ENDER_PEARL:
+        TYPE: MEDIUM
+        COST: 50
+      OBSIDIAN:
+        TYPE: HARD
+      END_CRYSTAL:
+        TYPE: VERY_HARD
+      SHULKER_SHELL:
+        TYPE: VERY_HARD
+      ELYTRA:
+        TYPE: LEGENDARY
+  Mining:
+    icon: STONE
+    products:
+      COBBLESTONE:
+        TYPE: EASY
+      GRANITE:
+        TYPE: EASY
+        COST: 1
+      DIORITE:
+        TYPE: EASY
+        COST: 1
+      ANDESITE:
+        TYPE: EASY
+        COST: 1
+      COBBLED_DEEPSLATE:
+        TYPE: EASY
+        COST: 1
+      COAL:
+        TYPE: MEDIUM
+      REDSTONE:
+        TYPE: MEDIUM
+      LAPIS_LAZULI:
+        TYPE: MEDIUM
+      COPPER_INGOT:
+        TYPE: MEDIUM
+      IRON_INGOT:
+        TYPE: HARD
+      GOLD_INGOT:
+        TYPE: HARD
+      DIAMOND:
+        TYPE: VERY_HARD
+      HEAVY_CORE:
+        TYPE: LEGENDARY
+  Fighter:
+    icon: IRON_SWORD
+    products:
+      IRON_SWORD:
+        TYPE: MEDIUM
+      GOLDEN_SWORD:
+        TYPE: MEDIUM
+      DIAMOND_SWORD:
+        TYPE: HARD
+      NETHERITE_SWORD:
+        TYPE: VERY_HARD
+      LEATHER_HORSE_ARMOR:
+        TYPE: EASY
+        COST: 50
+      IRON_HORSE_ARMOR:
+        TYPE: MEDIUM
+        COST: 100
+      GOLDEN_HORSE_ARMOR:
+        TYPE: MEDIUM
+        COST: 300
+      DIAMOND_HORSE_ARMOR:
+        TYPE: HARD
+        COST: 600
+      WOLF_ARMOR:
+        TYPE: MEDIUM
+      TOTEM_OF_UNDYING:
+        TYPE: LEGENDARY
+        COST: 40000
+  Hunter:
+    icon: ROTTEN_FLESH
+    products:
+      ROTTEN_FLESH:
+        TYPE: EASY
+      SPIDER_EYE:
+        TYPE: EASY
+      STRING:
+        TYPE: EASY
+      BONE:
+        TYPE: EASY
+      GUNPOWDER:
+        TYPE: MEDIUM
+      SLIME_BALL:
+        TYPE: MEDIUM
+      MUTTON:
+        TYPE: MEDIUM
+      BEEF:
+        TYPE: MEDIUM
+      PORKCHOP:
+        TYPE: MEDIUM
+      CHICKEN:
+        TYPE: MEDIUM
+      RABBIT:
+        TYPE: MEDIUM
+      WHITE_WOOL:
+        TYPE: MEDIUM
+      FEATHER:
+        TYPE: MEDIUM
+      LEATHER:
+        TYPE: MEDIUM
+      RABBIT_HIDE:
+        TYPE: MEDIUM
+      EGG:
+        TYPE: HARD
+      HONEYCOMB:
+        TYPE: MEDIUM
+  Brewery:
+    icon: GLASS_BOTTLE
+    products:
+      BREWING_STAND:
+        TYPE: MEDIUM
+      BLAZE_POWDER:
+        TYPE: MEDIUM
+      GHAST_TEAR:
+        TYPE: MEDIUM
+      FERMENTED_SPIDER_EYE:
+        TYPE: MEDIUM
+      MAGMA_CREAM:
+        TYPE: MEDIUM
+      GLISTERING_MELON_SLICE:
+        TYPE: MEDIUM
+      GOLDEN_CARROT:
+        TYPE: MEDIUM
+      RABBIT_FOOT:
+        TYPE: MEDIUM
+  Enchantment:
+    icon: ENCHANTED_BOOK
+    products:
+      ENCHANTING_TABLE:
+        TYPE: MEDIUM
+      BOOK:
+        TYPE: MEDIUM
+      EXPERIENCE_BOTTLE:
+        TYPE: MEDIUM
+  Redstone:
+    icon: REDSTONE
+    products:
+      POWERED_RAIL:
+        TYPE: MEDIUM
+        COST: 100
+      DETECTOR_RAIL:
+        TYPE: MEDIUM
+        COST: 30
+      RAIL:
+        TYPE: MEDIUM
+        COST: 20
+      ACTIVATOR_RAIL:
+        TYPE: MEDIUM
+        COST: 30
+      MINECART:
+        TYPE: MEDIUM
+        COST: 450

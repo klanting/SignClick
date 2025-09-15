@@ -74,7 +74,7 @@ public class Utils {
 
     public static <T> String serialize(T value, Type token){
         GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(Company.class, new CompanySerializer());
+        builder.registerTypeAdapter(Company.class, new CompanySerializer(SignClick.getConfigManager()));
         builder.registerTypeAdapter(CompanyRef.class, new CompanyRefSerializer());
         builder.registerTypeAdapter(Country.class, new CountrySerializer());
         builder.registerTypeAdapter(Location.class, new LocationSerializer());
@@ -102,7 +102,7 @@ public class Utils {
 
         GsonBuilder builder = new GsonBuilder();
         builder.setPrettyPrinting();
-        builder.registerTypeAdapter(Company.class, new CompanySerializer());
+        builder.registerTypeAdapter(Company.class, new CompanySerializer(SignClick.getConfigManager()));
         builder.registerTypeAdapter(CompanyRef.class, new CompanyRefSerializer());
         builder.registerTypeAdapter(Country.class, new CountrySerializer());
         builder.registerTypeAdapter(Location.class, new LocationSerializer());
@@ -147,7 +147,7 @@ public class Utils {
         * Read object from a json file
         * */
         GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(Company.class, new CompanySerializer());
+        builder.registerTypeAdapter(Company.class, new CompanySerializer(SignClick.getConfigManager()));
         builder.registerTypeAdapter(CompanyRef.class, new CompanyRefSerializer());
         builder.registerTypeAdapter(Country.class, new CountrySerializer());
         builder.registerTypeAdapter(Location.class, new LocationSerializer());
@@ -191,7 +191,7 @@ public class Utils {
          * Read object from a json file
          * */
         GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(Company.class, new CompanySerializer());
+        builder.registerTypeAdapter(Company.class, new CompanySerializer(SignClick.getConfigManager()));
         builder.registerTypeAdapter(CompanyRef.class, new CompanyRefSerializer());
         builder.registerTypeAdapter(Country.class, new CountrySerializer());
         builder.registerTypeAdapter(Location.class, new LocationSerializer());
@@ -250,15 +250,19 @@ public class Utils {
 
     public static Material getCompanyTypeMaterial(String type){
         Map<String, Material> materialMap = new HashMap<>();
-        materialMap.put("bank", Material.GOLD_INGOT);
-        materialMap.put("transport", Material.MINECART);
-        materialMap.put("product", Material.IRON_CHESTPLATE);
-        materialMap.put("real estate", Material.QUARTZ_BLOCK);
-        materialMap.put("military", Material.BOW);
-        materialMap.put("building", Material.BRICKS);
-        materialMap.put("enchantment", Material.ENCHANTED_BOOK);
-        materialMap.put("brewery", Material.GLASS_BOTTLE);
-        materialMap.put("other", Material.SUNFLOWER);
+        materialMap.put("Farmer", Material.WHEAT);
+        materialMap.put("Fisherman", Material.COD);
+        materialMap.put("Woodcutter", Material.OAK_LOG);
+        materialMap.put("Building", Material.BRICKS);
+        materialMap.put("Decoration", Material.LANTERN);
+        materialMap.put("Nether", Material.NETHERRACK);
+        materialMap.put("End", Material.END_STONE);
+        materialMap.put("Mining", Material.STONE);
+        materialMap.put("Fighter", Material.IRON_SWORD);
+        materialMap.put("Hunter", Material.ROTTEN_FLESH);
+        materialMap.put("Enchantment", Material.ENCHANTED_BOOK);
+        materialMap.put("Brewery", Material.GLASS_BOTTLE);
+        materialMap.put("Redstone", Material.REDSTONE);
 
         return materialMap.get(type);
     }

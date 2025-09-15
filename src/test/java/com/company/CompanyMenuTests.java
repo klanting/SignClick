@@ -128,39 +128,51 @@ public class CompanyMenuTests {
         InventoryView typeMenu = testPlayer.getOpenInventory();
         assertNotNull(typeMenu);
 
-        assertEquals("§6bank", typeMenu.getItem(0).getItemMeta().getDisplayName());
-        assertEquals(Material.GOLD_INGOT, typeMenu.getItem(0).getType());
+        assertEquals("§6Farmer", typeMenu.getItem(0).getItemMeta().getDisplayName());
+        assertEquals(Material.WHEAT, typeMenu.getItem(0).getType());
 
-        assertEquals("§6transport", typeMenu.getItem(1).getItemMeta().getDisplayName());
-        assertEquals(Material.MINECART, typeMenu.getItem(1).getType());
+        assertEquals("§6Fisherman", typeMenu.getItem(1).getItemMeta().getDisplayName());
+        assertEquals(Material.COD, typeMenu.getItem(1).getType());
 
-        assertEquals("§6product", typeMenu.getItem(2).getItemMeta().getDisplayName());
-        assertEquals(Material.IRON_CHESTPLATE, typeMenu.getItem(2).getType());
+        assertEquals("§6Woodcutter", typeMenu.getItem(2).getItemMeta().getDisplayName());
+        assertEquals(Material.OAK_LOG, typeMenu.getItem(2).getType());
 
-        assertEquals("§6real estate", typeMenu.getItem(3).getItemMeta().getDisplayName());
-        assertEquals(Material.QUARTZ_BLOCK, typeMenu.getItem(3).getType());
+        assertEquals("§6Building", typeMenu.getItem(3).getItemMeta().getDisplayName());
+        assertEquals(Material.BRICKS, typeMenu.getItem(3).getType());
 
-        assertEquals("§6military", typeMenu.getItem(4).getItemMeta().getDisplayName());
-        assertEquals(Material.BOW, typeMenu.getItem(4).getType());
+        assertEquals("§6Decoration", typeMenu.getItem(4).getItemMeta().getDisplayName());
+        assertEquals(Material.LANTERN, typeMenu.getItem(4).getType());
 
-        assertEquals("§6building", typeMenu.getItem(5).getItemMeta().getDisplayName());
-        assertEquals(Material.BRICKS, typeMenu.getItem(5).getType());
+        assertEquals("§6Nether", typeMenu.getItem(5).getItemMeta().getDisplayName());
+        assertEquals(Material.NETHERRACK, typeMenu.getItem(5).getType());
 
-        assertEquals("§6enchantment", typeMenu.getItem(6).getItemMeta().getDisplayName());
-        assertEquals(Material.ENCHANTED_BOOK, typeMenu.getItem(6).getType());
+        assertEquals("§6End", typeMenu.getItem(6).getItemMeta().getDisplayName());
+        assertEquals(Material.END_STONE, typeMenu.getItem(6).getType());
 
-        assertEquals("§6brewery", typeMenu.getItem(7).getItemMeta().getDisplayName());
-        assertEquals(Material.GLASS_BOTTLE, typeMenu.getItem(7).getType());
+        assertEquals("§6Mining", typeMenu.getItem(7).getItemMeta().getDisplayName());
+        assertEquals(Material.STONE, typeMenu.getItem(7).getType());
 
-        assertEquals("§6other", typeMenu.getItem(8).getItemMeta().getDisplayName());
-        assertEquals(Material.SUNFLOWER, typeMenu.getItem(8).getType());
+        assertEquals("§6Fighter", typeMenu.getItem(8).getItemMeta().getDisplayName());
+        assertEquals(Material.IRON_SWORD, typeMenu.getItem(8).getType());
+
+        assertEquals("§6Hunter", typeMenu.getItem(9).getItemMeta().getDisplayName());
+        assertEquals(Material.ROTTEN_FLESH, typeMenu.getItem(9).getType());
+
+        assertEquals("§6Brewery", typeMenu.getItem(10).getItemMeta().getDisplayName());
+        assertEquals(Material.GLASS_BOTTLE, typeMenu.getItem(10).getType());
+
+        assertEquals("§6Enchantment", typeMenu.getItem(11).getItemMeta().getDisplayName());
+        assertEquals(Material.ENCHANTED_BOOK, typeMenu.getItem(11).getType());
+
+        assertEquals("§6Redstone", typeMenu.getItem(12).getItemMeta().getDisplayName());
+        assertEquals(Material.REDSTONE, typeMenu.getItem(12).getType());
 
         testPlayer.simulateInventoryClick(typeMenu, 2);
 
         /*
         * Check that company is now a 'product' company
         * */
-        assertEquals("product", Market.getCompany("COMP").getType());
+        assertEquals("Woodcutter", Market.getCompany("COMP").getType());
     }
 
     @Test
@@ -658,7 +670,7 @@ public class CompanyMenuTests {
         assertEquals(Material.POTION, companyMenu.getItem(41).getType());
         InventoryView researchSelector = openMenu(companyMenu, 41);
 
-        assertEquals(Material.AZALEA, researchSelector.getItem(0).getType());
+        assertEquals(Material.TORCH, researchSelector.getItem(0).getType());
         assertEquals(Material.RED_STAINED_GLASS_PANE, researchSelector.getItem(2).getType());
         assertEquals(Material.BLACK_STAINED_GLASS_PANE, researchSelector.getItem(4).getType());
 
@@ -669,19 +681,19 @@ public class CompanyMenuTests {
         * Start Research
         * */
         testPlayer.simulateInventoryClick(4);
-        assertEquals(Material.AZALEA, researchSelector.getItem(0).getType());
+        assertEquals(Material.TORCH, researchSelector.getItem(0).getType());
         assertEquals(Material.LIGHT_BLUE_STAINED_GLASS_PANE, researchSelector.getItem(2).getType());
         assertEquals(Material.WHITE_STAINED_GLASS_PANE, researchSelector.getItem(4).getType());
 
         assertEquals("§7Research 0,00% completed", researchSelector.getItem(0).getItemMeta().getLore().get(0));
-        assertEquals("§70h 1m 25s", researchSelector.getItem(0).getItemMeta().getLore().get(1));
+        assertEquals("§70h 21m 25s", researchSelector.getItem(0).getItemMeta().getLore().get(1));
 
 
-        server.getScheduler().performTicks(100*20L);
+        server.getScheduler().performTicks(1300*20L);
         testPlayer.closeInventory();
         researchSelector = openMenu(companyMenu, 41);
 
-        assertEquals(Material.AZALEA, researchSelector.getItem(0).getType());
+        assertEquals(Material.TORCH, researchSelector.getItem(0).getType());
         assertEquals(Material.LIME_STAINED_GLASS_PANE, researchSelector.getItem(2).getType());
         assertEquals(Material.LIME_STAINED_GLASS_PANE, researchSelector.getItem(4).getType());
         assertEquals("§aCOMPLETED", researchSelector.getItem(2).getItemMeta().getDisplayName());

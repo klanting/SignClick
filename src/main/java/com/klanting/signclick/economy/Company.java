@@ -2,6 +2,7 @@ package com.klanting.signclick.economy;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.*;
+import com.klanting.signclick.configs.ConfigManager;
 import com.klanting.signclick.economy.companyPatent.Patent;
 import com.klanting.signclick.economy.companyPatent.PatentUpgrade;
 import com.klanting.signclick.economy.companyUpgrades.*;
@@ -335,7 +336,7 @@ public class Company extends LoggableSubject implements CompanyI{
     private static transient final List<String> softLink = new ArrayList<>(List.of("country", "machines", "upgrades", "research"));
 
 
-    public Company(JsonObject jsonObject, JsonDeserializationContext context){
+    public Company(JsonObject jsonObject, JsonDeserializationContext context, ConfigManager configManager){
         /*
         * Load/create company from json file
         * */
@@ -416,7 +417,7 @@ public class Company extends LoggableSubject implements CompanyI{
          * */
         if (research != null){
             research.setLastChecked(CompatibleLayer.getCurrentTick());
-            research.loadMaterials();
+            research.loadMaterials(configManager);
         }
     }
 

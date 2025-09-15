@@ -160,11 +160,11 @@ public class Market {
     }
 
     public static Boolean addCompany(String namebus, String StockName, Account acc){
-        return Market.addCompany(namebus,StockName,acc, 0, "other");
+        return Market.addCompany(namebus,StockName,acc, 0, "Decoration");
     }
 
     public static Boolean addCompany(String namebus, String StockName, Account acc, double creationCost){
-        return Market.addCompany(namebus,StockName,acc, creationCost, "other");
+        return Market.addCompany(namebus,StockName,acc, creationCost, "Decoration");
     }
 
     public static Boolean addCompany(String namebus, String StockName, Account acc, double creationCost, String type){
@@ -587,33 +587,14 @@ public class Market {
 
             int total = 0;
 
-            if (comp.getType().equals("product")){
-
-                double val = country.getFunding("product");
-                if (val >= 0){
-                    comp.addBal(val);
-                }else{
-                    comp.removeBal(val);
-                }
-                total += (int) val;
-
-            }else if (comp.getType().equals("building")){
-
-                double val = country.getFunding("building");
-                if (val >= 0){
-                    comp.addBal(val);
-                }else{
-                    comp.removeBal(val);
-                }
-                total += (int) val;
-            }else if (comp.getType().equals("military")){
+            if (comp.getType().equals("Fighter")){
 
                 if (!country.isAboardMilitary()){
                     total+= 4000;
                     comp.addBal(4000.0);
                 }
 
-                double val = country.getFunding("military");
+                double val = country.getFunding("Fighter");
                 if (val >= 0){
                     comp.addBal(val);
                 }else{
@@ -621,45 +602,15 @@ public class Market {
                 }
                 total += (int) val;
 
-            }else if (comp.getType().equals("transport")){
-
-                double val = country.getFunding("transport");
-                if (val >= 0){
-                    comp.addBal(val);
-                }else{
-                    comp.removeBal(val);
-                }
-                total += (int) val;
-
-            }else if (comp.getType().equals("bank")){
-
-                double val = country.getFunding("bank");
-                if (val >= 0){
-                    comp.addBal(val);
-                }else{
-                    comp.removeBal(val);
-                }
-                total += (int) val;
-
-            }else if(comp.getType().equals("real estate")){
-
-                double val = country.getFunding("realEstate");
-                if (val >= 0){
-                    comp.addBal(val);
-                }else{
-                    comp.removeBal(val);
-                }
-                total += (int) val;
-
-            }else{
-                double val = country.getFunding("other");
-                if (val >= 0){
-                    comp.addBal(val);
-                }else{
-                    comp.removeBal(val);
-                }
-                total += (int) val;
             }
+
+            double val = country.getFunding(comp.getType());
+            if (val >= 0){
+                comp.addBal(val);
+            }else{
+                comp.removeBal(val);
+            }
+            total += (int) val;
 
             if (!comp.getCOM().isOpenTrade()){
                 double value = country.getPolicyBonus( "closedMarket");

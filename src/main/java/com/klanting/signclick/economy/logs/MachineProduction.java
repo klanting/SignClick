@@ -11,7 +11,7 @@ public class MachineProduction extends PluginLogs{
     /*
      * log map: date -> block -> amount, to keep logs for each day as a summary
      * */
-    public final Map<LocalDate, List<itemLogEntry>> machineProduction = new HashMap<>();
+    public final Map<LocalDate, Map<Material,  ItemSummary>> machineProduction = new HashMap<>();
 
     public MachineProduction(){
         super("Machine production");
@@ -32,8 +32,14 @@ public class MachineProduction extends PluginLogs{
         /*
          * add new log to the given date
          * */
-        List<itemLogEntry> dailyShopLogs = machineProduction.getOrDefault(ldt, new ArrayList<>());
-        dailyShopLogs.add(itemLogEntry);
+        Map<Material,  ItemSummary> dailyShopLogs = machineProduction.getOrDefault(ldt, new HashMap<>());
+
+        ItemSummary iSum = dailyShopLogs.getOrDefault(itemLogEntry.item(), new ItemSummary());
+
+        iSum.amount += itemLogEntry.amount();
+        iSum.price += itemLogEntry.price();
+
+        dailyShopLogs.put(itemLogEntry.item(), iSum);
 
         machineProduction.put(ldt, dailyShopLogs);
     }
@@ -43,20 +49,11 @@ public class MachineProduction extends PluginLogs{
         List<MutableTriple<LocalDateTime, String, String>> shopLogsEntries = new ArrayList<>();
 
 
-        for(Map.Entry<LocalDate, List<itemLogEntry>> entry: machineProduction.entrySet()){
+        for(Map.Entry<LocalDate, Map<Material,  ItemSummary>> entry: machineProduction.entrySet()){
             /*
              * make a summary by item
              * */
-            Map<Material,  ItemSummary> summaryMap = new HashMap<>();
-
-            for(itemLogEntry itemLogEntry : entry.getValue()){
-                ItemSummary iSum = summaryMap.getOrDefault(itemLogEntry.item(), new ItemSummary());
-
-                iSum.amount += itemLogEntry.amount();
-                iSum.price += itemLogEntry.price();
-
-                summaryMap.put(itemLogEntry.item(), iSum);
-            }
+            Map<Material,  ItemSummary> summaryMap = entry.getValue();
 
             StringBuilder mess = new StringBuilder();
 

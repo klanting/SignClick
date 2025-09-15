@@ -20,6 +20,7 @@ import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.Scoreboard;
@@ -27,6 +28,7 @@ import org.dynmap.DynmapAPI;
 import org.dynmap.markers.MarkerSet;
 import net.ess3.api.IEssentials;
 
+import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.util.*;
 
@@ -52,6 +54,8 @@ public class SignClick extends JavaPlugin{
     public static boolean essentialsSupport;
     public static IEssentials essentials;
 
+    public static InputStream productionConfig;
+
     @Override
     public void onEnable() {
         plugin = this;
@@ -62,7 +66,9 @@ public class SignClick extends JavaPlugin{
             essentials = (IEssentials) getServer().getPluginManager().getPlugin("Essentials");
         }
 
+        productionConfig = getResource("productionInit.yml");
         DefaultConfig.makeDefaultConfig();
+
         MigrationManager.Migrate();
 
         if (!setupEconomy() ) {
@@ -144,7 +150,6 @@ public class SignClick extends JavaPlugin{
         SignClick.scoreboard.registerNewTeam("zzz_default");
 
         getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "SignClick is enabled!");
-
 
     }
 

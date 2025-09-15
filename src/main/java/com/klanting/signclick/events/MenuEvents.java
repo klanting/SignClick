@@ -103,6 +103,11 @@ public class MenuEvents implements Listener {
             return;
         }
 
+        if(event.getAction() != InventoryAction.PICKUP_ALL && event.getAction() != InventoryAction.MOVE_TO_OTHER_INVENTORY){
+            event.setCancelled(true);
+            return;
+        }
+
         if (event.getCurrentItem().getType().equals(Material.BARRIER)){
             Player player = (Player) event.getWhoClicked();
             loadStack(player);

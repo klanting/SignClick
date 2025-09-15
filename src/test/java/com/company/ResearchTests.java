@@ -31,7 +31,7 @@ public class ResearchTests {
         plugin = TestTools.setupPlugin(server);
 
         boolean suc6 =  Market.addCompany("TCI", "TCI",
-                Market.getAccount(TestTools.addPermsPlayer(server, plugin)), 0.0, "bank");
+                Market.getAccount(TestTools.addPermsPlayer(server, plugin)), 0.0, "Decoration");
 
         assertTrue(suc6);
 
@@ -53,12 +53,12 @@ public class ResearchTests {
         Research research = new Research(comp.getRef());
 
         assertEquals(SignClick.getConfigManager().getConfig("production.yml").getConfigurationSection("products").
-                        getConfigurationSection("bank").getKeys(false).size(),
+                        getConfigurationSection("Decoration").getKeys(false).size(),
                 research.getResearchOptions().size());
 
-        assertEquals(Material.IRON_INGOT, research.getResearchOptions().get(0).getMaterial());
+        assertEquals(Material.TORCH, research.getResearchOptions().get(0).getMaterial());
         assertEquals(0.0, research.getResearchOptions().get(0).getProgress());
-        assertEquals(1200L, research.getResearchOptions().get(0).getCompleteTime());
+        assertEquals(1800L, research.getResearchOptions().get(0).getCompleteTime());
     }
 
     @Test
@@ -69,12 +69,12 @@ public class ResearchTests {
         Research research = new Research(comp.getRef());
 
         assertEquals(SignClick.getConfigManager().getConfig("production.yml").getConfigurationSection("products").
-                        getConfigurationSection("bank").getKeys(false).size(),
+                        getConfigurationSection("Decoration").getKeys(false).size(),
                 research.getResearchOptions().size());
 
-        assertEquals(Material.IRON_INGOT, research.getResearchOptions().get(0).getMaterial());
+        assertEquals(Material.TORCH, research.getResearchOptions().get(0).getMaterial());
         assertEquals(0.0, research.getResearchOptions().get(0).getProgress());
-        assertEquals(1200L, research.getResearchOptions().get(0).getCompleteTime());
+        assertEquals(1800L, research.getResearchOptions().get(0).getCompleteTime());
 
         research.getResearchOptions().get(0).setModifierIndex(1);
         Market.getCompany("TCI").addBal(1000);
@@ -83,15 +83,15 @@ public class ResearchTests {
         /*
         * do 50% of the time
         * */
-        server.getScheduler().performTicks(600*20L);
+        server.getScheduler().performTicks(900*20L);
         research.checkProgress();
 
         /*
         * check 50% progress
         * */
-        assertEquals(Material.IRON_INGOT, research.getResearchOptions().get(0).getMaterial());
+        assertEquals(Material.TORCH, research.getResearchOptions().get(0).getMaterial());
         assertEquals(0.5, research.getResearchOptions().get(0).getProgress());
-        assertEquals(Math.ceil(1000*(5.0/6)), Math.ceil(Market.getCompany("TCI").getBal()));
+        assertEquals(750.0, Math.ceil(Market.getCompany("TCI").getBal()));
 
         assertEquals(0, Market.getCompany("TCI").getProducts().size());
 
@@ -101,9 +101,9 @@ public class ResearchTests {
         /*
          * check 100% progress
          * */
-        assertEquals(Material.IRON_INGOT, research.getResearchOptions().get(0).getMaterial());
+        assertEquals(Material.TORCH, research.getResearchOptions().get(0).getMaterial());
         assertEquals(1.0, research.getResearchOptions().get(0).getProgress());
-        assertEquals(667, Math.ceil(Market.getCompany("TCI").getBal()));
+        assertEquals(500.0, Math.ceil(Market.getCompany("TCI").getBal()));
         assertEquals(1, Market.getCompany("TCI").getProducts().size());
 
     }
@@ -122,7 +122,7 @@ public class ResearchTests {
 
         assertEquals(0.0, ro.getProgress());
         assertEquals(ro.getCompleteTime()/2L, ro.getRemainingTime());
-        assertEquals(600, ro.getRemainingTime());
+        assertEquals(900, ro.getRemainingTime());
 
         server.getScheduler().performTicks(21L);
         comp.getResearch().checkProgress();
@@ -130,7 +130,7 @@ public class ResearchTests {
         server.getScheduler().performTicks(800L);
         comp.getResearch().checkProgress();
 
-        assertEquals(559, ro.getRemainingTime());
+        assertEquals(859, ro.getRemainingTime());
     }
 }
 

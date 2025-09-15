@@ -125,7 +125,7 @@ public class MachineTests {
         * Have list of companies
         * */
         InventoryView inv = testPlayer.getOpenInventory();
-        assertEquals(Material.SUNFLOWER, inv.getItem(0).getType());
+        assertEquals(Material.LANTERN, inv.getItem(0).getType());
         assertEquals(Material.LIGHT_GRAY_STAINED_GLASS_PANE, inv.getItem(1).getType());
 
         testPlayer.simulateInventoryClick(0);
@@ -322,9 +322,9 @@ public class MachineTests {
          * Have list of companies
          * */
         InventoryView inv = testPlayer.getOpenInventory();
-        assertEquals(Material.SUNFLOWER, inv.getItem(0).getType());
+        assertEquals(Material.LANTERN, inv.getItem(0).getType());
         assertEquals("§6TCI [TCI]", inv.getItem(0).getItemMeta().getDisplayName());
-        assertEquals(Material.SUNFLOWER, inv.getItem(1).getType());
+        assertEquals(Material.LANTERN, inv.getItem(1).getType());
         assertEquals(Material.LIGHT_GRAY_STAINED_GLASS_PANE, inv.getItem(2).getType());
 
         testPlayer.simulateInventoryClick(0);
@@ -462,9 +462,9 @@ public class MachineTests {
          * Have list of companies
          * */
         InventoryView inv = testPlayer.getOpenInventory();
-        assertEquals(Material.SUNFLOWER, inv.getItem(0).getType());
+        assertEquals(Material.LANTERN, inv.getItem(0).getType());
         assertEquals("§6TCI [TCI]", inv.getItem(0).getItemMeta().getDisplayName());
-        assertEquals(Material.SUNFLOWER, inv.getItem(1).getType());
+        assertEquals(Material.LANTERN, inv.getItem(1).getType());
         assertEquals(Material.LIGHT_GRAY_STAINED_GLASS_PANE, inv.getItem(2).getType());
 
         testPlayer.simulateInventoryClick(0);

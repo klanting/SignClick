@@ -50,7 +50,7 @@ public class SignStockTests {
         SignClick.getEconomy().depositPlayer(testPlayer, 2000);
         SignClick.getConfigManager().getConfig("companies.yml").set("signStockCost", 2000.0);
         SignClick.getConfigManager().save();
-        Market.addCompany("TCI", "TCI", Market.getAccount(testPlayer), 100000.0, "other");
+        Market.addCompany("TCI", "TCI", Market.getAccount(testPlayer), 100000.0, "Decoration");
 
 
         World world = server.addSimpleWorld("world");

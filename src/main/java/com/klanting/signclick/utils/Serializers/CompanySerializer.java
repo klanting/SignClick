@@ -1,6 +1,8 @@
 package com.klanting.signclick.utils.Serializers;
 
 import com.google.gson.*;
+import com.klanting.signclick.SignClick;
+import com.klanting.signclick.configs.ConfigManager;
 import com.klanting.signclick.economy.Company;
 import com.klanting.signclick.economy.CompanyI;
 
@@ -10,6 +12,12 @@ public class CompanySerializer implements JsonSerializer<Company>, JsonDeseriali
     /*
      * SerializeCompany to Gson
      * */
+
+    private final ConfigManager configManager;
+
+    public CompanySerializer(ConfigManager configManager){
+        this.configManager = configManager;
+    }
 
     @Override
     public JsonElement serialize(Company company, Type type, JsonSerializationContext context) {
@@ -21,7 +29,8 @@ public class CompanySerializer implements JsonSerializer<Company>, JsonDeseriali
     @Override
     public Company deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         JsonObject obj = json.getAsJsonObject();
-        return new Company(obj, context);
+
+        return new Company(obj, context, configManager);
     }
 
 }

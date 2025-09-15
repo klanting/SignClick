@@ -12,7 +12,9 @@ import com.klanting.signclick.utils.Utils;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Migrationv202v203 extends Migration{
     Migrationv202v203(){
@@ -46,6 +48,24 @@ public class Migrationv202v203 extends Migration{
                 companyObject.add("logObservers", JsonParser.parseString(
                         Utils.serialize(pluginLogs, new com.google.common.reflect.TypeToken<List<PluginLogs>>(){}.getType())
                 ));
+
+                /*
+                * change company types
+                * */
+                Map<String, String> typeMapping = new HashMap<>();
+                typeMapping.put("transport", "Redstone");
+                typeMapping.put("product", "Decoration");
+                typeMapping.put("real estate", "Decoration");
+                typeMapping.put("military", "Fighter");
+                typeMapping.put("building", "Building");
+                typeMapping.put("enchantment", "Enchantment");
+                typeMapping.put("brewery", "Brewery");
+                typeMapping.put("other", "Decoration");
+                typeMapping.put("bank", "Mining");
+
+                String s = companyObject.get("type").getAsString();
+                companyObject.add("type",
+                        JsonParser.parseString(typeMapping.getOrDefault(s, s)));
             }
 
             Writer writer = new FileWriter(file, false);
@@ -58,12 +78,6 @@ public class Migrationv202v203 extends Migration{
             throw new RuntimeException(e.getMessage());
         }
 
-        /*
-        * move the production list from companies.yml to production.yml
-        * */
-        SignClick.getConfigManager().getConfig("production.yml").set("products",
-                SignClick.getConfigManager().getConfig("companies.yml").get("products"));
-        SignClick.getConfigManager().getConfig("companies.yml").set("products", null);
 
         SignClick.getConfigManager().getConfig("general.yml").set("version", "2.0.3",
                 "Latest updated version, don't change this, it will be done automatically");

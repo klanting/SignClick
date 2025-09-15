@@ -1,7 +1,9 @@
 package com.klanting.signclick.economy;
 
 import com.klanting.signclick.SignClick;
+import com.klanting.signclick.configs.ConfigManager;
 import com.klanting.signclick.configs.DefaultConfig;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import versionCompatibility.CompatibleLayer;
@@ -27,7 +29,7 @@ public class Research {
 
     public transient CompanyI company;
 
-    public void loadMaterials(){
+    public void loadMaterials(ConfigManager configManager){
         /*
         * ensure only the latest research materials form the config are shown
         * */
@@ -36,9 +38,8 @@ public class Research {
         /*
         * because some reason, the production is empty here else
         * */
-        DefaultConfig.makeDefaultConfig();
 
-        ConfigurationSection productsSection = SignClick.getConfigManager().getConfig("production.yml").getConfigurationSection("products").
+        ConfigurationSection productsSection = configManager.getConfig("production.yml").getConfigurationSection("products").
                 getConfigurationSection(company.getType());
 
         List<String> researchItems = new ArrayList<>(productsSection.getKeys(false).stream().toList());
@@ -50,13 +51,18 @@ public class Research {
         }
 
         for (String researchItem: researchItems){
-            Material m = Material.valueOf(researchItem);
+            try {
+                Material m = Material.valueOf(researchItem);
 
-            if(mapping.containsKey(m)){
-                newResearchOptions.add(mapping.get(m));
-            }else{
-                newResearchOptions.add(new ResearchOption(this.company.getType(), m));
+                if(mapping.containsKey(m)){
+                    newResearchOptions.add(mapping.get(m));
+                }else{
+                    newResearchOptions.add(new ResearchOption(this.company.getType(), m));
+                }
+            }catch (Exception e){
+                getServer().getConsoleSender().sendMessage(ChatColor.GRAY + "SignClick: "+researchItem+" INVALID");
             }
+
 
         }
 
@@ -76,8 +82,12 @@ public class Research {
         researchItems.sort(Comparator.comparingInt(s -> productsSection.getConfigurationSection(s).getInt("index")));
 
         for (String researchItem: researchItems){
-            Material m = Material.valueOf(researchItem);
-            researchOptions.add(new ResearchOption(this.company.getType(), m));
+            try {
+                Material m = Material.valueOf(researchItem);
+                researchOptions.add(new ResearchOption(this.company.getType(), m));
+            }catch (Exception e){
+                getServer().getConsoleSender().sendMessage(ChatColor.GRAY + "SignClick: "+researchItem+" INVALID");
+            }
         }
 
     }

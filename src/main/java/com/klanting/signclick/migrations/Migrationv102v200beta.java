@@ -59,7 +59,7 @@ public class Migrationv102v200beta extends Migration{
                 * add research
                 * */
                 companyObject.add("research", JsonParser.parseString(
-                        Utils.serialize(new Research(new CompanyIv102v200(companyObject.get("type").getAsString())),
+                        Utils.serialize(new Research(new CompanyIv102v200("Decoration")),
                                 new com.google.common.reflect.TypeToken<Research>(){}.getType()))
 
                 );
@@ -80,6 +80,7 @@ public class Migrationv102v200beta extends Migration{
                  * */
                 companyObject.add("classType", JsonParser.parseString("company"));
                 companyObject.add("upgrades", new JsonArray());
+                companyObject.add("type", JsonParser.parseString("Decoration"));
 
                 JsonArray newJsa = new JsonArray();
                 newJsa.add(patentSlot);
