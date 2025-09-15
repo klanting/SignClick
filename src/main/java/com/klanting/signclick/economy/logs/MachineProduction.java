@@ -11,7 +11,7 @@ public class MachineProduction extends PluginLogs{
     /*
      * log map: date -> block -> amount, to keep logs for each day as a summary
      * */
-    public final Map<LocalDate, Map<Material,  ItemSummary>> machineProduction = new HashMap<>();
+    public final Map<LocalDate, Map<Material,  ItemSummary>> machineProductionMap = new HashMap<>();
 
     public MachineProduction(){
         super("Machine production");
@@ -32,7 +32,7 @@ public class MachineProduction extends PluginLogs{
         /*
          * add new log to the given date
          * */
-        Map<Material,  ItemSummary> dailyShopLogs = machineProduction.getOrDefault(ldt, new HashMap<>());
+        Map<Material,  ItemSummary> dailyShopLogs = machineProductionMap.getOrDefault(ldt, new HashMap<>());
 
         ItemSummary iSum = dailyShopLogs.getOrDefault(itemLogEntry.item(), new ItemSummary());
 
@@ -41,7 +41,7 @@ public class MachineProduction extends PluginLogs{
 
         dailyShopLogs.put(itemLogEntry.item(), iSum);
 
-        machineProduction.put(ldt, dailyShopLogs);
+        machineProductionMap.put(ldt, dailyShopLogs);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class MachineProduction extends PluginLogs{
         List<MutableTriple<LocalDateTime, String, String>> shopLogsEntries = new ArrayList<>();
 
 
-        for(Map.Entry<LocalDate, Map<Material,  ItemSummary>> entry: machineProduction.entrySet()){
+        for(Map.Entry<LocalDate, Map<Material,  ItemSummary>> entry: machineProductionMap.entrySet()){
             /*
              * make a summary by item
              * */

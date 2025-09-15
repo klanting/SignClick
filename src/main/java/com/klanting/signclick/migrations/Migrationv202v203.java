@@ -63,10 +63,14 @@ public class Migrationv202v203 extends Migration{
                 typeMapping.put("other", "Decoration");
                 typeMapping.put("bank", "Mining");
 
+
                 String s = companyObject.get("type").getAsString();
                 companyObject.add("type",
                         JsonParser.parseString(typeMapping.getOrDefault(s, s)));
+
+                jsonObject.add(companyName, companyObject);
             }
+
 
             Writer writer = new FileWriter(file, false);
             writer.write(jsonObject.toString());

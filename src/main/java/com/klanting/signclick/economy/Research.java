@@ -55,7 +55,9 @@ public class Research {
                 Material m = Material.valueOf(researchItem);
 
                 if(mapping.containsKey(m)){
-                    newResearchOptions.add(mapping.get(m));
+                    ResearchOption ro = mapping.get(m);
+                    ro.companyType = this.company.getType();
+                    newResearchOptions.add(ro);
                 }else{
                     newResearchOptions.add(new ResearchOption(this.company.getType(), m));
                 }
@@ -103,6 +105,7 @@ public class Research {
         lastChecked = now;
 
         for (ResearchOption researchOption: researchOptions){
+            System.out.println("X "+researchOption.getMaterial().name());
 
             long canPayDelta = researchOption.canPayDelta(Math.min(company.getBal(), company.getSpendable()));
             long remainingTime = Math.max((long) Math.ceil((researchOption.getCompleteTime()*(1-researchOption.getProgress()))), 0);
