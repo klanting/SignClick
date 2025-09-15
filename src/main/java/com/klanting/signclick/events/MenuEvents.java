@@ -103,7 +103,9 @@ public class MenuEvents implements Listener {
             return;
         }
 
-        if(event.getAction() != InventoryAction.PICKUP_ALL && event.getAction() != InventoryAction.MOVE_TO_OTHER_INVENTORY){
+        if(event.getAction() != InventoryAction.PICKUP_ALL
+                && event.getAction() != InventoryAction.MOVE_TO_OTHER_INVENTORY
+                && event.getAction() != InventoryAction.UNKNOWN){
             event.setCancelled(true);
             return;
         }

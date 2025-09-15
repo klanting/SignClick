@@ -14,7 +14,7 @@ public class LogList extends SelectionMenu {
     public CompanyI comp;
 
     public LogList(CompanyI company){
-        super(9, "Company Logs", true);
+        super(18, "Company Logs", true);
         comp = company;
 
         init();
