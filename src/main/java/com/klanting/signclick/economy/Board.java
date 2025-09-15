@@ -325,11 +325,13 @@ public class Board {
             }
         }
 
+        int length = potentialBoardMemberMap.entrySet().stream().filter(e -> e.getValue() > 0.0).toList().size();
+
         return potentialBoardMemberMap.entrySet().
                 stream()
                 .filter(e -> e.getValue() > 0.0)
                 .map(e -> Pair.of(e.getKey(), e.getValue()/companyOwnerManager.getTotalShares())).
                 sorted(Comparator.comparingDouble((Pair<UUID, Double> p) -> p.getRight()).reversed()).
-                collect(Collectors.toList()).subList(0, Math.min(boardSeats, potentialBoardMemberMap.keySet().size()));
+                collect(Collectors.toList()).subList(0, Math.min(boardSeats, length));
     }
 }
