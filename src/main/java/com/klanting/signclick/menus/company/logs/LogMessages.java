@@ -38,26 +38,30 @@ public class LogMessages extends PagingMenu {
             List<String> messages = new java.util.ArrayList<>(List.of(log.getRight().split(" ")));
             List<String> newMessages = new ArrayList<>();
 
-            String prefix = "";
-            if (messages.get(0).startsWith("§")){
-                prefix = messages.get(0).substring(0, 2);
-            }
-
-            int counter = 0;
-            String current = "";
-            for (String message: messages){
-                current += " ";
-                current += message;
-                counter += message.length();
-                if (counter >= 30){
-                    newMessages.add(prefix+current);
-                    current = "";
-                    counter = 0;
+            if(log.getRight().contains("\n")){
+                newMessages = new java.util.ArrayList<>(List.of(log.getRight().split("\n")));
+            }else{
+                String prefix = "";
+                if (messages.get(0).startsWith("§")){
+                    prefix = messages.get(0).substring(0, 2);
                 }
-            }
 
-            if (current.length() > 0){
-                newMessages.add(prefix+current);
+                int counter = 0;
+                String current = "";
+                for (String message: messages){
+                    current += " ";
+                    current += message;
+                    counter += message.length();
+                    if (counter >= 30){
+                        newMessages.add(prefix+current);
+                        current = "";
+                        counter = 0;
+                    }
+                }
+
+                if (current.length() > 0){
+                    newMessages.add(prefix+current);
+                }
             }
 
             m.setDisplayName("§7["+log.getLeft().format(formatter)+"] "+log.getMiddle());

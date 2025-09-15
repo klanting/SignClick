@@ -70,7 +70,7 @@ public class AuctionMenu extends SelectionMenu {
         }
 
         int currentBit = Auction.getInstance().getBit(location)+add_price;
-        double compValue = old_screen.comp.getValue();
+        double compValue = Math.min(old_screen.comp.getValue(), old_screen.comp.getSpendable());
 
         /*
          * Subtract other bits of the max allowed bit
@@ -87,7 +87,7 @@ public class AuctionMenu extends SelectionMenu {
         }
 
         if (compValue < currentBit){
-            player.sendMessage("§bCompany is not valued enough to place the current Bid");
+            player.sendMessage("§bCompany is not valued enough to place the current Bid or does not have enough spendable");
             return false;
         }
 

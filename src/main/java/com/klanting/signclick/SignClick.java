@@ -54,7 +54,6 @@ public class SignClick extends JavaPlugin{
 
     @Override
     public void onEnable() {
-
         plugin = this;
         configManager = new ConfigManager(this);
 

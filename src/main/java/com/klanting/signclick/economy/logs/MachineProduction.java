@@ -58,12 +58,14 @@ public class MachineProduction extends PluginLogs{
                 summaryMap.put(itemLogEntry.item(), iSum);
             }
 
-            String mess = "";
+            StringBuilder mess = new StringBuilder();
 
             DecimalFormat df = new DecimalFormat("###,###,##0.00");
 
             for(Map.Entry<Material, ItemSummary> iSum: summaryMap.entrySet()){
-                mess += "§7"+iSum.getValue().amount+"x "+ iSum.getKey().name()+" created for $"+df.format(iSum.getValue().price)+"\n";
+                mess.append("§7").append(iSum.getValue().amount)
+                        .append("x ").append(iSum.getKey().name()).
+                        append(" created for $").append(df.format(iSum.getValue().price)).append("\n");
             }
 
             LocalTime time = LocalTime.of(0, 0); // 2:30 PM
@@ -71,7 +73,7 @@ public class MachineProduction extends PluginLogs{
             shopLogsEntries.add(MutableTriple.of(
                     entry.getKey().atTime(time),
                     "Machines production",
-                    mess));
+                    mess.toString()));
         }
 
         return shopLogsEntries;

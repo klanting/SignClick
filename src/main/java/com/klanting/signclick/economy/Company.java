@@ -416,6 +416,7 @@ public class Company extends LoggableSubject implements CompanyI{
          * */
         if (research != null){
             research.setLastChecked(CompatibleLayer.getCurrentTick());
+            research.loadMaterials();
         }
     }
 

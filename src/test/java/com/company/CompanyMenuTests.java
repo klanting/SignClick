@@ -211,6 +211,7 @@ public class CompanyMenuTests {
     void companyAuction(){
         CompanyI comp = getCompany(0);
         comp.addBal(10000000.0);
+        comp.setSpendable(10000000.0);
 
         /*
         * Tick needed to get auction values

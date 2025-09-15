@@ -94,7 +94,6 @@ public class ConfigManager {
             CommentConfig cc = commentConfig.getValue();
 
             File configFile = new File(plugin.getDataFolder()+"/configs", fileName);
-
             try{
                 cc.save(configFile);
             } catch (IOException e) {

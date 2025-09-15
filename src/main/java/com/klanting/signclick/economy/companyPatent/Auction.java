@@ -142,6 +142,12 @@ public class Auction {
                     }
 
                     CompanyI comp = Market.getCompany(bitsOwner.get(i));
+                    boolean suc6 = comp.removeBal(bits.get(i));
+
+                    if(!suc6){
+                        continue;
+                    }
+
                     comp.getPatentUpgrades().add(toBuy.get(i));
                 }
                 init();
