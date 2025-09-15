@@ -232,9 +232,9 @@ public class DefaultConfig {
 
         getOrCreate(policyEconomics, "Conservative").addDefault("taxReduction", -0.02);
         getOrCreate(policyEconomics, "Conservative").addDefault("dividendReduction", 0.005);
-        getOrCreate(getOrCreate(policyEconomics, "Conservative"), "funding").addDefault("product", -1000.0);
+        getOrCreate(getOrCreate(policyEconomics, "Conservative"), "funding").addDefault("Farmer", -1000.0);
         getOrCreate(policyEconomics, "Conservative").addDefault("stabilityModifier", 2.0);
-        getOrCreate(getOrCreate(policyEconomics, "Conservative"), "funding").addDefault("building", 1000.0);
+        getOrCreate(getOrCreate(policyEconomics, "Conservative"), "funding").addDefault("Building", 1000.0);
         getOrCreate(getOrCreate(policyEconomics, "Conservative"), "required").addDefault("capital", 20000);
 
         getOrCreate(policyEconomics, "Saver").addDefault("taxReduction", -0.01);
@@ -251,7 +251,7 @@ public class DefaultConfig {
 
         getOrCreate(policyEconomics, "Businessman").addDefault("taxReduction", 0.03);
         getOrCreate(policyEconomics, "Businessman").addDefault("dividendReduction", -0.004);
-        getOrCreate(getOrCreate(policyEconomics, "Businessman"), "funding").addDefault("product", 2000.0);
+        getOrCreate(getOrCreate(policyEconomics, "Businessman"), "funding").addDefault("Mining", 2000.0);
         getOrCreate(policyEconomics, "Businessman").addDefault("stabilityModifier", -3.0);
         getOrCreate(getOrCreate(policyEconomics, "Businessman"), "required").addDefault("capital", 20000);
 
@@ -291,8 +291,8 @@ public class DefaultConfig {
         getOrCreate(policyMilitary, "Low Arment").addDefault("lawEnforcementSalary", 1000.0);
         getOrCreate(policyMilitary, "Low Arment").addDefault("stabilityModifier", -5.0);
         getOrCreate(policyMilitary, "Low Arment").addDefault("xpGain", 0.08);
-        getOrCreate(getOrCreate(policyMilitary, "Low Arment"), "funding").addDefault("military", -8000.0);
-        getOrCreate(getOrCreate(policyMilitary, "Low Arment"), "funding").addDefault("bank", 2000.0);
+        getOrCreate(getOrCreate(policyMilitary, "Low Arment"), "funding").addDefault("Fighter", -8000.0);
+        getOrCreate(getOrCreate(policyMilitary, "Low Arment"), "funding").addDefault("Mining", 2000.0);
         getOrCreate(policyMilitary, "Low Arment").addDefault("switchLeaderPenaltyReduction", 0.5);
         getOrCreate(policyMilitary, "Low Arment").addDefault("joinPlayerBonus", 0.5);
         getOrCreate(policyMilitary, "Low Arment").addDefault("removePlayerPenalty", 0.5);
@@ -300,18 +300,18 @@ public class DefaultConfig {
         getOrCreate(policyMilitary, "Police Force").addDefault("lawEnforcementSalary", 2000.0);
         getOrCreate(policyMilitary, "Police Force").addDefault("stabilityModifier", -3.0);
         getOrCreate(policyMilitary, "Police Force").addDefault("xpGain", 0.03);
-        getOrCreate(getOrCreate(policyMilitary, "Police Force"), "funding").addDefault("military", -4000.0);
+        getOrCreate(getOrCreate(policyMilitary, "Police Force"), "funding").addDefault("Fighter", -4000.0);
 
         getOrCreate(policyMilitary, "Normal").addDefault("lawEnforcementSalary", 4000.0);
         getOrCreate(policyMilitary, "Normal").addDefault("stabilityModifier", 0.0);
         getOrCreate(policyMilitary, "Normal").addDefault("xpGain", 0.0);
-        getOrCreate(getOrCreate(policyMilitary, "Normal"), "funding").addDefault("military", 0.0);
+        getOrCreate(getOrCreate(policyMilitary, "Normal"), "funding").addDefault("Fighter", 0.0);
 
         getOrCreate(policyMilitary, "Para-Militaire").addDefault("lawEnforcementSalary", 8000.0);
         getOrCreate(policyMilitary, "Para-Militaire").addDefault("stabilityModifier", 5.0);
         getOrCreate(policyMilitary, "Para-Militaire").addDefault("xpGain", 0.0);
         getOrCreate(policyMilitary, "Para-Militaire").addDefault("electionPenaltyReduction", 0.25);
-        getOrCreate(getOrCreate(policyMilitary, "Para-Militaire"), "funding").addDefault("military", 4000.0);
+        getOrCreate(getOrCreate(policyMilitary, "Para-Militaire"), "funding").addDefault("Fighter", 4000.0);
         getOrCreate(getOrCreate(policyMilitary, "Para-Militaire"), "required").addDefault("lawEnforcement", 3);
 
         getOrCreate(policyMilitary, "Military State").addDefault("lawEnforcementSalary", 10000.0);
@@ -319,9 +319,9 @@ public class DefaultConfig {
         getOrCreate(policyMilitary, "Military State").addDefault("xpGain", -0.03);
         getOrCreate(policyMilitary, "Military State").addDefault("electionPenaltyReduction", 0.5);
         getOrCreate(policyMilitary, "Military State").addDefault("coupPenaltyReduction", 0.5);
-        getOrCreate(getOrCreate(policyMilitary, "Military State"), "funding").addDefault("military", 8000.0);
-        getOrCreate(getOrCreate(policyMilitary, "Military State"), "funding").addDefault("transport", -2000.0);
-        getOrCreate(getOrCreate(policyMilitary, "Military State"), "funding").addDefault("bank", -2000.0);
+        getOrCreate(getOrCreate(policyMilitary, "Military State"), "funding").addDefault("Fighter", 8000.0);
+        getOrCreate(getOrCreate(policyMilitary, "Military State"), "funding").addDefault("Redstone", -2000.0);
+        getOrCreate(getOrCreate(policyMilitary, "Military State"), "funding").addDefault("Mining", -2000.0);
         getOrCreate(policyMilitary, "Military State").addDefault("switchLeaderPenaltyReduction", -1.0);
         getOrCreate(getOrCreate(policyMilitary, "Military State"), "required").addDefault("lawEnforcement", 8);
         getOrCreate(getOrCreate(policyMilitary, "Military State"), "required").addDefault("capital", 10_000);
@@ -333,9 +333,9 @@ public class DefaultConfig {
 
         getOrCreate(policyTourism, "Xenofobia").addDefault("transportCost", 0.08);
         getOrCreate(policyTourism, "Xenofobia").addDefault("UpgradeReturnTimeReduction", -0.05);
-        getOrCreate(getOrCreate(policyTourism, "Xenofobia"), "funding").addDefault("transport", -1000.0);
-        getOrCreate(getOrCreate(policyTourism, "Xenofobia"), "funding").addDefault("realEstate", -1000.0);
-        getOrCreate(getOrCreate(policyTourism, "Xenofobia"), "funding").addDefault("building", 2000.0);
+        getOrCreate(getOrCreate(policyTourism, "Xenofobia"), "funding").addDefault("Redstone", -1000.0);
+        getOrCreate(getOrCreate(policyTourism, "Xenofobia"), "funding").addDefault("Woodcutter", -1000.0);
+        getOrCreate(getOrCreate(policyTourism, "Xenofobia"), "funding").addDefault("Building", 2000.0);
 
         getOrCreate(policyTourism, "Bigot").addDefault("transportCost", 0.04);
 
@@ -346,9 +346,9 @@ public class DefaultConfig {
 
         getOrCreate(policyTourism, "Tourist Hugger").addDefault("transportCost", -0.15);
         getOrCreate(policyTourism, "Tourist Hugger").addDefault("UpgradeReturnTimeReduction", 0.05);
-        getOrCreate(getOrCreate(policyTourism, "Tourist Hugger"), "funding").addDefault("transport", 2000.0);
-        getOrCreate(getOrCreate(policyTourism, "Tourist Hugger"), "funding").addDefault("realEstate", 2000.0);
-        getOrCreate(getOrCreate(policyTourism, "Tourist Hugger"), "funding").addDefault("building", -1000.0);
+        getOrCreate(getOrCreate(policyTourism, "Tourist Hugger"), "funding").addDefault("Redstone", 2000.0);
+        getOrCreate(getOrCreate(policyTourism, "Tourist Hugger"), "funding").addDefault("Woodcutter", 2000.0);
+        getOrCreate(getOrCreate(policyTourism, "Tourist Hugger"), "funding").addDefault("Building", -1000.0);
         getOrCreate(getOrCreate(policyTourism, "Tourist Hugger"), "required").addDefault("capital", 10000);
 
         /*
@@ -356,48 +356,26 @@ public class DefaultConfig {
          * */
         ConfigurationSection policyTaxation = getOrCreate(policies, "taxation");
 
-        getOrCreate(getOrCreate(policyTaxation, "Bankruptcy"), "funding").addDefault("bank", -5000.0);
-        getOrCreate(getOrCreate(policyTaxation, "Bankruptcy"), "funding").addDefault("transport", -5000.0);
-        getOrCreate(getOrCreate(policyTaxation, "Bankruptcy"), "funding").addDefault("realEstate", -5000.0);
-        getOrCreate(getOrCreate(policyTaxation, "Bankruptcy"), "funding").addDefault("military", -5000.0);
-        getOrCreate(getOrCreate(policyTaxation, "Bankruptcy"), "funding").addDefault("product", -5000.0);
-        getOrCreate(getOrCreate(policyTaxation, "Bankruptcy"), "funding").addDefault("building", -5000.0);
-        getOrCreate(getOrCreate(policyTaxation, "Bankruptcy"), "funding").addDefault("other", -5000.0);
+        for(String category: companyTypes.getKeys(false)){
+            getOrCreate(getOrCreate(policyTaxation, "Bankruptcy"), "funding").addDefault(category, -5000.0);
+            getOrCreate(getOrCreate(policyTaxation, "High Taxer"), "funding").addDefault(category, -2000.0);
+            getOrCreate(getOrCreate(policyTaxation, "Normal"), "funding").addDefault(category, 0.0);
+            getOrCreate(getOrCreate(policyTaxation, "Supporter"), "funding").addDefault(category, 2000.0);
+            getOrCreate(getOrCreate(policyTaxation, "The Hero"), "funding").addDefault(category, 5000.0);
+        }
         getOrCreate(policyTaxation, "Bankruptcy").addDefault("stabilityModifier", -6.0);
         getOrCreate(getOrCreate(policyTaxation, "Bankruptcy"), "required").addDefault("lawEnforcement", 4);
         getOrCreate(getOrCreate(policyTaxation, "Bankruptcy"), "required").addDefault("minTaxRate", 10);
 
-        getOrCreate(getOrCreate(policyTaxation, "High Taxer"), "funding").addDefault("bank", -2000.0);
-        getOrCreate(getOrCreate(policyTaxation, "High Taxer"), "funding").addDefault("transport", -2000.0);
-        getOrCreate(getOrCreate(policyTaxation, "High Taxer"), "funding").addDefault("realEstate", -2000.0);
-        getOrCreate(getOrCreate(policyTaxation, "High Taxer"), "funding").addDefault("military", -2000.0);
-        getOrCreate(getOrCreate(policyTaxation, "High Taxer"), "funding").addDefault("product", -2000.0);
-        getOrCreate(getOrCreate(policyTaxation, "High Taxer"), "funding").addDefault("building", -2000.0);
-        getOrCreate(getOrCreate(policyTaxation, "High Taxer"), "funding").addDefault("other", -2000.0);
         getOrCreate(policyTaxation, "High Taxer").addDefault("stabilityModifier", -3.0);
         getOrCreate(getOrCreate(policyTaxation, "High Taxer"), "required").addDefault("lawEnforcement", 2);
         getOrCreate(getOrCreate(policyTaxation, "High Taxer"), "required").addDefault("minTaxRate", 10);
 
-        getOrCreate(getOrCreate(policyTaxation, "Normal"), "funding").addDefault("bank", 0.0);
 
-        getOrCreate(getOrCreate(policyTaxation, "Supporter"), "funding").addDefault("bank", 2000.0);
-        getOrCreate(getOrCreate(policyTaxation, "Supporter"), "funding").addDefault("transport", 2000.0);
-        getOrCreate(getOrCreate(policyTaxation, "Supporter"), "funding").addDefault("realEstate", 2000.0);
-        getOrCreate(getOrCreate(policyTaxation, "Supporter"), "funding").addDefault("military", 2000.0);
-        getOrCreate(getOrCreate(policyTaxation, "Supporter"), "funding").addDefault("product", 2000.0);
-        getOrCreate(getOrCreate(policyTaxation, "Supporter"), "funding").addDefault("building", 2000.0);
-        getOrCreate(getOrCreate(policyTaxation, "Supporter"), "funding").addDefault("other", 2000.0);
         getOrCreate(policyTaxation, "Supporter").addDefault("stabilityModifier", 3.0);
         getOrCreate(getOrCreate(policyTaxation, "Supporter"), "required").addDefault("capital", 5000);
         getOrCreate(getOrCreate(policyTaxation, "Supporter"), "required").addDefault("maxTaxRate", 5);
 
-        getOrCreate(getOrCreate(policyTaxation, "The Hero"), "funding").addDefault("bank", 5000.0);
-        getOrCreate(getOrCreate(policyTaxation, "The Hero"), "funding").addDefault("transport", 5000.0);
-        getOrCreate(getOrCreate(policyTaxation, "The Hero"), "funding").addDefault("realEstate", 5000.0);
-        getOrCreate(getOrCreate(policyTaxation, "The Hero"), "funding").addDefault("military", 5000.0);
-        getOrCreate(getOrCreate(policyTaxation, "The Hero"), "funding").addDefault("product", 5000.0);
-        getOrCreate(getOrCreate(policyTaxation, "The Hero"), "funding").addDefault("building", 5000.0);
-        getOrCreate(getOrCreate(policyTaxation, "The Hero"), "funding").addDefault("other", 5000.0);
         getOrCreate(policyTaxation, "The Hero").addDefault("stabilityModifier", 5.0);
         getOrCreate(getOrCreate(policyTaxation, "The Hero"), "required").addDefault("capital", 10000);
         getOrCreate(getOrCreate(policyTaxation, "Supporter"), "required").addDefault("maxTaxRate", 5);

@@ -52,14 +52,6 @@ public class PolicyOption {
             case "removePlayerPenalty" -> (value >= 0 ?"-":"+")+df.format(Math.abs(value*100))+"% remove player penalty";
             case "lawEnforcementSalary" -> "§7Law-Enforcement "+df.format(value)+"/week salary";
 
-
-            case "product" -> df.format(Math.abs(value))+"/week "+(value >= 0 ?"income":"tax")+" (product)";
-            case "building" -> df.format(Math.abs(value))+"/week "+(value >= 0 ?"income":"tax")+" (building)";
-            case "realEstate" -> df.format(Math.abs(value))+"/week "+(value >= 0 ?"income":"tax")+" (real estate)";
-            case "military" -> df.format(Math.abs(value))+"/week "+(value >= 0 ?"income":"tax")+" (military)";
-            case "other" -> df.format(Math.abs(value))+"/week "+(value >= 0 ?"income":"tax")+" (other)";
-            case "bank" -> df.format(Math.abs(value))+"/week "+(value >= 0 ?"income":"tax")+" (bank)";
-            case "transport" -> df.format(Math.abs(value))+"/week "+(value >= 0 ?"income":"tax")+" (transport)";
             case "closedMarket" -> df.format(Math.abs(value))+"/week "+(value >= 0 ?"income":"tax")+" (closed trade)";
 
             case "capital" -> "gov capital at least "+ PreciseNumberFormatter.format(value);
@@ -67,7 +59,7 @@ public class PolicyOption {
             case "minTaxRate" -> "tax rate at least "+ PreciseNumberFormatter.format(value)+"%";
             case "maxTaxRate" -> "tax rate at most "+ PreciseNumberFormatter.format(value)+"%";
 
-            default -> null;
+            default -> df.format(Math.abs(value))+"/week "+(value >= 0 ?"income":"tax")+" ("+type+")";
         };
     }
 
