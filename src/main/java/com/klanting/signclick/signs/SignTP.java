@@ -53,6 +53,7 @@ public class SignTP {
         NamespacedKey key_x = new NamespacedKey(SignClick.getPlugin(), "x");
         NamespacedKey key_y = new NamespacedKey(SignClick.getPlugin(), "y");
         NamespacedKey key_z = new NamespacedKey(SignClick.getPlugin(), "z");
+        NamespacedKey worldKey = new NamespacedKey(SignClick.getPlugin(), "world");
         if (!data.has(key_x, PersistentDataType.INTEGER)) {
             Utils.setSign(sign, new String[]{"", "please connect", "cords by", "/signclickpos"});
             return;
@@ -61,6 +62,12 @@ public class SignTP {
         int x = data.get(key_x, PersistentDataType.INTEGER);
         int y = data.get(key_y, PersistentDataType.INTEGER);
         int z = data.get(key_z, PersistentDataType.INTEGER);
+        World world = Bukkit.getServer().getWorld(data.get(worldKey, PersistentDataType.STRING));
+
+        if(!world.getName().equals(player.getWorld().getName())){
+            Utils.setSign(sign, new String[]{"WRONG WORLD", "", "", ""});
+            return;
+        }
 
         int sign_x = sign.getBlock().getX();
         int sign_z = sign.getBlock().getZ();
@@ -79,12 +86,20 @@ public class SignTP {
         NamespacedKey key_x = new NamespacedKey(SignClick.getPlugin(), "x");
         NamespacedKey key_y = new NamespacedKey(SignClick.getPlugin(), "y");
         NamespacedKey key_z = new NamespacedKey(SignClick.getPlugin(), "z");
+        NamespacedKey worldKey = new NamespacedKey(SignClick.getPlugin(), "world");
         if (data.has(key_x, PersistentDataType.INTEGER)) {
             int x = data.get(key_x, PersistentDataType.INTEGER);
 
             int y = data.get(key_y, PersistentDataType.INTEGER);
 
             int z = data.get(key_z, PersistentDataType.INTEGER);
+
+            World world = Bukkit.getServer().getWorld(data.get(worldKey, PersistentDataType.STRING));
+
+            if(!world.getName().equals(player.getWorld().getName())){
+                Utils.setSign(sign, new String[]{"WRONG WORLD", "", "", ""});
+                return;
+            }
 
             int sign_x = sign.getBlock().getX();
             int sign_z = sign.getBlock().getZ();

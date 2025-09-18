@@ -23,6 +23,7 @@ public class SignCommands implements CommandExecutor {
             int x = player.getLocation().getBlockX();
             int y = player.getLocation().getBlockY();
             int z = player.getLocation().getBlockZ();
+            String worldName = player.getLocation().getWorld().getName();
 
             PersistentDataContainer data = player.getPersistentDataContainer();
             NamespacedKey key_x = new NamespacedKey(SignClick.getPlugin(), "x");
@@ -31,7 +32,8 @@ public class SignCommands implements CommandExecutor {
             data.set(key_y, PersistentDataType.INTEGER, y);
             NamespacedKey key_z = new NamespacedKey(SignClick.getPlugin(), "z");
             data.set(key_z, PersistentDataType.INTEGER, z);
-
+            NamespacedKey world = new NamespacedKey(SignClick.getPlugin(), "world");
+            data.set(world, PersistentDataType.STRING, worldName);
 
             player.sendMessage("§bposition saved");
 
