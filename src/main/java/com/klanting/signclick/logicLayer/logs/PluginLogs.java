@@ -1,0 +1,31 @@
+package com.klanting.signclick.logicLayer.logs;
+
+import org.apache.commons.lang3.tuple.MutableTriple;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.UUID;
+
+abstract public class PluginLogs {
+    /*
+    * A logging system, to log information later accessible in minecraft by users
+    * Logs remain for a configurable duration.
+    *
+    * This class follows the observer design pattern
+    * */
+    private final String title;
+
+    public PluginLogs(String title){
+        this.title = title;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public abstract void update(String action, Object message, UUID issuer);
+    public abstract List<MutableTriple<LocalDateTime, String, String>> getLogs();
+
+
+
+}

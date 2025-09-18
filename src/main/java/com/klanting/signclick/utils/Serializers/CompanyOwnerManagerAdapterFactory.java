@@ -6,7 +6,7 @@ import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import com.klanting.signclick.economy.CompanyOwnerManager;
+import com.klanting.signclick.logicLayer.CompanyOwnerManager;
 
 import java.io.IOException;
 

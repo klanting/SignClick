@@ -2,9 +2,8 @@ package com.utils;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
-import be.seeseemelk.mockbukkit.entity.PlayerMock;
 import com.klanting.signclick.SignClick;
-import com.klanting.signclick.economy.Market;
+import com.klanting.signclick.logicLayer.Market;
 import com.klanting.signclick.utils.Utils;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;

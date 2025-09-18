@@ -1,7 +1,7 @@
 package com.klanting.signclick.utils.Serializers;
 
 import com.google.gson.*;
-import com.klanting.signclick.economy.companyPatent.Auction;
+import com.klanting.signclick.logicLayer.companyPatent.Auction;
 
 import java.lang.reflect.Type;
 

@@ -1,0 +1,33 @@
+package com.klanting.signclick.interactionLayer.commands.countryHandlers;
+
+import com.klanting.signclick.SignClick;
+import com.klanting.signclick.interactionLayer.commands.exceptions.CommandException;
+import com.klanting.signclick.logicLayer.Country;
+import com.klanting.signclick.logicLayer.CountryManager;
+import org.bukkit.entity.Player;
+
+import java.text.DecimalFormat;
+
+public class CountryHandlerBaltop extends CountryHandler{
+    @Override
+    public void handleCommand(Player player, String[] args) throws CommandException {
+        String line = SignClick.getPrefix()+"Baltop:§0";
+        int index = 1;
+
+        for (Country country : CountryManager.getTop()){
+            if (index <= 10){
+                int amount = country.getBalance();
+                DecimalFormat df = new DecimalFormat("###,###,###");
+                line += "\n";
+                line += SignClick.getPrefix()+index+".§3 ";
+                line += country.getName();
+                line += ": §7";
+                line += df.format(amount);
+
+                index += 1;
+            }
+
+        }
+        player.sendMessage(line);
+    }
+}

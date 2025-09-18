@@ -3,8 +3,8 @@ package com.klanting.signclick.migrations;
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import com.klanting.signclick.SignClick;
-import com.klanting.signclick.economy.*;
-import com.klanting.signclick.economy.companyUpgrades.*;
+import com.klanting.signclick.logicLayer.*;
+import com.klanting.signclick.logicLayer.companyUpgrades.*;
 import com.klanting.signclick.migrations.mocks.CompanyIv102v200;
 import com.klanting.signclick.utils.Utils;
 

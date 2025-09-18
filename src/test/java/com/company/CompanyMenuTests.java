@@ -2,19 +2,17 @@ package com.company;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
-import com.klanting.signclick.economy.*;
-import com.klanting.signclick.economy.companyPatent.PatentUpgrade;
-import com.klanting.signclick.economy.companyPatent.PatentUpgradeJumper;
-import com.klanting.signclick.menus.company.AuctionMenu;
+import com.klanting.signclick.logicLayer.*;
+import com.klanting.signclick.logicLayer.companyPatent.PatentUpgrade;
+import com.klanting.signclick.logicLayer.companyPatent.PatentUpgradeJumper;
+import com.klanting.signclick.interactionLayer.menus.company.AuctionMenu;
 import com.klanting.signclick.SignClick;
-import com.klanting.signclick.menus.company.ProductList;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.inventory.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.yaml.snakeyaml.error.Mark;
 import tools.ExpandedServerMock;
 import tools.TestTools;
 

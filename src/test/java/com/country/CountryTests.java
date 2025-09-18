@@ -2,10 +2,9 @@ package com.country;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
-import be.seeseemelk.mockbukkit.WorldMock;
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
-import com.klanting.signclick.economy.Country;
-import com.klanting.signclick.economy.CountryManager;
+import com.klanting.signclick.logicLayer.Country;
+import com.klanting.signclick.logicLayer.CountryManager;
 import com.klanting.signclick.SignClick;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;

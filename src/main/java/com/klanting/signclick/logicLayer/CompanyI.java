@@ -1,0 +1,75 @@
+package com.klanting.signclick.logicLayer;
+
+import com.klanting.signclick.logicLayer.companyPatent.Patent;
+import com.klanting.signclick.logicLayer.companyPatent.PatentUpgrade;
+import com.klanting.signclick.logicLayer.companyUpgrades.Upgrade;
+import com.klanting.signclick.logicLayer.contractRequests.ContractRequest;
+import com.klanting.signclick.logicLayer.logs.PluginLogs;
+import com.klanting.signclick.utils.BlockPosKey;
+import org.bukkit.entity.Player;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
+
+public interface CompanyI {
+    Research getResearch();
+    boolean hasPendingContractRequest();
+    ContractRequest getPendingContractRequest();
+    List<Product> getProducts();
+    void addProduct(Product product);
+    CompanyOwnerManager getCOM();
+    double getSpendable();
+    void setSpendable(double spendable);
+    void setMarketShares(Integer marketShares);
+    double getShareBalance();
+    Integer getTotalShares();
+    void setTotalShares(Integer totalShares);
+    double getValue();
+    double getShareBase();
+    void removeBalVar(double amount);
+    double getBal();
+    boolean removeBal(double amount);
+    boolean removeBal(double amount, boolean skipSpendable);
+    boolean addBalNoPoint(double bal);
+    void changeBase();
+    double stockCompareGet();
+    double stockCompare();
+    Integer getMarketShares();
+    boolean addBal(double amount);
+    void supportUpdate(Account holder, UUID uuid);
+    void checkSupport();
+    void getShareTop(Player player);
+    void dividend();
+    void info(Player player);
+    void acceptOfferCompContract();
+    void sendOfferCompContract(String stock_name, double amount, int weeks, String reason);
+    void receiveOfferCompContract(String stock_name, double amount, int weeks, String reason);
+    void acceptOfferPlayerContract();
+    void receiveOfferPlayerContract(String playerUUID, double amount, int weeks, String reason);
+    boolean doUpgrade(Integer id);
+    void calculateCountry();
+    String getCountry();
+    String getName();
+    String getStockName();
+    ArrayList<Upgrade> getUpgrades();
+    void update(String action, Object message, UUID issuer);
+    String getType();
+    void addShareBal(Double amount);
+    void removeShareBal(Double amount);
+    ArrayList<Patent> getPatent();
+    void addObserver(PluginLogs observer);
+    List<PluginLogs> getLogObservers();
+    void setType(String type);
+    ArrayList<PatentUpgrade> getPatentUpgrades();
+    HashMap<BlockPosKey, Machine> getMachines();
+    String getPlayerNamePending();
+    double getPlayerAmountPending();
+    int getPlayerWeeksPending();
+    void setCountry(Country country);
+    CompanyI getRef();
+
+    double getUpgradeModifier();
+    void reCalcBalance();
+}

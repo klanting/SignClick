@@ -1,7 +1,7 @@
 package com.klanting.signclick.utils.Serializers;
 
 import com.google.gson.*;
-import com.klanting.signclick.economy.LicenseSingleton;
+import com.klanting.signclick.logicLayer.LicenseSingleton;
 
 import java.lang.reflect.Type;
 

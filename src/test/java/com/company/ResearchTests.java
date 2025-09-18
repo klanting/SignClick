@@ -2,12 +2,11 @@ package com.company;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
-import be.seeseemelk.mockbukkit.entity.PlayerMock;
 import com.klanting.signclick.SignClick;
-import com.klanting.signclick.economy.CompanyI;
-import com.klanting.signclick.economy.Market;
-import com.klanting.signclick.economy.Research;
-import com.klanting.signclick.economy.ResearchOption;
+import com.klanting.signclick.logicLayer.CompanyI;
+import com.klanting.signclick.logicLayer.Market;
+import com.klanting.signclick.logicLayer.Research;
+import com.klanting.signclick.logicLayer.ResearchOption;
 import org.bukkit.Material;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

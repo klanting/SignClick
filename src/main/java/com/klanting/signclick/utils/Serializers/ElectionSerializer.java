@@ -2,13 +2,11 @@ package com.klanting.signclick.utils.Serializers;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.*;
-import com.klanting.signclick.economy.parties.Election;
+import com.klanting.signclick.logicLayer.parties.Election;
 import versionCompatibility.CompatibleLayer;
 
 import java.lang.reflect.Type;
 import java.util.*;
-
-import static org.bukkit.Bukkit.getServer;
 
 public class ElectionSerializer implements JsonSerializer<Election>, JsonDeserializer<Election> {
     /*

@@ -1,13 +1,13 @@
 package com.klanting.signclick.utils.Serializers;
 
 import com.google.gson.*;
-import com.klanting.signclick.economy.Country;
-import com.klanting.signclick.economy.CountryManager;
+import com.klanting.signclick.logicLayer.Country;
+import com.klanting.signclick.logicLayer.CountryManager;
 
 import java.lang.reflect.Type;
 import java.util.UUID;
 
-import static com.klanting.signclick.economy.parties.ElectionTools.setupElectionDeadline;
+import static com.klanting.signclick.logicLayer.parties.ElectionTools.setupElectionDeadline;
 
 public class CountrySerializer implements JsonSerializer<Country>, JsonDeserializer<Country> {
     /*

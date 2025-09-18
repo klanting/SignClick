@@ -1,0 +1,24 @@
+package com.klanting.signclick.interactionLayer.commands.companyHandelers.contractHandlers;
+
+import com.klanting.signclick.interactionLayer.commands.companyHandelers.CompanyHandler;
+import com.klanting.signclick.interactionLayer.commands.exceptions.CommandAssert;
+import com.klanting.signclick.interactionLayer.commands.exceptions.CommandException;
+import com.klanting.signclick.logicLayer.Market;
+import org.bukkit.entity.Player;
+
+public class CompanyHandlerGetContracts extends CompanyHandler {
+    @Override
+    public Boolean handleCommand(Player player, String[] args, Boolean firstEnter) throws CommandException {
+
+        CommandAssert.assertTrue(args.length >= 2, "please enter /company get_contracts <stockname>");
+
+        String stockName = args[1].toUpperCase();
+        stockName = stockName.toUpperCase();
+
+        CommandAssert.assertTrue(Market.hasBusiness(stockName), "business name is invalid");
+
+        Market.getContracts(stockName, player);
+
+        return false;
+    }
+}

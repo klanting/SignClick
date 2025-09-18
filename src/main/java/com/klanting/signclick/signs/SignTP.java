@@ -1,6 +1,6 @@
 package com.klanting.signclick.signs;
 
-import com.klanting.signclick.economy.*;
+import com.klanting.signclick.logicLayer.*;
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.utils.Utils;
 import org.bukkit.*;

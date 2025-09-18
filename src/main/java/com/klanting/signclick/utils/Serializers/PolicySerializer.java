@@ -1,14 +1,9 @@
 package com.klanting.signclick.utils.Serializers;
 
 import com.google.gson.*;
-import com.klanting.signclick.economy.Country;
-import com.klanting.signclick.economy.CountryManager;
-import com.klanting.signclick.economy.policies.*;
+import com.klanting.signclick.logicLayer.policies.*;
 
 import java.lang.reflect.Type;
-import java.util.UUID;
-
-import static com.klanting.signclick.economy.parties.ElectionTools.setupElectionDeadline;
 
 public class PolicySerializer implements JsonSerializer<Policy>, JsonDeserializer<Policy>{
     @Override

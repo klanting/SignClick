@@ -4,11 +4,10 @@ import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
-import com.klanting.signclick.economy.Country;
+import com.klanting.signclick.logicLayer.Country;
 
-import com.klanting.signclick.economy.CountryManager;
+import com.klanting.signclick.logicLayer.CountryManager;
 import com.klanting.signclick.SignClick;
-import com.klanting.signclick.economy.Market;
 import com.klanting.signclick.utils.BookParser;
 import org.bukkit.Location;
 import org.bukkit.Material;

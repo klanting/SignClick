@@ -2,9 +2,9 @@ package com.country;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
-import com.klanting.signclick.economy.Country;
+import com.klanting.signclick.logicLayer.Country;
 
-import com.klanting.signclick.economy.CountryManager;
+import com.klanting.signclick.logicLayer.CountryManager;
 import com.klanting.signclick.SignClick;
 import org.bukkit.entity.Player;
 import org.junit.jupiter.api.AfterEach;

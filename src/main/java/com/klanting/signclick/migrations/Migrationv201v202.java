@@ -1,18 +1,6 @@
 package com.klanting.signclick.migrations;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.reflect.TypeToken;
 import com.klanting.signclick.SignClick;
-import com.klanting.signclick.economy.CompanyI;
-import com.klanting.signclick.economy.CompanyRef;
-import com.klanting.signclick.economy.logs.PluginLogs;
-import com.klanting.signclick.economy.logs.ResearchUpdate;
-import com.klanting.signclick.utils.Utils;
-
-import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Migrationv201v202 extends Migration{
     Migrationv201v202(){

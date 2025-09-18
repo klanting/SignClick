@@ -1,7 +1,5 @@
 package com.klanting.signclick.signs;
 
-import com.klanting.signclick.economy.companyPatent.PatentUpgrade;
-
 import java.util.List;
 
 public class SignLookup {

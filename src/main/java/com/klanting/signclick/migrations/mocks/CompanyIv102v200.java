@@ -1,14 +1,12 @@
 package com.klanting.signclick.migrations.mocks;
 
-import com.klanting.signclick.economy.*;
-import com.klanting.signclick.economy.companyPatent.Patent;
-import com.klanting.signclick.economy.companyPatent.PatentUpgrade;
-import com.klanting.signclick.economy.companyUpgrades.Upgrade;
-import com.klanting.signclick.economy.contractRequests.ContractRequest;
-import com.klanting.signclick.economy.logs.PluginLogs;
+import com.klanting.signclick.logicLayer.*;
+import com.klanting.signclick.logicLayer.companyPatent.Patent;
+import com.klanting.signclick.logicLayer.companyPatent.PatentUpgrade;
+import com.klanting.signclick.logicLayer.companyUpgrades.Upgrade;
+import com.klanting.signclick.logicLayer.contractRequests.ContractRequest;
+import com.klanting.signclick.logicLayer.logs.PluginLogs;
 import com.klanting.signclick.utils.BlockPosKey;
-import org.bukkit.Location;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;

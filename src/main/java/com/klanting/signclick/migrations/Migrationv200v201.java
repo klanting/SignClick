@@ -4,9 +4,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import com.klanting.signclick.SignClick;
-import com.klanting.signclick.economy.Company;
-import com.klanting.signclick.economy.CompanyI;
-import com.klanting.signclick.economy.logs.*;
+import com.klanting.signclick.logicLayer.logs.*;
 import com.klanting.signclick.utils.Utils;
 
 import java.io.*;

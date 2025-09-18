@@ -2,7 +2,7 @@ package com.company;
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
-import com.klanting.signclick.economy.*;
+import com.klanting.signclick.logicLayer.*;
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.utils.BlockPosKey;
 import org.bukkit.Location;
@@ -11,7 +11,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import org.yaml.snakeyaml.error.Mark;
 import tools.ExpandedServerMock;
 import tools.TestTools;
 

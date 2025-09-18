@@ -3,8 +3,8 @@ package com.commands;
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 
-import com.klanting.signclick.commands.CompanyCommands;
-import com.klanting.signclick.economy.*;
+import com.klanting.signclick.interactionLayer.commands.CompanyCommands;
+import com.klanting.signclick.logicLayer.*;
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.utils.BookParser;
 import org.bukkit.Material;
@@ -15,7 +15,6 @@ import org.bukkit.inventory.meta.BookMeta;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mockito;
-import org.yaml.snakeyaml.error.Mark;
 import tools.ExpandedServerMock;
 import tools.TestTools;
 

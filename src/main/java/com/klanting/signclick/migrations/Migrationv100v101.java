@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gson.*;
-import com.klanting.signclick.economy.logs.*;
+import com.klanting.signclick.logicLayer.logs.*;
 import com.klanting.signclick.utils.Utils;
 
 public class Migrationv100v101 extends Migration{
