@@ -1,8 +1,8 @@
 package com.klanting.signclick.interactionLayer.routines;
 
 import com.google.common.reflect.TypeToken;
-import com.klanting.signclick.logicLayer.Country;
-import com.klanting.signclick.logicLayer.CountryManager;
+import com.klanting.signclick.logicLayer.countryLogic.Country;
+import com.klanting.signclick.logicLayer.countryLogic.CountryManager;
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.utils.Utils;
 import org.bukkit.Bukkit;

@@ -1,4 +1,4 @@
-package com.klanting.signclick.logicLayer;
+package com.klanting.signclick.logicLayer.countryLogic;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;

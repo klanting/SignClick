@@ -3,8 +3,8 @@ package com.klanting.signclick.interactionLayer.commands.countryHandlers;
 import com.klanting.signclick.interactionLayer.commands.CountryCommands;
 import com.klanting.signclick.interactionLayer.commands.exceptions.CommandAssert;
 import com.klanting.signclick.interactionLayer.commands.exceptions.CommandException;
-import com.klanting.signclick.logicLayer.Country;
-import com.klanting.signclick.logicLayer.CountryManager;
+import com.klanting.signclick.logicLayer.countryLogic.Country;
+import com.klanting.signclick.logicLayer.countryLogic.CountryManager;
 import org.bukkit.entity.Player;
 
 import static com.klanting.signclick.interactionLayer.events.CountryEvents.sortTab;

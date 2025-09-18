@@ -6,6 +6,7 @@ import com.klanting.signclick.SignClick;
 import com.klanting.signclick.logicLayer.*;
 import com.klanting.signclick.logicLayer.companyPatent.*;
 import com.klanting.signclick.logicLayer.companyUpgrades.*;
+import com.klanting.signclick.logicLayer.countryLogic.Country;
 import com.klanting.signclick.logicLayer.logs.*;
 import com.klanting.signclick.logicLayer.parties.Election;
 import com.klanting.signclick.logicLayer.policies.Policy;

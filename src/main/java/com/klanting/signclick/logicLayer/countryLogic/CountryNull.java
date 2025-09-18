@@ -1,6 +1,6 @@
-package com.klanting.signclick.logicLayer;
+package com.klanting.signclick.logicLayer.countryLogic;
 
-public class CountryNull extends Country{
+public class CountryNull extends Country {
     /*
     * Object in case a country would equal to Null.
     * To avoid many checks, by inheritance, when a country is Null, this object will be provided

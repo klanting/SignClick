@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.ArrayList;
 import java.text.DecimalFormat;
 
-import com.klanting.signclick.logicLayer.Country;
-import com.klanting.signclick.logicLayer.CountryManager;
+import com.klanting.signclick.logicLayer.countryLogic.Country;
+import com.klanting.signclick.logicLayer.countryLogic.CountryManager;
 import com.klanting.signclick.logicLayer.decisions.Decision;
 import com.klanting.signclick.logicLayer.parties.Party;
 

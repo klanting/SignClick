@@ -3,7 +3,7 @@ package com.compatibility;
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 import com.klanting.signclick.SignClick;
-import com.klanting.signclick.logicLayer.CountryManager;
+import com.klanting.signclick.logicLayer.countryLogic.CountryManager;
 import com.klanting.signclick.logicLayer.Market;
 import com.klanting.signclick.logicLayer.companyUpgrades.UpgradeBoardSize;
 import org.junit.jupiter.api.AfterEach;

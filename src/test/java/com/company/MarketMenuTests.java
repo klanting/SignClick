@@ -5,6 +5,7 @@ import be.seeseemelk.mockbukkit.ServerMock;
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.logicLayer.*;
+import com.klanting.signclick.logicLayer.countryLogic.CountryManager;
 import org.bukkit.Material;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.inventory.InventoryView;

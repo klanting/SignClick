@@ -2,7 +2,7 @@ package com.klanting.signclick.interactionLayer.commands;
 
 import com.klanting.signclick.interactionLayer.commands.countryHandlers.*;
 import com.klanting.signclick.interactionLayer.commands.exceptions.CommandException;
-import com.klanting.signclick.logicLayer.CountryManager;
+import com.klanting.signclick.logicLayer.countryLogic.CountryManager;
 import com.klanting.signclick.interactionLayer.commands.countryHandlers.staffHandler.*;
 import com.klanting.signclick.utils.Prefix;
 

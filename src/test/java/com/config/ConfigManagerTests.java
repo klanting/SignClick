@@ -6,7 +6,7 @@ import be.seeseemelk.mockbukkit.entity.PlayerMock;
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.configs.CommentConfig;
 import com.klanting.signclick.configs.ConfigManager;
-import com.klanting.signclick.logicLayer.CountryManager;
+import com.klanting.signclick.logicLayer.countryLogic.CountryManager;
 import com.klanting.signclick.logicLayer.Market;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

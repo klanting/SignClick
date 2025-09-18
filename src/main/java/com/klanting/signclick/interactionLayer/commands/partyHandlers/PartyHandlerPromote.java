@@ -2,8 +2,8 @@ package com.klanting.signclick.interactionLayer.commands.partyHandlers;
 
 import com.klanting.signclick.interactionLayer.commands.exceptions.CommandAssert;
 import com.klanting.signclick.interactionLayer.commands.exceptions.CommandException;
-import com.klanting.signclick.logicLayer.Country;
-import com.klanting.signclick.logicLayer.CountryManager;
+import com.klanting.signclick.logicLayer.countryLogic.Country;
+import com.klanting.signclick.logicLayer.countryLogic.CountryManager;
 import com.klanting.signclick.logicLayer.parties.Party;
 import org.bukkit.Bukkit;
 

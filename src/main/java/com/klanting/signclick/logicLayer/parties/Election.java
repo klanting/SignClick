@@ -3,8 +3,8 @@ package com.klanting.signclick.logicLayer.parties;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
-import com.klanting.signclick.logicLayer.Country;
-import com.klanting.signclick.logicLayer.CountryManager;
+import com.klanting.signclick.logicLayer.countryLogic.Country;
+import com.klanting.signclick.logicLayer.countryLogic.CountryManager;
 import versionCompatibility.CompatibleLayer;
 
 import java.util.*;

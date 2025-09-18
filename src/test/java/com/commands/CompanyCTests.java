@@ -6,6 +6,8 @@ import be.seeseemelk.mockbukkit.ServerMock;
 import com.klanting.signclick.interactionLayer.commands.CompanyCommands;
 import com.klanting.signclick.logicLayer.*;
 import com.klanting.signclick.SignClick;
+import com.klanting.signclick.logicLayer.countryLogic.Country;
+import com.klanting.signclick.logicLayer.countryLogic.CountryManager;
 import com.klanting.signclick.utils.BookParser;
 import org.bukkit.Material;
 import org.bukkit.event.player.PlayerChatEvent;

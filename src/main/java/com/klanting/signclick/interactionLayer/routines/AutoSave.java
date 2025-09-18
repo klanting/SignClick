@@ -1,7 +1,7 @@
 package com.klanting.signclick.interactionLayer.routines;
 
 import com.klanting.signclick.SignClick;
-import com.klanting.signclick.logicLayer.CountryManager;
+import com.klanting.signclick.logicLayer.countryLogic.CountryManager;
 import com.klanting.signclick.logicLayer.Market;
 import com.klanting.signclick.logicLayer.companyPatent.Auction;
 import org.bukkit.Bukkit;

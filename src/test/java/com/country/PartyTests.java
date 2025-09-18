@@ -3,9 +3,9 @@ package com.country;
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
-import com.klanting.signclick.logicLayer.Country;
+import com.klanting.signclick.logicLayer.countryLogic.Country;
 
-import com.klanting.signclick.logicLayer.CountryManager;
+import com.klanting.signclick.logicLayer.countryLogic.CountryManager;
 import com.klanting.signclick.logicLayer.parties.Election;
 import com.klanting.signclick.logicLayer.parties.Party;
 import com.klanting.signclick.SignClick;

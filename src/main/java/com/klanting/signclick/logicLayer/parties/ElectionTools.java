@@ -1,6 +1,6 @@
 package com.klanting.signclick.logicLayer.parties;
 
-import com.klanting.signclick.logicLayer.Country;
+import com.klanting.signclick.logicLayer.countryLogic.Country;
 import com.klanting.signclick.logicLayer.decisions.Decision;
 import com.klanting.signclick.SignClick;
 import org.bukkit.Bukkit;

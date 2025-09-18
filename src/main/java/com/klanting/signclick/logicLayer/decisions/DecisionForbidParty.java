@@ -1,7 +1,7 @@
 package com.klanting.signclick.logicLayer.decisions;
 
-import com.klanting.signclick.logicLayer.Country;
-import com.klanting.signclick.logicLayer.CountryManager;
+import com.klanting.signclick.logicLayer.countryLogic.Country;
+import com.klanting.signclick.logicLayer.countryLogic.CountryManager;
 
 public class DecisionForbidParty extends Decision{
     public boolean b;

@@ -1,9 +1,9 @@
 package com.klanting.signclick.interactionLayer.menus.company;
 
 import com.klanting.signclick.logicLayer.CompanyI;
-import com.klanting.signclick.logicLayer.Country;
+import com.klanting.signclick.logicLayer.countryLogic.Country;
 import com.klanting.signclick.logicLayer.companyUpgrades.Upgrade;
-import com.klanting.signclick.logicLayer.CountryManager;
+import com.klanting.signclick.logicLayer.countryLogic.CountryManager;
 import com.klanting.signclick.interactionLayer.menus.SelectionMenu;
 import com.klanting.signclick.utils.ItemFactory;
 import org.bukkit.entity.Player;

@@ -2,8 +2,8 @@ package com.klanting.signclick.interactionLayer.commands.countryHandlers;
 
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.interactionLayer.commands.exceptions.CommandException;
-import com.klanting.signclick.logicLayer.Country;
-import com.klanting.signclick.logicLayer.CountryManager;
+import com.klanting.signclick.logicLayer.countryLogic.Country;
+import com.klanting.signclick.logicLayer.countryLogic.CountryManager;
 import org.bukkit.entity.Player;
 
 import java.text.DecimalFormat;

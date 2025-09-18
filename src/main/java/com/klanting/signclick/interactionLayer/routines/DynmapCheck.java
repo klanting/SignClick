@@ -1,7 +1,7 @@
 package com.klanting.signclick.interactionLayer.routines;
 
-import com.klanting.signclick.logicLayer.Country;
-import com.klanting.signclick.logicLayer.CountryManager;
+import com.klanting.signclick.logicLayer.countryLogic.Country;
+import com.klanting.signclick.logicLayer.countryLogic.CountryManager;
 import com.klanting.signclick.SignClick;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;

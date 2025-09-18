@@ -1,8 +1,8 @@
 package com.klanting.signclick.utils.Serializers;
 
 import com.google.gson.*;
-import com.klanting.signclick.logicLayer.Country;
-import com.klanting.signclick.logicLayer.CountryManager;
+import com.klanting.signclick.logicLayer.countryLogic.Country;
+import com.klanting.signclick.logicLayer.countryLogic.CountryManager;
 
 import java.lang.reflect.Type;
 import java.util.UUID;
