@@ -11,7 +11,7 @@ import com.klanting.signclick.interactionLayer.routines.*;
 import com.klanting.signclick.migrations.MigrationManager;
 import com.klanting.signclick.recipes.MachineRecipe;
 import com.klanting.signclick.configs.DefaultConfig;
-import com.klanting.signclick.logicLayer.companyPatent.Auction;
+import com.klanting.signclick.logicLayer.companyLogic.patent.Auction;
 import com.klanting.signclick.logicLayer.countryLogic.CountryManager;
 import com.klanting.signclick.logicLayer.Market;
 import com.klanting.signclick.utils.Utils;

@@ -4,7 +4,9 @@ import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.logicLayer.*;
-import com.klanting.signclick.logicLayer.companyUpgrades.*;
+import com.klanting.signclick.logicLayer.companyLogic.CompanyI;
+import com.klanting.signclick.logicLayer.companyLogic.CompanyOwnerManager;
+import com.klanting.signclick.logicLayer.companyLogic.upgrades.*;
 import com.klanting.signclick.migrations.mocks.CompanyIv102v200;
 import com.klanting.signclick.utils.Utils;
 

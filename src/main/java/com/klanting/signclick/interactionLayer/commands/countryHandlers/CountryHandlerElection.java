@@ -5,11 +5,11 @@ import com.klanting.signclick.interactionLayer.commands.exceptions.CommandAssert
 import com.klanting.signclick.interactionLayer.commands.exceptions.CommandException;
 import com.klanting.signclick.logicLayer.countryLogic.Country;
 import com.klanting.signclick.logicLayer.countryLogic.CountryManager;
-import com.klanting.signclick.logicLayer.parties.Election;
+import com.klanting.signclick.logicLayer.countryLogic.parties.Election;
 import org.bukkit.entity.Player;
 import versionCompatibility.CompatibleLayer;
 
-import static com.klanting.signclick.logicLayer.parties.ElectionTools.setupElectionDeadline;
+import static com.klanting.signclick.logicLayer.countryLogic.parties.ElectionTools.setupElectionDeadline;
 
 public class CountryHandlerElection extends CountryHandler{
     @Override

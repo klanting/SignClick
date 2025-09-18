@@ -2,6 +2,7 @@ package com.klanting.signclick.logicLayer;
 
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.configs.ConfigManager;
+import com.klanting.signclick.logicLayer.companyLogic.CompanyI;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;

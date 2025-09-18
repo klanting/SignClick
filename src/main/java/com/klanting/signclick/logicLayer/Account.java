@@ -1,6 +1,7 @@
 package com.klanting.signclick.logicLayer;
 
 import com.klanting.signclick.SignClick;
+import com.klanting.signclick.logicLayer.companyLogic.CompanyI;
 import com.klanting.signclick.logicLayer.countryLogic.Country;
 import com.klanting.signclick.logicLayer.countryLogic.CountryManager;
 import com.klanting.signclick.logicLayer.countryLogic.CountryNull;

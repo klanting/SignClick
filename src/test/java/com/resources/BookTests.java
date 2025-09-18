@@ -3,7 +3,7 @@ package com.resources;
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 import com.klanting.signclick.SignClick;
-import com.klanting.signclick.logicLayer.companyPatent.Auction;
+import com.klanting.signclick.logicLayer.companyLogic.patent.Auction;
 import com.klanting.signclick.utils.BookParser;
 import org.bukkit.entity.Player;
 import org.junit.jupiter.api.AfterEach;

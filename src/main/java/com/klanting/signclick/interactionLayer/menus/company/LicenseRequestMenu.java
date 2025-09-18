@@ -1,6 +1,6 @@
 package com.klanting.signclick.interactionLayer.menus.company;
 
-import com.klanting.signclick.logicLayer.CompanyI;
+import com.klanting.signclick.logicLayer.companyLogic.CompanyI;
 import com.klanting.signclick.logicLayer.License;
 import com.klanting.signclick.logicLayer.LicenseSingleton;
 import com.klanting.signclick.logicLayer.Product;

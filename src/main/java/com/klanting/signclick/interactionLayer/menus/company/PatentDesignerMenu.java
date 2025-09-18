@@ -1,8 +1,8 @@
 package com.klanting.signclick.interactionLayer.menus.company;
 
-import com.klanting.signclick.logicLayer.CompanyI;
-import com.klanting.signclick.logicLayer.companyPatent.Patent;
-import com.klanting.signclick.logicLayer.companyPatent.PatentUpgrade;
+import com.klanting.signclick.logicLayer.companyLogic.CompanyI;
+import com.klanting.signclick.logicLayer.companyLogic.patent.Patent;
+import com.klanting.signclick.logicLayer.companyLogic.patent.PatentUpgrade;
 import com.klanting.signclick.interactionLayer.menus.SelectionMenu;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

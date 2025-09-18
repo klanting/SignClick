@@ -1,7 +1,7 @@
 package com.klanting.signclick.interactionLayer.menus.country;
 
 import com.klanting.signclick.SignClick;
-import com.klanting.signclick.logicLayer.parties.Election;
+import com.klanting.signclick.logicLayer.countryLogic.parties.Election;
 import com.klanting.signclick.interactionLayer.menus.PagingMenu;
 import com.klanting.signclick.utils.Utils;
 import org.bukkit.Bukkit;

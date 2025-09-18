@@ -4,9 +4,9 @@ import com.klanting.signclick.interactionLayer.commands.exceptions.CommandAssert
 import com.klanting.signclick.interactionLayer.commands.exceptions.CommandException;
 import com.klanting.signclick.logicLayer.countryLogic.Country;
 import com.klanting.signclick.logicLayer.countryLogic.CountryManager;
-import com.klanting.signclick.logicLayer.decisions.Decision;
-import com.klanting.signclick.logicLayer.decisions.DecisionCoup;
-import com.klanting.signclick.logicLayer.parties.Party;
+import com.klanting.signclick.logicLayer.countryLogic.decisions.Decision;
+import com.klanting.signclick.logicLayer.countryLogic.decisions.DecisionCoup;
+import com.klanting.signclick.logicLayer.countryLogic.parties.Party;
 import org.bukkit.entity.Player;
 
 public class PartyHandlerCoup extends PartyHandler {

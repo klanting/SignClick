@@ -1,7 +1,7 @@
 package com.klanting.signclick.interactionLayer.commands.companyHandelers;
 
 import com.klanting.signclick.interactionLayer.commands.exceptions.CommandException;
-import com.klanting.signclick.logicLayer.CompanyI;
+import com.klanting.signclick.logicLayer.companyLogic.CompanyI;
 import com.klanting.signclick.interactionLayer.menus.company.BoardMenu;
 import com.klanting.signclick.interactionLayer.menus.company.SelectionType;
 import com.klanting.signclick.interactionLayer.menus.company.Selector;

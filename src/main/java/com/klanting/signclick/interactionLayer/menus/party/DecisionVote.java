@@ -6,8 +6,8 @@ import java.text.DecimalFormat;
 
 import com.klanting.signclick.logicLayer.countryLogic.Country;
 import com.klanting.signclick.logicLayer.countryLogic.CountryManager;
-import com.klanting.signclick.logicLayer.decisions.Decision;
-import com.klanting.signclick.logicLayer.parties.Party;
+import com.klanting.signclick.logicLayer.countryLogic.decisions.Decision;
+import com.klanting.signclick.logicLayer.countryLogic.parties.Party;
 
 import com.klanting.signclick.interactionLayer.menus.PagingMenu;
 import org.bukkit.Material;

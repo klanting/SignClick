@@ -2,7 +2,7 @@ package com.klanting.signclick.interactionLayer.menus.company;
 
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.logicLayer.Board;
-import com.klanting.signclick.logicLayer.CompanyI;
+import com.klanting.signclick.logicLayer.companyLogic.CompanyI;
 import com.klanting.signclick.interactionLayer.events.AddChiefSupportEvent;
 import com.klanting.signclick.interactionLayer.menus.SelectionMenu;
 import com.klanting.signclick.utils.ItemFactory;

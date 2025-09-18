@@ -4,7 +4,7 @@ import com.klanting.signclick.interactionLayer.commands.exceptions.CommandAssert
 import com.klanting.signclick.interactionLayer.commands.exceptions.CommandException;
 import com.klanting.signclick.logicLayer.countryLogic.Country;
 import com.klanting.signclick.logicLayer.countryLogic.CountryManager;
-import com.klanting.signclick.logicLayer.parties.Party;
+import com.klanting.signclick.logicLayer.countryLogic.parties.Party;
 import com.klanting.signclick.interactionLayer.menus.party.DecisionVote;
 import org.bukkit.entity.Player;
 

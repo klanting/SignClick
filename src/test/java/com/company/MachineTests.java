@@ -8,6 +8,7 @@ import com.klanting.signclick.SignClick;
 import com.klanting.signclick.logicLayer.*;
 import com.klanting.signclick.interactionLayer.events.MenuEvents;
 import com.klanting.signclick.interactionLayer.menus.company.LicenseInfoMenu;
+import com.klanting.signclick.logicLayer.companyLogic.CompanyI;
 import com.klanting.signclick.utils.Utils;
 import org.bukkit.Location;
 import org.bukkit.Material;

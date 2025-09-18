@@ -3,6 +3,8 @@ package com.klanting.signclick.logicLayer;
 import com.google.common.reflect.TypeToken;
 import com.klanting.signclick.interactionLayer.routines.SignStock;
 import com.klanting.signclick.SignClick;
+import com.klanting.signclick.logicLayer.companyLogic.Company;
+import com.klanting.signclick.logicLayer.companyLogic.CompanyI;
 import com.klanting.signclick.logicLayer.contracts.*;
 import com.klanting.signclick.logicLayer.countryLogic.Country;
 import com.klanting.signclick.logicLayer.countryLogic.CountryManager;

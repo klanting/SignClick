@@ -1,7 +1,7 @@
 package com.klanting.signclick.interactionLayer.menus.company.logs;
 
-import com.klanting.signclick.logicLayer.CompanyI;
-import com.klanting.signclick.logicLayer.logs.PluginLogs;
+import com.klanting.signclick.logicLayer.companyLogic.CompanyI;
+import com.klanting.signclick.logicLayer.companyLogic.logs.PluginLogs;
 import com.klanting.signclick.interactionLayer.menus.PagingMenu;
 import org.apache.commons.lang3.tuple.MutableTriple;
 import org.bukkit.Material;

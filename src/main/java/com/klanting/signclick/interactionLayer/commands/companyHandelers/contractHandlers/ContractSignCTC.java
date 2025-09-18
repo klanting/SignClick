@@ -4,7 +4,7 @@ import com.klanting.signclick.SignClick;
 import com.klanting.signclick.interactionLayer.commands.companyHandelers.CompanyHandler;
 import com.klanting.signclick.interactionLayer.commands.exceptions.CommandAssert;
 import com.klanting.signclick.interactionLayer.commands.exceptions.CommandException;
-import com.klanting.signclick.logicLayer.CompanyI;
+import com.klanting.signclick.logicLayer.companyLogic.CompanyI;
 import com.klanting.signclick.logicLayer.Market;
 import com.klanting.signclick.logicLayer.contractRequests.ContractRequest;
 import org.bukkit.entity.Player;

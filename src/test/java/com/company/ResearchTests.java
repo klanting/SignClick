@@ -3,7 +3,7 @@ package com.company;
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 import com.klanting.signclick.SignClick;
-import com.klanting.signclick.logicLayer.CompanyI;
+import com.klanting.signclick.logicLayer.companyLogic.CompanyI;
 import com.klanting.signclick.logicLayer.Market;
 import com.klanting.signclick.logicLayer.Research;
 import com.klanting.signclick.logicLayer.ResearchOption;

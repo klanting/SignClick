@@ -1,6 +1,6 @@
 package com.klanting.signclick.logicLayer.contractRequests;
 
-import com.klanting.signclick.logicLayer.CompanyI;
+import com.klanting.signclick.logicLayer.companyLogic.CompanyI;
 import com.klanting.signclick.logicLayer.Market;
 
 public class ContractRequestCTC extends ContractRequest{

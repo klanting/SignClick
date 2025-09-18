@@ -5,7 +5,7 @@ import be.seeseemelk.mockbukkit.ServerMock;
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.logicLayer.Board;
-import com.klanting.signclick.logicLayer.CompanyOwnerManager;
+import com.klanting.signclick.logicLayer.companyLogic.CompanyOwnerManager;
 import com.klanting.signclick.logicLayer.Market;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

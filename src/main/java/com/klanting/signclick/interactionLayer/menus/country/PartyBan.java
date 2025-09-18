@@ -2,9 +2,9 @@ package com.klanting.signclick.interactionLayer.menus.country;
 
 import com.klanting.signclick.logicLayer.countryLogic.Country;
 import com.klanting.signclick.logicLayer.countryLogic.CountryManager;
-import com.klanting.signclick.logicLayer.decisions.Decision;
-import com.klanting.signclick.logicLayer.decisions.DecisionBanParty;
-import com.klanting.signclick.logicLayer.parties.Party;
+import com.klanting.signclick.logicLayer.countryLogic.decisions.Decision;
+import com.klanting.signclick.logicLayer.countryLogic.decisions.DecisionBanParty;
+import com.klanting.signclick.logicLayer.countryLogic.parties.Party;
 import com.klanting.signclick.interactionLayer.menus.SelectionMenu;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

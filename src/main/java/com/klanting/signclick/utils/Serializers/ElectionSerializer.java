@@ -2,7 +2,7 @@ package com.klanting.signclick.utils.Serializers;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.*;
-import com.klanting.signclick.logicLayer.parties.Election;
+import com.klanting.signclick.logicLayer.countryLogic.parties.Election;
 import versionCompatibility.CompatibleLayer;
 
 import java.lang.reflect.Type;

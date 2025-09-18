@@ -7,7 +7,7 @@ import com.klanting.signclick.logicLayer.countryLogic.CountryManager;
 import java.lang.reflect.Type;
 import java.util.UUID;
 
-import static com.klanting.signclick.logicLayer.parties.ElectionTools.setupElectionDeadline;
+import static com.klanting.signclick.logicLayer.countryLogic.parties.ElectionTools.setupElectionDeadline;
 
 public class CountrySerializer implements JsonSerializer<Country>, JsonDeserializer<Country> {
     /*

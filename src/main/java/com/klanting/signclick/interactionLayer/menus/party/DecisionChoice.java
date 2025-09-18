@@ -1,7 +1,7 @@
 package com.klanting.signclick.interactionLayer.menus.party;
 
-import com.klanting.signclick.logicLayer.decisions.Decision;
-import com.klanting.signclick.logicLayer.parties.Party;
+import com.klanting.signclick.logicLayer.countryLogic.decisions.Decision;
+import com.klanting.signclick.logicLayer.countryLogic.parties.Party;
 import com.klanting.signclick.interactionLayer.menus.SelectionMenu;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

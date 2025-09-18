@@ -1,7 +1,7 @@
 package com.klanting.signclick.logicLayer.contracts;
 
 
-import com.klanting.signclick.logicLayer.CompanyI;
+import com.klanting.signclick.logicLayer.companyLogic.CompanyI;
 
 public class ContractCTC extends Contract {
 

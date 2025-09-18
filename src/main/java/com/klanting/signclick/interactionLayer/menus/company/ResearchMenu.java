@@ -1,7 +1,7 @@
 package com.klanting.signclick.interactionLayer.menus.company;
 
 import com.klanting.signclick.SignClick;
-import com.klanting.signclick.logicLayer.CompanyI;
+import com.klanting.signclick.logicLayer.companyLogic.CompanyI;
 import com.klanting.signclick.logicLayer.ResearchOption;
 import com.klanting.signclick.interactionLayer.menus.PagingMenu;
 import com.klanting.signclick.utils.ItemFactory;

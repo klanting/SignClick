@@ -1,6 +1,6 @@
 package com.klanting.signclick.interactionLayer.events;
 
-import com.klanting.signclick.logicLayer.CompanyOwnerManager;
+import com.klanting.signclick.logicLayer.companyLogic.CompanyOwnerManager;
 import com.klanting.signclick.interactionLayer.menus.company.EmployeesList;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;

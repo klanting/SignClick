@@ -2,7 +2,7 @@ package com.klanting.signclick.utils.Serializers;
 
 import com.google.gson.*;
 import com.klanting.signclick.configs.ConfigManager;
-import com.klanting.signclick.logicLayer.Company;
+import com.klanting.signclick.logicLayer.companyLogic.Company;
 
 import java.lang.reflect.Type;
 

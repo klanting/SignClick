@@ -2,7 +2,7 @@ package com.klanting.signclick.interactionLayer.menus.country;
 
 import com.klanting.signclick.logicLayer.countryLogic.Country;
 import com.klanting.signclick.logicLayer.countryLogic.CountryManager;
-import com.klanting.signclick.logicLayer.policies.PolicyOption;
+import com.klanting.signclick.logicLayer.countryLogic.policies.PolicyOption;
 import com.klanting.signclick.interactionLayer.menus.SelectionMenu;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -39,7 +39,7 @@ public class Policy extends SelectionMenu {
 
         int startIndex = 11;
 
-        for (com.klanting.signclick.logicLayer.policies.Policy p: country.getPolicies()){
+        for (com.klanting.signclick.logicLayer.countryLogic.policies.Policy p: country.getPolicies()){
             ItemStack item = new ItemStack(p.getMaterial());
             ItemMeta meta = item.getItemMeta();
             meta.setDisplayName("§6"+p.getName());

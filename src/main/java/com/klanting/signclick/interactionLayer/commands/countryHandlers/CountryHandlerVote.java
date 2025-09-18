@@ -5,7 +5,7 @@ import com.klanting.signclick.interactionLayer.commands.exceptions.CommandExcept
 import com.klanting.signclick.interactionLayer.menus.country.ElectionMenu;
 import com.klanting.signclick.logicLayer.countryLogic.Country;
 import com.klanting.signclick.logicLayer.countryLogic.CountryManager;
-import com.klanting.signclick.logicLayer.parties.Election;
+import com.klanting.signclick.logicLayer.countryLogic.parties.Election;
 import org.bukkit.entity.Player;
 
 public class CountryHandlerVote extends CountryHandler{

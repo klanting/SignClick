@@ -1,6 +1,8 @@
 package com.klanting.signclick.logicLayer;
 
 import com.klanting.signclick.SignClick;
+import com.klanting.signclick.logicLayer.companyLogic.CompanyI;
+import com.klanting.signclick.logicLayer.companyLogic.CompanyOwnerManager;
 import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Bukkit;
 
