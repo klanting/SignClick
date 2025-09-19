@@ -30,11 +30,14 @@ public class UpgradeTests {
     private SignClick plugin;
 
     private PlayerMock testPlayer;
+    private WorldDoubleMock world;
 
     @BeforeEach
     public void setUp() {
 
         server = MockBukkit.mock(new ExpandedServerMock());
+        world = new WorldDoubleMock();
+        server.addWorld(world);
 
         plugin = TestTools.setupPlugin(server);
 
@@ -73,9 +76,11 @@ public class UpgradeTests {
         comp.addBal(1000);
         comp.setSpendable(1000);
 
-        BlockMock machineBlock = new DoubleBlockMock(Material.BLAST_FURNACE,
-                new Location(new WorldDoubleMock(), 0, 1, 0));
+        Location loc = new Location(world, 0, 1, 0);
+        BlockMock machineBlock = new DoubleBlockMock(Material.BLAST_FURNACE, loc);
         Machine m = new Machine(machineBlock, comp);
+        world.setBlock(machineBlock, loc);
+
         comp.getMachines().put(BlockPosKey.from(machineBlock.getLocation()), m);
 
         assertEquals(0, m.getProductionProgress());

@@ -1,6 +1,11 @@
 package com.klanting.signclick.logicLayer.companyLogic;
 
+import com.klanting.signclick.SignClick;
 import com.klanting.signclick.logicLayer.companyLogic.logs.itemLogEntry;
+import com.klanting.signclick.utils.BlockPosKey;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Hopper;
@@ -124,15 +129,17 @@ public class Machine {
     }
 
     public Block getBlock() {
-        return block;
+        System.out.println("VXXX"+blockPosKey);
+        return (new Location(Bukkit.getServer().getWorld(blockPosKey.world()),
+                blockPosKey.x(), blockPosKey.y(), blockPosKey.z())).getBlock();
     }
 
-    private final Block block;
+    private final BlockPosKey blockPosKey;
 
     public Machine(Block block, CompanyI company){
         product = null;
         productionProgress = 0;
-        this.block = block;
+        this.blockPosKey = BlockPosKey.from(block.getLocation());
         this.compName = company.getStockName();
 
     }
@@ -162,8 +169,9 @@ public class Machine {
     }
 
     public void productionUpdate(){
-
-        if (!block.getWorld().isChunkLoaded(block.getX() >> 4, block.getZ() >> 4)) {return;}
+        World world = Bukkit.getServer().getWorld(blockPosKey.world());
+        System.out.println("W "+world);
+        if (!world.isChunkLoaded(blockPosKey.x() >> 4, blockPosKey.z() >> 4)) {return;}
 
         if (!hasProduct()){
             productionProgress = 0;

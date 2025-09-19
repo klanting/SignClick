@@ -33,21 +33,21 @@ public class MachineTests {
     private ServerMock server;
     private SignClick plugin;
 
+    private WorldDoubleMock world;
+
     @BeforeEach
     public void setUp() {
 
         server = MockBukkit.mock(new ExpandedServerMock());
-        server.addSimpleWorld("world");
 
         plugin = TestTools.setupPlugin(server);
+
+        world = new WorldDoubleMock();
+        server.addWorld(world);
     }
 
     @AfterEach
     public void tearDown() {
-        if (!MenuEvents.activeMachines.isEmpty()){
-            MenuEvents.activeMachines.get(0).getBlock().getLocation().setWorld(server.getWorld("world"));
-        }
-
         MockBukkit.unmock();
         Market.clear();
         LicenseSingleton.clear();
@@ -56,7 +56,7 @@ public class MachineTests {
 
     @Test
     void basicMachineProduction(){
-        server.addSimpleWorld("world");
+
         PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
         /*
         * Create machine and produce an item
@@ -89,16 +89,20 @@ public class MachineTests {
 
         testPlayer.setItemInHand(machine);
 
-        World world = new WorldDoubleMock();
+        Location loc = new Location(world, 0, 1, 0);
+        BlockMock blockClicked = new DoubleBlockMock(Material.DIRT, loc);
+        world.setBlock(blockClicked, loc);
 
-        BlockMock blockClicked = new DoubleBlockMock(Material.DIRT,
-                new Location(world, 0, 1, 0));
-        BlockMock machineBlock = new DoubleBlockMock(machine.getType(),
-                new Location(world, 0, 1, 0));
+        assertSame(blockClicked, loc.getBlock());
+
+        BlockMock machineBlock = new DoubleBlockMock(machine.getType(), loc);
         FurnaceStateMock furnaceState = (new FurnaceStateMock(machineBlock));
         assertTrue(furnaceState instanceof TileState);
         machineBlock.setState(furnaceState);
         assertNotNull(machineBlock.getState());
+        world.setBlock(machineBlock, loc);
+        assertSame(machineBlock, loc.getBlock());
+
 
         BlockPlaceEvent event = new BlockPlaceEvent(
                 machineBlock,
@@ -226,11 +230,9 @@ public class MachineTests {
 
     @Test
     void MachineProductionSaveLoad(){
-        server.addSimpleWorld("world");
         basicMachineProduction();
 
         plugin = TestTools.reboot(server);
-        MenuEvents.activeMachines.get(0).getBlock().getLocation().setWorld(new WorldDoubleMock());
 
         assertEquals(1, Market.getCompany("TCI").getMachines().values().size());
         assertEquals(1, MenuEvents.activeMachines.size());
@@ -246,7 +248,6 @@ public class MachineTests {
     @Test
     void licenseMachineProduction(){
         PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
-        server.addSimpleWorld("world");
 
         /*
          * Create machine and produce an licensed item
@@ -286,16 +287,14 @@ public class MachineTests {
 
         testPlayer.setItemInHand(machine);
 
-        World world = new WorldDoubleMock();
-
-        BlockMock blockClicked = new DoubleBlockMock(Material.DIRT,
-                new Location(world, 0, 0, 0));
-        BlockMock machineBlock = new DoubleBlockMock(machine.getType(),
-                new Location(world, 0, 0, 0));
+        Location loc = new Location(world, 0, 0, 0);
+        BlockMock blockClicked = new DoubleBlockMock(Material.DIRT, loc);
+        BlockMock machineBlock = new DoubleBlockMock(machine.getType(), loc);
         FurnaceStateMock furnaceState = (new FurnaceStateMock(machineBlock));
         assertTrue(furnaceState instanceof TileState);
         machineBlock.setState(furnaceState);
         assertNotNull(machineBlock.getState());
+        world.setBlock(machineBlock, loc);
 
         BlockPlaceEvent event = new BlockPlaceEvent(
                 machineBlock,
@@ -305,6 +304,7 @@ public class MachineTests {
                 testPlayer,
                 true
         );
+        world.setBlock(machineBlock, new Location(world, 0, 1, 0));
 
         server.getPluginManager().callEvent(event);
 
@@ -353,7 +353,6 @@ public class MachineTests {
          * Check production is working
          * */
         assertEquals(0, MenuEvents.activeMachines.get(0).getProductionProgress());
-        MenuEvents.activeMachines.get(0).getBlock().getLocation().setWorld(world);
         MenuEvents.activeMachines.get(0).changeProductionLoop();
 
         server.getScheduler().performTicks(220);
@@ -386,7 +385,6 @@ public class MachineTests {
     @Test
     void licenseMachineReboot(){
         PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
-        server.addSimpleWorld("world");
 
         /*
          * Create machine and produce an licensed item
@@ -426,16 +424,14 @@ public class MachineTests {
 
         testPlayer.setItemInHand(machine);
 
-        World world = new WorldDoubleMock();
-
-        BlockMock blockClicked = new DoubleBlockMock(Material.DIRT,
-                new Location(world, 0, 0, 0));
-        BlockMock machineBlock = new DoubleBlockMock(machine.getType(),
-                new Location(world, 0, 0, 0));
+        Location loc = new Location(world, 0, 0, 0);
+        BlockMock blockClicked = new DoubleBlockMock(Material.DIRT, loc);
+        BlockMock machineBlock = new DoubleBlockMock(machine.getType(), loc);
         FurnaceStateMock furnaceState = (new FurnaceStateMock(machineBlock));
         assertTrue(furnaceState instanceof TileState);
         machineBlock.setState(furnaceState);
         assertNotNull(machineBlock.getState());
+        world.setBlock(machineBlock, loc);
 
         BlockPlaceEvent event = new BlockPlaceEvent(
                 machineBlock,
@@ -517,7 +513,6 @@ public class MachineTests {
 
     @Test
     void machineProductionHopper(){
-        server.addSimpleWorld("world");
         /*
         * test that the machine produced items go into a hopper.
         **/

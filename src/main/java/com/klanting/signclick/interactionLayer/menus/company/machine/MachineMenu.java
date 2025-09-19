@@ -111,7 +111,7 @@ public class MachineMenu extends SelectionMenu {
 
         NamespacedKey productKey = new NamespacedKey(SignClick.getPlugin(), "signclick_company_machine_product");
 
-
+        System.out.println("L "+machine.getBlock());
         if (!(machine.getBlock().getState() instanceof TileState tileState)) return;
         String material = tileState.getPersistentDataContainer().getOrDefault(productKey, PersistentDataType.STRING, "");
 

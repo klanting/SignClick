@@ -1,6 +1,7 @@
 package com.company;
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
+import be.seeseemelk.mockbukkit.block.BlockMock;
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.logicLayer.companyLogic.Account;
@@ -385,14 +386,16 @@ class CompanyTests {
         /*
         * create machine 1
         * */
-        company.getMachines().put(BlockPosKey.from(new Location(server.addSimpleWorld("world"), 0, 0, 0)),
-                new Machine(null, company));
+        Location loc = new Location(server.addSimpleWorld("world"), 0, 0, 0);
+        company.getMachines().put(BlockPosKey.from(loc),
+                new Machine(new BlockMock(loc), company));
 
         /*
          * create machine 2
          * */
+        Location loc2 = new Location(server.addSimpleWorld("world"), 1, 0, 0);
         company.getMachines().put(BlockPosKey.from(new Location(server.addSimpleWorld("world"), 1, 0, 0)),
-                new Machine(null, company));
+                new Machine(new BlockMock(loc2), company));
 
         assertEquals(2, company.getMachines().size());
 
