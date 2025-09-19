@@ -1,5 +1,6 @@
 package com.klanting.signclick.interactionLayer.events;
 
+import com.destroystokyo.paper.event.block.BlockDestroyEvent;
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.logicLayer.companyLogic.CompanyI;
 import com.klanting.signclick.logicLayer.companyLogic.Machine;
@@ -15,7 +16,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.inventory.InventoryHolder;
@@ -54,7 +54,7 @@ public class OpenFurnaceEvent implements Listener {
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
-    public void onBlockBreak(BlockBreakEvent event){
+    public void onBlockDestroy(BlockDestroyEvent event){
         Block block = event.getBlock();
         BlockState state = block.getState();
 
@@ -62,7 +62,7 @@ public class OpenFurnaceEvent implements Listener {
             NamespacedKey key = new NamespacedKey(SignClick.getPlugin(), "signclick_company_machine");
 
             if (tileState.getPersistentDataContainer().has(key, PersistentDataType.BYTE)){
-                event.setDropItems(false);
+                event.setWillDrop(false);
 
                 NamespacedKey compKey = new NamespacedKey(SignClick.getPlugin(), "signclick_company_machine_company");
                 String compName = tileState.getPersistentDataContainer().get(compKey, PersistentDataType.STRING);
