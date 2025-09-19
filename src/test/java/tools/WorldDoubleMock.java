@@ -26,7 +26,6 @@ public class WorldDoubleMock extends WorldMock {
 
     @Override
     public @NotNull BlockMock getBlockAt(@NotNull Location location) {
-        System.out.println("W");
         return mapping.get(location);
     }
 }

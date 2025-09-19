@@ -129,7 +129,6 @@ public class Machine {
     }
 
     public Block getBlock() {
-        System.out.println("VXXX"+blockPosKey);
         return (new Location(Bukkit.getServer().getWorld(blockPosKey.world()),
                 blockPosKey.x(), blockPosKey.y(), blockPosKey.z())).getBlock();
     }
@@ -170,7 +169,6 @@ public class Machine {
 
     public void productionUpdate(){
         World world = Bukkit.getServer().getWorld(blockPosKey.world());
-        System.out.println("W "+world);
         if (!world.isChunkLoaded(blockPosKey.x() >> 4, blockPosKey.z() >> 4)) {return;}
 
         if (!hasProduct()){
