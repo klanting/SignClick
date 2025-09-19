@@ -5,14 +5,14 @@ import com.klanting.signclick.interactionLayer.commands.CommandTools;
 import com.klanting.signclick.interactionLayer.commands.companyHandelers.CompanyHandler;
 import com.klanting.signclick.interactionLayer.commands.exceptions.CommandAssert;
 import com.klanting.signclick.interactionLayer.commands.exceptions.CommandException;
-import com.klanting.signclick.logicLayer.Market;
+import com.klanting.signclick.logicLayer.companyLogic.Market;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
-import static com.klanting.signclick.logicLayer.Market.getCompany;
+import static com.klanting.signclick.logicLayer.companyLogic.Market.getCompany;
 
 public class ContractSendPTC extends CompanyHandler {
 

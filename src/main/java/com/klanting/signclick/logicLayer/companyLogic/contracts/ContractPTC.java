@@ -1,8 +1,8 @@
-package com.klanting.signclick.logicLayer.contracts;
+package com.klanting.signclick.logicLayer.companyLogic.contracts;
 
-import com.klanting.signclick.logicLayer.Account;
+import com.klanting.signclick.logicLayer.companyLogic.Account;
 import com.klanting.signclick.logicLayer.companyLogic.CompanyI;
-import com.klanting.signclick.logicLayer.Market;
+import com.klanting.signclick.logicLayer.companyLogic.Market;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 

@@ -2,7 +2,7 @@ package com.klanting.signclick.interactionLayer.events;
 
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.logicLayer.companyLogic.CompanyI;
-import com.klanting.signclick.logicLayer.Market;
+import com.klanting.signclick.logicLayer.companyLogic.Market;
 import com.klanting.signclick.interactionLayer.menus.company.MarketMenu;
 import com.klanting.signclick.interactionLayer.routines.SignIncome;
 import com.klanting.signclick.interactionLayer.routines.SignStock;

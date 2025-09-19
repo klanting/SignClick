@@ -3,7 +3,7 @@ package com.klanting.signclick.utils.Serializers;
 import com.google.gson.*;
 import com.klanting.signclick.logicLayer.companyLogic.CompanyI;
 import com.klanting.signclick.logicLayer.companyLogic.CompanyRef;
-import com.klanting.signclick.logicLayer.Market;
+import com.klanting.signclick.logicLayer.companyLogic.Market;
 
 import java.lang.reflect.Type;
 

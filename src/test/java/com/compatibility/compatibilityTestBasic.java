@@ -4,7 +4,7 @@ import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.logicLayer.countryLogic.CountryManager;
-import com.klanting.signclick.logicLayer.Market;
+import com.klanting.signclick.logicLayer.companyLogic.Market;
 import com.klanting.signclick.logicLayer.companyLogic.upgrades.UpgradeBoardSize;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

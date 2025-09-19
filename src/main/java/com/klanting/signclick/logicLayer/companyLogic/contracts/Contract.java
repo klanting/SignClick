@@ -1,4 +1,4 @@
-package com.klanting.signclick.logicLayer.contracts;
+package com.klanting.signclick.logicLayer.companyLogic.contracts;
 
 import java.text.DecimalFormat;
 

@@ -1,4 +1,4 @@
-package com.klanting.signclick.logicLayer.contractRequests;
+package com.klanting.signclick.logicLayer.companyLogic.contractRequests;
 
 public abstract class ContractRequest {
 

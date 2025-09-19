@@ -1,8 +1,7 @@
 package com.klanting.signclick.interactionLayer.menus.company;
 
-import com.klanting.signclick.logicLayer.*;
 import com.klanting.signclick.interactionLayer.menus.PagingMenu;
-import com.klanting.signclick.logicLayer.companyLogic.CompanyI;
+import com.klanting.signclick.logicLayer.companyLogic.*;
 import com.klanting.signclick.utils.ItemFactory;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

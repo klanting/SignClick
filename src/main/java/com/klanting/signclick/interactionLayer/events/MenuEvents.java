@@ -1,10 +1,10 @@
 package com.klanting.signclick.interactionLayer.events;
 
 import com.klanting.signclick.SignClick;
-import com.klanting.signclick.logicLayer.*;
 import com.klanting.signclick.interactionLayer.menus.SelectionMenu;
 import com.klanting.signclick.interactionLayer.menus.company.machine.MachineMenu;
 
+import com.klanting.signclick.logicLayer.companyLogic.Machine;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

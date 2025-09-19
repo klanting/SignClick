@@ -1,13 +1,9 @@
 package com.klanting.signclick.logicLayer.companyLogic;
 
-import com.klanting.signclick.logicLayer.Account;
-import com.klanting.signclick.logicLayer.Machine;
-import com.klanting.signclick.logicLayer.Product;
-import com.klanting.signclick.logicLayer.Research;
 import com.klanting.signclick.logicLayer.companyLogic.patent.Patent;
 import com.klanting.signclick.logicLayer.companyLogic.patent.PatentUpgrade;
 import com.klanting.signclick.logicLayer.companyLogic.upgrades.Upgrade;
-import com.klanting.signclick.logicLayer.contractRequests.ContractRequest;
+import com.klanting.signclick.logicLayer.companyLogic.contractRequests.ContractRequest;
 import com.klanting.signclick.logicLayer.countryLogic.Country;
 import com.klanting.signclick.logicLayer.companyLogic.logs.PluginLogs;
 import com.klanting.signclick.utils.BlockPosKey;
@@ -69,9 +65,6 @@ public interface CompanyI {
     void setType(String type);
     ArrayList<PatentUpgrade> getPatentUpgrades();
     HashMap<BlockPosKey, Machine> getMachines();
-    String getPlayerNamePending();
-    double getPlayerAmountPending();
-    int getPlayerWeeksPending();
     void setCountry(Country country);
     CompanyI getRef();
 

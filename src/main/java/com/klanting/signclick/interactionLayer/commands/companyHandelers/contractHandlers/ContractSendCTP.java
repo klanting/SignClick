@@ -5,7 +5,7 @@ import com.klanting.signclick.interactionLayer.commands.CommandTools;
 import com.klanting.signclick.interactionLayer.commands.companyHandelers.CompanyHandler;
 import com.klanting.signclick.interactionLayer.commands.exceptions.CommandAssert;
 import com.klanting.signclick.interactionLayer.commands.exceptions.CommandException;
-import com.klanting.signclick.logicLayer.Market;
+import com.klanting.signclick.logicLayer.companyLogic.Market;
 import org.bukkit.entity.Player;
 
 public class ContractSendCTP  extends CompanyHandler {
@@ -37,7 +37,7 @@ public class ContractSendCTP  extends CompanyHandler {
             return true;
         }
 
-        if (Market.getCompany(target_stock_name).getPlayerNamePending() == null){
+        if (!Market.getCompany(target_stock_name).hasPendingContractRequest()){
             Market.getCompany(target_stock_name).receiveOfferPlayerContract(player.getUniqueId().toString(), amount, weeks, reason);
         }else{
             player.sendMessage("§ccompany still has another offer pending, try again in 2 minutes");

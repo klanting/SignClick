@@ -1,8 +1,6 @@
 package com.klanting.signclick.logicLayer.companyLogic;
 
 import com.klanting.signclick.SignClick;
-import com.klanting.signclick.logicLayer.Account;
-import com.klanting.signclick.logicLayer.Board;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 

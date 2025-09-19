@@ -2,8 +2,8 @@ package com.klanting.signclick.interactionLayer.events;
 
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.logicLayer.companyLogic.CompanyI;
-import com.klanting.signclick.logicLayer.Machine;
-import com.klanting.signclick.logicLayer.Market;
+import com.klanting.signclick.logicLayer.companyLogic.Machine;
+import com.klanting.signclick.logicLayer.companyLogic.Market;
 import com.klanting.signclick.interactionLayer.menus.company.Selector;
 import com.klanting.signclick.interactionLayer.menus.company.machine.MachineMenu;
 import com.klanting.signclick.recipes.MachineRecipe;

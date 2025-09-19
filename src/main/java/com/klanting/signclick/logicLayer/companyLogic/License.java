@@ -1,6 +1,4 @@
-package com.klanting.signclick.logicLayer;
-
-import com.klanting.signclick.logicLayer.companyLogic.CompanyI;
+package com.klanting.signclick.logicLayer.companyLogic;
 
 public class License extends Produceable{
 

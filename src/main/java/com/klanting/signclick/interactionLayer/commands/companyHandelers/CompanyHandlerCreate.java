@@ -6,7 +6,7 @@ import com.klanting.signclick.interactionLayer.commands.exceptions.CommandAssert
 import com.klanting.signclick.interactionLayer.commands.exceptions.CommandException;
 import com.klanting.signclick.logicLayer.countryLogic.Country;
 import com.klanting.signclick.logicLayer.countryLogic.CountryManager;
-import com.klanting.signclick.logicLayer.Market;
+import com.klanting.signclick.logicLayer.companyLogic.Market;
 import com.klanting.signclick.interactionLayer.menus.company.TypeSelect;
 import com.klanting.signclick.utils.PreciseNumberFormatter;
 import org.bukkit.entity.Player;

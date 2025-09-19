@@ -1,7 +1,7 @@
 package com.klanting.signclick.interactionLayer.events;
 
 import com.klanting.signclick.logicLayer.companyLogic.CompanyI;
-import com.klanting.signclick.logicLayer.Market;
+import com.klanting.signclick.logicLayer.companyLogic.Market;
 import com.klanting.signclick.utils.Prefix;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;

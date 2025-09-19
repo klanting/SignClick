@@ -1,6 +1,4 @@
-package com.klanting.signclick.logicLayer;
-
-import com.klanting.signclick.logicLayer.companyLogic.CompanyI;
+package com.klanting.signclick.logicLayer.companyLogic;
 
 import java.util.ArrayList;
 import java.util.List;

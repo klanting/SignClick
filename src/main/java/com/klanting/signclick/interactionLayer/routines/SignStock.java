@@ -1,6 +1,6 @@
 package com.klanting.signclick.interactionLayer.routines;
 
-import com.klanting.signclick.logicLayer.Market;
+import com.klanting.signclick.logicLayer.companyLogic.Market;
 import com.klanting.signclick.SignClick;
 
 
@@ -11,7 +11,7 @@ import org.bukkit.event.block.SignChangeEvent;
 
 import java.text.DecimalFormat;
 
-import static com.klanting.signclick.logicLayer.Market.stockSigns;
+import static com.klanting.signclick.logicLayer.companyLogic.Market.stockSigns;
 
 public class SignStock {
     /*

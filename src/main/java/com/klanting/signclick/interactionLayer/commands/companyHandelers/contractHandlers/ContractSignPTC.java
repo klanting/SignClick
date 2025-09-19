@@ -4,8 +4,8 @@ import com.klanting.signclick.SignClick;
 import com.klanting.signclick.interactionLayer.commands.companyHandelers.CompanyHandler;
 import com.klanting.signclick.interactionLayer.commands.exceptions.CommandAssert;
 import com.klanting.signclick.interactionLayer.commands.exceptions.CommandException;
-import com.klanting.signclick.logicLayer.Account;
-import com.klanting.signclick.logicLayer.Market;
+import com.klanting.signclick.logicLayer.companyLogic.Account;
+import com.klanting.signclick.logicLayer.companyLogic.Market;
 import org.bukkit.entity.Player;
 
 import java.text.DecimalFormat;

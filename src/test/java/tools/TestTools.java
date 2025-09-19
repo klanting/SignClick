@@ -8,7 +8,7 @@ import com.klanting.signclick.SignClick;
 import com.klanting.signclick.interactionLayer.events.MenuEvents;
 import com.klanting.signclick.interactionLayer.routines.WeeklyPay;
 import com.klanting.signclick.logicLayer.countryLogic.CountryManager;
-import com.klanting.signclick.logicLayer.Market;
+import com.klanting.signclick.logicLayer.companyLogic.Market;
 import com.klanting.signclick.logicLayer.companyLogic.patent.Auction;
 import net.ess3.api.IEssentials;
 import net.milkbowl.vault.economy.Economy;

@@ -5,7 +5,9 @@ import com.klanting.signclick.interactionLayer.commands.companyHandelers.Company
 import com.klanting.signclick.interactionLayer.commands.exceptions.CommandAssert;
 import com.klanting.signclick.interactionLayer.commands.exceptions.CommandException;
 import com.klanting.signclick.logicLayer.companyLogic.CompanyI;
-import com.klanting.signclick.logicLayer.Market;
+import com.klanting.signclick.logicLayer.companyLogic.Market;
+import com.klanting.signclick.logicLayer.companyLogic.contractRequests.ContractRequest;
+import com.klanting.signclick.logicLayer.companyLogic.contractRequests.ContractRequestCTP;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -27,18 +29,22 @@ public class ContractSignCTP extends CompanyHandler {
         CommandAssert.assertTrue(Market.getCompany(stock_name).getCOM().isOwner(player.getUniqueId()), SignClick.getPrefix()+"you must be CEO to sign that request");
 
         CompanyI comp = Market.getCompany(stock_name);
+        ContractRequest cr = comp.getPendingContractRequest();
 
-        CommandAssert.assertTrue(comp.getSpendable() >= comp.getPlayerAmountPending(), SignClick.getPrefix()+"can't sign contract because lack of weekly spendable funds");
+        CommandAssert.assertTrue(cr != null, "no contract pending");
+        CommandAssert.assertTrue(cr instanceof ContractRequestCTP, "incorrect contract type");
 
-        CommandAssert.assertTrue(!comp.getCOM().isOwner(UUID.fromString(comp.getPlayerNamePending())) || !player.getUniqueId().equals(UUID.fromString(comp.getPlayerNamePending())),
+        CommandAssert.assertTrue(comp.getSpendable() >= cr.getAmount(), SignClick.getPrefix()+"can't sign contract because lack of weekly spendable funds");
+
+        CommandAssert.assertTrue(!comp.getCOM().isOwner(UUID.fromString(cr.to())) || !player.getUniqueId().equals(UUID.fromString(cr.to())),
                 SignClick.getPrefix()+"you can't' make a contract with yourself");
 
         if (firstEnter){
             DecimalFormat df = new DecimalFormat("###,###,###");
 
-            player.sendMessage(SignClick.getPrefix()+"please re-enter your command to confirm\nthat you want to sign a contract (§cYOU PAY THEM"+SignClick.getPrefix()+") requested from §f" + Bukkit.getOfflinePlayer(UUID.fromString(comp.getPlayerNamePending())).getName()
-                    +SignClick.getPrefix()+" \nfor an amount of §f"+ df.format(comp.getPlayerAmountPending())
-                    +SignClick.getPrefix()+" \nfor a time of §f"+ comp.getPlayerWeeksPending() +
+            player.sendMessage(SignClick.getPrefix()+"please re-enter your command to confirm\nthat you want to sign a contract (§cYOU PAY THEM"+SignClick.getPrefix()+") requested from §f" + Bukkit.getOfflinePlayer(UUID.fromString(cr.to())).getName()
+                    +SignClick.getPrefix()+" \nfor an amount of §f"+ df.format(cr.getAmount())
+                    +SignClick.getPrefix()+" \nfor a time of §f"+ cr.getWeeks() +
                     " weeks \n§c/company sign_contract_ctp "+stock_name);
 
             return true;

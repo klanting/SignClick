@@ -2,8 +2,7 @@ package com.company;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
-import com.klanting.signclick.logicLayer.*;
-import com.klanting.signclick.logicLayer.companyLogic.CompanyI;
+import com.klanting.signclick.logicLayer.companyLogic.*;
 import com.klanting.signclick.logicLayer.companyLogic.patent.PatentUpgrade;
 import com.klanting.signclick.logicLayer.companyLogic.patent.PatentUpgradeJumper;
 import com.klanting.signclick.interactionLayer.menus.company.AuctionMenu;

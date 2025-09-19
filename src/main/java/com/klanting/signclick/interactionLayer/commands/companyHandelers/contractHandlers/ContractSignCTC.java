@@ -5,8 +5,9 @@ import com.klanting.signclick.interactionLayer.commands.companyHandelers.Company
 import com.klanting.signclick.interactionLayer.commands.exceptions.CommandAssert;
 import com.klanting.signclick.interactionLayer.commands.exceptions.CommandException;
 import com.klanting.signclick.logicLayer.companyLogic.CompanyI;
-import com.klanting.signclick.logicLayer.Market;
-import com.klanting.signclick.logicLayer.contractRequests.ContractRequest;
+import com.klanting.signclick.logicLayer.companyLogic.Market;
+import com.klanting.signclick.logicLayer.companyLogic.contractRequests.ContractRequest;
+import com.klanting.signclick.logicLayer.companyLogic.contractRequests.ContractRequestCTC;
 import org.bukkit.entity.Player;
 
 import java.text.DecimalFormat;
@@ -29,6 +30,7 @@ public class ContractSignCTC extends CompanyHandler {
         ContractRequest cr = comp.getPendingContractRequest();
 
         CommandAssert.assertTrue(cr != null, "no contract pending");
+        CommandAssert.assertTrue(cr instanceof ContractRequestCTC, "incorrect contract type");
 
         CommandAssert.assertTrue(comp.getSpendable() >= cr.getAmount(), "can't sign contract because lack of weekly spendable funds");
 

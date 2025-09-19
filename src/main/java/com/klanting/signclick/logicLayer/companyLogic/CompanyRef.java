@@ -1,10 +1,9 @@
 package com.klanting.signclick.logicLayer.companyLogic;
 
-import com.klanting.signclick.logicLayer.*;
 import com.klanting.signclick.logicLayer.companyLogic.patent.Patent;
 import com.klanting.signclick.logicLayer.companyLogic.patent.PatentUpgrade;
 import com.klanting.signclick.logicLayer.companyLogic.upgrades.Upgrade;
-import com.klanting.signclick.logicLayer.contractRequests.ContractRequest;
+import com.klanting.signclick.logicLayer.companyLogic.contractRequests.ContractRequest;
 import com.klanting.signclick.logicLayer.countryLogic.Country;
 import com.klanting.signclick.logicLayer.companyLogic.logs.PluginLogs;
 import com.klanting.signclick.utils.BlockPosKey;
@@ -295,21 +294,6 @@ public class CompanyRef implements CompanyI{
     @Override
     public HashMap<BlockPosKey, Machine> getMachines() {
         return getComp().getMachines();
-    }
-
-    @Override
-    public String getPlayerNamePending() {
-        return getComp().getPlayerNamePending();
-    }
-
-    @Override
-    public double getPlayerAmountPending() {
-        return getComp().getPlayerAmountPending();
-    }
-
-    @Override
-    public int getPlayerWeeksPending() {
-        return getComp().getPlayerWeeksPending();
     }
 
     @Override

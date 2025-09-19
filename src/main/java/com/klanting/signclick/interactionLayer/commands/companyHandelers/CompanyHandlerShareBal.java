@@ -4,12 +4,12 @@ import com.klanting.signclick.SignClick;
 import com.klanting.signclick.interactionLayer.commands.exceptions.CommandAssert;
 import com.klanting.signclick.interactionLayer.commands.exceptions.CommandException;
 import com.klanting.signclick.logicLayer.companyLogic.CompanyI;
-import com.klanting.signclick.logicLayer.Market;
+import com.klanting.signclick.logicLayer.companyLogic.Market;
 import org.bukkit.entity.Player;
 
 import java.text.DecimalFormat;
 
-import static com.klanting.signclick.logicLayer.Market.getCompany;
+import static com.klanting.signclick.logicLayer.companyLogic.Market.getCompany;
 
 public class CompanyHandlerShareBal extends CompanyHandler{
     @Override

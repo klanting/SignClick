@@ -1,12 +1,10 @@
 package com.klanting.signclick.migrations.mocks;
 
-import com.klanting.signclick.logicLayer.*;
-import com.klanting.signclick.logicLayer.companyLogic.CompanyI;
-import com.klanting.signclick.logicLayer.companyLogic.CompanyOwnerManager;
+import com.klanting.signclick.logicLayer.companyLogic.*;
 import com.klanting.signclick.logicLayer.companyLogic.patent.Patent;
 import com.klanting.signclick.logicLayer.companyLogic.patent.PatentUpgrade;
 import com.klanting.signclick.logicLayer.companyLogic.upgrades.Upgrade;
-import com.klanting.signclick.logicLayer.contractRequests.ContractRequest;
+import com.klanting.signclick.logicLayer.companyLogic.contractRequests.ContractRequest;
 import com.klanting.signclick.logicLayer.countryLogic.Country;
 import com.klanting.signclick.logicLayer.companyLogic.logs.PluginLogs;
 import com.klanting.signclick.utils.BlockPosKey;
@@ -273,21 +271,6 @@ public class CompanyIv102v200 implements CompanyI {
     @Override
     public HashMap<BlockPosKey, Machine> getMachines() {
         return null;
-    }
-
-    @Override
-    public String getPlayerNamePending() {
-        return null;
-    }
-
-    @Override
-    public double getPlayerAmountPending() {
-        return 0;
-    }
-
-    @Override
-    public int getPlayerWeeksPending() {
-        return 0;
     }
 
     @Override

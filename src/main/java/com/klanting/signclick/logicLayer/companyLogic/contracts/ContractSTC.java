@@ -1,4 +1,4 @@
-package com.klanting.signclick.logicLayer.contracts;
+package com.klanting.signclick.logicLayer.companyLogic.contracts;
 
 import com.klanting.signclick.logicLayer.companyLogic.CompanyI;
 

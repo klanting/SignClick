@@ -2,7 +2,7 @@ package com.klanting.signclick.interactionLayer.routines;
 
 import com.google.common.reflect.TypeToken;
 import com.klanting.signclick.logicLayer.countryLogic.CountryManager;
-import com.klanting.signclick.logicLayer.Market;
+import com.klanting.signclick.logicLayer.companyLogic.Market;
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.utils.Utils;
 import org.bukkit.Bukkit;

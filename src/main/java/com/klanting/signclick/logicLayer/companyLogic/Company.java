@@ -3,14 +3,14 @@ package com.klanting.signclick.logicLayer.companyLogic;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.*;
 import com.klanting.signclick.configs.ConfigManager;
-import com.klanting.signclick.logicLayer.*;
 import com.klanting.signclick.logicLayer.companyLogic.logs.*;
 import com.klanting.signclick.logicLayer.companyLogic.patent.Patent;
 import com.klanting.signclick.logicLayer.companyLogic.patent.PatentUpgrade;
 import com.klanting.signclick.logicLayer.companyLogic.upgrades.*;
 import com.klanting.signclick.SignClick;
-import com.klanting.signclick.logicLayer.contractRequests.ContractRequest;
-import com.klanting.signclick.logicLayer.contractRequests.ContractRequestCTC;
+import com.klanting.signclick.logicLayer.companyLogic.contractRequests.ContractRequest;
+import com.klanting.signclick.logicLayer.companyLogic.contractRequests.ContractRequestCTC;
+import com.klanting.signclick.logicLayer.companyLogic.contractRequests.ContractRequestCTP;
 import com.klanting.signclick.logicLayer.countryLogic.Country;
 import com.klanting.signclick.logicLayer.countryLogic.CountryManager;
 import com.klanting.signclick.interactionLayer.events.MenuEvents;
@@ -63,26 +63,6 @@ public class Company extends LoggableSubject implements CompanyI{
     }
 
     public final HashMap<BlockPosKey, Machine> machines = new HashMap<>();
-
-
-    public String getPlayerNamePending() {
-        return playerNamePending;
-    }
-
-    public String playerNamePending = null;
-
-    public double getPlayerAmountPending() {
-        return playerAmountPending;
-    }
-
-    public double playerAmountPending = 0.0;
-
-    public int getPlayerWeeksPending() {
-        return playerWeeksPending;
-    }
-
-    public int playerWeeksPending = 0;
-    public String playerReason = "no_reason";
 
     public ArrayList<Upgrade> getUpgrades() {
         return upgrades;
@@ -585,32 +565,25 @@ public class Company extends LoggableSubject implements CompanyI{
 
 
     public void acceptOfferPlayerContract(){
-        if (playerNamePending == null){
+        if (pendingContractRequest == null){
             return;
         }
 
-        Market.setContractComptoPlayer(stockName, playerNamePending, playerAmountPending, playerWeeksPending, playerReason);
+        pendingContractRequest.accept();
 
-        playerNamePending = null;
-        playerAmountPending = 0.0;
-        playerWeeksPending = 0;
-        playerReason = "no_reason";
+        pendingContractRequest = null;
 
     }
 
     //correct
     public void receiveOfferPlayerContract(String playerUUID, double amount, int weeks, String reason){
-        playerNamePending = playerUUID;
-        playerAmountPending = amount;
-        playerWeeksPending = weeks;
-        playerReason = reason;
+
+        pendingContractRequest = new ContractRequestCTP(this, UUID.fromString(playerUUID), amount, weeks, reason);
 
         Bukkit.getServer().getScheduler().runTaskLater(SignClick.getPlugin(), new Runnable() {
             public void run() {
-                playerNamePending = null;
-                playerAmountPending = 0.0;
-                playerWeeksPending = 0;
-                playerReason = "no_reason";
+
+                pendingContractRequest = null;
 
             }
         }, 20*120L);

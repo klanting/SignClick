@@ -2,7 +2,7 @@ package com.klanting.signclick.signs;
 
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.logicLayer.companyLogic.CompanyI;
-import com.klanting.signclick.logicLayer.Market;
+import com.klanting.signclick.logicLayer.companyLogic.Market;
 import com.klanting.signclick.logicLayer.companyLogic.logs.itemLogEntry;
 import com.klanting.signclick.utils.Prefix;
 import org.bukkit.Material;

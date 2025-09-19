@@ -1,6 +1,5 @@
-package com.klanting.signclick.logicLayer;
+package com.klanting.signclick.logicLayer.companyLogic;
 
-import com.klanting.signclick.logicLayer.companyLogic.CompanyI;
 import com.klanting.signclick.logicLayer.companyLogic.logs.itemLogEntry;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;

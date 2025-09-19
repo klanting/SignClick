@@ -1,9 +1,9 @@
 package com.klanting.signclick.interactionLayer.menus.company;
 
 import com.klanting.signclick.logicLayer.companyLogic.CompanyI;
-import com.klanting.signclick.logicLayer.License;
-import com.klanting.signclick.logicLayer.Produceable;
-import com.klanting.signclick.logicLayer.Product;
+import com.klanting.signclick.logicLayer.companyLogic.License;
+import com.klanting.signclick.logicLayer.companyLogic.Produceable;
+import com.klanting.signclick.logicLayer.companyLogic.Product;
 import com.klanting.signclick.interactionLayer.menus.SelectionMenu;
 import com.klanting.signclick.utils.ItemFactory;
 import com.klanting.signclick.utils.Utils;

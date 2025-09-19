@@ -1,6 +1,6 @@
 package com.klanting.signclick.interactionLayer.events;
 
-import com.klanting.signclick.logicLayer.Board;
+import com.klanting.signclick.logicLayer.companyLogic.Board;
 import com.klanting.signclick.interactionLayer.menus.company.BoardSupportMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
