@@ -139,7 +139,7 @@ public class Company extends LoggableSubject implements CompanyI{
     }
 
     public void setSpendable(double spendable){
-        this.spendable = spendable;
+        this.spendable = Math.max(spendable, 0);
     }
 
     private CompanyOwnerManager companyOwnerManager;
