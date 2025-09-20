@@ -59,19 +59,26 @@ public class Migrationv204v205 extends Migration{
 
         ConfigurationSection c1 = SignClick.getConfigManager().getConfig("production.yml").getConfigurationSection("products").
                 getConfigurationSection("Building");
-        SignClick.getConfigManager().getConfig("production.yml").getConfigurationSection("products").set("Nature", c1);
-        SignClick.getConfigManager().getConfig("production.yml").getConfigurationSection("products").set("Building", null);
+
+        if(c1 != null){
+            SignClick.getConfigManager().getConfig("production.yml").getConfigurationSection("products").set("Nature", c1);
+            SignClick.getConfigManager().getConfig("production.yml").getConfigurationSection("products").set("Building", null);
+        }
 
         c1 = SignClick.getConfigManager().getConfig("production.yml").getConfigurationSection("products").
                 getConfigurationSection("Decoration");
-        SignClick.getConfigManager().getConfig("production.yml").getConfigurationSection("products").set("Miscellaneous", c1);
-        SignClick.getConfigManager().getConfig("production.yml").getConfigurationSection("products").set("Decoration", null);
+        if(c1 != null){
+            SignClick.getConfigManager().getConfig("production.yml").getConfigurationSection("products").set("Miscellaneous", c1);
+            SignClick.getConfigManager().getConfig("production.yml").getConfigurationSection("products").set("Decoration", null);
+        }
 
         c1 = SignClick.getConfigManager().getConfig("production.yml").getConfigurationSection("products").
                 getConfigurationSection("Farmer");
-        SignClick.getConfigManager().getConfig("production.yml").getConfigurationSection("products").set("Farming", c1);
-        SignClick.getConfigManager().getConfig("production.yml").getConfigurationSection("products").set("Farmer", null);
+        if(c1 != null){
+            SignClick.getConfigManager().getConfig("production.yml").getConfigurationSection("products").set("Farming", c1);
+            SignClick.getConfigManager().getConfig("production.yml").getConfigurationSection("products").set("Farmer", null);
 
+        }
 
         SignClick.getConfigManager().getConfig("general.yml").set("version", "2.0.5",
                 "Latest updated version, don't change this, it will be done automatically");
