@@ -19,6 +19,7 @@ import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.Scoreboard;
@@ -103,7 +104,6 @@ public class SignClick extends JavaPlugin{
         LicenseSingleton.Restore();
 
         MachineRecipe.create();
-
 
         MenuEvents.checkMachines();
 
