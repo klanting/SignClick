@@ -21,7 +21,10 @@ types:
     researchTime: 172800 #48h
     productionTime: 3600 #1h
     COST: 1000000
-
+  Leaves:
+    researchTime: 14400 #4h
+    productionTime: 300
+    COST: 5
 
 companyTypes:
   Farmer:
