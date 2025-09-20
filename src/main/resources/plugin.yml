@@ -1,8 +1,19 @@
+#------------------------------------------------------------------------------------#
+#                           SignClick Plugin Configuration                           #
+#------------------------------------------------------------------------------------#
+# This file contains the core configuration for the SignClick plugin, including its  #
+# name, version, main class, commands, and permissions.                              #
+#------------------------------------------------------------------------------------#
+
 name: SignClick
 version: 2.0.3
 author: klanting
 main: com.klanting.signclick.SignClick
 api-version: 1.18
+
+#------------------------------------------------------------------------------------#
+#                                        Commands                                    #
+#------------------------------------------------------------------------------------#
 commands:
   signclick:
     description: all info about the signclick plugin
@@ -28,11 +39,17 @@ commands:
   party:
     description: use the party commands.
     usage: /<command>
-
+#------------------------------------------------------------------------------------#
+#                                      Localization                                  #
+#------------------------------------------------------------------------------------#
 localization:
   default: en_US
   supported: [en_US]
-
+#------------------------------------------------------------------------------------#
+#                                       Permissions                                  #
+#------------------------------------------------------------------------------------#
+# This section defines all the permissions for the SignClick plugin.                 #
+#------------------------------------------------------------------------------------#
 permissions:
   signclick.*:
     description: Allows access to all features (including staff only).
@@ -43,7 +60,9 @@ permissions:
         description: Allows making sign TP signs.
         default: true
 
-      #Company management
+#------------------------------ Company Permissions ---------------------------------#
+# Permissions related to company management and interactions.                        #
+#------------------------------------------------------------------------------------#
       signclick.company.*:
         description: Allows the player company commands
         default: true
@@ -108,7 +127,9 @@ permissions:
           signclick.company.guide:
             description: Allows the player to receive a guide about the plugin
 
-      #Country management
+#------------------------------ Country Permissions ---------------------------------#
+# Permissions related to country management.                                         #
+#------------------------------------------------------------------------------------#
       signclick.country:
         description: Allows the player country commands
         default: true
@@ -123,10 +144,21 @@ permissions:
     default: false
     description: In Progress
 
+#-------------------------------- Staff Permissions ---------------------------------#
+# A parent permission for staff members, granting all plugin permissions.            #
+#------------------------------------------------------------------------------------#
   signclick.staff:
     default: op
     children:
       signclick.*: true
 
+#------------------------------------------------------------------------------------#
+#                                      Dependencies                                  #
+#------------------------------------------------------------------------------------#
+# 'depend' lists plugins that are required for SignClick to function.                #
+# 'softdepend' lists plugins that SignClick can integrate with if they are present.  #
+#------------------------------------------------------------------------------------#
 depend: [Vault]
 softdepend: [dynmap, Essentials]
+
+#-------------------------------------------END--------------------------------------#

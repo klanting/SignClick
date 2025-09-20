@@ -1,5 +1,9 @@
 #YML used to init the default production config, in a quick manner
 
+#---------------------------------------------------------Instructions---------------------------------------------------------------#
+#            This file is used to define the different company types, their icons and products.                                      #
+#------------------------------------------------------------------------------------------------------------------------------------#
+
 # If you want to add a new price type, add it in the "types" section.
 # If you want to add a new product, add it in the "Product" section, under the correct "CompanyType".
 # Make sure to use the correct price type, as defined in the "types" section.
@@ -23,8 +27,10 @@
 
 # Good luck editing :)
 
+#------------------------------------------------------------------------------------------------------------------------------------#
+#                                          The different production pricing types                                                    #
+#------------------------------------------------------------------------------------------------------------------------------------#
 
-#------------------------------------------------The different production pricing types----------------------------------------------#
 types:
 #----------Farmer types----------#
   FARMING_EASY:
@@ -292,10 +298,11 @@ types:
     COST: 120
 #--------------------------------#
 
+#------------------------------------------------------------------------------------------------------------------------------------#
+#                                   Define the different company types, their icons and products                                     #
+#------------------------------------------------------------------------------------------------------------------------------------#
 
-#----------------------------------Define the different company types, their icons and products--------------------------------------#
 companyTypes:
-
 #----------------FARMING-----------------#
   Farming:
     icon: WOODEN_HOE
