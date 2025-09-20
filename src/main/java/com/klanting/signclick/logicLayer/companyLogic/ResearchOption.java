@@ -77,6 +77,10 @@ public class ResearchOption {
     }
 
     public long canPayDelta(double amount){
+        if(amount < 0){
+            return 0;
+        }
+
         if (modifierIndex == 0){
             return 0;
         }
