@@ -17,14 +17,14 @@
 # COST
 # Cost in company money it takes to produce the product.
 
-# With "COST"in "CompanyType" you can override the default cost of a product.
+# With "COST" in "CompanyType" you can override the default cost of a product.
 # Example: A product has a default cost of 20, but you want it to cost 50.
 # You can add "COST: 50" under the product, and it will cost 50 instead of 20.
 
 # Good luck editing :)
 
 
-#------------------------------------------------The different production types------------------------------------------------------#
+#------------------------------------------------The different production pricing types----------------------------------------------#
 types:
 #----------Farmer types----------#
   FARMING_EASY:
