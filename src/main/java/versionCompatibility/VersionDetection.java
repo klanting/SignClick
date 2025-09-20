@@ -18,15 +18,18 @@ public class VersionDetection {
     private static VersionDetection instance = null;
     private final String version;
 
-    //Private constructor to prevent direct instantiation.
-    //It initializes the version string by fetching it from the main plugin class.
-
     private VersionDetection(){
+        /*
+        * Private constructor to prevent direct instantiation.
+        * It initializes the version string by fetching it from the main plugin class.
+        * */
         version = SignClick.getPlugin().getDescription().getVersion();
     }
 
-    //Returns the singleton instance of the VersionDetection class.
     public static VersionDetection getInstance(){
+        /*
+        * Returns the singleton instance of the VersionDetection class.
+        * */
 
         if (instance == null){
             instance = new VersionDetection();
@@ -34,8 +37,10 @@ public class VersionDetection {
         return instance;
     }
 
-    //Returns the plugin's version string.
     public String getVersion() {
+        /*
+        * Returns the plugin's version string.
+        * */
         return version;
     }
 }
