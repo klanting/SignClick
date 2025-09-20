@@ -1,6 +1,5 @@
 package com.klanting.signclick.interactionLayer.events;
 
-import com.destroystokyo.paper.event.block.BlockDestroyEvent;
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.logicLayer.companyLogic.CompanyI;
 import com.klanting.signclick.logicLayer.companyLogic.Machine;
@@ -16,12 +15,16 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockExpEvent;
+import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 
+import java.util.Iterator;
 import java.util.function.Function;
 
 import static com.klanting.signclick.utils.Utils.AssertMet;
@@ -54,7 +57,7 @@ public class OpenFurnaceEvent implements Listener {
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
-    public void onBlockDestroy(BlockDestroyEvent event){
+    public void onBlockBreak(BlockBreakEvent event){
         Block block = event.getBlock();
         BlockState state = block.getState();
 
@@ -62,7 +65,7 @@ public class OpenFurnaceEvent implements Listener {
             NamespacedKey key = new NamespacedKey(SignClick.getPlugin(), "signclick_company_machine");
 
             if (tileState.getPersistentDataContainer().has(key, PersistentDataType.BYTE)){
-                event.setWillDrop(false);
+                event.setDropItems(false);
 
                 NamespacedKey compKey = new NamespacedKey(SignClick.getPlugin(), "signclick_company_machine_company");
                 String compName = tileState.getPersistentDataContainer().get(compKey, PersistentDataType.STRING);
@@ -98,7 +101,6 @@ public class OpenFurnaceEvent implements Listener {
 
         Furnace furnace = (Furnace) event.getInventory().getHolder();
         Block block = furnace.getBlock();
-
 
         if (!(block.getState() instanceof TileState tileState)) return;
 

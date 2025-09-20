@@ -248,7 +248,7 @@ public class Company extends LoggableSubject implements CompanyI{
             AssertMet(shareBalance >= 0, "Share balance must be positive afterwards");
             AssertMet(this.bal >=0, "Balance must always be positive");
 
-            spendable -= amount;
+            spendable = Math.max(spendable-amount, 0);
 
             changeBase();
             return true;
