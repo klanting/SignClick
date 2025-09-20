@@ -30,7 +30,7 @@ public class ResearchTests {
         plugin = TestTools.setupPlugin(server);
 
         boolean suc6 =  Market.addCompany("TCI", "TCI",
-                Market.getAccount(TestTools.addPermsPlayer(server, plugin)), 0.0, "Decoration");
+                Market.getAccount(TestTools.addPermsPlayer(server, plugin)), 0.0, "Miscellaneous");
 
         assertTrue(suc6);
 
@@ -52,7 +52,7 @@ public class ResearchTests {
         Research research = new Research(comp.getRef());
 
         assertEquals(SignClick.getConfigManager().getConfig("production.yml").getConfigurationSection("products").
-                        getConfigurationSection("Decoration").getKeys(false).size(),
+                        getConfigurationSection("Miscellaneous").getKeys(false).size(),
                 research.getResearchOptions().size());
 
         assertEquals(Material.TORCH, research.getResearchOptions().get(0).getMaterial());
@@ -68,7 +68,7 @@ public class ResearchTests {
         Research research = new Research(comp.getRef());
 
         assertEquals(SignClick.getConfigManager().getConfig("production.yml").getConfigurationSection("products").
-                        getConfigurationSection("Decoration").getKeys(false).size(),
+                        getConfigurationSection("Miscellaneous").getKeys(false).size(),
                 research.getResearchOptions().size());
 
         assertEquals(Material.TORCH, research.getResearchOptions().get(0).getMaterial());

@@ -33,6 +33,7 @@ import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.Scoreboard;
@@ -129,7 +130,6 @@ public class SignClick extends JavaPlugin{
         getCommand("signclickpos").setExecutor(new SignCommands());
         getCommand("signclick").setExecutor(new BasicCommands());
         getCommand("weeklypay").setExecutor(new BasicCommands());
-        getCommand("discord").setExecutor(new BasicCommands());
         getCommand("dynmap").setExecutor(new BasicCommands());
         getCommand("country").setExecutor(new CountryCommands());
         getCommand("company").setExecutor(new CompanyCommands());

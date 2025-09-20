@@ -232,9 +232,9 @@ public class DefaultConfig {
 
         getOrCreate(policyEconomics, "Conservative").addDefault("taxReduction", -0.02);
         getOrCreate(policyEconomics, "Conservative").addDefault("dividendReduction", 0.005);
-        getOrCreate(getOrCreate(policyEconomics, "Conservative"), "funding").addDefault("Farmer", -1000.0);
+        getOrCreate(getOrCreate(policyEconomics, "Conservative"), "funding").addDefault("Farming", -1000.0);
         getOrCreate(policyEconomics, "Conservative").addDefault("stabilityModifier", 2.0);
-        getOrCreate(getOrCreate(policyEconomics, "Conservative"), "funding").addDefault("Building", 1000.0);
+        getOrCreate(getOrCreate(policyEconomics, "Conservative"), "funding").addDefault("Nature", 1000.0);
         getOrCreate(getOrCreate(policyEconomics, "Conservative"), "required").addDefault("capital", 20000);
 
         getOrCreate(policyEconomics, "Saver").addDefault("taxReduction", -0.01);
@@ -335,7 +335,7 @@ public class DefaultConfig {
         getOrCreate(policyTourism, "Xenofobia").addDefault("UpgradeReturnTimeReduction", -0.05);
         getOrCreate(getOrCreate(policyTourism, "Xenofobia"), "funding").addDefault("Redstone", -1000.0);
         getOrCreate(getOrCreate(policyTourism, "Xenofobia"), "funding").addDefault("Woodcutter", -1000.0);
-        getOrCreate(getOrCreate(policyTourism, "Xenofobia"), "funding").addDefault("Building", 2000.0);
+        getOrCreate(getOrCreate(policyTourism, "Xenofobia"), "funding").addDefault("Nature", 2000.0);
 
         getOrCreate(policyTourism, "Bigot").addDefault("transportCost", 0.04);
 
@@ -348,7 +348,7 @@ public class DefaultConfig {
         getOrCreate(policyTourism, "Tourist Hugger").addDefault("UpgradeReturnTimeReduction", 0.05);
         getOrCreate(getOrCreate(policyTourism, "Tourist Hugger"), "funding").addDefault("Redstone", 2000.0);
         getOrCreate(getOrCreate(policyTourism, "Tourist Hugger"), "funding").addDefault("Woodcutter", 2000.0);
-        getOrCreate(getOrCreate(policyTourism, "Tourist Hugger"), "funding").addDefault("Building", -1000.0);
+        getOrCreate(getOrCreate(policyTourism, "Tourist Hugger"), "funding").addDefault("Nature", -1000.0);
         getOrCreate(getOrCreate(policyTourism, "Tourist Hugger"), "required").addDefault("capital", 10000);
 
         /*
