@@ -342,6 +342,7 @@ public class Company extends LoggableSubject implements CompanyI{
                             for(Entry<String, JsonElement> entry: entries){
                                 BlockPosKey blockPos = context.deserialize(JsonParser.parseString(entry.getKey()), new TypeToken<BlockPosKey>(){}.getType());
                                 Machine machine = context.deserialize(entry.getValue(), new TypeToken<Machine>(){}.getType());
+                                machine.setBlockPosKey(blockPos);
 
                                 machines.put(blockPos, machine);
                             }

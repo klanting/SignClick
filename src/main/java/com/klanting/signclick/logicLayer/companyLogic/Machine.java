@@ -133,7 +133,11 @@ public class Machine {
                 blockPosKey.x(), blockPosKey.y(), blockPosKey.z())).getBlock();
     }
 
-    private final BlockPosKey blockPosKey;
+    private BlockPosKey blockPosKey;
+
+    public void setBlockPosKey(BlockPosKey blockPosKey){
+        this.blockPosKey = blockPosKey;
+    }
 
     public Machine(Block block, CompanyI company){
         product = null;
