@@ -76,7 +76,7 @@ public class MarketMenuTests {
         TestTools.assertItem(firstComp, Material.LANTERN, "§6TestCaseInc [TCI]");
 
         ItemStack secondComp = inventoryMenu.getItem(1);
-        TestTools.assertItem(secondComp, Material.TALL_GRASS, "§6TestCaseInc2 [TCI2]");
+        TestTools.assertItem(secondComp, Material.GRASS_BLOCK, "§6TestCaseInc2 [TCI2]");
     }
 
     @Test

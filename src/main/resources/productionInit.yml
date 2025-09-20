@@ -554,7 +554,6 @@ companyTypes:
       STONE:
         TYPE: NATURE_EASY
 
-
       SHORT_GRASS:
         TYPE: NATURE_EASY
       TALL_GRASS:

@@ -137,7 +137,7 @@ public class CompanyMenuTests {
         assertEquals(Material.OAK_LOG, typeMenu.getItem(2).getType());
 
         assertEquals("§6Nature", typeMenu.getItem(3).getItemMeta().getDisplayName());
-        assertEquals(Material.TALL_GRASS, typeMenu.getItem(3).getType());
+        assertEquals(Material.GRASS_BLOCK, typeMenu.getItem(3).getType());
 
         assertEquals("§6Miscellaneous", typeMenu.getItem(4).getItemMeta().getDisplayName());
         assertEquals(Material.LANTERN, typeMenu.getItem(4).getType());

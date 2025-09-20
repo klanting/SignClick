@@ -256,7 +256,7 @@ public class Utils {
         materialMap.put("Farming", Material.WHEAT);
         materialMap.put("Fisherman", Material.COD);
         materialMap.put("Woodcutter", Material.OAK_LOG);
-        materialMap.put("Nature", Material.TALL_GRASS);
+        materialMap.put("Nature", Material.GRASS_BLOCK);
         materialMap.put("Miscellaneous", Material.LANTERN);
         materialMap.put("Nether", Material.NETHERRACK);
         materialMap.put("End", Material.END_STONE);
