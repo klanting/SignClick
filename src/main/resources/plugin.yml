@@ -13,9 +13,6 @@ commands:
   country:
     description: president commands
     usage: /<command>
-  discord:
-    description: get the discord url
-    usage: /<command>
   dynmap:
     description: get the dynmap.
     usage: /<command>

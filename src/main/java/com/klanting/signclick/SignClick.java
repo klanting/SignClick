@@ -125,7 +125,6 @@ public class SignClick extends JavaPlugin{
         getCommand("signclickpos").setExecutor(new SignCommands());
         getCommand("signclick").setExecutor(new BasicCommands());
         getCommand("weeklypay").setExecutor(new BasicCommands());
-        getCommand("discord").setExecutor(new BasicCommands());
         getCommand("dynmap").setExecutor(new BasicCommands());
         getCommand("country").setExecutor(new CountryCommands());
         getCommand("company").setExecutor(new CompanyCommands());
