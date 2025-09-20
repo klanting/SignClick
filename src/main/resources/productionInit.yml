@@ -1,9 +1,5 @@
 #YML used to init the default production config, in a quick manner
 
-#---------------------------------------------------------Instructions---------------------------------------------------------------#
-#            This file is used to define the different company types, their icons and products.                                      #
-#------------------------------------------------------------------------------------------------------------------------------------#
-
 # If you want to add a new price type, add it in the "types" section.
 # If you want to add a new product, add it in the "Product" section, under the correct "CompanyType".
 # Make sure to use the correct price type, as defined in the "types" section.
@@ -27,10 +23,8 @@
 
 # Good luck editing :)
 
-#------------------------------------------------------------------------------------------------------------------------------------#
-#                                          The different production pricing types                                                    #
-#------------------------------------------------------------------------------------------------------------------------------------#
 
+#------------------------------------------------The different production pricing types----------------------------------------------#
 types:
 #----------Farmer types----------#
   FARMING_EASY:
@@ -283,26 +277,25 @@ types:
     COST: 250
 #--------------------------------#
 
-#---------Miscelaneous types-----#  
-  MISCELANEOUS_EASY:
+#---------MISCELLANEOUS types-----#  
+  MISCELLANEOUS_EASY:
     researchTime: 1800 #30m
     productionTime: 30
     COST: 5
-  MISCELANEOUS_MEDIUM:
+  MISCELLANEOUS_MEDIUM:
     researchTime: 7200 #2h
     productionTime: 60
     COST: 10
-  MISCELANEOUS_HARD:
+  MISCELLANEOUS_HARD:
     researchTime: 28800 #8h   
     productionTime: 120
     COST: 120
 #--------------------------------#
 
-#------------------------------------------------------------------------------------------------------------------------------------#
-#                                   Define the different company types, their icons and products                                     #
-#------------------------------------------------------------------------------------------------------------------------------------#
 
+#----------------------------------Define the different company types, their icons and products--------------------------------------#
 companyTypes:
+
 #----------------FARMING-----------------#
   Farming:
     icon: WOODEN_HOE
@@ -393,7 +386,6 @@ companyTypes:
         TYPE: CORAL_DEAD_BLOCK
       DEAD_HORN_CORAL_BLOCK:
         TYPE: CORAL_DEAD_BLOCK
-
       TUBE_CORAL_FAN:
         TYPE: CORAL_FAN
       BRAIN_CORAL_FAN:
@@ -404,16 +396,6 @@ companyTypes:
         TYPE: CORAL_FAN
       HORN_CORAL_FAN:
         TYPE: CORAL_FAN
-      DEAD_TUBE_CORAL_BLOCK:
-        TYPE: CORAL_DEAD_BLOCK
-      DEAD_BRAIN_CORAL_BLOCK:
-        TYPE: CORAL_DEAD_BLOCK
-      DEAD_BUBBLE_CORAL_BLOCK:
-        TYPE: CORAL_DEAD_BLOCK
-      DEAD_FIRE_CORAL_BLOCK:
-        TYPE: CORAL_DEAD_BLOCK
-      DEAD_HORN_CORAL_BLOCK:
-        TYPE: CORAL_DEAD_BLOCK
 
       PRISMARINE:
         TYPE: SEA_BLOCK
@@ -632,6 +614,58 @@ companyTypes:
         TYPE: NATURE_HARD
 #----------------------------------------#
 
+#--------------MISCELLANEOUS--------------#
+  Miscellaneous:
+    icon: CANDLE
+
+    products:
+      TORCH:
+        TYPE: MISCELLANEOUS_EASY
+      SOUL_TORCH:
+        TYPE: MISCELLANEOUS_EASY
+      LANTERN:
+        TYPE: MISCELLANEOUS_HARD
+      SOUL_LANTERN:
+        TYPE: MISCELLANEOUS_HARD
+      CHAIN:
+        TYPE: MISCELLANEOUS_HARD
+      CANDLE:
+        TYPE: MISCELLANEOUS_HARD
+
+      WHITE_DYE:
+        TYPE: MISCELLANEOUS_MEDIUM
+      LIGHT_GRAY_DYE:
+        TYPE: MISCELLANEOUS_MEDIUM
+      GRAY_DYE:
+        TYPE: MISCELLANEOUS_MEDIUM
+      BLACK_DYE:
+        TYPE: MISCELLANEOUS_MEDIUM
+      BROWN_DYE:
+        TYPE: MISCELLANEOUS_MEDIUM
+      RED_DYE:
+        TYPE: MISCELLANEOUS_MEDIUM
+      ORANGE_DYE:
+        TYPE: MISCELLANEOUS_MEDIUM
+      YELLOW_DYE:
+        TYPE: MISCELLANEOUS_MEDIUM
+      LIME_DYE:
+        TYPE: MISCELLANEOUS_MEDIUM
+      GREEN_DYE:
+        TYPE: MISCELLANEOUS_MEDIUM
+      CYAN_DYE:
+        TYPE: MISCELLANEOUS_MEDIUM
+      LIGHT_BLUE_DYE:
+        TYPE: MISCELLANEOUS_MEDIUM
+      BLUE_DYE:
+        TYPE: MISCELLANEOUS_MEDIUM
+      PURPLE_DYE:
+        TYPE: MISCELLANEOUS_MEDIUM
+      MAGENTA_DYE:
+        TYPE: MISCELLANEOUS_MEDIUM
+      PINK_DYE:
+        TYPE: MISCELLANEOUS_MEDIUM
+#----------------------------------------#
+
 #----------------MINING------------------#
   Mining:
     icon: WOODEN_PICKAXE
@@ -666,71 +700,6 @@ companyTypes:
         TYPE: MINING_EXTREME
         PRICE: 10000
 #----------------------------------------#
-
-#----------------NETHER------------------#
-  Nether:
-    icon: NETHERRACK
-    products:
-
-      NETHERRACK:
-        TYPE: NETHER_EASY
-      CRIMSON_NYLIUM:
-        TYPE: NETHER_EASY
-      WARPED_NYLIUM:
-        TYPE: NETHER_EASY
-      CRIMSON_FUNGUS:
-        TYPE: FARMING_MEDIUM
-      WARPED_FUNGUS:
-        TYPE: FARMING_MEDIUM
-      CRIMSON_STEM:
-        TYPE: WOOD
-      WARPED_STEM:
-        TYPE: WOOD
-      CRIMSON_ROOTS:
-        TYPE: NATURE_MEDIUM
-      WARPED_ROOTS:
-        TYPE: NATURE_MEDIUM
-      NETHER_SPROUTS:
-        TYPE: NATURE_EASY
-      WEEPING_VINES:
-        TYPE: NATURE_EASY
-      TWISTING_VINES:
-        TYPE: NATURE_EASY
-
-      SOUL_SAND:
-        TYPE: NETHER_MEDIUM
-      SOUL_SOIL:
-        TYPE: NETHER_MEDIUM
-      BLACKSTONE:
-        TYPE: NETHER_MEDIUM
-      BASALT:
-        TYPE: NETHER_MEDIUM
-      SHROOMLIGHT:
-        TYPE: NETHER_MEDIUM
-
-
-      WITHER_ROSE:
-        TYPE: NATURE_MEDIUM
-      FIRE_CHARGE:
-        TYPE: NETHER_MEDIUM
-      BLAZE_ROD:
-        TYPE: NETHER_HARD
-      GHAST_TEAR:
-        TYPE: NETHER_HARD
-      MAGMA_CREAM:
-        TYPE: NETHER_HARD
-      QUARTZ:
-        TYPE: NETHER_HARD
-        COST: 50
-
-      NETHERITE_INGOT:
-        TYPE: NETHER_VERY_HARD
-      WITHER_SKELETON_SKULL:
-        TYPE: NETHER_VERY_HARD
-
-      NETHER_STAR:
-        TYPE: NETHER_LEGENDARY
-#----------------------------------------# 
 
 #----------------FIGHTER-----------------#
   Fighter:
@@ -807,6 +776,25 @@ companyTypes:
         TYPE: HUNTER_HARD
 #----------------------------------------#
 
+#---------------BREWERY------------------#
+  Brewery:
+    icon: GLASS_BOTTLE
+
+    products:
+      BREWING_STAND:
+        TYPE: BREWERY
+      FERMENTED_SPIDER_EYE:
+        TYPE: BREWERY
+      MAGMA_CREAM:
+        TYPE: BREWERY
+      GLISTERING_MELON_SLICE:
+        TYPE: BREWERY
+      GOLDEN_CARROT:
+        TYPE: BREWERY
+      RABBIT_FOOT:
+        TYPE: BREWERY
+#----------------------------------------#
+
 #--------------ENCHANMENT----------------#
   Enchantment:
     icon: ENCHANTED_BOOK
@@ -842,6 +830,71 @@ companyTypes:
         TYPE: REDSTONE_HARD
 #----------------------------------------#
 
+#----------------NETHER------------------#
+  Nether:
+    icon: NETHERRACK
+    products:
+
+      NETHERRACK:
+        TYPE: NETHER_EASY
+      CRIMSON_NYLIUM:
+        TYPE: NETHER_EASY
+      WARPED_NYLIUM:
+        TYPE: NETHER_EASY
+      CRIMSON_FUNGUS:
+        TYPE: FARMING_MEDIUM
+      WARPED_FUNGUS:
+        TYPE: FARMING_MEDIUM
+      CRIMSON_STEM:
+        TYPE: WOOD
+      WARPED_STEM:
+        TYPE: WOOD
+      CRIMSON_ROOTS:
+        TYPE: NATURE_MEDIUM
+      WARPED_ROOTS:
+        TYPE: NATURE_MEDIUM
+      NETHER_SPROUTS:
+        TYPE: NATURE_EASY
+      WEEPING_VINES:
+        TYPE: NATURE_EASY
+      TWISTING_VINES:
+        TYPE: NATURE_EASY
+
+      SOUL_SAND:
+        TYPE: NETHER_MEDIUM
+      SOUL_SOIL:
+        TYPE: NETHER_MEDIUM
+      BLACKSTONE:
+        TYPE: NETHER_MEDIUM
+      BASALT:
+        TYPE: NETHER_MEDIUM
+      SHROOMLIGHT:
+        TYPE: NETHER_MEDIUM
+
+
+      WITHER_ROSE:
+        TYPE: NATURE_MEDIUM
+      FIRE_CHARGE:
+        TYPE: NETHER_MEDIUM
+      BLAZE_ROD:
+        TYPE: NETHER_HARD
+      GHAST_TEAR:
+        TYPE: NETHER_HARD
+      MAGMA_CREAM:
+        TYPE: NETHER_HARD
+      QUARTZ:
+        TYPE: NETHER_HARD
+        COST: 50
+
+      NETHERITE_INGOT:
+        TYPE: NETHER_VERY_HARD
+      WITHER_SKELETON_SKULL:
+        TYPE: NETHER_VERY_HARD
+
+      NETHER_STAR:
+        TYPE: NETHER_LEGENDARY
+#----------------------------------------#
+
 #-----------------END--------------------#
   End:
     icon: END_STONE
@@ -872,77 +925,6 @@ companyTypes:
 
       ELYTRA:
         TYPE: END_LEGENDARY
-#----------------------------------------#
-
-#---------------BREWERY------------------#
-  Brewery:
-    icon: GLASS_BOTTLE
-
-    products:
-      BREWING_STAND:
-        TYPE: BREWERY
-      FERMENTED_SPIDER_EYE:
-        TYPE: BREWERY
-      MAGMA_CREAM:
-        TYPE: BREWERY
-      GLISTERING_MELON_SLICE:
-        TYPE: BREWERY
-      GOLDEN_CARROT:
-        TYPE: BREWERY  
-      RABBIT_FOOT:
-        TYPE: BREWERY
-#----------------------------------------#
-
-#--------------MISCELANEOUS--------------#
-  Miscelaneous:
-    icon: CANDLE
-
-    products:
-      SOUL_TORCH:
-        TYPE: MISCELANEOUS_EASY
-
-      LANTERN:
-        TYPE: MISCELANEOUS_HARD
-      SOUL_LANTERN:
-        TYPE: MISCELANEOUS_HARD
-      CHAIN:
-        TYPE: MISCELANEOUS_HARD
-      CANDLE:
-        TYPE: MISCELANEOUS_HARD
-
-
-      WHITE_DYE:
-        TYPE: MISCELANEOUS_MEDIUM
-      LIGHT_GRAY_DYE:
-        TYPE: MISCELANEOUS_MEDIUM
-      GRAY_DYE:
-        TYPE: MISCELANEOUS_MEDIUM
-      BLACK_DYE:
-        TYPE: MISCELANEOUS_MEDIUM
-      BROWN_DYE:
-        TYPE: MISCELANEOUS_MEDIUM
-      RED_DYE:
-        TYPE: MISCELANEOUS_MEDIUM
-      ORANGE_DYE:
-        TYPE: MISCELANEOUS_MEDIUM
-      YELLOW_DYE:
-        TYPE: MISCELANEOUS_MEDIUM
-      LIME_DYE:
-        TYPE: MISCELANEOUS_MEDIUM
-      GREEN_DYE:
-        TYPE: MISCELANEOUS_MEDIUM
-      CYAN_DYE:
-        TYPE: MISCELANEOUS_MEDIUM
-      LIGHT_BLUE_DYE:
-        TYPE: MISCELANEOUS_MEDIUM
-      BLUE_DYE:
-        TYPE: MISCELANEOUS_MEDIUM
-      PURPLE_DYE:
-        TYPE: MISCELANEOUS_MEDIUM
-      MAGENTA_DYE:
-        TYPE: MISCELANEOUS_MEDIUM
-      PINK_DYE:
-        TYPE: MISCELANEOUS_MEDIUM  
 #----------------------------------------#
 
 #-----------------------------------------------------------END--------------------------------------------------------------------#
