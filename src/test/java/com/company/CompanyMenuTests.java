@@ -127,7 +127,7 @@ public class CompanyMenuTests {
         InventoryView typeMenu = testPlayer.getOpenInventory();
         assertNotNull(typeMenu);
 
-        assertEquals("§6Farmer", typeMenu.getItem(0).getItemMeta().getDisplayName());
+        assertEquals("§6Farming", typeMenu.getItem(0).getItemMeta().getDisplayName());
         assertEquals(Material.WHEAT, typeMenu.getItem(0).getType());
 
         assertEquals("§6Fisherman", typeMenu.getItem(1).getItemMeta().getDisplayName());
@@ -136,35 +136,35 @@ public class CompanyMenuTests {
         assertEquals("§6Woodcutter", typeMenu.getItem(2).getItemMeta().getDisplayName());
         assertEquals(Material.OAK_LOG, typeMenu.getItem(2).getType());
 
-        assertEquals("§6Building", typeMenu.getItem(3).getItemMeta().getDisplayName());
-        assertEquals(Material.BRICKS, typeMenu.getItem(3).getType());
+        assertEquals("§6Nature", typeMenu.getItem(3).getItemMeta().getDisplayName());
+        assertEquals(Material.TALL_GRASS, typeMenu.getItem(3).getType());
 
-        assertEquals("§6Decoration", typeMenu.getItem(4).getItemMeta().getDisplayName());
+        assertEquals("§6Miscellaneous", typeMenu.getItem(4).getItemMeta().getDisplayName());
         assertEquals(Material.LANTERN, typeMenu.getItem(4).getType());
 
-        assertEquals("§6Nether", typeMenu.getItem(5).getItemMeta().getDisplayName());
-        assertEquals(Material.NETHERRACK, typeMenu.getItem(5).getType());
+        assertEquals("§6Mining", typeMenu.getItem(5).getItemMeta().getDisplayName());
+        assertEquals(Material.STONE, typeMenu.getItem(5).getType());
 
-        assertEquals("§6End", typeMenu.getItem(6).getItemMeta().getDisplayName());
-        assertEquals(Material.END_STONE, typeMenu.getItem(6).getType());
+        assertEquals("§6Fighter", typeMenu.getItem(6).getItemMeta().getDisplayName());
+        assertEquals(Material.IRON_SWORD, typeMenu.getItem(6).getType());
 
-        assertEquals("§6Mining", typeMenu.getItem(7).getItemMeta().getDisplayName());
-        assertEquals(Material.STONE, typeMenu.getItem(7).getType());
+        assertEquals("§6Hunter", typeMenu.getItem(7).getItemMeta().getDisplayName());
+        assertEquals(Material.ROTTEN_FLESH, typeMenu.getItem(7).getType());
 
-        assertEquals("§6Fighter", typeMenu.getItem(8).getItemMeta().getDisplayName());
-        assertEquals(Material.IRON_SWORD, typeMenu.getItem(8).getType());
+        assertEquals("§6Brewery", typeMenu.getItem(8).getItemMeta().getDisplayName());
+        assertEquals(Material.GLASS_BOTTLE, typeMenu.getItem(8).getType());
 
-        assertEquals("§6Hunter", typeMenu.getItem(9).getItemMeta().getDisplayName());
-        assertEquals(Material.ROTTEN_FLESH, typeMenu.getItem(9).getType());
+        assertEquals("§6Enchantment", typeMenu.getItem(9).getItemMeta().getDisplayName());
+        assertEquals(Material.ENCHANTED_BOOK, typeMenu.getItem(9).getType());
 
-        assertEquals("§6Brewery", typeMenu.getItem(10).getItemMeta().getDisplayName());
-        assertEquals(Material.GLASS_BOTTLE, typeMenu.getItem(10).getType());
+        assertEquals("§6Redstone", typeMenu.getItem(10).getItemMeta().getDisplayName());
+        assertEquals(Material.REDSTONE, typeMenu.getItem(10).getType());
 
-        assertEquals("§6Enchantment", typeMenu.getItem(11).getItemMeta().getDisplayName());
-        assertEquals(Material.ENCHANTED_BOOK, typeMenu.getItem(11).getType());
+        assertEquals("§6Nether", typeMenu.getItem(11).getItemMeta().getDisplayName());
+        assertEquals(Material.NETHERRACK, typeMenu.getItem(11).getType());
 
-        assertEquals("§6Redstone", typeMenu.getItem(12).getItemMeta().getDisplayName());
-        assertEquals(Material.REDSTONE, typeMenu.getItem(12).getType());
+        assertEquals("§6End", typeMenu.getItem(12).getItemMeta().getDisplayName());
+        assertEquals(Material.END_STONE, typeMenu.getItem(12).getType());
 
         testPlayer.simulateInventoryClick(typeMenu, 2);
 

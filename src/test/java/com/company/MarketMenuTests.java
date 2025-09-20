@@ -53,7 +53,7 @@ public class MarketMenuTests {
 
         suc6 = Market.addCompany("TestCaseInc2", "TCI2", Market.getAccount(testPlayer));
         assertTrue(suc6);
-        Market.getCompany("TCI2").setType("Building");
+        Market.getCompany("TCI2").setType("Nature");
 
         openMenu();
 
@@ -76,7 +76,7 @@ public class MarketMenuTests {
         TestTools.assertItem(firstComp, Material.LANTERN, "§6TestCaseInc [TCI]");
 
         ItemStack secondComp = inventoryMenu.getItem(1);
-        TestTools.assertItem(secondComp, Material.BRICKS, "§6TestCaseInc2 [TCI2]");
+        TestTools.assertItem(secondComp, Material.TALL_GRASS, "§6TestCaseInc2 [TCI2]");
     }
 
     @Test

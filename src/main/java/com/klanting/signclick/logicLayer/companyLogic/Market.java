@@ -163,11 +163,11 @@ public class Market {
     }
 
     public static Boolean addCompany(String namebus, String StockName, Account acc){
-        return Market.addCompany(namebus,StockName,acc, 0, "Decoration");
+        return Market.addCompany(namebus,StockName,acc, 0, "Miscellaneous");
     }
 
     public static Boolean addCompany(String namebus, String StockName, Account acc, double creationCost){
-        return Market.addCompany(namebus,StockName,acc, creationCost, "Decoration");
+        return Market.addCompany(namebus,StockName,acc, creationCost, "Miscellaneous");
     }
 
     public static Boolean addCompany(String namebus, String StockName, Account acc, double creationCost, String type){

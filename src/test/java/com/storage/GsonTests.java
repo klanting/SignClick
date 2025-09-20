@@ -71,7 +71,7 @@ public class GsonTests {
     @Test
     void saveLoadCompanies(){
         Map<String, CompanyI> accountsPreSave = new HashMap<>();
-        accountsPreSave.put("A", new Company("AA", "A", Market.getAccount(testPlayer), 0, "Decoration"));
+        accountsPreSave.put("A", new Company("AA", "A", Market.getAccount(testPlayer), 0, "Miscellaneous"));
         accountsPreSave.get("A").getCOM().getShareHolders().put(testPlayer.getUniqueId(), 10);
         accountsPreSave.get("A").setTotalShares(100);
 
