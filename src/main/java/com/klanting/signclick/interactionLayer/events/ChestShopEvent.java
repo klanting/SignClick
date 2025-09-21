@@ -21,7 +21,7 @@ import java.util.List;
 
 public class ChestShopEvent implements Listener {
 
-    public org.bukkit.block.Sign getSignByChest(Chest chestI){
+    public static org.bukkit.block.Sign getSignByChest(Chest chestI){
         for(BlockFace face: new BlockFace[]{BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST}){
             Block relative = chestI.getBlock().getRelative(face);
 
@@ -38,7 +38,7 @@ public class ChestShopEvent implements Listener {
         return null;
     }
 
-    public org.bukkit.block.Sign getSignByBlock(Block clickedBlock){
+    public static org.bukkit.block.Sign getSignByBlock(Block clickedBlock){
         if(!(clickedBlock.getState() instanceof Chest chest)){
             return null;
         }
