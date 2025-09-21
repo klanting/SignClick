@@ -1,6 +1,8 @@
-package com.klanting.signclick.logicLayer.companyLogic;
+package com.klanting.signclick.logicLayer.companyLogic.producible;
 
-public class License extends Produceable{
+import com.klanting.signclick.logicLayer.companyLogic.CompanyI;
+
+public class License extends Producible {
 
     public CompanyI getFrom() {
         return from;

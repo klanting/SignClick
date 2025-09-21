@@ -1,4 +1,4 @@
-package com.klanting.signclick.logicLayer.companyLogic;
+package com.klanting.signclick.logicLayer.companyLogic.producible;
 
 import com.klanting.signclick.SignClick;
 import org.bukkit.Material;

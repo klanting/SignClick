@@ -1,4 +1,4 @@
-package com.commands;
+package com.interactionLayer.commands;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;

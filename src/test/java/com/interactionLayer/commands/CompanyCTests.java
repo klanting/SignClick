@@ -1,10 +1,11 @@
-package com.commands;
+package com.interactionLayer.commands;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 
 import com.klanting.signclick.interactionLayer.commands.CompanyCommands;
 import com.klanting.signclick.SignClick;
+import com.klanting.signclick.interactionLayer.routines.AutoSave;
 import com.klanting.signclick.logicLayer.companyLogic.CompanyI;
 import com.klanting.signclick.logicLayer.companyLogic.Market;
 import com.klanting.signclick.logicLayer.countryLogic.Country;
@@ -520,6 +521,7 @@ class CompanyCTests {
 
     @Test
     void createCompany2PlayerContract(){
+        AutoSave.stop();
 
         Country c = CountryManager.create("C", testPlayer);
         testPlayer.nextMessage();

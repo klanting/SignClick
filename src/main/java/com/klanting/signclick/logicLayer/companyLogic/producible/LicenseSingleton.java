@@ -1,4 +1,4 @@
-package com.klanting.signclick.logicLayer.companyLogic;
+package com.klanting.signclick.logicLayer.companyLogic.producible;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.JsonDeserializationContext;

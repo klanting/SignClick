@@ -1,11 +1,12 @@
-package com.klanting.signclick.logicLayer.companyLogic;
+package com.klanting.signclick.logicLayer.companyLogic.producible;
 
+import com.klanting.signclick.logicLayer.companyLogic.CompanyI;
 import org.bukkit.Material;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Product extends Produceable{
+public class Product extends Producible {
 
     public Material getMaterial() {
         return material;

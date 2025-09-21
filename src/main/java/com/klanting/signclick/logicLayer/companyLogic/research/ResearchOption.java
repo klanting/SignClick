@@ -1,4 +1,4 @@
-package com.klanting.signclick.logicLayer.companyLogic;
+package com.klanting.signclick.logicLayer.companyLogic.research;
 
 import com.klanting.signclick.SignClick;
 import org.apache.commons.lang3.tuple.Pair;

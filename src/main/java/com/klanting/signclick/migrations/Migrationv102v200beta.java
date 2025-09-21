@@ -6,7 +6,7 @@ import com.klanting.signclick.SignClick;
 import com.klanting.signclick.logicLayer.companyLogic.Board;
 import com.klanting.signclick.logicLayer.companyLogic.CompanyI;
 import com.klanting.signclick.logicLayer.companyLogic.CompanyOwnerManager;
-import com.klanting.signclick.logicLayer.companyLogic.Research;
+import com.klanting.signclick.logicLayer.companyLogic.research.Research;
 import com.klanting.signclick.logicLayer.companyLogic.upgrades.*;
 import com.klanting.signclick.migrations.mocks.CompanyIv102v200;
 import com.klanting.signclick.utils.Utils;

@@ -5,6 +5,9 @@ import com.klanting.signclick.interactionLayer.menus.company.ProductType;
 import com.klanting.signclick.interactionLayer.menus.SelectionMenu;
 import com.klanting.signclick.interactionLayer.menus.company.ProductList;
 import com.klanting.signclick.logicLayer.companyLogic.*;
+import com.klanting.signclick.logicLayer.companyLogic.producible.License;
+import com.klanting.signclick.logicLayer.companyLogic.producible.Producible;
+import com.klanting.signclick.logicLayer.companyLogic.producible.Product;
 import com.klanting.signclick.utils.ItemFactory;
 
 import com.klanting.signclick.utils.Utils;
@@ -145,7 +148,7 @@ public class MachineMenu extends SelectionMenu {
         if (option != null){
             if (option.equals("§7Product Slot")){
 
-                Function<Produceable, Void> lambda = (p) -> {
+                Function<Producible, Void> lambda = (p) -> {
 
                     Product prod;
                     License license = null;

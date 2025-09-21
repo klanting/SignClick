@@ -8,7 +8,7 @@ import com.klanting.signclick.SignClick;
 import com.klanting.signclick.logicLayer.companyLogic.CompanyI;
 import com.klanting.signclick.logicLayer.companyLogic.Machine;
 import com.klanting.signclick.logicLayer.companyLogic.Market;
-import com.klanting.signclick.logicLayer.companyLogic.Product;
+import com.klanting.signclick.logicLayer.companyLogic.producible.Product;
 import com.klanting.signclick.logicLayer.companyLogic.upgrades.Upgrade;
 import com.klanting.signclick.logicLayer.companyLogic.upgrades.UpgradeBoardSize;
 import com.klanting.signclick.logicLayer.companyLogic.upgrades.UpgradeProductModifier;

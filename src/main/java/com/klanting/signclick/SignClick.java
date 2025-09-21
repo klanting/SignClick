@@ -2,8 +2,8 @@ package com.klanting.signclick;
 
 import com.google.common.reflect.TypeToken;
 import com.klanting.signclick.configs.ConfigManager;
-import com.klanting.signclick.logicLayer.companyLogic.LicenseSingleton;
-import com.klanting.signclick.logicLayer.companyLogic.ResearchOption;
+import com.klanting.signclick.logicLayer.companyLogic.producible.LicenseSingleton;
+import com.klanting.signclick.logicLayer.companyLogic.research.ResearchOption;
 import com.klanting.signclick.interactionLayer.commands.*;
 import com.klanting.signclick.interactionLayer.events.*;
 import com.klanting.signclick.interactionLayer.routines.*;

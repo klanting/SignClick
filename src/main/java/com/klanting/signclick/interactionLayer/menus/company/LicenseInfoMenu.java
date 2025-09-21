@@ -1,8 +1,8 @@
 package com.klanting.signclick.interactionLayer.menus.company;
 
 import com.klanting.signclick.SignClick;
-import com.klanting.signclick.logicLayer.companyLogic.License;
-import com.klanting.signclick.logicLayer.companyLogic.LicenseSingleton;
+import com.klanting.signclick.logicLayer.companyLogic.producible.License;
+import com.klanting.signclick.logicLayer.companyLogic.producible.LicenseSingleton;
 import com.klanting.signclick.logicLayer.companyLogic.Machine;
 import com.klanting.signclick.interactionLayer.events.MachineLiveUpdateEvent;
 import com.klanting.signclick.interactionLayer.menus.company.machine.MachineMenu;

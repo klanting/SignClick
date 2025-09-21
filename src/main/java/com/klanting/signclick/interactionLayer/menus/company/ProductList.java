@@ -2,6 +2,10 @@ package com.klanting.signclick.interactionLayer.menus.company;
 
 import com.klanting.signclick.interactionLayer.menus.PagingMenu;
 import com.klanting.signclick.logicLayer.companyLogic.*;
+import com.klanting.signclick.logicLayer.companyLogic.producible.License;
+import com.klanting.signclick.logicLayer.companyLogic.producible.LicenseSingleton;
+import com.klanting.signclick.logicLayer.companyLogic.producible.Producible;
+import com.klanting.signclick.logicLayer.companyLogic.producible.Product;
 import com.klanting.signclick.utils.ItemFactory;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -17,12 +21,12 @@ import org.apache.commons.lang3.tuple.Pair;
 public class ProductList extends PagingMenu {
 
     public final CompanyI comp;
-    public final Function<Produceable, Void> func;
+    public final Function<Producible, Void> func;
     public final boolean fullList;
 
     private final ProductType productType;
 
-    public ProductList(CompanyI comp, Function<Produceable, Void> func, boolean fullList,
+    public ProductList(CompanyI comp, Function<Producible, Void> func, boolean fullList,
                        ProductType productType){
         super(54, "Product List: "+
                         (productType.equals(ProductType.allOwned) ?
@@ -170,7 +174,7 @@ public class ProductList extends PagingMenu {
             player.openInventory(new_screen.getInventory());
         }else if (event.getSlot() == 51){
 
-            Function<Produceable, Void> func = (potentialLicense) -> {
+            Function<Producible, Void> func = (potentialLicense) -> {
                 License license = (License) potentialLicense;
 
                 LicenseAcceptMenu acceptMenu = new LicenseAcceptMenu(license);
@@ -198,7 +202,7 @@ public class ProductList extends PagingMenu {
             }, comp);
             player.openInventory(new_screen.getInventory());
         }else if (event.getSlot() == 49){
-            Function<Produceable, Void> func = (potentialLicense) -> {
+            Function<Producible, Void> func = (potentialLicense) -> {
                 License license = (License) potentialLicense;
                 LicenseInfoMenu screen = new LicenseInfoMenu(license);
                 player.openInventory(screen.getInventory());

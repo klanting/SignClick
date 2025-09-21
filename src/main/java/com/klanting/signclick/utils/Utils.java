@@ -6,7 +6,7 @@ import com.klanting.signclick.SignClick;
 import com.klanting.signclick.logicLayer.companyLogic.Company;
 import com.klanting.signclick.logicLayer.companyLogic.CompanyI;
 import com.klanting.signclick.logicLayer.companyLogic.CompanyRef;
-import com.klanting.signclick.logicLayer.companyLogic.LicenseSingleton;
+import com.klanting.signclick.logicLayer.companyLogic.producible.LicenseSingleton;
 import com.klanting.signclick.logicLayer.companyLogic.logs.*;
 import com.klanting.signclick.logicLayer.companyLogic.patent.*;
 import com.klanting.signclick.logicLayer.companyLogic.upgrades.*;
