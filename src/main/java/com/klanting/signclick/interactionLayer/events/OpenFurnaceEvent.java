@@ -9,6 +9,7 @@ import com.klanting.signclick.interactionLayer.menus.company.machine.MachineMenu
 import com.klanting.signclick.recipes.MachineRecipe;
 
 import com.klanting.signclick.utils.BlockPosKey;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.*;
 import org.bukkit.entity.Player;
@@ -19,12 +20,14 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockExpEvent;
 import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.function.Function;
 
 import static com.klanting.signclick.utils.Utils.AssertMet;
@@ -56,6 +59,34 @@ public class OpenFurnaceEvent implements Listener {
         }
     }
 
+    private void dropMachine(Block block){
+        NamespacedKey compKey = new NamespacedKey(SignClick.getPlugin(), "signclick_company_machine_company");
+
+        TileState tileState = (TileState) block.getState();
+
+        String compName = tileState.getPersistentDataContainer().get(compKey, PersistentDataType.STRING);
+        if (tileState.getPersistentDataContainer().has(compKey, PersistentDataType.STRING) && !compName.isEmpty()){
+
+            Machine machine = Market.getCompany(compName).getMachines().get(BlockPosKey.from(block.getLocation()));
+
+            if (machine != null){
+                for (int i=0; i<3; i++){
+                    ItemStack itemStack = machine.results[i];
+                    if (itemStack != null){
+                        block.getWorld().dropItemNaturally(block.getLocation(), itemStack);
+                    }
+                }
+
+
+                Market.getCompany(compName).getMachines().remove(BlockPosKey.from(block.getLocation()));
+                MenuEvents.activeMachines.remove(machine);
+            }
+
+        }
+
+        block.getWorld().dropItemNaturally(block.getLocation(), MachineRecipe.item());
+    }
+
     @EventHandler(priority = EventPriority.LOWEST)
     public void onBlockBreak(BlockBreakEvent event){
         Block block = event.getBlock();
@@ -66,29 +97,31 @@ public class OpenFurnaceEvent implements Listener {
 
             if (tileState.getPersistentDataContainer().has(key, PersistentDataType.BYTE)){
                 event.setDropItems(false);
+                dropMachine(block);
 
-                NamespacedKey compKey = new NamespacedKey(SignClick.getPlugin(), "signclick_company_machine_company");
-                String compName = tileState.getPersistentDataContainer().get(compKey, PersistentDataType.STRING);
-                if (tileState.getPersistentDataContainer().has(compKey, PersistentDataType.STRING) && !compName.isEmpty()){
+            }
+        }
 
-                    Machine machine = Market.getCompany(compName).getMachines().get(BlockPosKey.from(block.getLocation()));
+    }
 
-                    if (machine != null){
-                        for (int i=0; i<3; i++){
-                            ItemStack itemStack = machine.results[i];
-                            if (itemStack != null){
-                                block.getWorld().dropItemNaturally(block.getLocation(), itemStack);
-                            }
-                        }
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void onEntityExplode(EntityExplodeEvent event){
+        Iterator<Block> iterator = event.blockList().iterator();
 
+        while (iterator.hasNext()) {
+            Block block = iterator.next();
+            BlockState state = block.getState();
 
-                        Market.getCompany(compName).getMachines().remove(BlockPosKey.from(block.getLocation()));
-                        MenuEvents.activeMachines.remove(machine);
-                    }
-
+            if (state instanceof TileState tileState) {
+                NamespacedKey key = new NamespacedKey(SignClick.getPlugin(), "signclick_company_machine");
+                if (!tileState.getPersistentDataContainer().has(key, PersistentDataType.BYTE)){
+                    continue;
                 }
 
-                block.getWorld().dropItemNaturally(block.getLocation(), MachineRecipe.item());
+                dropMachine(block);
+
+                iterator.remove();
+                block.setType(Material.AIR);
 
             }
         }
