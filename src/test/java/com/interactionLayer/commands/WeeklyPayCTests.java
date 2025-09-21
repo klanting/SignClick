@@ -3,6 +3,7 @@ package com.interactionLayer.commands;
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
+import com.klanting.signclick.interactionLayer.events.MenuEvents;
 import com.klanting.signclick.interactionLayer.routines.AutoSave;
 import com.klanting.signclick.interactionLayer.routines.WeeklyPay;
 import com.klanting.signclick.logicLayer.countryLogic.CountryManager;
@@ -46,6 +47,8 @@ public class WeeklyPayCTests {
     @Test
     public void makeWeeklyPay(){
         AutoSave.stop();
+        MenuEvents.stopMachineCheck();
+
         PlayerMock testPlayer2 = server.addPlayer();
         SignClick.getEconomy().depositPlayer(testPlayer, 1000);
 
@@ -107,6 +110,7 @@ public class WeeklyPayCTests {
     @Test
     public void makeWeeklyPayNotEnoughMoney(){
         AutoSave.stop();
+        MenuEvents.stopMachineCheck();
         PlayerMock testPlayer2 = server.addPlayer();
 
         assertEquals(0, Math.round(SignClick.getEconomy().getBalance(testPlayer)));

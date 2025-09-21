@@ -112,6 +112,7 @@ public class MarketMenuTests {
         testPlayer.simulateInventoryClick(inventoryMenu, 0);
         InventoryView marketMenu = testPlayer.getOpenInventory();
 
+        SignClick.getEconomy().depositPlayer(testPlayer, 100.0);
         TestTools.assertItem(marketMenu.getItem(11), Material.LIME_DYE, "§a§lBUY: 1 Share");
         testPlayer.simulateInventoryClick(11);
 
@@ -134,6 +135,7 @@ public class MarketMenuTests {
         testPlayer.simulateInventoryClick(inventoryMenu, 0);
         InventoryView marketMenu = testPlayer.getOpenInventory();
 
+        SignClick.getEconomy().depositPlayer(testPlayer, 100);
         TestTools.assertItem(marketMenu.getItem(12), Material.EMERALD, "§a§lBUY: 1 Share");
         testPlayer.simulateInventoryClick(12);
 

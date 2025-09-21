@@ -13,6 +13,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.util.*;
 
@@ -40,8 +41,10 @@ public class MenuEvents implements Listener {
         menuStack.put(player, new Stack<>());
     }
 
+
+    private static BukkitTask machineCheckTask;
     public static void checkMachines(){
-        Bukkit.getScheduler().runTaskTimer(SignClick.getPlugin(), () -> {
+        machineCheckTask = Bukkit.getScheduler().runTaskTimer(SignClick.getPlugin(), () -> {
 
             for (Machine machine: activeMachines){
                 machine.productionUpdate();
@@ -54,6 +57,10 @@ public class MenuEvents implements Listener {
             }
 
         }, 0L, 20L);
+    }
+
+    public static void stopMachineCheck(){
+        machineCheckTask.cancel();
     }
 
     @EventHandler(priority = EventPriority.LOWEST)

@@ -31,6 +31,7 @@ public interface CompanyI {
     void setTotalShares(Integer totalShares);
     double getValue();
     double getShareBase();
+    double getShareBase(boolean disableMin);
     void removeBalVar(double amount);
     double getBal();
     boolean removeBal(double amount);

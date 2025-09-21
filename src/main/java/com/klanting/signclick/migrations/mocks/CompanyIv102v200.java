@@ -96,6 +96,11 @@ public class CompanyIv102v200 implements CompanyI {
     }
 
     @Override
+    public double getShareBase(boolean disableMin) {
+        return 0;
+    }
+
+    @Override
     public void removeBalVar(double amount) {
 
     }

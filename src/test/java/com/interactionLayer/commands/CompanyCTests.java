@@ -5,6 +5,7 @@ import be.seeseemelk.mockbukkit.ServerMock;
 
 import com.klanting.signclick.interactionLayer.commands.CompanyCommands;
 import com.klanting.signclick.SignClick;
+import com.klanting.signclick.interactionLayer.events.MenuEvents;
 import com.klanting.signclick.interactionLayer.routines.AutoSave;
 import com.klanting.signclick.logicLayer.companyLogic.CompanyI;
 import com.klanting.signclick.logicLayer.companyLogic.Market;
@@ -286,7 +287,7 @@ class CompanyCTests {
         assertTrue(suc6);
 
         testPlayer.assertSaid("§bplease re-enter your command to confirm\n" +
-                "that you want to buy §f1§b from §fTCI for a price of §61,13 \n" +
+                "that you want to buy §f1§b from §fTCI for a price of §61,16 \n" +
                 "§c/company buy TCI 1");
         testPlayer.assertNoMoreSaid();
         suc6 = server.execute("company", testPlayer, "buy", "TCI", "1").hasSucceeded();
@@ -418,6 +419,9 @@ class CompanyCTests {
 
     @Test
     void createCompany2CompanyContract(){
+        AutoSave.stop();
+        MenuEvents.stopMachineCheck();
+
         Country c = CountryManager.create("C", testPlayer);
         testPlayer.nextMessage();
 
@@ -490,6 +494,8 @@ class CompanyCTests {
         * Restart Server, check persistence
         * */
         plugin = TestTools.reboot(server);
+        AutoSave.stop();
+        MenuEvents.stopMachineCheck();
 
         /*
          * Check 1 comp to comp exists
@@ -522,6 +528,7 @@ class CompanyCTests {
     @Test
     void createCompany2PlayerContract(){
         AutoSave.stop();
+        MenuEvents.stopMachineCheck();
 
         Country c = CountryManager.create("C", testPlayer);
         testPlayer.nextMessage();
@@ -599,6 +606,8 @@ class CompanyCTests {
          * Restart Server, check persistence
          * */
         plugin = TestTools.reboot(server);
+        AutoSave.stop();
+        MenuEvents.stopMachineCheck();
 
         /*
          * Check 1 comp to player exists
@@ -630,6 +639,8 @@ class CompanyCTests {
 
     @Test
     void createPlayer2CompanyContract(){
+        AutoSave.stop();
+        MenuEvents.stopMachineCheck();
 
         Country c = CountryManager.create("C", testPlayer);
         testPlayer.nextMessage();
@@ -698,6 +709,8 @@ class CompanyCTests {
          * Restart Server, check persistence
          * */
         plugin = TestTools.reboot(server);
+        AutoSave.stop();
+        MenuEvents.stopMachineCheck();
 
         /*
          * Check 1 comp to player exists
@@ -732,8 +745,9 @@ class CompanyCTests {
                 "TCI", "1").hasSucceeded();
         assertTrue(suc6);
 
+        SignClick.getEconomy().depositPlayer(testPlayer, 100);
         testPlayer.assertSaid("§bplease re-enter your command to confirm\n" +
-                "that you want to buy §f1§b from §fTCI for a price of §60,00 \n" +
+                "that you want to buy §f1§b from §fTCI for a price of §61,16 \n" +
                 "§c/company buy TCI 1");
         testPlayer.assertNoMoreSaid();
 
@@ -767,8 +781,9 @@ class CompanyCTests {
                 "TCI", "1").hasSucceeded();
         assertTrue(suc6);
 
+        SignClick.getEconomy().depositPlayer(testPlayer, 1000);
         testPlayer.assertSaid("§bplease re-enter your command to confirm\n" +
-                "that you want to buy §f1§b from §fTCI for a price of §60,00 \n" +
+                "that you want to buy §f1§b from §fTCI for a price of §61,16 \n" +
                 "§c/company buy TCI 1");
         testPlayer.assertNoMoreSaid();
 
@@ -826,7 +841,7 @@ class CompanyCTests {
                 "TCI").hasSucceeded();
         assertTrue(suc6);
 
-        testPlayer.assertSaid("§f1§b share(s) costs §f1,13");
+        testPlayer.assertSaid("§f1§b share(s) costs §f1,16");
         testPlayer.assertNoMoreSaid();
 
         /*
@@ -839,7 +854,7 @@ class CompanyCTests {
                 "TCI").hasSucceeded();
         assertTrue(suc6);
 
-        testPlayer.assertSaid("§f1§b share(s) costs §f1,13");
+        testPlayer.assertSaid("§f1§b share(s) costs §f1,16");
         testPlayer.assertNoMoreSaid();
     }
 
@@ -983,7 +998,7 @@ class CompanyCTests {
                 "TCI", testPlayer.getName()).hasSucceeded();
         assertTrue(suc6);
 
-        testPlayer.assertSaid("§b shareBal money: 1,16");
+        testPlayer.assertSaid("§b shareBal money: 11,88");
         testPlayer.assertNoMoreSaid();
 
     }
@@ -1027,6 +1042,8 @@ class CompanyCTests {
         assertEquals(testPlayer.getUniqueId(), comp.getCOM().getBoard().getChief("CEO"));
 
         Market.getAccount(testPlayer).sellShare("TCI", 900, testPlayer);
+
+        SignClick.getEconomy().depositPlayer(testPlayer2, 1000);
         Market.getAccount(testPlayer2).buyShare("TCI", 900, testPlayer2);
 
         testPlayer.assertSaid("§bsell: §aaccepted");
@@ -1194,7 +1211,7 @@ class CompanyCTests {
         * 3. the buy base value < 0, because we were able to remove money, when only checking the value
         * */
 
-        SignClick.getEconomy().depositPlayer(testPlayer, 1283);
+        SignClick.getEconomy().depositPlayer(testPlayer, 12830);
         CompanyI company = Market.getCompany("TCI");
         company.addBal(1000.0);
 
@@ -1210,11 +1227,11 @@ class CompanyCTests {
         assertTrue(suc6);
         testPlayer.assertSaid("§bbuy: §aaccepted");
 
-        assertEquals(2000, company.getBal());
+        assertEquals(2027, (int) company.getBal());
 
-        assertNotEquals(1283, SignClick.getEconomy().getBalance(testPlayer));
+        assertNotEquals(12830, SignClick.getEconomy().getBalance(testPlayer));
         double oldShares = company.getShareBalance();
-        assertEquals(SignClick.getEconomy().getBalance(testPlayer), 1283-(oldShares+1000));
+        assertEquals(Math.round(SignClick.getEconomy().getBalance(testPlayer)), Math.round(12830-(company.getValue()-1000)));
 
         /*
         * check if money removed from both sharebal and bal

@@ -76,7 +76,7 @@ public class Market {
 
         CompanyI comp = Market.getCompany(Sname);
         comp.reCalcBalance();
-        double base = comp.getShareBase()*Market.calculateFluxChange(-10, 15);
+        double base = comp.getShareBase(true)*Market.calculateFluxChange(-10, 15);
         return base*amount;
     }
 

@@ -4,6 +4,8 @@ import be.seeseemelk.mockbukkit.ServerMock;
 import be.seeseemelk.mockbukkit.block.BlockMock;
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
 import com.klanting.signclick.SignClick;
+import com.klanting.signclick.interactionLayer.events.MenuEvents;
+import com.klanting.signclick.interactionLayer.routines.AutoSave;
 import com.klanting.signclick.logicLayer.companyLogic.Account;
 import com.klanting.signclick.logicLayer.companyLogic.CompanyI;
 import com.klanting.signclick.logicLayer.companyLogic.Machine;
@@ -157,6 +159,9 @@ class CompanyTests {
 
     @Test
     void companyRunTicks(){
+        AutoSave.stop();
+        MenuEvents.stopMachineCheck();
+
         Player testPlayer = server.addPlayer();
 
         Boolean succes = Market.addCompany("TestCaseInc", "TCI", Market.getAccount(testPlayer));

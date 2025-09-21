@@ -4,6 +4,7 @@ import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
 import com.klanting.signclick.SignClick;
+import com.klanting.signclick.interactionLayer.events.MenuEvents;
 import com.klanting.signclick.logicLayer.companyLogic.Market;
 import com.klanting.signclick.logicLayer.companyLogic.patent.Auction;
 import com.klanting.signclick.interactionLayer.routines.AutoSave;
@@ -39,6 +40,7 @@ public class AuctionTests {
     void auctionUpdate(){
         Auction auction = Auction.getInstance();
         AutoSave.stop();
+        MenuEvents.stopMachineCheck();
 
         PlayerMock testPlayer = server.addPlayer();
 

@@ -204,9 +204,15 @@ public class Company extends LoggableSubject implements CompanyI{
     }
 
 
-
     public double getShareBase() {
-        return shareBase;
+        return getShareBase(false);
+    }
+
+    public double getShareBase(boolean disableMin) {
+        if(disableMin){
+            return shareBase;
+        }
+        return Math.max(shareBase, 1.0);
     }
 
     public double getBal() {

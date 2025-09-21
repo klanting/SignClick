@@ -119,6 +119,11 @@ public class CompanyRef implements CompanyI{
     }
 
     @Override
+    public double getShareBase(boolean disableMin) {
+        return getComp().getShareBase(disableMin);
+    }
+
+    @Override
     public void removeBalVar(double amount) {
         getComp().removeBalVar(amount);
     }

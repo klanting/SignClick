@@ -2,6 +2,8 @@ package com.company;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
+import com.klanting.signclick.interactionLayer.events.MenuEvents;
+import com.klanting.signclick.interactionLayer.routines.AutoSave;
 import com.klanting.signclick.logicLayer.companyLogic.*;
 import com.klanting.signclick.logicLayer.companyLogic.producible.License;
 import com.klanting.signclick.logicLayer.companyLogic.producible.LicenseSingleton;
@@ -223,6 +225,9 @@ public class CompanyMenuTests {
 
     @Test
     void companyAuction(){
+        AutoSave.stop();
+        MenuEvents.stopMachineCheck();
+
         CompanyI comp = getCompany(0);
         comp.addBal(10000000.0);
         comp.setSpendable(10000000.0);

@@ -4,6 +4,8 @@ import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
+import com.klanting.signclick.interactionLayer.events.MenuEvents;
+import com.klanting.signclick.interactionLayer.routines.AutoSave;
 import com.klanting.signclick.logicLayer.countryLogic.Country;
 
 import com.klanting.signclick.logicLayer.countryLogic.CountryManager;
@@ -609,6 +611,9 @@ class CountryCTests {
 
     @Test
     void countryElection(){
+        AutoSave.stop();
+        MenuEvents.stopMachineCheck();
+
         PlayerMock testPlayer = TestTools.addPermsPlayer(server, plugin);
         PlayerMock testPlayer2 = TestTools.addPermsPlayer(server, plugin);
         Country country = CountryManager.create("empire1", testPlayer);
