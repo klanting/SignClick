@@ -1,4 +1,4 @@
-package com.country;
+package com.interactionLayer.menus;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
@@ -21,7 +21,7 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class MenuTests {
+public class CountryMenuTests {
     private ServerMock server;
     private SignClick plugin;
 

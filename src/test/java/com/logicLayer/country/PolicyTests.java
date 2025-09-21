@@ -1,4 +1,4 @@
-package com.country;
+package com.logicLayer.country;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;

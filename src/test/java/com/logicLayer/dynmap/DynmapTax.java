@@ -1,4 +1,4 @@
-package com.dynmap;
+package com.logicLayer.dynmap;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;

@@ -1,4 +1,4 @@
-package com.door;
+package com.interactionLayer.door;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;

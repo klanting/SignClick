@@ -1,4 +1,4 @@
-package com.company;
+package com.interactionLayer.menus;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
