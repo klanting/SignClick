@@ -1,7 +1,8 @@
 package com.klanting.signclick.logicLayer.companyLogic;
 
-import com.klanting.signclick.SignClick;
+import com.klanting.signclick.logicLayer.companyLogic.producible.License;
 import com.klanting.signclick.logicLayer.companyLogic.logs.itemLogEntry;
+import com.klanting.signclick.logicLayer.companyLogic.producible.Product;
 import com.klanting.signclick.utils.BlockPosKey;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

@@ -8,7 +8,7 @@ import com.klanting.signclick.SignClick;
 import com.klanting.signclick.logicLayer.companyLogic.Company;
 import com.klanting.signclick.logicLayer.companyLogic.CompanyI;
 import com.klanting.signclick.logicLayer.companyLogic.CompanyRef;
-import com.klanting.signclick.logicLayer.companyLogic.LicenseSingleton;
+import com.klanting.signclick.logicLayer.companyLogic.producible.LicenseSingleton;
 import com.klanting.signclick.logicLayer.companyLogic.logs.*;
 import com.klanting.signclick.logicLayer.companyLogic.patent.*;
 import com.klanting.signclick.logicLayer.companyLogic.upgrades.*;
@@ -75,34 +75,7 @@ public class Utils {
                     .registerSubtype(UpgradeResearchModifier.class, "researchModifier")
             ;
 
-    public static <T> String serialize(T value, Type token){
-        GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(Company.class, new CompanySerializer(SignClick.getConfigManager()));
-        builder.registerTypeAdapter(CompanyRef.class, new CompanyRefSerializer());
-        builder.registerTypeAdapter(Country.class, new CountrySerializer());
-        builder.registerTypeAdapter(Location.class, new LocationSerializer());
-        builder.registerTypeAdapter(Election.class, new ElectionSerializer());
-        builder.registerTypeAdapter(Auction.class, new AuctionSerializer());
-        builder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer());
-        builder.registerTypeAdapterFactory(new CompanyOwnerManagerAdapterFactory());
-        builder.registerTypeAdapter(Block.class, new BlockSerializer());
-        builder.registerTypeAdapter(LicenseSingleton.class, new LicenseSingletonSerializer());
-        builder.registerTypeAdapterFactory(pluginLogTypes);
-        builder.registerTypeAdapterFactory(companyTypes);
-        builder.registerTypeAdapterFactory(patentUpgradeTypes);
-        builder.registerTypeAdapterFactory(upgradeTypes);
-        builder.registerTypeAdapter(Policy.class, new PolicySerializer());
-        builder.registerTypeAdapter(LocalDate.class, new LocalDateSerializer());
-        Gson gson = builder.create();
-        return gson.toJson(value, token);
-    }
-
-
-    public static <T> void writeSave(String name, T value){
-        /*
-        * Save object inside a json file
-        * */
-
+    private static GsonBuilder getBuilder(){
         GsonBuilder builder = new GsonBuilder();
         builder.setPrettyPrinting();
         builder.registerTypeAdapter(Company.class, new CompanySerializer(SignClick.getConfigManager()));
@@ -121,7 +94,22 @@ public class Utils {
         builder.registerTypeAdapterFactory(upgradeTypes);
         builder.registerTypeAdapter(Policy.class, new PolicySerializer());
         builder.registerTypeAdapter(LocalDate.class, new LocalDateSerializer());
-        Gson gson = builder.create();
+
+        return builder;
+    }
+
+    public static <T> String serialize(T value, Type token){
+        Gson gson = getBuilder().create();
+        return gson.toJson(value, token);
+    }
+
+
+    public static <T> void writeSave(String name, T value){
+        /*
+        * Save object inside a json file
+        * */
+
+        Gson gson = getBuilder().create();
 
         File file = new File(SignClick.getPlugin().getDataFolder()+"/"+name+".json");
 
@@ -149,25 +137,7 @@ public class Utils {
         /*
         * Read object from a json file
         * */
-        GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(Company.class, new CompanySerializer(SignClick.getConfigManager()));
-        builder.registerTypeAdapter(CompanyRef.class, new CompanyRefSerializer());
-        builder.registerTypeAdapter(Country.class, new CountrySerializer());
-        builder.registerTypeAdapter(Location.class, new LocationSerializer());
-        builder.registerTypeAdapter(UUID.class, new UUIDDeserializer());
-        builder.registerTypeAdapter(Election.class, new ElectionSerializer());
-        builder.registerTypeAdapter(Auction.class, new AuctionSerializer());
-        builder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer());
-        builder.registerTypeAdapterFactory(new CompanyOwnerManagerAdapterFactory());
-        builder.registerTypeAdapter(Block.class, new BlockSerializer());
-        builder.registerTypeAdapter(LicenseSingleton.class, new LicenseSingletonSerializer());
-        builder.registerTypeAdapterFactory(pluginLogTypes);
-        builder.registerTypeAdapterFactory(companyTypes);
-        builder.registerTypeAdapterFactory(patentUpgradeTypes);
-        builder.registerTypeAdapterFactory(upgradeTypes);
-        builder.registerTypeAdapter(Policy.class, new PolicySerializer());
-        builder.registerTypeAdapter(LocalDate.class, new LocalDateSerializer());
-        Gson gson = builder.create();
+        Gson gson = getBuilder().create();
 
         File file = new File(SignClick.getPlugin().getDataFolder()+"/"+name+".json");
 
@@ -193,25 +163,7 @@ public class Utils {
         /*
          * Read object from a json file
          * */
-        GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(Company.class, new CompanySerializer(SignClick.getConfigManager()));
-        builder.registerTypeAdapter(CompanyRef.class, new CompanyRefSerializer());
-        builder.registerTypeAdapter(Country.class, new CountrySerializer());
-        builder.registerTypeAdapter(Location.class, new LocationSerializer());
-        builder.registerTypeAdapter(UUID.class, new UUIDDeserializer());
-        builder.registerTypeAdapter(Election.class, new ElectionSerializer());
-        builder.registerTypeAdapter(Auction.class, new AuctionSerializer());
-        builder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer());
-        builder.registerTypeAdapterFactory(new CompanyOwnerManagerAdapterFactory());
-        builder.registerTypeAdapter(Block.class, new BlockSerializer());
-        builder.registerTypeAdapter(LicenseSingleton.class, new LicenseSingletonSerializer());
-        builder.registerTypeAdapterFactory(pluginLogTypes);
-        builder.registerTypeAdapterFactory(companyTypes);
-        builder.registerTypeAdapterFactory(patentUpgradeTypes);
-        builder.registerTypeAdapterFactory(upgradeTypes);
-        builder.registerTypeAdapter(Policy.class, new PolicySerializer());
-        builder.registerTypeAdapter(LocalDate.class, new LocalDateSerializer());
-        Gson gson = builder.create();
+        Gson gson = getBuilder().create();
 
         T value = gson.fromJson(js, token);
         if (value == null){

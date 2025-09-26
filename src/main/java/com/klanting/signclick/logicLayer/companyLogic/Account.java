@@ -5,6 +5,7 @@ import com.klanting.signclick.logicLayer.countryLogic.Country;
 import com.klanting.signclick.logicLayer.countryLogic.CountryManager;
 import com.klanting.signclick.logicLayer.countryLogic.CountryNull;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import java.text.DecimalFormat;
@@ -137,7 +138,7 @@ public class Account {
 
     public Boolean transfer(String Sname, Integer amount, Account target, Player player){
         if (shares.getOrDefault(Sname, 0) >= amount){
-            target.receive(Sname, amount, this, Objects.requireNonNull(Bukkit.getPlayer(target.uuid)));
+            target.receive(Sname, amount, this, Objects.requireNonNull(Bukkit.getOfflinePlayer(target.uuid)));
             int share_amount = shares.get(Sname);
             shares.put(Sname, share_amount-amount);
             player.sendMessage(SignClick.getPrefix()+"transfer: §aaccepted");
@@ -149,10 +150,15 @@ public class Account {
 
     }
 
-    public void receive(String Sname, Integer amount, Account sender, Player player){
+    public void receive(String Sname, Integer amount, Account sender, OfflinePlayer player){
         int share_amount = shares.getOrDefault(Sname, 0);
         shares.put(Sname, share_amount+amount);
-        player.sendMessage(SignClick.getPrefix()+"received: "+amount+" shares for "+Sname+" from "+Bukkit.getPlayer(sender.uuid).getName());
+
+        Player onlinePlayer = Bukkit.getPlayer(player.getUniqueId());
+        if(onlinePlayer != null){
+            onlinePlayer.sendMessage(SignClick.getPrefix()+"received: "+amount+" shares for "+Sname+" from "+Bukkit.getPlayer(sender.uuid).getName());
+        }
+
     }
 
     public void receivePrivate(String Sname, Integer amount){

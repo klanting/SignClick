@@ -2,7 +2,7 @@ package com.klanting.signclick.interactionLayer.menus.company;
 
 import com.klanting.signclick.logicLayer.companyLogic.CompanyI;
 import com.klanting.signclick.logicLayer.companyLogic.Machine;
-import com.klanting.signclick.logicLayer.companyLogic.Product;
+import com.klanting.signclick.logicLayer.companyLogic.producible.Product;
 import com.klanting.signclick.interactionLayer.menus.PagingMenu;
 import com.klanting.signclick.utils.BlockPosKey;
 import com.klanting.signclick.utils.ItemFactory;

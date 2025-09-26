@@ -6,6 +6,8 @@ import com.klanting.signclick.configs.ConfigManager;
 import com.klanting.signclick.logicLayer.companyLogic.logs.*;
 import com.klanting.signclick.logicLayer.companyLogic.patent.Patent;
 import com.klanting.signclick.logicLayer.companyLogic.patent.PatentUpgrade;
+import com.klanting.signclick.logicLayer.companyLogic.producible.Product;
+import com.klanting.signclick.logicLayer.companyLogic.research.Research;
 import com.klanting.signclick.logicLayer.companyLogic.upgrades.*;
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.logicLayer.companyLogic.contractRequests.ContractRequest;
@@ -202,9 +204,15 @@ public class Company extends LoggableSubject implements CompanyI{
     }
 
 
-
     public double getShareBase() {
-        return shareBase;
+        return getShareBase(false);
+    }
+
+    public double getShareBase(boolean disableMin) {
+        if(disableMin){
+            return shareBase;
+        }
+        return Math.max(shareBase, 1.0);
     }
 
     public double getBal() {

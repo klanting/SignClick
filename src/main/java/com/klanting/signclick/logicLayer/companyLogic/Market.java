@@ -4,6 +4,8 @@ import com.google.common.reflect.TypeToken;
 import com.klanting.signclick.interactionLayer.routines.SignStock;
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.logicLayer.companyLogic.contracts.*;
+import com.klanting.signclick.logicLayer.companyLogic.producible.License;
+import com.klanting.signclick.logicLayer.companyLogic.producible.LicenseSingleton;
 import com.klanting.signclick.logicLayer.countryLogic.Country;
 import com.klanting.signclick.logicLayer.countryLogic.CountryManager;
 import com.klanting.signclick.logicLayer.countryLogic.CountryNull;
@@ -74,7 +76,7 @@ public class Market {
 
         CompanyI comp = Market.getCompany(Sname);
         comp.reCalcBalance();
-        double base = comp.getShareBase()*Market.calculateFluxChange(-10, 15);
+        double base = comp.getShareBase(true)*Market.calculateFluxChange(-10, 15);
         return base*amount;
     }
 

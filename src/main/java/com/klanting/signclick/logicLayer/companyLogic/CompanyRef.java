@@ -2,6 +2,8 @@ package com.klanting.signclick.logicLayer.companyLogic;
 
 import com.klanting.signclick.logicLayer.companyLogic.patent.Patent;
 import com.klanting.signclick.logicLayer.companyLogic.patent.PatentUpgrade;
+import com.klanting.signclick.logicLayer.companyLogic.producible.Product;
+import com.klanting.signclick.logicLayer.companyLogic.research.Research;
 import com.klanting.signclick.logicLayer.companyLogic.upgrades.Upgrade;
 import com.klanting.signclick.logicLayer.companyLogic.contractRequests.ContractRequest;
 import com.klanting.signclick.logicLayer.countryLogic.Country;
@@ -114,6 +116,11 @@ public class CompanyRef implements CompanyI{
     @Override
     public double getShareBase() {
         return getComp().getShareBase();
+    }
+
+    @Override
+    public double getShareBase(boolean disableMin) {
+        return getComp().getShareBase(disableMin);
     }
 
     @Override

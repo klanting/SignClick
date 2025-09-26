@@ -5,6 +5,7 @@ import be.seeseemelk.mockbukkit.ServerMock;
 import be.seeseemelk.mockbukkit.block.BlockMock;
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
 import com.klanting.signclick.SignClick;
+import com.klanting.signclick.interactionLayer.events.MenuEvents;
 import com.klanting.signclick.logicLayer.companyLogic.Market;
 import com.klanting.signclick.interactionLayer.routines.AutoSave;
 import org.bukkit.Location;
@@ -86,6 +87,7 @@ public class SignStockTests {
     public void updateSignStock(){
         setSignStock();
         AutoSave.stop();
+        MenuEvents.stopMachineCheck();
 
         /*
         * Update sign stock positively

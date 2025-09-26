@@ -1,11 +1,14 @@
 package com.klanting.signclick.signs;
 
 import com.klanting.signclick.SignClick;
+import com.klanting.signclick.interactionLayer.events.ChestShopEvent;
+import com.klanting.signclick.interactionLayer.events.MachineEvent;
 import com.klanting.signclick.logicLayer.companyLogic.CompanyI;
 import com.klanting.signclick.logicLayer.companyLogic.Market;
 import com.klanting.signclick.logicLayer.companyLogic.logs.itemLogEntry;
 import com.klanting.signclick.utils.Prefix;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.block.Sign;
 import org.bukkit.block.data.type.WallSign;
@@ -62,8 +65,15 @@ public class SignShop {
             return;
         }
 
-        if(!(sign.getBlock().getRelative(signData.getFacing().getOppositeFace()).getState() instanceof Chest)){
+        Block chestBlock = sign.getBlock().getRelative(signData.getFacing().getOppositeFace());
+
+        if(!(chestBlock.getState() instanceof Chest)){
             player.sendMessage(SignClick.getPrefix()+"needs to be a wallsign against a chest");
+            return;
+        }
+
+        if(ChestShopEvent.getSignByBlock(chestBlock) != null){
+            player.sendMessage(SignClick.getPrefix()+"chest already has a shop sign");
             return;
         }
 

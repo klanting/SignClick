@@ -1,7 +1,7 @@
 package com.klanting.signclick.interactionLayer.menus.company;
 
-import com.klanting.signclick.logicLayer.companyLogic.License;
-import com.klanting.signclick.logicLayer.companyLogic.LicenseSingleton;
+import com.klanting.signclick.logicLayer.companyLogic.producible.License;
+import com.klanting.signclick.logicLayer.companyLogic.producible.LicenseSingleton;
 import com.klanting.signclick.interactionLayer.menus.SelectionMenu;
 import com.klanting.signclick.utils.ItemFactory;
 import org.bukkit.Material;

@@ -1,24 +1,9 @@
-/*
-#------------------------------------------------------------------------------------#
-#                                     SignClick                                      #
-#------------------------------------------------------------------------------------#
-# Description:                                                                       #
-# This is the main class for the SignClick plugin. It serves as the central entry    #
-# point and coordinator for all plugin functionality. It handles the startup and     #
-# shutdown logic, including loading configurations, registering commands and events, #
-# managing dependencies (like Vault and Dynmap), and orchestrating data saving and   #
-# loading operations.                                                                #
-#------------------------------------------------------------------------------------#
-*/
-
-// Main package for the SignClick plugin.
 package com.klanting.signclick;
 
-// Imports for various functionalities used in the plugin.
 import com.google.common.reflect.TypeToken;
 import com.klanting.signclick.configs.ConfigManager;
-import com.klanting.signclick.logicLayer.companyLogic.LicenseSingleton;
-import com.klanting.signclick.logicLayer.companyLogic.ResearchOption;
+import com.klanting.signclick.logicLayer.companyLogic.producible.LicenseSingleton;
+import com.klanting.signclick.logicLayer.companyLogic.research.ResearchOption;
 import com.klanting.signclick.interactionLayer.commands.*;
 import com.klanting.signclick.interactionLayer.events.*;
 import com.klanting.signclick.interactionLayer.routines.*;
@@ -33,7 +18,6 @@ import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.Scoreboard;
@@ -45,8 +29,20 @@ import java.lang.reflect.Field;
 import java.util.*;
 
 public class SignClick extends JavaPlugin{
+    /*
+    #------------------------------------------------------------------------------------#
+    #                                     SignClick                                      #
+    #------------------------------------------------------------------------------------#
+    # Description:                                                                       #
+    # This is the main class for the SignClick plugin. It serves as the central entry    #
+    # point and coordinator for all plugin functionality. It handles the startup and     #
+    # shutdown logic, including loading configurations, registering commands and events, #
+    # managing dependencies (like Vault and Dynmap), and orchestrating data saving and   #
+    # loading operations.                                                                #
+    #------------------------------------------------------------------------------------#
+    */
 
-// Static instance of the plugin for easy global access.
+    // Static instance of the plugin for easy global access.
     private static SignClick plugin;
     public static boolean dynmapSupport;
     public static ConfigManager configManager;
@@ -59,21 +55,24 @@ public class SignClick extends JavaPlugin{
         return configManager;
     }
 
-// Called when the plugin is enabled (server startup or plugin reload).
     @Override
     public void onEnable() {
+        /*
+        * Called when the plugin is enabled (server startup or plugin reload).
+        * */
 
-// 1. Core Initializations
+        // Core Initializations
         plugin = this;
         configManager = new ConfigManager(this);
         essentialsSupport = setupEssentials();
         productionConfig = getResource("productionInit.yml");
         DefaultConfig.makeDefaultConfig();
 
-// 2. Handle Data Migrations for updates
+        // Handle Data Migrations for updates
         MigrationManager.Migrate();
 
-// 3. Setup Dependencies (Vault, Dynmap, Essentials)
+        // Setup Dependencies (Vault, Dynmap, Essentials)
+
         // Vault
         if (!setupEconomy() ) {
             getServer().getConsoleSender().sendMessage(ChatColor.RED + "SignClick: Economy failed!: Failed to load vault");
@@ -88,7 +87,7 @@ public class SignClick extends JavaPlugin{
         // Essentials
         essentialsSupport = setupEssentials();
 
-// 4. Restore Data from files
+        // Restore Data from files
         this.RestoreDoors();
         CountryManager.restoreData();
         WeeklyPay.restore();
@@ -108,14 +107,14 @@ public class SignClick extends JavaPlugin{
         MachineRecipe.create();
         MenuEvents.checkMachines();
 
-// 6. Register Event Listeners
+        // Register Event Listeners
         getServer().getPluginManager().registerEvents(new SignEvents(), this);
         getServer().getPluginManager().registerEvents(new DynmapEvents(), this);
         getServer().getPluginManager().registerEvents(new CountryEvents(), this);
         getServer().getPluginManager().registerEvents(new BusEvents(), this);
         getServer().getPluginManager().registerEvents(new MenuEvents(), this);
         getServer().getPluginManager().registerEvents(new PatentEvents(), this);
-        getServer().getPluginManager().registerEvents(new OpenFurnaceEvent(), this);
+        getServer().getPluginManager().registerEvents(new MachineEvent(), this);
         getServer().getPluginManager().registerEvents(new MachineLiveUpdateEvent(), this);
         getServer().getPluginManager().registerEvents(new ChestShopEvent(), this);
 
@@ -126,7 +125,7 @@ public class SignClick extends JavaPlugin{
         getServer().getPluginManager().registerEvents(new AddEmployeeEvent(), this);
         getServer().getPluginManager().registerEvents(new AddChiefSupportEvent(), this);
 
-// 7. Register Command Executors
+        // Register Command Executors
         getCommand("signclickpos").setExecutor(new SignCommands());
         getCommand("signclick").setExecutor(new BasicCommands());
         getCommand("weeklypay").setExecutor(new BasicCommands());
@@ -135,7 +134,7 @@ public class SignClick extends JavaPlugin{
         getCommand("company").setExecutor(new CompanyCommands());
         getCommand("party").setExecutor(new PartyCommands());
 
-// 8. Setup Dynmap Markers if Dynmap is supported
+        // Setup Dynmap Markers if Dynmap is supported
         if (dynmapSupport){
             try{
                 markerSet = dynmap.getMarkerAPI().getMarkerSet("signclick.markerset");
@@ -155,19 +154,21 @@ public class SignClick extends JavaPlugin{
 
     }
 
-// Called when the plugin is disabled (server shutdown).
     @Override
     public void onDisable() {
+        /*
+        * Called when the plugin is disabled (server shutdown).
+        * */
 
-// This is a workaround for a potential memory leak with the Gson library upon plugin reload.
-// It uses reflection to clear a static field in Gson, allowing the classloader to be garbage collected.
+        // This is a workaround for a potential memory leak with the Gson library upon plugin reload.
+        // It uses reflection to clear a static field in Gson, allowing the classloader to be garbage collected.
         try {
             Field gsonInstance = Class.forName("com.google.gson.Gson").getDeclaredField("DEFAULT_INSTANCE");
             gsonInstance.setAccessible(true);
             gsonInstance.set(null, null); // Force clear Gson instance
         } catch (Exception ignored) {}
 
-// --- Save all plugin data to prevent loss on shutdown/reload ---
+        // --- Save all plugin data to prevent loss on shutdown/reload ---
         SaveDoors();
         WeeklyPay.save();
         CountryManager.saveData();
@@ -176,29 +177,32 @@ public class SignClick extends JavaPlugin{
         LicenseSingleton.Save();
         WeeklyComp.Save();
 
-// Log to the console that the plugin has been disabled.
+        // Log to the console that the plugin has been disabled.
         getServer().getConsoleSender().sendMessage(ChatColor.RED + "SignClick is disabled!");
 
-// Cancel all scheduled tasks (like AutoSave) associated with this plugin.
-// This is crucial to prevent errors and memory leaks!
+        // Cancel all scheduled tasks (like AutoSave) associated with this plugin.
+        // This is crucial to prevent errors and memory leaks!
         Bukkit.getScheduler().cancelTasks(SignClick.getPlugin());
     }
 
-// Static references to external APIs and services.
+    // Static references to external APIs and services.
     private static Economy econ = null;
     private static DynmapAPI dynmap = null;
 
 
-//Checks for the Vault plugin and initializes the economy provider.
-//This is a mandatory dependency for the plugin to function.
-//@return true if the economy was set up successfully, false otherwise.
+
     private boolean setupEconomy() {
+        /*
+        * Checks for the Vault plugin and initializes the economy provider.
+        * This is a mandatory dependency for the plugin to function.
+        * @return true if the economy was set up successfully, false otherwise.
+        * */
         if (getServer().getPluginManager().getPlugin("Vault") == null) {
             getServer().getConsoleSender().sendMessage(ChatColor.RED + "SignClick: Vault Not found!");
             return false;
         }
 
-// The multiple checks for the service provider are for compatibility across different server versions.
+        // The multiple checks for the service provider are for compatibility across different server versions.
         RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
         if (rsp == null) {
             rsp = getServer().getServicesManager().getRegistration(Economy.class);
@@ -220,24 +224,30 @@ public class SignClick extends JavaPlugin{
         return econ != null;
     }
 
-//Checks for the Dynmap plugin and initializes its API.
-//This is an optional dependency for map-related features.
-//@return true if Dynmap was set up successfully, false otherwise.
+
     private boolean setupDynmap(){
+        /*
+        * Checks for the Dynmap plugin and initializes its API.
+        * This is an optional dependency for map-related features.
+        * @return true if Dynmap was set up successfully, false otherwise.
+        * */
         if (getServer().getPluginManager().getPlugin("dynmap") == null) {
             return false;
         }
         RegisteredServiceProvider<DynmapAPI> rsp = getServer().getServicesManager().getRegistration(DynmapAPI.class);
 
-// Prefer getting the API via the service provider, but fall back to a direct cast.
+        // Prefer getting the API via the service provider, but fall back to a direct cast.
         dynmap = (rsp != null) ? rsp.getProvider() : (DynmapAPI) getServer().getPluginManager().getPlugin("dynmap");
         return dynmap != null;
     }
 
-//Checks for the Essentials plugin and initializes its API.
-//This is an optional dependency for features like getting item prices.
-//@return true if Essentials was set up successfully, false otherwise.
+
     private boolean setupEssentials() {
+        /*
+        * Checks for the Essentials plugin and initializes its API.
+        * This is an optional dependency for features like getting item prices.
+        * @return true if Essentials was set up successfully, false otherwise.
+        * */
         if (getServer().getPluginManager().getPlugin("Essentials") != null) {
             essentials = (IEssentials) getServer().getPluginManager().getPlugin("Essentials");
             return true;
@@ -245,46 +255,45 @@ public class SignClick extends JavaPlugin{
         return false;
     }
 
-//Saves the locations and owners of all income doors to a file.
     public void SaveDoors(){
+        //Saves the locations and owners of all income doors to a file.
         Utils.writeSave("incomeDoors", SignIncome.owner);
     }
 
-//Loads the locations and owners of all income doors from a file.
+
     public void RestoreDoors(){
+        //Loads the locations and owners of all income doors from a file.
         SignIncome.owner = Utils.readSave("incomeDoors",
                 new TypeToken<HashMap<Location, UUID>>(){}.getType(), new HashMap<>());
     }
 
-//Provides global access to the Vault Economy API.
-//@return The active Economy provider.
     public static Economy getEconomy() {
+        //Provides global access to the Vault Economy API.
+        //@return The active Economy provider.
         return econ;
     }
 
-//Provides global access to the Dynmap API.
-//@return The active DynmapAPI provider, or null if not found.
     public static DynmapAPI getDynmap() {
+        //Provides global access to the Dynmap API.
+        //@return The active DynmapAPI provider, or null if not found.
         return dynmap;
     }
 
-//Provides global access to the main plugin instance.
-//@return The SignClick plugin instance.
     public static SignClick getPlugin() {
+        //Provides global access to the main plugin instance.
+        //@return The SignClick plugin instance.
         return plugin;
     }
 
-//Gets the chat prefix from the configuration file.
-//@return The formatted chat prefix string.
     public static String getPrefix(){
+        //Gets the chat prefix from the configuration file.
+        //@return The formatted chat prefix string.
         return configManager.getConfig("general.yml").getString("chatPrefix");
     }
 
-//Gets the UI (menu/GUI) prefix from the configuration file.
-//@return The formatted UI prefix string.
     public static String getPrefixUI(){
+        //Gets the UI (menu/GUI) prefix from the configuration file.
+        //@return The formatted UI prefix string.
         return configManager.getConfig("general.yml").getString("UIPrefix");
     }
 }
-
-//#------------------------------------------END---------------------------------------#//

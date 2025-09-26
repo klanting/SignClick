@@ -11,6 +11,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.inventory.InventoryMoveItemEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
@@ -18,6 +20,55 @@ import org.bukkit.inventory.InventoryHolder;
 import java.util.List;
 
 public class ChestShopEvent implements Listener {
+
+    public static org.bukkit.block.Sign getSignByChest(Chest chestI){
+        for(BlockFace face: new BlockFace[]{BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST}){
+            Block relative = chestI.getBlock().getRelative(face);
+
+            if(relative.getState() instanceof org.bukkit.block.Sign sign){
+                /*
+                 * check this is a chestShop
+                 * */
+                if(SignEvents.slShop.equals(sign.getLine(0))){
+                    return sign;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    public static org.bukkit.block.Sign getSignByBlock(Block clickedBlock){
+        if(!(clickedBlock.getState() instanceof Chest chest)){
+            return null;
+        }
+
+        Inventory inv = chest.getInventory();
+        InventoryHolder holder = inv.getHolder();
+
+        /*
+         * Check double chest, adn store list of chests
+         * */
+        List<Chest> chests = List.of(chest);
+        if(holder instanceof DoubleChest doubleChest){
+            chests = List.of((Chest) doubleChest.getLeftSide(), (Chest) doubleChest.getRightSide());
+        }
+
+        /*
+         * for each chest check if a sign is connected to the chest by any side
+         * This sign must be a shop sign, if so restrict access
+         * */
+
+        for(Chest chestI: chests){
+            org.bukkit.block.Sign sign = getSignByChest(chestI);
+            if(sign != null){
+                return sign;
+            }
+        }
+
+        return null;
+    }
+
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
@@ -30,41 +81,13 @@ public class ChestShopEvent implements Listener {
             return;
         }
 
-        if(!(clickedBlock.getState() instanceof Chest chest)){
+        org.bukkit.block.Sign sign = getSignByBlock(clickedBlock);
+
+        if(sign == null){
             return;
         }
 
-        Inventory inv = chest.getInventory();
-        InventoryHolder holder = inv.getHolder();
-
-        /*
-        * Check double chest, adn store list of chests
-        * */
-        List<Chest> chests = List.of(chest);
-        if(holder instanceof DoubleChest doubleChest){
-            chests = List.of((Chest) doubleChest.getLeftSide(), (Chest) doubleChest.getRightSide());
-        }
-
-        /*
-        * for each chest check if a sign is connected to the chest by any side
-        * This sign must be a shop sign, if so restrict access
-        * */
-        CompanyI company = null;
-
-        for(Chest chestI: chests){
-            for(BlockFace face: new BlockFace[]{BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST}){
-                Block relative = chestI.getBlock().getRelative(face);
-
-                if(relative.getState() instanceof org.bukkit.block.Sign sign){
-                    /*
-                    * check this is a chestShop
-                    * */
-                    if(SignEvents.slShop.equals(sign.getLine(0))){
-                        company = Market.getCompany(sign.getLine(2));
-                    }
-                }
-            }
-        }
+        CompanyI company = Market.getCompany(sign.getLine(2));
 
         if(company == null){
             return;
@@ -74,6 +97,34 @@ public class ChestShopEvent implements Listener {
             Prefix.sendMessage(player, "Can't open chest when not being employee");
             event.setCancelled(true);
 
+        }
+    }
+
+    @EventHandler
+    public void onHopperTransfer(InventoryMoveItemEvent event) {
+        /*
+        * Ensure hopper cannot extract blocks from chest shop
+        * */
+
+        if (event.getDestination().getType() == InventoryType.HOPPER) {
+            InventoryHolder holder = event.getSource().getHolder();
+
+            if(holder instanceof DoubleChest chest){
+                holder = chest.getLeftSide();
+            }
+
+            if (holder instanceof Chest chest) {
+
+                // Get the block where the chest is located
+                Block chestBlock = chest.getBlock();
+
+                /*
+                * block hopper from taking items out of a chest shop
+                * */
+                if (getSignByBlock(chestBlock) != null){
+                    event.setCancelled(true);
+                }
+            }
         }
     }
 }
