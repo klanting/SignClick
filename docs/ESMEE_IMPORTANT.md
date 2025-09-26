@@ -8,6 +8,9 @@
 - plugin.yml has been eddided (added construct)
 - CompatibleLayer.java has been eddided (cleaned up andadded construct)
 - VersionDetection.java has been eddided (cleaned up and added construct)
+- SignClick.java has been eddided (cleaned up and added construct)
+- Utils.java work in progress
+- productionInit added Terracotta
 
 # To Do
 - utils.java

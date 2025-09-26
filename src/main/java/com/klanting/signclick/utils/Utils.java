@@ -1,5 +1,7 @@
+// Main package for utility functions used across the plugin.
 package com.klanting.signclick.utils;
 
+// Imports for various functionalities used in the utility class.
 import com.google.gson.*;
 import com.google.gson.typeadapters.RuntimeTypeAdapterFactory;
 import com.klanting.signclick.SignClick;
@@ -33,12 +35,10 @@ import java.util.stream.IntStream;
 
 import static org.bukkit.Bukkit.getServer;
 
-
+// Utility class providing various helper methods for serialization, file I/O, and other common tasks.
 public class Utils {
-    /*
-    * Basic utils used everywhere
-    * */
 
+//Basic utils used everywhere
     static RuntimeTypeAdapterFactory<PluginLogs> pluginLogTypes =
             RuntimeTypeAdapterFactory.of(PluginLogs.class, "type")
                     .registerSubtype(ContractChange.class, "ContractChange")

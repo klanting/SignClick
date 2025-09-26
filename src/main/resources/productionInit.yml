@@ -618,6 +618,8 @@ companyTypes:
         TYPE: NATURE_MEDIUM
       CALCITE:
         TYPE: NATURE_MEDIUM
+      TERRACOTTA:
+        TYPE: NATURE_MEDIUM
 
       POINTED_DRIPSTONE:
         TYPE: NATURE_MEDIUM

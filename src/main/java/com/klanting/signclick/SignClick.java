@@ -258,14 +258,12 @@ public class SignClick extends JavaPlugin{
 
 //Provides global access to the Vault Economy API.
 //@return The active Economy provider.
-
     public static Economy getEconomy() {
         return econ;
     }
 
 //Provides global access to the Dynmap API.
 //@return The active DynmapAPI provider, or null if not found.
- 
     public static DynmapAPI getDynmap() {
         return dynmap;
     }
@@ -278,7 +276,6 @@ public class SignClick extends JavaPlugin{
 
 //Gets the chat prefix from the configuration file.
 //@return The formatted chat prefix string.
-
     public static String getPrefix(){
         return configManager.getConfig("general.yml").getString("chatPrefix");
     }
