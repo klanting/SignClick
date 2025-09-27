@@ -68,6 +68,9 @@ public class SignStock {
     }
 
     public static void delete(Sign sign){
+        /*
+        * removes the sign from the stock
+        * */
         try{
             stockSigns.remove(sign.getBlock().getLocation());
         }catch (Exception e){
