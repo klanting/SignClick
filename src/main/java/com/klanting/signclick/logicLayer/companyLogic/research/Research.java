@@ -57,10 +57,10 @@ public class Research {
 
                 if(mapping.containsKey(m)){
                     ResearchOption ro = mapping.get(m);
-                    ro.companyType = this.company.getType();
+                    ro.company = this.company.getRef();
                     newResearchOptions.add(ro);
                 }else{
-                    newResearchOptions.add(new ResearchOption(this.company.getType(), m));
+                    newResearchOptions.add(new ResearchOption(this.company, m));
                 }
             }catch (Exception e){
                 getServer().getConsoleSender().sendMessage(ChatColor.GRAY + "SignClick: "+researchItem+" INVALID");
@@ -87,7 +87,7 @@ public class Research {
         for (String researchItem: researchItems){
             try {
                 Material m = Material.valueOf(researchItem);
-                researchOptions.add(new ResearchOption(this.company.getType(), m));
+                researchOptions.add(new ResearchOption(this.company, m));
             }catch (Exception e){
                 getServer().getConsoleSender().sendMessage(ChatColor.GRAY + "SignClick: "+researchItem+" INVALID");
             }
@@ -129,7 +129,7 @@ public class Research {
                     "§aResearch for product "+researchOption.getMaterial().toString()+" COMPLETED"
                     , null);
 
-            company.addProduct(ProductFactory.create(researchOption.getMaterial(), researchOption.companyType));
+            company.addProduct(ProductFactory.create(researchOption.getMaterial(), researchOption.company));
         }
     }
 }

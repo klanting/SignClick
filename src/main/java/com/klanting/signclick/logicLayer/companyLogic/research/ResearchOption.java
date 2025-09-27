@@ -1,6 +1,7 @@
 package com.klanting.signclick.logicLayer.companyLogic.research;
 
 import com.klanting.signclick.SignClick;
+import com.klanting.signclick.logicLayer.companyLogic.CompanyI;
 import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -43,14 +44,14 @@ public class ResearchOption {
         return modifierIndex != 0;
     }
 
-    public String companyType;
+    public CompanyI company;
 
-    public ResearchOption(String companyType, Material material){
+    public ResearchOption(CompanyI company, Material material){
 
         this.material = material;
         this.progress = 0;
         this.modifierIndex = 0;
-        this.companyType = companyType;
+        this.company = company.getRef();
 
     }
 
@@ -60,7 +61,7 @@ public class ResearchOption {
 
     public long getCompleteTime(){
         ConfigurationSection section = SignClick.getConfigManager().getConfig("production.yml").getConfigurationSection("products").
-                getConfigurationSection(this.companyType).getConfigurationSection(this.material.name());
+                getConfigurationSection(this.company.getType()).getConfigurationSection(this.material.name());
 
         return section.getLong("researchTime");
     }

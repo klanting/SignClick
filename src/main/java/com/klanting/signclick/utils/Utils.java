@@ -18,6 +18,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.inventory.*;
 import org.jetbrains.annotations.NotNull;
