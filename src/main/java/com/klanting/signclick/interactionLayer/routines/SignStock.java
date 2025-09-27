@@ -48,6 +48,9 @@ public class SignStock {
     }
 
     public static void update(Sign sign){
+        /*
+        * Change sign to special format
+        * */
         String stock_name = sign.getLine(1);
         if (Market.hasBusiness(stock_name)){
 
