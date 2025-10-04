@@ -5,9 +5,11 @@ import be.seeseemelk.mockbukkit.ServerMock;
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.logicLayer.companyLogic.CompanyI;
+import com.klanting.signclick.logicLayer.companyLogic.producible.Product;
 import com.klanting.signclick.logicLayer.countryLogic.CountryManager;
 import com.klanting.signclick.logicLayer.companyLogic.Market;
 import com.klanting.signclick.logicLayer.companyLogic.patent.Auction;
+import org.bukkit.Material;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -158,5 +160,70 @@ public class CompanyConfigTests {
 
         server.getScheduler().performTicks(180*20L+1);
         assertNotEquals(100, auction.getBit(0));
+    }
+
+    @Test
+    void productPriceChange(){
+        /*
+        * Check that product production cost changes to the value in the config
+        * */
+        Market.addCompany("A", "A", Market.getAccount(testPlayer));
+        CompanyI company = Market.getCompany("A");
+
+        /*
+        * Add torch with default price 5 and production time 30s
+        * */
+        company.addProduct(new Product(Material.TORCH, 5, 30, company));
+
+        /*
+        * change cost to 1
+        * */
+        SignClick.getConfigManager().getConfig("production.yml").getConfigurationSection("products").
+                getConfigurationSection("Miscellaneous").getConfigurationSection("TORCH").set("productionCost", 1);
+        SignClick.getConfigManager().save();
+        plugin = TestTools.reboot(server);
+
+        /*
+        * check product price
+        * */
+        company = Market.getCompany("A");
+        assertEquals(1, company.getProducts().size());
+        assertEquals(1, company.getProducts().get(0).getPrice());
+        assertEquals(30, company.getProducts().get(0).getProductionTime());
+
+        /*
+         * change production time to 10
+         * */
+        SignClick.getConfigManager().getConfig("production.yml").getConfigurationSection("products").
+                getConfigurationSection("Miscellaneous").getConfigurationSection("TORCH").set("productionTime", 10);
+        SignClick.getConfigManager().save();
+        plugin = TestTools.reboot(server);
+
+        /*
+         * check product time
+         * */
+        company = Market.getCompany("A");
+        assertEquals(1, company.getProducts().size());
+        assertEquals(1, company.getProducts().get(0).getPrice());
+        assertEquals(10, company.getProducts().get(0).getProductionTime());
+
+        /*
+        * Remove just the price from the config, so it resorts to latest default
+        * */
+        SignClick.getConfigManager().getConfig("production.yml").getConfigurationSection("products").
+                getConfigurationSection("Miscellaneous").getConfigurationSection("TORCH").set("productionCost", null);
+        SignClick.getConfigManager().save();
+        plugin = TestTools.reboot(server);
+
+        /*
+         * check product time
+         * */
+        company = Market.getCompany("A");
+        assertEquals(1, company.getProducts().size());
+
+        assertNotEquals(null, company.getProducts().get(0).getPrice());
+        assertNotEquals(0.0, company.getProducts().get(0).getPrice());
+
+        assertEquals(10, company.getProducts().get(0).getProductionTime());
     }
 }

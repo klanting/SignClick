@@ -2,11 +2,14 @@ package com.klanting.signclick.logicLayer.companyLogic.producible;
 
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.logicLayer.companyLogic.CompanyI;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.bukkit.Bukkit.getServer;
 
 public class Product extends Producible {
 
@@ -22,18 +25,43 @@ public class Product extends Producible {
             return price;
         }
 
-        ConfigurationSection section = SignClick.getConfigManager().getConfig("production.yml").getConfigurationSection("products").
-                getConfigurationSection(company.getType()).getConfigurationSection(material.name());
+        try{
+            ConfigurationSection section = SignClick.getConfigManager().getConfig("production.yml").getConfigurationSection("products").
+                    getConfigurationSection(company.getType()).getConfigurationSection(material.name());
 
-        if(section != null){
-            return section.getDouble("productionCost");
+            if(section != null){
+                return section.getDouble("productionCost", price);
+            }
+
+        }catch (Exception exception){
+            getServer().getConsoleSender().sendMessage(ChatColor.RED + "SignClick: product price error: "+
+                    exception.getMessage());
+            return price;
         }
-
 
         return price;
     }
 
     public int getProductionTime() {
+        if(company == null) {
+            return productionTime;
+        }
+
+        try{
+            ConfigurationSection section = SignClick.getConfigManager().getConfig("production.yml").getConfigurationSection("products").
+                    getConfigurationSection(company.getType()).getConfigurationSection(material.name());
+
+            if(section != null){
+                return section.getInt("productionTime", productionTime);
+            }
+        }catch (Exception exception){
+            getServer().getConsoleSender().sendMessage(ChatColor.RED + "SignClick: product production time error: "+
+                    exception.getMessage());
+            return productionTime;
+        }
+
+
+
         return productionTime;
     }
 
@@ -48,7 +76,7 @@ public class Product extends Producible {
     public Product(Material material, double price, int productionTime, CompanyI company){
         this(material, price, productionTime);
 
-        this.company = company;
+        this.company = company.getRef();
     }
 
     public Product(Material material, double price, int productionTime){
