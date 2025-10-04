@@ -44,7 +44,8 @@ public class MachineMenu extends SelectionMenu {
     public void update(){
         List<String> l = new ArrayList<>();
         if (machine.hasProduct()){
-            int timeTillDone = machine.getProductionTotal()-machine.getProductionProgress();
+            int timeTillDone = (int) ((machine.getProductionTotal()-machine.getProductionProgress())/
+                    (comp.getUpgrades().get(6).getBonus()/100.0));
             l.add("§7Next Produced: "+(machine.isFrozenByFunds() ? "NEVER": Utils.formatDuration(timeTillDone)));
         }
 
