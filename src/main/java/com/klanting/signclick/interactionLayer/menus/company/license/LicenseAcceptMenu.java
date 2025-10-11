@@ -36,7 +36,7 @@ public class LicenseAcceptMenu extends SelectionMenu {
         l.add("§7Normal Cost: $"+license.getProduct().getPrice());
         l.add("§7Increased Cost: "+df.format(license.getCostIncrease()*100)+"%");
         l.add("§7Royalty Fee: "+df.format(license.getRoyaltyFee()*100)+"%");
-        l.add("§7Production Cost: $"+(license.getProduct().getPrice()*(1.0+license.getCostIncrease()+license.getRoyaltyFee())));
+        l.add("§7Production Cost: $"+license.getPrice());
         ItemStack productItem = ItemFactory.create(license.getProduct().getMaterial(), "§7License Request", l);
 
         getInventory().setItem(13, productItem);

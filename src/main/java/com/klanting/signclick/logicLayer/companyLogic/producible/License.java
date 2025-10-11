@@ -61,4 +61,8 @@ public class License extends Producible {
         }
         return false;
     }
+
+    public double getPrice() {
+        return this.product.getPrice()*(1.0+getRoyaltyFee()+getCostIncrease());
+    }
 }

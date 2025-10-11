@@ -173,86 +173,108 @@ public class Machine {
     }
 
     public void productionUpdate(){
+
+        /*
+        * Ensure chunk is loaded
+        * */
         World world = Bukkit.getServer().getWorld(blockPosKey.world());
         if (!world.isChunkLoaded(blockPosKey.x() >> 4, blockPosKey.z() >> 4)) {return;}
 
+        /*
+        * when no product is added to the machine stop the counter
+        * */
         if (!hasProduct()){
             productionProgress = 0;
             return;
         }
 
+        /*
+        * When we don't want to produce any item, stop checking progress
+        * */
         if (getProductionCount() == 0){
             return;
         }
 
+        /*
+        * add the progress
+        * */
         productionProgress += 1*(Market.getCompany(compName).getUpgrades().get(6).getBonus()/100.0);
 
-        if (productionProgress >= product.getProductionTime()){
+        /*
+        * when we don't complete the production of a given item don't continue
+        * */
+        if (productionProgress < product.getProductionTime()){
+            return;
+        }
 
-            double amount = product.getPrice();
-            if (isLicensed()){
-                amount = amount*(1.0+license.getRoyaltyFee()+license.getCostIncrease());
+        /*
+        * Check that the item can be produced and add the item to the items
+        * */
+        double amount = product.getPrice();
+        if (isLicensed()){
+            amount = license.getPrice();
+        }
+
+        /*
+        * Add item to first possible slot (3 slots in machine)
+        * */
+        int index = 0;
+        while (index < 3){
+
+            if(results[index] == null){
+                break;
             }
 
-            int index = 0;
-            while (index < 3){
-
-                if(results[index] == null){
-                    break;
-                }
-
-                if (results[index].getType().equals(product.getMaterial()) && results[index].getAmount() < product.getMaterial().getMaxStackSize()){
-                    break;
-                }
-                index++;
+            if (results[index].getType().equals(product.getMaterial()) && results[index].getAmount() < product.getMaterial().getMaxStackSize()){
+                break;
             }
+            index++;
+        }
 
-            if (index == 3){
-                frozenByMachineFull = true;
-                productionProgress = Math.min(productionProgress, product.getProductionTime());
-                return;
+        if (index == 3){
+            frozenByMachineFull = true;
+            productionProgress = Math.min(productionProgress, product.getProductionTime());
+            return;
+        }
+        frozenByMachineFull = false;
+
+        if (getLicense() != null &&  getLicense().isFrozenByLicenseCost()){
+            if (license.getTo().removeBal(getLicense().frozenByLicenseCost)){
+                getLicense().frozenByLicenseCost = 0;
             }
-            frozenByMachineFull = false;
+            return;
+        }
 
-            if (getLicense() != null &&  getLicense().isFrozenByLicenseCost()){
-                if (license.getTo().removeBal(getLicense().frozenByLicenseCost)){
-                    getLicense().frozenByLicenseCost = 0;
-                }
-                return;
-            }
+        AssertMet(Market.getCompany(compName).getMachines().containsValue(this), "Phantom machine not allowed: "+compName);
 
-            AssertMet(Market.getCompany(compName).getMachines().containsValue(this), "Phantom machine not allowed: "+compName);
+        if (!Market.getCompany(compName).removeBal(amount)){
+            frozenByFunds = true;
+            productionProgress = Math.min(productionProgress, product.getProductionTime());
+            return;
+        }
+        frozenByFunds = false;
 
-            if (!Market.getCompany(compName).removeBal(amount)){
-                frozenByFunds = true;
-                productionProgress = Math.min(productionProgress, product.getProductionTime());
-                return;
-            }
-            frozenByFunds = false;
+        if (isLicensed()){
+            license.getFrom().addBal(product.getPrice()*license.getRoyaltyFee());
+        }
 
-            if (isLicensed()){
-                license.getFrom().addBal(product.getPrice()*license.getRoyaltyFee());
-            }
-
-            productionProgress -= product.getProductionTime();
-            productionProgress = Math.max(productionProgress, 0);
+        productionProgress -= product.getProductionTime();
+        productionProgress = Math.max(productionProgress, 0);
 
 
-            if (results[index] != null){
-                results[index].setAmount(results[index].getAmount() + 1);
-            }else{
-                results[index] = new ItemStack(product.getMaterial());
-            }
+        if (results[index] != null){
+            results[index].setAmount(results[index].getAmount() + 1);
+        }else{
+            results[index] = new ItemStack(product.getMaterial());
+        }
 
 
-            Market.getCompany(compName).update("Machine production",
-                    new itemLogEntry(product.getMaterial(), null, 1, amount), null);
+        Market.getCompany(compName).update("Machine production",
+                new itemLogEntry(product.getMaterial(), null, 1, amount), null);
 
 
-            if (!productionLooped()){
-                productionCount -= 1;
-            }
-
+        if (!productionLooped()){
+            productionCount -= 1;
         }
     }
 

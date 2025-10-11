@@ -92,7 +92,7 @@ public class ProductList extends PagingMenu {
 
             List<String> l = new ArrayList<>();
             l.add("§7Production Time: "+product.getProductionTime()+"s");
-            l.add("§7Cost: $"+df.format(product.getPrice()*(1.0+license.getRoyaltyFee()+license.getCostIncrease())));
+            l.add("§7Cost: $"+df.format(license.getPrice()));
 
             if(productType.equals(ProductType.allOwned) || productType.equals(ProductType.allOwnedLicenses)){
                 l.add("§cThis Product is Licensed from "+license.getFrom().getStockName());
