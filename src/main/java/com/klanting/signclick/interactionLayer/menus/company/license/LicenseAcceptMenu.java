@@ -1,4 +1,4 @@
-package com.klanting.signclick.interactionLayer.menus.company;
+package com.klanting.signclick.interactionLayer.menus.company.license;
 
 import com.klanting.signclick.logicLayer.companyLogic.producible.License;
 import com.klanting.signclick.logicLayer.companyLogic.producible.LicenseSingleton;

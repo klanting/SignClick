@@ -8,9 +8,4 @@
 - plugin.yml has been eddided (added construct)
 - CompatibleLayer.java has been eddided (cleaned up andadded construct)
 - VersionDetection.java has been eddided (cleaned up and added construct)
-
-# To Do
-- utils.java
-    Clean up
-    adding construct
     

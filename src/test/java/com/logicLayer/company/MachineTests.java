@@ -6,7 +6,7 @@ import be.seeseemelk.mockbukkit.block.BlockMock;
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.interactionLayer.events.MenuEvents;
-import com.klanting.signclick.interactionLayer.menus.company.LicenseInfoMenu;
+import com.klanting.signclick.interactionLayer.menus.company.license.LicenseInfoMenu;
 import com.klanting.signclick.logicLayer.companyLogic.*;
 import com.klanting.signclick.logicLayer.companyLogic.producible.License;
 import com.klanting.signclick.logicLayer.companyLogic.producible.LicenseSingleton;

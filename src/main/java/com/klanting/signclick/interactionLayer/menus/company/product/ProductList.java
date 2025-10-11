@@ -1,6 +1,10 @@
-package com.klanting.signclick.interactionLayer.menus.company;
+package com.klanting.signclick.interactionLayer.menus.company.product;
 
 import com.klanting.signclick.interactionLayer.menus.PagingMenu;
+import com.klanting.signclick.interactionLayer.menus.company.license.LicenseAcceptMenu;
+import com.klanting.signclick.interactionLayer.menus.company.license.LicenseInfoMenu;
+import com.klanting.signclick.interactionLayer.menus.company.license.LicenseRequestMenu;
+import com.klanting.signclick.interactionLayer.menus.company.Selector;
 import com.klanting.signclick.logicLayer.companyLogic.*;
 import com.klanting.signclick.logicLayer.companyLogic.producible.License;
 import com.klanting.signclick.logicLayer.companyLogic.producible.LicenseSingleton;

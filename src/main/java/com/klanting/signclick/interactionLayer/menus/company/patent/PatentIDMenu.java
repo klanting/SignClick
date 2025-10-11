@@ -1,4 +1,4 @@
-package com.klanting.signclick.interactionLayer.menus.company;
+package com.klanting.signclick.interactionLayer.menus.company.patent;
 
 import com.klanting.signclick.logicLayer.companyLogic.CompanyI;
 import com.klanting.signclick.interactionLayer.menus.SelectionMenu;
