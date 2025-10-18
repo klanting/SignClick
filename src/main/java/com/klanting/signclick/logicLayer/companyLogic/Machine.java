@@ -155,20 +155,19 @@ public class Machine {
 
         Block belowBlock = getBlock().getRelative(BlockFace.DOWN);
 
-        if (belowBlock.getState() instanceof Hopper hopper) {
+        if (!(belowBlock.getState() instanceof Hopper hopper)) {
+            return;
+        }
 
-            for (int i=0; i<3;i++){
-                ItemStack item = results[i];
+        for (int i=0; i<3;i++){
+            ItemStack item = results[i];
 
-                if (item == null){
-                    continue;
-                }
-
-                HashMap<Integer, ItemStack> leftovers = hopper.getInventory().addItem(item);
-                results[i] = leftovers.isEmpty() ? null: leftovers.values().iterator().next();
+            if (item == null){
+                continue;
             }
 
-
+            HashMap<Integer, ItemStack> leftovers = hopper.getInventory().addItem(item);
+            results[i] = leftovers.isEmpty() ? null: leftovers.values().iterator().next();
         }
     }
 
