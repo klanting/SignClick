@@ -23,7 +23,7 @@ public class SignIncome {
     private static final ArrayList<Door> doorCooldown = new ArrayList<Door>();
     public static Map<Location, UUID> owner = new HashMap<>();
 
-    private static final long signIncomeOpenTime = SignClick.getConfigManager().getConfig("general.yml").getLong("signIncomeOpenTime");
+    private static final long signIncomeOpenTime = SignClick.getConfigManager().getConfig("general.yml").getLong("signIncomeOpenTime", 5);
 
     public static void Open(Sign sign, Player player){
         if (isWallSign(sign.getType())){

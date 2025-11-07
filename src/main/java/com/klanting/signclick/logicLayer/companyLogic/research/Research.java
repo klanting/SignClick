@@ -63,7 +63,7 @@ public class Research {
                     newResearchOptions.add(new ResearchOption(this.company, m));
                 }
             }catch (Exception e){
-                getServer().getConsoleSender().sendMessage(ChatColor.GRAY + "SignClick: "+researchItem+" INVALID");
+                getServer().getConsoleSender().sendMessage(ChatColor.GRAY + "SignClick: "+researchItem+" INVALID ITEM, NOT LOADED");
             }
 
 
