@@ -1,5 +1,7 @@
-package com.klanting.signclick.interactionLayer.menus.company.product;
+package com.klanting.signclick.interactionLayer.menus.company.product.craftMenu;
 
+import com.klanting.signclick.interactionLayer.menus.company.product.ProductList;
+import com.klanting.signclick.interactionLayer.menus.company.product.ProductType;
 import com.klanting.signclick.logicLayer.companyLogic.CompanyI;
 import com.klanting.signclick.logicLayer.companyLogic.producible.License;
 import com.klanting.signclick.logicLayer.companyLogic.producible.Producible;
@@ -22,8 +24,7 @@ import static com.klanting.signclick.interactionLayer.events.MenuEvents.loadStac
 
 public class ProductCraftMenu extends SelectionMenu {
     public CompanyI comp;
-
-    public Product[] products = new Product[9];
+    private CraftState state = new CraftStateCraftingTable();
 
     public ProductCraftMenu(UUID uuid, CompanyI company){
         super(45, "Product Crafting: "+ company.getStockName(), true);
@@ -33,34 +34,13 @@ public class ProductCraftMenu extends SelectionMenu {
         init();
     }
 
-    public Product getCrafted(){
-        ItemStack recipe = Utils.simulateCraft(Arrays.stream(products).
-                map(p -> p != null ? new ItemStack(p.getMaterial()): null).toArray(ItemStack[]::new));
 
-        if (recipe == null){
-            return null;
-        }
-
-        int time = 0;
-        int cost = 0;
-
-        for (Product product: products){
-            if (product == null){
-                continue;
-            }
-            time += product.getProductionTime();
-            cost += product.getPrice();
-        }
-
-        return new Product(recipe.getType(), (double) cost/recipe.getAmount(), Math.max(time/recipe.getAmount(), 1));
-    }
 
     public void init(){
-
-        ItemStack recipe = Utils.simulateCraft(Arrays.stream(products).
-                map(p -> p != null ? new ItemStack(p.getMaterial()): null).toArray(ItemStack[]::new));
-
         getInventory().clear();
+
+        ItemStack recipe = Utils.simulateCraft(Arrays.stream(state.getProducts()).
+                map(p -> p != null ? new ItemStack(p.getMaterial()): null).toArray(ItemStack[]::new));
 
         for (int i: List.of(0, 1, 2, 3, 4, 9, 13, 18, 22, 27, 31, 36, 37, 38, 39, 40)){
             getInventory().setItem(i, ItemFactory.create(Material.YELLOW_STAINED_GLASS_PANE, "§f"));
@@ -68,15 +48,15 @@ public class ProductCraftMenu extends SelectionMenu {
 
         int counter = 0;
         for (int i: List.of(10, 11, 12, 19, 20, 21, 28, 29, 30)){
-            if (products[counter] == null){
+            if (state.getProducts()[counter] == null){
                 getInventory().setItem(i, ItemFactory.create(Material.LIGHT_GRAY_DYE, "§7Crafting Slot"));
             }else{
                 List<String> l = new ArrayList<>();
-                l.add("§7Production Time: "+products[counter].getProductionTime()+"s");
-                l.add("§7Cost: $"+products[counter].getPrice());
+                l.add("§7Production Time: "+state.getProducts()[counter].getProductionTime()+"s");
+                l.add("§7Cost: $"+state.getProducts()[counter].getPrice());
                 getInventory().setItem(i,
-                        ItemFactory.create(products[counter].getMaterial(),
-                                "§7"+products[counter].getMaterial().name(), l));
+                        ItemFactory.create(state.getProducts()[counter].getMaterial(),
+                                "§7"+state.getProducts()[counter].getMaterial().name(), l));
             }
 
             counter += 1;
@@ -87,7 +67,7 @@ public class ProductCraftMenu extends SelectionMenu {
         }
 
         if (recipe != null){
-            Product product = getCrafted();
+            Product product = state.getCrafted();
             List<String> l = new ArrayList<>();
             l.add("§7Production Time: "+product.getProductionTime()+"s");
             l.add("§7Cost: $"+product.getPrice());
@@ -111,8 +91,8 @@ public class ProductCraftMenu extends SelectionMenu {
 
             int slot = (event.getSlot()/9 -1)*3+((event.getSlot()-1)%3);
 
-            if (products[slot] != null){
-                products[slot] = null;
+            if (state.getProducts()[slot] != null){
+                state.setCrafted(slot, null);
                 init();
                 return false;
             }
@@ -125,7 +105,7 @@ public class ProductCraftMenu extends SelectionMenu {
                     prod = ((License) p).getProduct();
                 }
 
-                products[slot] = prod;
+                state.setCrafted(slot, prod);
                 init();
                 loadStack(player);
                 return null;};
@@ -141,12 +121,12 @@ public class ProductCraftMenu extends SelectionMenu {
                 return false;
             }
 
-            Product product = getCrafted();
+            Product product = state.getCrafted();
 
             /*
             * link new product to old
             * */
-            for(Product product1: products){
+            for(Product product1: state.getProducts()){
                 if(product1 == null){
                     continue;
                 }

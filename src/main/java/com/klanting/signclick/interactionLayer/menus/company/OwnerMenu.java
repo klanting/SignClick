@@ -1,7 +1,7 @@
 package com.klanting.signclick.interactionLayer.menus.company;
 
 import com.klanting.signclick.interactionLayer.menus.company.patent.PatentIDMenu;
-import com.klanting.signclick.interactionLayer.menus.company.product.ProductCraftMenu;
+import com.klanting.signclick.interactionLayer.menus.company.product.craftMenu.ProductCraftMenu;
 import com.klanting.signclick.interactionLayer.menus.company.product.ProductList;
 import com.klanting.signclick.interactionLayer.menus.company.product.ProductType;
 import com.klanting.signclick.logicLayer.companyLogic.Board;
