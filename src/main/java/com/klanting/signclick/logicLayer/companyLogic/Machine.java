@@ -260,7 +260,11 @@ public class Machine {
         productionProgress -= product.getProductionTime();
         productionProgress = Math.max(productionProgress, 0);
 
+        produceItem(index, amount);
 
+    }
+
+    private void produceItem(int index, double productionCost){
         if (results[index] != null){
             results[index].setAmount(results[index].getAmount() + 1);
         }else{
@@ -269,7 +273,7 @@ public class Machine {
 
 
         Market.getCompany(compName).update("Machine production",
-                new itemLogEntry(product.getMaterial(), null, 1, amount), null);
+                new itemLogEntry(product.getMaterial(), null, 1, productionCost), null);
 
 
         if (!productionLooped()){
