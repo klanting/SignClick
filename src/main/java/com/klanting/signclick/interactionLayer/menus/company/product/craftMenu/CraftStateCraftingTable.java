@@ -5,6 +5,7 @@ import com.klanting.signclick.utils.Utils;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class CraftStateCraftingTable extends CraftState{
 
@@ -41,5 +42,21 @@ public class CraftStateCraftingTable extends CraftState{
     @Override
     public Product[] getProducts() {
         return products;
+    }
+
+    @Override
+    public List<Integer> getCraftSlots() {
+        /*
+        * return all the UI positions a user can set a product: crafting table -> 3x3
+        * */
+        return List.of(10, 11, 12, 19, 20, 21, 28, 29, 30);
+    }
+
+    @Override
+    public List<Integer> getCraftCoverSlots() {
+        /*
+        * get the list of slots surrounding the given craft slots to mark it
+        * */
+        return List.of(0, 1, 2, 3, 4, 9, 13, 18, 22, 27, 31, 36, 37, 38, 39, 40);
     }
 }

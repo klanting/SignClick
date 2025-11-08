@@ -42,12 +42,12 @@ public class ProductCraftMenu extends SelectionMenu {
         ItemStack recipe = Utils.simulateCraft(Arrays.stream(state.getProducts()).
                 map(p -> p != null ? new ItemStack(p.getMaterial()): null).toArray(ItemStack[]::new));
 
-        for (int i: List.of(0, 1, 2, 3, 4, 9, 13, 18, 22, 27, 31, 36, 37, 38, 39, 40)){
+        for (int i: state.getCraftCoverSlots()){
             getInventory().setItem(i, ItemFactory.create(Material.YELLOW_STAINED_GLASS_PANE, "§f"));
         }
 
         int counter = 0;
-        for (int i: List.of(10, 11, 12, 19, 20, 21, 28, 29, 30)){
+        for (int i: state.getCraftSlots()){
             if (state.getProducts()[counter] == null){
                 getInventory().setItem(i, ItemFactory.create(Material.LIGHT_GRAY_DYE, "§7Crafting Slot"));
             }else{
@@ -86,8 +86,7 @@ public class ProductCraftMenu extends SelectionMenu {
 
         String option = event.getCurrentItem().getItemMeta().getDisplayName();
 
-        if (option.equals("§7Crafting Slot") || (1 <= event.getSlot()/9 && event.getSlot()/9 <= 3) &&
-                (event.getSlot()-1)%3 <= 2 && 0 <= (event.getSlot()-1)%3){
+        if (option.equals("§7Crafting Slot") || state.getCraftSlots().contains(event.getSlot())){
 
             int slot = (event.getSlot()/9 -1)*3+((event.getSlot()-1)%3);
 
