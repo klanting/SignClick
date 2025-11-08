@@ -2,6 +2,7 @@ package com.klanting.signclick;
 
 import com.google.common.reflect.TypeToken;
 import com.klanting.signclick.configs.ConfigManager;
+import com.klanting.signclick.dependenciesHandling.EconomyProvider;
 import com.klanting.signclick.logicLayer.companyLogic.producible.LicenseSingleton;
 import com.klanting.signclick.logicLayer.companyLogic.research.ResearchOption;
 import com.klanting.signclick.interactionLayer.commands.*;
@@ -13,13 +14,14 @@ import com.klanting.signclick.configs.DefaultConfig;
 import com.klanting.signclick.logicLayer.companyLogic.patent.Auction;
 import com.klanting.signclick.logicLayer.countryLogic.CountryManager;
 import com.klanting.signclick.logicLayer.companyLogic.Market;
-import com.klanting.signclick.softDependencies.EssentialsWrapper;
+import com.klanting.signclick.dependenciesHandling.EssentialsWrapper;
 import com.klanting.signclick.utils.Utils;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.plugin.RegisteredServiceProvider;
+import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.Scoreboard;
 import org.dynmap.DynmapAPI;
@@ -178,6 +180,10 @@ public class SignClick extends JavaPlugin{
         LicenseSingleton.Save();
         WeeklyComp.Save();
 
+        if (econ instanceof EconomyProvider econP){
+            econP.save();
+        }
+
         // Log to the console that the plugin has been disabled.
         getServer().getConsoleSender().sendMessage(ChatColor.RED + "SignClick is disabled!");
 
@@ -203,6 +209,11 @@ public class SignClick extends JavaPlugin{
             return false;
         }
 
+        EconomyProvider economyProvider = Utils.readSave("balance",
+                new TypeToken<EconomyProvider>(){}.getType(), new EconomyProvider());
+
+        getServer().getServicesManager().register(Economy.class, economyProvider, this, ServicePriority.Lowest);
+
         // The multiple checks for the service provider are for compatibility across different server versions.
         RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
         if (rsp == null) {
@@ -222,7 +233,14 @@ public class SignClick extends JavaPlugin{
                     "Add an economy provider such as EssentialsX, CMI, iConomy ...");
             return false;
         }
+
         econ = rsp.getProvider();
+
+        if(econ instanceof EconomyProvider ){
+            getServer().getConsoleSender().sendMessage(ChatColor.YELLOW + "SignClick: No external econ provider detected, " +
+                    "falling back on internal provider. Recommended to install an economy plugin such as EssentialsX, CMI, iConomy ..");
+        }
+
         return econ != null;
     }
 

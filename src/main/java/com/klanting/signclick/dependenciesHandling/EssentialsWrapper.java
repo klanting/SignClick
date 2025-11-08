@@ -1,6 +1,5 @@
-package com.klanting.signclick.softDependencies;
+package com.klanting.signclick.dependenciesHandling;
 
-import com.earth2me.essentials.Worth;
 import net.ess3.api.IEssentials;
 import org.bukkit.Server;
 import org.bukkit.inventory.ItemStack;
