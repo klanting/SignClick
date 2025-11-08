@@ -4,18 +4,14 @@ import com.klanting.signclick.SignClick;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 
-import java.io.File;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.List;
 
-import static com.klanting.signclick.utils.Utils.AssertMet;
 import static org.bukkit.Bukkit.getServer;
 
 public class DefaultConfig {
@@ -25,9 +21,8 @@ public class DefaultConfig {
         String item = material.name();
 
         int keys = configSection.getKeys(false).size();
-
         if(SignClick.essentialsSupport){
-            BigDecimal price = SignClick.essentials.getWorth().getPrice(SignClick.essentials, new ItemStack(material));
+            BigDecimal price = SignClick.essentials.getPrice(new ItemStack(material));
             if(price != null){
                 productionCost = price.doubleValue();
             }

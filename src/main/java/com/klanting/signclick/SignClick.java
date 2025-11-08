@@ -13,6 +13,7 @@ import com.klanting.signclick.configs.DefaultConfig;
 import com.klanting.signclick.logicLayer.companyLogic.patent.Auction;
 import com.klanting.signclick.logicLayer.countryLogic.CountryManager;
 import com.klanting.signclick.logicLayer.companyLogic.Market;
+import com.klanting.signclick.softDependencies.EssentialsWrapper;
 import com.klanting.signclick.utils.Utils;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
@@ -23,10 +24,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.Scoreboard;
 import org.dynmap.DynmapAPI;
 import org.dynmap.markers.MarkerSet;
-import net.ess3.api.IEssentials;
 import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.util.*;
+
+import static org.bukkit.Bukkit.getServer;
 
 public class SignClick extends JavaPlugin{
     /*
@@ -49,7 +51,7 @@ public class SignClick extends JavaPlugin{
     public static MarkerSet markerSet;
     public static Scoreboard scoreboard;
     public static boolean essentialsSupport;
-    public static IEssentials essentials;
+    public static EssentialsWrapper essentials;
     public static InputStream productionConfig;
     public static ConfigManager getConfigManager() {
         return configManager;
@@ -65,6 +67,7 @@ public class SignClick extends JavaPlugin{
         plugin = this;
         configManager = new ConfigManager(this);
         essentialsSupport = setupEssentials();
+
         productionConfig = getResource("productionInit.yml");
         DefaultConfig.makeDefaultConfig();
 
@@ -82,10 +85,8 @@ public class SignClick extends JavaPlugin{
         // Dynmap
         dynmapSupport = setupDynmap();
         if (!dynmapSupport) {
-            getServer().getConsoleSender().sendMessage(ChatColor.RED + "SignClick: Dynmap Not Supported failed!");
+            getServer().getConsoleSender().sendMessage(ChatColor.RED + "SignClick: Dynmap support failed!");
         }
-        // Essentials
-        essentialsSupport = setupEssentials();
 
         // Restore Data from files
         this.RestoreDoors();
@@ -217,7 +218,8 @@ public class SignClick extends JavaPlugin{
             rsp = Bukkit.getServer().getServicesManager().getRegistration(Economy.class);
         }
         if (rsp == null) {
-            getServer().getConsoleSender().sendMessage(ChatColor.RED + "SignClick: RSP is null!");
+            getServer().getConsoleSender().sendMessage(ChatColor.RED + "SignClick: No Vault provider found! " +
+                    "Add an economy provider such as EssentialsX, CMI, iConomy ...");
             return false;
         }
         econ = rsp.getProvider();
@@ -249,7 +251,7 @@ public class SignClick extends JavaPlugin{
         * @return true if Essentials was set up successfully, false otherwise.
         * */
         if (getServer().getPluginManager().getPlugin("Essentials") != null) {
-            essentials = (IEssentials) getServer().getPluginManager().getPlugin("Essentials");
+            essentials = new EssentialsWrapper(getServer());
             return true;
         }
         return false;
