@@ -6,7 +6,7 @@
 #------------------------------------------------------------------------------------#
 
 name: SignClick
-version: 2.0.5
+version: 2.0.6
 author: klanting
 main: com.klanting.signclick.SignClick
 api-version: 1.18

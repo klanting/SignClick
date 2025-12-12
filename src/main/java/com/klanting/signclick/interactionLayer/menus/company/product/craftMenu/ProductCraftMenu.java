@@ -88,10 +88,11 @@ public class ProductCraftMenu extends SelectionMenu {
 
         if (option.equals("§7Crafting Slot") || state.getCraftSlots().contains(event.getSlot())){
 
-            int slot = (event.getSlot()/9 -1)*3+((event.getSlot()-1)%3);
 
-            if (state.getProducts()[slot] != null){
-                state.setCrafted(slot, null);
+            int productSlot = state.getProductionSlot(event.getSlot());
+
+            if (state.getProducts()[productSlot] != null){
+                state.setCrafted(productSlot, null);
                 init();
                 return false;
             }
@@ -104,12 +105,12 @@ public class ProductCraftMenu extends SelectionMenu {
                     prod = ((License) p).getProduct();
                 }
 
-                state.setCrafted(slot, prod);
+                state.setCrafted(productSlot, prod);
                 init();
                 loadStack(player);
                 return null;};
 
-            ProductList new_screen = new ProductList(comp, lambda, false, ProductType.allOwned);
+            ProductList new_screen = state.getProductUI(comp, lambda);
             player.openInventory(new_screen.getInventory());
         }else if(option.equals("§a✓ Save Product")) {
 

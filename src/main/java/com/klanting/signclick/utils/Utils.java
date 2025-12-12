@@ -331,6 +331,17 @@ public class Utils {
         return null;
     }
 
+
+    public static ItemStack simulateFurnace(ItemStack[] inputMatrix) {
+
+        for (@NotNull Iterator<Recipe> it = getServer().recipeIterator(); it.hasNext(); ) {
+            Recipe recipe = it.next();
+            System.out.println("X "+recipe.getClass());
+        }
+
+        return null;
+    }
+
     public static void AssertMet(boolean value, String reason){
         if(!value){
             throw new AssertionError(reason);
