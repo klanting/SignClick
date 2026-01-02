@@ -19,6 +19,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.event.inventory.FurnaceBurnEvent;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.inventory.*;
 import org.jetbrains.annotations.NotNull;
@@ -331,12 +332,72 @@ public class Utils {
         return null;
     }
 
+    public static double getFurnaceFuelAmount(ItemStack[] inputMatrix) {
+        ItemStack toBurn = inputMatrix[0];
+        ItemStack fuel = inputMatrix[1];
 
-    public static ItemStack simulateFurnace(ItemStack[] inputMatrix) {
+        /*
+         * Not a valid fuel source
+         * */
+        if (fuel == null || !fuel.getType().isFuel()){
+            return -1;
+        }
 
         for (@NotNull Iterator<Recipe> it = getServer().recipeIterator(); it.hasNext(); ) {
             Recipe recipe = it.next();
-            System.out.println("X "+recipe.getClass());
+
+            if (recipe instanceof FurnaceRecipe furnaceRecipe){
+                RecipeChoice input = furnaceRecipe.getInputChoice();
+
+                if (!(input instanceof RecipeChoice.MaterialChoice materialChoice)){
+                    continue;
+                }
+
+                if (!materialChoice.getChoices().contains(toBurn.getType())){
+                    continue;
+                }
+
+                int cookTime = furnaceRecipe.getCookingTime();
+
+                return cookTime/ (double) getVanillaBurnTime(fuel.getType());
+            }
+
+
+        }
+
+        return -1;
+    }
+
+
+    public static ItemStack simulateFurnace(ItemStack[] inputMatrix) {
+        ItemStack toBurn = inputMatrix[0];
+        ItemStack fuel = inputMatrix[1];
+
+        /*
+        * Not a valid fuel source
+        * */
+        if (fuel == null || !fuel.getType().isFuel()){
+            return null;
+        }
+
+        for (@NotNull Iterator<Recipe> it = getServer().recipeIterator(); it.hasNext(); ) {
+            Recipe recipe = it.next();
+
+            if (recipe instanceof FurnaceRecipe furnaceRecipe){
+                RecipeChoice input = furnaceRecipe.getInputChoice();
+
+                if (!(input instanceof RecipeChoice.MaterialChoice materialChoice)){
+                    continue;
+                }
+
+                if (!materialChoice.getChoices().contains(toBurn.getType())){
+                    continue;
+                }
+
+                return furnaceRecipe.getResult();
+            }
+
+
         }
 
         return null;
@@ -363,5 +424,53 @@ public class Utils {
 
         return sb.toString().trim();
     }
+
+    public static int getVanillaBurnTime(Material material) {
+        return switch (material) {
+            case LAVA_BUCKET -> 20000;
+            case COAL_BLOCK -> 16000;
+            case DRIED_KELP_BLOCK -> 4000;
+            case BLAZE_ROD -> 2400;
+            case COAL, CHARCOAL -> 1600;
+            // Wood-based logs and planks
+            case OAK_LOG, SPRUCE_LOG, BIRCH_LOG, JUNGLE_LOG, ACACIA_LOG, DARK_OAK_LOG, MANGROVE_LOG,
+                    STRIPPED_OAK_LOG, STRIPPED_SPRUCE_LOG, STRIPPED_BIRCH_LOG,
+                    STRIPPED_JUNGLE_LOG, STRIPPED_ACACIA_LOG, STRIPPED_DARK_OAK_LOG,
+                    OAK_PLANKS, SPRUCE_PLANKS, BIRCH_PLANKS, JUNGLE_PLANKS,
+                    ACACIA_PLANKS, DARK_OAK_PLANKS, MANGROVE_PLANKS -> 300;
+
+            // Wooden fixtures
+            case OAK_FENCE, SPRUCE_FENCE, BIRCH_FENCE, JUNGLE_FENCE,
+                    ACACIA_FENCE, DARK_OAK_FENCE, MANGROVE_FENCE,
+                    OAK_FENCE_GATE, SPRUCE_FENCE_GATE, BIRCH_FENCE_GATE,
+                    JUNGLE_FENCE_GATE, ACACIA_FENCE_GATE, DARK_OAK_FENCE_GATE,
+                    MANGROVE_FENCE_GATE,
+                    OAK_STAIRS, SPRUCE_STAIRS, BIRCH_STAIRS, JUNGLE_STAIRS,
+                    ACACIA_STAIRS, DARK_OAK_STAIRS, MANGROVE_STAIRS,
+                    OAK_TRAPDOOR, SPRUCE_TRAPDOOR, BIRCH_TRAPDOOR,
+                    JUNGLE_TRAPDOOR, ACACIA_TRAPDOOR, DARK_OAK_TRAPDOOR,
+                    MANGROVE_TRAPDOOR,
+                    OAK_PRESSURE_PLATE, SPRUCE_PRESSURE_PLATE,
+                    BIRCH_PRESSURE_PLATE, JUNGLE_PRESSURE_PLATE,
+                    ACACIA_PRESSURE_PLATE, DARK_OAK_PRESSURE_PLATE,
+                    MANGROVE_PRESSURE_PLATE,
+                    CRAFTING_TABLE -> 300;
+
+            // Wood tools / boats
+            case WOODEN_SWORD, WOODEN_SHOVEL, WOODEN_PICKAXE,
+                    WOODEN_AXE, WOODEN_HOE -> 200;
+
+            // Smaller fuels
+            case STICK, BOWL -> 100;
+            case WHITE_CARPET, ORANGE_CARPET, MAGENTA_CARPET, LIGHT_BLUE_CARPET,
+                    YELLOW_CARPET, LIME_CARPET, PINK_CARPET, GRAY_CARPET,
+                    LIGHT_GRAY_CARPET, CYAN_CARPET, PURPLE_CARPET, BLUE_CARPET,
+                    BROWN_CARPET, GREEN_CARPET, RED_CARPET, BLACK_CARPET -> 67;
+            case BAMBOO, SCAFFOLDING -> 50;
+
+            default -> 100;
+        };
+    }
+
 
 }

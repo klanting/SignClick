@@ -19,9 +19,6 @@ public class CraftStateCraftingTable extends CraftState{
     @Override
     public Product getCrafted(){
 
-        Utils.simulateFurnace(Arrays.stream(products).
-                map(p -> p != null ? new ItemStack(p.getMaterial()): null).toArray(ItemStack[]::new));
-
         ItemStack recipe = Utils.simulateCraft(Arrays.stream(products).
                 map(p -> p != null ? new ItemStack(p.getMaterial()): null).toArray(ItemStack[]::new));
 

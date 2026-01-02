@@ -39,8 +39,8 @@ public class ProductCraftMenu extends SelectionMenu {
     public void init(){
         getInventory().clear();
 
-        ItemStack recipe = Utils.simulateCraft(Arrays.stream(state.getProducts()).
-                map(p -> p != null ? new ItemStack(p.getMaterial()): null).toArray(ItemStack[]::new));
+        Product product = state.getCrafted();
+
 
         for (int i: state.getCraftCoverSlots()){
             getInventory().setItem(i, ItemFactory.create(Material.YELLOW_STAINED_GLASS_PANE, "§f"));
@@ -66,12 +66,11 @@ public class ProductCraftMenu extends SelectionMenu {
             getInventory().setItem(i, ItemFactory.create(Material.LIGHT_BLUE_STAINED_GLASS_PANE, "§f"));
         }
 
-        if (recipe != null){
-            Product product = state.getCrafted();
+        if (product != null){
             List<String> l = new ArrayList<>();
             l.add("§7Production Time: "+product.getProductionTime()+"s");
             l.add("§7Cost: $"+product.getPrice());
-            getInventory().setItem(25, ItemFactory.create(recipe.getType(), "§7"+recipe.getType().name(),
+            getInventory().setItem(25, ItemFactory.create(product.getMaterial(), "§7"+product.getMaterial().name(),
                     l));
         }
 

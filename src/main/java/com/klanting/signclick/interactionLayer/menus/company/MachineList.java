@@ -23,7 +23,7 @@ public class MachineList extends PagingMenu {
     public final Function<Product, Void> func;
 
     public MachineList(CompanyI comp, Function<Product, Void> func){
-        super(54, "Product List", true);
+        super(54, "Machines List", true);
         this.comp = comp;
         this.func = func;
 
