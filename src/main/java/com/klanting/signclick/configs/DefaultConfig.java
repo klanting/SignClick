@@ -95,6 +95,8 @@ public class DefaultConfig {
         companiesConfig.addDefault("signStockCost", 1000.0,
                 "Cost for making a stock sign, amount goes to company");
 
+        companiesConfig.addDefault("machinesEnabled", true, "Enabled -> Companies can have machines that produce items");
+
         companiesConfig.addDefault("patentUpgradeBonusCunning", List.of(0.5, 1.0, 1.5, 2.0, 2.5, 3.0));
         companiesConfig.addDefault("patentUpgradeBonusEvade", List.of(0.5, 1.0, 1.5, 2.0, 2.5, 3.0));
         companiesConfig.addDefault("patentUpgradeBonusJumper", List.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0));

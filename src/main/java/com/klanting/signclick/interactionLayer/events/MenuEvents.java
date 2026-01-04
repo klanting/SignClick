@@ -44,6 +44,12 @@ public class MenuEvents implements Listener {
 
     private static BukkitTask machineCheckTask;
     public static void checkMachines(){
+
+        boolean machinesEnabled = SignClick.getConfigManager().getConfig("companies.yml").getBoolean("machinesEnabled", true);
+        if (! machinesEnabled){
+            return;
+        }
+
         machineCheckTask = Bukkit.getScheduler().runTaskTimer(SignClick.getPlugin(), () -> {
 
             for (Machine machine: activeMachines){

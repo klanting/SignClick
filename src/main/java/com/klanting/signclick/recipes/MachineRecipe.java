@@ -33,6 +33,10 @@ public class MachineRecipe {
     }
 
     public static void create(){
+        boolean machinesEnabled = SignClick.getConfigManager().getConfig("companies.yml").getBoolean("machinesEnabled", true);
+        if (!machinesEnabled){
+            return;
+        }
 
         NamespacedKey key = new NamespacedKey(SignClick.getPlugin(), "signclick_company_machine");
         ItemStack machine = item();

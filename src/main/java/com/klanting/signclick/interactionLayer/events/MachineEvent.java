@@ -41,6 +41,12 @@ public class MachineEvent implements Listener {
             return;
         }
 
+        boolean machinesEnabled = SignClick.getConfigManager().getConfig("companies.yml").getBoolean("machinesEnabled", true);
+        if (!machinesEnabled){
+            event.getPlayer().sendMessage("§cMachines are disabled on this served");
+            return;
+        }
+
         Block block = event.getBlockPlaced();
         BlockState state = block.getState();
 
