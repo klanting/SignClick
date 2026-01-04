@@ -4,6 +4,8 @@ import com.klanting.signclick.interactionLayer.menus.company.product.ProductList
 import com.klanting.signclick.logicLayer.companyLogic.CompanyI;
 import com.klanting.signclick.logicLayer.companyLogic.producible.Producible;
 import com.klanting.signclick.logicLayer.companyLogic.producible.Product;
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 import java.util.function.Function;
@@ -25,4 +27,8 @@ public abstract class CraftState {
     abstract public int getProductionSlot(int uiSlot);
 
     abstract public ProductList getProductUI(CompanyI comp, Function<Producible, Void> lambda);
+
+    abstract public ItemStack getIcon();
+
+    abstract public Material getCraftCoverMaterial();
 }

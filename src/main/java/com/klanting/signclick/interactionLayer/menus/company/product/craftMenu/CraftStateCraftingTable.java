@@ -5,7 +5,9 @@ import com.klanting.signclick.interactionLayer.menus.company.product.ProductType
 import com.klanting.signclick.logicLayer.companyLogic.CompanyI;
 import com.klanting.signclick.logicLayer.companyLogic.producible.Producible;
 import com.klanting.signclick.logicLayer.companyLogic.producible.Product;
+import com.klanting.signclick.utils.ItemFactory;
 import com.klanting.signclick.utils.Utils;
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
@@ -74,6 +76,16 @@ public class CraftStateCraftingTable extends CraftState{
     @Override
     public ProductList getProductUI(CompanyI comp, Function<Producible, Void>  lambda) {
         return new ProductList(comp, lambda, false, ProductType.allOwned);
+    }
+
+    @Override
+    public ItemStack getIcon() {
+        return ItemFactory.create(Material.CRAFTING_TABLE, "§6Use Crafting Table");
+    }
+
+    @Override
+    public Material getCraftCoverMaterial() {
+        return Material.OAK_PLANKS;
     }
 
 

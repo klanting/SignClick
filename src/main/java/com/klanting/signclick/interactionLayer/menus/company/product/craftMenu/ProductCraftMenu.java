@@ -43,7 +43,13 @@ public class ProductCraftMenu extends SelectionMenu {
 
 
         for (int i: state.getCraftCoverSlots()){
-            getInventory().setItem(i, ItemFactory.create(Material.YELLOW_STAINED_GLASS_PANE, "§f"));
+
+            if (i == 38){
+                getInventory().setItem(i, ItemFactory.create(state.getIcon().getType(), "§f"));
+                continue;
+            }
+
+            getInventory().setItem(i, ItemFactory.create(state.getCraftCoverMaterial(), "§f"));
         }
 
         int counter = 0;
@@ -73,6 +79,13 @@ public class ProductCraftMenu extends SelectionMenu {
             getInventory().setItem(25, ItemFactory.create(product.getMaterial(), "§7"+product.getMaterial().name(),
                     l));
         }
+
+        /*
+        * show other state icon
+        * */
+        getInventory().setItem(42,
+                state instanceof CraftStateFurnace ? new CraftStateCraftingTable().getIcon(): new CraftStateFurnace().getIcon()
+        );
 
         getInventory().setItem(43, ItemFactory.create(Material.LIME_WOOL, "§a✓ Save Product"));
 
@@ -113,9 +126,9 @@ public class ProductCraftMenu extends SelectionMenu {
             player.openInventory(new_screen.getInventory());
         }else if(option.equals("§a✓ Save Product")) {
 
-            if (comp.getProducts().size() >= comp.getUpgrades().get(2).getBonus()){
-                player.sendMessage("§cYou don't have any free product slots. Used: "+comp.getProducts().size()
-                        +"/"+comp.getUpgrades().get(2).getBonus()+" (Research products are always added)");
+            if (comp.getProducts().size() >= comp.getUpgrades().get(2).getBonus()) {
+                player.sendMessage("§cYou don't have any free product slots. Used: " + comp.getProducts().size()
+                        + "/" + comp.getUpgrades().get(2).getBonus() + " (Research products are always added)");
                 player.closeInventory();
                 return false;
             }
@@ -123,23 +136,26 @@ public class ProductCraftMenu extends SelectionMenu {
             Product product = state.getCrafted();
 
             /*
-            * link new product to old
-            * */
-            for(Product product1: state.getProducts()){
-                if(product1 == null){
+             * link new product to old
+             * */
+            for (Product product1 : state.getProducts()) {
+                if (product1 == null) {
                     continue;
                 }
 
                 product1.addUsedFor(product);
             }
 
-            if (product != null){
+            if (product != null) {
                 comp.addProduct(product);
                 loadStack(player);
             }
 
             return false;
-
+        }else if(event.getSlot() == 42) {
+            state = state instanceof CraftStateFurnace ? new CraftStateCraftingTable(): new CraftStateFurnace();
+            init();
+            return false;
         }else{
             /*
              * Only return if no slot selected
