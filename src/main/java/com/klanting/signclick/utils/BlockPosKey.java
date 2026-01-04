@@ -11,4 +11,13 @@ public record BlockPosKey(String world, int x, int y, int z) {
                 loc.getBlockZ()
         );
     }
+
+    public static BlockPosKey from(String worldName, int X, int Y, int Z) {
+        return new BlockPosKey(
+                worldName,
+                X,
+                Y,
+                Z
+        );
+    }
 }

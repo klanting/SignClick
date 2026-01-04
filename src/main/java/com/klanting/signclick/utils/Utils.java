@@ -96,6 +96,7 @@ public class Utils {
         builder.registerTypeAdapterFactory(upgradeTypes);
         builder.registerTypeAdapter(Policy.class, new PolicySerializer());
         builder.registerTypeAdapter(LocalDate.class, new LocalDateSerializer());
+        builder.registerTypeAdapter(BlockPosKey.class, new BlockPosKeySerializer());
 
         return builder;
     }
