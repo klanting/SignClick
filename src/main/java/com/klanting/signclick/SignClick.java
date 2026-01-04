@@ -55,6 +55,9 @@ public class SignClick extends JavaPlugin{
     public static boolean essentialsSupport;
     public static EssentialsWrapper essentials;
     public static InputStream productionConfig;
+
+    private boolean startingUp = false;
+
     public static ConfigManager getConfigManager() {
         return configManager;
     }
@@ -64,6 +67,7 @@ public class SignClick extends JavaPlugin{
         /*
         * Called when the plugin is enabled (server startup or plugin reload).
         * */
+        startingUp = true;
 
         // Core Initializations
         plugin = this;
@@ -155,6 +159,8 @@ public class SignClick extends JavaPlugin{
 
         getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "SignClick is enabled!");
 
+        startingUp = false;
+
     }
 
     @Override
@@ -162,6 +168,13 @@ public class SignClick extends JavaPlugin{
         /*
         * Called when the plugin is disabled (server shutdown).
         * */
+
+        /*
+        * avoid overriding save files when crash happened during startup
+        * */
+        if (startingUp){
+            return;
+        }
 
         // This is a workaround for a potential memory leak with the Gson library upon plugin reload.
         // It uses reflection to clear a static field in Gson, allowing the classloader to be garbage collected.
