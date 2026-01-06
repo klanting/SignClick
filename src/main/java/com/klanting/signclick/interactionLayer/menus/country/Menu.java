@@ -67,7 +67,7 @@ public class Menu extends SelectionMenu {
         event.setCancelled(true);
         String option = event.getCurrentItem().getItemMeta().getDisplayName();
         if (option.equalsIgnoreCase("§6Policy")){
-            Policy screen = new Policy(player.getUniqueId());
+            PolicyMenu screen = new PolicyMenu(player.getUniqueId());
             player.openInventory(screen.getInventory());
         }else if (option.equalsIgnoreCase("§6Decisions")){
             DecisionMenu screen = new DecisionMenu(player.getUniqueId());

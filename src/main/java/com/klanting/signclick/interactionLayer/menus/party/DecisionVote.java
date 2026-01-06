@@ -34,7 +34,7 @@ public class DecisionVote extends PagingMenu {
 
         for (Decision d: country.getDecisions()){
             if (d.hasVoted(p)){
-                continue;
+                //continue;
             }
 
             ItemStack decisionItem = new ItemStack(Material.PAPER, 1);

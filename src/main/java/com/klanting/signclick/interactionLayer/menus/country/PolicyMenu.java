@@ -1,9 +1,11 @@
 package com.klanting.signclick.interactionLayer.menus.country;
 
+import com.klanting.signclick.SignClick;
 import com.klanting.signclick.logicLayer.countryLogic.Country;
 import com.klanting.signclick.logicLayer.countryLogic.CountryManager;
 import com.klanting.signclick.logicLayer.countryLogic.policies.PolicyOption;
 import com.klanting.signclick.interactionLayer.menus.SelectionMenu;
+import com.klanting.signclick.utils.Utils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -16,11 +18,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public class Policy extends SelectionMenu {
+public class PolicyMenu extends SelectionMenu {
 
     private final UUID uuid;
 
-    public Policy(UUID uuid){
+    public PolicyMenu(UUID uuid){
         super(54, "Country Policy", true);
         this.uuid = uuid;
         init();
@@ -84,7 +86,7 @@ public class Policy extends SelectionMenu {
 
     public boolean onClick(InventoryClickEvent event){
         event.setCancelled(true);
-        Policy old_screen = (Policy) event.getClickedInventory().getHolder();
+        PolicyMenu old_screen = (PolicyMenu) event.getClickedInventory().getHolder();
         Player player = (Player) event.getWhoClicked();
 
         int slot = event.getSlot();
@@ -95,11 +97,14 @@ public class Policy extends SelectionMenu {
         }
 
         Country country = CountryManager.getCountry(player);
-
-        country.setPolicies(row-1, level);
+        boolean suc6 = country.setPolicies(row-1, level);
+        if (!suc6){
+            player.sendMessage(SignClick.getPrefix() +"Not all policy change requirements are fulfilled");
+            return true;
+        }
 
         old_screen.init();
-        player.sendMessage("§bPolicy change Decision has been passed on");
+        player.sendMessage(SignClick.getPrefix() +"Policy change Decision has been passed on");
         return true;
     }
 

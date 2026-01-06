@@ -6,6 +6,7 @@ import com.klanting.signclick.logicLayer.countryLogic.parties.Party;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Decision {
     public String name;
@@ -70,4 +71,15 @@ public class Decision {
             country.removeDecision(this);
         }
     }
+
+    @Override
+    public boolean equals(Object obj) {
+
+        if (!(obj instanceof Decision decision)){
+            return false;
+        }
+
+        return decision.name.equals(name);
+    }
+
 }

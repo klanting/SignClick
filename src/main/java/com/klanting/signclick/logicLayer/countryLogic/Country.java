@@ -507,7 +507,7 @@ public class Country {
         Decision d = new DecisionPolicy("§6Policy §9"+policies.get(id).getTitle(old_level)+
                 "§6 to §9"+policies.get(id).getTitle(level), change, this.name, id, old_level, level);
 
-        if (hasDecisionName(d.name)){
+        if (hasDecision(d)){
             return false;
         }
 
@@ -524,9 +524,9 @@ public class Country {
         parties.add(p);
     }
 
-    public Boolean hasDecisionName(String name){
+    public Boolean hasDecision(Decision d2){
         for (Decision d : decisions){
-            if (d.name.equals(name)){
+            if (d.equals(d2)){
                 return true;
             }
         }
@@ -570,8 +570,13 @@ public class Country {
         return aboardMilitary;
     }
 
-    public void addDecision(Decision d){
+    public boolean addDecision(Decision d){
+        if (decisions.contains(d)){
+            return false;
+        }
+
         decisions.add(d);
+        return true;
     }
     public void removeDecision(Decision d){
         decisions.remove(d);
