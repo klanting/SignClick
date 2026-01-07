@@ -52,94 +52,96 @@ permissions:
     description: Allows access to all features (including staff only).
     default: op
     children:
-      #Sign TP
-      signclick.tp:
-        description: Allows making sign TP signs.
-        default: true
+      signclick.tp: true
+      signclick.company.*: true
+      signclick.country.*: true
 
-#------------------------------ Company Permissions ---------------------------------#
-# Permissions related to company management and interactions.                        #
-#------------------------------------------------------------------------------------#
-      signclick.company.*:
-        description: Allows the player company commands
-        default: true
-        children:
-          signclick.company.create:
-            description: Allows the player to create a company
-          signclick.company.info:
-            description: Allows the player to retrieve info of a company
-          signclick.company.sharetop:
-            description: Allows the player to retrieve the list of share owners of the company
-          signclick.company.give:
-            description: Allows the player to give money to a company
-          signclick.company.baltop:
-            description: Allows the player to get a balance top of the companies
-          signclick.company.buy:
-            description: Allows the player to buy shares of a company
-          signclick.company.sell:
-            description: Allows the player to sell shares of a company
-          signclick.company.pay:
-            description: Allows the player (if CEO) to pay others with the company balance
-          signclick.company.spendable:
-            description: Allows the player to check how much a company can still spend
-          signclick.company.transfer:
-            description: Allows the player to transfer shares to another player
-          signclick.company.get_support:
-            description: Allows the player to check who another player supports as CEO
-          signclick.company.support:
-            description: Allows the player to change support for CEO
-          signclick.company.open_trade:
-            description: Allows the player to set the company trading policy to Open Trade (infinite shares can be bought)
-          signclick.company.markettop:
-            description: Allows the player to see the ranking of companies based on available shares
-          signclick.company.market:
-            description: Allows the player to open the share market UI
-          signclick.company.menu:
-            description: Allows the player to open the company menu
-          signclick.company.portfolio:
-            description: Allows the player to retrieve their own shares portfolio
-          signclick.company.transact:
-            description: Allows the player to pay money from the company to another company
-          signclick.company.contract:
-            description: Allows the player to deal with contracts
-            children:
-              signclick.company.send_contract_ctc:
-                description: Allows the player to deal with contracts
-              signclick.company.sign_contract_ctc:
-                description: Allows the player to deal with contracts
-              signclick.company.send_contract_ctp:
-                description: Allows the player to deal with contracts
-              signclick.company.sign_contract_ctp:
-                description: Allows the player to deal with contracts
-              signclick.company.send_contract_ptc:
-                description: Allows the player to deal with contracts
-              signclick.company.sign_contract_ptc:
-                description: Allows the player to deal with contracts
-              signclick.company.get_contracts:
-                description: Allows the player to deal with contracts
-          signclick.company.get_buy_price:
-            description: Allows the player to get the price to buy a given amount of shares
-          signclick.company.get_sell_price:
-            description: Allows the player to get the earnings of selling a given amount of shares
-          signclick.company.guide:
-            description: Allows the player to receive a guide about the plugin
-
-#------------------------------ Country Permissions ---------------------------------#
-# Permissions related to country management.                                         #
-#------------------------------------------------------------------------------------#
-      signclick.country:
-        description: Allows the player country commands
-        default: true
       signclick.company.sharebal: true
       signclick.signin:
         description: Allows the player to open any sign income door
 
+  #Sign TP
+  signclick.tp:
+    description: Allows making sign TP signs.
+    default: true
+
+  #------------------------------ Company Permissions ---------------------------------#
+  # Permissions related to company management and interactions.                        #
+  #------------------------------------------------------------------------------------#
+  signclick.company.*:
+    description: Allows the player company commands
+    default: true
+    children:
+      signclick.company.create:
+        description: Allows the player to create a company
+      signclick.company.info:
+        description: Allows the player to retrieve info of a company
+      signclick.company.sharetop:
+        description: Allows the player to retrieve the list of share owners of the company
+      signclick.company.give:
+        description: Allows the player to give money to a company
+      signclick.company.baltop:
+        description: Allows the player to get a balance top of the companies
+      signclick.company.buy:
+        description: Allows the player to buy shares of a company
+      signclick.company.sell:
+        description: Allows the player to sell shares of a company
+      signclick.company.pay:
+        description: Allows the player (if CEO) to pay others with the company balance
+      signclick.company.spendable:
+        description: Allows the player to check how much a company can still spend
+      signclick.company.transfer:
+        description: Allows the player to transfer shares to another player
+      signclick.company.get_support:
+        description: Allows the player to check who another player supports as CEO
+      signclick.company.support:
+        description: Allows the player to change support for CEO
+      signclick.company.open_trade:
+        description: Allows the player to set the company trading policy to Open Trade (infinite shares can be bought)
+      signclick.company.markettop:
+        description: Allows the player to see the ranking of companies based on available shares
+      signclick.company.market:
+        description: Allows the player to open the share market UI
+      signclick.company.menu:
+        description: Allows the player to open the company menu
+      signclick.company.portfolio:
+        description: Allows the player to retrieve their own shares portfolio
+      signclick.company.transact:
+        description: Allows the player to pay money from the company to another company
+      signclick.company.contract:
+        description: Allows the player to deal with contracts
+        children:
+          signclick.company.send_contract_ctc:
+            description: Allows the player to deal with contracts
+          signclick.company.sign_contract_ctc:
+            description: Allows the player to deal with contracts
+          signclick.company.send_contract_ctp:
+            description: Allows the player to deal with contracts
+          signclick.company.sign_contract_ctp:
+            description: Allows the player to deal with contracts
+          signclick.company.send_contract_ptc:
+            description: Allows the player to deal with contracts
+          signclick.company.sign_contract_ptc:
+            description: Allows the player to deal with contracts
+          signclick.company.get_contracts:
+            description: Allows the player to deal with contracts
+      signclick.company.get_buy_price:
+        description: Allows the player to get the price to buy a given amount of shares
+      signclick.company.get_sell_price:
+        description: Allows the player to get the earnings of selling a given amount of shares
+      signclick.company.guide:
+        description: Allows the player to receive a guide about the plugin
+
+  #------------------------------ Country Permissions ---------------------------------#
+  # Permissions related to country management.                                         #
+  #------------------------------------------------------------------------------------#
+  signclick.country.*:
+    description: Allows the player country commands
+    default: true
+
   signclick.company.sharebal:
     default: false
     description: Allows the player to see how much of its value depends on shares bought, instead of balance
-  signclick.company.add_custom:
-    default: false
-    description: In Progress
 
 #-------------------------------- Staff Permissions ---------------------------------#
 # A parent permission for staff members, granting all plugin permissions.            #
