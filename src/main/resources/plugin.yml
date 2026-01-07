@@ -99,61 +99,42 @@ permissions:
   # Permissions related to company management and interactions.                        #
   #------------------------------------------------------------------------------------#
   signclick.company.create:
-    default: true
     description: Allows the player to create a company
   signclick.company.info:
-    default: true
     description: Allows the player to retrieve info of a company
   signclick.company.sharetop:
-    default: true
     description: Allows the player to retrieve the list of share owners of the company
   signclick.company.give:
-    default: true
     description: Allows the player to give money to a company
   signclick.company.baltop:
-    default: true
     description: Allows the player to get a balance top of the companies
   signclick.company.buy:
-    default: true
     description: Allows the player to buy shares of a company
   signclick.company.sell:
-    default: true
     description: Allows the player to sell shares of a company
   signclick.company.pay:
-    default: true
     description: Allows the player (if CEO) to pay others with the company balance
   signclick.company.spendable:
-    default: true
     description: Allows the player to check how much a company can still spend
   signclick.company.transfer:
-    default: true
     description: Allows the player to transfer shares to another player
   signclick.company.get_support:
-    default: true
     description: Allows the player to check who another player supports as CEO
   signclick.company.support:
-    default: true
     description: Allows the player to change support for CEO
   signclick.company.open_trade:
-    default: true
     description: Allows the player to set the company trading policy to Open Trade (infinite shares can be bought)
   signclick.company.markettop:
-    default: true
     description: Allows the player to see the ranking of companies based on available shares
   signclick.company.market:
-    default: true
     description: Allows the player to open the share market UI
   signclick.company.menu:
-    default: true
     description: Allows the player to open the company menu
   signclick.company.portfolio:
-    default: true
     description: Allows the player to retrieve their own shares portfolio
   signclick.company.transact:
-    default: true
     description: Allows the player to pay money from the company to another company
   signclick.company.contract:
-    default: true
     description: Allows the player to deal with contracts
     children:
       signclick.company.send_contract_ctc: true
@@ -164,38 +145,28 @@ permissions:
       signclick.company.sign_contract_ptc: true
       signclick.company.get_contracts: true
   signclick.company.get_buy_price:
-    default: true
     description: Allows the player to get the price to buy a given amount of shares
   signclick.company.get_sell_price:
-    default: true
     description: Allows the player to get the earnings of selling a given amount of shares
   signclick.company.guide:
-    default: true
     description: Allows the player to receive a guide about the plugin
 
   #--------------------- Company Permissions Sub area Contracts -----------------------#
   # Permissions related to company management and interactions.                        #
   #------------------------------------------------------------------------------------#
   signclick.company.send_contract_ctc:
-    default: true
     description: Allows the player to deal with contracts
   signclick.company.sign_contract_ctc:
-    default: true
     description: Allows the player to deal with contracts
   signclick.company.send_contract_ctp:
-    default: true
     description: Allows the player to deal with contracts
   signclick.company.sign_contract_ctp:
-    default: true
     description: Allows the player to deal with contracts
   signclick.company.send_contract_ptc:
-    default: true
     description: Allows the player to deal with contracts
   signclick.company.sign_contract_ptc:
-    default: true
     description: Allows the player to deal with contracts
   signclick.company.get_contracts:
-    default: true
     description: Allows the player to deal with contracts
 
   #------------------------------ Country Permissions ---------------------------------#

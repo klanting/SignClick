@@ -2,6 +2,7 @@ package com.klanting.signclick.logicLayer.countryLogic;
 
 import com.google.common.reflect.TypeToken;
 import com.klanting.signclick.SignClick;
+import com.klanting.signclick.utils.PermissionsSingleton;
 import com.klanting.signclick.utils.Utils;
 import org.bukkit.ChatColor;
 import org.bukkit.*;
@@ -46,7 +47,10 @@ public class CountryManager {
     }
 
     public static Country create(String countryName, Player player, OfflinePlayer targetPlayer){
-        if (!player.hasPermission("signclick.staff") && !player.hasPermission("signclick.create")){
+        if (
+                !PermissionsSingleton.getInstance().hasPermission(player, "signclick.staff") &&
+                !PermissionsSingleton.getInstance().hasPermission(player, "signclick.create")
+        ){
             player.sendMessage("§bplayer does not have permission to create a country");
             return null;
         }

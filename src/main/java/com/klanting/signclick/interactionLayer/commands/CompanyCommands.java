@@ -8,6 +8,7 @@ import com.klanting.signclick.logicLayer.companyLogic.Market;
 import com.klanting.signclick.SignClick;
 
 import com.klanting.signclick.interactionLayer.commands.companyHandelers.*;
+import com.klanting.signclick.utils.PermissionsSingleton;
 import com.klanting.signclick.utils.Prefix;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -160,7 +161,7 @@ public class CompanyCommands implements CommandExecutor, TabCompleter {
 
             List<String> newAutoCompletes = new ArrayList<>();
             for (String category: autoCompletes){
-                if (player.hasPermission("signclick.company."+category)){
+                if (PermissionsSingleton.getInstance().hasPermission(player, "signclick.company."+category)){
                     newAutoCompletes.add(category);
                 }
             }

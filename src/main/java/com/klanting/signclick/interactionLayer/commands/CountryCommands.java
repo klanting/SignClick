@@ -4,6 +4,7 @@ import com.klanting.signclick.interactionLayer.commands.countryHandlers.*;
 import com.klanting.signclick.interactionLayer.commands.exceptions.CommandException;
 import com.klanting.signclick.logicLayer.countryLogic.CountryManager;
 import com.klanting.signclick.interactionLayer.commands.countryHandlers.staffHandler.*;
+import com.klanting.signclick.utils.PermissionsSingleton;
 import com.klanting.signclick.utils.Prefix;
 
 import net.md_5.bungee.api.ChatColor;
@@ -97,7 +98,7 @@ public class CountryCommands implements CommandExecutor, TabCompleter {
         if (command.getName().equalsIgnoreCase("country")) {
             List<String> autoCompletes = new ArrayList<>();
             if (args.length == 1) {
-                if (player.hasPermission("signclick.staff")){
+                if (PermissionsSingleton.getInstance().hasPermission(player, "signclick.staff")){
                     autoCompletes.add("create");
                     autoCompletes.add("setowner");
                     autoCompletes.add("removeowner");
@@ -131,7 +132,7 @@ public class CountryCommands implements CommandExecutor, TabCompleter {
             }else if (args.length == 2){
                 if (args[0].equals("donate") || args[0].equals("bal") || args[0].equals("info")){
                     return CountryManager.getCountriesString();
-                }else if (player.hasPermission("signclick.staff")){
+                }else if (PermissionsSingleton.getInstance().hasPermission(player, "signclick.staff")){
 
                     Set<String> completeCountries = Set.of(
                             "setowner", "removeowner", "color",

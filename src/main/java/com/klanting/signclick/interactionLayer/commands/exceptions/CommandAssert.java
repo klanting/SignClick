@@ -1,5 +1,6 @@
 package com.klanting.signclick.interactionLayer.commands.exceptions;
 
+import com.klanting.signclick.utils.PermissionsSingleton;
 import org.bukkit.entity.Player;
 
 public class CommandAssert {
@@ -14,7 +15,7 @@ public class CommandAssert {
 
     public static void assertPerms(Player player, String needPerm, String errorMessage) throws CommandException {
 
-        if (!player.hasPermission("signclick."+needPerm)){
+        if (!PermissionsSingleton.getInstance().hasPermission(player, "signclick."+needPerm)){
             throw new CommandException(errorMessage);
         }
     }

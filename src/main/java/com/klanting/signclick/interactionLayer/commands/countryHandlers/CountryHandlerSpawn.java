@@ -4,6 +4,7 @@ import com.klanting.signclick.interactionLayer.commands.exceptions.CommandAssert
 import com.klanting.signclick.interactionLayer.commands.exceptions.CommandException;
 import com.klanting.signclick.logicLayer.countryLogic.Country;
 import com.klanting.signclick.logicLayer.countryLogic.CountryManager;
+import com.klanting.signclick.utils.PermissionsSingleton;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -11,7 +12,7 @@ public class CountryHandlerSpawn extends CountryHandler{
     @Override
     public void handleCommand(Player player, String[] args) throws CommandException {
         Country country;
-        if ((player.hasPermission("signclick.staff")) && (args.length == 2)){
+        if ((PermissionsSingleton.getInstance().hasPermission(player, "signclick.staff")) && (args.length == 2)){
             String countryName = args[1];
             country = CountryManager.getCountry(countryName);
         }else{
