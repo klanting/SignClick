@@ -576,7 +576,7 @@ class CountryCTests {
         assertTrue(result);
 
         testPlayer.assertSaid("""
-                §bBaltop:§0
+                §bBaltop: page 1/1 §0
                 §b1.§3 empire1: §70
                 §b2.§3 empire2: §70""");
         testPlayer.assertNoMoreSaid();

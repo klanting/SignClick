@@ -29,7 +29,7 @@ public class CountryHandlerBaltop extends CountryHandler{
                 int amount = country.getBalance();
                 DecimalFormat df = new DecimalFormat("###,###,###");
                 line += "\n";
-                line += SignClick.getPrefix()+index+".§3 ";
+                line += SignClick.getPrefix()+(i+1)+".§3 ";
                 line += country.getName();
                 line += ": §7";
                 line += df.format(amount);
