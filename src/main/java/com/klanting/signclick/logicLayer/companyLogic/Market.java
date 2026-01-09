@@ -252,16 +252,18 @@ public class Market {
         return outputs;
     }
 
-    public static void getMarketValueTop(Player player){
+    public static void getMarketValueTop(Player player, int page){
         /*
         * Make a ranking of the top companies by value
         * */
+        int index = page-1;
 
         ArrayList<Map.Entry<String, CompanyI>> entries = new ArrayList<>(companies.entrySet());
 
         entries.sort(Comparator.comparing(item -> -item.getValue().getValue()));
 
-        for (int i=0; i<entries.size(); i++){
+        player.sendMessage(SignClick.getPrefix()+"Balancetop: page "+page+"/"+(int) Math.ceil(entries.size()/10.0));
+        for (int i=index*10; i<Math.min(entries.size(), (index*10)+10); i++){
             String b = entries.get(i).getKey();
             Double v = entries.get(i).getValue().getValue();
             DecimalFormat df = new DecimalFormat("###,###,###");

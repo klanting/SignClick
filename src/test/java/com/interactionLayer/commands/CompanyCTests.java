@@ -396,6 +396,7 @@ class CompanyCTests {
 
         boolean suc6 = server.execute("company", testPlayer, "baltop").hasSucceeded();
         assertTrue(suc6);
+        testPlayer.nextMessage();
 
         testPlayer.assertSaid("§b1. §3TCI: §70\n");
         testPlayer.assertNoMoreSaid();
@@ -409,6 +410,7 @@ class CompanyCTests {
 
         suc6 = server.execute("company", testPlayer, "baltop").hasSucceeded();
         assertTrue(suc6);
+        testPlayer.nextMessage();
 
         testPlayer.assertSaid("§b1. §3TCI2: §7100\n");
         testPlayer.assertSaid("§b2. §3TCI: §70\n");
