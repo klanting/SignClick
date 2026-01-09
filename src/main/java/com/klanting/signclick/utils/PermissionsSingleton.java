@@ -4,6 +4,7 @@ import com.klanting.signclick.SignClick;
 import com.klanting.signclick.logicLayer.companyLogic.patent.Auction;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
+import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.jetbrains.annotations.NotNull;
@@ -47,6 +48,16 @@ public class PermissionsSingleton {
         while (subPermissionName != null){
             if (player.hasPermission(subPermissionName)){
                 return true;
+            }
+
+            /*
+            * when sub permission explicitly removed, avoid propagating parent perm check
+            * */
+            for (PermissionAttachmentInfo info : player.getEffectivePermissions()) {
+                if (info.getPermission().equalsIgnoreCase(subPermissionName) && info.getValue() == false) {
+                    return false;
+
+                }
             }
 
             subPermissionName = stringChain.getOrDefault(subPermissionName, null);

@@ -1,6 +1,7 @@
 package com.klanting.signclick.interactionLayer.commands;
 
 import com.klanting.signclick.interactionLayer.commands.countryHandlers.*;
+import com.klanting.signclick.interactionLayer.commands.exceptions.CommandAssert;
 import com.klanting.signclick.interactionLayer.commands.exceptions.CommandException;
 import com.klanting.signclick.logicLayer.countryLogic.CountryManager;
 import com.klanting.signclick.interactionLayer.commands.countryHandlers.staffHandler.*;
@@ -76,6 +77,10 @@ public class CountryCommands implements CommandExecutor, TabCompleter {
 
 
         try{
+
+            CommandAssert.assertPerms(player, "country."+commando,
+                    "§bYou do not have the permissions to execute this command");
+
             if (handlerTranslation.containsKey(commando)){
                 CountryHandler ch = handlerTranslation.get(commando);
 

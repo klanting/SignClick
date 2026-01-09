@@ -175,6 +175,88 @@ permissions:
   signclick.country.*:
     description: Allows the player country commands
     default: true
+    children:
+      signclick.country.create: true
+      signclick.country.bal: true
+      signclick.country.pay: true
+      signclick.country.donate: true
+      signclick.country.baltop: true
+      signclick.country.tax: true
+      signclick.country.invite: true
+      signclick.country.accept: true
+      signclick.country.kick: true
+      signclick.country.info: true
+      signclick.country.leave: true
+      signclick.country.setspawn: true
+      signclick.country.spawn: true
+      signclick.country.add_enforcement: true
+      signclick.country.remove_enforcement: true
+      signclick.country.menu: true
+      signclick.country.election: true
+      signclick.country.vote: true
+      signclick.country.guide: true
+
+  #--------------------------- Country Permissions Sub area ---------------------------#
+  # Permissions related to country management and interactions.                        #
+  #------------------------------------------------------------------------------------#
+  signclick.country.create:
+    description: Allows the player to create a country
+  signclick.country.bal:
+    description: Allows the player to get country balance
+  signclick.country.pay:
+    description: Allows the player to pay as the country
+  signclick.country.donate:
+    description: Allows the player to give funds to the country
+  signclick.country.baltop:
+    description: Allows the player to get country baltop
+  signclick.country.tax:
+    description: Allows the player to set the country taxrate
+  signclick.country.invite:
+    description: Allows the player to invite other players to the country
+  signclick.country.accept:
+    description: Allows the player to accept a country invite
+  signclick.country.kick:
+    description: Allows the player to kick players from the country
+  signclick.country.info:
+    description: TO DO LATER
+  signclick.country.leave:
+    description: TO DO LATER
+  signclick.country.setspawn:
+    description: TO DO LATER
+  signclick.country.spawn:
+    description: TO DO LATER
+  signclick.country.add_enforcement:
+    description: TO DO LATER
+  signclick.country.remove_enforcement:
+    description: TO DO LATER
+  signclick.country.menu:
+    description: TO DO LATER
+  signclick.country.election:
+    description: TO DO LATER
+  signclick.country.vote:
+    description: TO DO LATER
+  signclick.country.guide:
+    description: TO DO LATER
+
+  #--------------------------- Country Permissions Sub area Staff ---------------------#
+  # Permissions related to country management and interactions.                        #
+  #------------------------------------------------------------------------------------#
+  signclick.country.setowner:
+    description: TO DO LATER
+  signclick.country.removeowner:
+    description: TO DO LATER
+  signclick.country.color:
+    description: TO DO LATER
+  signclick.country.promote:
+    description: TO DO LATER
+  signclick.country.demote:
+    description: TO DO LATER
+  signclick.country.remove:
+    description: TO DO LATER
+  signclick.country.addmember:
+    description: TO DO LATER
+  signclick.country.removemember:
+    description: TO DO LATER
 
   signclick.company.sharebal:
     default: false
@@ -187,6 +269,14 @@ permissions:
     default: op
     children:
       signclick.*: true
+      signclick.country.setowner: true
+      signclick.country.removeowner: true
+      signclick.country.color: true
+      signclick.country.promote: true
+      signclick.country.demote: true
+      signclick.country.remove: true
+      signclick.country.addmember: true
+      signclick.country.removemember: true
 
 #------------------------------------------------------------------------------------#
 #                                      Dependencies                                  #
