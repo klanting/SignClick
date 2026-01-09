@@ -21,6 +21,7 @@ import com.klanting.signclick.utils.JsonTools;
 import com.klanting.signclick.utils.Utils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
@@ -36,6 +37,7 @@ import java.util.Map.Entry;
 import java.util.function.Function;
 
 import static com.klanting.signclick.utils.Utils.AssertMet;
+import static org.bukkit.Bukkit.getServer;
 
 public class Company extends LoggableSubject implements CompanyI{
 
@@ -232,7 +234,6 @@ public class Company extends LoggableSubject implements CompanyI{
     }
 
     public boolean removeBal(double amount, boolean skipSpendable){
-
         AssertMet(amount >= 0.0, "Company: remove balance must be positive");
 
         if ((getValue() >= amount) && (spendable >= amount || skipSpendable)){
@@ -503,7 +504,7 @@ public class Company extends LoggableSubject implements CompanyI{
         AssertMet((0.01- modifier1) >= 0, "Dividends payout % must be positive");
 
         double value_one = (getValue()/getTotalShares().doubleValue())*(0.01- modifier1);
-        assert removeBal(value_one*(getTotalShares()-getMarketShares()), true);
+        AssertMet(removeBal(value_one*(getTotalShares()-getMarketShares()), true), "Dividend removeBal is negative");
 
         for (Entry<UUID, Integer> entry : getCOM().getShareHolders().entrySet()){
             UUID holder = entry.getKey();

@@ -13,7 +13,6 @@ public class WeeklyComp {
     public static long systemEnd;
     public static long checkCycle = 60*60*24*7*20L;
     public static void check(){
-
         systemEnd = Utils.readSave("weeklyComp",
                 new TypeToken<Long>(){}.getType(), checkCycle);
 
