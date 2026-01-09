@@ -175,6 +175,7 @@ public class Company extends LoggableSubject implements CompanyI{
         this.type = type;
 
         lastValue = creationCost;
+        spendable = creationCost;
 
         research = new Research(this.getRef());
 
