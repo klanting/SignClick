@@ -181,7 +181,10 @@ public class Account {
 
     }
 
-    public void getPortfolio(Player player){
+    public void getPortfolio(Player player, int page){
+
+        int index = page-1;
+
         ArrayList<String> order = new ArrayList<String>();
         ArrayList<Double> values = new ArrayList<Double>();
         for(Map.Entry<String, Integer> entry : shares.entrySet()){
@@ -217,7 +220,7 @@ public class Account {
 
         }
 
-        player.sendMessage(SignClick.getPrefix()+"portfolio:\n");
+        player.sendMessage(SignClick.getPrefix()+"portfolio: page "+page+"/"+(int) Math.ceil(values.size()/10.0));
         double total = 0;
         for (int i=0; i<values.size(); i++){
             String b = order.get(i);
@@ -227,7 +230,11 @@ public class Account {
             int i2 = i + 1;
             total += v;
             CompanyI comp = Market.getCompany(b);
-            player.sendMessage(SignClick.getPrefix()+i2+". §3"+b+": §7" +df.format(v)+" ("+df2.format((shares.get(b).doubleValue()/comp.getTotalShares().doubleValue()*100.0))+"%)\n");
+
+            if (i >= index*10 && i<Math.min(values.size(), (index*10)+10)){
+                player.sendMessage(SignClick.getPrefix()+i2+". §3"+b+": §7" +df.format(v)+" ("+df2.format((shares.get(b).doubleValue()/comp.getTotalShares().doubleValue()*100.0))+"%)\n");
+            }
+
         }
         DecimalFormat df = new DecimalFormat("###,###,###");
         player.sendMessage("§9Total value: §e" +df.format(total));

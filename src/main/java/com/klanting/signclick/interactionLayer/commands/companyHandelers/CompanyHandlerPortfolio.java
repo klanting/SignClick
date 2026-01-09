@@ -1,5 +1,6 @@
 package com.klanting.signclick.interactionLayer.commands.companyHandelers;
 
+import com.klanting.signclick.interactionLayer.commands.CommandTools;
 import com.klanting.signclick.interactionLayer.commands.exceptions.CommandAssert;
 import com.klanting.signclick.interactionLayer.commands.exceptions.CommandException;
 import com.klanting.signclick.logicLayer.companyLogic.Market;
@@ -14,6 +15,8 @@ public class CompanyHandlerPortfolio extends CompanyHandler{
     public Boolean handleCommand(Player player, String[] args, Boolean firstEnter) throws CommandException {
         UUID target_uuid = null;
 
+        int page = 1;
+
         if(args.length < 2){
             target_uuid = player.getUniqueId();
         }else{
@@ -22,13 +25,22 @@ public class CompanyHandlerPortfolio extends CompanyHandler{
                     target_uuid = target.getUniqueId();
                 }
             }
+
+            if (args.length == 2 && target_uuid == null){
+                target_uuid = player.getUniqueId();
+                page = CommandTools.parseInteger(args[1], "Please enter a valid integer as amount");
+            }
+        }
+
+        if(args.length >= 3){
+            page = CommandTools.parseInteger(args[2], "Please enter a valid integer as amount");
         }
 
         CommandAssert.assertTrue(target_uuid != null, "§bplayer doesn't exist");
 
         CommandAssert.assertTrue(Market.hasAccount(target_uuid), "§bplayer doesn't have an account");
 
-        Market.getAccount(target_uuid).getPortfolio(player);
+        Market.getAccount(target_uuid).getPortfolio(player, page);
 
         return false;
     }

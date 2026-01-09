@@ -341,7 +341,7 @@ class CompanyCTests {
         boolean suc6 = server.execute("company", testPlayer, "portfolio").hasSucceeded();
         assertTrue(suc6);
 
-        testPlayer.assertSaid("§bportfolio:\n");
+        testPlayer.assertSaid("§bportfolio: page 1/1");
         testPlayer.assertSaid("§b1. §3TCI: §70 (100,00%)\n");
         testPlayer.assertSaid("§9Total value: §e0");
         testPlayer.assertNoMoreSaid();
