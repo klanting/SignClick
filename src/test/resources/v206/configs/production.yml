@@ -1,0 +1,1155 @@
+# products that can be produced by each type of company
+products:
+  Farming:
+    CARROT:
+      researchTime: 1800
+      productionCost: 2.0
+      productionTime: 30
+      index: 0
+    POTATO:
+      researchTime: 1800
+      productionCost: 2.0
+      productionTime: 30
+      index: 1
+    WHEAT:
+      researchTime: 1800
+      productionCost: 2.0
+      productionTime: 30
+      index: 2
+    BEETROOT:
+      researchTime: 1800
+      productionCost: 2.0
+      productionTime: 30
+      index: 3
+    BAMBOO:
+      researchTime: 1800
+      productionCost: 2.0
+      productionTime: 30
+      index: 4
+    MELON_SLICE:
+      researchTime: 1800
+      productionCost: 2.0
+      productionTime: 30
+      index: 5
+    APPLE:
+      researchTime: 1800
+      productionCost: 2.0
+      productionTime: 30
+      index: 6
+    RED_MUSHROOM:
+      researchTime: 1800
+      productionCost: 2.0
+      productionTime: 30
+      index: 7
+    BROWN_MUSHROOM:
+      researchTime: 1800
+      productionCost: 2.0
+      productionTime: 30
+      index: 8
+    PUMPKIN:
+      researchTime: 7200
+      productionCost: 5.0
+      productionTime: 60
+      index: 9
+    SUGAR_CANE:
+      researchTime: 7200
+      productionCost: 5.0
+      productionTime: 60
+      index: 10
+    CACTUS:
+      researchTime: 7200
+      productionCost: 5.0
+      productionTime: 60
+      index: 11
+    SWEET_BERRIES:
+      researchTime: 7200
+      productionCost: 5.0
+      productionTime: 60
+      index: 12
+    GLOW_BERRIES:
+      researchTime: 7200
+      productionCost: 5.0
+      productionTime: 60
+      index: 13
+    GOLDEN_APPLE:
+      researchTime: 14400
+      productionCost: 5000.0
+      productionTime: 120
+      index: 14
+    ENCHANTED_GOLDEN_APPLE:
+      researchTime: 28800
+      productionCost: 20000.0
+      productionTime: 300
+      index: 15
+  Fisherman:
+    COD:
+      researchTime: 7200
+      productionCost: 5.0
+      productionTime: 60
+      index: 0
+    SALMON:
+      researchTime: 7200
+      productionCost: 5.0
+      productionTime: 60
+      index: 1
+    TROPICAL_FISH:
+      researchTime: 7200
+      productionCost: 5.0
+      productionTime: 60
+      index: 2
+    PUFFERFISH:
+      researchTime: 14400
+      productionCost: 10.0
+      productionTime: 60
+      index: 3
+    COD_BUCKET:
+      researchTime: 14400
+      productionCost: 310.0
+      productionTime: 120
+      index: 4
+    SALMON_BUCKET:
+      researchTime: 14400
+      productionCost: 310.0
+      productionTime: 120
+      index: 5
+    TROPICAL_FISH_BUCKET:
+      researchTime: 14400
+      productionCost: 310.0
+      productionTime: 120
+      index: 6
+    PUFFERFISH_BUCKET:
+      researchTime: 14400
+      productionCost: 310.0
+      productionTime: 120
+      index: 7
+    AXOLOTL_BUCKET:
+      researchTime: 28800
+      productionCost: 350.0
+      productionTime: 120
+      index: 8
+    TADPOLE_BUCKET:
+      researchTime: 28800
+      productionCost: 350.0
+      productionTime: 120
+      index: 9
+    TUBE_CORAL_BLOCK:
+      researchTime: 7200
+      productionCost: 15.0
+      productionTime: 60
+      index: 10
+    BRAIN_CORAL_BLOCK:
+      researchTime: 7200
+      productionCost: 15.0
+      productionTime: 60
+      index: 11
+    BUBBLE_CORAL_BLOCK:
+      researchTime: 7200
+      productionCost: 15.0
+      productionTime: 60
+      index: 12
+    FIRE_CORAL_BLOCK:
+      researchTime: 7200
+      productionCost: 15.0
+      productionTime: 60
+      index: 13
+    HORN_CORAL_BLOCK:
+      researchTime: 7200
+      productionCost: 15.0
+      productionTime: 60
+      index: 14
+    DEAD_TUBE_CORAL_BLOCK:
+      researchTime: 7200
+      productionCost: 15.0
+      productionTime: 60
+      index: 15
+    DEAD_BRAIN_CORAL_BLOCK:
+      researchTime: 7200
+      productionCost: 15.0
+      productionTime: 60
+      index: 16
+    DEAD_BUBBLE_CORAL_BLOCK:
+      researchTime: 7200
+      productionCost: 15.0
+      productionTime: 60
+      index: 17
+    DEAD_FIRE_CORAL_BLOCK:
+      researchTime: 7200
+      productionCost: 15.0
+      productionTime: 60
+      index: 18
+    DEAD_HORN_CORAL_BLOCK:
+      researchTime: 7200
+      productionCost: 15.0
+      productionTime: 60
+      index: 19
+    TUBE_CORAL_FAN:
+      researchTime: 7200
+      productionCost: 10.0
+      productionTime: 30
+      index: 20
+    BRAIN_CORAL_FAN:
+      researchTime: 7200
+      productionCost: 10.0
+      productionTime: 30
+      index: 21
+    BUBBLE_CORAL_FAN:
+      researchTime: 7200
+      productionCost: 10.0
+      productionTime: 30
+      index: 22
+    FIRE_CORAL_FAN:
+      researchTime: 7200
+      productionCost: 10.0
+      productionTime: 30
+      index: 23
+    HORN_CORAL_FAN:
+      researchTime: 7200
+      productionCost: 10.0
+      productionTime: 30
+      index: 24
+    PRISMARINE:
+      researchTime: 14400
+      productionCost: 50.0
+      productionTime: 60
+      index: 25
+    DARK_PRISMARINE:
+      researchTime: 14400
+      productionCost: 50.0
+      productionTime: 60
+      index: 26
+    PRISMARINE_BRICKS:
+      researchTime: 14400
+      productionCost: 50.0
+      productionTime: 60
+      index: 27
+    SEA_LANTERN:
+      researchTime: 14400
+      productionCost: 50.0
+      productionTime: 60
+      index: 28
+    SPONGE:
+      researchTime: 14400
+      productionCost: 50.0
+      productionTime: 60
+      index: 29
+    PRISMARINE_SHARD:
+      researchTime: 14400
+      productionCost: 25.0
+      productionTime: 30
+      index: 30
+    PRISMARINE_CRYSTALS:
+      researchTime: 14400
+      productionCost: 25.0
+      productionTime: 30
+      index: 31
+    SEA_PICKLE:
+      researchTime: 7200
+      productionCost: 10.0
+      productionTime: 30
+      index: 32
+    DRIED_KELP:
+      researchTime: 7200
+      productionCost: 10.0
+      productionTime: 30
+      index: 33
+    LILY_PAD:
+      researchTime: 7200
+      productionCost: 10.0
+      productionTime: 30
+      index: 34
+    SEAGRASS:
+      researchTime: 7200
+      productionCost: 10.0
+      productionTime: 30
+      index: 35
+    BIG_DRIPLEAF:
+      researchTime: 7200
+      productionCost: 10.0
+      productionTime: 30
+      index: 36
+    SMALL_DRIPLEAF:
+      researchTime: 7200
+      productionCost: 10.0
+      productionTime: 30
+      index: 37
+    NAUTILUS_SHELL:
+      researchTime: 28800
+      productionCost: 400.0
+      productionTime: 120
+      index: 38
+    HEART_OF_THE_SEA:
+      researchTime: 86400
+      productionCost: 1000.0
+      productionTime: 300
+      index: 39
+    TRIDENT:
+      researchTime: 86400
+      productionCost: 1000.0
+      productionTime: 300
+      index: 40
+  Woodcutter:
+    OAK_LOG:
+      researchTime: 7200
+      productionCost: 4.0
+      productionTime: 60
+      index: 0
+    SPRUCE_LOG:
+      researchTime: 7200
+      productionCost: 4.0
+      productionTime: 60
+      index: 1
+    BIRCH_LOG:
+      researchTime: 7200
+      productionCost: 4.0
+      productionTime: 60
+      index: 2
+    JUNGLE_LOG:
+      researchTime: 7200
+      productionCost: 4.0
+      productionTime: 60
+      index: 3
+    ACACIA_LOG:
+      researchTime: 7200
+      productionCost: 4.0
+      productionTime: 60
+      index: 4
+    DARK_OAK_LOG:
+      researchTime: 7200
+      productionCost: 4.0
+      productionTime: 60
+      index: 5
+    MANGROVE_LOG:
+      researchTime: 14400
+      productionCost: 8.0
+      productionTime: 60
+      index: 6
+    CHERRY_LOG:
+      researchTime: 14400
+      productionCost: 8.0
+      productionTime: 60
+      index: 7
+    OAK_SAPLING:
+      researchTime: 7200
+      productionCost: 10.0
+      productionTime: 120
+      index: 8
+    SPRUCE_SAPLING:
+      researchTime: 7200
+      productionCost: 10.0
+      productionTime: 120
+      index: 9
+    BIRCH_SAPLING:
+      researchTime: 7200
+      productionCost: 10.0
+      productionTime: 120
+      index: 10
+    JUNGLE_SAPLING:
+      researchTime: 7200
+      productionCost: 10.0
+      productionTime: 120
+      index: 11
+    ACACIA_SAPLING:
+      researchTime: 7200
+      productionCost: 10.0
+      productionTime: 120
+      index: 12
+    DARK_OAK_SAPLING:
+      researchTime: 7200
+      productionCost: 10.0
+      productionTime: 120
+      index: 13
+    CHERRY_SAPLING:
+      researchTime: 14400
+      productionCost: 15.0
+      productionTime: 120
+      index: 14
+    MANGROVE_PROPAGULE:
+      researchTime: 14400
+      productionCost: 15.0
+      productionTime: 120
+      index: 15
+    AZALEA:
+      researchTime: 7200
+      productionCost: 10.0
+      productionTime: 120
+      index: 16
+    FLOWERING_AZALEA:
+      researchTime: 7200
+      productionCost: 10.0
+      productionTime: 120
+      index: 17
+    OAK_LEAVES:
+      researchTime: 7200
+      productionCost: 5.0
+      productionTime: 30
+      index: 18
+    SPRUCE_LEAVES:
+      researchTime: 7200
+      productionCost: 5.0
+      productionTime: 30
+      index: 19
+    BIRCH_LEAVES:
+      researchTime: 7200
+      productionCost: 5.0
+      productionTime: 30
+      index: 20
+    JUNGLE_LEAVES:
+      researchTime: 7200
+      productionCost: 5.0
+      productionTime: 30
+      index: 21
+    ACACIA_LEAVES:
+      researchTime: 7200
+      productionCost: 5.0
+      productionTime: 30
+      index: 22
+    DARK_OAK_LEAVES:
+      researchTime: 7200
+      productionCost: 5.0
+      productionTime: 30
+      index: 23
+    MANGROVE_LEAVES:
+      researchTime: 7200
+      productionCost: 5.0
+      productionTime: 30
+      index: 24
+    CHERRY_LEAVES:
+      researchTime: 7200
+      productionCost: 5.0
+      productionTime: 30
+      index: 25
+    AZALEA_LEAVES:
+      researchTime: 7200
+      productionCost: 5.0
+      productionTime: 30
+      index: 26
+    FLOWERING_AZALEA_LEAVES:
+      researchTime: 7200
+      productionCost: 5.0
+      productionTime: 30
+      index: 27
+    VINE:
+      researchTime: 7200
+      productionCost: 5.0
+      productionTime: 60
+      index: 28
+    CHARCOAL:
+      researchTime: 7200
+      productionCost: 5.0
+      productionTime: 60
+      index: 29
+  Nature:
+    DIRT:
+      researchTime: 1800
+      productionCost: 1.0
+      productionTime: 15
+      index: 0
+    GRASS_BLOCK:
+      researchTime: 1800
+      productionCost: 1.0
+      productionTime: 15
+      index: 1
+    COARSE_DIRT:
+      researchTime: 1800
+      productionCost: 1.0
+      productionTime: 15
+      index: 2
+    MOSS_BLOCK:
+      researchTime: 1800
+      productionCost: 1.0
+      productionTime: 15
+      index: 3
+    PODZOL:
+      researchTime: 1800
+      productionCost: 1.0
+      productionTime: 15
+      index: 4
+    MUD:
+      researchTime: 1800
+      productionCost: 1.0
+      productionTime: 15
+      index: 5
+    SAND:
+      researchTime: 1800
+      productionCost: 1.0
+      productionTime: 15
+      index: 6
+    GRAVEL:
+      researchTime: 1800
+      productionCost: 1.0
+      productionTime: 15
+      index: 7
+    TUFF:
+      researchTime: 1800
+      productionCost: 1.0
+      productionTime: 15
+      index: 8
+    GRANITE:
+      researchTime: 1800
+      productionCost: 1.0
+      productionTime: 15
+      index: 9
+    DIORITE:
+      researchTime: 1800
+      productionCost: 1.0
+      productionTime: 15
+      index: 10
+    ANDESITE:
+      researchTime: 1800
+      productionCost: 1.0
+      productionTime: 15
+      index: 11
+    DEEPSLATE:
+      researchTime: 1800
+      productionCost: 1.0
+      productionTime: 15
+      index: 12
+    STONE:
+      researchTime: 1800
+      productionCost: 1.0
+      productionTime: 15
+      index: 13
+    TALL_GRASS:
+      researchTime: 1800
+      productionCost: 1.0
+      productionTime: 15
+      index: 14
+    GLOW_LICHEN:
+      researchTime: 7200
+      productionCost: 5.0
+      productionTime: 30
+      index: 15
+    SPORE_BLOSSOM:
+      researchTime: 28800
+      productionCost: 20.0
+      productionTime: 60
+      index: 16
+    DANDELION:
+      researchTime: 7200
+      productionCost: 5.0
+      productionTime: 30
+      index: 17
+    POPPY:
+      researchTime: 7200
+      productionCost: 5.0
+      productionTime: 30
+      index: 18
+    BLUE_ORCHID:
+      researchTime: 7200
+      productionCost: 5.0
+      productionTime: 30
+      index: 19
+    ALLIUM:
+      researchTime: 7200
+      productionCost: 5.0
+      productionTime: 30
+      index: 20
+    AZURE_BLUET:
+      researchTime: 7200
+      productionCost: 5.0
+      productionTime: 30
+      index: 21
+    RED_TULIP:
+      researchTime: 7200
+      productionCost: 5.0
+      productionTime: 30
+      index: 22
+    ORANGE_TULIP:
+      researchTime: 7200
+      productionCost: 5.0
+      productionTime: 30
+      index: 23
+    WHITE_TULIP:
+      researchTime: 7200
+      productionCost: 5.0
+      productionTime: 30
+      index: 24
+    PINK_TULIP:
+      researchTime: 7200
+      productionCost: 5.0
+      productionTime: 30
+      index: 25
+    CORNFLOWER:
+      researchTime: 7200
+      productionCost: 5.0
+      productionTime: 30
+      index: 26
+    ROOTED_DIRT:
+      researchTime: 7200
+      productionCost: 5.0
+      productionTime: 30
+      index: 27
+    SMOOTH_SANDSTONE:
+      researchTime: 7200
+      productionCost: 5.0
+      productionTime: 30
+      index: 28
+    SMOOTH_RED_SANDSTONE:
+      researchTime: 7200
+      productionCost: 5.0
+      productionTime: 30
+      index: 29
+    RED_SAND:
+      researchTime: 7200
+      productionCost: 5.0
+      productionTime: 30
+      index: 30
+    CALCITE:
+      researchTime: 7200
+      productionCost: 5.0
+      productionTime: 30
+      index: 31
+    POINTED_DRIPSTONE:
+      researchTime: 7200
+      productionCost: 5.0
+      productionTime: 30
+      index: 32
+    AMETHYST_SHARD:
+      researchTime: 7200
+      productionCost: 5.0
+      productionTime: 30
+      index: 33
+    CLAY_BALL:
+      researchTime: 7200
+      productionCost: 5.0
+      productionTime: 30
+      index: 34
+    MYCELIUM:
+      researchTime: 28800
+      productionCost: 20.0
+      productionTime: 60
+      index: 35
+  Miscellaneous:
+    TORCH:
+      researchTime: 1800
+      productionCost: 5.0
+      productionTime: 30
+      index: 0
+    SOUL_TORCH:
+      researchTime: 1800
+      productionCost: 5.0
+      productionTime: 30
+      index: 1
+    LANTERN:
+      researchTime: 28800
+      productionCost: 120.0
+      productionTime: 120
+      index: 2
+    SOUL_LANTERN:
+      researchTime: 28800
+      productionCost: 120.0
+      productionTime: 120
+      index: 3
+    CHAIN:
+      researchTime: 28800
+      productionCost: 120.0
+      productionTime: 120
+      index: 4
+    CANDLE:
+      researchTime: 28800
+      productionCost: 120.0
+      productionTime: 120
+      index: 5
+    WHITE_DYE:
+      researchTime: 7200
+      productionCost: 10.0
+      productionTime: 60
+      index: 6
+    LIGHT_GRAY_DYE:
+      researchTime: 7200
+      productionCost: 10.0
+      productionTime: 60
+      index: 7
+    GRAY_DYE:
+      researchTime: 7200
+      productionCost: 10.0
+      productionTime: 60
+      index: 8
+    BLACK_DYE:
+      researchTime: 7200
+      productionCost: 10.0
+      productionTime: 60
+      index: 9
+    BROWN_DYE:
+      researchTime: 7200
+      productionCost: 10.0
+      productionTime: 60
+      index: 10
+    RED_DYE:
+      researchTime: 7200
+      productionCost: 10.0
+      productionTime: 60
+      index: 11
+    ORANGE_DYE:
+      researchTime: 7200
+      productionCost: 10.0
+      productionTime: 60
+      index: 12
+    YELLOW_DYE:
+      researchTime: 7200
+      productionCost: 10.0
+      productionTime: 60
+      index: 13
+    LIME_DYE:
+      researchTime: 7200
+      productionCost: 10.0
+      productionTime: 60
+      index: 14
+    GREEN_DYE:
+      researchTime: 7200
+      productionCost: 10.0
+      productionTime: 60
+      index: 15
+    CYAN_DYE:
+      researchTime: 7200
+      productionCost: 10.0
+      productionTime: 60
+      index: 16
+    LIGHT_BLUE_DYE:
+      researchTime: 7200
+      productionCost: 10.0
+      productionTime: 60
+      index: 17
+    BLUE_DYE:
+      researchTime: 7200
+      productionCost: 10.0
+      productionTime: 60
+      index: 18
+    PURPLE_DYE:
+      researchTime: 7200
+      productionCost: 10.0
+      productionTime: 60
+      index: 19
+    MAGENTA_DYE:
+      researchTime: 7200
+      productionCost: 10.0
+      productionTime: 60
+      index: 20
+    PINK_DYE:
+      researchTime: 7200
+      productionCost: 10.0
+      productionTime: 60
+      index: 21
+  Mining:
+    COBBLESTONE:
+      researchTime: 1800
+      productionCost: 1.0
+      productionTime: 15
+      index: 0
+    COBBLED_DEEPSLATE:
+      researchTime: 1800
+      productionCost: 1.0
+      productionTime: 15
+      index: 1
+    FLINT:
+      researchTime: 1800
+      productionCost: 1.0
+      productionTime: 15
+      index: 2
+    COAL:
+      researchTime: 7200
+      productionCost: 20.0
+      productionTime: 30
+      index: 3
+    REDSTONE:
+      researchTime: 7200
+      productionCost: 20.0
+      productionTime: 30
+      index: 4
+    LAPIS_LAZULI:
+      researchTime: 7200
+      productionCost: 20.0
+      productionTime: 30
+      index: 5
+    COPPER_INGOT:
+      researchTime: 7200
+      productionCost: 20.0
+      productionTime: 30
+      index: 6
+    IRON_INGOT:
+      researchTime: 28800
+      productionCost: 150.0
+      productionTime: 60
+      index: 7
+    GOLD_INGOT:
+      researchTime: 28800
+      productionCost: 150.0
+      productionTime: 60
+      index: 8
+    EMERALD:
+      researchTime: 28800
+      productionCost: 150.0
+      productionTime: 60
+      index: 9
+    DIAMOND:
+      researchTime: 86400
+      productionCost: 1000.0
+      productionTime: 300
+      index: 10
+  Fighter:
+    IRON_SWORD:
+      researchTime: 7200
+      productionCost: 200.0
+      productionTime: 60
+      index: 0
+    GOLDEN_SWORD:
+      researchTime: 7200
+      productionCost: 200.0
+      productionTime: 60
+      index: 1
+    DIAMOND_SWORD:
+      researchTime: 28800
+      productionCost: 2000.0
+      productionTime: 120
+      index: 2
+    NETHERITE_SWORD:
+      researchTime: 172800
+      productionCost: 40000.0
+      productionTime: 600
+      index: 3
+    LEATHER_HORSE_ARMOR:
+      researchTime: 1800
+      productionCost: 50.0
+      productionTime: 30
+      index: 4
+    IRON_HORSE_ARMOR:
+      researchTime: 7200
+      productionCost: 200.0
+      productionTime: 60
+      index: 5
+    GOLDEN_HORSE_ARMOR:
+      researchTime: 7200
+      productionCost: 200.0
+      productionTime: 60
+      index: 6
+    DIAMOND_HORSE_ARMOR:
+      researchTime: 28800
+      productionCost: 2000.0
+      productionTime: 120
+      index: 7
+    TOTEM_OF_UNDYING:
+      researchTime: 172800
+      productionCost: 40000.0
+      productionTime: 600
+      index: 8
+  Hunter:
+    ROTTEN_FLESH:
+      researchTime: 1800
+      productionCost: 3.0
+      productionTime: 30
+      index: 0
+    SPIDER_EYE:
+      researchTime: 1800
+      productionCost: 3.0
+      productionTime: 30
+      index: 1
+    STRING:
+      researchTime: 1800
+      productionCost: 3.0
+      productionTime: 30
+      index: 2
+    BONE:
+      researchTime: 1800
+      productionCost: 3.0
+      productionTime: 30
+      index: 3
+    ARROW:
+      researchTime: 1800
+      productionCost: 3.0
+      productionTime: 30
+      index: 4
+    GUNPOWDER:
+      researchTime: 7200
+      productionCost: 50.0
+      productionTime: 60
+      index: 5
+    SLIME_BALL:
+      researchTime: 7200
+      productionCost: 50.0
+      productionTime: 60
+      index: 6
+    FEATHER:
+      researchTime: 7200
+      productionCost: 50.0
+      productionTime: 60
+      index: 7
+    LEATHER:
+      researchTime: 7200
+      productionCost: 50.0
+      productionTime: 60
+      index: 8
+    EGG:
+      researchTime: 7200
+      productionCost: 50.0
+      productionTime: 60
+      index: 9
+    HONEYCOMB:
+      researchTime: 7200
+      productionCost: 50.0
+      productionTime: 60
+      index: 10
+    RABBIT_HIDE:
+      researchTime: 28800
+      productionCost: 250.0
+      productionTime: 120
+      index: 11
+  Brewery:
+    BREWING_STAND:
+      researchTime: 7200
+      productionCost: 150.0
+      productionTime: 60
+      index: 0
+    FERMENTED_SPIDER_EYE:
+      researchTime: 7200
+      productionCost: 150.0
+      productionTime: 60
+      index: 1
+    MAGMA_CREAM:
+      researchTime: 7200
+      productionCost: 150.0
+      productionTime: 60
+      index: 2
+    GLISTERING_MELON_SLICE:
+      researchTime: 7200
+      productionCost: 150.0
+      productionTime: 60
+      index: 3
+    GOLDEN_CARROT:
+      researchTime: 7200
+      productionCost: 150.0
+      productionTime: 60
+      index: 4
+    RABBIT_FOOT:
+      researchTime: 7200
+      productionCost: 150.0
+      productionTime: 60
+      index: 5
+  Enchantment:
+    ENCHANTING_TABLE:
+      researchTime: 28800
+      productionCost: 250.0
+      productionTime: 120
+      index: 0
+    BOOK:
+      researchTime: 1800
+      productionCost: 15.0
+      productionTime: 30
+      index: 1
+    EXPERIENCE_BOTTLE:
+      researchTime: 7200
+      productionCost: 25.0
+      productionTime: 60
+      index: 2
+  Redstone:
+    POWERED_RAIL:
+      researchTime: 28800
+      productionCost: 150.0
+      productionTime: 120
+      index: 0
+    DETECTOR_RAIL:
+      researchTime: 7200
+      productionCost: 30.0
+      productionTime: 60
+      index: 1
+    ACTIVATOR_RAIL:
+      researchTime: 7200
+      productionCost: 30.0
+      productionTime: 60
+      index: 2
+    RAIL:
+      researchTime: 1800
+      productionCost: 20.0
+      productionTime: 30
+      index: 3
+    REPEATER:
+      researchTime: 28800
+      productionCost: 150.0
+      productionTime: 120
+      index: 4
+    PISTON:
+      researchTime: 28800
+      productionCost: 150.0
+      productionTime: 120
+      index: 5
+  Nether:
+    NETHERRACK:
+      researchTime: 1800
+      productionCost: 1.0
+      productionTime: 15
+      index: 0
+    CRIMSON_NYLIUM:
+      researchTime: 1800
+      productionCost: 1.0
+      productionTime: 15
+      index: 1
+    WARPED_NYLIUM:
+      researchTime: 1800
+      productionCost: 1.0
+      productionTime: 15
+      index: 2
+    CRIMSON_FUNGUS:
+      researchTime: 7200
+      productionCost: 5.0
+      productionTime: 60
+      index: 3
+    WARPED_FUNGUS:
+      researchTime: 7200
+      productionCost: 5.0
+      productionTime: 60
+      index: 4
+    CRIMSON_STEM:
+      researchTime: 7200
+      productionCost: 4.0
+      productionTime: 60
+      index: 5
+    WARPED_STEM:
+      researchTime: 7200
+      productionCost: 4.0
+      productionTime: 60
+      index: 6
+    CRIMSON_ROOTS:
+      researchTime: 7200
+      productionCost: 5.0
+      productionTime: 30
+      index: 7
+    WARPED_ROOTS:
+      researchTime: 7200
+      productionCost: 5.0
+      productionTime: 30
+      index: 8
+    NETHER_SPROUTS:
+      researchTime: 1800
+      productionCost: 1.0
+      productionTime: 15
+      index: 9
+    WEEPING_VINES:
+      researchTime: 1800
+      productionCost: 1.0
+      productionTime: 15
+      index: 10
+    TWISTING_VINES:
+      researchTime: 1800
+      productionCost: 1.0
+      productionTime: 15
+      index: 11
+    SOUL_SAND:
+      researchTime: 7200
+      productionCost: 20.0
+      productionTime: 30
+      index: 12
+    SOUL_SOIL:
+      researchTime: 7200
+      productionCost: 20.0
+      productionTime: 30
+      index: 13
+    BLACKSTONE:
+      researchTime: 7200
+      productionCost: 20.0
+      productionTime: 30
+      index: 14
+    BASALT:
+      researchTime: 7200
+      productionCost: 20.0
+      productionTime: 30
+      index: 15
+    SHROOMLIGHT:
+      researchTime: 7200
+      productionCost: 20.0
+      productionTime: 30
+      index: 16
+    WITHER_ROSE:
+      researchTime: 7200
+      productionCost: 5.0
+      productionTime: 30
+      index: 17
+    FIRE_CHARGE:
+      researchTime: 7200
+      productionCost: 20.0
+      productionTime: 30
+      index: 18
+    BLAZE_ROD:
+      researchTime: 28800
+      productionCost: 250.0
+      productionTime: 60
+      index: 19
+    GHAST_TEAR:
+      researchTime: 28800
+      productionCost: 250.0
+      productionTime: 60
+      index: 20
+    MAGMA_CREAM:
+      researchTime: 28800
+      productionCost: 250.0
+      productionTime: 60
+      index: 21
+    QUARTZ:
+      researchTime: 28800
+      productionCost: 250.0
+      productionTime: 60
+      index: 22
+    NETHERITE_INGOT:
+      researchTime: 86400
+      productionCost: 30000.0
+      productionTime: 300
+      index: 23
+    WITHER_SKELETON_SKULL:
+      researchTime: 86400
+      productionCost: 30000.0
+      productionTime: 300
+      index: 24
+    NETHER_STAR:
+      researchTime: 172800
+      productionCost: 500000.0
+      productionTime: 600
+      index: 25
+  End:
+    END_STONE:
+      researchTime: 7200
+      productionCost: 20.0
+      productionTime: 30
+      index: 0
+    PURPUR_BLOCK:
+      researchTime: 7200
+      productionCost: 20.0
+      productionTime: 30
+      index: 1
+    END_ROD:
+      researchTime: 7200
+      productionCost: 20.0
+      productionTime: 30
+      index: 2
+    CHORUS_FRUIT:
+      researchTime: 7200
+      productionCost: 20.0
+      productionTime: 30
+      index: 3
+    ENDER_PEARL:
+      researchTime: 7200
+      productionCost: 20.0
+      productionTime: 30
+      index: 4
+    CHORUS_FLOWER:
+      researchTime: 28800
+      productionCost: 50.0
+      productionTime: 60
+      index: 5
+    OBSIDIAN:
+      researchTime: 28800
+      productionCost: 50.0
+      productionTime: 60
+      index: 6
+    END_CRYSTAL:
+      researchTime: 86400
+      productionCost: 30000.0
+      productionTime: 300
+      index: 7
+    SHULKER_SHELL:
+      researchTime: 86400
+      productionCost: 30000.0
+      productionTime: 300
+      index: 8
+    ELYTRA:
+      researchTime: 172800
+      productionCost: 500000.0
+      productionTime: 600
+      index: 9

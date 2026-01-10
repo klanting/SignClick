@@ -1,0 +1,16 @@
+# prefix/color being applied to all plugin commands
+chatPrefix: §b
+# prefix/color being applied to all UI titles
+UIPrefix: §6§l
+# by enabling this, people will be taxed for being hidden on the dynmap
+dynmapTax: false
+# tax period
+dynmapTaxPeriod: 600
+# Amount the user needs to pay, or player becomes visible
+dynmapTaxAmount: 1000
+# How long sign income door stays open when clicked
+signIncomeOpenTime: 5
+# Latest updated version, don't change this, it will be done automatically
+version: 2.0.6
+# After how much seconds the server auto-saves its plugin data
+autoSaveInterval: 0

@@ -54,12 +54,28 @@ public class compatibilityTestBasic {
         try {
             List<Path> files = Files.list(Path.of(mockDataFolder.toFile().getAbsolutePath())).toList();
 
+            //replace old config by stored config
             for (Path file: Files.list(targetDir.resolve("configs")).toList()){
                 Files.delete(file);
             }
 
             for (Path file: files){
                 Files.copy(file, targetDir.resolve(file.getFileName()), StandardCopyOption.REPLACE_EXISTING);
+            }
+
+            try {
+                Files.walk(Paths.get("src","test","resources",version,"configs"))
+                        .forEach(file -> {
+                            // file = configs/ and all descendants
+                            Path p = targetDir.resolve("configs").resolve(file.getFileName());
+                            try {
+                                Files.copy(file, p, StandardCopyOption.COPY_ATTRIBUTES);
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        });
+            }catch (IOException e){
+                //Ignore because old versions have no configs dir
             }
 
 
@@ -95,6 +111,11 @@ public class compatibilityTestBasic {
         performTest("v200-beta", "TCI");
         assertEquals(Market.getCompany("TCI"),
                 ((UpgradeBoardSize) Market.getCompany("TCI").getUpgrades().get(3)).comp);
+    }
+
+    @Test
+    void testLoadFilesV206(){
+        performTest("v206", "TCI");
     }
 
 }

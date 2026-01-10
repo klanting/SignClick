@@ -1,0 +1,223 @@
+# configure all the country policy modifiers
+policies:
+  economics:
+    Conservative:
+      taxReduction: -0.02
+      dividendReduction: 0.005
+      stabilityModifier: 2.0
+      funding:
+        Farming: -1000.0
+        Nature: 1000.0
+      required:
+        capital: 20000
+    Saver:
+      taxReduction: -0.01
+      dividendReduction: 0.003
+      stabilityModifier: 1.0
+    Normal:
+      taxReduction: 0.0
+      dividendReduction: 0.0
+      stabilityModifier: 0.0
+    Invester:
+      taxReduction: 0.02
+      dividendReduction: -0.002
+      stabilityModifier: -1.0
+    Businessman:
+      taxReduction: 0.03
+      dividendReduction: -0.004
+      stabilityModifier: -3.0
+      funding:
+        Mining: 2000.0
+      required:
+        capital: 20000
+  market:
+    Closed Market:
+      taxReduction: -0.02
+      dividendReduction: 0.001
+      upgradeDiscount: -0.1
+      funding:
+        closedMarket: 4000.0
+    Limited Market:
+      taxReduction: -0.01
+      upgradeDiscount: -0.05
+      funding:
+        closedMarket: 2000.0
+    Normal:
+      taxReduction: 0
+      upgradeDiscount: 0.0
+      funding:
+        closedMarket: 0.0
+    Open Market:
+      taxReduction: 0.01
+      upgradeDiscount: 0.05
+      createDiscount: 0.05
+      funding:
+        closedMarket: -5000.0
+    Free Market:
+      taxReduction: 0.02
+      upgradeDiscount: 0.1
+      createDiscount: 0.1
+      funding:
+        closedMarket: -10000.0
+  military:
+    Low Arment:
+      lawEnforcementSalary: 1000.0
+      stabilityModifier: -5.0
+      xpGain: 0.08
+      switchLeaderPenaltyReduction: 0.5
+      joinPlayerBonus: 0.5
+      removePlayerPenalty: 0.5
+      funding:
+        Fighter: -8000.0
+        Mining: 2000.0
+    Police Force:
+      lawEnforcementSalary: 2000.0
+      stabilityModifier: -3.0
+      xpGain: 0.03
+      funding:
+        Fighter: -4000.0
+    Normal:
+      lawEnforcementSalary: 4000.0
+      stabilityModifier: 0.0
+      xpGain: 0.0
+      funding:
+        Fighter: 0.0
+    Para-Militaire:
+      lawEnforcementSalary: 8000.0
+      stabilityModifier: 5.0
+      xpGain: 0.0
+      electionPenaltyReduction: 0.25
+      funding:
+        Fighter: 4000.0
+      required:
+        lawEnforcement: 3
+    Military State:
+      lawEnforcementSalary: 10000.0
+      stabilityModifier: 8.0
+      xpGain: -0.03
+      electionPenaltyReduction: 0.5
+      coupPenaltyReduction: 0.5
+      switchLeaderPenaltyReduction: -1.0
+      funding:
+        Fighter: 8000.0
+        Redstone: -2000.0
+        Mining: -2000.0
+      required:
+        lawEnforcement: 8
+        capital: 10000
+  tourism:
+    Xenofobia:
+      transportCost: 0.08
+      UpgradeReturnTimeReduction: -0.05
+      funding:
+        Redstone: -1000.0
+        Woodcutter: -1000.0
+        Nature: 2000.0
+    Bigot:
+      transportCost: 0.04
+    Normal:
+      transportCost: 0.0
+    Open Arm:
+      transportCost: -0.1
+      required:
+        capital: 5000
+    Tourist Hugger:
+      transportCost: -0.15
+      UpgradeReturnTimeReduction: 0.05
+      funding:
+        Redstone: 2000.0
+        Woodcutter: 2000.0
+        Nature: -1000.0
+      required:
+        capital: 10000
+  taxation:
+    Bankruptcy:
+      stabilityModifier: -6.0
+      funding:
+        Farming: -5000.0
+        Fisherman: -5000.0
+        Woodcutter: -5000.0
+        Nature: -5000.0
+        Miscellaneous: -5000.0
+        Mining: -5000.0
+        Fighter: -5000.0
+        Hunter: -5000.0
+        Brewery: -5000.0
+        Enchantment: -5000.0
+        Redstone: -5000.0
+        Nether: -5000.0
+        End: -5000.0
+      required:
+        lawEnforcement: 4
+        minTaxRate: 10
+    High Taxer:
+      stabilityModifier: -3.0
+      funding:
+        Farming: -2000.0
+        Fisherman: -2000.0
+        Woodcutter: -2000.0
+        Nature: -2000.0
+        Miscellaneous: -2000.0
+        Mining: -2000.0
+        Fighter: -2000.0
+        Hunter: -2000.0
+        Brewery: -2000.0
+        Enchantment: -2000.0
+        Redstone: -2000.0
+        Nether: -2000.0
+        End: -2000.0
+      required:
+        lawEnforcement: 2
+        minTaxRate: 10
+    Normal:
+      funding:
+        Farming: 0.0
+        Fisherman: 0.0
+        Woodcutter: 0.0
+        Nature: 0.0
+        Miscellaneous: 0.0
+        Mining: 0.0
+        Fighter: 0.0
+        Hunter: 0.0
+        Brewery: 0.0
+        Enchantment: 0.0
+        Redstone: 0.0
+        Nether: 0.0
+        End: 0.0
+    Supporter:
+      stabilityModifier: 3.0
+      funding:
+        Farming: 2000.0
+        Fisherman: 2000.0
+        Woodcutter: 2000.0
+        Nature: 2000.0
+        Miscellaneous: 2000.0
+        Mining: 2000.0
+        Fighter: 2000.0
+        Hunter: 2000.0
+        Brewery: 2000.0
+        Enchantment: 2000.0
+        Redstone: 2000.0
+        Nether: 2000.0
+        End: 2000.0
+      required:
+        capital: 5000
+        maxTaxRate: 5
+    The Hero:
+      stabilityModifier: 5.0
+      funding:
+        Farming: 5000.0
+        Fisherman: 5000.0
+        Woodcutter: 5000.0
+        Nature: 5000.0
+        Miscellaneous: 5000.0
+        Mining: 5000.0
+        Fighter: 5000.0
+        Hunter: 5000.0
+        Brewery: 5000.0
+        Enchantment: 5000.0
+        Redstone: 5000.0
+        Nether: 5000.0
+        End: 5000.0
+      required:
+        capital: 10000

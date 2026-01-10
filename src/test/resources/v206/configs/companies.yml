@@ -1,0 +1,191 @@
+# The amount (%) of money that goes to your country when you sell shares
+fee: 0.05
+# How much share prices increase or decrease when shares are bought/sold, how higher how much more it changes
+flux: 1.01
+# Amount a player needs to have to create a company
+companyCreateCost: 4000.0
+# The amount of shares a company starts with
+companyStartShares: 1000
+# Cost for making a stock sign, amount goes to company
+signStockCost: 1000.0
+# Enabled -> Companies can have machines that produce items
+machinesEnabled: true
+patentUpgradeBonusCunning:
+- 0.5
+- 1.0
+- 1.5
+- 2.0
+- 2.5
+- 3.0
+patentUpgradeBonusEvade:
+- 0.5
+- 1.0
+- 1.5
+- 2.0
+- 2.5
+- 3.0
+patentUpgradeBonusJumper:
+- 1.0
+- 2.0
+- 3.0
+- 4.0
+- 5.0
+- 6.0
+patentUpgradeBonusRefill:
+- 1.0
+- 2.0
+- 3.0
+- 4.0
+- 5.0
+- 6.0
+# By how much patent bids increase each time
+auctionBitIncrease: 1000
+# Start price for patent auction
+auctionStartPrice: 1000
+# How long an auction takes before offering new items
+auctionCycle: 3600
+# Market Stock buttons buy/sell amount options UI
+stockBuySellAmount:
+- 10
+- 100
+- 200
+# Spendable buttons buy/sell amount options UI
+spendableAmount:
+- 10
+- 100
+- 1000
+- 10000
+# Costs for different research modifiers
+researchModifiersCost:
+- 1000
+- 1500
+- 2000
+- 2500
+- 3000
+# Modifiers of different research modifier options 1.4 -> 140%
+researchModifiersSpeed:
+- 1.0
+- 1.4
+- 1.7
+- 1.9
+- 2.0
+# Salary button for chief salary UI
+chiefSalaryChange: 1000.0
+# Max Amount a company chief position can get
+maxChiefSalary: 10000.0
+# Config for upgrades of your company
+upgrades:
+  craftLimit:
+    bonus:
+    - 5
+    - 10
+    - 20
+    - 40
+    - 80
+    - 100
+    upgradeCost:
+    - 4000
+    - 8000
+    - 12000
+    - 16000
+    - 20000
+  investReturnTime:
+    bonus:
+    - 0
+    - 5
+    - 10
+    - 15
+    - 20
+    - 25
+    upgradeCost:
+    - 4000
+    - 8000
+    - 12000
+    - 16000
+    - 20000
+  patentSlot:
+    bonus:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 20
+    upgradeCost:
+    - 5000
+    - 10000
+    - 20000
+    - 40000
+    - 60000
+  patentUpgradeSlot:
+    bonus:
+    - 3
+    - 4
+    - 5
+    - 6
+    - 7
+    - 8
+    upgradeCost:
+    - 4000
+    - 8000
+    - 12000
+    - 16000
+    - 20000
+  boardSize:
+    bonus:
+    - 2
+    - 3
+    - 5
+    - 8
+    - 10
+    - 18
+    upgradeCost:
+    - 4000
+    - 8000
+    - 12000
+    - 16000
+    - 20000
+  productModifier:
+    bonus:
+    - 100
+    - 120
+    - 140
+    - 160
+    - 180
+    - 200
+    upgradeCost:
+    - 4000
+    - 8000
+    - 12000
+    - 16000
+    - 20000
+  productSlot:
+    bonus:
+    - 9
+    - 27
+    - 45
+    - 63
+    - 81
+    - 99
+    upgradeCost:
+    - 4000
+    - 8000
+    - 12000
+    - 16000
+    - 20000
+  researchModifier:
+    bonus:
+    - 100
+    - 125
+    - 150
+    - 175
+    - 200
+    - 225
+    upgradeCost:
+    - 4000
+    - 8000
+    - 12000
+    - 16000
+    - 20000
+# true/false: whether the user needs to repeat the command to confirm
+companyConfirmation: true

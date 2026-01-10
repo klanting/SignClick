@@ -53,7 +53,7 @@ public class TestDataGenerator {
         * */
         File virtualDataFolder = plugin.getDataFolder();
 
-        File realOutputFolder = new File("src/test/resources", "v200-beta");
+        File realOutputFolder = new File("src/test/resources", "v206");
 
         Files.walk(virtualDataFolder.toPath())
                 .forEach(source -> {

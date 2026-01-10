@@ -1,0 +1,11 @@
+{
+  "f33dcee2-8e7b-a94e-caef-bed8fc0d8562": {
+    "uuid": "f33dcee2-8e7b-a94e-caef-bed8fc0d8562",
+    "shares": {
+      "TCI": 1000
+    },
+    "compAmountPending": 0.0,
+    "compWeeksPending": 0,
+    "compReason": "no_reason"
+  }
+}

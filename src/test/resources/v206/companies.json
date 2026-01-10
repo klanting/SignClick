@@ -1,0 +1,457 @@
+{
+  "TCI": {
+    "spendable": 0.0,
+    "lastValue": 0.0,
+    "patent": [],
+    "logObservers": [
+      {
+        "type": "ContractChange",
+        "contractUpdates": [],
+        "title": "Contract Change Logs"
+      },
+      {
+        "type": "ContractPayment",
+        "contractUpdates": [],
+        "title": "Contract Payment Logs"
+      },
+      {
+        "type": "MoneyTransfer",
+        "MoneyTransfers": [],
+        "title": "Money Transfer Logs"
+      },
+      {
+        "type": "ShareholderChange",
+        "ShareholderChanges": [],
+        "title": "Shareholder Changes"
+      },
+      {
+        "type": "ResearchUpdate",
+        "ShareholderChanges": [],
+        "title": "Research Updates"
+      },
+      {
+        "type": "ShopLogs",
+        "shopSalesMap": {},
+        "title": "Shop logs"
+      },
+      {
+        "type": "MachineProduction",
+        "machineProductionMap": {},
+        "title": "Machine production"
+      }
+    ],
+    "shareBalance": 0.0,
+    "companyOwnerManager": {
+      "support": {
+        "f33dcee2-8e7b-a94e-caef-bed8fc0d8562": "f33dcee2-8e7b-a94e-caef-bed8fc0d8562"
+      },
+      "shareHolders": {
+        "f33dcee2-8e7b-a94e-caef-bed8fc0d8562": 1000
+      },
+      "employees": [],
+      "openTrade": false,
+      "marketShares": 0,
+      "totalShares": 1000,
+      "board": {
+        "boardSeats": 2,
+        "salaryMap": {
+          "CEO": {},
+          "CFO": {},
+          "CTO": {}
+        },
+        "boardSupport": {
+          "f33dcee2-8e7b-a94e-caef-bed8fc0d8562": [
+            "f33dcee2-8e7b-a94e-caef-bed8fc0d8562"
+          ]
+        },
+        "chiefSupport": {
+          "CEO": {
+            "f33dcee2-8e7b-a94e-caef-bed8fc0d8562": "f33dcee2-8e7b-a94e-caef-bed8fc0d8562"
+          },
+          "CFO": {},
+          "CTO": {}
+        },
+        "currentChief": {
+          "CEO": "f33dcee2-8e7b-a94e-caef-bed8fc0d8562"
+        }
+      }
+    },
+    "softLink": [
+      "country",
+      "machines",
+      "upgrades",
+      "research"
+    ],
+    "type": "Miscellaneous",
+    "bal": 1.0E9,
+    "upgrades": [
+      {
+        "classType": "patentSlot",
+        "bonus": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          20
+        ],
+        "upgradeCost": [
+          5000,
+          10000,
+          20000,
+          40000,
+          60000
+        ],
+        "name": "Patent Slot",
+        "material": "END_CRYSTAL",
+        "id": 0,
+        "level": 0
+      },
+      {
+        "classType": "patentUpgradeSlot",
+        "bonus": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "upgradeCost": [
+          4000,
+          8000,
+          12000,
+          16000,
+          20000
+        ],
+        "name": "Patent Upgrade Slot",
+        "material": "ITEM_FRAME",
+        "id": 1,
+        "level": 0
+      },
+      {
+        "classType": "productSlot",
+        "bonus": [
+          9,
+          27,
+          45,
+          63,
+          81,
+          99
+        ],
+        "upgradeCost": [
+          4000,
+          8000,
+          12000,
+          16000,
+          20000
+        ],
+        "name": "Product Slots",
+        "material": "APPLE",
+        "id": 2,
+        "level": 0
+      },
+      {
+        "classType": "boardSize",
+        "comp": {
+          "stockName": "TCI",
+          "classType": "companyRef"
+        },
+        "bonus": [
+          2,
+          3,
+          5,
+          8,
+          10,
+          18
+        ],
+        "upgradeCost": [
+          4000,
+          8000,
+          12000,
+          16000,
+          20000
+        ],
+        "name": "Board Size",
+        "material": "CHEST",
+        "id": 3,
+        "level": 0
+      },
+      {
+        "classType": "investReturnTime",
+        "bonus": [
+          0,
+          5,
+          10,
+          15,
+          20,
+          25
+        ],
+        "upgradeCost": [
+          4000,
+          8000,
+          12000,
+          16000,
+          20000
+        ],
+        "name": "Invest Return Time",
+        "material": "EMERALD",
+        "id": 4,
+        "level": 0
+      },
+      {
+        "classType": "researchModifier",
+        "bonus": [
+          100,
+          125,
+          150,
+          175,
+          200,
+          225
+        ],
+        "upgradeCost": [
+          4000,
+          8000,
+          12000,
+          16000,
+          20000
+        ],
+        "name": "Research Modifier",
+        "material": "EXPERIENCE_BOTTLE",
+        "id": 5,
+        "level": 0
+      },
+      {
+        "classType": "productModifier",
+        "bonus": [
+          100,
+          120,
+          140,
+          160,
+          180,
+          200
+        ],
+        "upgradeCost": [
+          4000,
+          8000,
+          12000,
+          16000,
+          20000
+        ],
+        "name": "Product Modifier",
+        "material": "FURNACE",
+        "id": 6,
+        "level": 0
+      }
+    ],
+    "research": {
+      "researchOptions": [
+        {
+          "material": "TORCH",
+          "progress": 0.0,
+          "modifierIndex": 0,
+          "company": {
+            "stockName": "TCI",
+            "classType": "companyRef"
+          }
+        },
+        {
+          "material": "SOUL_TORCH",
+          "progress": 0.0,
+          "modifierIndex": 0,
+          "company": {
+            "stockName": "TCI",
+            "classType": "companyRef"
+          }
+        },
+        {
+          "material": "LANTERN",
+          "progress": 0.0,
+          "modifierIndex": 0,
+          "company": {
+            "stockName": "TCI",
+            "classType": "companyRef"
+          }
+        },
+        {
+          "material": "SOUL_LANTERN",
+          "progress": 0.0,
+          "modifierIndex": 0,
+          "company": {
+            "stockName": "TCI",
+            "classType": "companyRef"
+          }
+        },
+        {
+          "material": "CHAIN",
+          "progress": 0.0,
+          "modifierIndex": 0,
+          "company": {
+            "stockName": "TCI",
+            "classType": "companyRef"
+          }
+        },
+        {
+          "material": "CANDLE",
+          "progress": 0.0,
+          "modifierIndex": 0,
+          "company": {
+            "stockName": "TCI",
+            "classType": "companyRef"
+          }
+        },
+        {
+          "material": "WHITE_DYE",
+          "progress": 0.0,
+          "modifierIndex": 0,
+          "company": {
+            "stockName": "TCI",
+            "classType": "companyRef"
+          }
+        },
+        {
+          "material": "LIGHT_GRAY_DYE",
+          "progress": 0.0,
+          "modifierIndex": 0,
+          "company": {
+            "stockName": "TCI",
+            "classType": "companyRef"
+          }
+        },
+        {
+          "material": "GRAY_DYE",
+          "progress": 0.0,
+          "modifierIndex": 0,
+          "company": {
+            "stockName": "TCI",
+            "classType": "companyRef"
+          }
+        },
+        {
+          "material": "BLACK_DYE",
+          "progress": 0.0,
+          "modifierIndex": 0,
+          "company": {
+            "stockName": "TCI",
+            "classType": "companyRef"
+          }
+        },
+        {
+          "material": "BROWN_DYE",
+          "progress": 0.0,
+          "modifierIndex": 0,
+          "company": {
+            "stockName": "TCI",
+            "classType": "companyRef"
+          }
+        },
+        {
+          "material": "RED_DYE",
+          "progress": 0.0,
+          "modifierIndex": 0,
+          "company": {
+            "stockName": "TCI",
+            "classType": "companyRef"
+          }
+        },
+        {
+          "material": "ORANGE_DYE",
+          "progress": 0.0,
+          "modifierIndex": 0,
+          "company": {
+            "stockName": "TCI",
+            "classType": "companyRef"
+          }
+        },
+        {
+          "material": "YELLOW_DYE",
+          "progress": 0.0,
+          "modifierIndex": 0,
+          "company": {
+            "stockName": "TCI",
+            "classType": "companyRef"
+          }
+        },
+        {
+          "material": "LIME_DYE",
+          "progress": 0.0,
+          "modifierIndex": 0,
+          "company": {
+            "stockName": "TCI",
+            "classType": "companyRef"
+          }
+        },
+        {
+          "material": "GREEN_DYE",
+          "progress": 0.0,
+          "modifierIndex": 0,
+          "company": {
+            "stockName": "TCI",
+            "classType": "companyRef"
+          }
+        },
+        {
+          "material": "CYAN_DYE",
+          "progress": 0.0,
+          "modifierIndex": 0,
+          "company": {
+            "stockName": "TCI",
+            "classType": "companyRef"
+          }
+        },
+        {
+          "material": "LIGHT_BLUE_DYE",
+          "progress": 0.0,
+          "modifierIndex": 0,
+          "company": {
+            "stockName": "TCI",
+            "classType": "companyRef"
+          }
+        },
+        {
+          "material": "BLUE_DYE",
+          "progress": 0.0,
+          "modifierIndex": 0,
+          "company": {
+            "stockName": "TCI",
+            "classType": "companyRef"
+          }
+        },
+        {
+          "material": "PURPLE_DYE",
+          "progress": 0.0,
+          "modifierIndex": 0,
+          "company": {
+            "stockName": "TCI",
+            "classType": "companyRef"
+          }
+        },
+        {
+          "material": "MAGENTA_DYE",
+          "progress": 0.0,
+          "modifierIndex": 0,
+          "company": {
+            "stockName": "TCI",
+            "classType": "companyRef"
+          }
+        },
+        {
+          "material": "PINK_DYE",
+          "progress": 0.0,
+          "modifierIndex": 0,
+          "company": {
+            "stockName": "TCI",
+            "classType": "companyRef"
+          }
+        }
+      ],
+      "lastChecked": 0
+    },
+    "products": [],
+    "patentUpgrades": [],
+    "stockName": "TCI",
+    "name": "TestCaseInc",
+    "shareBase": 972920.5445456471,
+    "classType": "company"
+  }
+}

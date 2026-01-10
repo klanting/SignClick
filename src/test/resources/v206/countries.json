@@ -1,0 +1,95 @@
+{
+  "empire1": {
+    "lawEnforcement": [],
+    "policies": [
+      {
+        "material": "GOLD_INGOT",
+        "titles": [
+          "Conservative",
+          "Saver",
+          "Normal",
+          "Invester",
+          "Businessman"
+        ],
+        "id": 0,
+        "level": 2,
+        "name": "Economical Policy"
+      },
+      {
+        "material": "EMERALD",
+        "titles": [
+          "Closed Market",
+          "Limited Market",
+          "Normal",
+          "Open Market",
+          "Free Market"
+        ],
+        "id": 1,
+        "level": 2,
+        "name": "Market Policy"
+      },
+      {
+        "material": "IRON_SWORD",
+        "titles": [
+          "Low Arment",
+          "Police Force",
+          "Normal",
+          "Para-Militaire",
+          "Military State"
+        ],
+        "id": 2,
+        "level": 2,
+        "name": "Military Policy"
+      },
+      {
+        "material": "OAK_BOAT",
+        "titles": [
+          "Xenofobia",
+          "Bigot",
+          "Normal",
+          "Open Arm",
+          "Tourist Hugger"
+        ],
+        "id": 3,
+        "level": 2,
+        "name": "Tourism Policy"
+      },
+      {
+        "material": "GOLD_BLOCK",
+        "titles": [
+          "Bankruptcy",
+          "High Taxer",
+          "Normal",
+          "Supporter",
+          "The Hero"
+        ],
+        "id": 4,
+        "level": 2,
+        "name": "Taxation Policy"
+      }
+    ],
+    "owners": [
+      "f33dcee2-8e7b-a94e-caef-bed8fc0d8562"
+    ],
+    "aboardMilitary": false,
+    "taxRate": 0.0,
+    "balance": 0,
+    "members": [],
+    "name": "empire1",
+    "parties": [
+      {
+        "owners": [
+          "f33dcee2-8e7b-a94e-caef-bed8fc0d8562"
+        ],
+        "members": [],
+        "name": "Government",
+        "country": "empire1",
+        "PCT": 1.0
+      }
+    ],
+    "forbidParty": false,
+    "decisions": [],
+    "memberColor": "WHITE",
+    "stability": 70.0
+  }
+}

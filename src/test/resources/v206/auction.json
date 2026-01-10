@@ -1,0 +1,88 @@
+{
+  "toBuy": [
+    {
+      "classType": "jumper",
+      "material": "FEATHER",
+      "level": 2,
+      "bonus": [
+        1.0,
+        2.0,
+        3.0,
+        4.0,
+        5.0,
+        6.0
+      ],
+      "id": 0,
+      "name": "§6Jumper"
+    },
+    {
+      "classType": "evade",
+      "material": "SHIELD",
+      "level": 4,
+      "bonus": [
+        0.5,
+        1.0,
+        1.5,
+        2.0,
+        2.5,
+        3.0
+      ],
+      "id": 1,
+      "name": "§6Evade"
+    },
+    {
+      "classType": "evade",
+      "material": "SHIELD",
+      "level": 5,
+      "bonus": [
+        0.5,
+        1.0,
+        1.5,
+        2.0,
+        2.5,
+        3.0
+      ],
+      "id": 1,
+      "name": "§6Evade"
+    },
+    {
+      "classType": "refill",
+      "material": "BREAD",
+      "level": 3,
+      "bonus": [
+        1.0,
+        2.0,
+        3.0,
+        4.0,
+        5.0,
+        6.0
+      ],
+      "id": 2,
+      "name": "§6Refill"
+    },
+    {
+      "classType": "cunning",
+      "material": "PURPLE_DYE",
+      "level": 3,
+      "bonus": [
+        0.5,
+        1.0,
+        1.5,
+        2.0,
+        2.5,
+        3.0
+      ],
+      "id": 3,
+      "name": "§6Cunning"
+    }
+  ],
+  "bits": {
+    "0": 2000,
+    "1": 4000,
+    "2": 5000,
+    "3": 3000,
+    "4": 3000
+  },
+  "bitsOwner": {},
+  "waitTime": 72000
+}
