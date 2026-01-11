@@ -7,6 +7,7 @@ plugins {
     id("info.solidsoft.pitest") version "1.9.11";
     id("com.github.johnrengelman.shadow") version "8.1.1";
     kotlin("jvm") version "1.9.22"
+    kotlin("kapt") version "1.9.10"
 }
 
 jacoco {
@@ -65,6 +66,17 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
     testImplementation("org.yaml:snakeyaml:2.0")
+
+    // Ebean ORM
+    implementation("io.ebean:ebean:13.23.1")
+    // Ebean DDL / Migrations
+    implementation("io.ebean:ebean-ddl-generator:13.23.1")
+    // SQLite JDBC (recommended for plugins)
+    implementation("org.xerial:sqlite-jdbc:3.45.1.0")
+    // JPA API
+    implementation("jakarta.persistence:jakarta.persistence-api:3.1.0")
+
+    kapt("io.ebean:ebean-agent:13.23.1")
 }
 
 java {
