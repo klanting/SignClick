@@ -43,7 +43,7 @@ public class TestTools {
         server.getServicesManager().register(IEssentials.class, mockEssentials, vault, org.bukkit.plugin.ServicePriority.Highest);
 
         SignClick plugin = MockBukkit.load(SignClick.class);
-        SignClick.getConfigManager().getConfig("general.yml").set("autoSaveInterval", 0);
+        SignClick.getConfigManager().getConfig("storage.yml").set("autoSaveInterval", 0);
         SignClick.getConfigManager().getConfig("companies.yml").set("companyConfirmation", true);
         SignClick.getConfigManager().save();
 

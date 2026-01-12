@@ -53,11 +53,14 @@ public class DefaultConfig {
         configManager.createConfigFile("countries.yml");
         configManager.createConfigFile("policies.yml");
         configManager.createConfigFile("production.yml");
+        configManager.createConfigFile("storage.yml");
+
         CommentConfig generalConfig = SignClick.getConfigManager().getConfig("general.yml");
         CommentConfig companiesConfig = SignClick.getConfigManager().getConfig("companies.yml");
         CommentConfig countriesConfig = SignClick.getConfigManager().getConfig("countries.yml");
         CommentConfig policiesConfig = SignClick.getConfigManager().getConfig("policies.yml");
         CommentConfig productionConfig = SignClick.getConfigManager().getConfig("production.yml");
+        CommentConfig storageConfig = SignClick.getConfigManager().getConfig("storage.yml");
 
         /*
          * Configure the current version of the plugin storage
@@ -163,8 +166,8 @@ public class DefaultConfig {
                 "Spendable buttons buy/sell amount options UI"
                 );
 
-        generalConfig.addDefault("autoSaveInterval", 1800,
-                "After how much seconds the server auto-saves its plugin data");
+        storageConfig.addDefault("autoSaveInterval", 1800,
+                "After how much seconds the server auto-saves its plugin data (only relevant for JSON storage)");
 
         companiesConfig.addDefault("researchModifiersCost", List.of(1000, 1500, 2000, 2500, 3000),
                 "Costs for different research modifiers");
@@ -377,11 +380,17 @@ public class DefaultConfig {
         getOrCreate(getOrCreate(policyTaxation, "The Hero"), "required").addDefault("capital", 10000);
         getOrCreate(getOrCreate(policyTaxation, "Supporter"), "required").addDefault("maxTaxRate", 5);
 
+        /*
+        * storage config
+        * */
+        storageConfig.addDefault("storageType", "JSON", "Choose between 'JSON' or 'SQL'");
+
         generalConfig.options().copyDefaults(true);
         companiesConfig.options().copyDefaults(true);
         countriesConfig.options().copyDefaults(true);
         policiesConfig.options().copyDefaults(true);
         productionConfig.options().copyDefaults(true);
+        storageConfig.options().copyDefaults(true);
 
         configManager.save();
 

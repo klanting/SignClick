@@ -15,6 +15,9 @@ import com.klanting.signclick.logicLayer.companyLogic.patent.Auction;
 import com.klanting.signclick.logicLayer.countryLogic.CountryManager;
 import com.klanting.signclick.logicLayer.companyLogic.Market;
 import com.klanting.signclick.dependenciesHandling.EssentialsWrapper;
+import com.klanting.signclick.storageLayer.EbeanProvider;
+import com.klanting.signclick.storageLayer.JsonProvider;
+import com.klanting.signclick.storageLayer.StorageProvider;
 import com.klanting.signclick.utils.Utils;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
@@ -58,6 +61,8 @@ public class SignClick extends JavaPlugin{
 
     private boolean startingUp = false;
 
+    private StorageProvider storage;
+
     public static ConfigManager getConfigManager() {
         return configManager;
     }
@@ -92,6 +97,15 @@ public class SignClick extends JavaPlugin{
         dynmapSupport = setupDynmap();
         if (!dynmapSupport) {
             getServer().getConsoleSender().sendMessage(ChatColor.RED + "SignClick: Dynmap support failed!");
+        }
+
+        String storageType = SignClick.getConfigManager().getConfig("storage.yml").getString("storageType");
+        if (storageType.equalsIgnoreCase("SQL")){
+            storage = new EbeanProvider();
+            storage.init(this);
+        }else{
+            storage = new JsonProvider();
+            storage.init(this);
         }
 
         // Restore Data from files

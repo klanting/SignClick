@@ -10,8 +10,10 @@ public class Migrationv205v206 extends Migration{
     @Override
     public void migrate() {
 
-        SignClick.getConfigManager().getConfig("general.yml").set("version", "2.0.6",
-                "Latest updated version, don't change this, it will be done automatically");
+        long autoSaveInterval = SignClick.getConfigManager().getConfig("general.yml").getLong("autoSaveInterval");
+
+        SignClick.getConfigManager().getConfig("general.yml").set("autoSaveInterval", autoSaveInterval,
+                "After how much seconds the server auto-saves its plugin data (only relevant for JSON storage)");
 
         SignClick.getConfigManager().getConfig("general.yml").options().copyDefaults(true);
         SignClick.getConfigManager().save();
