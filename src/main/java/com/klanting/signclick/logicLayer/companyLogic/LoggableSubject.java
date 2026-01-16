@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-abstract class LoggableSubject {
+public abstract class LoggableSubject {
     protected List<PluginLogs> logObservers = new ArrayList<>();
 
     public void addObserver(PluginLogs observer){

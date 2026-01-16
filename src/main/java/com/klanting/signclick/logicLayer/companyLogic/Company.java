@@ -16,9 +16,11 @@ import com.klanting.signclick.logicLayer.companyLogic.contractRequests.ContractR
 import com.klanting.signclick.logicLayer.countryLogic.Country;
 import com.klanting.signclick.logicLayer.countryLogic.CountryManager;
 import com.klanting.signclick.interactionLayer.events.MenuEvents;
+import com.klanting.signclick.storageLayer.entities.company.CompanyEntity;
 import com.klanting.signclick.utils.BlockPosKey;
 import com.klanting.signclick.utils.JsonTools;
 import com.klanting.signclick.utils.Utils;
+import jakarta.persistence.Id;
 import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -41,8 +43,9 @@ import static org.bukkit.Bukkit.getServer;
 
 public class Company extends LoggableSubject implements CompanyI{
 
-    private String name;
-    private String stockName;
+    protected String name;
+
+    protected String stockName;
 
     public Research getResearch() {
         return research;
