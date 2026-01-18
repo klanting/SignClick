@@ -26,7 +26,7 @@ public class EbeanProvider implements StorageProvider{
         config.setName("default");
         config.setDataSourceConfig(ds);
 
-        // 🔥 Tell Ebean where entities are
+        // Tell Ebean where entities are
         config.addPackage("com.yourplugin.model");
 
         // Auto DDL (for development)
@@ -48,7 +48,12 @@ public class EbeanProvider implements StorageProvider{
     }
 
     @Override
-    public boolean store(Entity entity) {
+    public <E extends Entity> boolean store(Entity entity, Class<E> type) {
         return false;
+    }
+
+    @Override
+    public <T, E extends Entity> E getByKey(T key, Class<E> type) {
+        return null;
     }
 }

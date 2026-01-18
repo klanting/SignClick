@@ -13,18 +13,30 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "company")
-public class CompanyEntity {
+public class CompanyEntity implements com.klanting.signclick.storageLayer.entities.Entity {
 
     public String name;
 
     @Id
     public String stockName;
 
-    // REQUIRED by Ebean
-    public CompanyEntity() {}
+    public String type;
 
-    // getters / setters
+    /*
+     * Represents the share base value
+     * */
+    public double shareBase = 0.0;
+
+
 
     @OneToOne(mappedBy = "company")
     private ResearchEntity research;
+
+    // REQUIRED by Ebean
+    public CompanyEntity() {}
+
+    @Override
+    public Object getKey() {
+        return stockName;
+    }
 }

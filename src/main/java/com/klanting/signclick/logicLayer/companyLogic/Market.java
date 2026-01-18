@@ -43,6 +43,7 @@ public class Market {
     public static void clear(){
         /*
         * Clear all static information
+        * TESTING ONLY
         * */
         accounts.clear();
         companies.clear();

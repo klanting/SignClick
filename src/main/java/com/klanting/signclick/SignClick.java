@@ -102,11 +102,10 @@ public class SignClick extends JavaPlugin{
         String storageType = SignClick.getConfigManager().getConfig("storage.yml").getString("storageType");
         if (storageType.equalsIgnoreCase("SQL")){
             storage = new EbeanProvider();
-            storage.init(this);
         }else{
             storage = new JsonProvider();
-            storage.init(this);
         }
+        storage.init(this);
 
         // Restore Data from files
         this.RestoreDoors();

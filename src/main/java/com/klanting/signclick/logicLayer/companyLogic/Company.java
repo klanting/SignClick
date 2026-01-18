@@ -43,14 +43,23 @@ import static org.bukkit.Bukkit.getServer;
 
 public class Company extends LoggableSubject implements CompanyI{
 
+    /*
+    * moved to entity
+    * */
     protected String name;
 
+    /*
+     * moved to entity
+     * */
     protected String stockName;
 
     public Research getResearch() {
         return research;
     }
 
+    /*
+     * SOFTLINK STILL TO DO
+     * */
     private Research research;
 
 
@@ -59,27 +68,44 @@ public class Company extends LoggableSubject implements CompanyI{
     }
 
 
+    /*
+     * SOFTLINK STILL TO DO
+     * */
     public ContractRequest getPendingContractRequest() {
         return pendingContractRequest;
     }
 
+    /*
+     * SOFTLINK STILL TO DO
+     * */
     private ContractRequest pendingContractRequest = null;
 
     public HashMap<BlockPosKey, Machine> getMachines() {
         return machines;
     }
 
+    /*
+     * SOFTLINK STILL TO DO
+     * */
     public final HashMap<BlockPosKey, Machine> machines = new HashMap<>();
 
     public ArrayList<Upgrade> getUpgrades() {
         return upgrades;
     }
 
+    /*
+     * SOFTLINK STILL TO DO
+     * */
+
     public ArrayList<Upgrade> upgrades = new ArrayList<>();
 
     public ArrayList<Patent> getPatent() {
         return patent;
     }
+
+    /*
+     * SOFTLINK STILL TO DO
+     * */
 
     public ArrayList<Patent> patent = new ArrayList<>();
 
@@ -93,6 +119,10 @@ public class Company extends LoggableSubject implements CompanyI{
         this.country = country;
     }
 
+    /*
+     * SOFTLINK STILL TO DO
+     * */
+
     public Country country;
 
     public String getType() {
@@ -103,10 +133,13 @@ public class Company extends LoggableSubject implements CompanyI{
         this.type = type;
     }
 
+    /*
+     * moved to entity
+     * */
     public String type;
 
     /*
-     * Represents the share base value
+     * moved to entity
      * */
     private double shareBase = 0.0;
 

@@ -8,7 +8,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "research")
-public class ResearchEntity {
+public class ResearchEntity implements com.klanting.signclick.storageLayer.entities.Entity {
 
     @Id
     private String stockName;
@@ -20,6 +20,11 @@ public class ResearchEntity {
 
     // REQUIRED by Ebean
     public ResearchEntity() {}
+
+    @Override
+    public Object getKey() {
+        return null;
+    }
 
     // getters / setters
 }
