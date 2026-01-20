@@ -43,23 +43,14 @@ import static org.bukkit.Bukkit.getServer;
 
 public class Company extends LoggableSubject implements CompanyI{
 
-    /*
-    * moved to entity
-    * */
     protected String name;
-
-    /*
-     * moved to entity
-     * */
     protected String stockName;
 
     public Research getResearch() {
         return research;
     }
 
-    /*
-     * SOFTLINK STILL TO DO
-     * */
+
     private Research research;
 
 
@@ -67,75 +58,43 @@ public class Company extends LoggableSubject implements CompanyI{
         return pendingContractRequest != null;
     }
 
-    /*
-     * SOFTLINK STILL TO DO
-     * */
+
     public ContractRequest getPendingContractRequest() {
         return pendingContractRequest;
     }
 
-    /*
-     * SOFTLINK STILL TO DO
-     * */
+
     private ContractRequest pendingContractRequest = null;
 
-    /*
-     * SOFTLINK STILL TO DO
-     * */
+
     public final HashMap<BlockPosKey, Machine> machines = new HashMap<>();
 
-    /*
-     * SOFTLINK STILL TO DO
-     * */
+
     public ArrayList<Upgrade> upgrades = new ArrayList<>();
 
-    /*
-     * SOFTLINK STILL TO DO
-     * */
+
     public ArrayList<Patent> patent = new ArrayList<>();
 
     public ArrayList<PatentUpgrade> patentUpgrades = new ArrayList<>();
 
-    /*
-     * SOFTLINK STILL TO DO
-     * */
-
     public Country country;
 
-    /*
-     * moved to entity
-     * */
     public String type;
 
     /*
-     * moved to entity
+     * Represents the share base value
      * */
     private double shareBase = 0.0;
 
     /*
-     * moved to entity
+     * Represents the amount of money in the company back account
      * */
     private double bal = 0.0;
-
-    /*
-     * moved to entity
-     * */
     private double shareBalance = 0.0;
-
-    /*
-     * moved to entity
-     * */
     private double spendable = 0.0;
 
-    /*
-     * moved to entity
-     * */
     private double lastValue = 0.0;
 
-
-    /*
-     * SOFTLINK STILL TO DO
-     * */
     private List<Product> products = new ArrayList<>();
 
     public HashMap<BlockPosKey, Machine> getMachines() {

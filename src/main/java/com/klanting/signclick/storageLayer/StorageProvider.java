@@ -12,4 +12,6 @@ public interface StorageProvider {
     <E extends Entity> boolean store(Entity entity, Class<E> type);
 
     <T, E extends Entity> E getByKey(T key, Class<E> type);
+
+    <T, E extends Entity> E getByEntity(T entity, Class<E> type);
 }

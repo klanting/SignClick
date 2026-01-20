@@ -17,19 +17,20 @@ import static org.bukkit.Bukkit.getServer;
 
 public class Research {
 
-    public List<ResearchOption> getResearchOptions() {
-        return researchOptions;
-    }
-
     private List<ResearchOption> researchOptions = new ArrayList<>();
-
-    public void setLastChecked(long lastChecked) {
-        this.lastChecked = lastChecked;
-    }
 
     private long lastChecked;
 
     public transient CompanyI company;
+
+
+    public List<ResearchOption> getResearchOptions() {
+        return researchOptions;
+    }
+
+    public void setLastChecked(long lastChecked) {
+        this.lastChecked = lastChecked;
+    }
 
     public void loadMaterials(ConfigManager configManager){
         /*

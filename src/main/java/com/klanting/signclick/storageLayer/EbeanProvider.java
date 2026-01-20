@@ -56,4 +56,9 @@ public class EbeanProvider implements StorageProvider{
     public <T, E extends Entity> E getByKey(T key, Class<E> type) {
         return null;
     }
+
+    @Override
+    public <T, E extends Entity> E getByEntity(T entity, Class<E> type) {
+        return null;
+    }
 }

@@ -49,4 +49,9 @@ public class JsonProvider implements StorageProvider{
         }
         return type.cast(typedMap.get(key));
     }
+
+    @Override
+    public <T, E extends Entity> E getByEntity(T entity, Class<E> type) {
+        return null;
+    }
 }

@@ -10,12 +10,18 @@ import java.util.*;
 
 public class ResearchOption {
 
-    public Material getMaterial() {
-        return material;
-    }
+
 
     private final Material material;
     private double progress;
+
+    private int modifierIndex;
+
+    public CompanyI company;
+
+    public Material getMaterial() {
+        return material;
+    }
 
     public static final List<Pair<Double, Integer>> modifiers = new ArrayList<>();
 
@@ -38,13 +44,13 @@ public class ResearchOption {
         return modifierIndex;
     }
 
-    private int modifierIndex;
+
 
     public boolean isResearching(){
         return modifierIndex != 0;
     }
 
-    public CompanyI company;
+
 
     public ResearchOption(CompanyI company, Material material){
 
