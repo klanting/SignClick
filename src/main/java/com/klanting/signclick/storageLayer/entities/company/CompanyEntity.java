@@ -27,6 +27,17 @@ public class CompanyEntity implements com.klanting.signclick.storageLayer.entiti
      * */
     public double shareBase = 0.0;
 
+    /*
+     * Represents the amount of money in the company back account
+     * */
+    public double bal = 0.0;
+
+    public double shareBalance = 0.0;
+
+    public double spendable = 0.0;
+
+    public double lastValue = 0.0;
+
 
 
     @OneToOne(mappedBy = "company")

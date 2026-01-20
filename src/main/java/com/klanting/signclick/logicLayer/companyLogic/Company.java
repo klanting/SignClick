@@ -67,7 +67,6 @@ public class Company extends LoggableSubject implements CompanyI{
         return pendingContractRequest != null;
     }
 
-
     /*
      * SOFTLINK STILL TO DO
      * */
@@ -80,58 +79,28 @@ public class Company extends LoggableSubject implements CompanyI{
      * */
     private ContractRequest pendingContractRequest = null;
 
-    public HashMap<BlockPosKey, Machine> getMachines() {
-        return machines;
-    }
-
     /*
      * SOFTLINK STILL TO DO
      * */
     public final HashMap<BlockPosKey, Machine> machines = new HashMap<>();
 
-    public ArrayList<Upgrade> getUpgrades() {
-        return upgrades;
-    }
-
     /*
      * SOFTLINK STILL TO DO
      * */
-
     public ArrayList<Upgrade> upgrades = new ArrayList<>();
 
-    public ArrayList<Patent> getPatent() {
-        return patent;
-    }
-
     /*
      * SOFTLINK STILL TO DO
      * */
-
     public ArrayList<Patent> patent = new ArrayList<>();
 
-    public ArrayList<PatentUpgrade> getPatentUpgrades() {
-        return patentUpgrades;
-    }
-
     public ArrayList<PatentUpgrade> patentUpgrades = new ArrayList<>();
-
-    public void setCountry(Country country) {
-        this.country = country;
-    }
 
     /*
      * SOFTLINK STILL TO DO
      * */
 
     public Country country;
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
 
     /*
      * moved to entity
@@ -144,21 +113,64 @@ public class Company extends LoggableSubject implements CompanyI{
     private double shareBase = 0.0;
 
     /*
-     * Represents the amount of money in the company back account
+     * moved to entity
      * */
     private double bal = 0.0;
 
+    /*
+     * moved to entity
+     * */
     private double shareBalance = 0.0;
 
+    /*
+     * moved to entity
+     * */
     private double spendable = 0.0;
 
+    /*
+     * moved to entity
+     * */
     private double lastValue = 0.0;
+
+
+    /*
+     * SOFTLINK STILL TO DO
+     * */
+    private List<Product> products = new ArrayList<>();
+
+    public HashMap<BlockPosKey, Machine> getMachines() {
+        return machines;
+    }
+
+    public ArrayList<Upgrade> getUpgrades() {
+        return upgrades;
+    }
+
+    public void setCountry(Country country) {
+        this.country = country;
+    }
+
 
     public List<Product> getProducts() {
         return products;
     }
 
-    private List<Product> products = new ArrayList<>();
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public ArrayList<PatentUpgrade> getPatentUpgrades() {
+        return patentUpgrades;
+    }
+
+    public ArrayList<Patent> getPatent() {
+        return patent;
+    }
+
 
     public void addProduct(Product product){
         if (!products.stream().filter(p -> p.getMaterial() == product.getMaterial()).findFirst().isPresent()){
