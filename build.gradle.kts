@@ -77,6 +77,9 @@ dependencies {
     implementation("jakarta.persistence:jakarta.persistence-api:3.1.0")
 
     kapt("io.ebean:ebean-agent:13.23.1")
+
+    implementation("net.bytebuddy:byte-buddy:1.14.12")
+    implementation("net.bytebuddy:byte-buddy-agent:1.14.12")
 }
 
 java {
