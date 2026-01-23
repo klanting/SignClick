@@ -17,24 +17,25 @@ public class EbeanProvider implements StorageProvider{
 
         DataSourceConfig ds = new DataSourceConfig();
         //TODO make dynamic later
-        ds.setDriver("org.sqlite.JDBC");
-        ds.setUrl("jdbc:sqlite:" + new File(plugin.getDataFolder(), "data.db"));
-        ds.setUsername("");
-        ds.setPassword("");
+        ds.setDriver("org.postgresql.Driver");
+        ds.setUrl("jdbc:postgresql://localhost:5432/signclick");
+        //ds.setUrl("jdbc:sqlite:" + new File(plugin.getDataFolder(), "data.db"));
+        ds.setUsername("postgres");
+        ds.setPassword("postgres");
 
-        DatabaseConfig config = new DatabaseConfig();
-        config.setName("default");
-        config.setDataSourceConfig(ds);
+        ///DatabaseConfig config = new DatabaseConfig();
+        //config.setName("default");
+        //config.setDataSourceConfig(ds);
 
         // Tell Ebean where entities are
-        config.addPackage("com.yourplugin.model");
+        //config.addPackage("com.yourplugin.model");
 
         // Auto DDL (for development)
-        config.setDdlGenerate(true);
-        config.setDdlRun(true);
-        config.setDdlExtra(false);
+        //        config.setDdlGenerate(true);
+        //        config.setDdlRun(true);
+        //        config.setDdlExtra(false);
 
-        database = DatabaseFactory.create(config);
+        //database = DatabaseFactory.create(config);
     }
 
     public Database db() {

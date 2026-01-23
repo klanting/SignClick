@@ -1,6 +1,7 @@
 package com.klanting.signclick.utils.autoFlush.access;
 
 import com.klanting.signclick.utils.autoFlush.ClassFlush;
+import com.klanting.signclick.utils.autoFlush.DatabaseSingleton;
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
 import net.bytebuddy.implementation.MethodDelegation;

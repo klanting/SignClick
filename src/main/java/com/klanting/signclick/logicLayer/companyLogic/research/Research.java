@@ -5,6 +5,7 @@ import com.klanting.signclick.configs.ConfigManager;
 import com.klanting.signclick.logicLayer.companyLogic.CompanyI;
 import com.klanting.signclick.logicLayer.companyLogic.producible.ProductFactory;
 import com.klanting.signclick.storageLayer.entities.company.research.ResearchEntity;
+import com.klanting.signclick.utils.autoFlush.ClassFlush;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -15,6 +16,7 @@ import java.util.*;
 import static com.klanting.signclick.utils.Utils.AssertMet;
 import static org.bukkit.Bukkit.getServer;
 
+@ClassFlush
 public class Research {
 
     private List<ResearchOption> researchOptions = new ArrayList<>();

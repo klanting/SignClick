@@ -80,6 +80,8 @@ dependencies {
 
     implementation("net.bytebuddy:byte-buddy:1.14.12")
     implementation("net.bytebuddy:byte-buddy-agent:1.14.12")
+
+    implementation("org.postgresql:postgresql:42.7.3")
 }
 
 java {
