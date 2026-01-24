@@ -8,6 +8,8 @@ import io.ebean.config.DatabaseConfig;
 import io.ebean.datasource.DataSourceConfig;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -59,8 +61,25 @@ public class DatabaseSingleton {
     }
 
     private void checkTable(Class<?> clazz, List<Class<?>> blackList){
+
+        //TODO remove this alter development only
+        String d = String.format("""
+                DROP SCHEMA public CASCADE;
+                CREATE SCHEMA public;
+                """);
+        try {
+            PreparedStatement stmt = connection.prepareStatement(d);
+
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        //START REAL CODE
+
         blackList.add(clazz);
         List<String> columns = new ArrayList<>();
+        List<String> foreignKeys = new ArrayList<>();
 
         Field[] fields = clazz.getDeclaredFields(); // all fields declared in the class
         for (Field field : fields) {
@@ -68,18 +87,71 @@ public class DatabaseSingleton {
             String columnName = field.getName();
             String sqlType = mapJavaTypeToSQL(type);
 
+            //Convert list to additional relation entity
+            if (type == List.class){
+
+                if (!(field.getGenericType() instanceof ParameterizedType parameterizedType)) {
+                    continue;
+                }
+
+                Type[] typeArgs = parameterizedType.getActualTypeArguments();
+
+                Type elementType = typeArgs[0];
+                if (!(elementType instanceof Class<?> clazz2)) {
+                    continue;
+                }
+
+                System.out.println(clazz2.getSimpleName());
+                System.out.println("D"+ elementType+" "+elementType);
+                if (!blackList.contains(clazz2) && type.isAnnotationPresent(ClassFlush.class)){
+                    checkTable(clazz2, blackList);
+                }
+
+
+                String tableCreation = String.format("""
+                        CREATE TABLE %s (
+                        autoFlushId1 UUID NOT NULL,
+                        autoFlushId2 UUID NOT NULL,
+                        
+                        PRIMARY KEY (autoFlushId1, autoFlushId2)
+                        );
+                        """, clazz.getSimpleName()+"_"+clazz2.getSimpleName());
+                //TODO add foreign keys, but only after main table creation, so alter TABLE
+
+                try {
+                    PreparedStatement stmt = connection.prepareStatement(tableCreation);
+
+                    stmt.executeUpdate();
+
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+
+                continue;
+            }
+
             if (sqlType != null) { // only primitives
                 columns.add(columnName + " " + sqlType);
             }else if (!blackList.contains(type) && type.isAnnotationPresent(ClassFlush.class)){
                 checkTable(type, blackList);
+                columns.add(columnName+ " UUID");
+                foreignKeys.add(String.format("""
+                        CONSTRAINT fk_%s
+                                FOREIGN KEY (%s) REFERENCES %s
+                                ON DELETE SET NULL
+                        """, columnName, columnName, type.getSimpleName()+"(autoFlushId)"));
             }
         }
+        System.out.println("W "+foreignKeys.toString());
+        columns.addAll(foreignKeys);
 
         String columnDefs = String.join(",\n    ", columns);
+        System.out.println("Q "+clazz);
         String tableName = clazz.getSimpleName().toLowerCase(); // optional: lowercase table name
 
         String tableCreation = String.format("""
                 CREATE TABLE %s (
+                autoFlushId UUID PRIMARY KEY DEFAULT gen_random_uuid(),
                     %s
                 );
                 """, tableName, columnDefs);

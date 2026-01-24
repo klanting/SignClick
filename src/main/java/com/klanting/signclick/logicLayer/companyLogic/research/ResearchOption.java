@@ -2,15 +2,15 @@ package com.klanting.signclick.logicLayer.companyLogic.research;
 
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.logicLayer.companyLogic.CompanyI;
+import com.klanting.signclick.utils.autoFlush.ClassFlush;
 import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.*;
 
+@ClassFlush
 public class ResearchOption {
-
-
 
     private final Material material;
     private double progress;
