@@ -6,16 +6,14 @@ import io.ebean.Database;
 import io.ebean.DatabaseFactory;
 import io.ebean.config.DatabaseConfig;
 import io.ebean.datasource.DataSourceConfig;
+import io.ebeaninternal.server.util.Str;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.*;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class DatabaseSingleton {
 
@@ -60,6 +58,41 @@ public class DatabaseSingleton {
         if (type == char.class) return "CHAR(1)";
         if (type  == String.class) return "VARCHAR";
         return null; // skip non-primitives
+    }
+
+    public Map<String, Object> getDataByKey(UUID key, Class<?> clazz){
+        String tableName = clazz.getSuperclass().getSimpleName().toLowerCase();
+        String sql = "SELECT * FROM " + tableName + " WHERE autoFlushId = ?::uuid";
+
+        try {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setObject(1, key);
+
+            System.out.println(stmt.toString());
+
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+
+                Map<String, Object> row = new HashMap<>();
+
+                ResultSetMetaData meta = rs.getMetaData();
+                int columnCount = meta.getColumnCount();
+
+                for (int i = 1; i <= columnCount; i++) {
+                    String columnName = meta.getColumnLabel(i);
+                    Object value = rs.getObject(i);
+                    row.put(columnName, value);
+                }
+
+                return row;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return new HashMap<>();
     }
 
     private void checkTable(Class<?> clazz, List<Class<?>> blackList){
@@ -176,6 +209,74 @@ public class DatabaseSingleton {
         Class<?> clazz = Company.class;
         checkTable(clazz, new ArrayList<>());
 
+
+    }
+
+    public <T> UUID store(T entity) {
+        try {
+            Class<T> clazz = (Class<T>)  entity.getClass();
+
+            DatabaseMetaData metaData = connection.getMetaData();
+
+            List<String> columns = new ArrayList<>();
+            System.out.println("XX "+ clazz.getSimpleName().toLowerCase());
+            ResultSet rs = metaData.getColumns(null, "public", clazz.getSimpleName().toLowerCase(), null);
+
+            boolean tableExists = rs.next();
+            if (!tableExists){
+                checkTable(clazz, new ArrayList<>());
+                rs = metaData.getColumns(null, "public", clazz.getSimpleName().toLowerCase(), null);
+                tableExists = rs.next();
+            }
+
+            while (tableExists) {
+                String columnName = rs.getString("COLUMN_NAME");
+
+                if (columnName.equalsIgnoreCase("autoFlushId")){
+                    tableExists = rs.next();
+                    continue;
+                }
+
+                columns.add(columnName);
+
+                tableExists = rs.next();
+            }
+
+            String colNames = String.join(", ", columns);
+            String placeholders = columns.stream().map(c -> "?").collect(Collectors.joining(", "));
+
+            String insertSql = "INSERT INTO "+clazz.getSimpleName().toLowerCase()+" (" + colNames + ") VALUES (" + placeholders + ") RETURNING autoFlushId";
+            PreparedStatement insertStmt = connection.prepareStatement(insertSql);
+
+            //TODO recursively store all storable to which we have a ptr.
+
+            List<Object> values = new ArrayList<>();
+
+            for (String column: columns){
+                Field field = clazz.getDeclaredField(column);
+                field.setAccessible(true);
+
+                Object data = field.get(entity);
+                values.add(data);
+            }
+
+            for (int i = 0; i < values.size(); i++) {
+                insertStmt.setObject(i + 1, values.get(i)); // JDBC is 1-indexed
+            }
+
+            ResultSet result = insertStmt.executeQuery();
+            boolean suc6 = result.next();
+            assert suc6;
+            return (UUID) result.getObject(1);
+
+
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 }

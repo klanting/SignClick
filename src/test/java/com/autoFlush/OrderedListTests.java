@@ -13,6 +13,7 @@ import com.klanting.signclick.utils.autoFlush.ClassFlush;
 import com.klanting.signclick.utils.autoFlush.access.OrderedList;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import tools.ExpandedServerMock;
 import tools.TestTools;
@@ -40,6 +41,7 @@ public class OrderedListTests {
     public void tearDown() {}
 
     @Test
+    @Disabled("Database not yet been set up on CI")
     void createRow(){
         OrderedList<Dummy> dummies = new OrderedList<>();
         Dummy dum = dummies.createRow(new Dummy());

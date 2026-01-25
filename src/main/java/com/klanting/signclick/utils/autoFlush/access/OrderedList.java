@@ -7,6 +7,11 @@ import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
 import net.bytebuddy.implementation.MethodDelegation;
 import net.bytebuddy.matcher.ElementMatchers;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Modifier;
+import java.sql.DatabaseMetaData;
+import java.util.UUID;
+
 import static net.bytebuddy.matcher.ElementMatchers.*;
 
 
@@ -25,17 +30,29 @@ public class OrderedList<T> implements AccessPoint{
 
         try {
 
-            return new ByteBuddy()
+            /*
+            * Store class in SQL
+            * */
+            UUID id = DatabaseSingleton.getInstance().store(entity);
+
+
+            /*
+            * override class so it contains a UUID
+            * */
+            Class<? extends T> dynamicType = new ByteBuddy()
                     .subclass(clazz)
+                    .defineField("uuid", UUID.class, Modifier.PUBLIC)
                     .method(
-                            ElementMatchers.not(named("clone"))
+                            not(named("clone"))
                     )
                     .intercept(MethodDelegation.to(new InterceptorWrap<T>(entity)))
                     .make()
                     .load(clazz.getClassLoader(), ClassLoadingStrategy.Default.INJECTION)
-                    .getLoaded()
-                    .getDeclaredConstructor()
-                    .newInstance();
+                    .getLoaded();
+
+            T obj = dynamicType.getDeclaredConstructor().newInstance();
+            dynamicType.getField("uuid").set(obj, id);
+            return obj;
 
         } catch (Exception e) {
             throw new RuntimeException(e);

@@ -1,16 +1,23 @@
 package com.klanting.signclick.utils.autoFlush.access;
 
-import net.bytebuddy.implementation.bind.annotation.AllArguments;
-import net.bytebuddy.implementation.bind.annotation.Origin;
-import net.bytebuddy.implementation.bind.annotation.RuntimeType;
-import net.bytebuddy.implementation.bind.annotation.SuperCall;
+import com.klanting.signclick.utils.autoFlush.DatabaseSingleton;
+import net.bytebuddy.ByteBuddy;
+import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
+import net.bytebuddy.implementation.MethodDelegation;
+import net.bytebuddy.implementation.bind.annotation.*;
 import org.gradle.internal.impldep.org.objenesis.Objenesis;
 import org.gradle.internal.impldep.org.objenesis.ObjenesisStd;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.Callable;
+
+import static net.bytebuddy.matcher.ElementMatchers.named;
+import static net.bytebuddy.matcher.ElementMatchers.not;
 
 public class InterceptorWrap<T> {
 
@@ -21,20 +28,24 @@ public class InterceptorWrap<T> {
     }
 
     @RuntimeType
-    public Object intercept(@Origin Method method,
-                            @AllArguments Object[] args) throws Exception {
+    public Object intercept(
+            @This Object self,
+            @Origin Method method,
+            @AllArguments Object[] args) throws Exception {
 
         Objenesis objenesis = new ObjenesisStd();
-        Class<?> clazz = target.getClass();
-        T instance = (T) objenesis.newInstance(clazz);
+        Class<?> clazz = self.getClass();
 
-        Map<String, Object> values = new HashMap<>();
-        values.put("val", 1);
+        T instance = (T) objenesis.newInstance(clazz.getSuperclass());
+        System.out.println("LOL "+clazz);
+        Field field2 = clazz.getDeclaredField("uuid");
+        Map<String, Object> values = DatabaseSingleton.getInstance().getDataByKey((UUID) field2.get(self),
+                clazz);
 
         // Step 3: Populate fields manually
         for (var entry : values.entrySet()) {
             try {
-                var field = clazz.getDeclaredField(entry.getKey());
+                var field = clazz.getSuperclass().getDeclaredField(entry.getKey());
                 field.setAccessible(true);
                 field.set(instance, entry.getValue());
             } catch (NoSuchFieldException e) {
@@ -48,7 +59,7 @@ public class InterceptorWrap<T> {
         method.setAccessible(true);
         Object result = method.invoke(instance, args);
 
-        System.out.println("After " + method.getName());
+        System.out.println("After " + method.getName()+" "+result);
 
         return result; // or modify result if you want
     }
