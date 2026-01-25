@@ -19,6 +19,8 @@ import java.util.List;
 
 public class DatabaseSingleton {
 
+    //TODO REMOVE HARDCODED CREDENTIALS
+    //DISCLAIMER: NOT UNSAFE BECAUSE ARE DUMMY CREDENTIALS
     private static final String URL = "jdbc:postgresql://localhost:5432/signclick";
     private static final String USER = "postgres";
     private static final String PASSWORD = "postgres";
@@ -112,11 +114,12 @@ public class DatabaseSingleton {
                         CREATE TABLE %s (
                         autoFlushId1 UUID NOT NULL,
                         autoFlushId2 UUID NOT NULL,
+                        index NOT NULL
                         
-                        PRIMARY KEY (autoFlushId1, autoFlushId2)
+                        PRIMARY KEY (autoFlushId1, autoFlushId2, index)
                         );
                         """, clazz.getSimpleName()+"_"+clazz2.getSimpleName());
-                //TODO add foreign keys, but only after main table creation, so alter TABLE
+                //TODO add foreign keys, but only after main table creation, so alter TABLE, with recursion, when main loop is done only
 
                 try {
                     PreparedStatement stmt = connection.prepareStatement(tableCreation);

@@ -22,8 +22,11 @@ import static org.gradle.internal.impldep.org.junit.Assert.assertNotEquals;
 
 @ClassFlush
 class Dummy{
+
+    private int val = 1;
+
     public int hello(){
-        return 1;
+        return val;
     }
 
 }
@@ -40,7 +43,7 @@ public class OrderedListTests {
     void createRow(){
         OrderedList<Dummy> dummies = new OrderedList<>();
         Dummy dum = dummies.createRow(new Dummy());
-        assertEquals(dum.hello(), 1);
+        assertEquals(1, dum.hello());
 
     }
 }
