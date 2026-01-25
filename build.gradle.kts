@@ -33,6 +33,8 @@ repositories {
     maven("https://repo.essentialsx.net/releases/");
 }
 
+val testcontainersVersion = "1.21.4"
+
 dependencies {
 
     compileOnly("org.apache.commons:commons-lang3:3.14.0")
@@ -82,6 +84,10 @@ dependencies {
     implementation("net.bytebuddy:byte-buddy-agent:1.14.12")
 
     implementation("org.postgresql:postgresql:42.7.3")
+
+    testImplementation("org.testcontainers:junit-jupiter:$testcontainersVersion")
+    testImplementation("org.testcontainers:postgresql:$testcontainersVersion")
+    testImplementation("org.postgresql:postgresql:$testcontainersVersion")
 }
 
 java {

@@ -39,8 +39,8 @@ public class InterceptorWrap<T> {
         T instance = (T) objenesis.newInstance(clazz.getSuperclass());
         System.out.println("LOL "+clazz);
         Field field2 = clazz.getDeclaredField("uuid");
-        Map<String, Object> values = DatabaseSingleton.getInstance().getDataByKey((UUID) field2.get(self),
-                clazz);
+        UUID uuid = (UUID) field2.get(self);
+        Map<String, Object> values = DatabaseSingleton.getInstance().getDataByKey(uuid,clazz);
 
         // Step 3: Populate fields manually
         for (var entry : values.entrySet()) {
@@ -58,6 +58,7 @@ public class InterceptorWrap<T> {
         // call original method safely
         method.setAccessible(true);
         Object result = method.invoke(instance, args);
+        DatabaseSingleton.getInstance().update(uuid, instance);
 
         System.out.println("After " + method.getName()+" "+result);
 

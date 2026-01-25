@@ -2,6 +2,7 @@ package com.klanting.signclick.utils.autoFlush;
 
 import com.klanting.signclick.logicLayer.companyLogic.Company;
 import com.klanting.signclick.logicLayer.companyLogic.producible.LicenseSingleton;
+import com.klanting.signclick.utils.DataBase;
 import io.ebean.Database;
 import io.ebean.DatabaseFactory;
 import io.ebean.config.DatabaseConfig;
@@ -17,23 +18,27 @@ import java.util.stream.Collectors;
 
 public class DatabaseSingleton {
 
-    //TODO REMOVE HARDCODED CREDENTIALS
-    //DISCLAIMER: NOT UNSAFE BECAUSE ARE DUMMY CREDENTIALS
-    private static final String URL = "jdbc:postgresql://localhost:5432/signclick";
-    private static final String USER = "postgres";
-    private static final String PASSWORD = "postgres";
+
+    private final Connection connection;
+
 
     // Singleton pattern
     private static DatabaseSingleton instance;
-    private Connection connection;
 
     private DatabaseSingleton() {
-        try {
-            connection = DriverManager.getConnection(URL, USER, PASSWORD);
-            System.out.println("Connected to PostgreSQL successfully!");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+
+        //TODO REMOVE HARDCODED CREDENTIALS
+        //DISCLAIMER: NOT UNSAFE BECAUSE ARE DUMMY CREDENTIALS
+        String URL = "jdbc:postgresql://localhost:5432/signclick";
+        String USER = "postgres";
+         String PASSWORD = "postgres";
+
+        DataBase db = new DataBase(URL, USER, PASSWORD);
+        this.connection = db.getConnection();
+    }
+
+    private DatabaseSingleton(Connection connection) {
+        this.connection = connection;
     }
 
     public static DatabaseSingleton getInstance() {
@@ -43,9 +48,14 @@ public class DatabaseSingleton {
         return instance;
     }
 
-    public Connection getConnection() {
-        return connection;
+    public static DatabaseSingleton getInstance(Connection connection) {
+        if (instance == null) {
+            instance = new DatabaseSingleton(connection);
+        }
+        return instance;
     }
+
+
 
     private static String mapJavaTypeToSQL(Class<?> type) {
         if (type == int.class) return "INTEGER";
@@ -96,20 +106,6 @@ public class DatabaseSingleton {
     }
 
     private void checkTable(Class<?> clazz, List<Class<?>> blackList){
-
-        //TODO remove this alter development only
-        String d = String.format("""
-                DROP SCHEMA public CASCADE;
-                CREATE SCHEMA public;
-                """);
-        try {
-            PreparedStatement stmt = connection.prepareStatement(d);
-
-            stmt.executeUpdate();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
         //START REAL CODE
 
         blackList.add(clazz);
@@ -206,6 +202,21 @@ public class DatabaseSingleton {
     }
 
     public void checkTables(){
+
+        //TODO remove this alter development only
+        String d = String.format("""
+                DROP SCHEMA public CASCADE;
+                CREATE SCHEMA public;
+                """);
+        try {
+            PreparedStatement stmt = connection.prepareStatement(d);
+
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         Class<?> clazz = Company.class;
         checkTable(clazz, new ArrayList<>());
 
@@ -268,6 +279,77 @@ public class DatabaseSingleton {
             boolean suc6 = result.next();
             assert suc6;
             return (UUID) result.getObject(1);
+
+
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    public <T> void update(UUID key, T entity) {
+        try {
+            Class<T> clazz = (Class<T>)  entity.getClass();
+
+            DatabaseMetaData metaData = connection.getMetaData();
+
+            List<String> columns = new ArrayList<>();
+            System.out.println("XX "+ clazz.getSimpleName().toLowerCase());
+            ResultSet rs = metaData.getColumns(null, "public", clazz.getSimpleName().toLowerCase(), null);
+
+            boolean tableExists = rs.next();
+            if (!tableExists){
+                checkTable(clazz, new ArrayList<>());
+                rs = metaData.getColumns(null, "public", clazz.getSimpleName().toLowerCase(), null);
+                tableExists = rs.next();
+            }
+
+            while (tableExists) {
+                String columnName = rs.getString("COLUMN_NAME");
+
+                if (columnName.equalsIgnoreCase("autoFlushId")){
+                    tableExists = rs.next();
+                    continue;
+                }
+
+                columns.add(columnName);
+
+                tableExists = rs.next();
+            }
+
+            String setClause = columns.stream()
+                    .map(c -> c + " = ?")
+                    .collect(Collectors.joining(", "));
+
+            String updateSql =
+                    "UPDATE " + clazz.getSimpleName().toLowerCase() +
+                            " SET " + setClause +
+                            " WHERE autoFlushId = ?";
+
+            PreparedStatement insertStmt = connection.prepareStatement(updateSql);
+
+            //TODO recursively store all storable to which we have a ptr.
+
+            List<Object> values = new ArrayList<>();
+
+            for (String column: columns){
+                Field field = clazz.getDeclaredField(column);
+                field.setAccessible(true);
+
+                Object data = field.get(entity);
+                values.add(data);
+            }
+
+            for (int i = 0; i < values.size(); i++) {
+                insertStmt.setObject(i + 1, values.get(i)); // JDBC is 1-indexed
+            }
+            insertStmt.setObject(values.size()+1, key);
+
+            insertStmt.executeUpdate();
 
 
         }catch (SQLException e){
