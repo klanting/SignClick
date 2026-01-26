@@ -2,20 +2,24 @@ package com.klanting.signclick.utils.autoFlush.access;
 
 
 import com.klanting.signclick.utils.autoFlush.DatabaseSingleton;
+import io.ebeaninternal.server.util.Str;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
+import java.sql.*;
 import java.util.*;
 
 
 public class OrderedList<T> implements AccessPoint<T>, List<T> {
 
     private final Class<T> type;
+    private final String tableName;
 
-    public OrderedList(Class<T> type) {
+    public OrderedList(String name, Class<T> type) {
         this.type = type;
+        this.tableName = name;
     }
 
     @Override
@@ -25,17 +29,41 @@ public class OrderedList<T> implements AccessPoint<T>, List<T> {
 
     @Override
     public int size() {
-        return DatabaseSingleton.getInstance().size(type);
+        Connection connection =  DatabaseSingleton.getInstance().getConnection();
+
+        String tableName = type.getSimpleName().toLowerCase();
+
+        String countSql = "SELECT COUNT(*) FROM " + tableName;
+
+        try (PreparedStatement stmt = connection.prepareStatement(countSql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+                int rowCount = rs.getInt(1);
+                return rowCount;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return 0;
     }
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return size() == 0;
     }
 
     @Override
     public boolean contains(Object o) {
-        return false;
+        System.out.println("VX");
+
+        System.out.println("T "+type);
+        List<T> entities = DatabaseSingleton.getInstance().getAll(type);
+        System.out.println("V"+ entities.get(0).getClass());
+        System.out.println("V3"+ o);
+        return entities.contains(o);
     }
 
     @NotNull

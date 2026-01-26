@@ -30,49 +30,42 @@ public class InterceptorWrap<T> {
             @Origin Method method,
             @AllArguments Object[] args) throws Exception {
 
-        Objenesis objenesis = new ObjenesisStd();
+
         Class<?> clazz = self.getClass();
 
-        T instance = (T) objenesis.newInstance(clazz.getSuperclass());
         System.out.println("LOL "+clazz);
         Field field2 = clazz.getDeclaredField("uuid");
         UUID uuid = (UUID) field2.get(self);
         Map<String, Object> values = DatabaseSingleton.getInstance().getDataByKey(uuid,clazz);
 
-        // Step 3: Populate fields manually
-        for (var entry : values.entrySet()) {
+        System.out.println("X "+clazz.getSuperclass());
+        T instance = DatabaseSingleton.getInstance().wrap(clazz.getSuperclass(), values);
+        System.out.println("D "+instance);
+
+        System.out.println("M "+method.getName());
+        if (method.getName().equals("equals") && args.length == 1) {
+            System.out.println("M2 "+method.getName());
+            Object other = args[0];
+
+            if (other == null) return false;
+            System.out.println("M3 "+method.getName());
+            System.out.println(clazz.getSuperclass().isInstance(other));
+            System.out.println("V2"+ other.toString());
+
             try {
-                var field = clazz.getSuperclass().getDeclaredField(entry.getKey());
+                Field uuidField = clazz.getDeclaredField("uuid");
+                Field uui2dField = other.getClass().getDeclaredField("uuid");
+                uuidField.setAccessible(true);
+                UUID thisUuid = (UUID) uuidField.get(self);
+                UUID otherUuid = (UUID) uui2dField.get(other);
 
-                Class<?> type = field.getType();
-                if (type.isAnnotationPresent(ClassFlush.class) && entry.getValue() != null){
-
-                    Class<?> dynamicType = new ByteBuddy()
-                            .subclass(type)
-                            .defineField("uuid", UUID.class, Modifier.PUBLIC)
-                            .method(
-                                    not(named("clone"))
-                            )
-                            .intercept(MethodDelegation.to(new InterceptorWrap<T>()))
-                            .make()
-                            .load(clazz.getClassLoader(), ClassLoadingStrategy.Default.INJECTION)
-                            .getLoaded();
-
-                    Object obj = dynamicType.getDeclaredConstructor().newInstance();
-                    dynamicType.getField("uuid").set(obj, entry.getValue());
-
-                    field.setAccessible(true);
-                    field.set(instance, obj);
-
-                    continue;
-                }
-
-                field.setAccessible(true);
-                field.set(instance, entry.getValue());
-            } catch (NoSuchFieldException e) {
-                // ignore missing fields
+                System.out.println("M4 "+thisUuid+" "+otherUuid);
+                return thisUuid.equals(otherUuid);
+            } catch (NoSuchFieldException | IllegalAccessException e) {
+                throw new RuntimeException(e);
             }
         }
+
 
         // call original method safely
         method.setAccessible(true);

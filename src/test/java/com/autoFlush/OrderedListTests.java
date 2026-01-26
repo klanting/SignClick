@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import tools.DataBaseTest;
 
 import static org.gradle.internal.impldep.org.junit.Assert.assertEquals;
+import static org.gradle.internal.impldep.org.junit.Assert.assertTrue;
 
 @ClassFlush
 class Dummy{
@@ -80,12 +81,14 @@ public class OrderedListTests {
     void createRow(){
 
         DatabaseSingleton.getInstance(DataBaseTest.getConnection());
-        OrderedList<Dummy> dummies = new OrderedList<>(Dummy.class);
-        Dummy dum = dummies.createRow(new Dummy());
+        OrderedList<Dummy> dummies = new OrderedList<>("a",Dummy.class);
+        Dummy predum = new Dummy();
+        Dummy dum = dummies.createRow(predum);
         assertEquals(1, dum.hello());
         dum.inc();
         assertEquals(2, dum.hello());
         assertEquals(1, dummies.size());
+        assertTrue(dummies.contains(dum));
     }
 
     @Test
@@ -95,7 +98,7 @@ public class OrderedListTests {
         * */
 
         DatabaseSingleton.getInstance(DataBaseTest.getConnection());
-        OrderedList<Dummy2> dummies = new OrderedList<>(Dummy2.class);
+        OrderedList<Dummy2> dummies = new OrderedList<>("a",Dummy2.class);
         Dummy2 dum = dummies.createRow(new Dummy2());
         assertEquals(1, dum.hello());
         dum.inc();

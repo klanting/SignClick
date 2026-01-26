@@ -7,11 +7,10 @@ import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
 import net.bytebuddy.implementation.MethodDelegation;
 import org.apache.commons.lang3.tuple.Pair;
+import org.gradle.internal.impldep.org.objenesis.Objenesis;
+import org.gradle.internal.impldep.org.objenesis.ObjenesisStd;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
+import java.lang.reflect.*;
 import java.sql.*;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -27,6 +26,10 @@ public class DatabaseSingleton {
 
     // Singleton pattern
     private static DatabaseSingleton instance;
+
+    public Connection getConnection() {
+        return connection;
+    }
 
     private DatabaseSingleton() {
 
@@ -73,6 +76,118 @@ public class DatabaseSingleton {
         return null; // skip non-primitives
     }
 
+    public <T> T wrap(Class<?> clazz, Map<String, Object> values){
+        Objenesis objenesis = new ObjenesisStd();
+
+        //this doesn't intercept
+        Class<?> dynamicType = new ByteBuddy()
+                .subclass(clazz)
+                .defineField("uuid", UUID.class, Modifier.PUBLIC)
+                .make()
+                .load(clazz.getClassLoader(), ClassLoadingStrategy.Default.INJECTION)
+                .getLoaded();
+
+        T instance = (T) objenesis.newInstance(dynamicType);
+        System.out.println("INST "+instance.getClass());
+        // Step 3: Populate fields manually
+        for (var entry : values.entrySet()) {
+
+            if (entry.getKey().equals("autoflushid")){
+                try {
+                    var field = dynamicType.getDeclaredField("uuid");
+                    field.setAccessible(true);
+                    field.set(instance, entry.getValue());
+                }catch (Exception e){
+
+                }
+
+                continue;
+            }
+
+            try {
+                var field = clazz.getDeclaredField(entry.getKey());
+                System.out.println("VLOL "+field.getName());
+
+                Class<?> type = field.getType();
+                if (type.isAnnotationPresent(ClassFlush.class) && entry.getValue() != null){
+
+                    //other than above this one intercepts
+                    Class<?> dynamicType2 = new ByteBuddy()
+                            .subclass(type)
+                            .defineField("uuid", UUID.class, Modifier.PUBLIC)
+                            .method(
+                                    not(named("clone"))
+                            )
+                            .intercept(MethodDelegation.to(new InterceptorWrap<T>()))
+                            .make()
+                            .load(clazz.getClassLoader(), ClassLoadingStrategy.Default.INJECTION)
+                            .getLoaded();
+
+                    Object obj = dynamicType2.getDeclaredConstructor().newInstance();
+                    dynamicType2.getField("uuid").set(obj, entry.getValue());
+
+                    field.setAccessible(true);
+                    field.set(instance, obj);
+
+                    continue;
+                }
+
+                field.setAccessible(true);
+                field.set(instance, entry.getValue());
+                System.out.println("Stored "+ field.get(instance));
+            } catch (NoSuchFieldException e) {
+                throw new RuntimeException(e);
+            } catch (InvocationTargetException e) {
+                throw new RuntimeException(e);
+            } catch (InstantiationException e) {
+                throw new RuntimeException(e);
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
+            } catch (NoSuchMethodException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        return instance;
+    }
+
+    public <T> List<T> getAll(Class<T> clazz) {
+        String tableName = clazz.getSimpleName().toLowerCase();
+        String sql = "SELECT * FROM " + tableName;
+
+        List<T> entities = new ArrayList<>();
+
+        try {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+
+            ResultSet rs = stmt.executeQuery();
+
+           while (rs.next()) {
+
+                Map<String, Object> row = new HashMap<>();
+
+                ResultSetMetaData meta = rs.getMetaData();
+                int columnCount = meta.getColumnCount();
+
+                for (int i = 1; i <= columnCount; i++) {
+                    String columnName = meta.getColumnLabel(i);
+                    Object value = rs.getObject(i);
+                    row.put(columnName, value);
+                }
+
+                System.out.println("INST2 "+clazz);
+                T instance = wrap(clazz, row);
+                System.out.println("INST2 "+instance);
+                entities.add(instance);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return entities;
+    }
+
     public Map<String, Object> getDataByKey(UUID key, Class<?> clazz){
         String tableName = clazz.getSuperclass().getSimpleName().toLowerCase();
         String sql = "SELECT * FROM " + tableName + " WHERE autoFlushId = ?::uuid";
@@ -80,8 +195,6 @@ public class DatabaseSingleton {
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setObject(1, key);
-
-            System.out.println(stmt.toString());
 
             ResultSet rs = stmt.executeQuery();
 
@@ -204,27 +317,6 @@ public class DatabaseSingleton {
 
     }
 
-    public int size(Class<?> type){
-        String tableName = type.getSimpleName().toLowerCase();
-
-        String countSql = "SELECT COUNT(*) FROM " + tableName;
-
-        try (PreparedStatement stmt = connection.prepareStatement(countSql);
-             ResultSet rs = stmt.executeQuery()) {
-
-            if (rs.next()) {
-                int rowCount = rs.getInt(1);
-                return rowCount;
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return 0;
-
-    }
-
     public void checkTables(){
         //DEBUG ONLY
 
@@ -328,7 +420,7 @@ public class DatabaseSingleton {
 
     public <T> void update(UUID key, T entity) {
         try {
-            Class<T> clazz = (Class<T>)  entity.getClass();
+            Class<T> clazz = (Class<T>)  entity.getClass().getSuperclass();
 
             DatabaseMetaData metaData = connection.getMetaData();
 
