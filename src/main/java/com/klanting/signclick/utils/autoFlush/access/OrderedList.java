@@ -4,13 +4,19 @@ package com.klanting.signclick.utils.autoFlush.access;
 import com.klanting.signclick.utils.autoFlush.DatabaseSingleton;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
+import java.util.*;
 
 
 public class OrderedList<T> implements AccessPoint<T>, List<T> {
+
+    private final Class<T> type;
+
+    public OrderedList(Class<T> type) {
+        this.type = type;
+    }
 
     @Override
     public T createRow(T entity) {
@@ -19,7 +25,7 @@ public class OrderedList<T> implements AccessPoint<T>, List<T> {
 
     @Override
     public int size() {
-        return 0;
+        return DatabaseSingleton.getInstance().size(type);
     }
 
     @Override

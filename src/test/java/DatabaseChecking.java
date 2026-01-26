@@ -18,7 +18,7 @@ class Dummy{
 public class DatabaseChecking {
     public static void main(String[] args) throws IOException {
         DatabaseSingleton.getInstance().checkTables();
-        OrderedList<Dummy> dummies = new OrderedList<>();
+        OrderedList<Dummy> dummies = new OrderedList<>(Dummy.class);
         Dummy dum = dummies.createRow(new Dummy());
         assertEquals(dum.hello(), 1);
 

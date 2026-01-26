@@ -1,27 +1,15 @@
 package com.autoFlush;
 
 
-import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
-import be.seeseemelk.mockbukkit.entity.PlayerMock;
-import com.klanting.signclick.SignClick;
-import com.klanting.signclick.interactionLayer.events.MenuEvents;
-import com.klanting.signclick.logicLayer.companyLogic.Market;
-import com.klanting.signclick.logicLayer.companyLogic.patent.Auction;
-import com.klanting.signclick.interactionLayer.routines.AutoSave;
 import com.klanting.signclick.utils.autoFlush.ClassFlush;
 import com.klanting.signclick.utils.autoFlush.DatabaseSingleton;
 import com.klanting.signclick.utils.autoFlush.access.OrderedList;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import tools.DataBaseTest;
-import tools.ExpandedServerMock;
-import tools.TestTools;
 
 import static org.gradle.internal.impldep.org.junit.Assert.assertEquals;
-import static org.gradle.internal.impldep.org.junit.Assert.assertNotEquals;
 
 @ClassFlush
 class Dummy{
@@ -92,11 +80,12 @@ public class OrderedListTests {
     void createRow(){
 
         DatabaseSingleton.getInstance(DataBaseTest.getConnection());
-        OrderedList<Dummy> dummies = new OrderedList<>();
+        OrderedList<Dummy> dummies = new OrderedList<>(Dummy.class);
         Dummy dum = dummies.createRow(new Dummy());
         assertEquals(1, dum.hello());
         dum.inc();
         assertEquals(2, dum.hello());
+        assertEquals(1, dummies.size());
     }
 
     @Test
@@ -106,7 +95,7 @@ public class OrderedListTests {
         * */
 
         DatabaseSingleton.getInstance(DataBaseTest.getConnection());
-        OrderedList<Dummy2> dummies = new OrderedList<>();
+        OrderedList<Dummy2> dummies = new OrderedList<>(Dummy2.class);
         Dummy2 dum = dummies.createRow(new Dummy2());
         assertEquals(1, dum.hello());
         dum.inc();
@@ -115,6 +104,7 @@ public class OrderedListTests {
         assertEquals(1, dum.getDummy3().hello());
         dum.getDummy3().inc();
         assertEquals(2, dum.getDummy3().hello());
+        assertEquals(1, dummies.size());
 
     }
 }

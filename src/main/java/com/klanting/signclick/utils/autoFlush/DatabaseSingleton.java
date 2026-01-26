@@ -204,6 +204,27 @@ public class DatabaseSingleton {
 
     }
 
+    public int size(Class<?> type){
+        String tableName = type.getSimpleName().toLowerCase();
+
+        String countSql = "SELECT COUNT(*) FROM " + tableName;
+
+        try (PreparedStatement stmt = connection.prepareStatement(countSql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+                int rowCount = rs.getInt(1);
+                return rowCount;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return 0;
+
+    }
+
     public void checkTables(){
         //DEBUG ONLY
 
