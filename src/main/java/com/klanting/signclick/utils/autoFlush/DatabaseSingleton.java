@@ -1,20 +1,23 @@
 package com.klanting.signclick.utils.autoFlush;
 
 import com.klanting.signclick.logicLayer.companyLogic.Company;
-import com.klanting.signclick.logicLayer.companyLogic.producible.LicenseSingleton;
 import com.klanting.signclick.utils.DataBase;
-import io.ebean.Database;
-import io.ebean.DatabaseFactory;
-import io.ebean.config.DatabaseConfig;
-import io.ebean.datasource.DataSourceConfig;
-import io.ebeaninternal.server.util.Str;
+import com.klanting.signclick.utils.autoFlush.access.InterceptorWrap;
+import net.bytebuddy.ByteBuddy;
+import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
+import net.bytebuddy.implementation.MethodDelegation;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.sql.*;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static net.bytebuddy.matcher.ElementMatchers.named;
+import static net.bytebuddy.matcher.ElementMatchers.not;
 
 public class DatabaseSingleton {
 
@@ -31,7 +34,7 @@ public class DatabaseSingleton {
         //DISCLAIMER: NOT UNSAFE BECAUSE ARE DUMMY CREDENTIALS
         String URL = "jdbc:postgresql://localhost:5432/signclick";
         String USER = "postgres";
-         String PASSWORD = "postgres";
+        String PASSWORD = "postgres";
 
         DataBase db = new DataBase(URL, USER, PASSWORD);
         this.connection = db.getConnection();
@@ -202,6 +205,7 @@ public class DatabaseSingleton {
     }
 
     public void checkTables(){
+        //DEBUG ONLY
 
         //TODO remove this alter development only
         String d = String.format("""
@@ -230,7 +234,6 @@ public class DatabaseSingleton {
             DatabaseMetaData metaData = connection.getMetaData();
 
             List<String> columns = new ArrayList<>();
-            System.out.println("XX "+ clazz.getSimpleName().toLowerCase());
             ResultSet rs = metaData.getColumns(null, "public", clazz.getSimpleName().toLowerCase(), null);
 
             boolean tableExists = rs.next();
@@ -253,12 +256,6 @@ public class DatabaseSingleton {
                 tableExists = rs.next();
             }
 
-            String colNames = String.join(", ", columns);
-            String placeholders = columns.stream().map(c -> "?").collect(Collectors.joining(", "));
-
-            String insertSql = "INSERT INTO "+clazz.getSimpleName().toLowerCase()+" (" + colNames + ") VALUES (" + placeholders + ") RETURNING autoFlushId";
-            PreparedStatement insertStmt = connection.prepareStatement(insertSql);
-
             //TODO recursively store all storable to which we have a ptr.
 
             List<Object> values = new ArrayList<>();
@@ -267,9 +264,25 @@ public class DatabaseSingleton {
                 Field field = clazz.getDeclaredField(column);
                 field.setAccessible(true);
 
+                Class<?> type = field.getType();
+
                 Object data = field.get(entity);
+
+                if (type.isAnnotationPresent(ClassFlush.class) && data != null){
+                    UUID uuid = store(data);
+                    values.add(uuid);
+                    continue;
+                }
+
                 values.add(data);
+
             }
+
+            String colNames = String.join(", ", columns);
+            String placeholders = columns.stream().map(c -> "?").collect(Collectors.joining(", "));
+
+            String insertSql = "INSERT INTO "+clazz.getSimpleName().toLowerCase()+" (" + colNames + ") VALUES (" + placeholders + ") RETURNING autoFlushId";
+            PreparedStatement insertStmt = connection.prepareStatement(insertSql);
 
             for (int i = 0; i < values.size(); i++) {
                 insertStmt.setObject(i + 1, values.get(i)); // JDBC is 1-indexed
@@ -282,6 +295,7 @@ public class DatabaseSingleton {
 
 
         }catch (SQLException e){
+            e.printStackTrace();
             throw new RuntimeException(e);
         } catch (NoSuchFieldException e) {
             throw new RuntimeException(e);
@@ -316,10 +330,20 @@ public class DatabaseSingleton {
                     continue;
                 }
 
+                Field field = clazz.getDeclaredField(columnName);
+                field.setAccessible(true);
+                Class<?> type = field.getType();
+                if (type.isAnnotationPresent(ClassFlush.class) && field.get(entity) != null){
+                    tableExists = rs.next();
+                    continue;
+                }
+
                 columns.add(columnName);
 
                 tableExists = rs.next();
             }
+
+            //TODO check references, if UUID same -> all fine, if not or nonexistent update.
 
             String setClause = columns.stream()
                     .map(c -> c + " = ?")
@@ -360,5 +384,49 @@ public class DatabaseSingleton {
             throw new RuntimeException(e);
         }
 
+    }
+
+    public static void clear(){
+        instance = null;
+    }
+
+    public <T> T getModifiedObject(T entity){
+        /*
+         * flush to disk here
+         * */
+
+        Class<T> clazz = (Class<T>) entity.getClass();
+
+        assert clazz.isAnnotationPresent(ClassFlush.class);
+
+        try {
+
+            /*
+             * Store class in SQL
+             * */
+            UUID id = DatabaseSingleton.getInstance().store(entity);
+
+            /*
+             * override class so it contains a UUID
+             * */
+            Class<? extends T> dynamicType = new ByteBuddy()
+                    .subclass(clazz)
+                    .defineField("uuid", UUID.class, Modifier.PUBLIC)
+                    .method(
+                            not(named("clone"))
+                    )
+                    .intercept(MethodDelegation.to(new InterceptorWrap<T>()))
+                    .make()
+                    .load(clazz.getClassLoader(), ClassLoadingStrategy.Default.INJECTION)
+                    .getLoaded();
+
+            T obj = dynamicType.getDeclaredConstructor().newInstance();
+            dynamicType.getField("uuid").set(obj, id);
+            return obj;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
     }
 }

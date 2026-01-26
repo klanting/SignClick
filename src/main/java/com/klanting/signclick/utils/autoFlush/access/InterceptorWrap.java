@@ -1,5 +1,6 @@
 package com.klanting.signclick.utils.autoFlush.access;
 
+import com.klanting.signclick.utils.autoFlush.ClassFlush;
 import com.klanting.signclick.utils.autoFlush.DatabaseSingleton;
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
@@ -11,20 +12,16 @@ import org.gradle.internal.impldep.org.objenesis.ObjenesisStd;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.Callable;
 
 import static net.bytebuddy.matcher.ElementMatchers.named;
 import static net.bytebuddy.matcher.ElementMatchers.not;
 
 public class InterceptorWrap<T> {
 
-    private final Object target;
 
-    public InterceptorWrap(Object target) {
-        this.target = target;
+    public InterceptorWrap() {
     }
 
     @RuntimeType
@@ -46,6 +43,30 @@ public class InterceptorWrap<T> {
         for (var entry : values.entrySet()) {
             try {
                 var field = clazz.getSuperclass().getDeclaredField(entry.getKey());
+
+                Class<?> type = field.getType();
+                if (type.isAnnotationPresent(ClassFlush.class) && entry.getValue() != null){
+
+                    Class<?> dynamicType = new ByteBuddy()
+                            .subclass(type)
+                            .defineField("uuid", UUID.class, Modifier.PUBLIC)
+                            .method(
+                                    not(named("clone"))
+                            )
+                            .intercept(MethodDelegation.to(new InterceptorWrap<T>()))
+                            .make()
+                            .load(clazz.getClassLoader(), ClassLoadingStrategy.Default.INJECTION)
+                            .getLoaded();
+
+                    Object obj = dynamicType.getDeclaredConstructor().newInstance();
+                    dynamicType.getField("uuid").set(obj, entry.getValue());
+
+                    field.setAccessible(true);
+                    field.set(instance, obj);
+
+                    continue;
+                }
+
                 field.setAccessible(true);
                 field.set(instance, entry.getValue());
             } catch (NoSuchFieldException e) {
@@ -53,14 +74,12 @@ public class InterceptorWrap<T> {
             }
         }
 
-        System.out.println("Before " + method.getName());
-
         // call original method safely
         method.setAccessible(true);
         Object result = method.invoke(instance, args);
-        DatabaseSingleton.getInstance().update(uuid, instance);
 
-        System.out.println("After " + method.getName()+" "+result);
+        //Flush changes made to object
+        DatabaseSingleton.getInstance().update(uuid, instance);
 
         return result; // or modify result if you want
     }

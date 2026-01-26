@@ -38,6 +38,43 @@ class Dummy{
 
 }
 
+@ClassFlush
+class Dummy2{
+
+    private int val = 1;
+
+    public Dummy3 getDummy3() {
+        return dummy3;
+    }
+
+    private final Dummy3 dummy3 = new Dummy3();
+
+    public int hello(){
+        return val;
+    }
+
+    public void inc(){
+        val += 1;
+    }
+
+}
+
+
+@ClassFlush
+class Dummy3{
+
+    private int val = 1;
+
+    public int hello(){
+        return val;
+    }
+
+    public void inc(){
+        val += 1;
+    }
+
+}
+
 public class OrderedListTests {
 
     @BeforeEach
@@ -48,10 +85,10 @@ public class OrderedListTests {
     @AfterEach
     public void tearDown() throws Exception {
         DataBaseTest.shutdown();
+        DatabaseSingleton.clear();
     }
 
     @Test
-    //@Disabled("Database not yet been set up on CI")
     void createRow(){
 
         DatabaseSingleton.getInstance(DataBaseTest.getConnection());
@@ -60,5 +97,24 @@ public class OrderedListTests {
         assertEquals(1, dum.hello());
         dum.inc();
         assertEquals(2, dum.hello());
+    }
+
+    @Test
+    void createRowChained(){
+        /*
+        * Dummy2 has a reference to Dummy 3
+        * */
+
+        DatabaseSingleton.getInstance(DataBaseTest.getConnection());
+        OrderedList<Dummy2> dummies = new OrderedList<>();
+        Dummy2 dum = dummies.createRow(new Dummy2());
+        assertEquals(1, dum.hello());
+        dum.inc();
+        assertEquals(2, dum.hello());
+
+        assertEquals(1, dum.getDummy3().hello());
+        dum.getDummy3().inc();
+        assertEquals(2, dum.getDummy3().hello());
+
     }
 }
