@@ -77,24 +77,27 @@ public class DatabaseSingleton {
     }
 
     public <T> T wrap(Class<?> clazz, Map<String, Object> values){
+        /**
+        * gets class and list of values, and initialize object with its values and autoFlushId
+        * */
         Objenesis objenesis = new ObjenesisStd();
 
-        //this doesn't intercept
+        //this doesn't intercept, but embeds UUID to instance
         Class<?> dynamicType = new ByteBuddy()
                 .subclass(clazz)
-                .defineField("uuid", UUID.class, Modifier.PUBLIC)
+                .defineField("autoFlushId", UUID.class, Modifier.PUBLIC)
                 .make()
                 .load(clazz.getClassLoader(), ClassLoadingStrategy.Default.INJECTION)
                 .getLoaded();
 
         T instance = (T) objenesis.newInstance(dynamicType);
-        System.out.println("INST "+instance.getClass());
-        // Step 3: Populate fields manually
+
+        // Set each field manually
         for (var entry : values.entrySet()) {
 
             if (entry.getKey().equals("autoflushid")){
                 try {
-                    var field = dynamicType.getDeclaredField("uuid");
+                    var field = dynamicType.getDeclaredField("autoFlushId");
                     field.setAccessible(true);
                     field.set(instance, entry.getValue());
                 }catch (Exception e){
@@ -114,7 +117,7 @@ public class DatabaseSingleton {
                     //other than above this one intercepts
                     Class<?> dynamicType2 = new ByteBuddy()
                             .subclass(type)
-                            .defineField("uuid", UUID.class, Modifier.PUBLIC)
+                            .defineField("autoFlushId", UUID.class, Modifier.PUBLIC)
                             .method(
                                     not(named("clone"))
                             )
@@ -124,7 +127,7 @@ public class DatabaseSingleton {
                             .getLoaded();
 
                     Object obj = dynamicType2.getDeclaredConstructor().newInstance();
-                    dynamicType2.getField("uuid").set(obj, entry.getValue());
+                    dynamicType2.getField("autoFlushId").set(obj, entry.getValue());
 
                     field.setAccessible(true);
                     field.set(instance, obj);
@@ -162,8 +165,10 @@ public class DatabaseSingleton {
 
             ResultSet rs = stmt.executeQuery();
 
-           while (rs.next()) {
-
+            /*
+            * Go over each loaded row
+            * */
+            while (rs.next()) {
                 Map<String, Object> row = new HashMap<>();
 
                 ResultSetMetaData meta = rs.getMetaData();
@@ -175,9 +180,7 @@ public class DatabaseSingleton {
                     row.put(columnName, value);
                 }
 
-                System.out.println("INST2 "+clazz);
                 T instance = wrap(clazz, row);
-                System.out.println("INST2 "+instance);
                 entities.add(instance);
             }
 
@@ -189,6 +192,9 @@ public class DatabaseSingleton {
     }
 
     public Map<String, Object> getDataByKey(UUID key, Class<?> clazz){
+        /*
+        * Provide autoFlushId and get the corresponding values
+        * */
         String tableName = clazz.getSuperclass().getSimpleName().toLowerCase();
         String sql = "SELECT * FROM " + tableName + " WHERE autoFlushId = ?::uuid";
 
@@ -222,8 +228,6 @@ public class DatabaseSingleton {
     }
 
     private void checkTable(Class<?> clazz, List<Class<?>> blackList){
-        //START REAL CODE
-
         blackList.add(clazz);
         List<String> columns = new ArrayList<>();
         List<String> foreignKeys = new ArrayList<>();
@@ -248,8 +252,6 @@ public class DatabaseSingleton {
                     continue;
                 }
 
-                System.out.println(clazz2.getSimpleName());
-                System.out.println("D"+ elementType+" "+elementType);
                 if (!blackList.contains(clazz2) && type.isAnnotationPresent(ClassFlush.class)){
                     checkTable(clazz2, blackList);
                 }
@@ -303,8 +305,6 @@ public class DatabaseSingleton {
                     %s
                 );
                 """, tableName, columnDefs);
-
-
 
         try {
             PreparedStatement stmt = connection.prepareStatement(tableCreation);
@@ -524,7 +524,7 @@ public class DatabaseSingleton {
              * */
             Class<? extends T> dynamicType = new ByteBuddy()
                     .subclass(clazz)
-                    .defineField("uuid", UUID.class, Modifier.PUBLIC)
+                    .defineField("autoFlushId", UUID.class, Modifier.PUBLIC)
                     .method(
                             not(named("clone"))
                     )
@@ -534,7 +534,7 @@ public class DatabaseSingleton {
                     .getLoaded();
 
             T obj = dynamicType.getDeclaredConstructor().newInstance();
-            dynamicType.getField("uuid").set(obj, id);
+            dynamicType.getField("autoFlushId").set(obj, id);
             return obj;
 
         } catch (Exception e) {

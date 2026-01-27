@@ -57,40 +57,71 @@ public class OrderedList<T> implements AccessPoint<T>, List<T> {
 
     @Override
     public boolean contains(Object o) {
-        System.out.println("VX");
-
-        System.out.println("T "+type);
         List<T> entities = DatabaseSingleton.getInstance().getAll(type);
-        System.out.println("V"+ entities.get(0).getClass());
-        System.out.println("V3"+ o);
         return entities.contains(o);
     }
 
     @NotNull
     @Override
     public Iterator<T> iterator() {
-        return null;
+        return new AccessIterator<T>(type);
     }
 
     @NotNull
     @Override
     public Object[] toArray() {
-        return new Object[0];
+        List<T> entities = DatabaseSingleton.getInstance().getAll(type);
+        Object[] arr = new Object[entities.size()];
+        int i = 0;
+        for (Object e : entities) {
+            arr[i++] = e;
+        }
+        return arr;
     }
 
     @NotNull
     @Override
     public <T1> T1[] toArray(@NotNull T1[] a) {
-        return null;
+
+        List<T> entities = DatabaseSingleton.getInstance().getAll(type);
+
+        int size = size(); // collection size
+
+        if (a.length < size) {
+            // create new array of same runtime type
+            @SuppressWarnings("unchecked")
+            T1[] newArray = (T1[]) java.lang.reflect.Array.newInstance(
+                    a.getClass().getComponentType(), size);
+
+            a = newArray;
+        }
+
+        int i = 0;
+        for (Object element : entities) {
+            a[i++] = (T1) element;
+        }
+
+        if (a.length > size) {
+            a[size] = null;
+        }
+
+        return a;
     }
 
     @Override
     public boolean add(T t) {
-        return false;
+        createRow(t);
+        return true;
     }
 
     @Override
     public boolean remove(Object o) {
+        List<T> entities = DatabaseSingleton.getInstance().getAll(type);
+
+        /*
+        * database
+        * */
+
         return false;
     }
 

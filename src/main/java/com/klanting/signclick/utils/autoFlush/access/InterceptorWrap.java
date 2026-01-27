@@ -34,7 +34,7 @@ public class InterceptorWrap<T> {
         Class<?> clazz = self.getClass();
 
         System.out.println("LOL "+clazz);
-        Field field2 = clazz.getDeclaredField("uuid");
+        Field field2 = clazz.getDeclaredField("autoFlushId");
         UUID uuid = (UUID) field2.get(self);
         Map<String, Object> values = DatabaseSingleton.getInstance().getDataByKey(uuid,clazz);
 
@@ -53,8 +53,8 @@ public class InterceptorWrap<T> {
             System.out.println("V2"+ other.toString());
 
             try {
-                Field uuidField = clazz.getDeclaredField("uuid");
-                Field uui2dField = other.getClass().getDeclaredField("uuid");
+                Field uuidField = clazz.getDeclaredField("autoFlushId");
+                Field uui2dField = other.getClass().getDeclaredField("autoFlushId");
                 uuidField.setAccessible(true);
                 UUID thisUuid = (UUID) uuidField.get(self);
                 UUID otherUuid = (UUID) uui2dField.get(other);
