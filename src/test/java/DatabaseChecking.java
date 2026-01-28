@@ -19,7 +19,9 @@ public class DatabaseChecking {
     public static void main(String[] args) throws IOException {
         OrderedList<Dummy> dummies = new OrderedList<>("a", Dummy.class);
         Dummy dum = dummies.createRow(new Dummy());
+        dummies.createRow(new Dummy());
         assertEquals(dum.hello(), 1);
+        dummies.remove(dum);
 
 
     }

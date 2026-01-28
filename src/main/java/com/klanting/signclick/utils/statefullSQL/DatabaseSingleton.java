@@ -2,6 +2,7 @@ package com.klanting.signclick.utils.statefullSQL;
 
 import com.klanting.signclick.utils.DataBase;
 import com.klanting.signclick.utils.statefullSQL.access.InterceptorWrap;
+import io.ebeaninternal.server.util.Str;
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
 import net.bytebuddy.implementation.MethodDelegation;
@@ -92,6 +93,10 @@ public class DatabaseSingleton {
         Class<?> dynamicType = new ByteBuddy()
                 .subclass(clazz)
                 .defineField("autoFlushId", UUID.class, Modifier.PUBLIC)
+                .method(
+                        named("equals")
+                )
+                .intercept(MethodDelegation.to(new InterceptorWrap<T>()))
                 .make()
                 .load(clazz.getClassLoader(), ClassLoadingStrategy.Default.INJECTION)
                 .getLoaded();
@@ -557,7 +562,7 @@ public class DatabaseSingleton {
             insertSql = "INSERT INTO StatefullSQL"+type+" (" + colNames + ") VALUES (" + placeholders + ")";
             insertStmt = connection.prepareStatement(insertSql);
             insertStmt.setObject(1, id);
-            insertStmt.setInt(2, count+1);
+            insertStmt.setInt(2, count);
             insertStmt.setObject(3, autoFlushId);
             insertStmt.executeUpdate();
 
@@ -573,6 +578,34 @@ public class DatabaseSingleton {
             throw new RuntimeException(e);
         }
 
+    }
+
+    public <T> void checkDelete(UUID key, Class<T> clazz){
+        try {
+            String sql = "SELECT COUNT(*) FROM StatefullSQL"+"OrderedList"+" WHERE autoflushid = ?";
+
+
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setObject(1, key);
+            ResultSet rs = ps.executeQuery();
+            rs.next();
+            int count = rs.getInt(1);
+
+            if (count != 0){
+                return;
+            }
+
+            String tableName = clazz.getSimpleName().toLowerCase();
+
+            sql = "DELETE FROM "+tableName+" WHERE autoflushid = ?";
+
+            ps = DatabaseSingleton.getInstance().getConnection().prepareStatement(sql);
+            ps.setObject(1, key);
+            ps.executeUpdate();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     public <T> void update(UUID key, T entity) {
@@ -663,10 +696,6 @@ public class DatabaseSingleton {
             throw new RuntimeException(e);
         }
 
-    }
-
-    public <T> void delete(UUID key, Class<T> clazz){
-        
     }
 
     public static void clear(){

@@ -30,10 +30,12 @@ public class OrderedList<T> implements AccessPoint<T>, List<T> {
 
         String tableName = type.getSimpleName().toLowerCase();
 
-        String countSql = "SELECT COUNT(*) FROM " + tableName;
+        String countSql = "SELECT COUNT(*) FROM " + tableName+ " t JOIN statefullSQL" + "OrderedList" +" o ON t.autoflushid = o.autoflushid JOIN StatefullSQL s ON o.id = s.id WHERE s.groupname = ?";
 
-        try (PreparedStatement stmt = connection.prepareStatement(countSql);
-             ResultSet rs = stmt.executeQuery()) {
+        try {
+            PreparedStatement stmt = connection.prepareStatement(countSql);
+            stmt.setString(1, groupName);
+            ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
                 int rowCount = rs.getInt(1);
@@ -115,21 +117,85 @@ public class OrderedList<T> implements AccessPoint<T>, List<T> {
     public boolean remove(Object o) {
         List<T> entities = DatabaseSingleton.getInstance().getAll(groupName, "OrderedList", type);
 
+        T matchingEntity = null;
+
+        for (T entity: entities){
+            if (entity.equals(o)){
+                matchingEntity = entity;
+                break;
+            }
+        }
+
+        if (matchingEntity == null){
+            return false;
+        }
+
+        UUID uuid;
+        try {
+            uuid = (UUID) matchingEntity.getClass()
+                    .getDeclaredField("autoFlushId")
+                    .get(matchingEntity);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        }
         /*
         * database
         * */
+        UUID id = DatabaseSingleton.getInstance().getIdByGroup(groupName, "OrderedList");
+
+        String sql = "DELETE FROM StatefullSQL"+"OrderedList"+" WHERE autoflushid = ? AND id = ? RETURNING index";
+
+        try {
+            PreparedStatement ps = DatabaseSingleton.getInstance().getConnection().prepareStatement(sql);
+            ps.setObject(1, uuid);
+            ps.setObject(2, id);
+            ResultSet rs = ps.executeQuery();
+            rs.next();
+            int index = rs.getInt("index");
+
+            /*
+            * update the index
+            * */
+            String updateSql =
+                    "UPDATE StatefullSQLOrderedList " +
+                            "SET index = index - 1 " +
+                            "WHERE id = ? AND index > ?";
+
+            PreparedStatement updatePs = DatabaseSingleton.getInstance().getConnection().prepareStatement(updateSql);
+            updatePs.setObject(1, id);
+            updatePs.setInt(2, index);
+
+            updatePs.executeUpdate();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        DatabaseSingleton.getInstance().checkDelete(uuid, type);
 
         return false;
     }
 
     @Override
     public boolean containsAll(@NotNull Collection<?> c) {
-        return false;
+        for (Object element : c) {
+            if (!this.contains(element)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     @Override
     public boolean addAll(@NotNull Collection<? extends T> c) {
-        return false;
+        for (T element : c) {
+            this.add(element);
+        }
+
+        return true;
     }
 
     @Override
