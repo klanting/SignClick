@@ -3,6 +3,7 @@ package com.klanting.signclick.utils.autoFlush;
 import com.klanting.signclick.logicLayer.companyLogic.Company;
 import com.klanting.signclick.utils.DataBase;
 import com.klanting.signclick.utils.autoFlush.access.InterceptorWrap;
+import io.ebeaninternal.server.util.Str;
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
 import net.bytebuddy.implementation.MethodDelegation;
@@ -227,6 +228,100 @@ public class DatabaseSingleton {
         return new HashMap<>();
     }
 
+    public boolean tableExists(String tableName){
+
+        try {
+            DatabaseMetaData meta = connection.getMetaData();
+
+            ResultSet rs = meta.getTables(
+                    null,          // catalog
+                    "public",      // schema (case-sensitive in some DBs)
+                    tableName.toLowerCase(),       // table name
+                    new String[]{"TABLE"});
+
+            boolean exists = rs.next();
+            System.out.println("EXE "+exists+" "+tableName);
+            return exists;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public void checkSetupTable(String name, String type){
+
+        if (!tableExists("StatefullSQL")){
+            String tableCreation = String.format("""
+                        CREATE TABLE %s (
+                        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+                        type VARCHAR NOT NULL,
+                        groupName VARCHAR NOT NULL
+                        );
+                        """, "StatefullSQL");
+
+            try {
+                PreparedStatement stmt = connection.prepareStatement(tableCreation);
+
+                stmt.executeUpdate();
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        if (!tableExists("StatefullSQLOrderedList")){
+            String tableCreation = String.format("""
+                        CREATE TABLE %s (
+                        id UUID NOT NULL,
+                        index INT NOT NULL,
+                        autoFlushId INT NOT NULL,
+                        PRIMARY KEY(id, index)
+                        );
+                        """, "StatefullSQLOrderedList");
+
+            try {
+                PreparedStatement stmt = connection.prepareStatement(tableCreation);
+
+                stmt.executeUpdate();
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+
+        String sql = "SELECT * FROM StatefullSQL WHERE groupName = ? AND type = ?";
+
+        try {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setObject(1, name);
+            stmt.setObject(2, type);
+
+            ResultSet rs = stmt.executeQuery();
+
+            if (!rs.next()) {
+                System.out.println("V");
+                String insertSql = "INSERT INTO StatefullSQL (type, groupName) VALUES (?, ?) RETURNING id";
+                PreparedStatement insertStmt = connection.prepareStatement(insertSql);
+                insertStmt.setString(1, type);
+                insertStmt.setString(2, name);
+                ResultSet rs2 = insertStmt.executeQuery();
+
+                assert rs2.next();
+                UUID id = (UUID) rs2.getObject(1);
+            }
+
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
     private void checkTable(Class<?> clazz, List<Class<?>> blackList){
         blackList.add(clazz);
         List<String> columns = new ArrayList<>();
@@ -299,9 +394,10 @@ public class DatabaseSingleton {
         System.out.println("Q "+clazz);
         String tableName = clazz.getSimpleName().toLowerCase(); // optional: lowercase table name
 
+        String comma = (columnDefs.length() > 0) ? ",":"";
         String tableCreation = String.format("""
                 CREATE TABLE %s (
-                autoFlushId UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+                autoFlushId UUID PRIMARY KEY DEFAULT gen_random_uuid()"""+comma+"""
                     %s
                 );
                 """, tableName, columnDefs);
@@ -309,34 +405,12 @@ public class DatabaseSingleton {
         try {
             PreparedStatement stmt = connection.prepareStatement(tableCreation);
 
+            System.out.println("P "+stmt.toString());
             stmt.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-    }
-
-    public void checkTables(){
-        //DEBUG ONLY
-
-        //TODO remove this alter development only
-        String d = String.format("""
-                DROP SCHEMA public CASCADE;
-                CREATE SCHEMA public;
-                """);
-        try {
-            PreparedStatement stmt = connection.prepareStatement(d);
-
-            stmt.executeUpdate();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        Class<?> clazz = Company.class;
-        checkTable(clazz, new ArrayList<>());
-
 
     }
 
@@ -420,7 +494,7 @@ public class DatabaseSingleton {
 
     public <T> void update(UUID key, T entity) {
         try {
-            Class<T> clazz = (Class<T>)  entity.getClass().getSuperclass();
+            Class<T> clazz = (Class<T>) entity.getClass().getSuperclass();
 
             DatabaseMetaData metaData = connection.getMetaData();
 
@@ -497,6 +571,10 @@ public class DatabaseSingleton {
             throw new RuntimeException(e);
         }
 
+    }
+
+    public <T> void delete(UUID key, Class<T> clazz){
+        
     }
 
     public static void clear(){

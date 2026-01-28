@@ -9,6 +9,7 @@ import static org.gradle.internal.impldep.org.junit.Assert.assertEquals;
 
 @ClassFlush
 class Dummy{
+    public int hello = 4;
     public int hello(){
         return 1;
     }
@@ -17,7 +18,6 @@ class Dummy{
 
 public class DatabaseChecking {
     public static void main(String[] args) throws IOException {
-        DatabaseSingleton.getInstance().checkTables();
         OrderedList<Dummy> dummies = new OrderedList<>("a", Dummy.class);
         Dummy dum = dummies.createRow(new Dummy());
         assertEquals(dum.hello(), 1);

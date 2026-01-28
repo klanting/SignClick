@@ -15,11 +15,12 @@ import java.util.*;
 public class OrderedList<T> implements AccessPoint<T>, List<T> {
 
     private final Class<T> type;
-    private final String tableName;
+    private final String groupName;
 
     public OrderedList(String name, Class<T> type) {
         this.type = type;
-        this.tableName = name;
+        this.groupName = name;
+        DatabaseSingleton.getInstance().checkSetupTable(name, "OrderedList");
     }
 
     @Override
