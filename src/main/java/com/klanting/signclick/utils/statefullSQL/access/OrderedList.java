@@ -220,6 +220,39 @@ public class OrderedList<T> implements AccessPoint<T>, List<T> {
 
     @Override
     public T get(int index) {
+        String tableName = type.getSimpleName().toLowerCase();
+        String sql = "SELECT t.* FROM " + tableName+ " t JOIN statefullSQL" + "OrderedList" +" o ON t.autoflushid = o.autoflushid JOIN StatefullSQL s ON o.id = s.id WHERE s.groupname = ? AND o.index = ?";
+
+        try {
+            PreparedStatement stmt = DatabaseSingleton.getInstance().getConnection().prepareStatement(sql);
+            stmt.setString(1, groupName);
+            stmt.setInt(2, index);
+
+            ResultSet rs = stmt.executeQuery();
+
+            /*
+             * Go over each loaded row
+             * */
+            while (rs.next()) {
+                Map<String, Object> row = new HashMap<>();
+
+                ResultSetMetaData meta = rs.getMetaData();
+                int columnCount = meta.getColumnCount();
+
+                for (int i = 1; i <= columnCount; i++) {
+                    String columnName = meta.getColumnLabel(i);
+                    Object value = rs.getObject(i);
+                    row.put(columnName, value);
+                }
+
+                T instance = DatabaseSingleton.getInstance().wrap(type, row);
+                return instance;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         return null;
     }
 
@@ -230,6 +263,39 @@ public class OrderedList<T> implements AccessPoint<T>, List<T> {
 
     @Override
     public void add(int index, T element) {
+        T entity = createRow(element);
+        try {
+            UUID uuid = (UUID) entity.getClass().getDeclaredField("autoFlushId").get(entity);
+
+            UUID id = DatabaseSingleton.getInstance().getIdByGroup(groupName, "OrderedList");
+
+            String updateSql =
+                    "UPDATE StatefullSQLOrderedList " +
+                    "SET index = index + 1 " +
+                    "WHERE id = ? AND index >= ? ";
+
+            PreparedStatement updatePs = DatabaseSingleton.getInstance().getConnection().prepareStatement(updateSql);
+            updatePs.setObject(1, id);
+            updatePs.setInt(2, index);
+            updatePs.executeUpdate();
+
+            updateSql =
+                    "UPDATE StatefullSQLOrderedList " +
+                            "SET index = "+index+" " +
+                            "WHERE id = ? AND autoFlushId = ?";
+
+            updatePs = DatabaseSingleton.getInstance().getConnection().prepareStatement(updateSql);
+            updatePs.setObject(1, id);
+            updatePs.setObject(2, uuid);
+
+            updatePs.executeUpdate();
+
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        } catch (NoSuchFieldException | SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
 
     }
 

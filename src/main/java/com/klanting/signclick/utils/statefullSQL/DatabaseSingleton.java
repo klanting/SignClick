@@ -317,7 +317,7 @@ public class DatabaseSingleton {
                         id UUID NOT NULL,
                         index INT NOT NULL,
                         autoFlushId UUID NOT NULL,
-                        PRIMARY KEY(id, index)
+                        PRIMARY KEY(id, index) DEFERRABLE INITIALLY DEFERRED
                         );
                         """, "StatefullSQLOrderedList");
 
