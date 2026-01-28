@@ -5,6 +5,7 @@ import com.klanting.signclick.utils.statefullSQL.access.InterceptorWrap;
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
 import net.bytebuddy.implementation.MethodDelegation;
+import org.gradle.internal.Pair;
 import org.gradle.internal.impldep.org.objenesis.Objenesis;
 import org.gradle.internal.impldep.org.objenesis.ObjenesisStd;
 
@@ -17,6 +18,12 @@ import static net.bytebuddy.matcher.ElementMatchers.named;
 import static net.bytebuddy.matcher.ElementMatchers.not;
 
 public class DatabaseSingleton {
+
+    private final List<SQLSerializer> serializers = new ArrayList<>();
+
+    public void registerSerializer(SQLSerializer serializer){
+        serializers.add(serializer);
+    }
 
 
     private final Connection connection;
@@ -63,6 +70,7 @@ public class DatabaseSingleton {
 
     private static String mapJavaTypeToSQL(Class<?> type) {
         if (type == int.class) return "INTEGER";
+        if (type == Integer.class) return "INTEGER";
         if (type == long.class) return "BIGINT";
         if (type == short.class) return "SMALLINT";
         if (type == byte.class) return "SMALLINT";
@@ -107,7 +115,6 @@ public class DatabaseSingleton {
 
             try {
                 var field = clazz.getDeclaredField(entry.getKey());
-                System.out.println("VLOL "+field.getName());
 
                 Class<?> type = field.getType();
                 if (type.isAnnotationPresent(ClassFlush.class) && entry.getValue() != null){
@@ -134,8 +141,17 @@ public class DatabaseSingleton {
                 }
 
                 field.setAccessible(true);
-                field.set(instance, entry.getValue());
-                System.out.println("Stored "+ field.get(instance));
+                if(mapJavaTypeToSQL(type) != null){
+                    field.set(instance, entry.getValue());
+                }else{
+                    for (SQLSerializer s: serializers){
+                        if (type.equals(s.getType())){
+                            field.set(instance, s.deserialize((String) entry.getValue()));
+                            break;
+                        }
+                    }
+                }
+
             } catch (NoSuchFieldException e) {
                 throw new RuntimeException(e);
             } catch (InvocationTargetException e) {
@@ -261,7 +277,6 @@ public class DatabaseSingleton {
                     new String[]{"TABLE"});
 
             boolean exists = rs.next();
-            System.out.println("EXE "+exists+" "+tableName);
             return exists;
         }catch (Exception e){
             e.printStackTrace();
@@ -323,7 +338,6 @@ public class DatabaseSingleton {
             ResultSet rs = stmt.executeQuery();
 
             if (!rs.next()) {
-                System.out.println("V");
                 String insertSql = "INSERT INTO StatefullSQL (type, groupName) VALUES (?, ?) RETURNING id";
                 PreparedStatement insertStmt = connection.prepareStatement(insertSql);
                 insertStmt.setString(1, type);
@@ -406,13 +420,18 @@ public class DatabaseSingleton {
                                 FOREIGN KEY (%s) REFERENCES %s
                                 ON DELETE SET NULL
                         """, columnName, columnName, type.getSimpleName()+"(autoFlushId)"));
+            }else{
+                for (SQLSerializer s: serializers){
+                    if (type.equals(s.getType())){
+                        columns.add(columnName+ " VARCHAR");
+                        break;
+                    }
+                }
             }
         }
-        System.out.println("W "+foreignKeys.toString());
         columns.addAll(foreignKeys);
 
         String columnDefs = String.join(",\n    ", columns);
-        System.out.println("Q "+clazz);
         String tableName = clazz.getSimpleName().toLowerCase(); // optional: lowercase table name
 
         String comma = (columnDefs.length() > 0) ? ",":"";
@@ -426,7 +445,6 @@ public class DatabaseSingleton {
         try {
             PreparedStatement stmt = connection.prepareStatement(tableCreation);
 
-            System.out.println("P "+stmt.toString());
             stmt.executeUpdate();
 
         } catch (SQLException e) {
@@ -483,7 +501,17 @@ public class DatabaseSingleton {
                     continue;
                 }
 
-                values.add(data);
+                if (mapJavaTypeToSQL(type2) != null){
+                    values.add(data);
+                }else{
+                    for (SQLSerializer s: serializers){
+                        if (type2.equals(s.getType())){
+                            values.add(s.serialize(data));
+                            break;
+                        }
+                    }
+                }
+
 
             }
 
@@ -554,7 +582,6 @@ public class DatabaseSingleton {
             DatabaseMetaData metaData = connection.getMetaData();
 
             List<String> columns = new ArrayList<>();
-            System.out.println("XX "+ clazz.getSimpleName().toLowerCase());
             ResultSet rs = metaData.getColumns(null, "public", clazz.getSimpleName().toLowerCase(), null);
 
             boolean tableExists = rs.next();
@@ -611,7 +638,17 @@ public class DatabaseSingleton {
             }
 
             for (int i = 0; i < values.size(); i++) {
-                insertStmt.setObject(i + 1, values.get(i)); // JDBC is 1-indexed
+                if (mapJavaTypeToSQL(values.get(i).getClass()) != null){
+                    insertStmt.setObject(i + 1, values.get(i)); // JDBC is 1-indexed
+                }else{
+                    for (SQLSerializer s: serializers){
+                        if(values.get(i).getClass().equals(s.getType())){
+                            insertStmt.setString(i + 1, s.serialize(values.get(i)));
+                            break;
+                        }
+                    }
+
+                }
             }
             insertStmt.setObject(values.size()+1, key);
 

@@ -23,24 +23,16 @@ public class InterceptorWrap<T> {
 
         Class<?> clazz = self.getClass();
 
-        System.out.println("LOL "+clazz);
         Field field2 = clazz.getDeclaredField("autoFlushId");
         UUID uuid = (UUID) field2.get(self);
         Map<String, Object> values = DatabaseSingleton.getInstance().getDataByKey(uuid,clazz);
 
-        System.out.println("X "+clazz.getSuperclass());
         T instance = DatabaseSingleton.getInstance().wrap(clazz.getSuperclass(), values);
-        System.out.println("D "+instance);
 
-        System.out.println("M "+method.getName());
         if (method.getName().equals("equals") && args.length == 1) {
-            System.out.println("M2 "+method.getName());
             Object other = args[0];
 
             if (other == null) return false;
-            System.out.println("M3 "+method.getName());
-            System.out.println(clazz.getSuperclass().isInstance(other));
-            System.out.println("V2"+ other.toString());
 
             try {
                 Field uuidField = clazz.getDeclaredField("autoFlushId");
@@ -49,7 +41,6 @@ public class InterceptorWrap<T> {
                 UUID thisUuid = (UUID) uuidField.get(self);
                 UUID otherUuid = (UUID) uui2dField.get(other);
 
-                System.out.println("M4 "+thisUuid+" "+otherUuid);
                 return thisUuid.equals(otherUuid);
             } catch (NoSuchFieldException | IllegalAccessException e) {
                 throw new RuntimeException(e);
