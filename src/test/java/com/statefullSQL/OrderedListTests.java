@@ -1,9 +1,9 @@
-package com.autoFlush;
+package com.statefullSQL;
 
 
-import com.klanting.signclick.utils.autoFlush.ClassFlush;
-import com.klanting.signclick.utils.autoFlush.DatabaseSingleton;
-import com.klanting.signclick.utils.autoFlush.access.OrderedList;
+import com.klanting.signclick.utils.statefullSQL.ClassFlush;
+import com.klanting.signclick.utils.statefullSQL.DatabaseSingleton;
+import com.klanting.signclick.utils.statefullSQL.access.OrderedList;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

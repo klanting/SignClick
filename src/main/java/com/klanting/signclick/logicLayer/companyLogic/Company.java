@@ -16,15 +16,12 @@ import com.klanting.signclick.logicLayer.companyLogic.contractRequests.ContractR
 import com.klanting.signclick.logicLayer.countryLogic.Country;
 import com.klanting.signclick.logicLayer.countryLogic.CountryManager;
 import com.klanting.signclick.interactionLayer.events.MenuEvents;
-import com.klanting.signclick.storageLayer.entities.company.CompanyEntity;
 import com.klanting.signclick.utils.BlockPosKey;
 import com.klanting.signclick.utils.JsonTools;
 import com.klanting.signclick.utils.Utils;
-import com.klanting.signclick.utils.autoFlush.ClassFlush;
-import jakarta.persistence.Id;
+import com.klanting.signclick.utils.statefullSQL.ClassFlush;
 import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
@@ -40,7 +37,6 @@ import java.util.Map.Entry;
 import java.util.function.Function;
 
 import static com.klanting.signclick.utils.Utils.AssertMet;
-import static org.bukkit.Bukkit.getServer;
 
 @ClassFlush
 public class Company extends LoggableSubject implements CompanyI{

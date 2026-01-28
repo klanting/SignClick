@@ -1,13 +1,9 @@
-package com.klanting.signclick.utils.autoFlush.access;
+package com.klanting.signclick.utils.statefullSQL.access;
 
 
-import com.klanting.signclick.utils.autoFlush.DatabaseSingleton;
-import io.ebeaninternal.server.util.Str;
+import com.klanting.signclick.utils.statefullSQL.DatabaseSingleton;
 import org.jetbrains.annotations.NotNull;
 
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.lang.reflect.TypeVariable;
 import java.sql.*;
 import java.util.*;
 

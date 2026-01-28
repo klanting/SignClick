@@ -1,22 +1,12 @@
-package com.klanting.signclick.utils.autoFlush.access;
+package com.klanting.signclick.utils.statefullSQL.access;
 
-import com.klanting.signclick.utils.autoFlush.ClassFlush;
-import com.klanting.signclick.utils.autoFlush.DatabaseSingleton;
-import net.bytebuddy.ByteBuddy;
-import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
-import net.bytebuddy.implementation.MethodDelegation;
+import com.klanting.signclick.utils.statefullSQL.DatabaseSingleton;
 import net.bytebuddy.implementation.bind.annotation.*;
-import org.gradle.internal.impldep.org.objenesis.Objenesis;
-import org.gradle.internal.impldep.org.objenesis.ObjenesisStd;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.util.Map;
 import java.util.UUID;
-
-import static net.bytebuddy.matcher.ElementMatchers.named;
-import static net.bytebuddy.matcher.ElementMatchers.not;
 
 public class InterceptorWrap<T> {
 

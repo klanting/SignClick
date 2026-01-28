@@ -1,13 +1,10 @@
-package com.klanting.signclick.utils.autoFlush;
+package com.klanting.signclick.utils.statefullSQL;
 
-import com.klanting.signclick.logicLayer.companyLogic.Company;
 import com.klanting.signclick.utils.DataBase;
-import com.klanting.signclick.utils.autoFlush.access.InterceptorWrap;
-import io.ebeaninternal.server.util.Str;
+import com.klanting.signclick.utils.statefullSQL.access.InterceptorWrap;
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
 import net.bytebuddy.implementation.MethodDelegation;
-import org.apache.commons.lang3.tuple.Pair;
 import org.gradle.internal.impldep.org.objenesis.Objenesis;
 import org.gradle.internal.impldep.org.objenesis.ObjenesisStd;
 

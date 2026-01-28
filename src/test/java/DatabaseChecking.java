@@ -1,6 +1,5 @@
-import com.klanting.signclick.utils.autoFlush.ClassFlush;
-import com.klanting.signclick.utils.autoFlush.DatabaseSingleton;
-import com.klanting.signclick.utils.autoFlush.access.OrderedList;
+import com.klanting.signclick.utils.statefullSQL.ClassFlush;
+import com.klanting.signclick.utils.statefullSQL.access.OrderedList;
 
 import java.io.IOException;
 

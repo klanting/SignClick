@@ -1,7 +1,7 @@
-package com.klanting.signclick.utils.autoFlush.access;
+package com.klanting.signclick.utils.statefullSQL.access;
 
 
-import com.klanting.signclick.utils.autoFlush.DatabaseSingleton;
+import com.klanting.signclick.utils.statefullSQL.DatabaseSingleton;
 
 import java.util.Iterator;
 import java.util.List;

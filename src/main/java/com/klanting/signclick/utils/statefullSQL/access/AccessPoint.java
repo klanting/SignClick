@@ -1,4 +1,4 @@
-package com.klanting.signclick.utils.autoFlush.access;
+package com.klanting.signclick.utils.statefullSQL.access;
 
 public interface AccessPoint<T> {
     /*

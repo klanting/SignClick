@@ -2,7 +2,7 @@ package com.klanting.signclick.logicLayer.companyLogic.research;
 
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.logicLayer.companyLogic.CompanyI;
-import com.klanting.signclick.utils.autoFlush.ClassFlush;
+import com.klanting.signclick.utils.statefullSQL.ClassFlush;
 import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
