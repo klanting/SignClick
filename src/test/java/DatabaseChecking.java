@@ -23,7 +23,7 @@ public class DatabaseChecking {
 
         Dummy d2 = new Dummy();
         d2.hello = 50;
-        dummies.add(0, d2);
+        dummies.set(0, d2);
 
         assertEquals(dum.hello(), 1);
 

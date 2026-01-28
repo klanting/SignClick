@@ -200,22 +200,53 @@ public class OrderedList<T> implements AccessPoint<T>, List<T> {
 
     @Override
     public boolean addAll(int index, @NotNull Collection<? extends T> c) {
-        return false;
+        List<T> list = new ArrayList<>(c);
+        /*
+        * reverse list to match normal list behaviour
+        * */
+        Collections.reverse(list);
+
+        for (T item : list) {
+            add(index, item);
+        }
+        return true;
     }
 
     @Override
     public boolean removeAll(@NotNull Collection<?> c) {
-        return false;
+        for (Object item : c) {
+            this.remove(item);
+        }
+        return true;
     }
 
     @Override
     public boolean retainAll(@NotNull Collection<?> c) {
+        List<T> entities = DatabaseSingleton.getInstance().getAll(groupName, "OrderedList", type);
+
+        for (T entity: entities){
+            boolean found = false;
+            for (Object item: c){
+                if (entity.equals(item)){
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found){
+                this.remove(entity);
+            }
+        }
+
         return false;
     }
 
     @Override
     public void clear() {
-
+        List<T> entities = DatabaseSingleton.getInstance().getAll(groupName, "OrderedList", type);
+        for (T entity: entities){
+            this.remove(entity);
+        }
     }
 
     @Override
@@ -233,7 +264,7 @@ public class OrderedList<T> implements AccessPoint<T>, List<T> {
             /*
              * Go over each loaded row
              * */
-            while (rs.next()) {
+            if (rs.next()) {
                 Map<String, Object> row = new HashMap<>();
 
                 ResultSetMetaData meta = rs.getMetaData();
@@ -258,7 +289,35 @@ public class OrderedList<T> implements AccessPoint<T>, List<T> {
 
     @Override
     public T set(int index, T element) {
-        return null;
+
+        T entity = createRow(element);
+
+        try {
+            UUID uuid = (UUID) entity.getClass().getDeclaredField("autoFlushId").get(entity);
+
+            UUID id = DatabaseSingleton.getInstance().getIdByGroup(groupName, "OrderedList");
+
+            T toOverride = this.get(index);
+            this.remove(toOverride);
+
+            String updateSql =
+                    "UPDATE StatefullSQLOrderedList " +
+                            "SET index = "+index+" " +
+                            "WHERE id = ? AND autoFlushId = ?";
+
+            PreparedStatement updatePs = DatabaseSingleton.getInstance().getConnection().prepareStatement(updateSql);
+            updatePs.setObject(1, id);
+            updatePs.setObject(2, uuid);
+
+            updatePs.executeUpdate();
+
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        } catch (NoSuchFieldException | SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+        return entity;
     }
 
     @Override
@@ -301,7 +360,9 @@ public class OrderedList<T> implements AccessPoint<T>, List<T> {
 
     @Override
     public T remove(int index) {
-        return null;
+        T entity = this.get(index);
+        this.remove(entity);
+        return entity;
     }
 
     @Override
