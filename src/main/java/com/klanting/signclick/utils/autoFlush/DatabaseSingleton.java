@@ -155,14 +155,15 @@ public class DatabaseSingleton {
         return instance;
     }
 
-    public <T> List<T> getAll(Class<T> clazz) {
+    public <T> List<T> getAll(String groupName, String type, Class<T> clazz) {
         String tableName = clazz.getSimpleName().toLowerCase();
-        String sql = "SELECT * FROM " + tableName;
+        String sql = "SELECT t.* FROM " + tableName+ " t JOIN statefullSQL" + type +" o ON t.autoflushid = o.autoflushid JOIN StatefullSQL s ON o.id = s.id WHERE s.groupname = ?";
 
         List<T> entities = new ArrayList<>();
 
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setString(1, groupName);
 
             ResultSet rs = stmt.executeQuery();
 
@@ -228,6 +229,29 @@ public class DatabaseSingleton {
         return new HashMap<>();
     }
 
+    public UUID getIdByGroup(String groupName, String type){
+        String sql = "SELECT * FROM StatefullSQL WHERE groupName = ? AND type = ?";
+
+        try {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setObject(1, groupName);
+            stmt.setObject(2, type);
+
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return (UUID) rs.getObject(1);
+            }
+
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+
+    }
+
     public boolean tableExists(String tableName){
 
         try {
@@ -275,7 +299,7 @@ public class DatabaseSingleton {
                         CREATE TABLE %s (
                         id UUID NOT NULL,
                         index INT NOT NULL,
-                        autoFlushId INT NOT NULL,
+                        autoFlushId UUID NOT NULL,
                         PRIMARY KEY(id, index)
                         );
                         """, "StatefullSQLOrderedList");
@@ -309,7 +333,7 @@ public class DatabaseSingleton {
                 insertStmt.setString(2, name);
                 ResultSet rs2 = insertStmt.executeQuery();
 
-                assert rs2.next();
+                rs2.next();
                 UUID id = (UUID) rs2.getObject(1);
             }
 
@@ -414,7 +438,8 @@ public class DatabaseSingleton {
 
     }
 
-    public <T> UUID store(T entity) {
+    public <T> UUID store(String groupName, String type, T entity) {
+        checkSetupTable(groupName, type);
         try {
             Class<T> clazz = (Class<T>)  entity.getClass();
 
@@ -451,12 +476,12 @@ public class DatabaseSingleton {
                 Field field = clazz.getDeclaredField(column);
                 field.setAccessible(true);
 
-                Class<?> type = field.getType();
+                Class<?> type2 = field.getType();
 
                 Object data = field.get(entity);
 
-                if (type.isAnnotationPresent(ClassFlush.class) && data != null){
-                    UUID uuid = store(data);
+                if (type2.isAnnotationPresent(ClassFlush.class) && data != null){
+                    UUID uuid = store(groupName, type, data);
                     values.add(uuid);
                     continue;
                 }
@@ -478,7 +503,40 @@ public class DatabaseSingleton {
             ResultSet result = insertStmt.executeQuery();
             boolean suc6 = result.next();
             assert suc6;
-            return (UUID) result.getObject(1);
+
+            UUID autoFlushId = (UUID) result.getObject(1);
+
+            //TODO make dynamic for other access methods later
+
+            UUID id = getIdByGroup(groupName, type);
+
+            //get next index
+            String sql = """
+                SELECT COUNT(*)
+                FROM StatefullSQL"""+type+"""
+                WHERE id = ?
+            """;
+
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setObject(1, id);
+
+            ResultSet rs3 = ps.executeQuery();
+
+            int count = 0;
+            if (rs3.next()) {
+                count = rs3.getInt(1);
+            }
+
+            colNames = "id, index, autoflushid";
+            placeholders = "?, ?, ?";
+            insertSql = "INSERT INTO StatefullSQL"+type+" (" + colNames + ") VALUES (" + placeholders + ")";
+            insertStmt = connection.prepareStatement(insertSql);
+            insertStmt.setObject(1, id);
+            insertStmt.setInt(2, count+1);
+            insertStmt.setObject(3, autoFlushId);
+            insertStmt.executeUpdate();
+
+            return autoFlushId;
 
 
         }catch (SQLException e){
@@ -581,7 +639,7 @@ public class DatabaseSingleton {
         instance = null;
     }
 
-    public <T> T getModifiedObject(T entity){
+    public <T> T getModifiedObject(String groupName, String type, T entity){
         /*
          * flush to disk here
          * */
@@ -595,7 +653,7 @@ public class DatabaseSingleton {
             /*
              * Store class in SQL
              * */
-            UUID id = DatabaseSingleton.getInstance().store(entity);
+            UUID id = DatabaseSingleton.getInstance().store(groupName, type, entity);
 
             /*
              * override class so it contains a UUID

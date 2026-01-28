@@ -25,7 +25,7 @@ public class OrderedList<T> implements AccessPoint<T>, List<T> {
 
     @Override
     public T createRow(T entity) {
-       return DatabaseSingleton.getInstance().getModifiedObject(entity);
+       return DatabaseSingleton.getInstance().getModifiedObject(groupName, "OrderedList", entity);
     }
 
     @Override
@@ -58,20 +58,20 @@ public class OrderedList<T> implements AccessPoint<T>, List<T> {
 
     @Override
     public boolean contains(Object o) {
-        List<T> entities = DatabaseSingleton.getInstance().getAll(type);
+        List<T> entities = DatabaseSingleton.getInstance().getAll(groupName, "OrderedList", type);
         return entities.contains(o);
     }
 
     @NotNull
     @Override
     public Iterator<T> iterator() {
-        return new AccessIterator<T>(type);
+        return new AccessIterator<T>(groupName, type);
     }
 
     @NotNull
     @Override
     public Object[] toArray() {
-        List<T> entities = DatabaseSingleton.getInstance().getAll(type);
+        List<T> entities = DatabaseSingleton.getInstance().getAll(groupName, "OrderedList", type);
         Object[] arr = new Object[entities.size()];
         int i = 0;
         for (Object e : entities) {
@@ -84,7 +84,7 @@ public class OrderedList<T> implements AccessPoint<T>, List<T> {
     @Override
     public <T1> T1[] toArray(@NotNull T1[] a) {
 
-        List<T> entities = DatabaseSingleton.getInstance().getAll(type);
+        List<T> entities = DatabaseSingleton.getInstance().getAll(groupName, "OrderedList", type);
 
         int size = size(); // collection size
 
@@ -117,7 +117,7 @@ public class OrderedList<T> implements AccessPoint<T>, List<T> {
 
     @Override
     public boolean remove(Object o) {
-        List<T> entities = DatabaseSingleton.getInstance().getAll(type);
+        List<T> entities = DatabaseSingleton.getInstance().getAll(groupName, "OrderedList", type);
 
         /*
         * database
