@@ -11,8 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import tools.DataBaseTest;
 
-import static org.gradle.internal.impldep.org.junit.Assert.assertEquals;
-import static org.gradle.internal.impldep.org.junit.Assert.assertTrue;
+import static org.gradle.internal.impldep.org.junit.Assert.*;
 
 
 class WEIRDOBJECT{
@@ -148,6 +147,32 @@ public class OrderedListTests {
         dum.getDummy3().inc();
         assertEquals(2, dum.getDummy3().hello());
         assertEquals(1, dummies.size());
+
+    }
+
+    @Test
+    void accessMethods(){
+        DatabaseSingleton.getInstance(DataBaseTest.getConnection());
+        OrderedList<Dummy2> dummies = new OrderedList<>("a",Dummy2.class);
+        assertTrue(dummies.isEmpty());
+        /*
+        * Add item to list
+        * */
+        assertTrue(dummies.add(new Dummy2()));
+
+        assertEquals(1, dummies.size());
+        assertFalse(dummies.isEmpty());
+
+        Dummy2 preDum2 = new Dummy2();
+        preDum2.inc();
+        assertEquals(2, preDum2.hello());
+        Dummy2 dum2 = dummies.createRow(preDum2);
+
+        assertEquals(2, dummies.size());
+
+        assertEquals(1, dummies.indexOf(dum2));
+        assertEquals(2, dummies.get(1).hello());
+
 
     }
 }

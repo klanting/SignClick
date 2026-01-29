@@ -362,7 +362,7 @@ public class DatabaseSingleton {
 
     }
 
-    private void checkTable(Class<?> clazz, List<Class<?>> blackList){
+    public void checkTable(Class<?> clazz, List<Class<?>> blackList){
         blackList.add(clazz);
         List<String> columns = new ArrayList<>();
         List<String> foreignKeys = new ArrayList<>();
@@ -459,6 +459,10 @@ public class DatabaseSingleton {
     }
 
     public <T> UUID store(String groupName, String type, T entity) {
+        return store(groupName, type, entity, true);
+    }
+
+    public <T> UUID store(String groupName, String type, T entity, boolean storeInTable) {
         checkSetupTable(groupName, type);
         try {
             Class<T> clazz = (Class<T>)  entity.getClass();
@@ -501,7 +505,7 @@ public class DatabaseSingleton {
                 Object data = field.get(entity);
 
                 if (type2.isAnnotationPresent(ClassFlush.class) && data != null){
-                    UUID uuid = store(groupName, type, data);
+                    UUID uuid = store(groupName, type, data, false);
                     values.add(uuid);
                     continue;
                 }
@@ -536,35 +540,35 @@ public class DatabaseSingleton {
 
             UUID autoFlushId = (UUID) result.getObject(1);
 
-            //TODO make dynamic for other access methods later
+            if (storeInTable){
+                UUID id = getIdByGroup(groupName, type);
 
-            UUID id = getIdByGroup(groupName, type);
-
-            //get next index
-            String sql = """
+                //get next index
+                String sql = """
                 SELECT COUNT(*)
                 FROM StatefullSQL"""+type+"""
                 WHERE id = ?
             """;
 
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setObject(1, id);
+                PreparedStatement ps = connection.prepareStatement(sql);
+                ps.setObject(1, id);
 
-            ResultSet rs3 = ps.executeQuery();
+                ResultSet rs3 = ps.executeQuery();
 
-            int count = 0;
-            if (rs3.next()) {
-                count = rs3.getInt(1);
+                int count = 0;
+                if (rs3.next()) {
+                    count = rs3.getInt(1);
+                }
+
+                colNames = "id, index, autoflushid";
+                placeholders = "?, ?, ?";
+                insertSql = "INSERT INTO StatefullSQL"+type+" (" + colNames + ") VALUES (" + placeholders + ")";
+                insertStmt = connection.prepareStatement(insertSql);
+                insertStmt.setObject(1, id);
+                insertStmt.setInt(2, count);
+                insertStmt.setObject(3, autoFlushId);
+                insertStmt.executeUpdate();
             }
-
-            colNames = "id, index, autoflushid";
-            placeholders = "?, ?, ?";
-            insertSql = "INSERT INTO StatefullSQL"+type+" (" + colNames + ") VALUES (" + placeholders + ")";
-            insertStmt = connection.prepareStatement(insertSql);
-            insertStmt.setObject(1, id);
-            insertStmt.setInt(2, count);
-            insertStmt.setObject(3, autoFlushId);
-            insertStmt.executeUpdate();
 
             return autoFlushId;
 

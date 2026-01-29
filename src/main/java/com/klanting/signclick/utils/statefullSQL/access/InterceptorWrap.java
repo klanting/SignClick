@@ -29,11 +29,8 @@ public class InterceptorWrap<T> {
 
         T instance = DatabaseSingleton.getInstance().wrap(clazz.getSuperclass(), values);
 
-        System.out.println("EQUALS LOG2 " +method.getName());
         if (method.getName().equals("equals") && args.length == 1) {
             Object other = args[0];
-
-            System.out.println("EQUALS LOG "+self.getClass()+" "+other.getClass());
 
             if (other == null) return false;
 

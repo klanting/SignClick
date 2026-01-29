@@ -17,6 +17,7 @@ public class OrderedList<T> implements AccessPoint<T>, List<T> {
         this.type = type;
         this.groupName = name;
         DatabaseSingleton.getInstance().checkSetupTable(name, "OrderedList");
+        DatabaseSingleton.getInstance().checkTable(type, new ArrayList<>());
     }
 
     @Override
@@ -365,31 +366,74 @@ public class OrderedList<T> implements AccessPoint<T>, List<T> {
         return entity;
     }
 
+    private List<T> getSortedList(){
+        String tableName = type.getSimpleName().toLowerCase();
+        String sql = "SELECT t.* FROM " + tableName+ " t JOIN statefullSQL" + "OrderedList" +" o ON t.autoflushid = o.autoflushid JOIN StatefullSQL s ON o.id = s.id WHERE s.groupname = ? ORDER BY o.index ASC";
+
+        List<T> sortedEntities = new ArrayList<>();
+        try {
+            PreparedStatement stmt = DatabaseSingleton.getInstance().getConnection().prepareStatement(sql);
+            stmt.setString(1, groupName);
+
+            ResultSet rs = stmt.executeQuery();
+
+            /*
+             * Go over each loaded row
+             * */
+            while (rs.next()) {
+                Map<String, Object> row = new HashMap<>();
+
+                ResultSetMetaData meta = rs.getMetaData();
+                int columnCount = meta.getColumnCount();
+
+                for (int i = 1; i <= columnCount; i++) {
+                    String columnName = meta.getColumnLabel(i);
+                    Object value = rs.getObject(i);
+                    row.put(columnName, value);
+                }
+
+                T instance = DatabaseSingleton.getInstance().wrap(type, row);
+                sortedEntities.add(instance);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return sortedEntities;
+    }
+
     @Override
     public int indexOf(Object o) {
-        return 0;
+        List<T> sortedEntities = getSortedList();
+        return sortedEntities.indexOf(o);
     }
 
     @Override
     public int lastIndexOf(Object o) {
-        return 0;
+        List<T> sortedEntities = getSortedList();
+        return sortedEntities.lastIndexOf(o);
     }
 
     @NotNull
     @Override
     public ListIterator<T> listIterator() {
-        return null;
+        //TODO probably points to dirty list
+        List<T> sortedEntities = getSortedList();
+        return sortedEntities.listIterator();
     }
 
     @NotNull
     @Override
     public ListIterator<T> listIterator(int index) {
-        return null;
+        //TODO probably points to dirty list
+        List<T> sortedEntities = getSortedList();
+        return sortedEntities.listIterator(index);
     }
 
     @NotNull
     @Override
     public List<T> subList(int fromIndex, int toIndex) {
-        return null;
+        List<T> sortedEntities = getSortedList();
+        return sortedEntities.subList(fromIndex, toIndex);
     }
 }
