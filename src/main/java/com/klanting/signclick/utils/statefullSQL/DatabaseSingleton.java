@@ -584,6 +584,7 @@ public class DatabaseSingleton {
 
     public <T> void checkDelete(UUID key, Class<T> clazz){
         try {
+            //TODO add support mapDict
             String sql = "SELECT COUNT(*) FROM StatefullSQL"+"OrderedList"+" WHERE autoflushid = ?";
 
 

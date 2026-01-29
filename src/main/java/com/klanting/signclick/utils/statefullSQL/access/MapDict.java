@@ -25,7 +25,49 @@ public class MapDict<S, T> implements AccessPoint<T>, Map<S, T> {
     }
 
     public void storeInTable(S key, UUID autoFlushId) throws SQLException{
+        UUID id = DatabaseSingleton.getInstance().getIdByGroup(groupName, "MapDict");
 
+        //get next index
+        String sql = """
+                SELECT autoFlushId
+                FROM StatefullSQL"""+"MapDict"+"""
+                WHERE id = ? AND key = ?
+            """;
+
+        PreparedStatement ps = DatabaseSingleton.getInstance().getConnection().prepareStatement(sql);
+        ps.setObject(1, id);
+        ps.setObject(2, key.toString());
+
+        ResultSet rs3 = ps.executeQuery();
+
+
+        if (rs3.next()) {
+            UUID oldAutoFlushId = (UUID) rs3.getObject(1);
+
+            sql = "DELETE FROM StatefullSQL"+"MapDict"+" WHERE autoflushid = ? AND id = ?";
+
+            try {
+                ps = DatabaseSingleton.getInstance().getConnection().prepareStatement(sql);
+                ps.setObject(1, oldAutoFlushId);
+                ps.setObject(2, id);
+                ps.executeUpdate();
+
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
+            DatabaseSingleton.getInstance().checkDelete(oldAutoFlushId, type);
+        }
+
+
+        String colNames = "id, key, autoflushid";
+        String placeholders = "?, ?, ?";
+        String insertSql = "INSERT INTO StatefullSQL"+"MapDict"+" (" + colNames + ") VALUES (" + placeholders + ")";
+        PreparedStatement insertStmt = DatabaseSingleton.getInstance().getConnection().prepareStatement(insertSql);
+        insertStmt.setObject(1, id);
+        insertStmt.setObject(2, key.toString());
+        insertStmt.setObject(3, autoFlushId);
+        insertStmt.executeUpdate();
     }
 
 
@@ -45,13 +87,11 @@ public class MapDict<S, T> implements AccessPoint<T>, Map<S, T> {
         UUID id = DatabaseSingleton.getInstance().getIdByGroup(groupName, "MapDict");
         String sql = "SELECT * FROM StatefullSQL"+"MapDict"+" WHERE id = ? AND key = ?";
 
-        UUID keyUUid = null;
-
         try {
             PreparedStatement  ps = DatabaseSingleton.getInstance().getConnection().prepareStatement(sql);
 
             ps.setObject(1, id);
-            ps.setObject(2, keyUUid);
+            ps.setObject(2, key.toString());
             ResultSet rs = ps.executeQuery();
             return rs.next();
 

@@ -59,7 +59,7 @@ public class MapDictTests {
         assertEquals(1, dum.hello());
         dum.inc();
         assertEquals(2, dum.hello());
-        //assertTrue(dummies.containsKey("S"));
+        assertTrue(dummies.containsKey("S"));
 
 
 
