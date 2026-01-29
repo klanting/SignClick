@@ -2,6 +2,7 @@ package com.klanting.signclick.utils.statefullSQL.access;
 
 
 import com.klanting.signclick.utils.statefullSQL.DatabaseSingleton;
+import io.ebeaninternal.server.util.Str;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.*;
@@ -20,9 +21,40 @@ public class OrderedList<T> implements AccessPoint<T>, List<T> {
         DatabaseSingleton.getInstance().checkTable(type, new ArrayList<>());
     }
 
-    @Override
+    public void storeInTable(UUID autoFlushId) throws SQLException{
+
+        UUID id = DatabaseSingleton.getInstance().getIdByGroup(groupName, "OrderedList");
+
+        //get next index
+        String sql = """
+                SELECT COUNT(*)
+                FROM StatefullSQL"""+"OrderedList"+"""
+                WHERE id = ?
+            """;
+
+        PreparedStatement ps = DatabaseSingleton.getInstance().getConnection().prepareStatement(sql);
+        ps.setObject(1, id);
+
+        ResultSet rs3 = ps.executeQuery();
+
+        int count = 0;
+        if (rs3.next()) {
+            count = rs3.getInt(1);
+        }
+
+        String colNames = "id, index, autoflushid";
+        String placeholders = "?, ?, ?";
+        String insertSql = "INSERT INTO StatefullSQL"+"OrderedList"+" (" + colNames + ") VALUES (" + placeholders + ")";
+        PreparedStatement insertStmt = DatabaseSingleton.getInstance().getConnection().prepareStatement(insertSql);
+        insertStmt.setObject(1, id);
+        insertStmt.setInt(2, count);
+        insertStmt.setObject(3, autoFlushId);
+        insertStmt.executeUpdate();
+    }
+
+
     public T createRow(T entity) {
-       return DatabaseSingleton.getInstance().getModifiedObject(groupName, "OrderedList", entity);
+       return DatabaseSingleton.getInstance().createRow(groupName, "OrderedList", (u) -> storeInTable(u), entity);
     }
 
     @Override

@@ -8,6 +8,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 
 @Testcontainers
 public class DataBaseTest {
@@ -38,6 +39,21 @@ public class DataBaseTest {
 
     @AfterAll
     public static void shutdown() throws Exception {
+        String reset = "DROP schema public CASCADE";
+        String recreate = "CREATE schema public";
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(reset);
+            ps.executeUpdate();
+
+            ps = connection.prepareStatement(recreate);
+            ps.executeUpdate();
+
+        }catch (Exception e){
+
+        }
+
+
         connection.close();
     }
 }
