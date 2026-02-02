@@ -1,6 +1,7 @@
 package com.klanting.signclick.utils.statefullSQL.access;
 
 import com.klanting.signclick.utils.statefullSQL.DatabaseSingleton;
+import io.ebeaninternal.server.util.Str;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -11,9 +12,11 @@ import java.util.*;
 
 public class MapDict<S, T> implements AccessPoint<T>, Map<S, T> {
 
+    private final Class<S> keyType;
     private final Class<T> type;
     private final String groupName;
-    public MapDict(String name, Class<T> type){
+    public MapDict(String name, Class<S> keyType, Class<T> type){
+        this.keyType = keyType;
         this.type = type;
         this.groupName = name;
         DatabaseSingleton.getInstance().checkSetupTable(name, "MapDict");
@@ -35,8 +38,16 @@ public class MapDict<S, T> implements AccessPoint<T>, Map<S, T> {
             """;
 
         PreparedStatement ps = DatabaseSingleton.getInstance().getConnection().prepareStatement(sql);
+
+        String keyVal;
+        if (keyType == String.class){
+            keyVal = key.toString();
+        }else{
+            keyVal = DatabaseSingleton.getInstance().serialize(keyType, key);
+        }
+
         ps.setObject(1, id);
-        ps.setObject(2, key.toString());
+        ps.setObject(2, keyVal);
 
         ResultSet rs3 = ps.executeQuery();
 
@@ -102,51 +113,155 @@ public class MapDict<S, T> implements AccessPoint<T>, Map<S, T> {
 
     @Override
     public boolean containsValue(Object value) {
-        return false;
+        List<T> entities = DatabaseSingleton.getInstance().getAll(groupName, "MapDict", type);
+        return entities.contains(value);
+    }
+
+    private UUID getAutoFlushIdByKey(Object key){
+        UUID id = DatabaseSingleton.getInstance().getIdByGroup(groupName, "MapDict");
+        String sql = "SELECT * FROM StatefullSQL"+"MapDict"+" WHERE id = ? AND key = ?";
+
+        try {
+            PreparedStatement  ps = DatabaseSingleton.getInstance().getConnection().prepareStatement(sql);
+
+            ps.setObject(1, id);
+            ps.setObject(2, key.toString());
+            ResultSet rs = ps.executeQuery();
+            if (!rs.next()){
+                return null;
+            }
+            return UUID.fromString(rs.getString("autoflushid"));
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void deleteByAutoFlushId(UUID autoFlushId){
+        UUID id = DatabaseSingleton.getInstance().getIdByGroup(groupName, "MapDict");
+        String sql = "DELETE FROM StatefullSQL"+"MapDict"+" WHERE autoflushid = ? AND id = ?";
+        try {
+            PreparedStatement ps = DatabaseSingleton.getInstance().getConnection().prepareStatement(sql);
+            ps.setObject(1, autoFlushId);
+            ps.setObject(2, id);
+            ps.executeUpdate();
+            DatabaseSingleton.getInstance().checkDelete(autoFlushId, type);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
     @Override
     public T get(Object key) {
-        return null;
+        UUID keyId = getAutoFlushIdByKey(key);
+        if (keyId == null){
+            return null;
+        }
+
+        Map<String, Object> values = DatabaseSingleton.getInstance().getDataByKey(keyId, type);
+        return DatabaseSingleton.getInstance().wrap(type, values);
     }
 
     @Nullable
     @Override
     public T put(S key, T value) {
-        return null;
+        UUID keyId = getAutoFlushIdByKey(key);
+        if (keyId != null){
+            deleteByAutoFlushId(keyId);
+        }
+
+        return createRow(key, value);
     }
 
     @Override
     public T remove(Object key) {
-        return null;
+        UUID keyId = getAutoFlushIdByKey(key);
+        if (keyId == null){
+            return null;
+        }
+        T entity = get(key);
+
+        deleteByAutoFlushId(keyId);
+
+        return entity;
     }
 
     @Override
     public void putAll(@NotNull Map<? extends S, ? extends T> m) {
+        for (Entry<? extends S, ? extends T> elements: m.entrySet()){
+            put(elements.getKey(), elements.getValue());
+        }
 
     }
 
     @Override
     public void clear() {
+        UUID id = DatabaseSingleton.getInstance().getIdByGroup(groupName, "MapDict");
+        String sql = "DELETE FROM StatefullSQL"+"MapDict"+" WHERE id = ? RETURNING autoFlushId";
+        try {
+            PreparedStatement ps = DatabaseSingleton.getInstance().getConnection().prepareStatement(sql);
+            ps.setObject(1, id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()){
+                UUID autoFlushId = (UUID) rs.getObject("autoflushid");
+                DatabaseSingleton.getInstance().checkDelete(autoFlushId, type);
+            }
 
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @NotNull
     @Override
     public Set<S> keySet() {
-        return null;
+
+        Set<S> keys = new HashSet<>();
+
+        UUID id = DatabaseSingleton.getInstance().getIdByGroup(groupName, "MapDict");
+        String sql = "SELECT key FROM StatefullSQL"+"MapDict"+" WHERE id = ?";
+        try {
+            PreparedStatement ps = DatabaseSingleton.getInstance().getConnection().prepareStatement(sql);
+            ps.setObject(1, id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()){
+                String key = rs.getString("key");
+                if (keyType == String.class){
+                    keys.add((S) key);
+                }else{
+                    keys.add(DatabaseSingleton.getInstance().deserialize(keyType, key));
+                }
+
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return keys;
     }
 
     @NotNull
     @Override
     public Collection<T> values() {
-        return null;
+        return DatabaseSingleton.getInstance().getAll(groupName, "MapDict", type);
     }
 
     @NotNull
     @Override
     public Set<Entry<S, T>> entrySet() {
-        return null;
+        Set<S> keys = keySet();
+
+        Set<Entry<S, T>> entries = new HashSet<>();
+        for (S key: keys){
+            T value = get(key);
+            entries.add(new AbstractMap.SimpleEntry<>(key, value));
+        }
+
+        return entries;
     }
 
 

@@ -26,6 +26,24 @@ public class DatabaseSingleton {
         serializers.add(serializer);
     }
 
+    public <S> String serialize(Class<S> type, S value){
+        for (SQLSerializer s: serializers){
+            if (s.getType().equals(type)){
+                return s.serialize(value);
+            }
+        }
+        return null;
+    }
+
+    public <S> S deserialize(Class<S> type, String value){
+        for (SQLSerializer s: serializers){
+            if (s.getType().equals(type)){
+                return (S) s.deserialize(value);
+            }
+        }
+        return null;
+    }
+
 
     private final Connection connection;
 
@@ -215,7 +233,7 @@ public class DatabaseSingleton {
         /*
         * Provide autoFlushId and get the corresponding values
         * */
-        String tableName = clazz.getSuperclass().getSimpleName().toLowerCase();
+        String tableName = clazz.getSimpleName().toLowerCase();
         String sql = "SELECT * FROM " + tableName + " WHERE autoFlushId = ?::uuid";
 
         try {

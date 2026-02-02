@@ -47,11 +47,11 @@ public class MapDictTests {
     }
 
     @Test
-    void createRow(){
+    void simpleOperations(){
 
         DatabaseSingleton.getInstance(DataBaseTest.getConnection());
 
-        MapDict<String, MapDummy> dummies = new MapDict<>("a",MapDummy.class);
+        MapDict<String, MapDummy> dummies = new MapDict<>("a",String.class, MapDummy.class);
         MapDummy predum = new MapDummy();
 
         MapDummy dum = dummies.createRow("S", predum);
@@ -61,6 +61,24 @@ public class MapDictTests {
         assertEquals(2, dum.hello());
         assertTrue(dummies.containsKey("S"));
 
+        /*
+        * get object
+        * */
+        dum = dummies.get("S");
+        assertEquals(2, dum.hello());
+
+        /*
+        * override object with other object
+        * */
+        predum = new MapDummy();
+        dummies.put("S", predum);
+        assertEquals(1, dummies.get("S").hello());
+
+        /*
+        * check keyset working correctly
+        * */
+        assertEquals(1, dummies.keySet().size());
+        assertTrue(dummies.keySet().contains("S"));
 
 
     }
