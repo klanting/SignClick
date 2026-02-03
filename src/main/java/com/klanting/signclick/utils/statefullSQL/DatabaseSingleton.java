@@ -8,6 +8,7 @@ import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
 import net.bytebuddy.implementation.MethodDelegation;
 import org.gradle.internal.impldep.org.objenesis.Objenesis;
 import org.gradle.internal.impldep.org.objenesis.ObjenesisStd;
+import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.*;
 import java.sql.*;
@@ -109,7 +110,7 @@ public class DatabaseSingleton {
         return null;
     }
 
-    public <T> T wrap(Class<?> clazz, Map<String, Object> values){
+    public <T> T wrap(Class<?> clazz, @NotNull Map<String, Object> values){
         /**
         * gets class and list of values, and initialize object with its values and autoFlushId
         * */
@@ -462,8 +463,60 @@ public class DatabaseSingleton {
 
     }
 
+    private void checkListAttributeTable(Class<?> parent, Field field, List<Class<?>> blackList){
+        Class<?> type = field.getType();
+
+        if (!(field.getGenericType() instanceof ParameterizedType parameterizedType)) {
+            return;
+        }
+
+        Type[] typeArgs = parameterizedType.getActualTypeArguments();
+
+        Type elementType = typeArgs[0];
+        if (!(elementType instanceof Class<?> clazz2)) {
+            return;
+        }
+
+        if (!blackList.contains(clazz2) && type.isAnnotationPresent(ClassFlush.class)){
+            checkTable(clazz2, blackList);
+        }
+
+        if(!type.isAnnotationPresent(ClassFlush.class)){
+            /*
+            * This case, we will serialize entire list
+            * */
+            return;
+        }
+
+        String tableCreation = String.format("""
+                        CREATE TABLE %s (
+                        autoFlushId1 UUID NOT NULL,
+                        autoFlushId2 UUID NOT NULL,
+                        index NOT NULL
+                        
+                        PRIMARY KEY (autoFlushId1, autoFlushId2, index)
+                        );
+                        """, getTableName(parent)+"_list_"+getTableName(clazz2));
+        //TODO add foreign keys, but only after main table creation, so alter TABLE, with recursion, when main loop is done only (to later)
+
+        try {
+            PreparedStatement stmt = connection.prepareStatement(tableCreation);
+
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     public void checkTable(Class<?> clazz, List<Class<?>> blackList){
         blackList.add(clazz);
+
+        if (tableExists(getTableName(clazz))){
+            return;
+        }
+
         List<String> columns = new ArrayList<>();
         List<String> foreignKeys = new ArrayList<>();
 
@@ -475,43 +528,7 @@ public class DatabaseSingleton {
 
             //Convert list to additional relation entity
             if (type == List.class){
-
-                if (!(field.getGenericType() instanceof ParameterizedType parameterizedType)) {
-                    continue;
-                }
-
-                Type[] typeArgs = parameterizedType.getActualTypeArguments();
-
-                Type elementType = typeArgs[0];
-                if (!(elementType instanceof Class<?> clazz2)) {
-                    continue;
-                }
-
-                if (!blackList.contains(clazz2) && type.isAnnotationPresent(ClassFlush.class)){
-                    checkTable(clazz2, blackList);
-                }
-
-
-                String tableCreation = String.format("""
-                        CREATE TABLE %s (
-                        autoFlushId1 UUID NOT NULL,
-                        autoFlushId2 UUID NOT NULL,
-                        index NOT NULL
-                        
-                        PRIMARY KEY (autoFlushId1, autoFlushId2, index)
-                        );
-                        """, getTableName(clazz)+"_"+getTableName(clazz2));
-                //TODO add foreign keys, but only after main table creation, so alter TABLE, with recursion, when main loop is done only
-
-                try {
-                    PreparedStatement stmt = connection.prepareStatement(tableCreation);
-
-                    stmt.executeUpdate();
-
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-
+                checkListAttributeTable(clazz, field, blackList);
                 continue;
             }
 

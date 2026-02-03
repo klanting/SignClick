@@ -43,37 +43,14 @@ public class Company extends LoggableSubject implements CompanyI{
 
     protected String name;
     protected String stockName;
-
-    public Research getResearch() {
-        return research;
-    }
-
-
     private Research research;
-
-
-    public boolean hasPendingContractRequest() {
-        return pendingContractRequest != null;
-    }
-
-
-    public ContractRequest getPendingContractRequest() {
-        return pendingContractRequest;
-    }
-
+    public final Map<BlockPosKey, Machine> machines = new HashMap<>();
+    public List<Upgrade> upgrades = new ArrayList<>();
+    public List<Patent> patent = new ArrayList<>();
 
     private ContractRequest pendingContractRequest = null;
 
-
-    public final HashMap<BlockPosKey, Machine> machines = new HashMap<>();
-
-
-    public ArrayList<Upgrade> upgrades = new ArrayList<>();
-
-
-    public ArrayList<Patent> patent = new ArrayList<>();
-
-    public ArrayList<PatentUpgrade> patentUpgrades = new ArrayList<>();
+    public List<PatentUpgrade> patentUpgrades = new ArrayList<>();
 
     public Country country;
 
@@ -95,11 +72,27 @@ public class Company extends LoggableSubject implements CompanyI{
 
     private List<Product> products = new ArrayList<>();
 
-    public HashMap<BlockPosKey, Machine> getMachines() {
+
+    public Research getResearch() {
+        return research;
+    }
+
+
+    public boolean hasPendingContractRequest() {
+        return pendingContractRequest != null;
+    }
+
+
+    public ContractRequest getPendingContractRequest() {
+        return pendingContractRequest;
+    }
+
+
+    public Map<BlockPosKey, Machine> getMachines() {
         return machines;
     }
 
-    public ArrayList<Upgrade> getUpgrades() {
+    public List<Upgrade> getUpgrades() {
         return upgrades;
     }
 
@@ -120,11 +113,11 @@ public class Company extends LoggableSubject implements CompanyI{
         this.type = type;
     }
 
-    public ArrayList<PatentUpgrade> getPatentUpgrades() {
+    public List<PatentUpgrade> getPatentUpgrades() {
         return patentUpgrades;
     }
 
-    public ArrayList<Patent> getPatent() {
+    public List<Patent> getPatent() {
         return patent;
     }
 

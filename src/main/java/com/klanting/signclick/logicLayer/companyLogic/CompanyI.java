@@ -11,10 +11,7 @@ import com.klanting.signclick.logicLayer.companyLogic.logs.PluginLogs;
 import com.klanting.signclick.utils.BlockPosKey;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public interface CompanyI {
     Research getResearch();
@@ -57,17 +54,17 @@ public interface CompanyI {
     String getCountry();
     String getName();
     String getStockName();
-    ArrayList<Upgrade> getUpgrades();
+    List<Upgrade> getUpgrades();
     void update(String action, Object message, UUID issuer);
     String getType();
     void addShareBal(Double amount);
     void removeShareBal(Double amount);
-    ArrayList<Patent> getPatent();
+    List<Patent> getPatent();
     void addObserver(PluginLogs observer);
     List<PluginLogs> getLogObservers();
     void setType(String type);
-    ArrayList<PatentUpgrade> getPatentUpgrades();
-    HashMap<BlockPosKey, Machine> getMachines();
+    List<PatentUpgrade> getPatentUpgrades();
+    Map<BlockPosKey, Machine> getMachines();
     void setCountry(Country country);
     CompanyI getRef();
 

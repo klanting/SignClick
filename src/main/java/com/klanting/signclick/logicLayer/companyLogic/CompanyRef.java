@@ -11,10 +11,7 @@ import com.klanting.signclick.logicLayer.companyLogic.logs.PluginLogs;
 import com.klanting.signclick.utils.BlockPosKey;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class CompanyRef implements CompanyI{
 
@@ -249,7 +246,7 @@ public class CompanyRef implements CompanyI{
     }
 
     @Override
-    public ArrayList<Upgrade> getUpgrades() {
+    public List<Upgrade> getUpgrades() {
         return getComp().getUpgrades();
     }
 
@@ -274,7 +271,7 @@ public class CompanyRef implements CompanyI{
     }
 
     @Override
-    public ArrayList<Patent> getPatent() {
+    public List<Patent> getPatent() {
         return getComp().getPatent();
     }
 
@@ -294,12 +291,12 @@ public class CompanyRef implements CompanyI{
     }
 
     @Override
-    public ArrayList<PatentUpgrade> getPatentUpgrades() {
+    public List<PatentUpgrade> getPatentUpgrades() {
         return getComp().getPatentUpgrades();
     }
 
     @Override
-    public HashMap<BlockPosKey, Machine> getMachines() {
+    public Map<BlockPosKey, Machine> getMachines() {
         return getComp().getMachines();
     }
 
