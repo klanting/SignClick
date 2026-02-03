@@ -12,7 +12,6 @@ import org.gradle.internal.impldep.org.objenesis.ObjenesisStd;
 import java.lang.reflect.*;
 import java.sql.*;
 import java.util.*;
-import java.util.function.IntConsumer;
 import java.util.stream.Collectors;
 
 import static net.bytebuddy.matcher.ElementMatchers.named;
@@ -26,13 +25,22 @@ public class DatabaseSingleton {
         serializers.add(serializer);
     }
 
-    public <S> String serialize(Class<S> type, S value){
+    public <S> String serialize(Class<?> type, S value){
         for (SQLSerializer s: serializers){
             if (s.getType().equals(type)){
                 return s.serialize(value);
             }
         }
         return null;
+    }
+
+    public <S> boolean hasSerializer(Class<S> type){
+        for (SQLSerializer s: serializers){
+            if (s.getType().equals(type)){
+                return true;
+            }
+        }
+        return false;
     }
 
     public <S> S deserialize(Class<S> type, String value){
@@ -97,19 +105,28 @@ public class DatabaseSingleton {
         if (type == float.class) return "REAL";
         if (type == double.class) return "DOUBLE PRECISION";
         if (type == char.class) return "CHAR(1)";
-        if (type  == String.class) return "VARCHAR";
-        return null; // skip non-primitives
+        if (type == String.class) return "VARCHAR";
+        return null;
     }
 
     public <T> T wrap(Class<?> clazz, Map<String, Object> values){
         /**
         * gets class and list of values, and initialize object with its values and autoFlushId
         * */
+        assert !(ByteBuddyEnhanced.class.isAssignableFrom(clazz));
+
+        /*
+        * initialize object without constructor
+        * */
         Objenesis objenesis = new ObjenesisStd();
 
-        //this doesn't intercept, but embeds UUID to instance
+        /*
+        * override base object with bytebuddy
+        * this doesn't intercept, but embeds autoFlushId as field to instance
+        * */
         Class<?> dynamicType = new ByteBuddy()
                 .subclass(clazz)
+                .implement(ByteBuddyEnhanced.class)
                 .defineField("autoFlushId", UUID.class, Modifier.PUBLIC)
                 .method(
                         named("equals")
@@ -119,9 +136,13 @@ public class DatabaseSingleton {
                 .load(clazz.getClassLoader(), ClassLoadingStrategy.Default.INJECTION)
                 .getLoaded();
 
+        assert (ByteBuddyEnhanced.class.isAssignableFrom(dynamicType));
+
         T instance = (T) objenesis.newInstance(dynamicType);
 
-        // Set each field manually
+        /*
+        * Set each field manually
+        * */
         for (var entry : values.entrySet()) {
 
             if (entry.getKey().equals("autoflushid")){
@@ -130,21 +151,29 @@ public class DatabaseSingleton {
                     field.setAccessible(true);
                     field.set(instance, entry.getValue());
                 }catch (Exception e){
-
+                    throw new RuntimeException("AutoFlushId is not a valid field");
                 }
 
                 continue;
             }
 
             try {
+                /*
+                * get target field from base clazz
+                * */
                 var field = clazz.getDeclaredField(entry.getKey());
 
                 Class<?> type = field.getType();
+
+                /*
+                * When ptr to other class
+                * */
                 if (type.isAnnotationPresent(ClassFlush.class) && entry.getValue() != null){
 
                     //other than above this one intercepts
                     Class<?> dynamicType2 = new ByteBuddy()
                             .subclass(type)
+                            .implement(ByteBuddyEnhanced.class)
                             .defineField("autoFlushId", UUID.class, Modifier.PUBLIC)
                             .method(
                                     not(named("clone"))
@@ -163,16 +192,14 @@ public class DatabaseSingleton {
                     continue;
                 }
 
+                /*
+                * map field
+                * */
                 field.setAccessible(true);
                 if(mapJavaTypeToSQL(type) != null){
                     field.set(instance, entry.getValue());
                 }else{
-                    for (SQLSerializer s: serializers){
-                        if (type.equals(s.getType())){
-                            field.set(instance, s.deserialize((String) entry.getValue()));
-                            break;
-                        }
-                    }
+                    field.set(instance, deserialize(type, (String) entry.getValue()));
                 }
 
             } catch (NoSuchFieldException e) {
@@ -188,12 +215,20 @@ public class DatabaseSingleton {
             }
         }
 
+        assert instance instanceof ByteBuddyEnhanced;
+
         return instance;
     }
 
-    public <T> List<T> getAll(String groupName, String type, Class<T> clazz) {
-        String tableName = clazz.getSimpleName().toLowerCase();
-        String sql = "SELECT t.* FROM " + tableName+ " t JOIN statefullSQL" + type +" o ON t.autoflushid = o.autoflushid JOIN StatefullSQL s ON o.id = s.id WHERE s.groupname = ?";
+    public <T> List<T> getAll(String groupName, String accessMethodType, Class<T> clazz) {
+        /**
+        * get all elements for a given, groupName, accessMethodType and Clazz
+        * Clazz: plain class
+        * */
+        assert !(ByteBuddyEnhanced.class.isAssignableFrom(clazz));
+
+        String tableName = getTableName(clazz);
+        String sql = "SELECT t.* FROM " + tableName+ " t JOIN statefullSQL" + accessMethodType +" o ON t.autoflushid = o.autoflushid JOIN StatefullSQL s ON o.id = s.id WHERE s.groupname = ?";
 
         List<T> entities = new ArrayList<>();
 
@@ -226,14 +261,37 @@ public class DatabaseSingleton {
             e.printStackTrace();
         }
 
+        for (T entity: entities){
+            assert entity instanceof ByteBuddyEnhanced;
+        }
+
         return entities;
     }
 
-    public Map<String, Object> getDataByKey(UUID key, Class<?> clazz){
+    public <T> T getObjectByKey(UUID key, Class<?> clazz){
+
+        assert !(ByteBuddyEnhanced.class.isAssignableFrom(clazz));
+
+        Map<String, Object> values = DatabaseSingleton.getInstance().getDataByKey(key, clazz);
+        T instance = DatabaseSingleton.getInstance().wrap(clazz, values);
+
+        assert instance instanceof ByteBuddyEnhanced;
+
+        return instance;
+    }
+
+    public static String getTableName(Class<?> clazz){
+        return clazz.getSimpleName().toLowerCase();
+    }
+
+    private Map<String, Object> getDataByKey(UUID key, Class<?> clazz){
         /*
         * Provide autoFlushId and get the corresponding values
+        * Clazz: plain class
         * */
-        String tableName = clazz.getSimpleName().toLowerCase();
+        assert !(ByteBuddyEnhanced.class.isAssignableFrom(clazz));
+
+        String tableName = getTableName(clazz);
         String sql = "SELECT * FROM " + tableName + " WHERE autoFlushId = ?::uuid";
 
         try {
@@ -442,7 +500,7 @@ public class DatabaseSingleton {
                         
                         PRIMARY KEY (autoFlushId1, autoFlushId2, index)
                         );
-                        """, clazz.getSimpleName()+"_"+clazz2.getSimpleName());
+                        """, getTableName(clazz)+"_"+getTableName(clazz2));
                 //TODO add foreign keys, but only after main table creation, so alter TABLE, with recursion, when main loop is done only
 
                 try {
@@ -468,18 +526,15 @@ public class DatabaseSingleton {
                                 ON DELETE SET NULL
                         """, columnName, columnName, type.getSimpleName()+"(autoFlushId)"));
             }else{
-                for (SQLSerializer s: serializers){
-                    if (type.equals(s.getType())){
-                        columns.add(columnName+ " VARCHAR");
-                        break;
-                    }
+                if (hasSerializer(type)){
+                    columns.add(columnName+ " VARCHAR");
                 }
             }
         }
         columns.addAll(foreignKeys);
 
         String columnDefs = String.join(",\n    ", columns);
-        String tableName = clazz.getSimpleName().toLowerCase(); // optional: lowercase table name
+        String tableName = getTableName(clazz);
 
         String comma = (columnDefs.length() > 0) ? ",":"";
         String tableCreation = String.format("""
@@ -512,12 +567,12 @@ public class DatabaseSingleton {
             DatabaseMetaData metaData = connection.getMetaData();
 
             List<String> columns = new ArrayList<>();
-            ResultSet rs = metaData.getColumns(null, "public", clazz.getSimpleName().toLowerCase(), null);
+            ResultSet rs = metaData.getColumns(null, "public", getTableName(clazz), null);
 
             boolean tableExists = rs.next();
             if (!tableExists){
                 checkTable(clazz, new ArrayList<>());
-                rs = metaData.getColumns(null, "public", clazz.getSimpleName().toLowerCase(), null);
+                rs = metaData.getColumns(null, "public", getTableName(clazz), null);
                 tableExists = rs.next();
             }
 
@@ -555,12 +610,7 @@ public class DatabaseSingleton {
                 if (mapJavaTypeToSQL(type2) != null){
                     values.add(data);
                 }else{
-                    for (SQLSerializer s: serializers){
-                        if (type2.equals(s.getType())){
-                            values.add(s.serialize(data));
-                            break;
-                        }
-                    }
+                    values.add(serialize(type2, data));
                 }
 
 
@@ -569,7 +619,7 @@ public class DatabaseSingleton {
             String colNames = String.join(", ", columns);
             String placeholders = columns.stream().map(c -> "?").collect(Collectors.joining(", "));
 
-            String insertSql = "INSERT INTO "+clazz.getSimpleName().toLowerCase()+" (" + colNames + ") VALUES (" + placeholders + ") RETURNING autoFlushId";
+            String insertSql = "INSERT INTO "+getTableName(clazz)+" (" + colNames + ") VALUES (" + placeholders + ") RETURNING autoFlushId";
             PreparedStatement insertStmt = connection.prepareStatement(insertSql);
 
             for (int i = 0; i < values.size(); i++) {
@@ -616,7 +666,7 @@ public class DatabaseSingleton {
                 return;
             }
 
-            String tableName = clazz.getSimpleName().toLowerCase();
+            String tableName = getTableName(clazz);
 
             sql = "DELETE FROM "+tableName+" WHERE autoflushid = ?";
 
@@ -636,12 +686,12 @@ public class DatabaseSingleton {
             DatabaseMetaData metaData = connection.getMetaData();
 
             List<String> columns = new ArrayList<>();
-            ResultSet rs = metaData.getColumns(null, "public", clazz.getSimpleName().toLowerCase(), null);
+            ResultSet rs = metaData.getColumns(null, "public", getTableName(clazz), null);
 
             boolean tableExists = rs.next();
             if (!tableExists){
                 checkTable(clazz, new ArrayList<>());
-                rs = metaData.getColumns(null, "public", clazz.getSimpleName().toLowerCase(), null);
+                rs = metaData.getColumns(null, "public", getTableName(clazz), null);
                 tableExists = rs.next();
             }
 
@@ -673,7 +723,7 @@ public class DatabaseSingleton {
                     .collect(Collectors.joining(", "));
 
             String updateSql =
-                    "UPDATE " + clazz.getSimpleName().toLowerCase() +
+                    "UPDATE " + getTableName(clazz) +
                             " SET " + setClause +
                             " WHERE autoFlushId = ?";
 
@@ -744,6 +794,7 @@ public class DatabaseSingleton {
              * */
             Class<? extends T> dynamicType = new ByteBuddy()
                     .subclass(clazz)
+                    .implement(ByteBuddyEnhanced.class)
                     .defineField("autoFlushId", UUID.class, Modifier.PUBLIC)
                     .method(
                             not(named("clone"))

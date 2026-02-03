@@ -8,25 +8,25 @@ import java.util.List;
 
 public class AccessIterator<T> implements Iterator<T> {
 
-    private final Class<T> type;
+    private final Class<T> clazz;
     private final String groupName;
 
     private int current = 0;
 
-    public AccessIterator(String groupName, Class<T> type){
+    public AccessIterator(String groupName, Class<T> clazz){
         this.groupName = groupName;
-        this.type = type;
+        this.clazz = clazz;
     }
 
     @Override
     public boolean hasNext() {
-        List<T> entities = DatabaseSingleton.getInstance().getAll(groupName, "OrderedList", type);
+        List<T> entities = DatabaseSingleton.getInstance().getAll(groupName, "OrderedList", clazz);
         return current < entities.size();
     }
 
     @Override
     public T next() {
-        List<T> entities = DatabaseSingleton.getInstance().getAll(groupName, "OrderedList", type);
+        List<T> entities = DatabaseSingleton.getInstance().getAll(groupName, "OrderedList", clazz);
         T entity = entities.get(current);
         current++;
         return entity;

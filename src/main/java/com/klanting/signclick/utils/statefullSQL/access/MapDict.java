@@ -1,7 +1,6 @@
 package com.klanting.signclick.utils.statefullSQL.access;
 
 import com.klanting.signclick.utils.statefullSQL.DatabaseSingleton;
-import io.ebeaninternal.server.util.Str;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -12,15 +11,15 @@ import java.util.*;
 
 public class MapDict<S, T> implements AccessPoint<T>, Map<S, T> {
 
-    private final Class<S> keyType;
-    private final Class<T> type;
+    private final Class<S> keyClazz;
+    private final Class<T> clazz;
     private final String groupName;
-    public MapDict(String name, Class<S> keyType, Class<T> type){
-        this.keyType = keyType;
-        this.type = type;
+    public MapDict(String name, Class<S> keyClazz, Class<T> clazz){
+        this.keyClazz = keyClazz;
+        this.clazz = clazz;
         this.groupName = name;
         DatabaseSingleton.getInstance().checkSetupTable(name, "MapDict");
-        DatabaseSingleton.getInstance().checkTable(type, new ArrayList<>());
+        DatabaseSingleton.getInstance().checkTable(clazz, new ArrayList<>());
     }
 
     public T createRow(S key, T entity) {
@@ -40,10 +39,10 @@ public class MapDict<S, T> implements AccessPoint<T>, Map<S, T> {
         PreparedStatement ps = DatabaseSingleton.getInstance().getConnection().prepareStatement(sql);
 
         String keyVal;
-        if (keyType == String.class){
+        if (keyClazz == String.class){
             keyVal = key.toString();
         }else{
-            keyVal = DatabaseSingleton.getInstance().serialize(keyType, key);
+            keyVal = DatabaseSingleton.getInstance().serialize(keyClazz, key);
         }
 
         ps.setObject(1, id);
@@ -67,7 +66,7 @@ public class MapDict<S, T> implements AccessPoint<T>, Map<S, T> {
                 e.printStackTrace();
             }
 
-            DatabaseSingleton.getInstance().checkDelete(oldAutoFlushId, type);
+            DatabaseSingleton.getInstance().checkDelete(oldAutoFlushId, clazz);
         }
 
 
@@ -84,7 +83,7 @@ public class MapDict<S, T> implements AccessPoint<T>, Map<S, T> {
 
     @Override
     public int size() {
-        return DatabaseSingleton.getInstance().getAll(groupName, "MapDict", type).size();
+        return DatabaseSingleton.getInstance().getAll(groupName, "MapDict", clazz).size();
     }
 
     @Override
@@ -113,7 +112,7 @@ public class MapDict<S, T> implements AccessPoint<T>, Map<S, T> {
 
     @Override
     public boolean containsValue(Object value) {
-        List<T> entities = DatabaseSingleton.getInstance().getAll(groupName, "MapDict", type);
+        List<T> entities = DatabaseSingleton.getInstance().getAll(groupName, "MapDict", clazz);
         return entities.contains(value);
     }
 
@@ -145,7 +144,7 @@ public class MapDict<S, T> implements AccessPoint<T>, Map<S, T> {
             ps.setObject(1, autoFlushId);
             ps.setObject(2, id);
             ps.executeUpdate();
-            DatabaseSingleton.getInstance().checkDelete(autoFlushId, type);
+            DatabaseSingleton.getInstance().checkDelete(autoFlushId, clazz);
 
         }catch (Exception e){
             e.printStackTrace();
@@ -160,8 +159,7 @@ public class MapDict<S, T> implements AccessPoint<T>, Map<S, T> {
             return null;
         }
 
-        Map<String, Object> values = DatabaseSingleton.getInstance().getDataByKey(keyId, type);
-        return DatabaseSingleton.getInstance().wrap(type, values);
+        return DatabaseSingleton.getInstance().getObjectByKey(keyId, clazz);
     }
 
     @Nullable
@@ -206,7 +204,7 @@ public class MapDict<S, T> implements AccessPoint<T>, Map<S, T> {
             ResultSet rs = ps.executeQuery();
             while (rs.next()){
                 UUID autoFlushId = (UUID) rs.getObject("autoflushid");
-                DatabaseSingleton.getInstance().checkDelete(autoFlushId, type);
+                DatabaseSingleton.getInstance().checkDelete(autoFlushId, clazz);
             }
 
 
@@ -229,10 +227,10 @@ public class MapDict<S, T> implements AccessPoint<T>, Map<S, T> {
             ResultSet rs = ps.executeQuery();
             while (rs.next()){
                 String key = rs.getString("key");
-                if (keyType == String.class){
+                if (keyClazz == String.class){
                     keys.add((S) key);
                 }else{
-                    keys.add(DatabaseSingleton.getInstance().deserialize(keyType, key));
+                    keys.add(DatabaseSingleton.getInstance().deserialize(keyClazz, key));
                 }
 
             }
@@ -247,7 +245,7 @@ public class MapDict<S, T> implements AccessPoint<T>, Map<S, T> {
     @NotNull
     @Override
     public Collection<T> values() {
-        return DatabaseSingleton.getInstance().getAll(groupName, "MapDict", type);
+        return DatabaseSingleton.getInstance().getAll(groupName, "MapDict", clazz);
     }
 
     @NotNull
