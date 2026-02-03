@@ -3,6 +3,7 @@ package com.klanting.signclick.utils.statefullSQL;
 import com.klanting.signclick.utils.DataBase;
 import com.klanting.signclick.utils.statefullSQL.access.InterceptorWrap;
 import com.klanting.signclick.utils.statefullSQL.access.UuidFunction;
+import com.klanting.signclick.utils.statefullSQL.internal.ListWrapper;
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
 import net.bytebuddy.implementation.MethodDelegation;
@@ -17,6 +18,8 @@ import java.util.stream.Collectors;
 
 import static net.bytebuddy.matcher.ElementMatchers.named;
 import static net.bytebuddy.matcher.ElementMatchers.not;
+
+record ListInsertEntry(String variable, UUID autoFlushId2, int index, String listTableName) {}
 
 public class DatabaseSingleton {
 
@@ -197,7 +200,9 @@ public class DatabaseSingleton {
                 * map field
                 * */
                 field.setAccessible(true);
-                if(mapJavaTypeToSQL(type) != null){
+                if(mapJavaTypeToSQL(type) != null) {
+                    field.set(instance, entry.getValue());
+                }else if(type == List.class){
                     field.set(instance, entry.getValue());
                 }else{
                     field.set(instance, deserialize(type, (String) entry.getValue()));
@@ -306,12 +311,41 @@ public class DatabaseSingleton {
                 Map<String, Object> row = new HashMap<>();
 
                 ResultSetMetaData meta = rs.getMetaData();
+                /*
+                * load simple attributes
+                * */
                 int columnCount = meta.getColumnCount();
-
                 for (int i = 1; i <= columnCount; i++) {
                     String columnName = meta.getColumnLabel(i);
                     Object value = rs.getObject(i);
                     row.put(columnName, value);
+                }
+
+                /*
+                * load internal lists
+                * */
+                for(Field field: clazz.getDeclaredFields()){
+                    if(field.getType() != List.class){
+                        continue;
+                    }
+
+                    if (!(field.getGenericType() instanceof ParameterizedType parameterizedType)) {
+                        continue;
+                    }
+                    Type[] typeArgs = parameterizedType.getActualTypeArguments();
+                    Type elementType = typeArgs[0];
+                    if (!(elementType instanceof Class<?> clazz2)) {
+                        continue;
+                    }
+                    if(!clazz2.isAnnotationPresent(ClassFlush.class)){
+                        continue;
+                    }
+                    String listTableName = getTableName(clazz)+"_list_"+getTableName(clazz2);
+                    String name = field.getName();
+
+                    List<Object> internalList = new ListWrapper<>(listTableName, getTableName(clazz2), key, clazz2, name);
+                    row.put(name, internalList);
+
                 }
 
                 return row;
@@ -464,7 +498,6 @@ public class DatabaseSingleton {
     }
 
     private void checkListAttributeTable(Class<?> parent, Field field, List<Class<?>> blackList){
-        Class<?> type = field.getType();
 
         if (!(field.getGenericType() instanceof ParameterizedType parameterizedType)) {
             return;
@@ -477,11 +510,11 @@ public class DatabaseSingleton {
             return;
         }
 
-        if (!blackList.contains(clazz2) && type.isAnnotationPresent(ClassFlush.class)){
+        if (!blackList.contains(clazz2) && clazz2.isAnnotationPresent(ClassFlush.class)){
             checkTable(clazz2, blackList);
         }
 
-        if(!type.isAnnotationPresent(ClassFlush.class)){
+        if(!clazz2.isAnnotationPresent(ClassFlush.class)){
             /*
             * This case, we will serialize entire list
             * */
@@ -490,11 +523,12 @@ public class DatabaseSingleton {
 
         String tableCreation = String.format("""
                         CREATE TABLE %s (
+                        variable VARCHAR NOT NULL,
                         autoFlushId1 UUID NOT NULL,
                         autoFlushId2 UUID NOT NULL,
-                        index NOT NULL
+                        index INT NOT NULL,
                         
-                        PRIMARY KEY (autoFlushId1, autoFlushId2, index)
+                        PRIMARY KEY (variable, autoFlushId1, index)
                         );
                         """, getTableName(parent)+"_list_"+getTableName(clazz2));
         //TODO add foreign keys, but only after main table creation, so alter TABLE, with recursion, when main loop is done only (to later)
@@ -608,10 +642,11 @@ public class DatabaseSingleton {
 
             //TODO recursively store all storable to which we have a ptr.
 
+            List<ListInsertEntry> listInsertEntries = new ArrayList<>();
+
             List<Object> values = new ArrayList<>();
 
-            for (String column: columns){
-                Field field = clazz.getDeclaredField(column);
+            for (Field field: clazz.getDeclaredFields()){
                 field.setAccessible(true);
 
                 Class<?> type2 = field.getType();
@@ -624,8 +659,33 @@ public class DatabaseSingleton {
                     continue;
                 }
 
-                if (mapJavaTypeToSQL(type2) != null){
+                if (mapJavaTypeToSQL(type2) != null) {
                     values.add(data);
+                }else if (type2 == List.class){
+
+                    if (!(field.getGenericType() instanceof ParameterizedType parameterizedType)) {
+                        continue;
+                    }
+                    Type[] typeArgs = parameterizedType.getActualTypeArguments();
+                    Type elementType = typeArgs[0];
+                    if (!(elementType instanceof Class<?> clazz2)) {
+                        continue;
+                    }
+                    if(!clazz2.isAnnotationPresent(ClassFlush.class)){
+                        continue;
+                    }
+                    String listTableName = getTableName(clazz)+"_list_"+getTableName(clazz2);
+                    String variable = field.getName();
+
+                    int index = 0;
+                    for (Object targetObj: (List<Object>) field.get(entity)){
+                        UUID autoFlushId2 = store(groupName, type, targetObj, storeTableFunc, false);
+
+                        listInsertEntries.add(new ListInsertEntry(variable, autoFlushId2, index, listTableName));
+                        index += 1;
+                    }
+
+
                 }else{
                     values.add(serialize(type2, data));
                 }
@@ -653,13 +713,26 @@ public class DatabaseSingleton {
                 storeTableFunc.apply(autoFlushId);
             }
 
+            /*
+            * make the internal list connections
+            * */
+            for (ListInsertEntry lie: listInsertEntries){
+                String listTableName = lie.listTableName();
+                String insertListSql = "INSERT INTO "+listTableName+" (variable, autoFlushId1, autoFlushId2, index) VALUES (?, ?, ?, ?)";
+
+                insertStmt = DatabaseSingleton.getInstance().getConnection().prepareStatement(insertListSql);
+                insertStmt.setString(1, lie.variable());
+                insertStmt.setObject(2, autoFlushId);
+                insertStmt.setObject(3, lie.autoFlushId2());
+                insertStmt.setObject(4, lie.index());
+                insertStmt.executeUpdate();
+            }
+
             return autoFlushId;
 
 
         }catch (SQLException e){
             e.printStackTrace();
-            throw new RuntimeException(e);
-        } catch (NoSuchFieldException e) {
             throw new RuntimeException(e);
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);

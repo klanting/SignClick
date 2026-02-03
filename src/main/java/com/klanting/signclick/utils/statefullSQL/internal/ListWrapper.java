@@ -1,26 +1,85 @@
 package com.klanting.signclick.utils.statefullSQL.internal;
 
+import com.klanting.signclick.utils.statefullSQL.DatabaseSingleton;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.*;
 
-public class ListWrapper implements List {
+public class ListWrapper<T> implements List<T> {
+
+    private final String listTableName;
+    private final String itemTableName;
+    private final UUID parentAutoFlushId;
+    private final String variable;
+
+    private final Class<?> clazz;
+
+    public ListWrapper(String listTableName, String itemTableName, UUID parentAutoFlushId, Class<?> clazz, String variable){
+        this.listTableName = listTableName;
+        this.itemTableName = itemTableName;
+        this.parentAutoFlushId = parentAutoFlushId;
+        this.clazz = clazz;
+        this.variable = variable;
+    }
+
     @Override
     public int size() {
-        return 0;
+
+        String sql = "SELECT COUNT(*) FROM "+listTableName+" WHERE autoFlushId1 = ? ";
+        try {
+            PreparedStatement ps = DatabaseSingleton.getInstance().getConnection().prepareStatement(sql);
+            ps.setObject(1, parentAutoFlushId);
+
+            ResultSet rs3 = ps.executeQuery();
+
+            int count = 0;
+            if (rs3.next()) {
+                count = rs3.getInt(1);
+            }
+
+            return count;
+
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return size() != 0;
     }
 
     @Override
     public boolean contains(Object o) {
-        return false;
+
+        String sql = """
+                SELECT autoFlushId2
+                FROM """+listTableName+"""
+                WHERE autoFlushId1 = ?
+            """;
+
+        try {
+            PreparedStatement ps = DatabaseSingleton.getInstance().getConnection().prepareStatement(sql);
+            ps.setObject(1, parentAutoFlushId);
+
+            ResultSet rs3 = ps.executeQuery();
+
+            while (rs3.next()){
+                UUID autoFlushId2 = (UUID) rs3.getObject("autoFlushId2");
+                T obj = DatabaseSingleton.getInstance().getObjectByKey(autoFlushId2, clazz);
+                if(obj.equals(o)){
+                    return true;
+                }
+            }
+
+            return false;
+
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
     }
 
     @NotNull
@@ -61,7 +120,7 @@ public class ListWrapper implements List {
     }
 
     @Override
-    public Object get(int index) {
+    public T get(int index) {
         return null;
     }
 
@@ -76,7 +135,7 @@ public class ListWrapper implements List {
     }
 
     @Override
-    public Object remove(int index) {
+    public T remove(int index) {
         return null;
     }
 
