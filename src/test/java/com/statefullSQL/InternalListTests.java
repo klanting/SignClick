@@ -64,6 +64,16 @@ public class InternalListTests {
         Dummy4 dum = dummies.createRow("S", new Dummy4());
 
         assertEquals(1, dum.getDummies5().size());
+        assertTrue(dum.getDummies5().contains(dum.getDummies5().get(0)));
+
+        /*
+        * load system again
+        * */
+        dummies = new MapDict<>("a",String.class, Dummy4.class);
+        assertEquals(1, dummies.size());
+        assertEquals(1, dummies.get("S").getDummies5().size());
+
+
 
 
     }

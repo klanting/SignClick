@@ -343,7 +343,7 @@ public class DatabaseSingleton {
                     String listTableName = getTableName(clazz)+"_list_"+getTableName(clazz2);
                     String name = field.getName();
 
-                    List<Object> internalList = new ListWrapper<>(listTableName, getTableName(clazz2), key, clazz2, name);
+                    List<Object> internalList = new ListWrapper<>(listTableName, key, clazz2, name);
                     row.put(name, internalList);
 
                 }
@@ -528,7 +528,7 @@ public class DatabaseSingleton {
                         autoFlushId2 UUID NOT NULL,
                         index INT NOT NULL,
                         
-                        PRIMARY KEY (variable, autoFlushId1, index)
+                        PRIMARY KEY (variable, autoFlushId1, index) DEFERRABLE INITIALLY DEFERRED
                         );
                         """, getTableName(parent)+"_list_"+getTableName(clazz2));
         //TODO add foreign keys, but only after main table creation, so alter TABLE, with recursion, when main loop is done only (to later)
@@ -611,7 +611,10 @@ public class DatabaseSingleton {
     }
 
     public <T> UUID store(String groupName, String type, T entity, UuidFunction storeTableFunc, boolean storeInTable) {
-        checkSetupTable(groupName, type);
+        if (storeInTable){
+            checkSetupTable(groupName, type);
+        }
+
         try {
             Class<T> clazz = (Class<T>)  entity.getClass();
 
@@ -740,7 +743,7 @@ public class DatabaseSingleton {
 
     }
 
-    public <T> void checkDelete(UUID key, Class<T> clazz){
+    public <T> void checkDelete(UUID key, Class<?> clazz){
         try {
             //TODO add support mapDict
             String sql = "SELECT COUNT(*) FROM StatefullSQL"+"OrderedList"+" WHERE autoflushid = ?";

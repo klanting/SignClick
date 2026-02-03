@@ -5,11 +5,12 @@ import com.klanting.signclick.utils.statefullSQL.ClassFlush;
 import com.klanting.signclick.utils.statefullSQL.DatabaseSingleton;
 import com.klanting.signclick.utils.statefullSQL.SQLSerializer;
 import com.klanting.signclick.utils.statefullSQL.access.OrderedList;
-import org.bukkit.Material;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import tools.DataBaseTest;
+
+import java.util.Iterator;
 
 import static org.gradle.internal.impldep.org.junit.Assert.*;
 
@@ -28,13 +29,11 @@ class WEIRDOBJECTSERIALIZER extends SQLSerializer<WEIRDOBJECT>{
 
     @Override
     public String serialize(WEIRDOBJECT value) {
-        System.out.println("A555");
         return value.val;
     }
 
     @Override
     public WEIRDOBJECT deserialize(String value) {
-        System.out.println("B555");
         WEIRDOBJECT o = new WEIRDOBJECT();
         o.val = value;
         return o;
@@ -147,7 +146,6 @@ public class OrderedListTests {
         dum.getDummy3().inc();
         assertEquals(2, dum.getDummy3().hello());
         assertEquals(1, dummies.size());
-
     }
 
     @Test
@@ -172,7 +170,32 @@ public class OrderedListTests {
 
         assertEquals(1, dummies.indexOf(dum2));
         assertEquals(2, dummies.get(1).hello());
-
-
     }
+
+    @Test
+    void iterator(){
+        DatabaseSingleton.getInstance(DataBaseTest.getConnection());
+        OrderedList<Dummy2> dummies = new OrderedList<>("a",Dummy2.class);
+        Dummy2 predum1 = new Dummy2();
+        Dummy2 predum2 = new Dummy2();
+        predum2.inc();
+
+        assertEquals(1, predum1.hello());
+        assertEquals(2, predum2.hello());
+
+        dummies.add(predum1);
+        dummies.add(predum2);
+
+        assertEquals(1, dummies.get(0).hello());
+        assertEquals(2, dummies.get(1).hello());
+
+        Iterator<Dummy2> it = dummies.iterator();
+
+        assertTrue(it.hasNext());
+        assertEquals(1, it.next().hello());
+        assertTrue(it.hasNext());
+        assertEquals(2, it.next().hello());
+        assertFalse(it.hasNext());
+    }
+
 }

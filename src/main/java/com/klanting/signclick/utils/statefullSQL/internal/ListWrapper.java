@@ -11,15 +11,13 @@ import java.util.*;
 public class ListWrapper<T> implements List<T> {
 
     private final String listTableName;
-    private final String itemTableName;
     private final UUID parentAutoFlushId;
     private final String variable;
 
     private final Class<?> clazz;
 
-    public ListWrapper(String listTableName, String itemTableName, UUID parentAutoFlushId, Class<?> clazz, String variable){
+    public ListWrapper(String listTableName, UUID parentAutoFlushId, Class<?> clazz, String variable){
         this.listTableName = listTableName;
-        this.itemTableName = itemTableName;
         this.parentAutoFlushId = parentAutoFlushId;
         this.clazz = clazz;
         this.variable = variable;
@@ -55,11 +53,7 @@ public class ListWrapper<T> implements List<T> {
     @Override
     public boolean contains(Object o) {
 
-        String sql = """
-                SELECT autoFlushId2
-                FROM """+listTableName+"""
-                WHERE autoFlushId1 = ?
-            """;
+        String sql = "SELECT autoFlushId2 FROM "+listTableName+" WHERE autoFlushId1 = ?";
 
         try {
             PreparedStatement ps = DatabaseSingleton.getInstance().getConnection().prepareStatement(sql);
@@ -85,106 +79,316 @@ public class ListWrapper<T> implements List<T> {
     @NotNull
     @Override
     public Iterator iterator() {
-        return null;
+        return new InternalIterator<T>(listTableName, clazz, parentAutoFlushId);
     }
 
     @NotNull
     @Override
     public Object[] toArray() {
-        return new Object[0];
+        Object[] arr = new Object[size()];
+        int i = 0;
+
+        for(int j=0; j<size(); j++){
+            arr[i++] = get(j);
+        }
+
+        return arr;
     }
 
     @Override
     public boolean add(Object o) {
+        UUID newUUID = DatabaseSingleton.getInstance().store("", "", o, (u) -> {}, false);
+
+        String insertListSql = "INSERT INTO "+listTableName+" (variable, autoFlushId1, autoFlushId2, index) VALUES (?, ?, ?, ?)";
+
+        try {
+            PreparedStatement insertStmt = DatabaseSingleton.getInstance().getConnection().prepareStatement(insertListSql);
+            insertStmt.setString(1, variable);
+            insertStmt.setObject(2, parentAutoFlushId);
+            insertStmt.setObject(3, newUUID);
+            insertStmt.setObject(4, size());
+            insertStmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+
         return false;
     }
 
     @Override
     public boolean remove(Object o) {
-        return false;
+        int index = indexOf(o);
+        if (index != -1){
+            return false;
+        }
+
+        remove(index);
+        return true;
     }
 
     @Override
-    public boolean addAll(@NotNull Collection c) {
-        return false;
+    public boolean addAll(@NotNull Collection<? extends T> c) {
+        for (T element : c) {
+            this.add(element);
+        }
+        return true;
     }
 
     @Override
     public boolean addAll(int index, @NotNull Collection c) {
-        return false;
+        List<T> list = new ArrayList<>(c);
+        /*
+         * reverse list to match normal list behaviour
+         * */
+        Collections.reverse(list);
+
+        for (T item : list) {
+            add(index, item);
+        }
+        return true;
     }
 
     @Override
     public void clear() {
+        String sql = "DELETE FROM "+listTableName+" WHERE variable = ? AND autoflushid1 = ? RETURNING autoflushid2";
 
+        try {
+            PreparedStatement ps = DatabaseSingleton.getInstance().getConnection().prepareStatement(sql);
+            ps.setString(1, variable);
+            ps.setObject(2, parentAutoFlushId);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()){
+                UUID autoFlushId2 = (UUID) rs.getObject("autoflushid2");
+                DatabaseSingleton.getInstance().checkDelete(autoFlushId2, clazz);
+            }
+
+
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public T get(int index) {
-        return null;
+        String sql = "SELECT autoFlushId2 FROM "+listTableName+" WHERE autoFlushId1 = ? AND index = ?";
+
+        try {
+            PreparedStatement ps = DatabaseSingleton.getInstance().getConnection().prepareStatement(sql);
+            ps.setObject(1, parentAutoFlushId);
+            ps.setInt(2, index);
+
+            ResultSet rs3 = ps.executeQuery();
+
+            if (rs3.next()){
+                UUID autoFlushId2 = (UUID) rs3.getObject("autoFlushId2");
+                return DatabaseSingleton.getInstance().getObjectByKey(autoFlushId2, clazz);
+            }
+
+            return null;
+
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public Object set(int index, Object element) {
-        return null;
+        remove(index);
+        add(index, element);
+        return get(index);
     }
 
     @Override
     public void add(int index, Object element) {
 
+        /*
+        * update index with higher values
+        * */
+        try {
+            /*
+             * update index with higher values
+             * */
+            String updateSql =
+                    "UPDATE "+listTableName+" " +
+                            "SET index = index + 1 " +
+                            "WHERE autoflushid1 = ? AND variable = ? AND index > ?";
+
+            PreparedStatement updatePs = DatabaseSingleton.getInstance().getConnection().prepareStatement(updateSql);
+
+            updatePs.setObject(1, parentAutoFlushId);
+            updatePs.setString(2, variable);
+            updatePs.setInt(3, index);
+
+            updatePs.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        /*
+        * add new item
+        * */
+        UUID newUUID = DatabaseSingleton.getInstance().store("", "", element, (u) -> {}, false);
+
+        String insertListSql = "INSERT INTO "+listTableName+" (variable, autoFlushId1, autoFlushId2, index) VALUES (?, ?, ?, ?)";
+
+        try {
+            PreparedStatement insertStmt = DatabaseSingleton.getInstance().getConnection().prepareStatement(insertListSql);
+            insertStmt.setString(1, variable);
+            insertStmt.setObject(2, parentAutoFlushId);
+            insertStmt.setObject(3, newUUID);
+            insertStmt.setObject(4, index);
+            insertStmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public T remove(int index) {
-        return null;
+        T entity = get(index);
+
+        String sql = "DELETE FROM "+listTableName+" WHERE index = ? AND variable = ? AND autoflushid1 = ? RETURNING autoflushid2";
+
+        try {
+            PreparedStatement ps = DatabaseSingleton.getInstance().getConnection().prepareStatement(sql);
+            ps.setInt(1, index);
+            ps.setString(2, variable);
+            ps.setObject(3, parentAutoFlushId);
+
+            ResultSet rs = ps.executeQuery();
+
+            rs.next();
+            UUID autoFlushId2 = (UUID) rs.getObject("autoflushid2");
+            DatabaseSingleton.getInstance().checkDelete(autoFlushId2, clazz);
+
+            /*
+             * update index with higher values
+             * */
+            String updateSql =
+                    "UPDATE "+listTableName+" " +
+                            "SET index = index - 1 " +
+                            "WHERE autoflushid1 = ? AND variable = ? AND index > ?";
+
+            PreparedStatement updatePs = DatabaseSingleton.getInstance().getConnection().prepareStatement(updateSql);
+
+            updatePs.setObject(1, parentAutoFlushId);
+            updatePs.setString(2, variable);
+            updatePs.setInt(3, index);
+
+            updatePs.executeUpdate();
+
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+
+        return entity;
     }
 
     @Override
     public int indexOf(Object o) {
-        return 0;
+
+        String sql = "SELECT autoFlushId2 FROM "+listTableName+" WHERE autoFlushId1 = ? ORDER BY INDEX ASC";
+
+        try {
+            PreparedStatement ps = DatabaseSingleton.getInstance().getConnection().prepareStatement(sql);
+            ps.setObject(1, parentAutoFlushId);
+
+            ResultSet rs3 = ps.executeQuery();
+
+            int index = 0;
+            while (rs3.next()){
+                UUID autoFlushId2 = (UUID) rs3.getObject("autoFlushId2");
+                T obj = DatabaseSingleton.getInstance().getObjectByKey(autoFlushId2, clazz);
+                if(obj.equals(o)){
+                    return index;
+                }
+                index += 1;
+            }
+
+            return -1;
+
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public int lastIndexOf(Object o) {
-        return 0;
+        String sql = "SELECT autoFlushId2 FROM "+listTableName+" WHERE autoFlushId1 = ? ORDER BY INDEX ASC";
+
+        int lastIndex = -1;
+        try {
+            PreparedStatement ps = DatabaseSingleton.getInstance().getConnection().prepareStatement(sql);
+            ps.setObject(1, parentAutoFlushId);
+
+            ResultSet rs3 = ps.executeQuery();
+
+            int index = 0;
+            while (rs3.next()){
+                UUID autoFlushId2 = (UUID) rs3.getObject("autoFlushId2");
+                T obj = DatabaseSingleton.getInstance().getObjectByKey(autoFlushId2, clazz);
+                if(obj.equals(o)){
+                    lastIndex = index;
+                }
+                index += 1;
+            }
+
+            return lastIndex;
+
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
     }
 
     @NotNull
     @Override
     public ListIterator listIterator() {
-        return null;
+        throw new RuntimeException("NOT YET IMPLEMENTED");
     }
 
     @NotNull
     @Override
     public ListIterator listIterator(int index) {
-        return null;
+        throw new RuntimeException("NOT YET IMPLEMENTED");
     }
 
     @NotNull
     @Override
     public List subList(int fromIndex, int toIndex) {
-        return null;
+        throw new RuntimeException("NOT YET IMPLEMENTED");
     }
 
     @Override
     public boolean retainAll(@NotNull Collection c) {
-        return false;
+        throw new RuntimeException("NOT YET IMPLEMENTED");
     }
 
     @Override
     public boolean removeAll(@NotNull Collection c) {
-        return false;
+        for (Object item : c) {
+            this.remove(item);
+        }
+        return true;
     }
 
     @Override
-    public boolean containsAll(@NotNull Collection c) {
-        return false;
+    public boolean containsAll(@NotNull Collection<?> c) {
+        for (Object element : c) {
+            if (!this.contains(element)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     @NotNull
     @Override
     public Object[] toArray(@NotNull Object[] a) {
-        return new Object[0];
+        throw new RuntimeException("NOT YET IMPLEMENTED");
     }
 }
