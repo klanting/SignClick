@@ -544,6 +544,54 @@ public class DatabaseSingleton {
 
     }
 
+    private void checkMapAttributeTable(Class<?> parent, Field field, List<Class<?>> blackList){
+
+        if (!(field.getGenericType() instanceof ParameterizedType parameterizedType)) {
+            return;
+        }
+
+        Type[] typeArgs = parameterizedType.getActualTypeArguments();
+
+        Type keyType = typeArgs[0];
+        Type elementType = typeArgs[1];
+        if (!(elementType instanceof Class<?> clazz2)) {
+            return;
+        }
+
+        if (!blackList.contains(clazz2) && clazz2.isAnnotationPresent(ClassFlush.class)){
+            checkTable(clazz2, blackList);
+        }
+
+        if(!clazz2.isAnnotationPresent(ClassFlush.class)){
+            /*
+             * This case, we will serialize entire list
+             * */
+            return;
+        }
+
+        String tableCreation = String.format("""
+                        CREATE TABLE %s (
+                        variable VARCHAR NOT NULL,
+                        autoFlushId1 UUID NOT NULL,
+                        autoFlushId2 UUID NOT NULL,
+                        key VARCHAR NOT NULL,
+                        
+                        PRIMARY KEY (variable, autoFlushId1, key) DEFERRABLE INITIALLY DEFERRED
+                        );
+                        """, getTableName(parent)+"_map_"+getTableName(clazz2));
+        //TODO add foreign keys, but only after main table creation, so alter TABLE, with recursion, when main loop is done only (to later)
+
+        try {
+            PreparedStatement stmt = connection.prepareStatement(tableCreation);
+
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     public void checkTable(Class<?> clazz, List<Class<?>> blackList){
         blackList.add(clazz);
 
@@ -563,6 +611,11 @@ public class DatabaseSingleton {
             //Convert list to additional relation entity
             if (type == List.class){
                 checkListAttributeTable(clazz, field, blackList);
+                continue;
+            }
+
+            if (type == Map.class){
+                checkMapAttributeTable(clazz, field, blackList);
                 continue;
             }
 
@@ -687,7 +740,7 @@ public class DatabaseSingleton {
                         listInsertEntries.add(new ListInsertEntry(variable, autoFlushId2, index, listTableName));
                         index += 1;
                     }
-
+                }else if (type2 == Map.class){
 
                 }else{
                     values.add(serialize(type2, data));

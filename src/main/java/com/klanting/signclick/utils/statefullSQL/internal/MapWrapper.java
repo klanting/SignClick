@@ -7,7 +7,8 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
-public class MapWrapper implements Map {
+public class MapWrapper<S, T> implements Map<S, T> {
+
     @Override
     public int size() {
         return 0;
@@ -29,23 +30,23 @@ public class MapWrapper implements Map {
     }
 
     @Override
-    public Object get(Object key) {
+    public T get(Object key) {
         return null;
     }
 
     @Nullable
     @Override
-    public Object put(Object key, Object value) {
+    public T put(S key, T value) {
         return null;
     }
 
     @Override
-    public Object remove(Object key) {
+    public T remove(Object key) {
         return null;
     }
 
     @Override
-    public void putAll(@NotNull Map m) {
+    public void putAll(@NotNull Map<? extends S, ? extends T> m) {
 
     }
 
@@ -56,19 +57,19 @@ public class MapWrapper implements Map {
 
     @NotNull
     @Override
-    public Set keySet() {
+    public Set<S> keySet() {
         return null;
     }
 
     @NotNull
     @Override
-    public Collection values() {
+    public Collection<T> values() {
         return null;
     }
 
     @NotNull
     @Override
-    public Set<Entry> entrySet() {
+    public Set<Entry<S, T>> entrySet() {
         return null;
     }
 }
