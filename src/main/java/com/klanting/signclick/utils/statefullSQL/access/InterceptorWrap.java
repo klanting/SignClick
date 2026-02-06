@@ -25,8 +25,6 @@ public class InterceptorWrap<T> {
         Field field2 = clazz.getDeclaredField("autoFlushId");
         UUID uuid = (UUID) field2.get(self);
 
-        System.out.println("WRAP INTERCEPT "+method.getName()+" "+uuid+" "+clazz.toString());
-
         T instance = DatabaseSingleton.getInstance().getObjectByKey(uuid, clazz.getSuperclass());
 
         if (method.getName().equals("equals") && args.length == 1) {

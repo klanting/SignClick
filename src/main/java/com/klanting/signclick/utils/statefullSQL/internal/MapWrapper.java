@@ -7,10 +7,7 @@ import org.jetbrains.annotations.Nullable;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Collection;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 public class MapWrapper<S, T> implements Map<S, T> {
 
@@ -19,11 +16,14 @@ public class MapWrapper<S, T> implements Map<S, T> {
     private final String variable;
 
     private final Class<?> clazz;
+    private final Class<?> keyClazz;
 
 
-    public MapWrapper(String mapTableName, UUID parentAutoFlushId, Class<?> clazz, String variable){
+    public MapWrapper(String mapTableName, UUID parentAutoFlushId, Class<?> keyClazz, Class<?> clazz, String variable){
         this.mapTableName = mapTableName;
         this.parentAutoFlushId = parentAutoFlushId;
+
+        this.keyClazz = keyClazz;
         this.clazz = clazz;
         this.variable = variable;
     }
@@ -57,7 +57,6 @@ public class MapWrapper<S, T> implements Map<S, T> {
 
     @Override
     public boolean containsKey(Object key) {
-        System.out.println("A");
         String sql = "SELECT autoFlushId2 FROM "+mapTableName+" WHERE autoFlushId1 = ? AND key = ?";
 
         try {
@@ -120,13 +119,11 @@ public class MapWrapper<S, T> implements Map<S, T> {
 
     @Override
     public T get(Object key) {
-        System.out.println("GET");
         UUID keyId = getAutoFlushIdByKey(key);
         if (keyId == null){
             return null;
         }
 
-        System.out.println("KEYID "+keyId);
         return DatabaseSingleton.getInstance().getObjectByKey(keyId, clazz, true);
     }
 
@@ -186,29 +183,78 @@ public class MapWrapper<S, T> implements Map<S, T> {
 
     @Override
     public void putAll(@NotNull Map<? extends S, ? extends T> m) {
-
+        for (Entry<? extends S, ? extends T> elements: m.entrySet()){
+            put(elements.getKey(), elements.getValue());
+        }
     }
 
     @Override
     public void clear() {
+        String sql = "DELETE FROM "+mapTableName+" WHERE autoFlushId1 = ? RETURNING autoFlushId2";
+        try {
+            PreparedStatement ps = DatabaseSingleton.getInstance().getConnection().prepareStatement(sql);
+            ps.setObject(1, parentAutoFlushId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()){
+                UUID autoFlushId = (UUID) rs.getObject("autoflushid");
+                DatabaseSingleton.getInstance().checkDelete(autoFlushId, clazz);
+            }
 
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @NotNull
     @Override
     public Set<S> keySet() {
-        return null;
+        Set<S> keys = new HashSet<>();
+
+        String sql = "SELECT key FROM "+mapTableName+" WHERE autofushid1 = ?";
+        try {
+            PreparedStatement ps = DatabaseSingleton.getInstance().getConnection().prepareStatement(sql);
+            ps.setObject(1, parentAutoFlushId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()){
+                String key = rs.getString("key");
+                if (keyClazz == String.class){
+                    keys.add((S) key);
+                }else{
+                    keys.add(DatabaseSingleton.getInstance().deserialize(keyClazz, key));
+                }
+
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return keys;
     }
 
     @NotNull
     @Override
     public Collection<T> values() {
-        return null;
+        List<T> values = new ArrayList<>();
+        for (S key: keySet()){
+            values.add(get(key));
+        }
+
+        return values;
     }
 
     @NotNull
     @Override
     public Set<Entry<S, T>> entrySet() {
-        return null;
+        Set<S> keys = keySet();
+
+        Set<Entry<S, T>> entries = new HashSet<>();
+        for (S key: keys){
+            T value = get(key);
+            entries.add(new AbstractMap.SimpleEntry<>(key, value));
+        }
+
+        return entries;
     }
 }

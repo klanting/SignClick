@@ -49,7 +49,7 @@ public class DatabaseSingleton {
         return false;
     }
 
-    public <S> S deserialize(Class<S> type, String value){
+    public <S> S deserialize(Class<?> type, String value){
         for (SQLSerializer s: serializers){
             if (s.getType().equals(type)){
                 return (S) s.deserialize(value);
@@ -394,13 +394,17 @@ public class DatabaseSingleton {
                     if (!(elementType instanceof Class<?> clazz2)) {
                         continue;
                     }
+                    if (!(keyType instanceof Class<?> keyClazz)) {
+                        continue;
+                    }
+
                     if(!clazz2.isAnnotationPresent(ClassFlush.class)){
                         continue;
                     }
                     String mapTableName = getTableName(clazz)+"_map_"+getTableName(clazz2);
                     String name = field.getName();
 
-                    MapWrapper<Object, Object> internalList = new MapWrapper<>(mapTableName, key, clazz2, name);
+                    MapWrapper<Object, Object> internalList = new MapWrapper<>(mapTableName, key, keyClazz, clazz2, name);
                     row.put(name, internalList);
 
                 }
@@ -883,7 +887,6 @@ public class DatabaseSingleton {
                 insertStmt.setObject(3, lie.autoFlushId2());
                 insertStmt.setString(4, lie.key());
                 insertStmt.executeUpdate();
-                System.out.println("REACHED "+insertListSql);
             }
 
             return autoFlushId;
