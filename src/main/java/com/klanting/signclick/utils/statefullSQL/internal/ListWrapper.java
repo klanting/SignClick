@@ -47,7 +47,7 @@ public class ListWrapper<T> implements List<T> {
 
     @Override
     public boolean isEmpty() {
-        return size() != 0;
+        return size() == 0;
     }
 
     @Override
@@ -113,7 +113,7 @@ public class ListWrapper<T> implements List<T> {
         }
 
 
-        return false;
+        return true;
     }
 
     @Override
@@ -184,7 +184,7 @@ public class ListWrapper<T> implements List<T> {
 
             if (rs3.next()){
                 UUID autoFlushId2 = (UUID) rs3.getObject("autoFlushId2");
-                return DatabaseSingleton.getInstance().getObjectByKey(autoFlushId2, clazz);
+                return DatabaseSingleton.getInstance().getObjectByKey(autoFlushId2, clazz, true);
             }
 
             return null;

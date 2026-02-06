@@ -36,13 +36,13 @@ class Dummy6{
 
     public int val2 = 3;
 
-    public Map<String, Dummy5> getDummies5() {
+    public Map<String, Dummy7> getDummies5() {
         return dummies5;
     }
 
-    private final Map<String, Dummy5> dummies5 = new HashMap<>();
+    private final Map<String, Dummy7> dummies5 = new HashMap<>();
     public Dummy6(){
-        dummies5.put("A", new Dummy5());
+        dummies5.put("A", new Dummy7());
     }
 }
 
@@ -63,6 +63,14 @@ public class InternalMapTests {
     void simpleListAttribute(){
         DatabaseSingleton.getInstance(DataBaseTest.getConnection());
 
+        MapDict<String, Dummy6> dummies = new MapDict<>("a",String.class, Dummy6.class);
+        Dummy6 dum = dummies.createRow("S", new Dummy6());
+
+        assertTrue(dum.getDummies5().containsKey("A"));
+        assertEquals(1, dum.getDummies5().get("A").getVal());
+
+        dum.getDummies5().get("A").setVal(2);
+        assertEquals(2, dum.getDummies5().get("A").getVal());
 
 
 

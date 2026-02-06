@@ -309,7 +309,7 @@ public class OrderedList<T> implements AccessPoint<T>, List<T> {
                     row.put(columnName, value);
                 }
 
-                T instance = DatabaseSingleton.getInstance().wrap(type, row);
+                T instance = DatabaseSingleton.getInstance().wrap(type, row, true);
                 return instance;
             }
 

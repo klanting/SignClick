@@ -1,31 +1,56 @@
 import com.klanting.signclick.utils.statefullSQL.ClassFlush;
+import com.klanting.signclick.utils.statefullSQL.DatabaseSingleton;
+import com.klanting.signclick.utils.statefullSQL.access.MapDict;
 import com.klanting.signclick.utils.statefullSQL.access.OrderedList;
+import tools.DataBaseTest;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.gradle.internal.impldep.org.junit.Assert.assertEquals;
+import static org.gradle.internal.impldep.org.junit.Assert.assertTrue;
 
 
 @ClassFlush
-class Dummy{
-
-    public int hello = 4;
-    public int hello(){
-        return 1;
+class Dummy7{
+    public int getVal() {
+        return val;
     }
+
+    public void setVal(int val) {
+        this.val = val;
+    }
+
+    private int val = 1;
 
 }
 
+@ClassFlush
+class Dummy6{
+
+    public int val2 = 3;
+
+    public Map<String, Dummy7> getDummies5() {
+        return dummies5;
+    }
+
+    private final Map<String, Dummy7> dummies5 = new HashMap<>();
+    public Dummy6(){
+        dummies5.put("A", new Dummy7());
+    }
+}
 public class DatabaseChecking {
     public static void main(String[] args) throws IOException {
-        OrderedList<Dummy> dummies = new OrderedList<>("a", Dummy.class);
-        Dummy dum = dummies.createRow(new Dummy());
+        
+        MapDict<String, Dummy6> dummies = new MapDict<>("a",String.class, Dummy6.class);
+        Dummy6 dum = dummies.createRow("S", new Dummy6());
 
-        Dummy d2 = new Dummy();
-        d2.hello = 50;
-        dummies.set(0, d2);
+        assertTrue(dum.getDummies5().containsKey("A"));
+        assertEquals(1, dum.getDummies5().get("A").getVal());
 
-        assertEquals(dum.hello(), 1);
+        Dummy7 d7 = dum.getDummies5().get("A");
+        d7.setVal(2);
 
 
     }

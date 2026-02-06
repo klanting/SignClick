@@ -20,11 +20,12 @@ public class InterceptorWrap<T> {
             @Origin Method method,
             @AllArguments Object[] args) throws Exception {
 
-
         Class<?> clazz = self.getClass();
 
         Field field2 = clazz.getDeclaredField("autoFlushId");
         UUID uuid = (UUID) field2.get(self);
+
+        System.out.println("WRAP INTERCEPT "+method.getName()+" "+uuid+" "+clazz.toString());
 
         T instance = DatabaseSingleton.getInstance().getObjectByKey(uuid, clazz.getSuperclass());
 

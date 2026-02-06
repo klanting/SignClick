@@ -4,6 +4,7 @@ import com.klanting.signclick.utils.DataBase;
 import com.klanting.signclick.utils.statefullSQL.access.InterceptorWrap;
 import com.klanting.signclick.utils.statefullSQL.access.UuidFunction;
 import com.klanting.signclick.utils.statefullSQL.internal.ListWrapper;
+import com.klanting.signclick.utils.statefullSQL.internal.MapWrapper;
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
 import net.bytebuddy.implementation.MethodDelegation;
@@ -20,6 +21,7 @@ import static net.bytebuddy.matcher.ElementMatchers.named;
 import static net.bytebuddy.matcher.ElementMatchers.not;
 
 record ListInsertEntry(String variable, UUID autoFlushId2, int index, String listTableName) {}
+record MapInsertEntry(String variable, UUID autoFlushId2, String key, String mapTableName) {}
 
 public class DatabaseSingleton {
 
@@ -114,6 +116,10 @@ public class DatabaseSingleton {
     }
 
     public <T> T wrap(Class<?> clazz, @NotNull Map<String, Object> values){
+        return wrap(clazz, values, false);
+    }
+
+    public <T> T wrap(Class<?> clazz, @NotNull Map<String, Object> values, boolean ptr){
         /**
         * gets class and list of values, and initialize object with its values and autoFlushId
         * */
@@ -128,17 +134,36 @@ public class DatabaseSingleton {
         * override base object with bytebuddy
         * this doesn't intercept, but embeds autoFlushId as field to instance
         * */
-        Class<?> dynamicType = new ByteBuddy()
-                .subclass(clazz)
-                .implement(ByteBuddyEnhanced.class)
-                .defineField("autoFlushId", UUID.class, Modifier.PUBLIC)
-                .method(
-                        named("equals")
-                )
-                .intercept(MethodDelegation.to(new InterceptorWrap<T>()))
-                .make()
-                .load(clazz.getClassLoader(), ClassLoadingStrategy.Default.INJECTION)
-                .getLoaded();
+        Class<?> dynamicType;
+        if (ptr){
+            /*
+            * forwards all to interceptor
+            * */
+            dynamicType = new ByteBuddy()
+                    .subclass(clazz)
+                    .implement(ByteBuddyEnhanced.class)
+                    .defineField("autoFlushId", UUID.class, Modifier.PUBLIC)
+                    .method(
+                            not(named("clone"))
+                    )
+                    .intercept(MethodDelegation.to(new InterceptorWrap<T>()))
+                    .make()
+                    .load(clazz.getClassLoader(), ClassLoadingStrategy.Default.INJECTION)
+                    .getLoaded();
+
+        }else{
+            dynamicType = new ByteBuddy()
+                    .subclass(clazz)
+                    .implement(ByteBuddyEnhanced.class)
+                    .defineField("autoFlushId", UUID.class, Modifier.PUBLIC)
+                    .method(
+                            named("equals")
+                    )
+                    .intercept(MethodDelegation.to(new InterceptorWrap<T>()))
+                    .make()
+                    .load(clazz.getClassLoader(), ClassLoadingStrategy.Default.INJECTION)
+                    .getLoaded();
+        }
 
         assert (ByteBuddyEnhanced.class.isAssignableFrom(dynamicType));
 
@@ -202,7 +227,7 @@ public class DatabaseSingleton {
                 field.setAccessible(true);
                 if(mapJavaTypeToSQL(type) != null) {
                     field.set(instance, entry.getValue());
-                }else if(type == List.class){
+                }else if(type == List.class || type == Map.class){
                     field.set(instance, entry.getValue());
                 }else{
                     field.set(instance, deserialize(type, (String) entry.getValue()));
@@ -275,11 +300,15 @@ public class DatabaseSingleton {
     }
 
     public <T> T getObjectByKey(UUID key, Class<?> clazz){
+        return getObjectByKey(key, clazz, false);
+    }
+
+    public <T> T getObjectByKey(UUID key, Class<?> clazz, boolean ptr){
 
         assert !(ByteBuddyEnhanced.class.isAssignableFrom(clazz));
 
         Map<String, Object> values = DatabaseSingleton.getInstance().getDataByKey(key, clazz);
-        T instance = DatabaseSingleton.getInstance().wrap(clazz, values);
+        T instance = DatabaseSingleton.getInstance().wrap(clazz, values, ptr);
 
         assert instance instanceof ByteBuddyEnhanced;
 
@@ -347,6 +376,35 @@ public class DatabaseSingleton {
                     row.put(name, internalList);
 
                 }
+
+                /*
+                * load internal maps
+                * */
+                for(Field field: clazz.getDeclaredFields()){
+                    if(field.getType() != Map.class){
+                        continue;
+                    }
+
+                    if (!(field.getGenericType() instanceof ParameterizedType parameterizedType)) {
+                        continue;
+                    }
+                    Type[] typeArgs = parameterizedType.getActualTypeArguments();
+                    Type keyType = typeArgs[0];
+                    Type elementType = typeArgs[1];
+                    if (!(elementType instanceof Class<?> clazz2)) {
+                        continue;
+                    }
+                    if(!clazz2.isAnnotationPresent(ClassFlush.class)){
+                        continue;
+                    }
+                    String mapTableName = getTableName(clazz)+"_map_"+getTableName(clazz2);
+                    String name = field.getName();
+
+                    MapWrapper<Object, Object> internalList = new MapWrapper<>(mapTableName, key, clazz2, name);
+                    row.put(name, internalList);
+
+                }
+
 
                 return row;
             }
@@ -699,6 +757,7 @@ public class DatabaseSingleton {
             //TODO recursively store all storable to which we have a ptr.
 
             List<ListInsertEntry> listInsertEntries = new ArrayList<>();
+            List<MapInsertEntry> mapInsertEntries = new ArrayList<>();
 
             List<Object> values = new ArrayList<>();
 
@@ -741,6 +800,33 @@ public class DatabaseSingleton {
                         index += 1;
                     }
                 }else if (type2 == Map.class){
+                    if (!(field.getGenericType() instanceof ParameterizedType parameterizedType)) {
+                        continue;
+                    }
+
+                    Type[] typeArgs = parameterizedType.getActualTypeArguments();
+
+                    Type keyType = typeArgs[0];
+                    Type elementType = typeArgs[1];
+                    if (!(elementType instanceof Class<?> clazz2)) {
+                        continue;
+                    }
+
+                    if(!clazz2.isAnnotationPresent(ClassFlush.class)){
+                        continue;
+                    }
+                    String mapTableName = getTableName(clazz)+"_map_"+getTableName(clazz2);
+                    String variable = field.getName();
+
+                    for (Map.Entry<Object, Object> entry: ((Map<Object, Object>) field.get(entity)).entrySet()){
+
+                        Object key = entry.getKey();
+                        Object targetObj = entry.getValue();
+
+                        UUID autoFlushId2 = store(groupName, type, targetObj, storeTableFunc, false);
+
+                        mapInsertEntries.add(new MapInsertEntry(variable, autoFlushId2, key.toString(), mapTableName));
+                    }
 
                 }else{
                     values.add(serialize(type2, data));
@@ -784,6 +870,22 @@ public class DatabaseSingleton {
                 insertStmt.executeUpdate();
             }
 
+            /*
+             * make the internal map connections
+             * */
+            for (MapInsertEntry lie: mapInsertEntries){
+                String mapTableName = lie.mapTableName();
+                String insertListSql = "INSERT INTO "+mapTableName+" (variable, autoFlushId1, autoFlushId2, key) VALUES (?, ?, ?, ?)";
+
+                insertStmt = DatabaseSingleton.getInstance().getConnection().prepareStatement(insertListSql);
+                insertStmt.setString(1, lie.variable());
+                insertStmt.setObject(2, autoFlushId);
+                insertStmt.setObject(3, lie.autoFlushId2());
+                insertStmt.setString(4, lie.key());
+                insertStmt.executeUpdate();
+                System.out.println("REACHED "+insertListSql);
+            }
+
             return autoFlushId;
 
 
@@ -791,6 +893,7 @@ public class DatabaseSingleton {
             e.printStackTrace();
             throw new RuntimeException(e);
         } catch (IllegalAccessException e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
 

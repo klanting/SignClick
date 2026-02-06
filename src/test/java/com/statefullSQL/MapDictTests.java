@@ -80,6 +80,9 @@ public class MapDictTests {
         assertEquals(1, dummies.keySet().size());
         assertTrue(dummies.keySet().contains("S"));
 
+        dummies.get("S").inc();
+        assertEquals(2, dummies.get("S").hello());
+
 
     }
 

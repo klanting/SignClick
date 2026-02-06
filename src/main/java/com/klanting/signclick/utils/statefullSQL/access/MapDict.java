@@ -159,7 +159,7 @@ public class MapDict<S, T> implements AccessPoint<T>, Map<S, T> {
             return null;
         }
 
-        return DatabaseSingleton.getInstance().getObjectByKey(keyId, clazz);
+        return DatabaseSingleton.getInstance().getObjectByKey(keyId, clazz, true);
     }
 
     @Nullable
