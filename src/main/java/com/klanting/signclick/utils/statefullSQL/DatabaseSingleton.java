@@ -9,6 +9,7 @@ import com.klanting.signclick.utils.statefullSQL.internal.MapWrapper;
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
 import net.bytebuddy.implementation.MethodDelegation;
+import org.apache.commons.lang3.tuple.Pair;
 import org.gradle.internal.impldep.org.objenesis.Objenesis;
 import org.gradle.internal.impldep.org.objenesis.ObjenesisStd;
 import org.jetbrains.annotations.NotNull;
@@ -915,7 +916,7 @@ public class DatabaseSingleton {
             List<ListInsertEntry> listInsertEntries = new ArrayList<>();
             List<MapInsertEntry> mapInsertEntries = new ArrayList<>();
 
-            List<Object> values = new ArrayList<>();
+            List<Pair<String, Object>> values = new ArrayList<>();
 
             /*
             * need precomputed id, in case of import cycles
@@ -942,26 +943,26 @@ public class DatabaseSingleton {
 
                 if (type2.isAnnotationPresent(ClassFlush.class) && data != null){
                     UUID uuid = store(groupName, type, data, storeTableFunc, false, discoveredMap);
-                    values.add(uuid);
+                    values.add(Pair.of(field.getName(), uuid));
                     continue;
                 }
 
                 if (mapJavaTypeToSQL(type2) != null) {
-                    values.add(data);
+                    values.add(Pair.of(field.getName(), data));
                 }else if (List.class.isAssignableFrom(type2)){
 
                     if (!(field.getGenericType() instanceof ParameterizedType parameterizedType)) {
-                        values.add(serialize(type2, data));
+                        values.add(Pair.of(field.getName(), serialize(type2, data)));
                         continue;
                     }
                     Type[] typeArgs = parameterizedType.getActualTypeArguments();
                     Type elementType = typeArgs[0];
                     if (!(elementType instanceof Class<?> clazz2)) {
-                        values.add(serialize(type2, data));
+                        values.add(Pair.of(field.getName(), serialize(type2, data)));
                         continue;
                     }
                     if(!clazz2.isAnnotationPresent(ClassFlush.class)){
-                        values.add(serialize(type2, data));
+                        values.add(Pair.of(field.getName(), serialize(type2, data)));
                         continue;
                     }
                     String listTableName = getTableName(clazz)+"_list_"+getTableName(clazz2);
@@ -976,7 +977,7 @@ public class DatabaseSingleton {
                     }
                 }else if (Map.class.isAssignableFrom(type2)){
                     if (!(field.getGenericType() instanceof ParameterizedType parameterizedType)) {
-                        values.add(serialize(type2, data));
+                        values.add(Pair.of(field.getName(), serialize(type2, data)));
                         continue;
                     }
 
@@ -985,12 +986,12 @@ public class DatabaseSingleton {
                     Type keyType = typeArgs[0];
                     Type elementType = typeArgs[1];
                     if (!(elementType instanceof Class<?> clazz2)) {
-                        values.add(serialize(type2, data));
+                        values.add(Pair.of(field.getName(), serialize(type2, data)));
                         continue;
                     }
 
                     if(!clazz2.isAnnotationPresent(ClassFlush.class)){
-                        values.add(serialize(type2, data));
+                        values.add(Pair.of(field.getName(), serialize(type2, data)));
                         continue;
                     }
                     String mapTableName = getTableName(clazz)+"_map_"+getTableName(clazz2);
@@ -1007,7 +1008,7 @@ public class DatabaseSingleton {
                     }
 
                 }else{
-                    values.add(serialize(type2, data));
+                    values.add(Pair.of(field.getName(), serialize(type2, data)));
                 }
 
             }
@@ -1018,8 +1019,10 @@ public class DatabaseSingleton {
             String insertSql = "INSERT INTO "+getTableName(clazz)+" (" + colNames + ", autoFlushId) VALUES (" + placeholders + ", ?)";
             PreparedStatement insertStmt = connection.prepareStatement(insertSql);
 
+
             for (int i = 0; i < values.size(); i++) {
-                insertStmt.setObject(i + 1, values.get(i)); // JDBC is 1-indexed
+                assert colNames.contains(values.get(i).getLeft());
+                insertStmt.setObject(i + 1, values.get(i).getRight()); // JDBC is 1-indexed
             }
             insertStmt.setObject(values.size()+1, autoFlushId);
             insertStmt.executeUpdate();

@@ -11,6 +11,7 @@ import com.klanting.signclick.logicLayer.countryLogic.decisions.DecisionPolicy;
 import com.klanting.signclick.logicLayer.countryLogic.parties.Election;
 import com.klanting.signclick.logicLayer.countryLogic.parties.Party;
 import com.klanting.signclick.utils.JsonTools;
+import com.klanting.signclick.utils.statefullSQL.ClassFlush;
 import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
@@ -25,6 +26,7 @@ import static com.klanting.signclick.SignClick.getDynmap;
 import static com.klanting.signclick.SignClick.markerSet;
 import static com.klanting.signclick.interactionLayer.events.CountryEvents.sortTab;
 
+@ClassFlush
 public class Country {
 
     /*

@@ -43,7 +43,6 @@ public class CompanyFlushTests {
     }
 
     @Test
-    @Disabled
     void flushComTest(){
         DatabaseSingleton.getInstance(DataBaseTest.getConnection());
         DatabaseSingleton.getInstance().registerSerializer(new MaterialSerializer(Material.class));

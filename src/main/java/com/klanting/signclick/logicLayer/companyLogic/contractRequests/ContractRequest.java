@@ -1,5 +1,8 @@
 package com.klanting.signclick.logicLayer.companyLogic.contractRequests;
 
+import com.klanting.signclick.utils.statefullSQL.ClassFlush;
+
+@ClassFlush
 public abstract class ContractRequest {
 
     protected double amount;
