@@ -2,7 +2,6 @@ package com.klanting.signclick.utils.statefullSQL.access;
 
 
 import com.klanting.signclick.utils.statefullSQL.DatabaseSingleton;
-import io.ebeaninternal.server.util.Str;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.*;
@@ -14,11 +13,22 @@ public class OrderedList<T> implements AccessPoint<T>, List<T> {
     private final Class<T> type;
     private final String groupName;
 
+    public void decrModCount(){
+        modCount -= 1;
+    }
+
+    public int getModCount() {
+        return modCount;
+    }
+
+    private int modCount = 0;
+
     public OrderedList(String name, Class<T> type) {
         this.type = type;
         this.groupName = name;
         DatabaseSingleton.getInstance().checkSetupTable(name, "OrderedList");
         DatabaseSingleton.getInstance().checkTable(type, new ArrayList<>());
+        DatabaseSingleton.getInstance().registerAccessedClass("OrderedList_"+groupName, type);
     }
 
     public void storeInTable(UUID autoFlushId) throws SQLException{
@@ -96,7 +106,7 @@ public class OrderedList<T> implements AccessPoint<T>, List<T> {
     @NotNull
     @Override
     public Iterator<T> iterator() {
-        return new AccessIterator<T>(groupName, type);
+        return new AccessIterator<T>(groupName, type, this);
     }
 
     @NotNull
@@ -143,6 +153,7 @@ public class OrderedList<T> implements AccessPoint<T>, List<T> {
     @Override
     public boolean add(T t) {
         createRow(t);
+        modCount++;
         return true;
     }
 
@@ -207,8 +218,9 @@ public class OrderedList<T> implements AccessPoint<T>, List<T> {
         }
 
         DatabaseSingleton.getInstance().checkDelete(uuid, type);
+        modCount++;
 
-        return false;
+        return true;
     }
 
     @Override
@@ -412,6 +424,7 @@ public class OrderedList<T> implements AccessPoint<T>, List<T> {
             /*
              * Go over each loaded row
              * */
+
             while (rs.next()) {
                 Map<String, Object> row = new HashMap<>();
 

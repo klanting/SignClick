@@ -41,7 +41,8 @@ public class InterceptorWrap<T> {
 
                 return thisUuid.equals(otherUuid);
             } catch (NoSuchFieldException | IllegalAccessException e) {
-                throw new RuntimeException(e);
+                //TODO the direction should depend on which option is missing the field
+                return other.equals(instance);
             }
         }
 

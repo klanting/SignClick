@@ -25,6 +25,17 @@ record MapInsertEntry(String variable, UUID autoFlushId2, String key, String map
 
 public class DatabaseSingleton {
 
+    private final Map<String, Class<?>> accessedMap = new HashMap<>();
+
+    public void registerAccessedClass(String key, Class<?> clazz){
+
+        if (accessedMap.containsKey(key) && accessedMap.get(key) != clazz){
+            throw new RuntimeException("Can't access 2 different classes with same group name");
+        }
+
+        accessedMap.put(key, clazz);
+    }
+
     private final List<SQLSerializer> serializers = new ArrayList<>();
 
     public void registerSerializer(SQLSerializer serializer){
