@@ -273,7 +273,7 @@ public class DatabaseSingleton {
                             .load(clazz.getClassLoader(), ClassLoadingStrategy.Default.INJECTION)
                             .getLoaded();
 
-                    Object obj = dynamicType2.getDeclaredConstructor().newInstance();
+                    Object obj  = objenesis.newInstance(dynamicType2);
                     dynamicType2.getField("autoFlushId").set(obj, entry.getValue());
 
                     field.setAccessible(true);
@@ -297,7 +297,7 @@ public class DatabaseSingleton {
                     field.set(instance, entry.getValue());
                 }else if(type == List.class || type == Map.class){
                     field.set(instance, entry.getValue());
-                }else if (entry.getValue().getClass() == String.class){
+                }else if (entry.getValue() != null && entry.getValue().getClass() == String.class){
                     field.set(instance, deserialize(type, (String) entry.getValue()));
                 }else{
                     field.set(instance, entry.getValue());
@@ -306,14 +306,8 @@ public class DatabaseSingleton {
             } catch (NoSuchFieldException e) {
                 e.printStackTrace();
                 throw new RuntimeException(e);
-            } catch (InvocationTargetException e) {
-                throw new RuntimeException(e);
-            } catch (InstantiationException e) {
-                throw new RuntimeException(e);
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
-                throw new RuntimeException(e);
-            } catch (NoSuchMethodException e) {
                 throw new RuntimeException(e);
             }
         }
@@ -426,7 +420,7 @@ public class DatabaseSingleton {
                     }
 
                     Field field = getADeclaredField(clazz, columnName);
-                    if (value.getClass() == String.class && field.getType() != String.class){
+                    if (value != null && value.getClass() == String.class && field.getType() != String.class){
                         row.put(columnName, DatabaseSingleton.getInstance().deserialize(field.getType(), (String) value));
                     }else{
                         row.put(columnName, value);
@@ -1177,7 +1171,9 @@ public class DatabaseSingleton {
             }
 
             for (int i = 0; i < values.size(); i++) {
-                if (mapJavaTypeToSQL(values.get(i).getClass()) != null){
+                if(values.get(i) == null) {
+                    insertStmt.setNull(i + 1, Types.OTHER);
+                }else if (mapJavaTypeToSQL(values.get(i).getClass()) != null){
                     insertStmt.setObject(i + 1, values.get(i)); // JDBC is 1-indexed
                 }else{
                     insertStmt.setString(i + 1, serialize(values.get(i).getClass(), values.get(i)));

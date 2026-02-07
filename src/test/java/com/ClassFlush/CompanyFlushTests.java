@@ -57,6 +57,12 @@ public class CompanyFlushTests {
         companies.add(preComp);
 
         assertEquals(1, companies.size());
+
+        Company company = companies.get(0);
+
+        assertEquals(1000.0, company.getBal(), 0.01);
+        company.getCOM().getBoard().setBoardSeats(10);
+        assertEquals(10, company.getCOM().getBoard().getBoardSeats());
     }
 
 
