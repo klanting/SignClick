@@ -139,11 +139,14 @@ public class DatabaseSingleton {
         if (type == int.class) return "INTEGER";
         if (type == Integer.class) return "INTEGER";
         if (type == long.class) return "BIGINT";
+        if (type == Long.class) return "BIGINT";
         if (type == short.class) return "SMALLINT";
+        if (type == Short.class) return "SMALLINT";
         if (type == byte.class) return "SMALLINT";
         if (type == boolean.class) return "BOOLEAN";
         if (type == Boolean.class) return "BOOLEAN";
         if (type == float.class) return "REAL";
+        if (type == Float.class) return "REAL";
         if (type == double.class) return "DOUBLE PRECISION";
         if (type == Double.class) return "DOUBLE PRECISION";
         if (type == char.class) return "CHAR(1)";

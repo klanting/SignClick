@@ -1,12 +1,14 @@
 package com.klanting.signclick.logicLayer.companyLogic.upgrades;
 
 import com.klanting.signclick.SignClick;
+import com.klanting.signclick.utils.statefullSQL.ClassFlush;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@ClassFlush
 public class UpgradePatentUpgradeSlot extends Upgrade{
     public UpgradePatentUpgradeSlot(Integer level) {
         super(level, 1);

@@ -1,10 +1,12 @@
 package com.klanting.signclick.logicLayer.companyLogic.upgrades;
 
+import com.klanting.signclick.utils.statefullSQL.ClassFlush;
 import org.bukkit.Material;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@ClassFlush
 abstract public class Upgrade {
     public List<Integer> bonus = new ArrayList<>();
     public List<Integer> upgradeCost = new ArrayList<>();

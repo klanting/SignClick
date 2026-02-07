@@ -2,12 +2,14 @@ package com.klanting.signclick.logicLayer.companyLogic.upgrades;
 
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.logicLayer.companyLogic.CompanyI;
+import com.klanting.signclick.utils.statefullSQL.ClassFlush;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@ClassFlush
 public class UpgradeBoardSize extends Upgrade{
 
     public CompanyI comp;
