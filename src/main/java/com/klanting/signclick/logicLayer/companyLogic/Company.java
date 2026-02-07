@@ -372,7 +372,7 @@ public class Company extends LoggableSubject implements CompanyI{
                             break;
                         case "research":
                             research = context.deserialize(element, new TypeToken<Research>(){}.getType());
-                            research.company = this.getRef();
+                            research.setCompany(this.getRef());
                             break;
                     }
 

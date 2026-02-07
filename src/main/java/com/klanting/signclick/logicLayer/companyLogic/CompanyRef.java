@@ -9,10 +9,12 @@ import com.klanting.signclick.logicLayer.companyLogic.contractRequests.ContractR
 import com.klanting.signclick.logicLayer.countryLogic.Country;
 import com.klanting.signclick.logicLayer.companyLogic.logs.PluginLogs;
 import com.klanting.signclick.utils.BlockPosKey;
+import com.klanting.signclick.utils.statefullSQL.ClassFlush;
 import org.bukkit.entity.Player;
 
 import java.util.*;
 
+@ClassFlush
 public class CompanyRef implements CompanyI{
 
     private CompanyI comp;

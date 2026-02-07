@@ -4,6 +4,7 @@ import com.klanting.signclick.logicLayer.companyLogic.producible.License;
 import com.klanting.signclick.logicLayer.companyLogic.logs.itemLogEntry;
 import com.klanting.signclick.logicLayer.companyLogic.producible.Product;
 import com.klanting.signclick.utils.BlockPosKey;
+import com.klanting.signclick.utils.statefullSQL.ClassFlush;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -16,12 +17,8 @@ import java.util.HashMap;
 
 import static com.klanting.signclick.utils.Utils.AssertMet;
 
+@ClassFlush
 public class Machine {
-
-
-    public boolean isFrozenByFunds() {
-        return frozenByFunds;
-    }
 
     private boolean frozenByFunds = false;
 
@@ -29,6 +26,24 @@ public class Machine {
     * productionCount == -1 -> inf production
     * */
     private int productionCount = 0;
+
+    public ItemStack[] results = new ItemStack[3];
+
+    private Product product;
+
+    private License license;
+
+    private final String compName;
+
+    public boolean frozenByMachineFull = false;
+
+    public boolean hopperAllowed = false;
+
+    private BlockPosKey blockPosKey;
+
+    public boolean isFrozenByFunds() {
+        return frozenByFunds;
+    }
 
     public void changeProductionCount(int amount){
         /*
@@ -88,26 +103,13 @@ public class Machine {
         productionCount = productionCount == -1 ? 0: -1;
     }
 
-
-    public ItemStack[] results = new ItemStack[3];
-
     public Product getProduct() {
         return product;
     }
 
-    private Product product;
-
     public License getLicense() {
         return license;
     }
-
-    private License license;
-
-    private final String compName;
-
-    public boolean frozenByMachineFull = false;
-
-    public boolean hopperAllowed = false;
 
     public int getProductionProgress() {
         return (int) productionProgress;
@@ -133,8 +135,6 @@ public class Machine {
         return (new Location(Bukkit.getServer().getWorld(blockPosKey.world()),
                 blockPosKey.x(), blockPosKey.y(), blockPosKey.z())).getBlock();
     }
-
-    private BlockPosKey blockPosKey;
 
     public void setBlockPosKey(BlockPosKey blockPosKey){
         this.blockPosKey = blockPosKey;

@@ -762,11 +762,6 @@ public class DatabaseSingleton {
                 if (!blackList.contains(type)){
                     checkTable(type, blackList);
 
-                    foreignKeys.add(String.format("""
-                        CONSTRAINT fk_%s
-                                FOREIGN KEY (%s) REFERENCES %s
-                                ON DELETE SET NULL
-                        """, columnName, columnName, type.getSimpleName()+"(autoFlushId)"));
                 }
 
                 columns.add("\""+columnName+"\""+ " UUID");

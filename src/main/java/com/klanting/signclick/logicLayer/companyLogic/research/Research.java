@@ -22,7 +22,11 @@ public class Research {
 
     private long lastChecked;
 
-    public transient CompanyI company;
+    private transient CompanyI company;
+
+    public void setCompany(CompanyI company) {
+        this.company = company;
+    }
 
 
     public List<ResearchOption> getResearchOptions() {
