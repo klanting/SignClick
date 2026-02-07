@@ -158,6 +158,27 @@ public class DatabaseSingleton {
         return wrap(clazz, values, false);
     }
 
+    public Class<?> getRealClass(UUID autoFlushId){
+        /*
+         * get real class type
+         * */
+        String sql = "SELECT * FROM StatefullSQLLookupTable WHERE autoFlushID = ?";
+        try {
+            PreparedStatement stmt = DatabaseSingleton.getInstance().getConnection().prepareStatement(sql);
+            stmt.setObject(1, autoFlushId);
+            ResultSet rs = stmt.executeQuery();
+            boolean suc6 = rs.next();
+            assert suc6;
+            String className = rs.getString("className");
+            return Class.forName(className);
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
     public <T> T wrap(Class<?> clazz, @NotNull Map<String, Object> values, boolean ptr){
         /**
         * gets class and list of values, and initialize object with its values and autoFlushId
@@ -229,7 +250,7 @@ public class DatabaseSingleton {
                 /*
                 * get target field from base clazz
                 * */
-                Field field = clazz.getDeclaredField(entry.getKey());
+                Field field = getADeclaredField(clazz, entry.getKey());
 
                 Class<?> type = field.getType();
 
@@ -403,7 +424,7 @@ public class DatabaseSingleton {
                         continue;
                     }
 
-                    Field field = clazz.getDeclaredField(columnName);
+                    Field field = getADeclaredField(clazz, columnName);
                     if (value.getClass() == String.class && field.getType() != String.class){
                         row.put(columnName, DatabaseSingleton.getInstance().deserialize(field.getType(), (String) value));
                     }else{
@@ -414,7 +435,7 @@ public class DatabaseSingleton {
                 /*
                 * load internal lists
                 * */
-                for(Field field: clazz.getDeclaredFields()){
+                for(Field field: getAllDeclaredFields(clazz)){
                     if(field.getType() != List.class){
                         continue;
                     }
@@ -441,7 +462,7 @@ public class DatabaseSingleton {
                 /*
                 * load internal maps
                 * */
-                for(Field field: clazz.getDeclaredFields()){
+                for(Field field: getAllDeclaredFields(clazz)){
                     if(field.getType() != Map.class){
                         continue;
                     }
@@ -477,6 +498,7 @@ public class DatabaseSingleton {
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (NoSuchFieldException e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
 
@@ -526,6 +548,25 @@ public class DatabaseSingleton {
     }
 
     public void checkSetupTable(String name, String type){
+
+        if(!tableExists("StatefullSQLLookupTable")){
+            String tableCreation = String.format("""
+                        CREATE TABLE %s (
+                        autoFlushId UUID PRIMARY KEY,
+                        className VARCHAR NOT NULL
+                        );
+                        """, "StatefullSQLLookupTable");
+
+            try {
+                PreparedStatement stmt = connection.prepareStatement(tableCreation);
+
+                stmt.executeUpdate();
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+        }
 
         if (!tableExists("StatefullSQL")){
             String tableCreation = String.format("""
@@ -728,7 +769,7 @@ public class DatabaseSingleton {
 
         List<String> columns = new ArrayList<>();
         List<String> foreignKeys = new ArrayList<>();
-        Field[] fields = clazz.getDeclaredFields(); // all fields declared in the class
+        List<Field> fields = getAllDeclaredFields(clazz); // all fields declared in the class
         for (Field field : fields) {
             Class<?> type = field.getType();
             String columnName = field.getName();
@@ -807,6 +848,31 @@ public class DatabaseSingleton {
         return store(groupName, type, entity, storeTableFunc, storeInTable, new HashMap<>());
     }
 
+    public static List<Field> getAllDeclaredFields(Class<?> clazz) {
+        List<Field> fields = new ArrayList<>();
+
+        while (clazz != null && clazz != Object.class && clazz.isAnnotationPresent(ClassFlush.class)) {
+            fields.addAll(Arrays.asList(clazz.getDeclaredFields()));
+            clazz = clazz.getSuperclass();
+        }
+
+        return fields;
+    }
+
+    public static Field getADeclaredField(Class<?> clazz, String fieldName) throws NoSuchFieldException {
+
+        while (clazz != null && clazz != Object.class) {
+            try{
+                Field field = clazz.getDeclaredField(fieldName);
+                return field;
+            }catch (NoSuchFieldException e){
+                clazz = clazz.getSuperclass();
+            }
+
+        }
+        throw new NoSuchFieldException("NO field "+fieldName);
+    }
+
     public <T> UUID store(String groupName, String type, T entity, UuidFunction storeTableFunc, boolean storeInTable, Map<Object, UUID> discoveredMap) {
         if (storeInTable){
             checkSetupTable(groupName, type);
@@ -857,7 +923,7 @@ public class DatabaseSingleton {
             UUID autoFlushId = UUID.randomUUID();
             discoveredMap.put(entity, autoFlushId);
 
-            for (Field field: clazz.getDeclaredFields()){
+            for (Field field: getAllDeclaredFields(clazz)){
                 field.setAccessible(true);
 
                 Class<?> type2 = field.getType();
@@ -956,8 +1022,18 @@ public class DatabaseSingleton {
                 insertStmt.setObject(i + 1, values.get(i)); // JDBC is 1-indexed
             }
             insertStmt.setObject(values.size()+1, autoFlushId);
-            System.out.println("INSERT "+insertStmt+" "+clazz);
             insertStmt.executeUpdate();
+
+            /*
+            * add class to lookup table
+            * */
+            insertSql = "INSERT INTO StatefullSQLLookupTable (className, autoFlushId) VALUES (?, ?)";
+            insertStmt = connection.prepareStatement(insertSql);
+
+            insertStmt.setObject(1, entity.getClass().getName());
+            insertStmt.setObject(2, autoFlushId);
+            insertStmt.executeUpdate();
+
 
             if (storeInTable){
                 storeTableFunc.apply(autoFlushId);
@@ -1059,7 +1135,7 @@ public class DatabaseSingleton {
                     continue;
                 }
 
-                Field field = clazz.getDeclaredField(columnName);
+                Field field = getADeclaredField(clazz, columnName);
                 field.setAccessible(true);
                 Class<?> type = field.getType();
                 if (type.isAnnotationPresent(ClassFlush.class) && field.get(entity) != null){
@@ -1090,7 +1166,7 @@ public class DatabaseSingleton {
             List<Object> values = new ArrayList<>();
 
             for (String column: columns){
-                Field field = clazz.getDeclaredField(column.substring(1, column.length()-1));
+                Field field = getADeclaredField(clazz, column.substring(1, column.length()-1));
                 field.setAccessible(true);
 
                 Object data = field.get(entity);

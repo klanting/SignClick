@@ -297,7 +297,31 @@ public class OrderedList<T> implements AccessPoint<T>, List<T> {
 
     @Override
     public T get(int index) {
-        String tableName = type.getSimpleName().toLowerCase();
+
+
+        String findAutoFlushId = "SELECT o.autoFlushId FROM statefullSQL" + "OrderedList" +" o JOIN StatefullSQL s ON o.id = s.id WHERE s.groupname = ? AND o.index = ?";
+
+        Class<?> realClass;
+        try {
+            PreparedStatement stmt = DatabaseSingleton.getInstance().getConnection().prepareStatement(findAutoFlushId);
+            stmt.setString(1, groupName);
+            stmt.setInt(2, index);
+
+            ResultSet rs = stmt.executeQuery();
+
+            boolean suc6 = rs.next();
+            assert suc6;
+
+            UUID autoFlushId = (UUID) rs.getObject("autoflushid");
+            realClass = DatabaseSingleton.getInstance().getRealClass(autoFlushId);
+
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+
+        String tableName = DatabaseSingleton.getTableName(realClass);
+
         String sql = "SELECT t.* FROM " + tableName+ " t JOIN statefullSQL" + "OrderedList" +" o ON t.autoflushid = o.autoflushid JOIN StatefullSQL s ON o.id = s.id WHERE s.groupname = ? AND o.index = ?";
 
         try {
@@ -325,7 +349,7 @@ public class OrderedList<T> implements AccessPoint<T>, List<T> {
                         continue;
                     }
 
-                    Field field = type.getDeclaredField(columnName);
+                    Field field = DatabaseSingleton.getADeclaredField(realClass, columnName);
                     if (value.getClass() == String.class && field.getType() != String.class){
                         row.put(columnName, DatabaseSingleton.getInstance().deserialize(field.getType(), (String) value));
                     }else{
@@ -333,7 +357,7 @@ public class OrderedList<T> implements AccessPoint<T>, List<T> {
                     }
                 }
 
-                T instance = DatabaseSingleton.getInstance().wrap(type, row, true);
+                T instance = DatabaseSingleton.getInstance().wrap(realClass, row, true);
                 return instance;
             }
 
