@@ -3,6 +3,8 @@ package com.klanting.signclick.utils.statefullSQL;
 import com.klanting.signclick.utils.DataBase;
 import com.klanting.signclick.utils.statefullSQL.access.InterceptorWrap;
 import com.klanting.signclick.utils.statefullSQL.access.UuidFunction;
+import com.klanting.signclick.utils.statefullSQL.defaultSerializers.IntSerializer;
+import com.klanting.signclick.utils.statefullSQL.defaultSerializers.UUIDSerializer;
 import com.klanting.signclick.utils.statefullSQL.internal.ListWrapper;
 import com.klanting.signclick.utils.statefullSQL.internal.MapWrapper;
 import net.bytebuddy.ByteBuddy;
@@ -48,7 +50,7 @@ public class DatabaseSingleton {
                 return s.serialize(value);
             }
         }
-        return null;
+        throw new RuntimeException("Serialized doesn't exist for "+type);
     }
 
     public <S> boolean hasSerializer(Class<S> type){
@@ -66,7 +68,7 @@ public class DatabaseSingleton {
                 return (S) s.deserialize(value);
             }
         }
-        return null;
+        throw new RuntimeException("Serialized doesn't exist for "+type);
     }
 
 
@@ -90,10 +92,17 @@ public class DatabaseSingleton {
 
         DataBase db = new DataBase(URL, USER, PASSWORD);
         this.connection = db.getConnection();
+        initSerializers();
     }
 
     private DatabaseSingleton(Connection connection) {
         this.connection = connection;
+        initSerializers();
+    }
+
+    private void initSerializers(){
+        serializers.add(new UUIDSerializer(UUID.class));
+        serializers.add(new IntSerializer(Integer.class));
     }
 
     public static DatabaseSingleton getInstance() {

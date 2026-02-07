@@ -13,6 +13,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import tools.DataBaseTest;
 
+import java.util.Set;
+import java.util.UUID;
+
 import static org.gradle.internal.impldep.org.junit.Assert.*;
 
 
@@ -113,6 +116,91 @@ public class MapDictTests {
         * */
         dummies.remove("B");
         assertEquals(1, dummies.size());
+    }
+
+    @Test
+    void intAsKeyTests(){
+        /*
+         * check that contains key works correctly, when an integer is the key
+         * */
+        DatabaseSingleton.getInstance(DataBaseTest.getConnection());
+
+        MapDict<Integer, MapDummy> dummies = new MapDict<>("a",Integer.class, MapDummy.class);
+        MapDummy preDum = new MapDummy();
+
+        dummies.put(1, preDum);
+        MapDummy dummy = dummies.get(1);
+
+        assertNotNull(dummy);
+        assertEquals(1, dummy.hello());
+
+        assertTrue(dummies.containsKey(1));
+
+        /*
+        * check key set
+        * */
+        Set<Integer> integers = dummies.keySet();
+        assertEquals(1, integers.size());
+        assertTrue(integers.contains(1));
+
+    }
+
+    @Test
+    void UUIDAsKeyTests(){
+        /*
+         * check that contains key works correctly, when an integer is the key
+         * */
+        DatabaseSingleton.getInstance(DataBaseTest.getConnection());
+
+        MapDict<UUID, MapDummy> dummies = new MapDict<>("a",UUID.class, MapDummy.class);
+        MapDummy preDum = new MapDummy();
+
+        UUID uuid = UUID.randomUUID();
+
+        dummies.put(uuid, preDum);
+        MapDummy dummy = dummies.get(uuid);
+
+        assertNotNull(dummy);
+        assertEquals(1, dummy.hello());
+
+        assertTrue(dummies.containsKey(uuid));
+
+        /*
+         * check key set
+         * */
+        Set<UUID> uuids = dummies.keySet();
+        assertEquals(1, uuids.size());
+        assertTrue(uuids.contains(uuid));
+
+    }
+
+    @Test
+    void containsKeyTests(){
+        /*
+        * check that contains key works correctly
+        * */
+        DatabaseSingleton.getInstance(DataBaseTest.getConnection());
+
+        MapDict<String, MapDummy> dummies = new MapDict<>("a",String.class, MapDummy.class);
+        MapDummy preDum = new MapDummy();
+
+        dummies.put("A", preDum);
+        assertTrue(dummies.containsKey("A"));
+    }
+
+    @Test
+    void containsValueTests(){
+        /*
+         * check that contains key works correctly
+         * */
+        DatabaseSingleton.getInstance(DataBaseTest.getConnection());
+
+        MapDict<String, MapDummy> dummies = new MapDict<>("a",String.class, MapDummy.class);
+        MapDummy preDum = new MapDummy();
+
+        dummies.put("A", preDum);
+        MapDummy dum = dummies.get("A");
+        assertTrue(dummies.containsValue(dum));
     }
 
 }

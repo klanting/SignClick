@@ -228,7 +228,7 @@ public class MapDict<S, T> implements AccessPoint<T>, Map<S, T> {
             ResultSet rs = ps.executeQuery();
             while (rs.next()){
                 String key = rs.getString("key");
-                if (keyClazz == String.class){
+                if (keyClazz == String.class) {
                     keys.add((S) key);
                 }else{
                     keys.add(DatabaseSingleton.getInstance().deserialize(keyClazz, key));
