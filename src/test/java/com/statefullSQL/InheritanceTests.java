@@ -49,6 +49,24 @@ class DummyChild extends DummyParent{
 
 }
 
+@ClassFlush
+class DummyPtr extends DummyParent{
+    public DummyParent getValPtr() {
+        return valPtr;
+    }
+
+    public void setValPtr(DummyParent valPtr) {
+        this.valPtr = valPtr;
+    }
+
+    private DummyParent valPtr;
+
+    public DummyPtr(){
+        valPtr = new DummyChild();
+    }
+
+}
+
 public class InheritanceTests {
     @BeforeEach
     public void setUp() throws Exception {
@@ -72,6 +90,24 @@ public class InheritanceTests {
         assertNotNull(dc);
         assertEquals(2, dc.getValc());
         assertEquals(1, dc.getValp());
+
+        dc.setValp(15);
+        assertEquals(15, dc.getValp());
+
+        dc.setValc(9);
+        assertEquals(9, dc.getValc());
+    }
+
+    @Test
+    void simpleDerivedPtrTest(){
+        DatabaseSingleton.getInstance(DataBaseTest.getConnection());
+
+        OrderedList<DummyPtr> dummies = new OrderedList<>("a",DummyPtr.class);
+        dummies.add(new DummyPtr());
+
+        DummyPtr ptr = dummies.get(0);
+
+        assertEquals(1, ptr.getValPtr().getValp());
     }
 
 }
