@@ -116,6 +116,7 @@ public class DatabaseSingleton {
         serializers.add(new MapSerializer(Map.class));
         serializers.add(new ListSerializer(List.class));
         serializers.add(new StringSerializer(String.class));
+        serializers.add(new DoubleSerializer(Double.class));
     }
 
     public static DatabaseSingleton getInstance() {
@@ -144,6 +145,7 @@ public class DatabaseSingleton {
         if (type == Boolean.class) return "BOOLEAN";
         if (type == float.class) return "REAL";
         if (type == double.class) return "DOUBLE PRECISION";
+        if (type == Double.class) return "DOUBLE PRECISION";
         if (type == char.class) return "CHAR(1)";
         if (type == String.class) return "VARCHAR";
         return null;
@@ -761,7 +763,6 @@ public class DatabaseSingleton {
             }else if (type.isAnnotationPresent(ClassFlush.class)){
                 if (!blackList.contains(type)){
                     checkTable(type, blackList);
-
                 }
 
                 columns.add("\""+columnName+"\""+ " UUID");
@@ -859,6 +860,9 @@ public class DatabaseSingleton {
                 Class<?> type2 = field.getType();
 
                 Object data = field.get(entity);
+                if (data != null){
+                    type2 = data.getClass();
+                }
 
                 /*
                 * special java thigns such as $assertion
@@ -875,7 +879,7 @@ public class DatabaseSingleton {
 
                 if (mapJavaTypeToSQL(type2) != null) {
                     values.add(data);
-                }else if (type2 == List.class){
+                }else if (List.class.isAssignableFrom(type2)){
 
                     if (!(field.getGenericType() instanceof ParameterizedType parameterizedType)) {
                         values.add(serialize(type2, data));
@@ -896,12 +900,12 @@ public class DatabaseSingleton {
 
                     int index = 0;
                     for (Object targetObj: (List<Object>) field.get(entity)){
-                        UUID autoFlushId2 = store(groupName, type, targetObj, storeTableFunc, false);
+                        UUID autoFlushId2 = store(groupName, type, targetObj, storeTableFunc, false, discoveredMap);
 
                         listInsertEntries.add(new ListInsertEntry(variable, autoFlushId2, index, listTableName));
                         index += 1;
                     }
-                }else if (type2 == Map.class){
+                }else if (Map.class.isAssignableFrom(type2)){
                     if (!(field.getGenericType() instanceof ParameterizedType parameterizedType)) {
                         values.add(serialize(type2, data));
                         continue;
@@ -928,7 +932,7 @@ public class DatabaseSingleton {
                         Object key = entry.getKey();
                         Object targetObj = entry.getValue();
 
-                        UUID autoFlushId2 = store(groupName, type, targetObj, storeTableFunc, false);
+                        UUID autoFlushId2 = store(groupName, type, targetObj, storeTableFunc, false, discoveredMap);
 
                         mapInsertEntries.add(new MapInsertEntry(variable, autoFlushId2, key.toString(), mapTableName));
                     }
@@ -949,7 +953,7 @@ public class DatabaseSingleton {
                 insertStmt.setObject(i + 1, values.get(i)); // JDBC is 1-indexed
             }
             insertStmt.setObject(values.size()+1, autoFlushId);
-
+            System.out.println("INSERT "+insertStmt+" "+clazz);
             insertStmt.executeUpdate();
 
             if (storeInTable){
@@ -1148,7 +1152,8 @@ public class DatabaseSingleton {
                     .load(clazz.getClassLoader(), ClassLoadingStrategy.Default.INJECTION)
                     .getLoaded();
 
-            T obj = dynamicType.getDeclaredConstructor().newInstance();
+            Objenesis objenesis = new ObjenesisStd();
+            T obj  = (T) objenesis.newInstance(dynamicType);
             dynamicType.getField("autoFlushId").set(obj, id);
             return obj;
 

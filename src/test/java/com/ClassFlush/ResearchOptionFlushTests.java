@@ -7,6 +7,7 @@ import com.klanting.signclick.logicLayer.companyLogic.Company;
 import com.klanting.signclick.logicLayer.companyLogic.CompanyRef;
 import com.klanting.signclick.logicLayer.companyLogic.Market;
 import com.klanting.signclick.logicLayer.companyLogic.research.Research;
+import com.klanting.signclick.logicLayer.companyLogic.research.ResearchOption;
 import com.klanting.signclick.utils.statefullSQL.DatabaseSingleton;
 import com.klanting.signclick.utils.statefullSQL.access.OrderedList;
 import com.klanting.signclick.utils.statefullSQLSerializers.MaterialSerializer;
@@ -23,7 +24,7 @@ import tools.ExpandedServerMock;
 import tools.TestTools;
 import static org.gradle.internal.impldep.org.junit.Assert.*;
 
-public class CompanyFlushTests {
+public class ResearchOptionFlushTests {
     private ServerMock server;
     private SignClick plugin;
     @BeforeEach
@@ -43,21 +44,19 @@ public class CompanyFlushTests {
     }
 
     @Test
-    @Disabled
-    void flushComTest(){
+    void flushResearchOptionTest(){
         DatabaseSingleton.getInstance(DataBaseTest.getConnection());
         DatabaseSingleton.getInstance().registerSerializer(new MaterialSerializer(Material.class));
         DatabaseSingleton.getInstance().registerSerializer(new PairSerializer(Pair.class));
 
-        OrderedList<Company> companies = new OrderedList<>("a", Company.class);
+        OrderedList<ResearchOption> researchOptions = new OrderedList<>("a", ResearchOption.class);
 
         Player player = TestTools.addPermsPlayer(server, plugin);
 
-        Company preComp = new Company("AAA", "AAA", Market.getAccount(player.getUniqueId()),
-                1000, "Miscellaneous");
-        companies.add(preComp);
+        ResearchOption option = new ResearchOption(new CompanyRef("AA"), Material.TORCH);
+        researchOptions.add(option);
 
-        assertEquals(1, companies.size());
+        assertEquals(1, researchOptions.size());
     }
 
 
