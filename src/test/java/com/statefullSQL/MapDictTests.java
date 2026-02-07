@@ -83,7 +83,36 @@ public class MapDictTests {
         dummies.get("S").inc();
         assertEquals(2, dummies.get("S").hello());
 
+    }
 
+    @Test
+    void sizeTests(){
+        DatabaseSingleton.getInstance(DataBaseTest.getConnection());
+
+        MapDict<String, MapDummy> dummies = new MapDict<>("a",String.class, MapDummy.class);
+        MapDummy preDum = new MapDummy();
+
+        assertTrue(dummies.isEmpty());
+        assertEquals(0, dummies.size());
+
+        dummies.put("A", preDum);
+        dummies.put("B", preDum);
+
+        assertEquals(2, dummies.size());
+        assertFalse(dummies.isEmpty());
+
+        /*
+        * override element
+        * */
+        MapDummy preDum2 = new MapDummy();
+        dummies.put("B", preDum2);
+        assertEquals(2, dummies.size());
+
+        /*
+        * pop element
+        * */
+        dummies.remove("B");
+        assertEquals(1, dummies.size());
     }
 
 }

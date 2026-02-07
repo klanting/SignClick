@@ -203,6 +203,9 @@ public class OrderedListTests {
 
         assertEquals(1, dummies.indexOf(dum2));
         assertEquals(2, dummies.get(1).hello());
+
+        dummies.clear();
+        assertTrue(dummies.isEmpty());
     }
 
     @Test
@@ -441,6 +444,57 @@ public class OrderedListTests {
         }
         assertTrue(throwsError);
 
+    }
+
+    @Test
+    void addAllTest(){
+        DatabaseSingleton.getInstance(DataBaseTest.getConnection());
+        OrderedList<Dummy2> dummies = new OrderedList<>("a",Dummy2.class);
+
+        Dummy2 preDum = new Dummy2();
+        Dummy2 preDum2 = new Dummy2();
+        preDum2.inc();
+        Dummy2 preDum3 = new Dummy2();
+        preDum3.inc();
+        preDum3.inc();
+        List<Dummy2> preDumList = List.of(preDum, preDum2, preDum3);
+
+        dummies.addAll(preDumList);
+
+        assertEquals(3, dummies.size());
+        assertEquals(1, preDumList.get(0).hello());
+        assertEquals(2, preDumList.get(1).hello());
+        assertEquals(3, preDumList.get(2).hello());
+
+    }
+
+    @Test
+    void retainAllTest(){
+        DatabaseSingleton.getInstance(DataBaseTest.getConnection());
+        OrderedList<Dummy2> dummies = new OrderedList<>("a",Dummy2.class);
+
+        Dummy2 preDum = new Dummy2();
+        Dummy2 preDum2 = new Dummy2();
+        preDum2.inc();
+        Dummy2 preDum3 = new Dummy2();
+        preDum3.inc();
+        preDum3.inc();
+        Dummy2 preDum4 = new Dummy2();
+        preDum4.inc();
+        preDum4.inc();
+        preDum4.inc();
+
+        dummies.add(preDum);
+        dummies.add(preDum2);
+        dummies.add(preDum3);
+        dummies.add(preDum4);
+
+        List<Dummy2> retainList = List.of(dummies.get(1), dummies.get(2), new Dummy2());
+
+        dummies.retainAll(retainList);
+        assertEquals(2, dummies.size());
+        assertEquals(2, dummies.get(0).hello());
+        assertEquals(3, dummies.get(1).hello());
     }
 
 }

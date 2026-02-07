@@ -89,7 +89,7 @@ public class MapDict<S, T> implements AccessPoint<T>, Map<S, T> {
 
     @Override
     public boolean isEmpty() {
-        return size() != 0;
+        return size() == 0;
     }
 
     @Override
