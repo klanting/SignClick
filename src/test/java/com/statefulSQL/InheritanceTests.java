@@ -8,6 +8,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import tools.DataBaseTest;
 
+import java.util.Map;
+
 import static org.gradle.internal.impldep.org.testng.AssertJUnit.assertEquals;
 import static org.gradle.internal.impldep.org.testng.AssertJUnit.assertNotNull;
 
@@ -62,6 +64,22 @@ class DummyPtr extends DummyParent{
 
     public DummyPtr(){
         valPtr = new DummyChild();
+    }
+
+}
+
+@ClassFlush
+class DummyPtrMap extends DummyParent{
+
+    public Map<String, DummyParent> getValPtr() {
+        return valPtr;
+    }
+
+    private Map<String, DummyParent> valPtr;
+
+    public DummyPtrMap(){
+        valPtr.put("A", new DummyChild());
+        valPtr.put("B", new DummyChild());
     }
 
 }
