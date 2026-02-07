@@ -1,4 +1,4 @@
-package com.klanting.signclick.utils.statefullSQL;
+package com.klanting.signclick.utils.statefulSQL;
 
 
 public abstract class SQLSerializer<T> {

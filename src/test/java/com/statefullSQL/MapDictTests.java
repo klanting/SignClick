@@ -1,13 +1,9 @@
-package com.statefullSQL;
+package com.statefulSQL;
 
 
-import com.klanting.signclick.utils.statefullSQL.ClassFlush;
-import com.klanting.signclick.utils.statefullSQL.DatabaseSingleton;
-import com.klanting.signclick.utils.statefullSQL.SQLSerializer;
-import com.klanting.signclick.utils.statefullSQL.access.MapDict;
-import com.klanting.signclick.utils.statefullSQL.access.OrderedList;
-import io.ebeaninternal.server.util.Str;
-import org.bukkit.Material;
+import com.klanting.signclick.utils.statefulSQL.ClassFlush;
+import com.klanting.signclick.utils.statefulSQL.DatabaseSingleton;
+import com.klanting.signclick.utils.statefulSQL.access.MapDict;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -1,14 +1,11 @@
-package com.klanting.signclick.utils.statefullSQL.defaultSerializers;
+package com.klanting.signclick.utils.statefulSQL.defaultSerializers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.klanting.signclick.utils.statefullSQL.DatabaseSingleton;
-import com.klanting.signclick.utils.statefullSQL.SQLSerializer;
+import com.klanting.signclick.utils.statefulSQL.DatabaseSingleton;
+import com.klanting.signclick.utils.statefulSQL.SQLSerializer;
 
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 public class MapSerializer extends SQLSerializer {
 

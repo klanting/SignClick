@@ -1,6 +1,6 @@
-package com.klanting.signclick.utils.statefullSQL.access;
+package com.klanting.signclick.utils.statefulSQL.access;
 
-import com.klanting.signclick.utils.statefullSQL.DatabaseSingleton;
+import com.klanting.signclick.utils.statefulSQL.DatabaseSingleton;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -33,7 +33,7 @@ public class MapDict<S, T> implements AccessPoint<T>, Map<S, T> {
         //get next index
         String sql = """
                 SELECT autoFlushId
-                FROM StatefullSQL"""+"MapDict"+"""
+                FROM statefulSQL"""+"MapDict"+"""
                 WHERE id = ? AND key = ?
             """;
 
@@ -55,7 +55,7 @@ public class MapDict<S, T> implements AccessPoint<T>, Map<S, T> {
         if (rs3.next()) {
             UUID oldAutoFlushId = (UUID) rs3.getObject(1);
 
-            sql = "DELETE FROM StatefullSQL"+"MapDict"+" WHERE autoflushid = ? AND id = ?";
+            sql = "DELETE FROM statefulSQL"+"MapDict"+" WHERE autoflushid = ? AND id = ?";
 
             try {
                 ps = DatabaseSingleton.getInstance().getConnection().prepareStatement(sql);
@@ -73,7 +73,7 @@ public class MapDict<S, T> implements AccessPoint<T>, Map<S, T> {
 
         String colNames = "id, key, autoflushid";
         String placeholders = "?, ?, ?";
-        String insertSql = "INSERT INTO StatefullSQL"+"MapDict"+" (" + colNames + ") VALUES (" + placeholders + ")";
+        String insertSql = "INSERT INTO statefulSQL"+"MapDict"+" (" + colNames + ") VALUES (" + placeholders + ")";
         PreparedStatement insertStmt = DatabaseSingleton.getInstance().getConnection().prepareStatement(insertSql);
         insertStmt.setObject(1, id);
         insertStmt.setObject(2, key.toString());
@@ -96,7 +96,7 @@ public class MapDict<S, T> implements AccessPoint<T>, Map<S, T> {
     public boolean containsKey(Object key) {
 
         UUID id = DatabaseSingleton.getInstance().getIdByGroup(groupName, "MapDict");
-        String sql = "SELECT * FROM StatefullSQL"+"MapDict"+" WHERE id = ? AND key = ?";
+        String sql = "SELECT * FROM statefulSQL"+"MapDict"+" WHERE id = ? AND key = ?";
 
         try {
             PreparedStatement  ps = DatabaseSingleton.getInstance().getConnection().prepareStatement(sql);
@@ -119,7 +119,7 @@ public class MapDict<S, T> implements AccessPoint<T>, Map<S, T> {
 
     private UUID getAutoFlushIdByKey(Object key){
         UUID id = DatabaseSingleton.getInstance().getIdByGroup(groupName, "MapDict");
-        String sql = "SELECT * FROM StatefullSQL"+"MapDict"+" WHERE id = ? AND key = ?";
+        String sql = "SELECT * FROM statefulSQL"+"MapDict"+" WHERE id = ? AND key = ?";
 
         try {
             PreparedStatement  ps = DatabaseSingleton.getInstance().getConnection().prepareStatement(sql);
@@ -139,7 +139,7 @@ public class MapDict<S, T> implements AccessPoint<T>, Map<S, T> {
 
     private void deleteByAutoFlushId(UUID autoFlushId){
         UUID id = DatabaseSingleton.getInstance().getIdByGroup(groupName, "MapDict");
-        String sql = "DELETE FROM StatefullSQL"+"MapDict"+" WHERE autoflushid = ? AND id = ?";
+        String sql = "DELETE FROM statefulSQL"+"MapDict"+" WHERE autoflushid = ? AND id = ?";
         try {
             PreparedStatement ps = DatabaseSingleton.getInstance().getConnection().prepareStatement(sql);
             ps.setObject(1, autoFlushId);
@@ -198,7 +198,7 @@ public class MapDict<S, T> implements AccessPoint<T>, Map<S, T> {
     @Override
     public void clear() {
         UUID id = DatabaseSingleton.getInstance().getIdByGroup(groupName, "MapDict");
-        String sql = "DELETE FROM StatefullSQL"+"MapDict"+" WHERE id = ? RETURNING autoFlushId";
+        String sql = "DELETE FROM statefulSQL"+"MapDict"+" WHERE id = ? RETURNING autoFlushId";
         try {
             PreparedStatement ps = DatabaseSingleton.getInstance().getConnection().prepareStatement(sql);
             ps.setObject(1, id);
@@ -221,7 +221,7 @@ public class MapDict<S, T> implements AccessPoint<T>, Map<S, T> {
         Set<S> keys = new HashSet<>();
 
         UUID id = DatabaseSingleton.getInstance().getIdByGroup(groupName, "MapDict");
-        String sql = "SELECT key FROM StatefullSQL"+"MapDict"+" WHERE id = ?";
+        String sql = "SELECT key FROM statefulSQL"+"MapDict"+" WHERE id = ?";
         try {
             PreparedStatement ps = DatabaseSingleton.getInstance().getConnection().prepareStatement(sql);
             ps.setObject(1, id);

@@ -1,9 +1,8 @@
-package com.klanting.signclick.utils.statefullSQLSerializers;
+package com.klanting.signclick.utils.statefulSQLSerializers;
 
-import com.klanting.signclick.utils.statefullSQL.DatabaseSingleton;
-import com.klanting.signclick.utils.statefullSQL.SQLSerializer;
+import com.klanting.signclick.utils.statefulSQL.DatabaseSingleton;
+import com.klanting.signclick.utils.statefulSQL.SQLSerializer;
 import org.apache.commons.lang3.tuple.Pair;
-import org.bukkit.Material;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.klanting.signclick.utils.statefullSQL.access;
+package com.klanting.signclick.utils.statefulSQL.access;
 
 import java.sql.SQLException;
 import java.util.UUID;

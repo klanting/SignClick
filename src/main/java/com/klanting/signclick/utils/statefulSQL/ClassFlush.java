@@ -1,4 +1,4 @@
-package com.klanting.signclick.utils.statefullSQL;
+package com.klanting.signclick.utils.statefulSQL;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

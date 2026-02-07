@@ -1,11 +1,10 @@
-package com.klanting.signclick.utils.statefullSQL.access;
+package com.klanting.signclick.utils.statefulSQL.access;
 
-import com.klanting.signclick.utils.statefullSQL.DatabaseSingleton;
+import com.klanting.signclick.utils.statefulSQL.DatabaseSingleton;
 import net.bytebuddy.implementation.bind.annotation.*;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.Map;
 import java.util.UUID;
 
 public class InterceptorWrap<T> {

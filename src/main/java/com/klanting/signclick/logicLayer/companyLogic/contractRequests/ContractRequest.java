@@ -1,6 +1,6 @@
 package com.klanting.signclick.logicLayer.companyLogic.contractRequests;
 
-import com.klanting.signclick.utils.statefullSQL.ClassFlush;
+import com.klanting.signclick.utils.statefulSQL.ClassFlush;
 
 @ClassFlush
 public abstract class ContractRequest {

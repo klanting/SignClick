@@ -1,6 +1,6 @@
-package com.klanting.signclick.utils.statefullSQLSerializers;
+package com.klanting.signclick.utils.statefulSQLSerializers;
 
-import com.klanting.signclick.utils.statefullSQL.SQLSerializer;
+import com.klanting.signclick.utils.statefulSQL.SQLSerializer;
 import org.bukkit.Material;
 
 public class MaterialSerializer extends SQLSerializer<Material> {

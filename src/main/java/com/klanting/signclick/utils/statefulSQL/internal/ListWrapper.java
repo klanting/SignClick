@@ -1,6 +1,6 @@
-package com.klanting.signclick.utils.statefullSQL.internal;
+package com.klanting.signclick.utils.statefulSQL.internal;
 
-import com.klanting.signclick.utils.statefullSQL.DatabaseSingleton;
+import com.klanting.signclick.utils.statefulSQL.DatabaseSingleton;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.PreparedStatement;

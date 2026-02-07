@@ -19,7 +19,7 @@ import com.klanting.signclick.interactionLayer.events.MenuEvents;
 import com.klanting.signclick.utils.BlockPosKey;
 import com.klanting.signclick.utils.JsonTools;
 import com.klanting.signclick.utils.Utils;
-import com.klanting.signclick.utils.statefullSQL.ClassFlush;
+import com.klanting.signclick.utils.statefulSQL.ClassFlush;
 import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;

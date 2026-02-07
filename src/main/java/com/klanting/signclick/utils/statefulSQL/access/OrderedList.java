@@ -1,7 +1,7 @@
-package com.klanting.signclick.utils.statefullSQL.access;
+package com.klanting.signclick.utils.statefulSQL.access;
 
 
-import com.klanting.signclick.utils.statefullSQL.DatabaseSingleton;
+import com.klanting.signclick.utils.statefulSQL.DatabaseSingleton;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Field;
@@ -39,7 +39,7 @@ public class OrderedList<T> implements AccessPoint<T>, List<T> {
         //get next index
         String sql = """
                 SELECT COUNT(*)
-                FROM StatefullSQL"""+"OrderedList"+"""
+                FROM statefulSQL"""+"OrderedList"+"""
                 WHERE id = ?
             """;
 
@@ -55,7 +55,7 @@ public class OrderedList<T> implements AccessPoint<T>, List<T> {
 
         String colNames = "id, index, autoflushid";
         String placeholders = "?, ?, ?";
-        String insertSql = "INSERT INTO StatefullSQL"+"OrderedList"+" (" + colNames + ") VALUES (" + placeholders + ")";
+        String insertSql = "INSERT INTO statefulSQL"+"OrderedList"+" (" + colNames + ") VALUES (" + placeholders + ")";
         PreparedStatement insertStmt = DatabaseSingleton.getInstance().getConnection().prepareStatement(insertSql);
         insertStmt.setObject(1, id);
         insertStmt.setInt(2, count);
@@ -74,7 +74,7 @@ public class OrderedList<T> implements AccessPoint<T>, List<T> {
 
         String tableName = type.getSimpleName().toLowerCase();
 
-        String countSql = "SELECT COUNT(*) FROM " + tableName+ " t JOIN statefullSQL" + "OrderedList" +" o ON t.autoflushid = o.autoflushid JOIN StatefullSQL s ON o.id = s.id WHERE s.groupname = ?";
+        String countSql = "SELECT COUNT(*) FROM " + tableName+ " t JOIN statefulSQL" + "OrderedList" +" o ON t.autoflushid = o.autoflushid JOIN statefulSQL s ON o.id = s.id WHERE s.groupname = ?";
 
         try {
             PreparedStatement stmt = connection.prepareStatement(countSql);
@@ -190,7 +190,7 @@ public class OrderedList<T> implements AccessPoint<T>, List<T> {
         * */
         UUID id = DatabaseSingleton.getInstance().getIdByGroup(groupName, "OrderedList");
 
-        String sql = "DELETE FROM StatefullSQL"+"OrderedList"+" WHERE autoflushid = ? AND id = ? RETURNING index";
+        String sql = "DELETE FROM statefulSQL"+"OrderedList"+" WHERE autoflushid = ? AND id = ? RETURNING index";
 
         try {
             PreparedStatement ps = DatabaseSingleton.getInstance().getConnection().prepareStatement(sql);
@@ -204,7 +204,7 @@ public class OrderedList<T> implements AccessPoint<T>, List<T> {
             * update the index
             * */
             String updateSql =
-                    "UPDATE StatefullSQLOrderedList " +
+                    "UPDATE statefulSQLOrderedList " +
                             "SET index = index - 1 " +
                             "WHERE id = ? AND index > ?";
 
@@ -299,7 +299,7 @@ public class OrderedList<T> implements AccessPoint<T>, List<T> {
     public T get(int index) {
 
 
-        String findAutoFlushId = "SELECT o.autoFlushId FROM statefullSQL" + "OrderedList" +" o JOIN StatefullSQL s ON o.id = s.id WHERE s.groupname = ? AND o.index = ?";
+        String findAutoFlushId = "SELECT o.autoFlushId FROM statefulSQL" + "OrderedList" +" o JOIN statefulSQL s ON o.id = s.id WHERE s.groupname = ? AND o.index = ?";
 
         Class<?> realClass;
         try {
@@ -322,7 +322,7 @@ public class OrderedList<T> implements AccessPoint<T>, List<T> {
 
         String tableName = DatabaseSingleton.getTableName(realClass);
 
-        String sql = "SELECT t.* FROM " + tableName+ " t JOIN statefullSQL" + "OrderedList" +" o ON t.autoflushid = o.autoflushid JOIN StatefullSQL s ON o.id = s.id WHERE s.groupname = ? AND o.index = ?";
+        String sql = "SELECT t.* FROM " + tableName+ " t JOIN statefulSQL" + "OrderedList" +" o ON t.autoflushid = o.autoflushid JOIN statefulSQL s ON o.id = s.id WHERE s.groupname = ? AND o.index = ?";
 
         try {
             PreparedStatement stmt = DatabaseSingleton.getInstance().getConnection().prepareStatement(sql);
@@ -384,7 +384,7 @@ public class OrderedList<T> implements AccessPoint<T>, List<T> {
             this.remove(toOverride);
 
             String updateSql =
-                    "UPDATE StatefullSQLOrderedList " +
+                    "UPDATE statefulSQLOrderedList " +
                             "SET index = "+index+" " +
                             "WHERE id = ? AND autoFlushId = ?";
 
@@ -412,7 +412,7 @@ public class OrderedList<T> implements AccessPoint<T>, List<T> {
             UUID id = DatabaseSingleton.getInstance().getIdByGroup(groupName, "OrderedList");
 
             String updateSql =
-                    "UPDATE StatefullSQLOrderedList " +
+                    "UPDATE statefulSQLOrderedList " +
                     "SET index = index + 1 " +
                     "WHERE id = ? AND index >= ? ";
 
@@ -422,7 +422,7 @@ public class OrderedList<T> implements AccessPoint<T>, List<T> {
             updatePs.executeUpdate();
 
             updateSql =
-                    "UPDATE StatefullSQLOrderedList " +
+                    "UPDATE statefulSQLOrderedList " +
                             "SET index = "+index+" " +
                             "WHERE id = ? AND autoFlushId = ?";
 
@@ -450,7 +450,7 @@ public class OrderedList<T> implements AccessPoint<T>, List<T> {
 
     private List<T> getSortedList(){
         String tableName = type.getSimpleName().toLowerCase();
-        String sql = "SELECT t.* FROM " + tableName+ " t JOIN statefullSQL" + "OrderedList" +" o ON t.autoflushid = o.autoflushid JOIN StatefullSQL s ON o.id = s.id WHERE s.groupname = ? ORDER BY o.index ASC";
+        String sql = "SELECT t.* FROM " + tableName+ " t JOIN statefulSQL" + "OrderedList" +" o ON t.autoflushid = o.autoflushid JOIN statefulSQL s ON o.id = s.id WHERE s.groupname = ? ORDER BY o.index ASC";
 
         List<T> sortedEntities = new ArrayList<>();
         try {

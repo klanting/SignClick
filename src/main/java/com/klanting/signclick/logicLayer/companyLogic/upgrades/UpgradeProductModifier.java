@@ -1,7 +1,7 @@
 package com.klanting.signclick.logicLayer.companyLogic.upgrades;
 
 import com.klanting.signclick.SignClick;
-import com.klanting.signclick.utils.statefullSQL.ClassFlush;
+import com.klanting.signclick.utils.statefulSQL.ClassFlush;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 

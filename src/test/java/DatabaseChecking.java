@@ -1,8 +1,5 @@
-import com.klanting.signclick.utils.statefullSQL.ClassFlush;
-import com.klanting.signclick.utils.statefullSQL.DatabaseSingleton;
-import com.klanting.signclick.utils.statefullSQL.access.MapDict;
-import com.klanting.signclick.utils.statefullSQL.access.OrderedList;
-import tools.DataBaseTest;
+import com.klanting.signclick.utils.statefulSQL.ClassFlush;
+import com.klanting.signclick.utils.statefulSQL.access.MapDict;
 
 import java.io.IOException;
 import java.util.HashMap;

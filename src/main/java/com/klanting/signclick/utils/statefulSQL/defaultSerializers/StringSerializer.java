@@ -1,9 +1,6 @@
-package com.klanting.signclick.utils.statefullSQL.defaultSerializers;
+package com.klanting.signclick.utils.statefulSQL.defaultSerializers;
 
-import com.klanting.signclick.utils.statefullSQL.SQLSerializer;
-import io.ebeaninternal.server.util.Str;
-
-import java.util.UUID;
+import com.klanting.signclick.utils.statefulSQL.SQLSerializer;
 
 
 public class StringSerializer extends SQLSerializer {

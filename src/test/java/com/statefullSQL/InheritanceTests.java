@@ -1,12 +1,11 @@
-package com.statefullSQL;
+package com.statefulSQL;
 
-import com.klanting.signclick.utils.statefullSQL.ClassFlush;
-import com.klanting.signclick.utils.statefullSQL.DatabaseSingleton;
-import com.klanting.signclick.utils.statefullSQL.access.OrderedList;
+import com.klanting.signclick.utils.statefulSQL.ClassFlush;
+import com.klanting.signclick.utils.statefulSQL.DatabaseSingleton;
+import com.klanting.signclick.utils.statefulSQL.access.OrderedList;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.testcontainers.shaded.org.checkerframework.checker.units.qual.C;
 import tools.DataBaseTest;
 
 import static org.gradle.internal.impldep.org.testng.AssertJUnit.assertEquals;

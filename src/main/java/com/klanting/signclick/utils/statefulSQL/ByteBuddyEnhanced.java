@@ -1,4 +1,4 @@
-package com.klanting.signclick.utils.statefullSQL;
+package com.klanting.signclick.utils.statefulSQL;
 
 /*
 * dummy class to check if it is a derived byteBuddy object/class or not

@@ -1,11 +1,11 @@
-package com.klanting.signclick.utils.statefullSQL;
+package com.klanting.signclick.utils.statefulSQL;
 
 import com.klanting.signclick.utils.DataBase;
-import com.klanting.signclick.utils.statefullSQL.access.InterceptorWrap;
-import com.klanting.signclick.utils.statefullSQL.access.UuidFunction;
-import com.klanting.signclick.utils.statefullSQL.defaultSerializers.*;
-import com.klanting.signclick.utils.statefullSQL.internal.ListWrapper;
-import com.klanting.signclick.utils.statefullSQL.internal.MapWrapper;
+import com.klanting.signclick.utils.statefulSQL.access.InterceptorWrap;
+import com.klanting.signclick.utils.statefulSQL.access.UuidFunction;
+import com.klanting.signclick.utils.statefulSQL.defaultSerializers.*;
+import com.klanting.signclick.utils.statefulSQL.internal.ListWrapper;
+import com.klanting.signclick.utils.statefulSQL.internal.MapWrapper;
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
 import net.bytebuddy.implementation.MethodDelegation;
@@ -163,7 +163,7 @@ public class DatabaseSingleton {
         /*
          * get real class type
          * */
-        String sql = "SELECT * FROM StatefullSQLLookupTable WHERE autoFlushID = ?";
+        String sql = "SELECT * FROM statefulSQLLookupTable WHERE autoFlushID = ?";
         try {
             PreparedStatement stmt = DatabaseSingleton.getInstance().getConnection().prepareStatement(sql);
             stmt.setObject(1, autoFlushId);
@@ -325,7 +325,7 @@ public class DatabaseSingleton {
         assert !(ByteBuddyEnhanced.class.isAssignableFrom(clazz));
 
         String tableName = getTableName(clazz);
-        String sql = "SELECT t.* FROM " + tableName+ " t JOIN statefullSQL" + accessMethodType +" o ON t.autoflushid = o.autoflushid JOIN StatefullSQL s ON o.id = s.id WHERE s.groupname = ?";
+        String sql = "SELECT t.* FROM " + tableName+ " t JOIN statefulSQL" + accessMethodType +" o ON t.autoflushid = o.autoflushid JOIN statefulSQL s ON o.id = s.id WHERE s.groupname = ?";
 
         List<T> entities = new ArrayList<>();
 
@@ -501,7 +501,7 @@ public class DatabaseSingleton {
     }
 
     public UUID getIdByGroup(String groupName, String type){
-        String sql = "SELECT * FROM StatefullSQL WHERE groupName = ? AND type = ?";
+        String sql = "SELECT * FROM statefulSQL WHERE groupName = ? AND type = ?";
 
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -544,13 +544,13 @@ public class DatabaseSingleton {
 
     public void checkSetupTable(String name, String type){
 
-        if(!tableExists("StatefullSQLLookupTable")){
+        if(!tableExists("statefulSQLLookupTable")){
             String tableCreation = String.format("""
                         CREATE TABLE %s (
                         autoFlushId UUID PRIMARY KEY,
                         className VARCHAR NOT NULL
                         );
-                        """, "StatefullSQLLookupTable");
+                        """, "statefulSQLLookupTable");
 
             try {
                 PreparedStatement stmt = connection.prepareStatement(tableCreation);
@@ -563,14 +563,14 @@ public class DatabaseSingleton {
 
         }
 
-        if (!tableExists("StatefullSQL")){
+        if (!tableExists("statefulSQL")){
             String tableCreation = String.format("""
                         CREATE TABLE %s (
                         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
                         type VARCHAR NOT NULL,
                         groupName VARCHAR NOT NULL
                         );
-                        """, "StatefullSQL");
+                        """, "statefulSQL");
 
             try {
                 PreparedStatement stmt = connection.prepareStatement(tableCreation);
@@ -583,7 +583,7 @@ public class DatabaseSingleton {
 
         }
 
-        if (!tableExists("StatefullSQLOrderedList")){
+        if (!tableExists("statefulSQLOrderedList")){
             String tableCreation = String.format("""
                         CREATE TABLE %s (
                         id UUID NOT NULL,
@@ -591,7 +591,7 @@ public class DatabaseSingleton {
                         autoFlushId UUID NOT NULL,
                         PRIMARY KEY(id, index) DEFERRABLE INITIALLY DEFERRED
                         );
-                        """, "StatefullSQLOrderedList");
+                        """, "statefulSQLOrderedList");
 
             try {
                 PreparedStatement stmt = connection.prepareStatement(tableCreation);
@@ -604,7 +604,7 @@ public class DatabaseSingleton {
 
         }
 
-        if (!tableExists("StatefullSQLMapDict")){
+        if (!tableExists("statefulSQLMapDict")){
             /*
             * key can be UUID (of real key), INT or STRING (but always serialize to string)
             * */
@@ -615,7 +615,7 @@ public class DatabaseSingleton {
                         autoFlushId UUID NOT NULL,
                         PRIMARY KEY(id, key) DEFERRABLE INITIALLY DEFERRED
                         );
-                        """, "StatefullSQLMapDict");
+                        """, "statefulSQLMapDict");
 
             try {
                 PreparedStatement stmt = connection.prepareStatement(tableCreation);
@@ -629,7 +629,7 @@ public class DatabaseSingleton {
         }
 
 
-        String sql = "SELECT * FROM StatefullSQL WHERE groupName = ? AND type = ?";
+        String sql = "SELECT * FROM statefulSQL WHERE groupName = ? AND type = ?";
 
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -639,7 +639,7 @@ public class DatabaseSingleton {
             ResultSet rs = stmt.executeQuery();
 
             if (!rs.next()) {
-                String insertSql = "INSERT INTO StatefullSQL (type, groupName) VALUES (?, ?) RETURNING id";
+                String insertSql = "INSERT INTO statefulSQL (type, groupName) VALUES (?, ?) RETURNING id";
                 PreparedStatement insertStmt = connection.prepareStatement(insertSql);
                 insertStmt.setString(1, type);
                 insertStmt.setString(2, name);
@@ -1024,7 +1024,7 @@ public class DatabaseSingleton {
             /*
             * add class to lookup table
             * */
-            insertSql = "INSERT INTO StatefullSQLLookupTable (className, autoFlushId) VALUES (?, ?)";
+            insertSql = "INSERT INTO statefulSQLLookupTable (className, autoFlushId) VALUES (?, ?)";
             insertStmt = connection.prepareStatement(insertSql);
 
             insertStmt.setObject(1, entity.getClass().getName());
@@ -1082,7 +1082,7 @@ public class DatabaseSingleton {
     public <T> void checkDelete(UUID key, Class<?> clazz){
         try {
             //TODO add support mapDict
-            String sql = "SELECT COUNT(*) FROM StatefullSQL"+"OrderedList"+" WHERE autoflushid = ?";
+            String sql = "SELECT COUNT(*) FROM statefulSQL"+"OrderedList"+" WHERE autoflushid = ?";
 
 
             PreparedStatement ps = connection.prepareStatement(sql);

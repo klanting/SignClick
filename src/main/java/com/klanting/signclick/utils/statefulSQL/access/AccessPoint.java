@@ -1,7 +1,4 @@
-package com.klanting.signclick.utils.statefullSQL.access;
-
-import java.sql.SQLException;
-import java.util.UUID;
+package com.klanting.signclick.utils.statefulSQL.access;
 
 
 public interface AccessPoint<T> {

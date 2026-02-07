@@ -2,7 +2,7 @@ package com.klanting.signclick.logicLayer.companyLogic.contractRequests;
 
 import com.klanting.signclick.logicLayer.companyLogic.CompanyI;
 import com.klanting.signclick.logicLayer.companyLogic.Market;
-import com.klanting.signclick.utils.statefullSQL.ClassFlush;
+import com.klanting.signclick.utils.statefulSQL.ClassFlush;
 
 @ClassFlush
 public class ContractRequestCTC extends ContractRequest{

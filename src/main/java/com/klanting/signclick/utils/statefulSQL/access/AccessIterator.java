@@ -1,7 +1,7 @@
-package com.klanting.signclick.utils.statefullSQL.access;
+package com.klanting.signclick.utils.statefulSQL.access;
 
 
-import com.klanting.signclick.utils.statefullSQL.DatabaseSingleton;
+import com.klanting.signclick.utils.statefulSQL.DatabaseSingleton;
 
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;

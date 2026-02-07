@@ -1,6 +1,6 @@
-package com.klanting.signclick.utils.statefullSQL.defaultSerializers;
+package com.klanting.signclick.utils.statefulSQL.defaultSerializers;
 
-import com.klanting.signclick.utils.statefullSQL.SQLSerializer;
+import com.klanting.signclick.utils.statefulSQL.SQLSerializer;
 
 public class IntSerializer extends SQLSerializer {
     public IntSerializer(Class type) {

@@ -1,16 +1,15 @@
-package com.statefullSQL;
+package com.statefulSQL;
 
 
-import com.klanting.signclick.utils.statefullSQL.ClassFlush;
-import com.klanting.signclick.utils.statefullSQL.DatabaseSingleton;
-import com.klanting.signclick.utils.statefullSQL.SQLSerializer;
-import com.klanting.signclick.utils.statefullSQL.access.OrderedList;
+import com.klanting.signclick.utils.statefulSQL.ClassFlush;
+import com.klanting.signclick.utils.statefulSQL.DatabaseSingleton;
+import com.klanting.signclick.utils.statefulSQL.SQLSerializer;
+import com.klanting.signclick.utils.statefulSQL.access.OrderedList;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import tools.DataBaseTest;
 
-import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.List;

@@ -4,7 +4,7 @@ import com.klanting.signclick.logicLayer.companyLogic.producible.License;
 import com.klanting.signclick.logicLayer.companyLogic.logs.itemLogEntry;
 import com.klanting.signclick.logicLayer.companyLogic.producible.Product;
 import com.klanting.signclick.utils.BlockPosKey;
-import com.klanting.signclick.utils.statefullSQL.ClassFlush;
+import com.klanting.signclick.utils.statefulSQL.ClassFlush;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;

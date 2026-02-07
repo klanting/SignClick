@@ -1,17 +1,14 @@
-package com.statefullSQL;
+package com.statefulSQL;
 
-import com.klanting.signclick.utils.statefullSQL.ClassFlush;
-import com.klanting.signclick.utils.statefullSQL.DatabaseSingleton;
-import com.klanting.signclick.utils.statefullSQL.access.MapDict;
-import io.ebeaninternal.server.util.Str;
+import com.klanting.signclick.utils.statefulSQL.ClassFlush;
+import com.klanting.signclick.utils.statefulSQL.DatabaseSingleton;
+import com.klanting.signclick.utils.statefulSQL.access.MapDict;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import tools.DataBaseTest;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static org.gradle.internal.impldep.org.junit.Assert.assertEquals;
