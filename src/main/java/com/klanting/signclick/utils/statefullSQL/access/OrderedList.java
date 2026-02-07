@@ -4,6 +4,7 @@ package com.klanting.signclick.utils.statefullSQL.access;
 import com.klanting.signclick.utils.statefullSQL.DatabaseSingleton;
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.Field;
 import java.sql.*;
 import java.util.*;
 
@@ -318,7 +319,18 @@ public class OrderedList<T> implements AccessPoint<T>, List<T> {
                 for (int i = 1; i <= columnCount; i++) {
                     String columnName = meta.getColumnLabel(i);
                     Object value = rs.getObject(i);
-                    row.put(columnName, value);
+
+                    if (columnName.equalsIgnoreCase("autoflushid")){
+                        row.put(columnName, value);
+                        continue;
+                    }
+
+                    Field field = type.getDeclaredField(columnName);
+                    if (value.getClass() == String.class && field.getType() != String.class){
+                        row.put(columnName, DatabaseSingleton.getInstance().deserialize(field.getType(), (String) value));
+                    }else{
+                        row.put(columnName, value);
+                    }
                 }
 
                 T instance = DatabaseSingleton.getInstance().wrap(type, row, true);
@@ -327,6 +339,8 @@ public class OrderedList<T> implements AccessPoint<T>, List<T> {
 
         } catch (SQLException e) {
             e.printStackTrace();
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e);
         }
 
         return null;

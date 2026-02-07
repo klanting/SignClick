@@ -1,19 +1,23 @@
 package com.klanting.signclick.utils.statefullSQL.defaultSerializers;
 
 import com.klanting.signclick.utils.statefullSQL.SQLSerializer;
+import io.ebeaninternal.server.util.Str;
 
-public class IntSerializer extends SQLSerializer {
-    public IntSerializer(Class type) {
+import java.util.UUID;
+
+
+public class StringSerializer extends SQLSerializer {
+    public StringSerializer (Class type) {
         super(type);
     }
 
     @Override
     public String serialize(Object value) {
-        return value.toString();
+        return (String) value;
     }
 
     @Override
     public Object deserialize(String value) {
-        return Integer.valueOf(value);
+        return value;
     }
 }

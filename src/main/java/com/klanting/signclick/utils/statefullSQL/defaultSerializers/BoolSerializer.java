@@ -2,8 +2,8 @@ package com.klanting.signclick.utils.statefullSQL.defaultSerializers;
 
 import com.klanting.signclick.utils.statefullSQL.SQLSerializer;
 
-public class IntSerializer extends SQLSerializer {
-    public IntSerializer(Class type) {
+public class BoolSerializer extends SQLSerializer {
+    public BoolSerializer(Class type) {
         super(type);
     }
 
@@ -14,6 +14,6 @@ public class IntSerializer extends SQLSerializer {
 
     @Override
     public Object deserialize(String value) {
-        return Integer.valueOf(value);
+        return Boolean.valueOf(value);
     }
 }

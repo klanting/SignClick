@@ -3,8 +3,7 @@ package com.klanting.signclick.utils.statefullSQL;
 import com.klanting.signclick.utils.DataBase;
 import com.klanting.signclick.utils.statefullSQL.access.InterceptorWrap;
 import com.klanting.signclick.utils.statefullSQL.access.UuidFunction;
-import com.klanting.signclick.utils.statefullSQL.defaultSerializers.IntSerializer;
-import com.klanting.signclick.utils.statefullSQL.defaultSerializers.UUIDSerializer;
+import com.klanting.signclick.utils.statefullSQL.defaultSerializers.*;
 import com.klanting.signclick.utils.statefullSQL.internal.ListWrapper;
 import com.klanting.signclick.utils.statefullSQL.internal.MapWrapper;
 import net.bytebuddy.ByteBuddy;
@@ -45,17 +44,22 @@ public class DatabaseSingleton {
     }
 
     public <S> String serialize(Class<?> type, S value){
+        if (value == null){
+            return null;
+        }
+
         for (SQLSerializer s: serializers){
-            if (s.getType().equals(type)){
+            if (s.getType().equals(type) || s.getType().isAssignableFrom(type)){
                 return s.serialize(value);
             }
         }
+
         throw new RuntimeException("Serialized doesn't exist for "+type);
     }
 
     public <S> boolean hasSerializer(Class<S> type){
         for (SQLSerializer s: serializers){
-            if (s.getType().equals(type)){
+            if (s.getType().equals(type) || s.getType().isAssignableFrom(type)){
                 return true;
             }
         }
@@ -63,8 +67,13 @@ public class DatabaseSingleton {
     }
 
     public <S> S deserialize(Class<?> type, String value){
+
+        if (value == null){
+            return null;
+        }
+
         for (SQLSerializer s: serializers){
-            if (s.getType().equals(type)){
+            if (s.getType().equals(type) || s.getType().isAssignableFrom(type)){
                 return (S) s.deserialize(value);
             }
         }
@@ -103,6 +112,10 @@ public class DatabaseSingleton {
     private void initSerializers(){
         serializers.add(new UUIDSerializer(UUID.class));
         serializers.add(new IntSerializer(Integer.class));
+        serializers.add(new BoolSerializer(Boolean.class));
+        serializers.add(new MapSerializer(Map.class));
+        serializers.add(new ListSerializer(List.class));
+        serializers.add(new StringSerializer(String.class));
     }
 
     public static DatabaseSingleton getInstance() {
@@ -128,6 +141,7 @@ public class DatabaseSingleton {
         if (type == short.class) return "SMALLINT";
         if (type == byte.class) return "SMALLINT";
         if (type == boolean.class) return "BOOLEAN";
+        if (type == Boolean.class) return "BOOLEAN";
         if (type == float.class) return "REAL";
         if (type == double.class) return "DOUBLE PRECISION";
         if (type == char.class) return "CHAR(1)";
@@ -210,7 +224,7 @@ public class DatabaseSingleton {
                 /*
                 * get target field from base clazz
                 * */
-                var field = clazz.getDeclaredField(entry.getKey());
+                Field field = clazz.getDeclaredField(entry.getKey());
 
                 Class<?> type = field.getType();
 
@@ -242,6 +256,13 @@ public class DatabaseSingleton {
                 }
 
                 /*
+                * skip when attribute static
+                * */
+                if (Modifier.isStatic(field.getModifiers())){
+                    continue;
+                }
+
+                /*
                 * map field
                 * */
                 field.setAccessible(true);
@@ -249,17 +270,21 @@ public class DatabaseSingleton {
                     field.set(instance, entry.getValue());
                 }else if(type == List.class || type == Map.class){
                     field.set(instance, entry.getValue());
-                }else{
+                }else if (entry.getValue().getClass() == String.class){
                     field.set(instance, deserialize(type, (String) entry.getValue()));
+                }else{
+                    field.set(instance, entry.getValue());
                 }
 
             } catch (NoSuchFieldException e) {
+                e.printStackTrace();
                 throw new RuntimeException(e);
             } catch (InvocationTargetException e) {
                 throw new RuntimeException(e);
             } catch (InstantiationException e) {
                 throw new RuntimeException(e);
             } catch (IllegalAccessException e) {
+                e.printStackTrace();
                 throw new RuntimeException(e);
             } catch (NoSuchMethodException e) {
                 throw new RuntimeException(e);
@@ -367,7 +392,18 @@ public class DatabaseSingleton {
                 for (int i = 1; i <= columnCount; i++) {
                     String columnName = meta.getColumnLabel(i);
                     Object value = rs.getObject(i);
-                    row.put(columnName, value);
+
+                    if (columnName.equalsIgnoreCase("autoflushid")){
+                        row.put(columnName, value);
+                        continue;
+                    }
+
+                    Field field = clazz.getDeclaredField(columnName);
+                    if (value.getClass() == String.class && field.getType() != String.class){
+                        row.put(columnName, DatabaseSingleton.getInstance().deserialize(field.getType(), (String) value));
+                    }else{
+                        row.put(columnName, value);
+                    }
                 }
 
                 /*
@@ -435,6 +471,8 @@ public class DatabaseSingleton {
 
         } catch (SQLException e) {
             e.printStackTrace();
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e);
         }
 
         return new HashMap<>();
@@ -579,17 +617,17 @@ public class DatabaseSingleton {
 
     }
 
-    private void checkListAttributeTable(Class<?> parent, Field field, List<Class<?>> blackList){
+    private boolean checkListAttributeTable(Class<?> parent, Field field, List<Class<?>> blackList){
 
         if (!(field.getGenericType() instanceof ParameterizedType parameterizedType)) {
-            return;
+            return false;
         }
 
         Type[] typeArgs = parameterizedType.getActualTypeArguments();
 
         Type elementType = typeArgs[0];
         if (!(elementType instanceof Class<?> clazz2)) {
-            return;
+            return false;
         }
 
         if (!blackList.contains(clazz2) && clazz2.isAnnotationPresent(ClassFlush.class)){
@@ -600,7 +638,7 @@ public class DatabaseSingleton {
             /*
             * This case, we will serialize entire list
             * */
-            return;
+            return false;
         }
 
         String tableCreation = String.format("""
@@ -623,13 +661,14 @@ public class DatabaseSingleton {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return true;
 
     }
 
-    private void checkMapAttributeTable(Class<?> parent, Field field, List<Class<?>> blackList){
+    private boolean checkMapAttributeTable(Class<?> parent, Field field, List<Class<?>> blackList){
 
         if (!(field.getGenericType() instanceof ParameterizedType parameterizedType)) {
-            return;
+            return false;
         }
 
         Type[] typeArgs = parameterizedType.getActualTypeArguments();
@@ -637,7 +676,7 @@ public class DatabaseSingleton {
         Type keyType = typeArgs[0];
         Type elementType = typeArgs[1];
         if (!(elementType instanceof Class<?> clazz2)) {
-            return;
+            return false;
         }
 
         if (!blackList.contains(clazz2) && clazz2.isAnnotationPresent(ClassFlush.class)){
@@ -648,7 +687,7 @@ public class DatabaseSingleton {
             /*
              * This case, we will serialize entire list
              * */
-            return;
+            return false;
         }
 
         String tableCreation = String.format("""
@@ -671,6 +710,7 @@ public class DatabaseSingleton {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return true;
 
     }
 
@@ -683,7 +723,6 @@ public class DatabaseSingleton {
 
         List<String> columns = new ArrayList<>();
         List<String> foreignKeys = new ArrayList<>();
-
         Field[] fields = clazz.getDeclaredFields(); // all fields declared in the class
         for (Field field : fields) {
             Class<?> type = field.getType();
@@ -692,28 +731,49 @@ public class DatabaseSingleton {
 
             //Convert list to additional relation entity
             if (type == List.class){
-                checkListAttributeTable(clazz, field, blackList);
-                continue;
+                boolean other = checkListAttributeTable(clazz, field, blackList);
+
+
+                /*
+                * keep going when List needs to be serialized (when not pointing to other serializable objects)
+                * */
+                if (other){
+                    continue;
+                }
             }
 
             if (type == Map.class){
-                checkMapAttributeTable(clazz, field, blackList);
+                boolean other = checkMapAttributeTable(clazz, field, blackList);
+
+                /*
+                 * keep going when Map needs to be serialized (when not pointing to other serializable objects)
+                 * */
+                if (other){
+                    continue;
+                }
+            }
+            if (columnName.startsWith("$")){
                 continue;
             }
 
             if (sqlType != null) { // only primitives
-                columns.add(columnName + " " + sqlType);
-            }else if (!blackList.contains(type) && type.isAnnotationPresent(ClassFlush.class)){
-                checkTable(type, blackList);
-                columns.add(columnName+ " UUID");
-                foreignKeys.add(String.format("""
+                columns.add("\""+columnName+"\"" + " " + sqlType);
+            }else if (type.isAnnotationPresent(ClassFlush.class)){
+                if (!blackList.contains(type)){
+                    checkTable(type, blackList);
+
+                    foreignKeys.add(String.format("""
                         CONSTRAINT fk_%s
                                 FOREIGN KEY (%s) REFERENCES %s
                                 ON DELETE SET NULL
                         """, columnName, columnName, type.getSimpleName()+"(autoFlushId)"));
+                }
+
+                columns.add("\""+columnName+"\""+ " UUID");
+
             }else{
                 if (hasSerializer(type)){
-                    columns.add(columnName+ " VARCHAR");
+                    columns.add("\""+columnName+"\""+ " VARCHAR");
                 }
             }
         }
@@ -732,7 +792,6 @@ public class DatabaseSingleton {
 
         try {
             PreparedStatement stmt = connection.prepareStatement(tableCreation);
-
             stmt.executeUpdate();
 
         } catch (SQLException e) {
@@ -746,8 +805,16 @@ public class DatabaseSingleton {
     }
 
     public <T> UUID store(String groupName, String type, T entity, UuidFunction storeTableFunc, boolean storeInTable) {
+        return store(groupName, type, entity, storeTableFunc, storeInTable, new HashMap<>());
+    }
+
+    public <T> UUID store(String groupName, String type, T entity, UuidFunction storeTableFunc, boolean storeInTable, Map<Object, UUID> discoveredMap) {
         if (storeInTable){
             checkSetupTable(groupName, type);
+        }
+
+        if (discoveredMap.containsKey(entity)){
+            return discoveredMap.get(entity);
         }
 
         try {
@@ -773,7 +840,7 @@ public class DatabaseSingleton {
                     continue;
                 }
 
-                columns.add(columnName);
+                columns.add("\""+columnName+"\"");
 
                 tableExists = rs.next();
             }
@@ -785,6 +852,12 @@ public class DatabaseSingleton {
 
             List<Object> values = new ArrayList<>();
 
+            /*
+            * need precomputed id, in case of import cycles
+            * */
+            UUID autoFlushId = UUID.randomUUID();
+            discoveredMap.put(entity, autoFlushId);
+
             for (Field field: clazz.getDeclaredFields()){
                 field.setAccessible(true);
 
@@ -792,8 +865,15 @@ public class DatabaseSingleton {
 
                 Object data = field.get(entity);
 
+                /*
+                * special java thigns such as $assertion
+                * */
+                if (field.getName().startsWith("$")){
+                    continue;
+                }
+
                 if (type2.isAnnotationPresent(ClassFlush.class) && data != null){
-                    UUID uuid = store(groupName, type, data, storeTableFunc, false);
+                    UUID uuid = store(groupName, type, data, storeTableFunc, false, discoveredMap);
                     values.add(uuid);
                     continue;
                 }
@@ -803,14 +883,17 @@ public class DatabaseSingleton {
                 }else if (type2 == List.class){
 
                     if (!(field.getGenericType() instanceof ParameterizedType parameterizedType)) {
+                        values.add(serialize(type2, data));
                         continue;
                     }
                     Type[] typeArgs = parameterizedType.getActualTypeArguments();
                     Type elementType = typeArgs[0];
                     if (!(elementType instanceof Class<?> clazz2)) {
+                        values.add(serialize(type2, data));
                         continue;
                     }
                     if(!clazz2.isAnnotationPresent(ClassFlush.class)){
+                        values.add(serialize(type2, data));
                         continue;
                     }
                     String listTableName = getTableName(clazz)+"_list_"+getTableName(clazz2);
@@ -825,6 +908,7 @@ public class DatabaseSingleton {
                     }
                 }else if (type2 == Map.class){
                     if (!(field.getGenericType() instanceof ParameterizedType parameterizedType)) {
+                        values.add(serialize(type2, data));
                         continue;
                     }
 
@@ -833,10 +917,12 @@ public class DatabaseSingleton {
                     Type keyType = typeArgs[0];
                     Type elementType = typeArgs[1];
                     if (!(elementType instanceof Class<?> clazz2)) {
+                        values.add(serialize(type2, data));
                         continue;
                     }
 
                     if(!clazz2.isAnnotationPresent(ClassFlush.class)){
+                        values.add(serialize(type2, data));
                         continue;
                     }
                     String mapTableName = getTableName(clazz)+"_map_"+getTableName(clazz2);
@@ -856,24 +942,20 @@ public class DatabaseSingleton {
                     values.add(serialize(type2, data));
                 }
 
-
             }
 
             String colNames = String.join(", ", columns);
             String placeholders = columns.stream().map(c -> "?").collect(Collectors.joining(", "));
 
-            String insertSql = "INSERT INTO "+getTableName(clazz)+" (" + colNames + ") VALUES (" + placeholders + ") RETURNING autoFlushId";
+            String insertSql = "INSERT INTO "+getTableName(clazz)+" (" + colNames + ", autoFlushId) VALUES (" + placeholders + ", ?)";
             PreparedStatement insertStmt = connection.prepareStatement(insertSql);
 
             for (int i = 0; i < values.size(); i++) {
                 insertStmt.setObject(i + 1, values.get(i)); // JDBC is 1-indexed
             }
+            insertStmt.setObject(values.size()+1, autoFlushId);
 
-            ResultSet result = insertStmt.executeQuery();
-            boolean suc6 = result.next();
-            assert suc6;
-
-            UUID autoFlushId = (UUID) result.getObject(1);
+            insertStmt.executeUpdate();
 
             if (storeInTable){
                 storeTableFunc.apply(autoFlushId);
@@ -983,7 +1065,7 @@ public class DatabaseSingleton {
                     continue;
                 }
 
-                columns.add(columnName);
+                columns.add("\""+columnName+"\"");
 
                 tableExists = rs.next();
             }
@@ -1006,7 +1088,7 @@ public class DatabaseSingleton {
             List<Object> values = new ArrayList<>();
 
             for (String column: columns){
-                Field field = clazz.getDeclaredField(column);
+                Field field = clazz.getDeclaredField(column.substring(1, column.length()-1));
                 field.setAccessible(true);
 
                 Object data = field.get(entity);
@@ -1017,23 +1099,18 @@ public class DatabaseSingleton {
                 if (mapJavaTypeToSQL(values.get(i).getClass()) != null){
                     insertStmt.setObject(i + 1, values.get(i)); // JDBC is 1-indexed
                 }else{
-                    for (SQLSerializer s: serializers){
-                        if(values.get(i).getClass().equals(s.getType())){
-                            insertStmt.setString(i + 1, s.serialize(values.get(i)));
-                            break;
-                        }
-                    }
-
+                    insertStmt.setString(i + 1, serialize(values.get(i).getClass(), values.get(i)));
                 }
             }
             insertStmt.setObject(values.size()+1, key);
-
             insertStmt.executeUpdate();
 
 
         }catch (SQLException e){
+            e.printStackTrace();
             throw new RuntimeException(e);
         } catch (NoSuchFieldException e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);

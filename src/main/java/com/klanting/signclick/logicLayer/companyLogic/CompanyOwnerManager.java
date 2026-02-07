@@ -1,12 +1,14 @@
 package com.klanting.signclick.logicLayer.companyLogic;
 
 import com.klanting.signclick.SignClick;
+import com.klanting.signclick.utils.statefullSQL.ClassFlush;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.text.DecimalFormat;
 import java.util.*;
 
+@ClassFlush
 public class CompanyOwnerManager {
     /*
     * CompanyOwnerManager will manage the ownership and share control of the company

@@ -41,20 +41,20 @@ import static com.klanting.signclick.utils.Utils.AssertMet;
 @ClassFlush
 public class Company extends LoggableSubject implements CompanyI{
 
-    protected String name;
-    protected String stockName;
+    private String name;
+    private String stockName;
     private Research research;
-    public final Map<BlockPosKey, Machine> machines = new HashMap<>();
-    public List<Upgrade> upgrades = new ArrayList<>();
-    public List<Patent> patent = new ArrayList<>();
+    private final Map<BlockPosKey, Machine> machines = new HashMap<>();
+    private List<Upgrade> upgrades = new ArrayList<>();
+    private List<Patent> patent = new ArrayList<>();
 
     private ContractRequest pendingContractRequest = null;
 
-    public List<PatentUpgrade> patentUpgrades = new ArrayList<>();
+    private List<PatentUpgrade> patentUpgrades = new ArrayList<>();
 
-    public Country country;
+    private Country country;
 
-    public String type;
+    private String type;
 
     /*
      * Represents the share base value
@@ -72,6 +72,7 @@ public class Company extends LoggableSubject implements CompanyI{
 
     private List<Product> products = new ArrayList<>();
 
+    private CompanyOwnerManager companyOwnerManager;
 
     public Research getResearch() {
         return research;
@@ -121,7 +122,6 @@ public class Company extends LoggableSubject implements CompanyI{
         return patent;
     }
 
-
     public void addProduct(Product product){
         if (!products.stream().filter(p -> p.getMaterial() == product.getMaterial()).findFirst().isPresent()){
             products.add(product);
@@ -144,7 +144,7 @@ public class Company extends LoggableSubject implements CompanyI{
         this.spendable = Math.max(spendable, 0);
     }
 
-    private CompanyOwnerManager companyOwnerManager;
+
 
     public Company(@NotNull String n, String StockName, Account creater, double creationCost, String type){
         super();

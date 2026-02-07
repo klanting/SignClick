@@ -3,22 +3,20 @@ package com.klanting.signclick.logicLayer.companyLogic;
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.logicLayer.companyLogic.CompanyI;
 import com.klanting.signclick.logicLayer.companyLogic.CompanyOwnerManager;
+import com.klanting.signclick.utils.statefullSQL.ClassFlush;
 import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Bukkit;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
+@ClassFlush
 public class Board {
     /**
     * Keep track of the board of a given company
     * */
 
     private static final List<String> rankingOrder = List.of("CEO", "CFO", "CTO");
-
-    public int getBoardSeats() {
-        return boardSeats;
-    }
 
     /*
     * Stores how many seats are on the company board
@@ -30,38 +28,42 @@ public class Board {
     * */
     private transient CompanyOwnerManager companyOwnerManager = null;
 
+    private Map<String, Map<UUID, Double>> salaryMap = new HashMap<>();
+
+    /*
+     * Keep track of which board members are supported by a given shareholder
+     * */
+    private Map<UUID, List<UUID>> boardSupport = new HashMap<>();
+
+    /*
+     * Keep track for each Chief position, which board member supports which person
+     * */
+    private Map<String, Map<UUID, UUID>> chiefSupport = new HashMap<>();
+
+    /*
+     * Store last chief position, to resolve support changes, when tied occurs
+     * */
+    private Map<String, UUID> currentChief = new HashMap<>();
+
     public Double getSalaryMap(UUID boardMember, String position) {
         return salaryMap.get(position).getOrDefault(boardMember, 0.0);
     }
 
-    private Map<String, Map<UUID, Double>> salaryMap = new HashMap<>();
+    public int getBoardSeats() {
+        return boardSeats;
+    }
 
     public List<UUID> getBoardSupport(UUID shareholder) {
         return boardSupport.getOrDefault(shareholder, new ArrayList<>());
     }
 
-    /*
-    * Keep track of which board members are supported by a given shareholder
-    * */
-    private Map<UUID, List<UUID>> boardSupport = new HashMap<>();
-
     public UUID getChiefSupport(String position, UUID boardMember) {
         return chiefSupport.get(position).get(boardMember);
     }
 
-    /*
-    * Keep track for each Chief position, which board member supports which person
-    * */
-    private Map<String, Map<UUID, UUID>> chiefSupport = new HashMap<>();
-
     public boolean isCurrentChief(UUID uuid) {
         return currentChief.containsValue(uuid);
     }
-
-    /*
-    * Store last chief position, to resolve support changes, when tied occurs
-    * */
-    private Map<String, UUID> currentChief = new HashMap<>();
 
     public void addBoardSupport(UUID shareHolder, UUID boardMember){
         /*
