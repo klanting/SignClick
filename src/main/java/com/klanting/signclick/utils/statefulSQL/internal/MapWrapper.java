@@ -124,7 +124,9 @@ public class MapWrapper<S, T> implements Map<S, T> {
             return null;
         }
 
-        return DatabaseSingleton.getInstance().getObjectByKey(keyId, clazz, true);
+        Class<?> realClass = DatabaseSingleton.getInstance().getRealClass(keyId);
+
+        return DatabaseSingleton.getInstance().getObjectByKey(keyId, realClass, true);
     }
 
     private void deleteByAutoFlushId(UUID autoFlushId){

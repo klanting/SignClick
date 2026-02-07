@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import tools.DataBaseTest;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import static org.gradle.internal.impldep.org.testng.AssertJUnit.assertEquals;
@@ -75,7 +76,7 @@ class DummyPtrMap extends DummyParent{
         return valPtr;
     }
 
-    private Map<String, DummyParent> valPtr;
+    private Map<String, DummyParent> valPtr = new HashMap<>();
 
     public DummyPtrMap(){
         valPtr.put("A", new DummyChild());
@@ -125,6 +126,21 @@ public class InheritanceTests {
         DummyPtr ptr = dummies.get(0);
 
         assertEquals(1, ptr.getValPtr().getValp());
+    }
+
+    @Test
+    void simpleDerivedPtrMapTest(){
+        DatabaseSingleton.getInstance(DataBaseTest.getConnection());
+
+        OrderedList<DummyPtrMap> dummies = new OrderedList<>("a",DummyPtrMap.class);
+        dummies.add(new DummyPtrMap());
+
+        DummyPtrMap ptr = dummies.get(0);
+
+        assertEquals(1, ptr.getValPtr().get("A").getValp());
+        DummyChild child = (DummyChild) ptr.getValPtr().get("A");
+        assertEquals(2, child.getValc());
+
     }
 
 }

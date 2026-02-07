@@ -184,7 +184,8 @@ public class ListWrapper<T> implements List<T> {
 
             if (rs3.next()){
                 UUID autoFlushId2 = (UUID) rs3.getObject("autoFlushId2");
-                return DatabaseSingleton.getInstance().getObjectByKey(autoFlushId2, clazz, true);
+                Class<?> realClass = DatabaseSingleton.getInstance().getRealClass(autoFlushId2);
+                return DatabaseSingleton.getInstance().getObjectByKey(autoFlushId2, realClass, true);
             }
 
             return null;
