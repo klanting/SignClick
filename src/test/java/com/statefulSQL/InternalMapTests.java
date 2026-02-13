@@ -49,6 +49,10 @@ class Dummy9{
     * circular mapping Dummy9 has Map for Dummy8, and Dummy8 has Map for Dummy 9
     * */
 
+    public int getVal2() {
+        return val2;
+    }
+
     public int val2 = 3;
 
     public Map<String, Dummy8> getDummies5() {
@@ -66,6 +70,10 @@ class Dummy8{
     /*
      * circular mapping Dummy9 has Map for Dummy8, and Dummy8 has Map for Dummy 9
      * */
+
+    public int getVal2() {
+        return val2;
+    }
 
     public int val2 = 4;
 
@@ -118,6 +126,9 @@ public class InternalMapTests {
         * make the circular dependency circular
         * */
         dum8.getDummies5().put("B", dum);
+
+        assertEquals(3, dum.getVal2());
+        assertEquals(4, dum8.getVal2());
 
     }
 

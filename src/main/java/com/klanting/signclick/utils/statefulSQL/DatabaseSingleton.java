@@ -27,6 +27,8 @@ record MapInsertEntry(String variable, UUID autoFlushId2, String key, String map
 
 public class DatabaseSingleton {
 
+    private final Map<UUID, Object> removeCache = new HashMap<>();
+
     private final Map<String, Class<?>> accessedMap = new HashMap<>();
 
     public void registerAccessedClass(String key, Class<?> clazz){
@@ -888,22 +890,33 @@ public class DatabaseSingleton {
         /*
         * In case when we are linking an object already stored in the SQL backend.
         * */
-        if (ByteBuddyEnhanced.class.isAssignableFrom(entity.getClass())){
-            Class<T> clazz = (Class<T>) entity.getClass();
+        Class<T> originalClazz = (Class<T>) entity.getClass();
+        Class<T> clazz = (Class<T>) getOriginalClass(entity.getClass());
+        if (ByteBuddyEnhanced.class.isAssignableFrom(originalClazz)){
 
+            UUID autoFlushId;
             try{
-                return (UUID) clazz.getDeclaredField("autoFlushId").get(entity);
+                autoFlushId = (UUID) originalClazz.getDeclaredField("autoFlushId").get(entity);
             }catch (Exception e){
                 throw new RuntimeException(e);
             }
 
+            /*
+            * when removed (in remove cache, store again)
+            * */
+            if (!removeCache.containsKey(autoFlushId)){
+                return autoFlushId;
+            }
+            entity = (T) removeCache.get(autoFlushId);
+            /*
+            * set the clazz to main clazz, not the byteBuddy with autoFlushId
+            * */
+            clazz = (Class<T>) originalClazz.getSuperclass();
         }
 
-        assert !(ByteBuddyEnhanced.class.isAssignableFrom(entity.getClass()));
+        assert !(ByteBuddyEnhanced.class.isAssignableFrom(clazz));
 
         try {
-            Class<T> clazz = (Class<T>) entity.getClass();
-            System.out.println("CA"+clazz);
 
             DatabaseMetaData metaData = connection.getMetaData();
 
@@ -946,15 +959,15 @@ public class DatabaseSingleton {
             for (Field field: getAllDeclaredFields(clazz)){
                 field.setAccessible(true);
 
-                Class<?> type2 = field.getType();
+                Class<?> type2 = getOriginalClass(field.getType());
 
                 Object data = field.get(entity);
                 if (data != null){
-                    type2 = data.getClass();
+                    type2 = getOriginalClass(data.getClass());
                 }
 
                 /*
-                * special java thigns such as $assertion
+                * special java things such as $assertion
                 * */
                 if (field.getName().startsWith("$")){
                     continue;
@@ -1016,8 +1029,6 @@ public class DatabaseSingleton {
                     String mapTableName = getTableName(clazz)+"_map_"+getTableName(clazz2);
                     String variable = field.getName();
 
-                    System.out.println("E "+field.getName()+" "+field.get(entity));
-
                     for (Map.Entry<Object, Object> entry: ((Map<Object, Object>) field.get(entity)).entrySet()){
 
                         Object key = entry.getKey();
@@ -1046,7 +1057,6 @@ public class DatabaseSingleton {
                 insertStmt.setObject(i + 1, values.get(i).getRight()); // JDBC is 1-indexed
             }
             insertStmt.setObject(values.size()+1, autoFlushId);
-            System.out.println("INSERTING "+insertStmt);
             insertStmt.executeUpdate();
 
             /*
@@ -1112,7 +1122,6 @@ public class DatabaseSingleton {
             //TODO add support mapDict
             String sql = "SELECT COUNT(*) FROM statefulSQL"+"OrderedList"+" WHERE autoflushid = ?";
 
-
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setObject(1, key);
             ResultSet rs = ps.executeQuery();
@@ -1122,7 +1131,15 @@ public class DatabaseSingleton {
             if (count != 0){
                 return;
             }
+            /*
+            * store object in remove cache, in case temp ptr stills stored
+            * */
+            Object removedObject = getObjectByKey(key, clazz);
+            removeCache.put(key, removedObject);
 
+            /*
+            * Delete from table
+            * */
             String tableName = getTableName(clazz);
 
             sql = "DELETE FROM "+tableName+" WHERE autoflushid = ?";
@@ -1234,7 +1251,7 @@ public class DatabaseSingleton {
 
         Class<T> clazz = (Class<T>) entity.getClass();
 
-        assert clazz.isAnnotationPresent(ClassFlush.class);
+        assert clazz.isAnnotationPresent(ClassFlush.class) || ByteBuddyEnhanced.class.isAssignableFrom(clazz);
 
         try {
 

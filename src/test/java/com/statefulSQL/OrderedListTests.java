@@ -496,4 +496,50 @@ public class OrderedListTests {
         assertEquals(3, dummies.get(1).hello());
     }
 
+    @Test
+    void clearList(){
+        /*
+        * clear list and check all correctly removed
+        * */
+        DatabaseSingleton.getInstance(DataBaseTest.getConnection());
+        OrderedList<Dummy2> dummies = new OrderedList<>("a",Dummy2.class);
+
+        dummies.add(new Dummy2());
+        dummies.add(new Dummy2());
+        dummies.add(new Dummy2());
+        assertEquals(3, dummies.size());
+
+        dummies.clear();
+        assertEquals(0, dummies.size());
+    }
+
+    @Test
+    void tempRemovedList(){
+        /*
+        * Have an item from a list (store in sql), keep temp pointer and remove it from access list, add it to new access list
+        * */
+
+        DatabaseSingleton.getInstance(DataBaseTest.getConnection());
+        OrderedList<Dummy2> dummies = new OrderedList<>("a",Dummy2.class);
+        OrderedList<Dummy2> dummies2 = new OrderedList<>("b",Dummy2.class);
+
+        Dummy2 dum = dummies.createRow(new Dummy2());
+        assertEquals(1, dummies.size());
+
+        /*
+        * remove from original list
+        * */
+        dummies.remove(dum);
+
+        /*
+        * add to new list
+        * */
+        dummies2.add(dum);
+
+        assertEquals(0, dummies.size());
+        assertEquals(1, dummies2.size());
+
+
+    }
+
 }
