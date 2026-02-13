@@ -2,6 +2,7 @@ package com.klanting.signclick.utils.statefulSQL.access;
 
 
 import com.klanting.signclick.utils.statefulSQL.DatabaseSingleton;
+import com.klanting.signclick.utils.statefulSQL.access.needed.OrderedSubList;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Field;
@@ -11,7 +12,16 @@ import java.util.*;
 
 public class OrderedList<T> implements AccessPoint<T>, List<T> {
 
+    protected Class<T> getType() {
+        return type;
+    }
+
     private final Class<T> type;
+
+    protected String getGroupName() {
+        return groupName;
+    }
+
     private final String groupName;
 
     public void decrModCount(){
@@ -372,39 +382,18 @@ public class OrderedList<T> implements AccessPoint<T>, List<T> {
 
     @Override
     public T set(int index, T element) {
+        T toOverride = this.get(index);
+        this.remove(toOverride);
 
-        T entity = createRow(element);
+        /*
+         * set index from last index to the chosen index (indexes already updates, so a plain add will work)
+         * */
+        internalAdd(index, element);
 
-        try {
-            UUID uuid = (UUID) entity.getClass().getDeclaredField("autoFlushId").get(entity);
-
-            UUID id = DatabaseSingleton.getInstance().getIdByGroup(groupName, "OrderedList");
-
-            T toOverride = this.get(index);
-            this.remove(toOverride);
-
-            String updateSql =
-                    "UPDATE statefulSQLOrderedList " +
-                            "SET index = "+index+" " +
-                            "WHERE id = ? AND autoFlushId = ?";
-
-            PreparedStatement updatePs = DatabaseSingleton.getInstance().getConnection().prepareStatement(updateSql);
-            updatePs.setObject(1, id);
-            updatePs.setObject(2, uuid);
-
-            updatePs.executeUpdate();
-
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        } catch (NoSuchFieldException | SQLException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-        return entity;
+        return get(index);
     }
 
-    @Override
-    public void add(int index, T element) {
+    private void internalAdd(int index, T element){
         T entity = createRow(element);
         try {
             UUID uuid = (UUID) entity.getClass().getDeclaredField("autoFlushId").get(entity);
@@ -413,8 +402,8 @@ public class OrderedList<T> implements AccessPoint<T>, List<T> {
 
             String updateSql =
                     "UPDATE statefulSQLOrderedList " +
-                    "SET index = index + 1 " +
-                    "WHERE id = ? AND index >= ? ";
+                            "SET index = index + 1 " +
+                            "WHERE id = ? AND index >= ? ";
 
             PreparedStatement updatePs = DatabaseSingleton.getInstance().getConnection().prepareStatement(updateSql);
             updatePs.setObject(1, id);
@@ -438,7 +427,11 @@ public class OrderedList<T> implements AccessPoint<T>, List<T> {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
+    }
 
+    @Override
+    public void add(int index, T element) {
+        internalAdd(index, element);
     }
 
     @Override
@@ -516,7 +509,6 @@ public class OrderedList<T> implements AccessPoint<T>, List<T> {
     @NotNull
     @Override
     public List<T> subList(int fromIndex, int toIndex) {
-        List<T> sortedEntities = getSortedList();
-        return sortedEntities.subList(fromIndex, toIndex);
+        return new OrderedSubList<>(groupName, type, fromIndex, toIndex);
     }
 }

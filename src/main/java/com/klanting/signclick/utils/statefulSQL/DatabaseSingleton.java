@@ -553,7 +553,7 @@ public class DatabaseSingleton {
         if(!tableExists("statefulSQLLookupTable")){
             String tableCreation = String.format("""
                         CREATE TABLE %s (
-                        autoFlushId UUID PRIMARY KEY,
+                        autoFlushId UUID PRIMARY KEY DEFERRABLE INITIALLY DEFERRED,
                         className VARCHAR NOT NULL
                         );
                         """, "statefulSQLLookupTable");
@@ -572,7 +572,7 @@ public class DatabaseSingleton {
         if (!tableExists("statefulSQL")){
             String tableCreation = String.format("""
                         CREATE TABLE %s (
-                        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+                        id UUID PRIMARY KEY DEFERRABLE INITIALLY DEFERRED DEFAULT gen_random_uuid() ,
                         type VARCHAR NOT NULL,
                         groupName VARCHAR NOT NULL
                         );

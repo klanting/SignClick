@@ -60,6 +60,14 @@ public class CompanyFlushTests {
         assertEquals(1000.0, company.getBal(), 0.01);
         company.getCOM().getBoard().setBoardSeats(10);
         assertEquals(10, company.getCOM().getBoard().getBoardSeats());
+
+        /*
+        * Add company balance of 1000
+        * */
+        company.addBal(1000);
+        assertEquals(2000.0, company.getBal(), 0.01);
+        assertEquals(2000.0, companies.get(0).getBal(), 0.01);
+
     }
 
 

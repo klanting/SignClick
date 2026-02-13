@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import tools.DataBaseTest;
 
+import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.List;
@@ -514,7 +515,7 @@ public class OrderedListTests {
     }
 
     @Test
-    void tempRemovedList(){
+    void tempRemovedFromList(){
         /*
         * Have an item from a list (store in sql), keep temp pointer and remove it from access list, add it to new access list
         * */
@@ -550,7 +551,113 @@ public class OrderedListTests {
         * see updated value in dummies2
         * */
         assertEquals(2, dummies2.get(0).hello());
+    }
 
+    @Test
+    void addIndex(){
+        DatabaseSingleton.getInstance(DataBaseTest.getConnection());
+        OrderedList<Dummy2> dummies = new OrderedList<>("a", Dummy2.class);
+
+        Dummy2 dum = new Dummy2();
+        Dummy2 dum2 = new Dummy2();
+        dum2.inc();
+
+        dummies.add(dum);
+        /*
+        * set Dummy 2 (with value 2 on first index)
+        * */
+        dummies.add(0, dum2);
+
+        assertEquals(2, dummies.size());
+        assertEquals(2, dummies.get(0).hello());
+        assertEquals(1, dummies.get(1).hello());
+    }
+
+    @Test
+    void setIndex(){
+        DatabaseSingleton.getInstance(DataBaseTest.getConnection());
+        OrderedList<Dummy2> dummies = new OrderedList<>("a", Dummy2.class);
+
+        Dummy2 dum = new Dummy2();
+        Dummy2 dum2 = new Dummy2();
+        dum2.inc();
+        Dummy2 dum3 = new Dummy2();
+        dum3.inc();
+        dum3.inc();
+
+        dummies.add(dum);
+        dummies.add(dum2);
+
+        assertEquals(2, dummies.size());
+        assertEquals(1, dummies.get(0).hello());
+        assertEquals(2, dummies.get(1).hello());
+
+        /*
+         * set Dummy2 on index 0
+         * */
+        dummies.set(0, dum3);
+
+        assertEquals(2, dummies.size());
+        assertEquals(3, dummies.get(0).hello());
+        assertEquals(2, dummies.get(1).hello());
+    }
+
+    @Test
+    void addAll(){
+        DatabaseSingleton.getInstance(DataBaseTest.getConnection());
+        /*
+        * prepare original collection
+        * */
+        List<Dummy2> preDummies = new ArrayList<>();
+        Dummy2 dum = new Dummy2();
+        Dummy2 dum2 = new Dummy2();
+        dum2.inc();
+        Dummy2 dum3 = new Dummy2();
+        dum3.inc();
+        dum3.inc();
+
+        preDummies.add(dum);
+        preDummies.add(dum2);
+        preDummies.add(dum3);
+
+        OrderedList<Dummy2> dummies = new OrderedList<>("a", Dummy2.class);
+        dummies.addAll(preDummies);
+
+        assertEquals(3, dummies.size());
+        assertEquals(1, dummies.get(0).hello());
+        assertEquals(2, dummies.get(1).hello());
+        assertEquals(3, dummies.get(2).hello());
+    }
+
+    @Test
+    void subList(){
+        DatabaseSingleton.getInstance(DataBaseTest.getConnection());
+
+        Dummy2 dum = new Dummy2();
+        Dummy2 dum2 = new Dummy2();
+        dum2.inc();
+        Dummy2 dum3 = new Dummy2();
+        dum3.inc();
+        dum3.inc();
+        Dummy2 dum4 = new Dummy2();
+        dum4.inc();
+        dum4.inc();
+        dum4.inc();
+
+        OrderedList<Dummy2> dummies = new OrderedList<>("a", Dummy2.class);
+        dummies.add(dum);
+        dummies.add(dum2);
+        dummies.add(dum3);
+        assertEquals(3, dummies.size());
+
+        List<Dummy2> subList = dummies.subList(1, 2);
+        assertEquals(1, subList.size());
+        assertEquals(2, subList.get(0).hello());
+
+        subList.set(0, dum4);
+
+        assertEquals(3, dummies.size());
+        assertEquals(4, dummies.get(1).hello());
 
     }
 
