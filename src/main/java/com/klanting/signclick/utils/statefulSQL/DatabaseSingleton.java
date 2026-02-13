@@ -868,7 +868,15 @@ public class DatabaseSingleton {
         throw new NoSuchFieldException("NO field "+fieldName);
     }
 
+    public static Class<?> getOriginalClass(Class<?> clazz){
+        while (ByteBuddyEnhanced.class.isAssignableFrom(clazz)){
+            clazz = clazz.getSuperclass();
+        }
+        return clazz;
+    }
+
     public <T> UUID store(String groupName, String type, T entity, UuidFunction storeTableFunc, boolean storeInTable, Map<Object, UUID> discoveredMap) {
+
         if (storeInTable){
             checkSetupTable(groupName, type);
         }
@@ -877,8 +885,25 @@ public class DatabaseSingleton {
             return discoveredMap.get(entity);
         }
 
+        /*
+        * In case when we are linking an object already stored in the SQL backend.
+        * */
+        if (ByteBuddyEnhanced.class.isAssignableFrom(entity.getClass())){
+            Class<T> clazz = (Class<T>) entity.getClass();
+
+            try{
+                return (UUID) clazz.getDeclaredField("autoFlushId").get(entity);
+            }catch (Exception e){
+                throw new RuntimeException(e);
+            }
+
+        }
+
+        assert !(ByteBuddyEnhanced.class.isAssignableFrom(entity.getClass()));
+
         try {
-            Class<T> clazz = (Class<T>)  entity.getClass();
+            Class<T> clazz = (Class<T>) entity.getClass();
+            System.out.println("CA"+clazz);
 
             DatabaseMetaData metaData = connection.getMetaData();
 
@@ -991,6 +1016,8 @@ public class DatabaseSingleton {
                     String mapTableName = getTableName(clazz)+"_map_"+getTableName(clazz2);
                     String variable = field.getName();
 
+                    System.out.println("E "+field.getName()+" "+field.get(entity));
+
                     for (Map.Entry<Object, Object> entry: ((Map<Object, Object>) field.get(entity)).entrySet()){
 
                         Object key = entry.getKey();
@@ -1019,6 +1046,7 @@ public class DatabaseSingleton {
                 insertStmt.setObject(i + 1, values.get(i).getRight()); // JDBC is 1-indexed
             }
             insertStmt.setObject(values.size()+1, autoFlushId);
+            System.out.println("INSERTING "+insertStmt);
             insertStmt.executeUpdate();
 
             /*

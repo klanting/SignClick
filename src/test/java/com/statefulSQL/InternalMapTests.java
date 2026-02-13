@@ -43,6 +43,41 @@ class Dummy6{
     }
 }
 
+@ClassFlush
+class Dummy9{
+    /*
+    * circular mapping Dummy9 has Map for Dummy8, and Dummy8 has Map for Dummy 9
+    * */
+
+    public int val2 = 3;
+
+    public Map<String, Dummy8> getDummies5() {
+        return dummies8;
+    }
+
+    private final Map<String, Dummy8> dummies8 = new HashMap<>();
+    public Dummy9(){
+        dummies8.put("A", new Dummy8());
+    }
+}
+
+@ClassFlush
+class Dummy8{
+    /*
+     * circular mapping Dummy9 has Map for Dummy8, and Dummy8 has Map for Dummy 9
+     * */
+
+    public int val2 = 4;
+
+    public Map<String, Dummy9> getDummies5() {
+        return dummies9;
+    }
+
+    private final Map<String, Dummy9> dummies9 = new HashMap<>();
+    public Dummy8(){
+    }
+}
+
 public class InternalMapTests {
 
     @BeforeEach
@@ -69,9 +104,20 @@ public class InternalMapTests {
         dum.getDummies5().get("A").setVal(2);
         assertEquals(2, dum.getDummies5().get("A").getVal());
 
+    }
 
+    @Test
+    void circularMappingAttribute(){
+        DatabaseSingleton.getInstance(DataBaseTest.getConnection());
 
+        MapDict<String, Dummy9> dummies = new MapDict<>("a",String.class, Dummy9.class);
+        Dummy9 dum = dummies.createRow("A", new Dummy9());
+        Dummy8 dum8 = dum.getDummies5().get("A");
 
+        /*
+        * make the circular dependency circular
+        * */
+        dum8.getDummies5().put("B", dum);
 
     }
 
