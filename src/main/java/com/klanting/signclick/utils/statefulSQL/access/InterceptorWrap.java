@@ -24,8 +24,17 @@ public class InterceptorWrap<T> {
         Field field2 = clazz.getDeclaredField("autoFlushId");
         UUID uuid = (UUID) field2.get(self);
 
-        Class<?> clazzOriginal = DatabaseSingleton.getInstance().getRealClass(uuid);
-        T instance = DatabaseSingleton.getInstance().getObjectByKey(uuid, clazzOriginal);
+        T instance;
+        if (!DatabaseSingleton.getInstance().getRemoveCache().containsKey(uuid)){
+            /*
+            * when item in sql database
+            * */
+            Class<?> clazzOriginal = DatabaseSingleton.getInstance().getRealClass(uuid);
+            instance = DatabaseSingleton.getInstance().getObjectByKey(uuid, clazzOriginal);
+        }else{
+            instance = (T) DatabaseSingleton.getInstance().getRemoveCache().get(uuid);
+        }
+
 
         if (method.getName().equals("equals") && args.length == 1) {
             Object other = args[0];

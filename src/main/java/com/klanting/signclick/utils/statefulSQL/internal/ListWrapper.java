@@ -97,7 +97,7 @@ public class ListWrapper<T> implements List<T> {
 
     @Override
     public boolean add(Object o) {
-        UUID newUUID = DatabaseSingleton.getInstance().store("", "", o, (u) -> {}, false);
+        UUID newUUID = DatabaseSingleton.getInstance().store(o, (u) -> {}, false);
 
         String insertListSql = "INSERT INTO "+listTableName+" (variable, autoFlushId1, autoFlushId2, index) VALUES (?, ?, ?, ?)";
 
@@ -232,7 +232,7 @@ public class ListWrapper<T> implements List<T> {
         /*
         * add new item
         * */
-        UUID newUUID = DatabaseSingleton.getInstance().store("", "", element, (u) -> {}, false);
+        UUID newUUID = DatabaseSingleton.getInstance().store(element, (u) -> {}, false);
 
         String insertListSql = "INSERT INTO "+listTableName+" (variable, autoFlushId1, autoFlushId2, index) VALUES (?, ?, ?, ?)";
 

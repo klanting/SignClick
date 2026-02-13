@@ -27,6 +27,10 @@ record MapInsertEntry(String variable, UUID autoFlushId2, String key, String map
 
 public class DatabaseSingleton {
 
+    public Map<UUID, Object> getRemoveCache() {
+        return removeCache;
+    }
+
     private final Map<UUID, Object> removeCache = new HashMap<>();
 
     private final Map<String, Class<?>> accessedMap = new HashMap<>();
@@ -837,14 +841,6 @@ public class DatabaseSingleton {
 
     }
 
-    public <T> UUID store(String groupName, String type, UuidFunction storeTableFunc, T entity) {
-        return store(groupName, type, entity, storeTableFunc, true);
-    }
-
-    public <T> UUID store(String groupName, String type, T entity, UuidFunction storeTableFunc, boolean storeInTable) {
-        return store(groupName, type, entity, storeTableFunc, storeInTable, new HashMap<>());
-    }
-
     public static List<Field> getAllDeclaredFields(Class<?> clazz) {
         List<Field> fields = new ArrayList<>();
 
@@ -877,11 +873,16 @@ public class DatabaseSingleton {
         return clazz;
     }
 
-    public <T> UUID store(String groupName, String type, T entity, UuidFunction storeTableFunc, boolean storeInTable, Map<Object, UUID> discoveredMap) {
+    public <T> UUID store(T entity, UuidFunction storeTableFunc) {
+        return store(entity, storeTableFunc, true);
+    }
 
-        if (storeInTable){
-            checkSetupTable(groupName, type);
-        }
+
+    public <T> UUID store(T entity, UuidFunction storeTableFunc, boolean storeInTable) {
+        return store(entity, storeTableFunc, storeInTable, new HashMap<>());
+    }
+
+    public <T> UUID store(T entity, UuidFunction storeTableFunc, boolean storeInTable, Map<Object, UUID> discoveredMap) {
 
         if (discoveredMap.containsKey(entity)){
             return discoveredMap.get(entity);
@@ -892,9 +893,14 @@ public class DatabaseSingleton {
         * */
         Class<T> originalClazz = (Class<T>) entity.getClass();
         Class<T> clazz = (Class<T>) getOriginalClass(entity.getClass());
-        if (ByteBuddyEnhanced.class.isAssignableFrom(originalClazz)){
 
-            UUID autoFlushId;
+        UUID autoFlushId;
+
+        if (ByteBuddyEnhanced.class.isAssignableFrom(originalClazz)){
+            /*
+            * Case when object already has autoFlushId
+            * */
+
             try{
                 autoFlushId = (UUID) originalClazz.getDeclaredField("autoFlushId").get(entity);
             }catch (Exception e){
@@ -910,11 +916,19 @@ public class DatabaseSingleton {
             entity = (T) removeCache.get(autoFlushId);
             /*
             * set the clazz to main clazz, not the byteBuddy with autoFlushId
+            * New creation creates object again with original UUID, so cache not needed anymore
             * */
+            removeCache.remove(autoFlushId);
+
             clazz = (Class<T>) originalClazz.getSuperclass();
+        }else{
+            autoFlushId = UUID.randomUUID();
         }
 
         assert !(ByteBuddyEnhanced.class.isAssignableFrom(clazz));
+        /*
+        * Start storing a completely new object
+        * */
 
         try {
 
@@ -953,7 +967,6 @@ public class DatabaseSingleton {
             /*
             * need precomputed id, in case of import cycles
             * */
-            UUID autoFlushId = UUID.randomUUID();
             discoveredMap.put(entity, autoFlushId);
 
             for (Field field: getAllDeclaredFields(clazz)){
@@ -974,7 +987,7 @@ public class DatabaseSingleton {
                 }
 
                 if (type2.isAnnotationPresent(ClassFlush.class) && data != null){
-                    UUID uuid = store(groupName, type, data, storeTableFunc, false, discoveredMap);
+                    UUID uuid = store(data, storeTableFunc, false, discoveredMap);
                     values.add(Pair.of(field.getName(), uuid));
                     continue;
                 }
@@ -1002,7 +1015,7 @@ public class DatabaseSingleton {
 
                     int index = 0;
                     for (Object targetObj: (List<Object>) field.get(entity)){
-                        UUID autoFlushId2 = store(groupName, type, targetObj, storeTableFunc, false, discoveredMap);
+                        UUID autoFlushId2 = store(targetObj, storeTableFunc, false, discoveredMap);
 
                         listInsertEntries.add(new ListInsertEntry(variable, autoFlushId2, index, listTableName));
                         index += 1;
@@ -1034,7 +1047,7 @@ public class DatabaseSingleton {
                         Object key = entry.getKey();
                         Object targetObj = entry.getValue();
 
-                        UUID autoFlushId2 = store(groupName, type, targetObj, storeTableFunc, false, discoveredMap);
+                        UUID autoFlushId2 = store(targetObj, storeTableFunc, false, discoveredMap);
 
                         mapInsertEntries.add(new MapInsertEntry(variable, autoFlushId2, key.toString(), mapTableName));
                     }
@@ -1065,7 +1078,7 @@ public class DatabaseSingleton {
             insertSql = "INSERT INTO statefulSQLLookupTable (className, autoFlushId) VALUES (?, ?)";
             insertStmt = connection.prepareStatement(insertSql);
 
-            insertStmt.setObject(1, entity.getClass().getName());
+            insertStmt.setObject(1, getOriginalClass(entity.getClass()).getName());
             insertStmt.setObject(2, autoFlushId);
             insertStmt.executeUpdate();
 
@@ -1141,6 +1154,17 @@ public class DatabaseSingleton {
             * Delete from table
             * */
             String tableName = getTableName(clazz);
+
+            sql = "DELETE FROM "+tableName+" WHERE autoflushid = ?";
+
+            ps = DatabaseSingleton.getInstance().getConnection().prepareStatement(sql);
+            ps.setObject(1, key);
+            ps.executeUpdate();
+
+            /*
+            * delete from lookup table
+            * */
+            tableName = "statefulsqllookuptable";
 
             sql = "DELETE FROM "+tableName+" WHERE autoflushid = ?";
 
@@ -1254,11 +1278,15 @@ public class DatabaseSingleton {
         assert clazz.isAnnotationPresent(ClassFlush.class) || ByteBuddyEnhanced.class.isAssignableFrom(clazz);
 
         try {
+            /*
+            * check if the table exists
+            * */
+            DatabaseSingleton.getInstance().checkSetupTable(groupName, type);
 
             /*
              * Store class in SQL
              * */
-            UUID id = DatabaseSingleton.getInstance().store(groupName, type, storeTableFunc, entity);
+            UUID id = DatabaseSingleton.getInstance().store(entity, storeTableFunc);
 
             /*
              * override class so it contains a UUID

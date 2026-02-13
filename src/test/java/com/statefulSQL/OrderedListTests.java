@@ -532,12 +532,24 @@ public class OrderedListTests {
         dummies.remove(dum);
 
         /*
+        * check if intermediate state still actively update
+        * */
+        assertEquals(1, dum.hello());
+        dum.inc();
+        assertEquals(2, dum.hello());
+
+        /*
         * add to new list
         * */
         dummies2.add(dum);
 
         assertEquals(0, dummies.size());
         assertEquals(1, dummies2.size());
+
+        /*
+        * see updated value in dummies2
+        * */
+        assertEquals(2, dummies2.get(0).hello());
 
 
     }

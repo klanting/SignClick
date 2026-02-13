@@ -152,7 +152,7 @@ public class MapWrapper<S, T> implements Map<S, T> {
             deleteByAutoFlushId(keyId);
         }
 
-        UUID newUUID = DatabaseSingleton.getInstance().store("", "", value, (u) -> {}, false);
+        UUID newUUID = DatabaseSingleton.getInstance().store(value, (u) -> {}, false);
 
         String insertListSql = "INSERT INTO "+mapTableName+" (variable, autoFlushId1, autoFlushId2, key) VALUES (?, ?, ?, ?)";
 
