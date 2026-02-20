@@ -40,8 +40,6 @@ class ChainA{
 @ClassFlush
 class ChainB{
 
-    public int useless = -1;
-
     private ChainA chainA;
 
     ChainB(ChainA a){

@@ -1249,7 +1249,13 @@ public class DatabaseSingleton {
                 }
             }
             insertStmt.setObject(values.size()+1, key);
-            insertStmt.executeUpdate();
+            /*
+            * update only when update is useful
+            * */
+            if (!columns.isEmpty()){
+                insertStmt.executeUpdate();
+            }
+
 
 
         }catch (SQLException e){
