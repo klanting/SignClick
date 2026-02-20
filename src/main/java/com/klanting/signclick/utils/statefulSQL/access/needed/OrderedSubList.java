@@ -4,17 +4,32 @@ import com.klanting.signclick.utils.statefulSQL.DatabaseSingleton;
 import com.klanting.signclick.utils.statefulSQL.access.OrderedList;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
-public class OrderedSubList<T> extends OrderedList<T> {
+public class OrderedSubList<T> implements List<T> {
     //TODO class not finished yet
 
     private final int fromIndex;
     private int toIndex;
 
-    public OrderedSubList(String name, Class<T> type, int fromIndex, int toIndex) {
-        super(name, type);
+    private final Class<T> type;
+
+    protected String getGroupName() {
+        return groupName;
+    }
+
+    private final String groupName;
+
+
+    private final OrderedList<T> ref;
+
+    public OrderedSubList(String name, Class<T> type, int fromIndex, int toIndex, OrderedList<T> ref) {
+        this.groupName = name;
+        this.type = type;
+        this.ref = ref;
 
         this.fromIndex = fromIndex;
         this.toIndex = toIndex;
@@ -26,21 +41,62 @@ public class OrderedSubList<T> extends OrderedList<T> {
     }
 
     @Override
+    public boolean isEmpty() {
+        return false;
+    }
+
+    @Override
     public boolean add(T t) {
-        super.add(toIndex, t);
+        ref.add(toIndex, t);
         toIndex += 1;
         return true;
     }
 
     @Override
+    public boolean remove(Object o) {
+        return false;
+    }
+
+    @Override
+    public boolean containsAll(@NotNull Collection<?> c) {
+        return false;
+    }
+
+    @Override
+    public boolean addAll(@NotNull Collection<? extends T> c) {
+        return false;
+    }
+
+    @Override
+    public boolean addAll(int index, @NotNull Collection<? extends T> c) {
+        return false;
+    }
+
+    @Override
+    public boolean removeAll(@NotNull Collection<?> c) {
+        return false;
+    }
+
+    @Override
+    public boolean retainAll(@NotNull Collection<?> c) {
+        return false;
+    }
+
+    @Override
     public boolean contains(Object o) {
-        List<T> entities = DatabaseSingleton.getInstance().getAll(getGroupName(), "OrderedList", getType());
+        List<T> entities = DatabaseSingleton.getInstance().getAll(getGroupName(), "OrderedList", type);
         return entities.subList(fromIndex, toIndex).contains(o);
+    }
+
+    @NotNull
+    @Override
+    public Iterator<T> iterator() {
+        return null;
     }
 
     @Override
     public T get(int index) {
-        return super.get(index+fromIndex);
+        return ref.get(index+fromIndex);
     }
 
     @NotNull
@@ -62,12 +118,12 @@ public class OrderedSubList<T> extends OrderedList<T> {
 
     @Override
     public T set(int index, T element) {
-        return super.set(index+fromIndex, element);
+        return ref.set(index+fromIndex, element);
     }
 
     @Override
     public void add(int index, T element) {
-        super.add(index+fromIndex, element);
+        ref.add(index+fromIndex, element);
     }
 
     @Override

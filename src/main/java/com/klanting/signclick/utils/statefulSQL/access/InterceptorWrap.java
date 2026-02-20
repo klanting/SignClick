@@ -5,9 +5,13 @@ import net.bytebuddy.implementation.bind.annotation.*;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 public class InterceptorWrap<T> {
+
+    private static final Map<UUID, Object> dirtyPageCache = new HashMap<>();
 
 
     public InterceptorWrap() {
@@ -24,15 +28,23 @@ public class InterceptorWrap<T> {
         Field field2 = clazz.getDeclaredField("autoFlushId");
         UUID uuid = (UUID) field2.get(self);
 
+        boolean alreadyDirty = false;
+
         T instance;
-        if (!DatabaseSingleton.getInstance().getRemoveCache().containsKey(uuid)){
+        if (DatabaseSingleton.getInstance().getRemoveCache().containsKey(uuid)) {
+            instance = (T) DatabaseSingleton.getInstance().getRemoveCache().get(uuid);
+        }else if(dirtyPageCache.containsKey(uuid)){
+            alreadyDirty = true;
+            instance = (T) dirtyPageCache.get(uuid);
+
+        }else{
             /*
-            * when item in sql database
-            * */
+             * when item in sql database
+             * */
             Class<?> clazzOriginal = DatabaseSingleton.getInstance().getRealClass(uuid);
             instance = DatabaseSingleton.getInstance().getObjectByKey(uuid, clazzOriginal);
-        }else{
-            instance = (T) DatabaseSingleton.getInstance().getRemoveCache().get(uuid);
+
+            dirtyPageCache.put(uuid, instance);
         }
 
 
@@ -60,8 +72,16 @@ public class InterceptorWrap<T> {
         method.setAccessible(true);
         Object result = method.invoke(instance, args);
 
-        //Flush changes made to object
-        DatabaseSingleton.getInstance().update(uuid, instance);
+        /*
+        * when this intercept call made the page dirty, flush again and remove dirty when done with operation
+        * */
+        if(!alreadyDirty){
+            //Flush changes made to object
+            DatabaseSingleton.getInstance().update(uuid, instance);
+
+            dirtyPageCache.remove(uuid);
+        }
+
 
         return result; // or modify result if you want
     }

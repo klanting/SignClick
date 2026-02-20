@@ -2,6 +2,7 @@ package com.klanting.signclick.utils.statefulSQL.access;
 
 
 import com.klanting.signclick.utils.statefulSQL.DatabaseSingleton;
+import com.klanting.signclick.utils.statefulSQL.access.needed.AccessIterator;
 import com.klanting.signclick.utils.statefulSQL.access.needed.OrderedSubList;
 import org.jetbrains.annotations.NotNull;
 
@@ -12,15 +13,7 @@ import java.util.*;
 
 public class OrderedList<T> implements AccessPoint<T>, List<T> {
 
-    protected Class<T> getType() {
-        return type;
-    }
-
     private final Class<T> type;
-
-    protected String getGroupName() {
-        return groupName;
-    }
 
     private final String groupName;
 
@@ -509,6 +502,6 @@ public class OrderedList<T> implements AccessPoint<T>, List<T> {
     @NotNull
     @Override
     public List<T> subList(int fromIndex, int toIndex) {
-        return new OrderedSubList<>(groupName, type, fromIndex, toIndex);
+        return new OrderedSubList<>(groupName, type, fromIndex, toIndex, this);
     }
 }
