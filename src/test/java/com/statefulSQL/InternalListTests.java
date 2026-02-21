@@ -15,7 +15,7 @@ import static org.gradle.internal.impldep.org.junit.Assert.assertEquals;
 import static org.gradle.internal.impldep.org.junit.Assert.assertTrue;
 
 @ClassFlush
-class Dummy5{
+class InternalListDummy5 {
     public int getVal() {
         return val;
     }
@@ -29,17 +29,17 @@ class Dummy5{
 }
 
 @ClassFlush
-class Dummy4{
+class InternalListDummy4 {
 
     public int val2 = 3;
 
-    public List<Dummy5> getDummies5() {
+    public List<InternalListDummy5> getDummies5() {
         return dummies5;
     }
 
-    private final List<Dummy5> dummies5 = new ArrayList<>();
-    public Dummy4(){
-        dummies5.add(new Dummy5());
+    private final List<InternalListDummy5> dummies5 = new ArrayList<>();
+    public InternalListDummy4(){
+        dummies5.add(new InternalListDummy5());
     }
 }
 
@@ -60,8 +60,8 @@ public class InternalListTests {
     void simpleListAttribute(){
         DatabaseSingleton.getInstance(DataBaseTest.getConnection());
 
-        MapDict<String, Dummy4> dummies = new MapDict<>("a",String.class, Dummy4.class);
-        Dummy4 dum = dummies.createRow("S", new Dummy4());
+        MapDict<String, InternalListDummy4> dummies = new MapDict<>("a",String.class, InternalListDummy4.class);
+        InternalListDummy4 dum = dummies.createRow("S", new InternalListDummy4());
 
         assertEquals(1, dum.getDummies5().size());
         assertTrue(dum.getDummies5().contains(dum.getDummies5().get(0)));
@@ -69,13 +69,30 @@ public class InternalListTests {
         /*
         * load system again
         * */
-        dummies = new MapDict<>("a",String.class, Dummy4.class);
+        dummies = new MapDict<>("a",String.class, InternalListDummy4.class);
         assertEquals(1, dummies.size());
         assertEquals(1, dummies.get("S").getDummies5().size());
 
+    }
 
+    @Test
+    void otherReference(){
+        /*
+        * case where 2 different objects reference the same InternalListDummy5 with an internal list, but 1 removes it, ensure other doesn't remove it
+        * */
+        DatabaseSingleton.getInstance(DataBaseTest.getConnection());
 
+        MapDict<String, InternalListDummy4> dummies = new MapDict<>("a",String.class, InternalListDummy4.class);
+        InternalListDummy4 dum = dummies.createRow("S", new InternalListDummy4());
+        InternalListDummy4 dum2 = dummies.createRow("S", new InternalListDummy4());
 
+        /*
+        * add ref to other list
+        * */
+        dum2.getDummies5().add(dum.getDummies5().get(0));
+
+        assertEquals(1, dum.getDummies5().size());
+        assertEquals(2, dum2.getDummies5().size());
     }
 
 }

@@ -17,7 +17,7 @@ import static org.gradle.internal.impldep.org.junit.Assert.*;
 
 
 @ClassFlush
-class MapDummy{
+class MapDictDummy {
 
     private int val = 1;
 
@@ -50,10 +50,10 @@ public class MapDictTests {
 
         DatabaseSingleton.getInstance(DataBaseTest.getConnection());
 
-        MapDict<String, MapDummy> dummies = new MapDict<>("a",String.class, MapDummy.class);
-        MapDummy predum = new MapDummy();
+        MapDict<String, MapDictDummy> dummies = new MapDict<>("a",String.class, MapDictDummy.class);
+        MapDictDummy predum = new MapDictDummy();
 
-        MapDummy dum = dummies.createRow("S", predum);
+        MapDictDummy dum = dummies.createRow("S", predum);
 
         assertEquals(1, dum.hello());
         dum.inc();
@@ -69,7 +69,7 @@ public class MapDictTests {
         /*
         * override object with other object
         * */
-        predum = new MapDummy();
+        predum = new MapDictDummy();
         dummies.put("S", predum);
         assertEquals(1, dummies.get("S").hello());
 
@@ -88,8 +88,8 @@ public class MapDictTests {
     void sizeTests(){
         DatabaseSingleton.getInstance(DataBaseTest.getConnection());
 
-        MapDict<String, MapDummy> dummies = new MapDict<>("a",String.class, MapDummy.class);
-        MapDummy preDum = new MapDummy();
+        MapDict<String, MapDictDummy> dummies = new MapDict<>("a",String.class, MapDictDummy.class);
+        MapDictDummy preDum = new MapDictDummy();
 
         assertTrue(dummies.isEmpty());
         assertEquals(0, dummies.size());
@@ -103,7 +103,7 @@ public class MapDictTests {
         /*
         * override element
         * */
-        MapDummy preDum2 = new MapDummy();
+        MapDictDummy preDum2 = new MapDictDummy();
         dummies.put("B", preDum2);
         assertEquals(2, dummies.size());
 
@@ -121,11 +121,11 @@ public class MapDictTests {
          * */
         DatabaseSingleton.getInstance(DataBaseTest.getConnection());
 
-        MapDict<Integer, MapDummy> dummies = new MapDict<>("a",Integer.class, MapDummy.class);
-        MapDummy preDum = new MapDummy();
+        MapDict<Integer, MapDictDummy> dummies = new MapDict<>("a",Integer.class, MapDictDummy.class);
+        MapDictDummy preDum = new MapDictDummy();
 
         dummies.put(1, preDum);
-        MapDummy dummy = dummies.get(1);
+        MapDictDummy dummy = dummies.get(1);
 
         assertNotNull(dummy);
         assertEquals(1, dummy.hello());
@@ -148,13 +148,13 @@ public class MapDictTests {
          * */
         DatabaseSingleton.getInstance(DataBaseTest.getConnection());
 
-        MapDict<UUID, MapDummy> dummies = new MapDict<>("a",UUID.class, MapDummy.class);
-        MapDummy preDum = new MapDummy();
+        MapDict<UUID, MapDictDummy> dummies = new MapDict<>("a",UUID.class, MapDictDummy.class);
+        MapDictDummy preDum = new MapDictDummy();
 
         UUID uuid = UUID.randomUUID();
 
         dummies.put(uuid, preDum);
-        MapDummy dummy = dummies.get(uuid);
+        MapDictDummy dummy = dummies.get(uuid);
 
         assertNotNull(dummy);
         assertEquals(1, dummy.hello());
@@ -177,8 +177,8 @@ public class MapDictTests {
         * */
         DatabaseSingleton.getInstance(DataBaseTest.getConnection());
 
-        MapDict<String, MapDummy> dummies = new MapDict<>("a",String.class, MapDummy.class);
-        MapDummy preDum = new MapDummy();
+        MapDict<String, MapDictDummy> dummies = new MapDict<>("a",String.class, MapDictDummy.class);
+        MapDictDummy preDum = new MapDictDummy();
 
         dummies.put("A", preDum);
         assertTrue(dummies.containsKey("A"));
@@ -191,11 +191,11 @@ public class MapDictTests {
          * */
         DatabaseSingleton.getInstance(DataBaseTest.getConnection());
 
-        MapDict<String, MapDummy> dummies = new MapDict<>("a",String.class, MapDummy.class);
-        MapDummy preDum = new MapDummy();
+        MapDict<String, MapDictDummy> dummies = new MapDict<>("a",String.class, MapDictDummy.class);
+        MapDictDummy preDum = new MapDictDummy();
 
         dummies.put("A", preDum);
-        MapDummy dum = dummies.get("A");
+        MapDictDummy dum = dummies.get("A");
         assertTrue(dummies.containsValue(dum));
     }
 

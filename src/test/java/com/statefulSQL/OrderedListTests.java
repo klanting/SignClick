@@ -18,41 +18,41 @@ import java.util.List;
 import static org.gradle.internal.impldep.org.junit.Assert.*;
 
 
-class WEIRDOBJECT{
+class OrderedListWeirdObject {
 
     public String val = "1";
 
 }
 
-class WEIRDOBJECTSERIALIZER extends SQLSerializer<WEIRDOBJECT>{
+class OrderedListWeirdObjectSerializer extends SQLSerializer<OrderedListWeirdObject>{
 
-    public WEIRDOBJECTSERIALIZER(Class type) {
+    public OrderedListWeirdObjectSerializer(Class type) {
         super(type);
     }
 
     @Override
-    public String serialize(WEIRDOBJECT value) {
+    public String serialize(OrderedListWeirdObject value) {
         return value.val;
     }
 
     @Override
-    public WEIRDOBJECT deserialize(String value) {
-        WEIRDOBJECT o = new WEIRDOBJECT();
+    public OrderedListWeirdObject deserialize(String value) {
+        OrderedListWeirdObject o = new OrderedListWeirdObject();
         o.val = value;
         return o;
     }
 }
 
 @ClassFlush
-class Dummy{
+class OrderedListDummy {
 
     private int val = 1;
 
-    public WEIRDOBJECT getW() {
+    public OrderedListWeirdObject getW() {
         return w;
     }
 
-    public WEIRDOBJECT w = new WEIRDOBJECT();
+    public OrderedListWeirdObject w = new OrderedListWeirdObject();
 
     public int hello(){
         return val;
@@ -65,15 +65,15 @@ class Dummy{
 }
 
 @ClassFlush
-class Dummy2{
+class OrderedListDummy2 {
 
     private int val = 1;
 
-    public Dummy3 getDummy3() {
+    public OrderedListDummy3 getDummy3() {
         return dummy3;
     }
 
-    private final Dummy3 dummy3 = new Dummy3();
+    private final OrderedListDummy3 dummy3 = new OrderedListDummy3();
 
     public int hello(){
         return val;
@@ -87,7 +87,7 @@ class Dummy2{
 
 
 @ClassFlush
-class Dummy3{
+class OrderedListDummy3 {
 
     private int val = 1;
 
@@ -102,15 +102,15 @@ class Dummy3{
 }
 
 @ClassFlush
-class DummyEquals{
+class OrderedListDummyEquals {
 
     private int val = 1;
 
-    public Dummy3 getDummy3() {
+    public OrderedListDummy3 getDummy3() {
         return dummy3;
     }
 
-    private final Dummy3 dummy3 = new Dummy3();
+    private final OrderedListDummy3 dummy3 = new OrderedListDummy3();
 
     public int hello(){
         return val;
@@ -124,7 +124,7 @@ class DummyEquals{
     public boolean equals(Object obj) {
         if (this == obj) return true;           // Same reference
         if (obj == null) return false;          // Null check
-        if (!(obj instanceof DummyEquals d)) return false;
+        if (!(obj instanceof OrderedListDummyEquals d)) return false;
 
         return val == d.val;
     }
@@ -148,12 +148,12 @@ public class OrderedListTests {
     void createRow(){
 
         DatabaseSingleton.getInstance(DataBaseTest.getConnection());
-        DatabaseSingleton.getInstance().registerSerializer(new WEIRDOBJECTSERIALIZER(WEIRDOBJECT.class));
+        DatabaseSingleton.getInstance().registerSerializer(new OrderedListWeirdObjectSerializer(OrderedListWeirdObject.class));
 
-        OrderedList<Dummy> dummies = new OrderedList<>("a",Dummy.class);
-        Dummy predum = new Dummy();
+        OrderedList<OrderedListDummy> dummies = new OrderedList<>("a", OrderedListDummy.class);
+        OrderedListDummy predum = new OrderedListDummy();
         predum.w.val = "30";
-        Dummy dum = dummies.createRow(predum);
+        OrderedListDummy dum = dummies.createRow(predum);
         assertEquals(1, dum.hello());
         dum.inc();
         assertEquals(2, dum.hello());
@@ -169,8 +169,8 @@ public class OrderedListTests {
         * */
 
         DatabaseSingleton.getInstance(DataBaseTest.getConnection());
-        OrderedList<Dummy2> dummies = new OrderedList<>("a",Dummy2.class);
-        Dummy2 dum = dummies.createRow(new Dummy2());
+        OrderedList<OrderedListDummy2> dummies = new OrderedList<>("a", OrderedListDummy2.class);
+        OrderedListDummy2 dum = dummies.createRow(new OrderedListDummy2());
         assertEquals(1, dum.hello());
         dum.inc();
         assertEquals(2, dum.hello());
@@ -184,20 +184,20 @@ public class OrderedListTests {
     @Test
     void accessMethods(){
         DatabaseSingleton.getInstance(DataBaseTest.getConnection());
-        OrderedList<Dummy2> dummies = new OrderedList<>("a",Dummy2.class);
+        OrderedList<OrderedListDummy2> dummies = new OrderedList<>("a", OrderedListDummy2.class);
         assertTrue(dummies.isEmpty());
         /*
         * Add item to list
         * */
-        assertTrue(dummies.add(new Dummy2()));
+        assertTrue(dummies.add(new OrderedListDummy2()));
 
         assertEquals(1, dummies.size());
         assertFalse(dummies.isEmpty());
 
-        Dummy2 preDum2 = new Dummy2();
+        OrderedListDummy2 preDum2 = new OrderedListDummy2();
         preDum2.inc();
         assertEquals(2, preDum2.hello());
-        Dummy2 dum2 = dummies.createRow(preDum2);
+        OrderedListDummy2 dum2 = dummies.createRow(preDum2);
 
         assertEquals(2, dummies.size());
 
@@ -211,9 +211,9 @@ public class OrderedListTests {
     @Test
     void iterator(){
         DatabaseSingleton.getInstance(DataBaseTest.getConnection());
-        OrderedList<Dummy2> dummies = new OrderedList<>("a",Dummy2.class);
-        Dummy2 predum1 = new Dummy2();
-        Dummy2 predum2 = new Dummy2();
+        OrderedList<OrderedListDummy2> dummies = new OrderedList<>("a", OrderedListDummy2.class);
+        OrderedListDummy2 predum1 = new OrderedListDummy2();
+        OrderedListDummy2 predum2 = new OrderedListDummy2();
         predum2.inc();
 
         assertEquals(1, predum1.hello());
@@ -225,7 +225,7 @@ public class OrderedListTests {
         assertEquals(1, dummies.get(0).hello());
         assertEquals(2, dummies.get(1).hello());
 
-        Iterator<Dummy2> it = dummies.iterator();
+        Iterator<OrderedListDummy2> it = dummies.iterator();
 
         assertTrue(it.hasNext());
         assertEquals(1, it.next().hello());
@@ -240,7 +240,7 @@ public class OrderedListTests {
         * check that size works correctly
         * */
         DatabaseSingleton.getInstance(DataBaseTest.getConnection());
-        OrderedList<Dummy2> dummies = new OrderedList<>("a",Dummy2.class);
+        OrderedList<OrderedListDummy2> dummies = new OrderedList<>("a", OrderedListDummy2.class);
 
         assertEquals(0, dummies.size());
         assertTrue(dummies.isEmpty());
@@ -248,23 +248,23 @@ public class OrderedListTests {
         /*
         * add element
         * */
-        dummies.add(new Dummy2());
+        dummies.add(new OrderedListDummy2());
         assertEquals(1, dummies.size());
         assertFalse(dummies.isEmpty());
 
         /*
         * add 2nd element
         * */
-        dummies.add(new Dummy2());
+        dummies.add(new OrderedListDummy2());
         assertEquals(2, dummies.size());
         assertFalse(dummies.isEmpty());
 
         /*
         * add 3th element tp other list linking to same group
         * */
-        OrderedList<Dummy2> dummies2 = new OrderedList<>("a",Dummy2.class);
+        OrderedList<OrderedListDummy2> dummies2 = new OrderedList<>("a", OrderedListDummy2.class);
 
-        dummies2.add(new Dummy2());
+        dummies2.add(new OrderedListDummy2());
         assertEquals(3, dummies.size());
         assertFalse(dummies.isEmpty());
         assertEquals(3, dummies2.size());
@@ -273,8 +273,8 @@ public class OrderedListTests {
         /*
         * add item to new ordered list group, so that group 'a' -> 3, 'b' -> 1
         * */
-        OrderedList<Dummy2> dummies3 = new OrderedList<>("b",Dummy2.class);
-        dummies3.add(new Dummy2());
+        OrderedList<OrderedListDummy2> dummies3 = new OrderedList<>("b", OrderedListDummy2.class);
+        dummies3.add(new OrderedListDummy2());
 
         assertEquals(3, dummies.size());
         assertFalse(dummies.isEmpty());
@@ -288,8 +288,8 @@ public class OrderedListTests {
     @Test
     void containsTest(){
         DatabaseSingleton.getInstance(DataBaseTest.getConnection());
-        OrderedList<DummyEquals> dummies = new OrderedList<>("a",DummyEquals.class);
-        DummyEquals preDum = new DummyEquals();
+        OrderedList<OrderedListDummyEquals> dummies = new OrderedList<>("a", OrderedListDummyEquals.class);
+        OrderedListDummyEquals preDum = new OrderedListDummyEquals();
 
         assertFalse(dummies.contains(preDum));
 
@@ -298,14 +298,14 @@ public class OrderedListTests {
         * */
         dummies.add(preDum);
         assertTrue(dummies.contains(preDum));
-        DummyEquals postDum = dummies.get(0);
+        OrderedListDummyEquals postDum = dummies.get(0);
         assertTrue(dummies.contains(postDum));
         assertEquals(preDum, postDum);
 
         /*
         * check if no false positive
         * */
-        DummyEquals preDum2 = new DummyEquals();
+        OrderedListDummyEquals preDum2 = new OrderedListDummyEquals();
         preDum2.inc();
         assertFalse(preDum.equals(preDum2));
         assertFalse(dummies.contains(preDum2));
@@ -318,7 +318,7 @@ public class OrderedListTests {
         assertFalse(dummies.contains(preDum2));
         assertFalse(dummies.contains(postDum));
 
-        OrderedList<DummyEquals> dummies2 = new OrderedList<>("b",DummyEquals.class);
+        OrderedList<OrderedListDummyEquals> dummies2 = new OrderedList<>("b", OrderedListDummyEquals.class);
         dummies2.add(preDum);
 
         assertFalse(dummies.contains(preDum));
@@ -336,13 +336,13 @@ public class OrderedListTests {
         * */
 
         DatabaseSingleton.getInstance(DataBaseTest.getConnection());
-        OrderedList<Dummy2> dummies = new OrderedList<>("a",Dummy2.class);
+        OrderedList<OrderedListDummy2> dummies = new OrderedList<>("a", OrderedListDummy2.class);
 
         /*
         * Add 2 dummy elements
         * */
-        dummies.add(new Dummy2());
-        dummies.add(new Dummy2());
+        dummies.add(new OrderedListDummy2());
+        dummies.add(new OrderedListDummy2());
 
         assertEquals(2, dummies.size());
         dummies.get(1).inc();
@@ -351,7 +351,7 @@ public class OrderedListTests {
         * loop over each, and ensure first value 1, second value 2
         * */
         int counter = 1;
-        for(Dummy2 dummy2: dummies){
+        for(OrderedListDummy2 dummy2: dummies){
             assertEquals(counter, dummy2.hello());
             counter += 1;
         }
@@ -359,14 +359,14 @@ public class OrderedListTests {
         /*
         * check if correctly throws iterator concurrency error
         * */
-        List<Dummy2> d = new OrderedList<>("b",Dummy2.class);
-        d.add(new Dummy2());
-        d.add(new Dummy2());
-        d.add(new Dummy2());
+        List<OrderedListDummy2> d = new OrderedList<>("b", OrderedListDummy2.class);
+        d.add(new OrderedListDummy2());
+        d.add(new OrderedListDummy2());
+        d.add(new OrderedListDummy2());
 
         boolean throwsError = false;
         try {
-            for (Dummy2 dummy2 : d) {
+            for (OrderedListDummy2 dummy2 : d) {
                 d.remove(dummy2);
             }
         }catch (ConcurrentModificationException e){
@@ -378,17 +378,17 @@ public class OrderedListTests {
         /*
         * reinitialize
         * */
-        d = new OrderedList<>("c",Dummy2.class);
-        d.add(new Dummy2());
-        d.add(new Dummy2());
-        d.add(new Dummy2());
+        d = new OrderedList<>("c", OrderedListDummy2.class);
+        d.add(new OrderedListDummy2());
+        d.add(new OrderedListDummy2());
+        d.add(new OrderedListDummy2());
         /*
         * Check save delete still working
         * */
-        Iterator<Dummy2> it = d.iterator();
+        Iterator<OrderedListDummy2> it = d.iterator();
 
         while (it.hasNext()) {
-            Dummy2 element = it.next();
+            OrderedListDummy2 element = it.next();
             it.remove();
         }
         assertEquals(0, d.size());
@@ -398,13 +398,13 @@ public class OrderedListTests {
     @Test
     void toArrayTest(){
         DatabaseSingleton.getInstance(DataBaseTest.getConnection());
-        OrderedList<DummyEquals> dummies = new OrderedList<>("a",DummyEquals.class);
+        OrderedList<OrderedListDummyEquals> dummies = new OrderedList<>("a", OrderedListDummyEquals.class);
 
         /*
          * Add 2 dummy elements
          * */
-        dummies.add(new DummyEquals());
-        dummies.add(new DummyEquals());
+        dummies.add(new OrderedListDummyEquals());
+        dummies.add(new OrderedListDummyEquals());
 
         assertEquals(2, dummies.size());
         dummies.get(1).inc();
@@ -415,20 +415,20 @@ public class OrderedListTests {
         Object[] dummiesArray = dummies.toArray();
 
         assertEquals(2, dummiesArray.length);
-        assertTrue(dummiesArray[0].equals(new DummyEquals()));
-        assertFalse(dummiesArray[1].equals(new DummyEquals()));
+        assertTrue(dummiesArray[0].equals(new OrderedListDummyEquals()));
+        assertFalse(dummiesArray[1].equals(new OrderedListDummyEquals()));
 
         /*
         * convert to Dummy2 Array (other group)
         * */
-        OrderedList<Dummy2> dummies2 = new OrderedList<>("b",Dummy2.class);
-        dummies2.add(new Dummy2());
-        dummies2.add(new Dummy2());
+        OrderedList<OrderedListDummy2> dummies2 = new OrderedList<>("b", OrderedListDummy2.class);
+        dummies2.add(new OrderedListDummy2());
+        dummies2.add(new OrderedListDummy2());
 
         assertEquals(2, dummies2.size());
         dummies2.get(1).inc();
 
-        Dummy2[] dummiesArray2 = dummies2.toArray(new Dummy2[2]);
+        OrderedListDummy2[] dummiesArray2 = dummies2.toArray(new OrderedListDummy2[2]);
         assertEquals(2, dummiesArray2.length);
         assertEquals(1, dummiesArray2[0].hello());
         assertEquals(2, dummiesArray2[1].hello());
@@ -438,7 +438,7 @@ public class OrderedListTests {
          * */
         boolean throwsError = false;
         try {
-            dummies2 = new OrderedList<>("a",Dummy2.class);
+            dummies2 = new OrderedList<>("a", OrderedListDummy2.class);
         }catch (RuntimeException e){
             throwsError = true;
         }
@@ -449,15 +449,15 @@ public class OrderedListTests {
     @Test
     void addAllTest(){
         DatabaseSingleton.getInstance(DataBaseTest.getConnection());
-        OrderedList<Dummy2> dummies = new OrderedList<>("a",Dummy2.class);
+        OrderedList<OrderedListDummy2> dummies = new OrderedList<>("a", OrderedListDummy2.class);
 
-        Dummy2 preDum = new Dummy2();
-        Dummy2 preDum2 = new Dummy2();
+        OrderedListDummy2 preDum = new OrderedListDummy2();
+        OrderedListDummy2 preDum2 = new OrderedListDummy2();
         preDum2.inc();
-        Dummy2 preDum3 = new Dummy2();
+        OrderedListDummy2 preDum3 = new OrderedListDummy2();
         preDum3.inc();
         preDum3.inc();
-        List<Dummy2> preDumList = List.of(preDum, preDum2, preDum3);
+        List<OrderedListDummy2> preDumList = List.of(preDum, preDum2, preDum3);
 
         dummies.addAll(preDumList);
 
@@ -471,15 +471,15 @@ public class OrderedListTests {
     @Test
     void retainAllTest(){
         DatabaseSingleton.getInstance(DataBaseTest.getConnection());
-        OrderedList<Dummy2> dummies = new OrderedList<>("a",Dummy2.class);
+        OrderedList<OrderedListDummy2> dummies = new OrderedList<>("a", OrderedListDummy2.class);
 
-        Dummy2 preDum = new Dummy2();
-        Dummy2 preDum2 = new Dummy2();
+        OrderedListDummy2 preDum = new OrderedListDummy2();
+        OrderedListDummy2 preDum2 = new OrderedListDummy2();
         preDum2.inc();
-        Dummy2 preDum3 = new Dummy2();
+        OrderedListDummy2 preDum3 = new OrderedListDummy2();
         preDum3.inc();
         preDum3.inc();
-        Dummy2 preDum4 = new Dummy2();
+        OrderedListDummy2 preDum4 = new OrderedListDummy2();
         preDum4.inc();
         preDum4.inc();
         preDum4.inc();
@@ -489,7 +489,7 @@ public class OrderedListTests {
         dummies.add(preDum3);
         dummies.add(preDum4);
 
-        List<Dummy2> retainList = List.of(dummies.get(1), dummies.get(2), new Dummy2());
+        List<OrderedListDummy2> retainList = List.of(dummies.get(1), dummies.get(2), new OrderedListDummy2());
 
         dummies.retainAll(retainList);
         assertEquals(2, dummies.size());
@@ -503,11 +503,11 @@ public class OrderedListTests {
         * clear list and check all correctly removed
         * */
         DatabaseSingleton.getInstance(DataBaseTest.getConnection());
-        OrderedList<Dummy2> dummies = new OrderedList<>("a",Dummy2.class);
+        OrderedList<OrderedListDummy2> dummies = new OrderedList<>("a", OrderedListDummy2.class);
 
-        dummies.add(new Dummy2());
-        dummies.add(new Dummy2());
-        dummies.add(new Dummy2());
+        dummies.add(new OrderedListDummy2());
+        dummies.add(new OrderedListDummy2());
+        dummies.add(new OrderedListDummy2());
         assertEquals(3, dummies.size());
 
         dummies.clear();
@@ -521,10 +521,10 @@ public class OrderedListTests {
         * */
 
         DatabaseSingleton.getInstance(DataBaseTest.getConnection());
-        OrderedList<Dummy2> dummies = new OrderedList<>("a",Dummy2.class);
-        OrderedList<Dummy2> dummies2 = new OrderedList<>("b",Dummy2.class);
+        OrderedList<OrderedListDummy2> dummies = new OrderedList<>("a", OrderedListDummy2.class);
+        OrderedList<OrderedListDummy2> dummies2 = new OrderedList<>("b", OrderedListDummy2.class);
 
-        Dummy2 dum = dummies.createRow(new Dummy2());
+        OrderedListDummy2 dum = dummies.createRow(new OrderedListDummy2());
         assertEquals(1, dummies.size());
 
         /*
@@ -556,10 +556,10 @@ public class OrderedListTests {
     @Test
     void addIndex(){
         DatabaseSingleton.getInstance(DataBaseTest.getConnection());
-        OrderedList<Dummy2> dummies = new OrderedList<>("a", Dummy2.class);
+        OrderedList<OrderedListDummy2> dummies = new OrderedList<>("a", OrderedListDummy2.class);
 
-        Dummy2 dum = new Dummy2();
-        Dummy2 dum2 = new Dummy2();
+        OrderedListDummy2 dum = new OrderedListDummy2();
+        OrderedListDummy2 dum2 = new OrderedListDummy2();
         dum2.inc();
 
         dummies.add(dum);
@@ -576,12 +576,12 @@ public class OrderedListTests {
     @Test
     void setIndex(){
         DatabaseSingleton.getInstance(DataBaseTest.getConnection());
-        OrderedList<Dummy2> dummies = new OrderedList<>("a", Dummy2.class);
+        OrderedList<OrderedListDummy2> dummies = new OrderedList<>("a", OrderedListDummy2.class);
 
-        Dummy2 dum = new Dummy2();
-        Dummy2 dum2 = new Dummy2();
+        OrderedListDummy2 dum = new OrderedListDummy2();
+        OrderedListDummy2 dum2 = new OrderedListDummy2();
         dum2.inc();
-        Dummy2 dum3 = new Dummy2();
+        OrderedListDummy2 dum3 = new OrderedListDummy2();
         dum3.inc();
         dum3.inc();
 
@@ -608,11 +608,11 @@ public class OrderedListTests {
         /*
         * prepare original collection
         * */
-        List<Dummy2> preDummies = new ArrayList<>();
-        Dummy2 dum = new Dummy2();
-        Dummy2 dum2 = new Dummy2();
+        List<OrderedListDummy2> preDummies = new ArrayList<>();
+        OrderedListDummy2 dum = new OrderedListDummy2();
+        OrderedListDummy2 dum2 = new OrderedListDummy2();
         dum2.inc();
-        Dummy2 dum3 = new Dummy2();
+        OrderedListDummy2 dum3 = new OrderedListDummy2();
         dum3.inc();
         dum3.inc();
 
@@ -620,7 +620,7 @@ public class OrderedListTests {
         preDummies.add(dum2);
         preDummies.add(dum3);
 
-        OrderedList<Dummy2> dummies = new OrderedList<>("a", Dummy2.class);
+        OrderedList<OrderedListDummy2> dummies = new OrderedList<>("a", OrderedListDummy2.class);
         dummies.addAll(preDummies);
 
         assertEquals(3, dummies.size());
@@ -633,24 +633,24 @@ public class OrderedListTests {
     void subList(){
         DatabaseSingleton.getInstance(DataBaseTest.getConnection());
 
-        Dummy2 dum = new Dummy2();
-        Dummy2 dum2 = new Dummy2();
+        OrderedListDummy2 dum = new OrderedListDummy2();
+        OrderedListDummy2 dum2 = new OrderedListDummy2();
         dum2.inc();
-        Dummy2 dum3 = new Dummy2();
+        OrderedListDummy2 dum3 = new OrderedListDummy2();
         dum3.inc();
         dum3.inc();
-        Dummy2 dum4 = new Dummy2();
+        OrderedListDummy2 dum4 = new OrderedListDummy2();
         dum4.inc();
         dum4.inc();
         dum4.inc();
 
-        OrderedList<Dummy2> dummies = new OrderedList<>("a", Dummy2.class);
+        OrderedList<OrderedListDummy2> dummies = new OrderedList<>("a", OrderedListDummy2.class);
         dummies.add(dum);
         dummies.add(dum2);
         dummies.add(dum3);
         assertEquals(3, dummies.size());
 
-        List<Dummy2> subList = dummies.subList(1, 2);
+        List<OrderedListDummy2> subList = dummies.subList(1, 2);
         assertEquals(1, subList.size());
         assertEquals(2, subList.get(0).hello());
 

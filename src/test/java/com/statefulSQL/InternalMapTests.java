@@ -15,7 +15,7 @@ import static org.gradle.internal.impldep.org.junit.Assert.assertEquals;
 import static org.gradle.internal.impldep.org.junit.Assert.assertTrue;
 
 @ClassFlush
-class Dummy7{
+class InternalMapDummy7 {
     public int getVal() {
         return val;
     }
@@ -29,22 +29,22 @@ class Dummy7{
 }
 
 @ClassFlush
-class Dummy6{
+class InternalMapDummy6 {
 
     public int val2 = 3;
 
-    public Map<String, Dummy7> getDummies5() {
+    public Map<String, InternalMapDummy7> getDummies5() {
         return dummies5;
     }
 
-    private final Map<String, Dummy7> dummies5 = new HashMap<>();
-    public Dummy6(){
-        dummies5.put("A", new Dummy7());
+    private final Map<String, InternalMapDummy7> dummies5 = new HashMap<>();
+    public InternalMapDummy6(){
+        dummies5.put("A", new InternalMapDummy7());
     }
 }
 
 @ClassFlush
-class Dummy9{
+class InternalMapDummy9 {
     /*
     * circular mapping Dummy9 has Map for Dummy8, and Dummy8 has Map for Dummy 9
     * */
@@ -55,18 +55,18 @@ class Dummy9{
 
     public int val2 = 3;
 
-    public Map<String, Dummy8> getDummies5() {
+    public Map<String, InternalMapDummy8> getDummies5() {
         return dummies8;
     }
 
-    private final Map<String, Dummy8> dummies8 = new HashMap<>();
-    public Dummy9(){
-        dummies8.put("A", new Dummy8());
+    private final Map<String, InternalMapDummy8> dummies8 = new HashMap<>();
+    public InternalMapDummy9(){
+        dummies8.put("A", new InternalMapDummy8());
     }
 }
 
 @ClassFlush
-class Dummy8{
+class InternalMapDummy8 {
     /*
      * circular mapping Dummy9 has Map for Dummy8, and Dummy8 has Map for Dummy 9
      * */
@@ -77,12 +77,12 @@ class Dummy8{
 
     public int val2 = 4;
 
-    public Map<String, Dummy9> getDummies5() {
+    public Map<String, InternalMapDummy9> getDummies5() {
         return dummies9;
     }
 
-    private final Map<String, Dummy9> dummies9 = new HashMap<>();
-    public Dummy8(){
+    private final Map<String, InternalMapDummy9> dummies9 = new HashMap<>();
+    public InternalMapDummy8(){
     }
 }
 
@@ -103,8 +103,8 @@ public class InternalMapTests {
     void simpleListAttribute(){
         DatabaseSingleton.getInstance(DataBaseTest.getConnection());
 
-        MapDict<String, Dummy6> dummies = new MapDict<>("a",String.class, Dummy6.class);
-        Dummy6 dum = dummies.createRow("S", new Dummy6());
+        MapDict<String, InternalMapDummy6> dummies = new MapDict<>("a",String.class, InternalMapDummy6.class);
+        InternalMapDummy6 dum = dummies.createRow("S", new InternalMapDummy6());
 
         assertTrue(dum.getDummies5().containsKey("A"));
         assertEquals(1, dum.getDummies5().get("A").getVal());
@@ -118,9 +118,9 @@ public class InternalMapTests {
     void circularMappingAttribute(){
         DatabaseSingleton.getInstance(DataBaseTest.getConnection());
 
-        MapDict<String, Dummy9> dummies = new MapDict<>("a",String.class, Dummy9.class);
-        Dummy9 dum = dummies.createRow("A", new Dummy9());
-        Dummy8 dum8 = dum.getDummies5().get("A");
+        MapDict<String, InternalMapDummy9> dummies = new MapDict<>("a",String.class, InternalMapDummy9.class);
+        InternalMapDummy9 dum = dummies.createRow("A", new InternalMapDummy9());
+        InternalMapDummy8 dum8 = dum.getDummies5().get("A");
 
         /*
         * make the circular dependency circular

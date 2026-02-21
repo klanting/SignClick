@@ -1132,16 +1132,31 @@ public class DatabaseSingleton {
 
     public <T> void checkDelete(UUID key, Class<?> clazz){
         try {
-            //TODO add support mapDict
+            /*
+            * Check no orderedList references anymore
+            * */
             String sql = "SELECT COUNT(*) FROM statefulSQL"+"OrderedList"+" WHERE autoflushid = ?";
 
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setObject(1, key);
             ResultSet rs = ps.executeQuery();
             rs.next();
-            int count = rs.getInt(1);
+            int countOrderedList = rs.getInt(1);
 
-            if (count != 0){
+            /*
+             * Check no mapDict references anymore
+             * */
+            sql = "SELECT COUNT(*) FROM statefulSQL"+"MapDict"+" WHERE autoflushid = ?";
+
+            ps = connection.prepareStatement(sql);
+            ps.setObject(1, key);
+            rs = ps.executeQuery();
+            rs.next();
+            int countMapDict = rs.getInt(1);
+
+            //TODO check if no internal Map/List have this
+
+            if (countOrderedList != 0 || countMapDict != 0){
                 return;
             }
             /*

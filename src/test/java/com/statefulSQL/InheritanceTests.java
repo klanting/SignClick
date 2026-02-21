@@ -16,7 +16,7 @@ import static org.gradle.internal.impldep.org.testng.AssertJUnit.assertNotNull;
 
 
 @ClassFlush
-class DummyParent{
+class InheritanceDummyParent {
     public int getValp() {
         return valp;
     }
@@ -27,13 +27,13 @@ class DummyParent{
 
     private int valp;
 
-    public DummyParent(){
+    public InheritanceDummyParent(){
         valp = 1;
     }
 }
 
 @ClassFlush
-class DummyChild extends DummyParent{
+class InheritanceDummyChild extends InheritanceDummyParent {
     public int getValc() {
         return valc;
     }
@@ -43,7 +43,7 @@ class DummyChild extends DummyParent{
     }
 
     private int valc;
-    public DummyChild(){
+    public InheritanceDummyChild(){
         super();
         valc = 2;
 
@@ -52,35 +52,35 @@ class DummyChild extends DummyParent{
 }
 
 @ClassFlush
-class DummyPtr extends DummyParent{
-    public DummyParent getValPtr() {
+class InheritanceDummyPtr extends InheritanceDummyParent {
+    public InheritanceDummyParent getValPtr() {
         return valPtr;
     }
 
-    public void setValPtr(DummyParent valPtr) {
+    public void setValPtr(InheritanceDummyParent valPtr) {
         this.valPtr = valPtr;
     }
 
-    private DummyParent valPtr;
+    private InheritanceDummyParent valPtr;
 
-    public DummyPtr(){
-        valPtr = new DummyChild();
+    public InheritanceDummyPtr(){
+        valPtr = new InheritanceDummyChild();
     }
 
 }
 
 @ClassFlush
-class DummyPtrMap extends DummyParent{
+class InheritanceDummyPtrMap extends InheritanceDummyParent {
 
-    public Map<String, DummyParent> getValPtr() {
+    public Map<String, InheritanceDummyParent> getValPtr() {
         return valPtr;
     }
 
-    private Map<String, DummyParent> valPtr = new HashMap<>();
+    private Map<String, InheritanceDummyParent> valPtr = new HashMap<>();
 
-    public DummyPtrMap(){
-        valPtr.put("A", new DummyChild());
-        valPtr.put("B", new DummyChild());
+    public InheritanceDummyPtrMap(){
+        valPtr.put("A", new InheritanceDummyChild());
+        valPtr.put("B", new InheritanceDummyChild());
     }
 
 }
@@ -101,10 +101,10 @@ public class InheritanceTests {
     void simpleDerivedTest(){
         DatabaseSingleton.getInstance(DataBaseTest.getConnection());
 
-        OrderedList<DummyParent> dummies = new OrderedList<>("a",DummyParent.class);
-        dummies.add(new DummyChild());
+        OrderedList<InheritanceDummyParent> dummies = new OrderedList<>("a", InheritanceDummyParent.class);
+        dummies.add(new InheritanceDummyChild());
 
-        DummyChild dc = (DummyChild) dummies.get(0);
+        InheritanceDummyChild dc = (InheritanceDummyChild) dummies.get(0);
         assertNotNull(dc);
         assertEquals(2, dc.getValc());
         assertEquals(1, dc.getValp());
@@ -120,10 +120,10 @@ public class InheritanceTests {
     void simpleDerivedPtrTest(){
         DatabaseSingleton.getInstance(DataBaseTest.getConnection());
 
-        OrderedList<DummyPtr> dummies = new OrderedList<>("a",DummyPtr.class);
-        dummies.add(new DummyPtr());
+        OrderedList<InheritanceDummyPtr> dummies = new OrderedList<>("a", InheritanceDummyPtr.class);
+        dummies.add(new InheritanceDummyPtr());
 
-        DummyPtr ptr = dummies.get(0);
+        InheritanceDummyPtr ptr = dummies.get(0);
 
         assertEquals(1, ptr.getValPtr().getValp());
     }
@@ -132,13 +132,13 @@ public class InheritanceTests {
     void simpleDerivedPtrMapTest(){
         DatabaseSingleton.getInstance(DataBaseTest.getConnection());
 
-        OrderedList<DummyPtrMap> dummies = new OrderedList<>("a",DummyPtrMap.class);
-        dummies.add(new DummyPtrMap());
+        OrderedList<InheritanceDummyPtrMap> dummies = new OrderedList<>("a", InheritanceDummyPtrMap.class);
+        dummies.add(new InheritanceDummyPtrMap());
 
-        DummyPtrMap ptr = dummies.get(0);
+        InheritanceDummyPtrMap ptr = dummies.get(0);
 
         assertEquals(1, ptr.getValPtr().get("A").getValp());
-        DummyChild child = (DummyChild) ptr.getValPtr().get("A");
+        InheritanceDummyChild child = (InheritanceDummyChild) ptr.getValPtr().get("A");
         assertEquals(2, child.getValc());
 
     }
