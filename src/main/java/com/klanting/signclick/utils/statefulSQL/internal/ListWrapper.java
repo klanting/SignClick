@@ -282,6 +282,8 @@ public class ListWrapper<T> implements List<T> {
 
             updatePs.executeUpdate();
 
+            //TODO later do checkDelete toa void dangling ptrs, but then we need SQLLookupTable to keep ref count
+
         }catch (SQLException e){
             throw new RuntimeException(e);
         }

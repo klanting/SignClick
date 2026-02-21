@@ -93,6 +93,15 @@ public class InternalListTests {
 
         assertEquals(1, dum.getDummies5().size());
         assertEquals(2, dum2.getDummies5().size());
+
+        /*
+        * remove from dum
+        * */
+        dum.getDummies5().remove(0);
+
+        assertEquals(0, dum.getDummies5().size());
+        assertEquals(2, dum2.getDummies5().size());
+
     }
 
 }
