@@ -41,6 +41,7 @@ public class COMFlushTests {
         DatabaseSingleton.getInstance(DataBaseTest.getConnection());
         OrderedList<CompanyOwnerManager> comms = new OrderedList<>("a", CompanyOwnerManager.class);
         Player player = TestTools.addPermsPlayer(server, plugin);
+        Player player2 = TestTools.addPermsPlayer(server, plugin);
 
         CompanyOwnerManager preCom = new CompanyOwnerManager(player.getUniqueId());
         Board preBoard = preCom.getBoard();
@@ -60,6 +61,14 @@ public class COMFlushTests {
 
         int shares = com.getShareHolders().get(player.getUniqueId());
         assertEquals(1000, shares);
+
+        /*
+        * update employees
+        * */
+        assertEquals(0, com.getEmployees().size());
+        com.addEmployee(player2.getUniqueId());
+        assertEquals(1, com.getEmployees().size());
+
     }
 
 

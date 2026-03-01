@@ -5,6 +5,7 @@ import be.seeseemelk.mockbukkit.ServerMock;
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.logicLayer.companyLogic.Company;
 import com.klanting.signclick.logicLayer.companyLogic.Market;
+import com.klanting.signclick.logicLayer.companyLogic.research.Research;
 import com.klanting.signclick.utils.statefulSQL.DatabaseSingleton;
 import com.klanting.signclick.utils.statefulSQL.access.OrderedList;
 import com.klanting.signclick.utils.statefulSQLSerializers.MaterialSerializer;
@@ -67,6 +68,21 @@ public class CompanyFlushTests {
         company.addBal(1000);
         assertEquals(2000.0, company.getBal(), 0.01);
         assertEquals(2000.0, companies.get(0).getBal(), 0.01);
+
+        /*
+        * Do some research
+        * */
+        assertEquals(22, company.getResearch().getResearchOptions().size());
+        Research research = company.getResearch();
+        assertEquals(0.0, research.getResearchOptions().get(0).getProgress(), 0.001);
+        research.getResearchOptions().get(0).setModifierIndex(2);
+        company.setSpendable(2000);
+
+        server.getScheduler().performTicks(1000);
+
+        research.checkProgress();
+
+        assertNotEquals(0.0, research.getResearchOptions().get(0).getProgress(), 0.001);
 
     }
 

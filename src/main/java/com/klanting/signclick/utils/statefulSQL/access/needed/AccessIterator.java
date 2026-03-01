@@ -53,6 +53,7 @@ public class AccessIterator<T> implements Iterator<T> {
 
         List<T> entities = DatabaseSingleton.getInstance().getAll(groupName, "OrderedList", clazz);
         T entity = entities.get(current);
+
         current++;
         return entity;
     }

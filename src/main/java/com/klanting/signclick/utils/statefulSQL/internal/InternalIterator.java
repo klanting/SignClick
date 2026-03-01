@@ -62,7 +62,7 @@ public class InternalIterator<T> implements Iterator<T> {
             if (rs3.next()){
                 UUID autoFlushId2 = (UUID) rs3.getObject("autoFlushId2");
                 current += 1;
-                return DatabaseSingleton.getInstance().getObjectByKey(autoFlushId2, clazz);
+                return DatabaseSingleton.getInstance().getObjectByKey(autoFlushId2, clazz, true);
             }
 
             return null;
