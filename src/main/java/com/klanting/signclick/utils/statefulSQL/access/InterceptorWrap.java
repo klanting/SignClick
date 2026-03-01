@@ -4,6 +4,7 @@ import com.klanting.signclick.utils.statefulSQL.DatabaseSingleton;
 import net.bytebuddy.implementation.bind.annotation.*;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
@@ -70,7 +71,16 @@ public class InterceptorWrap<T> {
 
         // call original method safely
         method.setAccessible(true);
-        Object result = method.invoke(instance, args);
+
+        Exception exception = null;
+
+        Object result = null;
+        try {
+            result = method.invoke(instance, args);
+        }catch (InvocationTargetException e){
+            exception = (Exception) e.getCause();
+        }
+
 
         /*
         * when this intercept call made the page dirty, flush again and remove dirty when done with operation
@@ -80,6 +90,10 @@ public class InterceptorWrap<T> {
             DatabaseSingleton.getInstance().update(uuid, instance);
 
             dirtyPageCache.remove(uuid);
+        }
+
+        if (exception != null){
+            throw exception;
         }
 
 
