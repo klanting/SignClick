@@ -64,6 +64,7 @@ dependencies {
     implementation("com.github.MilkBowl:VaultAPI:1.7");
     implementation("us.dynmap:dynmap-api:3.1-beta-2");
     implementation("org.javatuples:javatuples:1.2");
+    implementation("org.apache.commons:commons-lang3:3.14.0");
     implementation(kotlin("stdlib-jdk8"))
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 

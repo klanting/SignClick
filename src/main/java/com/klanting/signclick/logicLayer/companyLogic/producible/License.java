@@ -1,7 +1,9 @@
 package com.klanting.signclick.logicLayer.companyLogic.producible;
 
 import com.klanting.signclick.logicLayer.companyLogic.CompanyI;
+import com.klanting.signclick.utils.statefulSQL.ClassFlush;
 
+@ClassFlush
 public class License extends Producible {
 
     public CompanyI getFrom() {

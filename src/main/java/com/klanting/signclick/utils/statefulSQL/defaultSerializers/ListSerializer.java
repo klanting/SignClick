@@ -25,7 +25,13 @@ public class ListSerializer extends SQLSerializer {
         List<String> list2 = new ArrayList<>();
 
         for(Object j: list){
-            String sKey = DatabaseSingleton.getInstance().serialize(j.getClass(), j);
+            String sKey;
+            if (j != null){
+                sKey = DatabaseSingleton.getInstance().serialize(j.getClass(), j);
+            }else{
+                sKey = "null";
+            }
+
             list2.add(sKey);
         }
 
@@ -41,7 +47,16 @@ public class ListSerializer extends SQLSerializer {
             }
         }
 
-        Class<?> listClass = list.get(0).getClass();
+        // Find the class of the item
+        // When list of value null, child type is Object
+        Class<?> listClass = Object.class;
+        for (int i=0; i<list.size(); i++){
+            if (list.get(0) == null){
+                continue;
+            }
+            listClass = list.get(0).getClass();
+            break;
+        }
 
         map.put("autoFlushListClass", listClass.getName());
         map.put("list", list2);
@@ -74,7 +89,9 @@ public class ListSerializer extends SQLSerializer {
 
             List<String> stringList = (List<String>) stringMap.get("list");
             for(String s: stringList){
-                result.add(DatabaseSingleton.getInstance().deserialize(listClass, s));
+                Object addToResult = DatabaseSingleton.getInstance().deserialize(listClass, s);
+
+                result.add(addToResult);
             }
 
             return result;

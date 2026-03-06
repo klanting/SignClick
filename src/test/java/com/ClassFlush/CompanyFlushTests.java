@@ -4,15 +4,19 @@ import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 import com.klanting.signclick.SignClick;
 import com.klanting.signclick.logicLayer.companyLogic.Company;
+import com.klanting.signclick.logicLayer.companyLogic.Machine;
 import com.klanting.signclick.logicLayer.companyLogic.Market;
 import com.klanting.signclick.logicLayer.companyLogic.research.Research;
+import com.klanting.signclick.utils.BlockPosKey;
 import com.klanting.signclick.utils.statefulSQL.DatabaseSingleton;
 import com.klanting.signclick.utils.statefulSQL.access.OrderedList;
-import com.klanting.signclick.utils.statefulSQLSerializers.MaterialSerializer;
-import com.klanting.signclick.utils.statefulSQLSerializers.PairSerializer;
+import com.klanting.signclick.utils.statefulSQLSerializers.*;
 import org.apache.commons.lang3.tuple.Pair;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -45,6 +49,10 @@ public class CompanyFlushTests {
         DatabaseSingleton.getInstance(DataBaseTest.getConnection());
         DatabaseSingleton.getInstance().registerSerializer(new MaterialSerializer(Material.class));
         DatabaseSingleton.getInstance().registerSerializer(new PairSerializer(Pair.class));
+        DatabaseSingleton.getInstance().registerSerializer(new ItemStackSerializer(ItemStack.class));
+        DatabaseSingleton.getInstance().registerSerializer(new BlockPosKeySerializer(BlockPosKey.class));
+        DatabaseSingleton.getInstance().registerSerializer(new ChatColorSerializer(ChatColor.class));
+        DatabaseSingleton.getInstance().registerSerializer(new LocationSerializer(Location.class));
 
         OrderedList<Company> companies = new OrderedList<>("a", Company.class);
 
@@ -83,6 +91,16 @@ public class CompanyFlushTests {
         research.checkProgress();
 
         assertNotEquals(0.0, research.getResearchOptions().get(0).getProgress(), 0.001);
+
+        /*
+        * test company machine added
+        * */
+        assertEquals(0, company.getMachines().size());
+        Location loc = new Location(server.addSimpleWorld("default"), 1, 2, 3);
+        BlockPosKey bps = BlockPosKey.from(loc);
+        company.getMachines().put(bps, new Machine(loc.getBlock(), company));
+
+        assertEquals(1, company.getMachines().size());
 
     }
 

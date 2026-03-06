@@ -5,10 +5,12 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.klanting.signclick.logicLayer.countryLogic.Country;
 import com.klanting.signclick.logicLayer.countryLogic.CountryManager;
+import com.klanting.signclick.utils.statefulSQL.ClassFlush;
 import versionCompatibility.CompatibleLayer;
 
 import java.util.*;
 
+@ClassFlush
 public class Election {
 
     public Map<String, Integer> voteDict =  new HashMap<String, Integer>();

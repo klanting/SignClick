@@ -9,12 +9,14 @@ import com.klanting.signclick.utils.statefulSQL.internal.MapWrapper;
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
 import net.bytebuddy.implementation.MethodDelegation;
+import org.apache.commons.lang3.reflect.TypeUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.gradle.internal.impldep.org.objenesis.Objenesis;
 import org.gradle.internal.impldep.org.objenesis.ObjenesisStd;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.*;
+import java.lang.reflect.Array;
 import java.sql.*;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -55,6 +57,11 @@ public class DatabaseSingleton {
             return null;
         }
 
+        if (type.isArray()){
+            ArraySerializer ar = new ArraySerializer(null);
+            return ar.serialize(value);
+        }
+
         for (SQLSerializer s: serializers){
             if (s.getType().equals(type) || s.getType().isAssignableFrom(type)){
                 return s.serialize(value);
@@ -65,6 +72,11 @@ public class DatabaseSingleton {
     }
 
     public <S> boolean hasSerializer(Class<S> type){
+
+        if (type.isArray()){
+            return true;
+        }
+
         for (SQLSerializer s: serializers){
             if (s.getType().equals(type) || s.getType().isAssignableFrom(type)){
                 return true;
@@ -75,8 +87,13 @@ public class DatabaseSingleton {
 
     public <S> S deserialize(Class<?> type, String value){
 
-        if (value == null){
+        if (value == null || value.equals("null")){
             return null;
+        }
+
+        if (type.isArray()){
+            ArraySerializer ar = new ArraySerializer(null);
+            return (S) ar.deserialize(value);
         }
 
         for (SQLSerializer s: serializers){
@@ -306,7 +323,16 @@ public class DatabaseSingleton {
                 }else if (entry.getValue() != null && entry.getValue().getClass() == String.class){
                     field.set(instance, deserialize(type, (String) entry.getValue()));
                 }else{
-                    field.set(instance, entry.getValue());
+
+                    Object value = entry.getValue();
+                    if (field.getType().isArray()){
+                        /*
+                        * in case of null array, kind of array typecast
+                        * */
+                        value = Arrays.copyOf((Object[]) value, ((Object[]) value).length, (Class) field.getType());
+                    }
+
+                    field.set(instance, value);
                 }
 
             } catch (NoSuchFieldException e) {
@@ -777,7 +803,7 @@ public class DatabaseSingleton {
             String sqlType = mapJavaTypeToSQL(type);
 
             //Convert list to additional relation entity
-            if (type == List.class){
+            if (type == List.class || type.isArray()){
                 boolean other = checkListAttributeTable(clazz, field, blackList);
 
 
@@ -815,6 +841,8 @@ public class DatabaseSingleton {
             }else{
                 if (hasSerializer(type)){
                     columns.add("\""+columnName+"\""+ " VARCHAR");
+                }else{
+                    throw new RuntimeException("Unsupported FIELD");
                 }
             }
         }
@@ -880,6 +908,16 @@ public class DatabaseSingleton {
 
     public <T> UUID store(T entity, UuidFunction storeTableFunc, boolean storeInTable) {
         return store(entity, storeTableFunc, storeInTable, new HashMap<>());
+    }
+
+    private List<Object> arrayToList(Object value){
+        List<Object> list = new ArrayList<>();
+
+        int length = Array.getLength(value);
+        for (int i = 0; i < length; i++) {
+            list.add(Array.get(value, i));
+        }
+        return list;
     }
 
     public <T> UUID store(T entity, UuidFunction storeTableFunc, boolean storeInTable, Map<Object, UUID> discoveredMap) {
@@ -994,9 +1032,16 @@ public class DatabaseSingleton {
 
                 if (mapJavaTypeToSQL(type2) != null) {
                     values.add(Pair.of(field.getName(), data));
-                }else if (List.class.isAssignableFrom(type2)){
+                }else if (List.class.isAssignableFrom(type2) || type2.isArray()){
 
-                    if (!(field.getGenericType() instanceof ParameterizedType parameterizedType)) {
+                    Type fieldType = field.getGenericType();
+                    if (type2.isArray()){
+                        data = arrayToList(data);
+                        fieldType = TypeUtils.parameterize(List.class, type2.getComponentType());
+                        type2 = List.class;
+                    }
+
+                    if (!(fieldType instanceof ParameterizedType parameterizedType)) {
                         values.add(Pair.of(field.getName(), serialize(type2, data)));
                         continue;
                     }
