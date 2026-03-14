@@ -256,6 +256,10 @@ public class DatabaseSingleton {
         /*
         * Set each field manually
         * */
+        if (values == null){
+            return null;
+        }
+
         for (var entry : values.entrySet()) {
 
             if (entry.getKey().equals("autoflushid")){
@@ -427,13 +431,33 @@ public class DatabaseSingleton {
 
     private Map<String, Object> getDataByKey(UUID key, Class<?> clazz){
         /*
+        * when item null, return null
+        * */
+        String sql = "SELECT isBull FROM statefulSQLLookupTable WHERE autoFlushID = ?";
+        try {
+            PreparedStatement stmt = DatabaseSingleton.getInstance().getConnection().prepareStatement(sql);
+            stmt.setObject(1, key);
+            ResultSet rs = stmt.executeQuery();
+            boolean suc6 = rs.next();
+            assert suc6;
+            boolean isNull = rs.getBoolean("isBull");
+            if (isNull){
+                return null;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+
+
+        /*
         * Provide autoFlushId and get the corresponding values
         * Clazz: plain class
         * */
         assert !(ByteBuddyEnhanced.class.isAssignableFrom(clazz));
 
         String tableName = getTableName(clazz);
-        String sql = "SELECT * FROM " + tableName + " WHERE autoFlushId = ?::uuid";
+        sql = "SELECT * FROM " + tableName + " WHERE autoFlushId = ?::uuid";
 
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -588,10 +612,13 @@ public class DatabaseSingleton {
             String tableCreation = String.format("""
                         CREATE TABLE %s (
                         autoFlushId UUID PRIMARY KEY DEFERRABLE INITIALLY DEFERRED,
-                        className VARCHAR NOT NULL
+                        className VARCHAR NOT NULL,
+                        isBull BOOLEAN DEFAULT FALSE
                         );
                         """, "statefulSQLLookupTable");
-
+            /*
+            * isNull not allowed because conflict with SQL syntax, but is basically a null flag
+            * */
             try {
                 PreparedStatement stmt = connection.prepareStatement(tableCreation);
 
@@ -700,7 +727,13 @@ public class DatabaseSingleton {
 
     private boolean checkListAttributeTable(Class<?> parent, Field field, List<Class<?>> blackList){
 
-        if (!(field.getGenericType() instanceof ParameterizedType parameterizedType)) {
+        Type fieldType = field.getGenericType();
+
+        if (field.getType().isArray()){
+            fieldType = TypeUtils.parameterize(List.class, field.getType().getComponentType());
+        }
+
+        if (!(fieldType instanceof ParameterizedType parameterizedType)) {
             return false;
         }
 
@@ -814,7 +847,6 @@ public class DatabaseSingleton {
             if (type == List.class || type.isArray()){
                 boolean other = checkListAttributeTable(clazz, field, blackList);
 
-
                 /*
                 * keep going when List needs to be serialized (when not pointing to other serializable objects)
                 * */
@@ -824,6 +856,7 @@ public class DatabaseSingleton {
             }
 
             if (type == Map.class){
+                //TODO see ARRAYS AS LIST HERE
                 boolean other = checkMapAttributeTable(clazz, field, blackList);
 
                 /*
@@ -929,6 +962,32 @@ public class DatabaseSingleton {
     }
 
     public <T> UUID store(T entity, UuidFunction storeTableFunc, boolean storeInTable, Map<Object, UUID> discoveredMap) {
+
+        if (entity == null){
+            UUID autoFlushId = UUID.randomUUID();
+
+            /*
+             * add class to lookup table
+             * */
+            try {
+                String insertSql = "INSERT INTO statefulSQLLookupTable (className, autoFlushId, isBull) VALUES (?, ?, true)";
+                PreparedStatement insertStmt = connection.prepareStatement(insertSql);
+
+                insertStmt.setObject(1, "NULL");
+                insertStmt.setObject(2, autoFlushId);
+                insertStmt.executeUpdate();
+
+                if (storeInTable){
+                    storeTableFunc.apply(autoFlushId);
+                }
+
+            }catch (Exception e){
+                e.printStackTrace();
+                throw new RuntimeException("FAILED TO ADD null");
+            }
+
+            return autoFlushId;
+        }
 
         if (discoveredMap.containsKey(entity)){
             return discoveredMap.get(entity);
@@ -1043,10 +1102,13 @@ public class DatabaseSingleton {
                 }else if (List.class.isAssignableFrom(type2) || type2.isArray()){
 
                     Type fieldType = field.getGenericType();
+
+                    boolean wasArray = false;
                     if (type2.isArray()){
                         data = arrayToList(data);
                         fieldType = TypeUtils.parameterize(List.class, type2.getComponentType());
                         type2 = List.class;
+                        wasArray = true;
                     }
 
                     if (!(fieldType instanceof ParameterizedType parameterizedType)) {
@@ -1067,7 +1129,21 @@ public class DatabaseSingleton {
                     String variable = field.getName();
 
                     int index = 0;
-                    for (Object targetObj: (List<Object>) field.get(entity)){
+
+                    List<Object> objAsList;
+                    if (wasArray){
+                        objAsList = new ArrayList<>();
+                        int length = Array.getLength(field.get(entity));
+                        for (int i = 0; i < length; i++) {
+                            Object element = Array.get(field.get(entity), i);
+                            objAsList.add(element);
+                        }
+                    }else{
+                        objAsList = (List<Object>) field.get(entity);
+                    }
+
+
+                    for (Object targetObj: objAsList){
                         UUID autoFlushId2 = store(targetObj, storeTableFunc, false, discoveredMap);
 
                         listInsertEntries.add(new ListInsertEntry(variable, autoFlushId2, index, listTableName));
@@ -1116,7 +1192,6 @@ public class DatabaseSingleton {
 
             String insertSql = "INSERT INTO "+getTableName(clazz)+" (" + colNames + ", autoFlushId) VALUES (" + placeholders + ", ?)";
             PreparedStatement insertStmt = connection.prepareStatement(insertSql);
-
 
             for (int i = 0; i < values.size(); i++) {
                 assert colNames.contains(values.get(i).getLeft());
