@@ -989,6 +989,8 @@ public class DatabaseSingleton {
 
     public <T> UUID store(T entity, UuidFunction storeTableFunc, boolean storeInTable, Map<Object, UUID> discoveredMap) {
 
+        assert tableExists("statefulSQLLookupTable");
+
         if (entity == null){
             UUID autoFlushId = UUID.randomUUID();
 
@@ -1487,6 +1489,7 @@ public class DatabaseSingleton {
         /*
          * flush to disk here
          * */
+        assert entity != null;
 
         Class<T> clazz = (Class<T>) entity.getClass();
 
