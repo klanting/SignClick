@@ -329,7 +329,15 @@ public class DatabaseSingleton {
                         /*
                         * in case of null array, kind of array typecast
                         * */
-                        value = Arrays.copyOf((Object[]) value, ((Object[]) value).length, (Class) field.getType());
+                        int length = Array.getLength(value);
+
+                        Object copy = Array.newInstance(field.getType().getComponentType(), length);
+                        for (int i = 0; i < length; i++) {
+                            Object element = Array.get(value, i);
+                            Array.set(copy, i, element);
+                        }
+                        value = copy;
+
                     }
 
                     field.set(instance, value);

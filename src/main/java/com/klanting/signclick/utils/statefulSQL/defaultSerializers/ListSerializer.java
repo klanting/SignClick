@@ -51,10 +51,10 @@ public class ListSerializer extends SQLSerializer {
         // When list of value null, child type is Object
         Class<?> listClass = Object.class;
         for (int i=0; i<list.size(); i++){
-            if (list.get(0) == null){
+            if (list.get(i) == null){
                 continue;
             }
-            listClass = list.get(0).getClass();
+            listClass = list.get(i).getClass();
             break;
         }
 

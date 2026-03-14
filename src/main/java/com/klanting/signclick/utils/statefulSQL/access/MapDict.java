@@ -1,5 +1,6 @@
 package com.klanting.signclick.utils.statefulSQL.access;
 
+import com.klanting.signclick.utils.statefulSQL.ClassFlush;
 import com.klanting.signclick.utils.statefulSQL.DatabaseSingleton;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -24,6 +25,14 @@ public class MapDict<S, T> implements AccessPoint<T>, Map<S, T> {
     }
 
     public T createRow(S key, T entity) {
+
+        if (!clazz.isAnnotationPresent(ClassFlush.class)){
+            throw new RuntimeException("Provided class is not Class Flushable");
+        }
+        if(!clazz.isInstance(entity)){
+            throw new RuntimeException("Entity not instance of clazz");
+        }
+
         return DatabaseSingleton.getInstance().createRow(groupName, "MapDict", (u) -> storeInTable(key, u), entity);
     }
 
