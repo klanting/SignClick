@@ -194,6 +194,11 @@ public class DatabaseSingleton {
             boolean suc6 = rs.next();
             assert suc6;
             String className = rs.getString("className");
+
+            if (className.equals("NULL")){
+                return null;
+            }
+
             return Class.forName(className);
         }catch (SQLException e){
             throw new RuntimeException(e);
@@ -414,11 +419,18 @@ public class DatabaseSingleton {
     }
 
     public <T> T getObjectByKey(UUID key, Class<?> clazz, boolean ptr){
+        if (clazz == null){
+            return null;
+        }
 
         assert !(ByteBuddyEnhanced.class.isAssignableFrom(clazz));
 
         Map<String, Object> values = DatabaseSingleton.getInstance().getDataByKey(key, clazz);
         T instance = DatabaseSingleton.getInstance().wrap(clazz, values, ptr);
+
+        if (instance == null){
+            return null;
+        }
 
         assert instance instanceof ByteBuddyEnhanced;
 
@@ -495,11 +507,19 @@ public class DatabaseSingleton {
                 * load internal lists
                 * */
                 for(Field field: getAllDeclaredFields(clazz)){
-                    if(field.getType() != List.class){
+                    if(field.getType() != List.class && !field.getType().isArray()){
                         continue;
                     }
 
-                    if (!(field.getGenericType() instanceof ParameterizedType parameterizedType)) {
+                    Type fieldType = field.getGenericType();
+
+                    boolean wasArray = false;
+                    if (field.getType().isArray()){
+                        fieldType = TypeUtils.parameterize(List.class, field.getType().getComponentType());
+                        wasArray = true;
+                    }
+
+                    if (!(fieldType instanceof ParameterizedType parameterizedType)) {
                         continue;
                     }
                     Type[] typeArgs = parameterizedType.getActualTypeArguments();
@@ -514,7 +534,13 @@ public class DatabaseSingleton {
                     String name = field.getName();
 
                     List<Object> internalList = new ListWrapper<>(listTableName, key, clazz2, name);
-                    row.put(name, internalList);
+
+                    if (wasArray){
+                       row.put(name, internalList.toArray());
+                    }else{
+                        row.put(name, internalList);
+                    }
+
 
                 }
 
@@ -1397,6 +1423,46 @@ public class DatabaseSingleton {
             * */
             if (!columns.isEmpty()){
                 insertStmt.executeUpdate();
+            }
+
+            /*
+            * special case to update the array, because the list wrapper does direct, but Array can't
+            * */
+            for (Field field: clazz.getDeclaredFields()){
+                if (!field.getType().isArray()){
+                    continue;
+                }
+                Type fieldType = TypeUtils.parameterize(List.class, field.getType().getComponentType());
+
+                if (!(fieldType instanceof ParameterizedType parameterizedType)) {
+                    continue;
+                }
+                Type[] typeArgs = parameterizedType.getActualTypeArguments();
+                Type elementType = typeArgs[0];
+                if (!(elementType instanceof Class<?> clazz2)) {
+                    continue;
+                }
+                if(!clazz2.isAnnotationPresent(ClassFlush.class)){
+                    continue;
+                }
+                String listTableName = getTableName(clazz)+"_list_"+getTableName(clazz2);
+                String name = field.getName();
+
+                List<Object> internalList = new ListWrapper<>(listTableName, key, clazz2, name);
+
+                /*
+                * update the wrapper instead
+                * */
+                field.setAccessible(true);
+                Object value = field.get(entity);
+
+                int length = Array.getLength(value);
+                for (int i = 0; i < length; i++) {
+                    Object element = Array.get(value, i);
+                    if (internalList.get(i) != element){
+                        internalList.set(i, element);
+                    }
+                }
             }
 
 

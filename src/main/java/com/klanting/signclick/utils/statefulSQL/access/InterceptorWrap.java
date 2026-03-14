@@ -23,7 +23,6 @@ public class InterceptorWrap<T> {
             @This Object self,
             @Origin Method method,
             @AllArguments Object[] args) throws Exception {
-
         Class<?> clazz = self.getClass();
 
         Field field2 = clazz.getDeclaredField("autoFlushId");
@@ -95,7 +94,6 @@ public class InterceptorWrap<T> {
         if (exception != null){
             throw exception;
         }
-
 
         return result; // or modify result if you want
     }

@@ -115,6 +115,9 @@ public class ArrayTests {
         assertEquals(null, a.getArray4()[1]);
         assertEquals(null, a.getArray4()[2]);
 
+        assertEquals(1, a.getArray5().length);
+        assertEquals(null, a.getArray5()[0]);
+
         /*
         * set array4[2] to "b"
         * */
@@ -124,6 +127,23 @@ public class ArrayTests {
         assertEquals(null, a.getArray4()[0]);
         assertEquals(null, a.getArray4()[1]);
         assertEquals("b", a.getArray4()[2]);
+
+        /*
+        * assign a value to array5
+        * init val with 3
+        * */
+        ArrayDummyElement1 dumm = new ArrayDummyElement1();
+        dumm.setVal(3);
+
+        a.setArray5(0, dumm);
+        assertEquals(1, a.getArray5().length);
+        assertEquals(3, a.getArray5()[0].getVal());
+
+        /*
+        * change val to 4
+        * */
+        a.getArray5()[0].setVal(4);
+        assertEquals(4, a.getArray5()[0].getVal());
 
     }
 }
