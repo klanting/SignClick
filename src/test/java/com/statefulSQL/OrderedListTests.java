@@ -8,6 +8,8 @@ import com.klanting.signclick.utils.statefulSQL.access.OrderedList;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import tools.DataBaseTest;
 
 import java.util.ArrayList;
@@ -661,15 +663,29 @@ public class OrderedListTests {
 
     }
 
-    @Test
-    void stringAsElement(){
+    @ParameterizedTest
+    @CsvSource({
+            "java.lang.String",
+            "java.lang.Integer",
+            "java.lang.Long",
+            "java.lang.Short",
+            "java.lang.Byte",
+            "java.lang.Double",
+            "java.lang.Float",
+            "java.lang.Boolean",
+            "java.lang.Character"
+    })
+    void primitiveAsElement(String clazzString) throws ClassNotFoundException {
         /*
-        * At simple String instead of Object
+        * At simple Primitive, to see if internal system crashes
         * */
+
+        Class<?> clazz = Class.forName(clazzString);
+
         DatabaseSingleton.getInstance(DataBaseTest.getConnection());
         DatabaseSingleton.addClassFlush(String.class);
 
-        assertThrows(AssertionError.class, () -> new OrderedList<>("a", String.class));
+        assertThrows(AssertionError.class, () -> new OrderedList<>("a", clazz));
     }
 
 }

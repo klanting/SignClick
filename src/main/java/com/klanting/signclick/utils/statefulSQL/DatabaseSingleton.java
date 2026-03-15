@@ -177,6 +177,7 @@ public class DatabaseSingleton {
         if (type == short.class) return "SMALLINT";
         if (type == Short.class) return "SMALLINT";
         if (type == byte.class) return "SMALLINT";
+        if (type == Byte.class) return "SMALLINT";
         if (type == boolean.class) return "BOOLEAN";
         if (type == Boolean.class) return "BOOLEAN";
         if (type == float.class) return "REAL";
@@ -184,6 +185,7 @@ public class DatabaseSingleton {
         if (type == double.class) return "DOUBLE PRECISION";
         if (type == Double.class) return "DOUBLE PRECISION";
         if (type == char.class) return "CHAR(1)";
+        if (type == Character.class) return "CHAR(1)";
         if (type == String.class) return "VARCHAR";
         return null;
     }
