@@ -904,7 +904,7 @@ public class DatabaseSingleton {
          * */
         assert clazz != null;
         assert blackList != null;
-        assert mapJavaTypeToSQL(clazz) == null: "Cannot Serialize Primitive";
+        assert clazz.isArray() || mapJavaTypeToSQL(clazz) == null: "Cannot Serialize Primitive";
 
         blackList.add(clazz);
 
