@@ -28,6 +28,7 @@ public class OrderedList<T> implements AccessPoint<T>, List<T> {
     private int modCount = 0;
 
     public OrderedList(String name, Class<T> type) {
+
         this.type = type;
         this.groupName = name;
         DatabaseSingleton.getInstance().checkSetupTable(name, "OrderedList");

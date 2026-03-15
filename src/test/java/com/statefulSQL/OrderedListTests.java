@@ -661,6 +661,15 @@ public class OrderedListTests {
 
     }
 
+    @Test
+    void stringAsElement(){
+        /*
+        * At simple String instead of Object
+        * */
+        DatabaseSingleton.getInstance(DataBaseTest.getConnection());
+        DatabaseSingleton.addClassFlush(String.class);
 
+        assertThrows(AssertionError.class, () -> new OrderedList<>("a", String.class));
+    }
 
 }

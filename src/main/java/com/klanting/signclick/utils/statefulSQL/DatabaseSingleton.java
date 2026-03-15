@@ -865,7 +865,45 @@ public class DatabaseSingleton {
 
     }
 
+    private String fieldToColumn(Field field, List<Class<?>> blackList){
+        assert field != null;
+        assert blackList != null;
+
+        /**
+        * Convert a Field to its corresponding column representation,
+        * When no valid direct conversion exists, raise error
+        * */
+        Class<?> type = field.getType();
+        String columnName = field.getName();
+        String sqlType = mapJavaTypeToSQL(type);
+
+        if (sqlType != null) { // only primitives
+            return "\""+columnName+"\"" + " " + sqlType;
+        }
+        if (isClassFlush(type)){
+            if (!blackList.contains(type)){
+                checkTable(type, blackList);
+            }
+            return "\""+columnName+"\""+ " UUID";
+
+        }
+
+        if (hasSerializer(type)){
+            return "\""+columnName+"\""+ " VARCHAR";
+        }
+
+        throw new RuntimeException("Unsupported FIELD "+type);
+    }
+
+
     public void checkTable(Class<?> clazz, List<Class<?>> blackList){
+        /**
+         * Check if the SQL table for the given class already exists
+         * */
+        assert clazz != null;
+        assert blackList != null;
+        assert mapJavaTypeToSQL(clazz) == null: "Cannot Serialize Primitive";
+
         blackList.add(clazz);
 
         if (tableExists(getTableName(clazz))){
@@ -878,7 +916,6 @@ public class DatabaseSingleton {
         for (Field field : fields) {
             Class<?> type = field.getType();
             String columnName = field.getName();
-            String sqlType = mapJavaTypeToSQL(type);
 
             //Convert list to additional relation entity
             if (type == List.class || type.isArray()){
@@ -907,22 +944,9 @@ public class DatabaseSingleton {
                 continue;
             }
 
-            if (sqlType != null) { // only primitives
-                columns.add("\""+columnName+"\"" + " " + sqlType);
-            }else if (isClassFlush(type)){
-                if (!blackList.contains(type)){
-                    checkTable(type, blackList);
-                }
+            columns.add(fieldToColumn(field, blackList));
 
-                columns.add("\""+columnName+"\""+ " UUID");
 
-            }else{
-                if (hasSerializer(type)){
-                    columns.add("\""+columnName+"\""+ " VARCHAR");
-                }else{
-                    throw new RuntimeException("Unsupported FIELD "+type);
-                }
-            }
         }
         columns.addAll(foreignKeys);
 
@@ -1070,6 +1094,7 @@ public class DatabaseSingleton {
         }
 
         assert !(ByteBuddyEnhanced.class.isAssignableFrom(clazz));
+        assert mapJavaTypeToSQL(clazz) != null: "Cannot Serialize a Primitive";
         /*
         * Start storing a completely new object
         * */
