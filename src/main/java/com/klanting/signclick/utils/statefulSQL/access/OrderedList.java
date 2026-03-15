@@ -68,6 +68,14 @@ public class OrderedList<T> implements AccessPoint<T>, List<T> {
 
 
     public T createRow(T entity) {
+
+        if (!DatabaseSingleton.isClassFlush(type)){
+            throw new RuntimeException("Provided class is not Class Flushable");
+        }
+        if(!type.isInstance(entity)){
+            throw new RuntimeException("Entity not instance of clazz");
+        }
+
        return DatabaseSingleton.getInstance().createRow(groupName, "OrderedList", (u) -> storeInTable(u), entity);
     }
 

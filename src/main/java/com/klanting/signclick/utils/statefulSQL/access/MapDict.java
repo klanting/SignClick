@@ -26,7 +26,7 @@ public class MapDict<S, T> implements AccessPoint<T>, Map<S, T> {
 
     public T createRow(S key, T entity) {
 
-        if (!clazz.isAnnotationPresent(ClassFlush.class)){
+        if (!DatabaseSingleton.isClassFlush(clazz)){
             throw new RuntimeException("Provided class is not Class Flushable");
         }
         if(!clazz.isInstance(entity)){

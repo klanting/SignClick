@@ -37,6 +37,16 @@ public class DatabaseSingleton {
 
     private final Map<String, Class<?>> accessedMap = new HashMap<>();
 
+    private static final Set<Class<?>> manualAnnotatedClasses = new HashSet<>();
+
+    public static void addClassFlush(Class<?> clazz){
+        manualAnnotatedClasses.add(clazz);
+    }
+
+    public static boolean isClassFlush(Class<?> clazz){
+        return clazz.isAnnotationPresent(ClassFlush.class) || manualAnnotatedClasses.contains(clazz);
+    }
+
     public void registerAccessedClass(String key, Class<?> clazz){
 
         if (accessedMap.containsKey(key) && accessedMap.get(key) != clazz){
@@ -290,7 +300,8 @@ public class DatabaseSingleton {
                 /*
                 * When ptr to other class
                 * */
-                if (type.isAnnotationPresent(ClassFlush.class) && entry.getValue() != null){
+
+                if (isClassFlush(type) && entry.getValue() != null){
 
                     //other than above this one intercepts
                     Class<?> dynamicType2 = new ByteBuddy()
@@ -527,7 +538,7 @@ public class DatabaseSingleton {
                     if (!(elementType instanceof Class<?> clazz2)) {
                         continue;
                     }
-                    if(!clazz2.isAnnotationPresent(ClassFlush.class)){
+                    if(!isClassFlush(clazz2)){
                         continue;
                     }
                     String listTableName = getTableName(clazz)+"_list_"+getTableName(clazz2);
@@ -565,7 +576,7 @@ public class DatabaseSingleton {
                         continue;
                     }
 
-                    if(!clazz2.isAnnotationPresent(ClassFlush.class)){
+                    if(!isClassFlush(clazz2)){
                         continue;
                     }
                     String mapTableName = getTableName(clazz)+"_map_"+getTableName(clazz2);
@@ -770,11 +781,11 @@ public class DatabaseSingleton {
             return false;
         }
 
-        if (!blackList.contains(clazz2) && clazz2.isAnnotationPresent(ClassFlush.class)){
+        if (!blackList.contains(clazz2) && isClassFlush(clazz2)){
             checkTable(clazz2, blackList);
         }
 
-        if(!clazz2.isAnnotationPresent(ClassFlush.class)){
+        if(!isClassFlush(clazz2)){
             /*
             * This case, we will serialize entire list
             * */
@@ -819,11 +830,11 @@ public class DatabaseSingleton {
             return false;
         }
 
-        if (!blackList.contains(clazz2) && clazz2.isAnnotationPresent(ClassFlush.class)){
+        if (!blackList.contains(clazz2) && isClassFlush(clazz2)){
             checkTable(clazz2, blackList);
         }
 
-        if(!clazz2.isAnnotationPresent(ClassFlush.class)){
+        if(!isClassFlush(clazz2)){
             /*
              * This case, we will serialize entire list
              * */
@@ -898,7 +909,7 @@ public class DatabaseSingleton {
 
             if (sqlType != null) { // only primitives
                 columns.add("\""+columnName+"\"" + " " + sqlType);
-            }else if (type.isAnnotationPresent(ClassFlush.class)){
+            }else if (isClassFlush(type)){
                 if (!blackList.contains(type)){
                     checkTable(type, blackList);
                 }
@@ -909,7 +920,7 @@ public class DatabaseSingleton {
                 if (hasSerializer(type)){
                     columns.add("\""+columnName+"\""+ " VARCHAR");
                 }else{
-                    throw new RuntimeException("Unsupported FIELD");
+                    throw new RuntimeException("Unsupported FIELD "+type);
                 }
             }
         }
@@ -939,7 +950,7 @@ public class DatabaseSingleton {
     public static List<Field> getAllDeclaredFields(Class<?> clazz) {
         List<Field> fields = new ArrayList<>();
 
-        while (clazz != null && clazz != Object.class && clazz.isAnnotationPresent(ClassFlush.class)) {
+        while (clazz != null && clazz != Object.class && isClassFlush(clazz)) {
             fields.addAll(Arrays.asList(clazz.getDeclaredFields()));
             clazz = clazz.getSuperclass();
         }
@@ -1119,7 +1130,7 @@ public class DatabaseSingleton {
                     continue;
                 }
 
-                if (type2.isAnnotationPresent(ClassFlush.class) && data != null){
+                if (isClassFlush(type2) && data != null){
                     UUID uuid = store(data, storeTableFunc, false, discoveredMap);
                     values.add(Pair.of(field.getName(), uuid));
                     continue;
@@ -1149,7 +1160,7 @@ public class DatabaseSingleton {
                         values.add(Pair.of(field.getName(), serialize(type2, data)));
                         continue;
                     }
-                    if(!clazz2.isAnnotationPresent(ClassFlush.class)){
+                    if(!isClassFlush(clazz2)){
                         values.add(Pair.of(field.getName(), serialize(type2, data)));
                         continue;
                     }
@@ -1192,7 +1203,7 @@ public class DatabaseSingleton {
                         continue;
                     }
 
-                    if(!clazz2.isAnnotationPresent(ClassFlush.class)){
+                    if(!isClassFlush(clazz2)){
                         values.add(Pair.of(field.getName(), serialize(type2, data)));
                         continue;
                     }
@@ -1375,7 +1386,7 @@ public class DatabaseSingleton {
                 Field field = getADeclaredField(clazz, columnName);
                 field.setAccessible(true);
                 Class<?> type = field.getType();
-                if (type.isAnnotationPresent(ClassFlush.class) && field.get(entity) != null){
+                if (isClassFlush(type) && field.get(entity) != null){
                     tableExists = rs.next();
                     continue;
                 }
@@ -1444,7 +1455,7 @@ public class DatabaseSingleton {
                 if (!(elementType instanceof Class<?> clazz2)) {
                     continue;
                 }
-                if(!clazz2.isAnnotationPresent(ClassFlush.class)){
+                if(!isClassFlush(clazz2)){
                     continue;
                 }
                 String listTableName = getTableName(clazz)+"_list_"+getTableName(clazz2);
@@ -1493,7 +1504,7 @@ public class DatabaseSingleton {
 
         Class<T> clazz = (Class<T>) entity.getClass();
 
-        assert clazz.isAnnotationPresent(ClassFlush.class) || ByteBuddyEnhanced.class.isAssignableFrom(clazz);
+        assert isClassFlush(clazz) || ByteBuddyEnhanced.class.isAssignableFrom(clazz);
 
         try {
             /*
