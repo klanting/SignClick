@@ -1094,7 +1094,7 @@ public class DatabaseSingleton {
         }
 
         assert !(ByteBuddyEnhanced.class.isAssignableFrom(clazz));
-        assert mapJavaTypeToSQL(clazz) != null: "Cannot Serialize a Primitive";
+        assert clazz.isArray() || mapJavaTypeToSQL(clazz) == null: "Cannot Serialize a Primitive";
         /*
         * Start storing a completely new object
         * */
