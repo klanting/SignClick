@@ -1,4 +1,4 @@
-package com.statefulSQL;
+package com.statefulSQL.structure;
 
 
 import com.klanting.signclick.utils.statefulSQL.ClassFlush;

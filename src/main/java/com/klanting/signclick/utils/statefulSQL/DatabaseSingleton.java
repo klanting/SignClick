@@ -4,8 +4,8 @@ import com.klanting.signclick.utils.DataBase;
 import com.klanting.signclick.utils.statefulSQL.access.InterceptorWrap;
 import com.klanting.signclick.utils.statefulSQL.access.UuidFunction;
 import com.klanting.signclick.utils.statefulSQL.defaultSerializers.*;
-import com.klanting.signclick.utils.statefulSQL.internal.ListWrapper;
-import com.klanting.signclick.utils.statefulSQL.internal.MapWrapper;
+import com.klanting.signclick.utils.statefulSQL.internal.InternalListWrapper;
+import com.klanting.signclick.utils.statefulSQL.internal.InternalMapWrapper;
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
 import net.bytebuddy.implementation.MethodDelegation;
@@ -546,7 +546,7 @@ public class DatabaseSingleton {
                     String listTableName = getTableName(clazz)+"_list_"+getTableName(clazz2);
                     String name = field.getName();
 
-                    List<Object> internalList = new ListWrapper<>(listTableName, key, clazz2, name);
+                    List<Object> internalList = new InternalListWrapper<>(listTableName, key, clazz2, name);
 
                     if (wasArray){
                        row.put(name, internalList.toArray());
@@ -584,7 +584,7 @@ public class DatabaseSingleton {
                     String mapTableName = getTableName(clazz)+"_map_"+getTableName(clazz2);
                     String name = field.getName();
 
-                    MapWrapper<Object, Object> internalList = new MapWrapper<>(mapTableName, key, keyClazz, clazz2, name);
+                    InternalMapWrapper<Object, Object> internalList = new InternalMapWrapper<>(mapTableName, key, keyClazz, clazz2, name);
                     row.put(name, internalList);
 
                 }
@@ -652,7 +652,8 @@ public class DatabaseSingleton {
                         CREATE TABLE %s (
                         autoFlushId UUID PRIMARY KEY DEFERRABLE INITIALLY DEFERRED,
                         className VARCHAR NOT NULL,
-                        isBull BOOLEAN DEFAULT FALSE
+                        isBull BOOLEAN DEFAULT FALSE,
+                        referenceCount BIGINT DEFAULT 1
                         );
                         """, "statefulSQLLookupTable");
             /*
@@ -1024,6 +1025,44 @@ public class DatabaseSingleton {
         return list;
     }
 
+    private void IncreaseReferenceCount(UUID autoFlushId){
+        System.out.println("INCR "+autoFlushId);
+        /*
+         * update reference count 'referenceCount'
+         * */
+        String updateSql =
+                "UPDATE statefulSQLLookupTable" +
+                        " SET referenceCount = referenceCount + 1 " +
+                        " WHERE autoFlushId = ?";
+
+        try{
+            PreparedStatement insertStmt = connection.prepareStatement(updateSql);
+            insertStmt.setObject(1, autoFlushId);
+            insertStmt.executeUpdate();
+        }catch (SQLException e){
+
+        }
+    }
+
+    private void DecreaseReferenceCount(UUID autoFlushId){
+        System.out.println("INCR "+autoFlushId);
+        /*
+         * update reference count 'referenceCount'
+         * */
+        String updateSql =
+                "UPDATE statefulSQLLookupTable" +
+                        " SET referenceCount = referenceCount - 1 " +
+                        " WHERE autoFlushId = ?";
+
+        try{
+            PreparedStatement insertStmt = connection.prepareStatement(updateSql);
+            insertStmt.setObject(1, autoFlushId);
+            insertStmt.executeUpdate();
+        }catch (SQLException e){
+
+        }
+    }
+
     public <T> UUID store(T entity, UuidFunction storeTableFunc, boolean storeInTable, Map<Object, UUID> discoveredMap) {
 
         assert tableExists("statefulSQLLookupTable");
@@ -1081,6 +1120,8 @@ public class DatabaseSingleton {
             * when removed (in remove cache, store again)
             * */
             if (!removeCache.containsKey(autoFlushId)){
+                IncreaseReferenceCount(autoFlushId);
+
                 return autoFlushId;
             }
             entity = (T) removeCache.get(autoFlushId);
@@ -1324,35 +1365,61 @@ public class DatabaseSingleton {
 
     }
 
+    private boolean checkNoEntries(UUID key) throws SQLException {
+        /*
+        * quick method to check validity, by verifying no entries are in top level data structs of the given key
+        * */
+
+        /*
+         * Check no orderedList references anymore
+         * */
+        String sql = "SELECT COUNT(*) FROM statefulSQL"+"OrderedList"+" WHERE autoflushid = ?";
+
+        PreparedStatement ps = connection.prepareStatement(sql);
+        ps.setObject(1, key);
+        ResultSet rs = ps.executeQuery();
+        rs.next();
+        int countOrderedList = rs.getInt(1);
+
+        /*
+         * Check no mapDict references anymore
+         * */
+        sql = "SELECT COUNT(*) FROM statefulSQL"+"MapDict"+" WHERE autoflushid = ?";
+
+        ps = connection.prepareStatement(sql);
+        ps.setObject(1, key);
+        rs = ps.executeQuery();
+        rs.next();
+        int countMapDict = rs.getInt(1);
+
+        return countOrderedList != 0 || countMapDict != 0;
+    }
+
     public <T> void checkDelete(UUID key, Class<?> clazz){
         try {
+
+
             /*
-            * Check no orderedList references anymore
-            * */
-            String sql = "SELECT COUNT(*) FROM statefulSQL"+"OrderedList"+" WHERE autoflushid = ?";
+             * Check if internal nodes have references
+             * */
+            String sql = "SELECT referenceCount FROM statefulSQLLookupTable WHERE autoflushid = ?";
 
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setObject(1, key);
             ResultSet rs = ps.executeQuery();
             rs.next();
-            int countOrderedList = rs.getInt(1);
+            int referenceCount = rs.getInt(1);
+            System.out.println("DELETE RREMOVE CNT"+referenceCount);
 
-            /*
-             * Check no mapDict references anymore
-             * */
-            sql = "SELECT COUNT(*) FROM statefulSQL"+"MapDict"+" WHERE autoflushid = ?";
-
-            ps = connection.prepareStatement(sql);
-            ps.setObject(1, key);
-            rs = ps.executeQuery();
-            rs.next();
-            int countMapDict = rs.getInt(1);
+            if (referenceCount > 1){
+                DecreaseReferenceCount(key);
+                return;
+            }
 
             //TODO check if no internal Map/List have this
 
-            if (countOrderedList != 0 || countMapDict != 0){
-                return;
-            }
+            //assert checkNoEntries(key);
+
             /*
             * store object in remove cache, in case temp ptr stills stored
             * */
@@ -1488,7 +1555,7 @@ public class DatabaseSingleton {
                 String listTableName = getTableName(clazz)+"_list_"+getTableName(clazz2);
                 String name = field.getName();
 
-                List<Object> internalList = new ListWrapper<>(listTableName, key, clazz2, name);
+                List<Object> internalList = new InternalListWrapper<>(listTableName, key, clazz2, name);
 
                 /*
                 * update the wrapper instead

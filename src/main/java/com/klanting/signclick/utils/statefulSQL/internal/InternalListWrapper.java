@@ -8,7 +8,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
-public class ListWrapper<T> implements List<T> {
+public class InternalListWrapper<T> implements List<T> {
+    /**
+     * This component mimics the implementation of a list stored as a class attribute.
+     * */
 
     private final String listTableName;
     private final UUID parentAutoFlushId;
@@ -16,7 +19,7 @@ public class ListWrapper<T> implements List<T> {
 
     private final Class<?> clazz;
 
-    public ListWrapper(String listTableName, UUID parentAutoFlushId, Class<?> clazz, String variable){
+    public InternalListWrapper(String listTableName, UUID parentAutoFlushId, Class<?> clazz, String variable){
         this.listTableName = listTableName;
         this.parentAutoFlushId = parentAutoFlushId;
         this.clazz = clazz;
@@ -97,7 +100,7 @@ public class ListWrapper<T> implements List<T> {
 
     @Override
     public boolean add(Object o) {
-        UUID newUUID = DatabaseSingleton.getInstance().store(o, (u) -> {}, false);
+        UUID newUUID = DatabaseSingleton.getInstance().store(o, (u) -> {}, true);
 
         String insertListSql = "INSERT INTO "+listTableName+" (variable, autoFlushId1, autoFlushId2, index) VALUES (?, ?, ?, ?)";
 
@@ -208,6 +211,14 @@ public class ListWrapper<T> implements List<T> {
     @Override
     public void add(int index, Object element) {
 
+        if (index < 0){
+            throw new IndexOutOfBoundsException(index);
+        }
+
+        if (index > size()){
+            throw new IndexOutOfBoundsException("Index: "+index+", Size: "+size());
+        }
+
         /*
         * update index with higher values
         * */
@@ -218,7 +229,7 @@ public class ListWrapper<T> implements List<T> {
             String updateSql =
                     "UPDATE "+listTableName+" " +
                             "SET index = index + 1 " +
-                            "WHERE autoflushid1 = ? AND variable = ? AND index > ?";
+                            "WHERE autoflushid1 = ? AND variable = ? AND index >= ?";
 
             PreparedStatement updatePs = DatabaseSingleton.getInstance().getConnection().prepareStatement(updateSql);
 
@@ -235,7 +246,7 @@ public class ListWrapper<T> implements List<T> {
         /*
         * add new item
         * */
-        UUID newUUID = DatabaseSingleton.getInstance().store(element, (u) -> {}, false);
+        UUID newUUID = DatabaseSingleton.getInstance().store(element, (u) -> {}, true);
 
         String insertListSql = "INSERT INTO "+listTableName+" (variable, autoFlushId1, autoFlushId2, index) VALUES (?, ?, ?, ?)";
 

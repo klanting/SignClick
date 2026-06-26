@@ -1,9 +1,8 @@
-package com.statefulSQL;
+package com.statefulSQL.errors;
 
 import com.klanting.signclick.utils.statefulSQL.ClassFlush;
 import com.klanting.signclick.utils.statefulSQL.DatabaseSingleton;
 import com.klanting.signclick.utils.statefulSQL.access.MapDict;
-import io.ebeaninternal.server.util.Str;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

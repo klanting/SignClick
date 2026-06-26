@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
-public class MapWrapper<S, T> implements Map<S, T> {
+public class InternalMapWrapper<S, T> implements Map<S, T> {
 
     private final String mapTableName;
     private final UUID parentAutoFlushId;
@@ -19,7 +19,7 @@ public class MapWrapper<S, T> implements Map<S, T> {
     private final Class<?> keyClazz;
 
 
-    public MapWrapper(String mapTableName, UUID parentAutoFlushId, Class<?> keyClazz, Class<?> clazz, String variable){
+    public InternalMapWrapper(String mapTableName, UUID parentAutoFlushId, Class<?> keyClazz, Class<?> clazz, String variable){
         this.mapTableName = mapTableName;
         this.parentAutoFlushId = parentAutoFlushId;
 
