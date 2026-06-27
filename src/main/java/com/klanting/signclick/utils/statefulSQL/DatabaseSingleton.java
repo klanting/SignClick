@@ -7,6 +7,7 @@ import com.klanting.signclick.utils.statefulSQL.defaultSerializers.*;
 import com.klanting.signclick.utils.statefulSQL.internal.InternalListWrapper;
 import com.klanting.signclick.utils.statefulSQL.internal.InternalMapWrapper;
 import net.bytebuddy.ByteBuddy;
+import net.bytebuddy.dynamic.DynamicType;
 import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
 import net.bytebuddy.implementation.MethodDelegation;
 import org.apache.commons.lang3.reflect.TypeUtils;
@@ -35,7 +36,19 @@ public class DatabaseSingleton {
 
     private final Map<UUID, Object> removeCache = new HashMap<>();
 
+    /*
+    * Make sure the groupname is only used for a single class type
+    * */
     private final Map<String, Class<?>> accessedMap = new HashMap<>();
+
+    public void registerAccessedClass(String key, Class<?> clazz){
+
+        if (accessedMap.containsKey(key) && accessedMap.get(key) != clazz){
+            throw new RuntimeException("Can't access 2 different classes with same group name");
+        }
+
+        accessedMap.put(key, clazz);
+    }
 
     private static final Set<Class<?>> manualAnnotatedClasses = new HashSet<>();
 
@@ -53,14 +66,6 @@ public class DatabaseSingleton {
         return clazz.isAnnotationPresent(ClassFlush.class) || manualAnnotatedClasses.contains(clazz);
     }
 
-    public void registerAccessedClass(String key, Class<?> clazz){
-
-        if (accessedMap.containsKey(key) && accessedMap.get(key) != clazz){
-            throw new RuntimeException("Can't access 2 different classes with same group name");
-        }
-
-        accessedMap.put(key, clazz);
-    }
 
     private final Connection connection;
 
@@ -101,8 +106,6 @@ public class DatabaseSingleton {
         }
         return instance;
     }
-
-
 
     private static String mapJavaTypeToSQL(Class<?> type) {
         if (type == int.class) return "INTEGER";
@@ -170,36 +173,34 @@ public class DatabaseSingleton {
         * override base object with bytebuddy
         * this doesn't intercept, but embeds autoFlushId as field to instance
         * */
-        Class<?> dynamicType;
+
+        /*
+        * Add the autoFlushId, and add ByteBuddyEnhanced Interface
+        * */
+        DynamicType.Builder.FieldDefinition.Optional.Valuable<?> commonChanges = new ByteBuddy()
+                .subclass(clazz)
+                .implement(ByteBuddyEnhanced.class)
+                .defineField("autoFlushId", UUID.class, Modifier.PUBLIC);
+
+        DynamicType.Builder.MethodDefinition.ImplementationDefinition<?> changedMethods;
+
         if (ptr){
             /*
             * forwards all to interceptor
             * */
-            dynamicType = new ByteBuddy()
-                    .subclass(clazz)
-                    .implement(ByteBuddyEnhanced.class)
-                    .defineField("autoFlushId", UUID.class, Modifier.PUBLIC)
-                    .method(
-                            not(named("clone"))
-                    )
-                    .intercept(MethodDelegation.to(new InterceptorWrap<T>()))
-                    .make()
-                    .load(clazz.getClassLoader(), ClassLoadingStrategy.Default.INJECTION)
-                    .getLoaded();
-
+            changedMethods = commonChanges.method(not(named("clone")));
         }else{
-            dynamicType = new ByteBuddy()
-                    .subclass(clazz)
-                    .implement(ByteBuddyEnhanced.class)
-                    .defineField("autoFlushId", UUID.class, Modifier.PUBLIC)
-                    .method(
-                            named("equals")
-                    )
-                    .intercept(MethodDelegation.to(new InterceptorWrap<T>()))
-                    .make()
-                    .load(clazz.getClassLoader(), ClassLoadingStrategy.Default.INJECTION)
-                    .getLoaded();
+            changedMethods = commonChanges.method(named("equals"));
         }
+
+        /*
+        * Forward to interceptor and create class
+        * */
+        Class<?> dynamicType = changedMethods
+                .intercept(MethodDelegation.to(new InterceptorWrap<T>()))
+                .make()
+                .load(clazz.getClassLoader(), ClassLoadingStrategy.Default.INJECTION)
+                .getLoaded();
 
         assert (ByteBuddyEnhanced.class.isAssignableFrom(dynamicType));
 
@@ -1344,7 +1345,6 @@ public class DatabaseSingleton {
             ResultSet rs = ps.executeQuery();
             rs.next();
             int referenceCount = rs.getInt(1);
-            System.out.println("DELETE RREMOVE CNT"+referenceCount);
 
             if (referenceCount > 1){
                 DecreaseReferenceCount(key);

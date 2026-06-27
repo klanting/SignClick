@@ -21,7 +21,7 @@ public class MapDict<S, T> implements AccessPoint<T>, Map<S, T> {
         this.groupName = name;
         DatabaseSingleton.getInstance().checkSetupTable(name, "MapDict");
         DatabaseSingleton.getInstance().checkTable(clazz, new ArrayList<>());
-        DatabaseSingleton.getInstance().registerAccessedClass("OrderedList_"+groupName, clazz);
+        DatabaseSingleton.getInstance().registerAccessedClass("MapDict_"+groupName, clazz);
     }
 
     public T createRow(S key, T entity) {
