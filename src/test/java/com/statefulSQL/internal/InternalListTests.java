@@ -82,7 +82,7 @@ public class InternalListTests {
         /*
         * case where 2 different objects reference the same InternalListDummy5 with an internal list, but 1 removes it, ensure other doesn't remove it
         * */
-        //DatabaseSingleton.getInstance(DataBaseTest.getConnection());
+        DatabaseSingleton.getInstance(DataBaseTest.getConnection());
 
         MapDict<String, InternalListDummy4> dummies = new MapDict<>("a",String.class, InternalListDummy4.class);
         InternalListDummy4 dum = dummies.createRow("S", new InternalListDummy4());

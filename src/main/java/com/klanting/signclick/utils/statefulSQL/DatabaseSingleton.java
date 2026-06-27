@@ -1365,7 +1365,7 @@ public class DatabaseSingleton {
 
     }
 
-    private boolean checkNoEntries(UUID key) throws SQLException {
+    private boolean checkHasEntries(UUID key) throws SQLException {
         /*
         * quick method to check validity, by verifying no entries are in top level data structs of the given key
         * */
@@ -1416,9 +1416,7 @@ public class DatabaseSingleton {
                 return;
             }
 
-            //TODO check if no internal Map/List have this
-
-            //assert checkNoEntries(key);
+            assert !checkHasEntries(key);
 
             /*
             * store object in remove cache, in case temp ptr stills stored

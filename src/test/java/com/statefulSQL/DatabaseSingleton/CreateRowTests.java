@@ -1,4 +1,4 @@
-package com.statefulSQL;
+package com.statefulSQL.DatabaseSingleton;
 
 import com.klanting.signclick.utils.statefulSQL.DatabaseSingleton;
 import org.junit.jupiter.api.AfterEach;
@@ -8,7 +8,7 @@ import tools.DataBaseTest;
 
 import static org.junit.Assert.assertThrows;
 
-public class DatabaseSingletonCreateRowTests {
+public class CreateRowTests {
     @BeforeEach
     public void setUp() throws Exception {
         DataBaseTest.initDb();
