@@ -24,12 +24,12 @@ public class ArraySerializer extends SQLSerializer {
             list.add(Array.get(value, i));
         }
 
-        return DatabaseSingleton.getInstance().serialize(List.class, list);
+        return DatabaseSingleton.getInstance().getSerializeManager().serialize(List.class, list);
     }
 
     @Override
     public Object deserialize(String value) {
-        List<Object> list = DatabaseSingleton.getInstance().deserialize(List.class, value);
+        List<Object> list = DatabaseSingleton.getInstance().getSerializeManager().deserialize(List.class, value);
         return list.toArray();
     }
 }

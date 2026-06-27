@@ -25,11 +25,11 @@ public class MapSerializer extends SQLSerializer {
         Map<String, String> map = new HashMap<>();
 
         for(Map.Entry<?, ?> entry: mapFull.entrySet()){
-            String sKey = DatabaseSingleton.getInstance().serialize(entry.getKey().getClass(), entry.getKey());
+            String sKey = DatabaseSingleton.getInstance().getSerializeManager().serialize(entry.getKey().getClass(), entry.getKey());
 
             String sVal = null;
             if (entry.getValue() != null){
-                sVal = DatabaseSingleton.getInstance().serialize(entry.getValue().getClass(), entry.getValue());
+                sVal = DatabaseSingleton.getInstance().getSerializeManager().serialize(entry.getValue().getClass(), entry.getValue());
             }
 
             map.put(sKey, sVal);
@@ -86,10 +86,10 @@ public class MapSerializer extends SQLSerializer {
                 }
 
                 Object key = DatabaseSingleton.getInstance()
-                        .deserialize(keyClass, entry.getKey());
+                        .getSerializeManager().deserialize(keyClass, entry.getKey());
 
                 Object val = DatabaseSingleton.getInstance()
-                        .deserialize(valueClass, entry.getValue());
+                        .getSerializeManager().deserialize(valueClass, entry.getValue());
 
                 result.put(key, val);
             }

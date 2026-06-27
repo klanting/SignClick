@@ -27,7 +27,7 @@ public class ListSerializer extends SQLSerializer {
         for(Object j: list){
             String sKey;
             if (j != null){
-                sKey = DatabaseSingleton.getInstance().serialize(j.getClass(), j);
+                sKey = DatabaseSingleton.getInstance().getSerializeManager().serialize(j.getClass(), j);
             }else{
                 sKey = "null";
             }
@@ -89,7 +89,7 @@ public class ListSerializer extends SQLSerializer {
 
             List<String> stringList = (List<String>) stringMap.get("list");
             for(String s: stringList){
-                Object addToResult = DatabaseSingleton.getInstance().deserialize(listClass, s);
+                Object addToResult = DatabaseSingleton.getInstance().getSerializeManager().deserialize(listClass, s);
 
                 result.add(addToResult);
             }

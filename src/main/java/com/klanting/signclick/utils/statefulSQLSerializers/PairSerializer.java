@@ -13,12 +13,12 @@ public class PairSerializer extends SQLSerializer<Pair> {
 
     @Override
     public String serialize(Pair value) {
-        return DatabaseSingleton.getInstance().serialize(List.class, List.of(value.getLeft(), value.getRight()));
+        return DatabaseSingleton.getInstance().getSerializeManager().serialize(List.class, List.of(value.getLeft(), value.getRight()));
     }
 
     @Override
     public Pair deserialize(String value) {
-        List<Object> o = DatabaseSingleton.getInstance().deserialize(List.class, value);
+        List<Object> o = DatabaseSingleton.getInstance().getSerializeManager().deserialize(List.class, value);
         return Pair.of(o.get(0), o.get(1));
     }
 }

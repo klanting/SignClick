@@ -363,7 +363,7 @@ public class OrderedList<T> implements AccessPoint<T>, List<T> {
 
                     Field field = DatabaseSingleton.getADeclaredField(realClass, columnName);
                     if (value != null && value.getClass() == String.class && field.getType() != String.class){
-                        row.put(columnName, DatabaseSingleton.getInstance().deserialize(field.getType(), (String) value));
+                        row.put(columnName, DatabaseSingleton.getInstance().getSerializeManager().deserialize(field.getType(), (String) value));
                     }else{
                         row.put(columnName, value);
                     }

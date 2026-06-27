@@ -47,12 +47,12 @@ public class CompanyFlushTests {
     @Test
     void flushComTest(){
         DatabaseSingleton.getInstance(DataBaseTest.getConnection());
-        DatabaseSingleton.getInstance().registerSerializer(new MaterialSerializer(Material.class));
-        DatabaseSingleton.getInstance().registerSerializer(new PairSerializer(Pair.class));
-        DatabaseSingleton.getInstance().registerSerializer(new ItemStackSerializer(ItemStack.class));
-        DatabaseSingleton.getInstance().registerSerializer(new BlockPosKeySerializer(BlockPosKey.class));
-        DatabaseSingleton.getInstance().registerSerializer(new ChatColorSerializer(ChatColor.class));
-        DatabaseSingleton.getInstance().registerSerializer(new LocationSerializer(Location.class));
+        DatabaseSingleton.getInstance().getSerializeManager().registerSerializer(new MaterialSerializer(Material.class));
+        DatabaseSingleton.getInstance().getSerializeManager().registerSerializer(new PairSerializer(Pair.class));
+        DatabaseSingleton.getInstance().getSerializeManager().registerSerializer(new ItemStackSerializer(ItemStack.class));
+        DatabaseSingleton.getInstance().getSerializeManager().registerSerializer(new BlockPosKeySerializer(BlockPosKey.class));
+        DatabaseSingleton.getInstance().getSerializeManager().registerSerializer(new ChatColorSerializer(ChatColor.class));
+        DatabaseSingleton.getInstance().getSerializeManager().registerSerializer(new LocationSerializer(Location.class));
 
         OrderedList<Company> companies = new OrderedList<>("a", Company.class);
 

@@ -223,7 +223,7 @@ public class InternalMapWrapper<S, T> implements Map<S, T> {
                 if (keyClazz == String.class){
                     keys.add((S) key);
                 }else{
-                    keys.add(DatabaseSingleton.getInstance().deserialize(keyClazz, key));
+                    keys.add(DatabaseSingleton.getInstance().getSerializeManager().deserialize(keyClazz, key));
                 }
 
             }

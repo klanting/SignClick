@@ -150,7 +150,7 @@ public class OrderedListTests {
     void createRow(){
 
         DatabaseSingleton.getInstance(DataBaseTest.getConnection());
-        DatabaseSingleton.getInstance().registerSerializer(new OrderedListWeirdObjectSerializer(OrderedListWeirdObject.class));
+        DatabaseSingleton.getInstance().getSerializeManager().registerSerializer(new OrderedListWeirdObjectSerializer(OrderedListWeirdObject.class));
 
         OrderedList<OrderedListDummy> dummies = new OrderedList<>("a", OrderedListDummy.class);
         OrderedListDummy predum = new OrderedListDummy();

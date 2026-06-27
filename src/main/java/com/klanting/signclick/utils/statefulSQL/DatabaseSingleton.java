@@ -39,6 +39,12 @@ public class DatabaseSingleton {
 
     private static final Set<Class<?>> manualAnnotatedClasses = new HashSet<>();
 
+    public SerializeManager getSerializeManager() {
+        return serializeManager;
+    }
+
+    private final SerializeManager serializeManager = new SerializeManager();
+
     public static void addClassFlush(Class<?> clazz){
         manualAnnotatedClasses.add(clazz);
     }
@@ -55,65 +61,6 @@ public class DatabaseSingleton {
 
         accessedMap.put(key, clazz);
     }
-
-    private final List<SQLSerializer> serializers = new ArrayList<>();
-
-    public void registerSerializer(SQLSerializer serializer){
-        serializers.add(serializer);
-    }
-
-    public <S> String serialize(Class<?> type, S value){
-        if (value == null){
-            return null;
-        }
-
-        if (type.isArray()){
-            ArraySerializer ar = new ArraySerializer(null);
-            return ar.serialize(value);
-        }
-
-        for (SQLSerializer s: serializers){
-            if (s.getType().equals(type) || s.getType().isAssignableFrom(type)){
-                return s.serialize(value);
-            }
-        }
-
-        throw new RuntimeException("Serialized doesn't exist for "+type);
-    }
-
-    public <S> boolean hasSerializer(Class<S> type){
-
-        if (type.isArray()){
-            return true;
-        }
-
-        for (SQLSerializer s: serializers){
-            if (s.getType().equals(type) || s.getType().isAssignableFrom(type)){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public <S> S deserialize(Class<?> type, String value){
-
-        if (value == null || value.equals("null")){
-            return null;
-        }
-
-        if (type.isArray()){
-            ArraySerializer ar = new ArraySerializer(null);
-            return (S) ar.deserialize(value);
-        }
-
-        for (SQLSerializer s: serializers){
-            if (s.getType().equals(type) || s.getType().isAssignableFrom(type)){
-                return (S) s.deserialize(value);
-            }
-        }
-        throw new RuntimeException("Serialized doesn't exist for "+type);
-    }
-
 
     private final Connection connection;
 
@@ -135,22 +82,10 @@ public class DatabaseSingleton {
 
         DataBase db = new DataBase(URL, USER, PASSWORD);
         this.connection = db.getConnection();
-        initSerializers();
     }
 
     private DatabaseSingleton(Connection connection) {
         this.connection = connection;
-        initSerializers();
-    }
-
-    private void initSerializers(){
-        serializers.add(new UUIDSerializer(UUID.class));
-        serializers.add(new IntSerializer(Integer.class));
-        serializers.add(new BoolSerializer(Boolean.class));
-        serializers.add(new MapSerializer(Map.class));
-        serializers.add(new ListSerializer(List.class));
-        serializers.add(new StringSerializer(String.class));
-        serializers.add(new DoubleSerializer(Double.class));
     }
 
     public static DatabaseSingleton getInstance() {
@@ -343,7 +278,7 @@ public class DatabaseSingleton {
                 }else if(type == List.class || type == Map.class){
                     field.set(instance, entry.getValue());
                 }else if (entry.getValue() != null && entry.getValue().getClass() == String.class){
-                    field.set(instance, deserialize(type, (String) entry.getValue()));
+                    field.set(instance, serializeManager.deserialize(type, (String) entry.getValue()));
                 }else{
 
                     Object value = entry.getValue();
@@ -510,7 +445,7 @@ public class DatabaseSingleton {
 
                     Field field = getADeclaredField(clazz, columnName);
                     if (value != null && value.getClass() == String.class && field.getType() != String.class){
-                        row.put(columnName, DatabaseSingleton.getInstance().deserialize(field.getType(), (String) value));
+                        row.put(columnName, serializeManager.deserialize(field.getType(), (String) value));
                     }else{
                         row.put(columnName, value);
                     }
@@ -891,7 +826,7 @@ public class DatabaseSingleton {
 
         }
 
-        if (hasSerializer(type)){
+        if (serializeManager.hasSerializer(type)){
             return "\""+columnName+"\""+ " VARCHAR";
         }
 
@@ -1219,17 +1154,17 @@ public class DatabaseSingleton {
                     }
 
                     if (!(fieldType instanceof ParameterizedType parameterizedType)) {
-                        values.add(Pair.of(field.getName(), serialize(type2, data)));
+                        values.add(Pair.of(field.getName(), serializeManager.serialize(type2, data)));
                         continue;
                     }
                     Type[] typeArgs = parameterizedType.getActualTypeArguments();
                     Type elementType = typeArgs[0];
                     if (!(elementType instanceof Class<?> clazz2)) {
-                        values.add(Pair.of(field.getName(), serialize(type2, data)));
+                        values.add(Pair.of(field.getName(), serializeManager.serialize(type2, data)));
                         continue;
                     }
                     if(!isClassFlush(clazz2)){
-                        values.add(Pair.of(field.getName(), serialize(type2, data)));
+                        values.add(Pair.of(field.getName(), serializeManager.serialize(type2, data)));
                         continue;
                     }
                     String listTableName = getTableName(clazz)+"_list_"+getTableName(clazz2);
@@ -1258,7 +1193,7 @@ public class DatabaseSingleton {
                     }
                 }else if (Map.class.isAssignableFrom(type2)){
                     if (!(field.getGenericType() instanceof ParameterizedType parameterizedType)) {
-                        values.add(Pair.of(field.getName(), serialize(type2, data)));
+                        values.add(Pair.of(field.getName(), serializeManager.serialize(type2, data)));
                         continue;
                     }
 
@@ -1267,12 +1202,12 @@ public class DatabaseSingleton {
                     Type keyType = typeArgs[0];
                     Type elementType = typeArgs[1];
                     if (!(elementType instanceof Class<?> clazz2)) {
-                        values.add(Pair.of(field.getName(), serialize(type2, data)));
+                        values.add(Pair.of(field.getName(), serializeManager.serialize(type2, data)));
                         continue;
                     }
 
                     if(!isClassFlush(clazz2)){
-                        values.add(Pair.of(field.getName(), serialize(type2, data)));
+                        values.add(Pair.of(field.getName(), serializeManager.serialize(type2, data)));
                         continue;
                     }
                     String mapTableName = getTableName(clazz)+"_map_"+getTableName(clazz2);
@@ -1289,7 +1224,7 @@ public class DatabaseSingleton {
                     }
 
                 }else{
-                    values.add(Pair.of(field.getName(), serialize(type2, data)));
+                    values.add(Pair.of(field.getName(), serializeManager.serialize(type2, data)));
                 }
 
             }
@@ -1519,7 +1454,7 @@ public class DatabaseSingleton {
                 }else if (mapJavaTypeToSQL(values.get(i).getClass()) != null){
                     insertStmt.setObject(i + 1, values.get(i)); // JDBC is 1-indexed
                 }else{
-                    insertStmt.setString(i + 1, serialize(values.get(i).getClass(), values.get(i)));
+                    insertStmt.setString(i + 1, serializeManager.serialize(values.get(i).getClass(), values.get(i)));
                 }
             }
             insertStmt.setObject(values.size()+1, key);

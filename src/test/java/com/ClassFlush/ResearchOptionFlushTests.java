@@ -43,8 +43,8 @@ public class ResearchOptionFlushTests {
     @Test
     void flushResearchOptionTest(){
         DatabaseSingleton.getInstance(DataBaseTest.getConnection());
-        DatabaseSingleton.getInstance().registerSerializer(new MaterialSerializer(Material.class));
-        DatabaseSingleton.getInstance().registerSerializer(new PairSerializer(Pair.class));
+        DatabaseSingleton.getInstance().getSerializeManager().registerSerializer(new MaterialSerializer(Material.class));
+        DatabaseSingleton.getInstance().getSerializeManager().registerSerializer(new PairSerializer(Pair.class));
 
         OrderedList<ResearchOption> researchOptions = new OrderedList<>("a", ResearchOption.class);
 

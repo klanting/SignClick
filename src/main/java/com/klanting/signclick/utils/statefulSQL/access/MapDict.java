@@ -52,7 +52,7 @@ public class MapDict<S, T> implements AccessPoint<T>, Map<S, T> {
         if (keyClazz == String.class){
             keyVal = key.toString();
         }else{
-            keyVal = DatabaseSingleton.getInstance().serialize(keyClazz, key);
+            keyVal = DatabaseSingleton.getInstance().getSerializeManager().serialize(keyClazz, key);
         }
 
         ps.setObject(1, id);
@@ -240,7 +240,7 @@ public class MapDict<S, T> implements AccessPoint<T>, Map<S, T> {
                 if (keyClazz == String.class) {
                     keys.add((S) key);
                 }else{
-                    keys.add(DatabaseSingleton.getInstance().deserialize(keyClazz, key));
+                    keys.add(DatabaseSingleton.getInstance().getSerializeManager().deserialize(keyClazz, key));
                 }
 
             }
