@@ -7,9 +7,11 @@ import com.klanting.signclick.utils.statefulSQL.defaultSerializers.*;
 import com.klanting.signclick.utils.statefulSQL.internal.InternalListWrapper;
 import com.klanting.signclick.utils.statefulSQL.internal.InternalMapWrapper;
 import net.bytebuddy.ByteBuddy;
+import net.bytebuddy.description.NamedElement;
 import net.bytebuddy.dynamic.DynamicType;
 import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
 import net.bytebuddy.implementation.MethodDelegation;
+import net.bytebuddy.matcher.ElementMatcher;
 import org.apache.commons.lang3.reflect.TypeUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.gradle.internal.impldep.org.objenesis.Objenesis;
@@ -64,6 +66,24 @@ public class DatabaseSingleton {
 
     public static boolean isClassFlush(Class<?> clazz){
         return clazz.isAnnotationPresent(ClassFlush.class) || manualAnnotatedClasses.contains(clazz);
+    }
+
+    private static <T> Class<?> getBuddy(Class<?> clazz, ElementMatcher.Junction<NamedElement> methods){
+        /*
+        * Method to construct the ByteBuddy that will intercept the defined methods
+        * */
+        Class<?> dynamicType = new ByteBuddy()
+                .subclass(clazz)
+                .implement(ByteBuddyEnhanced.class)
+                .defineField("autoFlushId", UUID.class, Modifier.PUBLIC)
+                .method(methods)
+                .intercept(MethodDelegation.to(new InterceptorWrap<T>()))
+                .make()
+                .load(clazz.getClassLoader(), ClassLoadingStrategy.Default.INJECTION)
+                .getLoaded();
+
+        return dynamicType;
+
     }
 
 
@@ -174,33 +194,15 @@ public class DatabaseSingleton {
         * this doesn't intercept, but embeds autoFlushId as field to instance
         * */
 
-        /*
-        * Add the autoFlushId, and add ByteBuddyEnhanced Interface
-        * */
-        DynamicType.Builder.FieldDefinition.Optional.Valuable<?> commonChanges = new ByteBuddy()
-                .subclass(clazz)
-                .implement(ByteBuddyEnhanced.class)
-                .defineField("autoFlushId", UUID.class, Modifier.PUBLIC);
-
-        DynamicType.Builder.MethodDefinition.ImplementationDefinition<?> changedMethods;
-
+        Class<?> dynamicType;
         if (ptr){
             /*
             * forwards all to interceptor
             * */
-            changedMethods = commonChanges.method(not(named("clone")));
+            dynamicType = getBuddy(clazz, not(named("clone")));
         }else{
-            changedMethods = commonChanges.method(named("equals"));
+            dynamicType = getBuddy(clazz, named("equals"));
         }
-
-        /*
-        * Forward to interceptor and create class
-        * */
-        Class<?> dynamicType = changedMethods
-                .intercept(MethodDelegation.to(new InterceptorWrap<T>()))
-                .make()
-                .load(clazz.getClassLoader(), ClassLoadingStrategy.Default.INJECTION)
-                .getLoaded();
 
         assert (ByteBuddyEnhanced.class.isAssignableFrom(dynamicType));
 
@@ -240,19 +242,7 @@ public class DatabaseSingleton {
                 * */
 
                 if (isClassFlush(type) && entry.getValue() != null){
-
-                    //other than above this one intercepts
-                    Class<?> dynamicType2 = new ByteBuddy()
-                            .subclass(type)
-                            .implement(ByteBuddyEnhanced.class)
-                            .defineField("autoFlushId", UUID.class, Modifier.PUBLIC)
-                            .method(
-                                    not(named("clone"))
-                            )
-                            .intercept(MethodDelegation.to(new InterceptorWrap<T>()))
-                            .make()
-                            .load(clazz.getClassLoader(), ClassLoadingStrategy.Default.INJECTION)
-                            .getLoaded();
+                    Class<?> dynamicType2 = getBuddy(type, not(named("clone")));
 
                     Object obj  = objenesis.newInstance(dynamicType2);
                     dynamicType2.getField("autoFlushId").set(obj, entry.getValue());
@@ -1547,17 +1537,7 @@ public class DatabaseSingleton {
             /*
              * override class so it contains a UUID
              * */
-            Class<? extends T> dynamicType = new ByteBuddy()
-                    .subclass(clazz)
-                    .implement(ByteBuddyEnhanced.class)
-                    .defineField("autoFlushId", UUID.class, Modifier.PUBLIC)
-                    .method(
-                            not(named("clone"))
-                    )
-                    .intercept(MethodDelegation.to(new InterceptorWrap<T>()))
-                    .make()
-                    .load(clazz.getClassLoader(), ClassLoadingStrategy.Default.INJECTION)
-                    .getLoaded();
+            Class<?> dynamicType = getBuddy(clazz, not(named("clone")));
 
             Objenesis objenesis = new ObjenesisStd();
             T obj  = (T) objenesis.newInstance(dynamicType);
